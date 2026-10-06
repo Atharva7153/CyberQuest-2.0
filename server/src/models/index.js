@@ -1,4 +1,7 @@
 import { Team } from './Team.js';
+import { CreditTransaction } from './CreditTransaction.js';
+import { Challenge } from './Challenge.js';
+import { ChallengeAttempt } from './ChallengeAttempt.js';
 
 export const PLANNED_COLLECTIONS = Object.freeze({
   TEAMS: 'teams',
@@ -8,5 +11,5 @@ export const PLANNED_COLLECTIONS = Object.freeze({
   TEAM_EVENTS: 'teamEvents',
 });
 
-export { Team };
+export { Team, CreditTransaction, Challenge, ChallengeAttempt };
 export default PLANNED_COLLECTIONS;

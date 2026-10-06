@@ -16,6 +16,7 @@ import {
   Radio,
 } from 'lucide-react';
 import { CrosshairMark } from '../components/CrosshairMark';
+import { TopBarCreditsReadout } from '../components/ResistanceCreditsModule';
 import { useReducedMotion } from '../hooks/useReducedMotion';
 
 export const PORTAL_NAV_ITEMS = [
@@ -45,6 +46,7 @@ export const PortalShellLayout = ({
   socketConnected,
   joinedRoom,
   onlineOperatives,
+  lastCreditChange,
   notifications = [],
   onDismissNotification,
   onLogout,
@@ -273,14 +275,10 @@ export const PortalShellLayout = ({
                 </span>
               </div>
 
-              <div className="bg-nexus-ink text-nexus-paper px-4 py-2 border-2 border-nexus-ink shadow-brutal-sm text-right">
-                <span className="block font-mono text-[9px] uppercase tracking-widest text-nexus-paper/70">
-                  RESISTANCE CREDITS
-                </span>
-                <span className="font-mono text-lg sm:text-2xl font-bold text-nexus-crimson">
-                  {Number(team?.credits ?? 0).toLocaleString()} CR
-                </span>
-              </div>
+              <TopBarCreditsReadout
+                credits={team?.credits}
+                lastCreditChange={lastCreditChange}
+              />
             </div>
           </div>
         </header>

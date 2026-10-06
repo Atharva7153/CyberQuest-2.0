@@ -20,6 +20,16 @@ const TeamPortalContext = createContext(null);
 export const TeamPortalProvider = ({ children }) => {
   const [token, setToken] = useState(() => getStoredToken());
   const [team, setTeam] = useState(null);
+  const [transactions, setTransactions] = useState([]);
+  const [creditsConfig, setCreditsConfig] = useState({
+    startingCredits: 1250,
+    hintCost: 100,
+    extraTimeCost: 150,
+    extraTimeMinutes: 5,
+    reattemptMultiplier: 1.25,
+  });
+  const [lastCreditChange, setLastCreditChange] = useState(null);
+  const [lastEvaluationResult, setLastEvaluationResult] = useState(null);
   const [catalog, setCatalog] = useState([]);
   const [isInitializing, setIsInitializing] = useState(() => Boolean(getStoredToken()));
   const [socketConnected, setSocketConnected] = useState(false);
@@ -43,6 +53,10 @@ export const TeamPortalProvider = ({ children }) => {
     setNotifications((prev) => prev.filter((item) => item.id !== id));
   }, []);
 
+  const clearEvaluationResult = useCallback(() => {
+    setLastEvaluationResult(null);
+  }, []);
+
   // Restore session on mount if token exists
   useEffect(() => {
     let active = true;
@@ -55,6 +69,8 @@ export const TeamPortalProvider = ({ children }) => {
       .then((res) => {
         if (!active) return;
         setTeam(res.team);
+        if (res.transactions) setTransactions(res.transactions);
+        if (res.creditsConfig) setCreditsConfig(res.creditsConfig);
         if (res.catalog) setCatalog(res.catalog);
       })
       .catch(() => {
@@ -87,6 +103,8 @@ export const TeamPortalProvider = ({ children }) => {
             setJoinedRoom(ack.room);
             setOnlineOperatives(ack.onlineOperatives || 1);
             if (ack.team) setTeam(ack.team);
+            if (ack.transactions) setTransactions(ack.transactions);
+            if (ack.creditsConfig) setCreditsConfig(ack.creditsConfig);
             if (ack.catalog) setCatalog(ack.catalog);
           }
         }
@@ -103,12 +121,43 @@ export const TeamPortalProvider = ({ children }) => {
       setJoinedRoom(null);
     };
 
+    const handleCreditsUpdate = (payload) => {
+      if (payload?.transactions) {
+        setTransactions(payload.transactions);
+      }
+      if (payload?.delta !== undefined && payload?.delta !== 0) {
+        setLastCreditChange({
+          id: `${Date.now()}-${Math.random()}`,
+          delta: payload.delta,
+          balanceBefore: payload.balanceBefore,
+          balanceAfter: payload.balanceAfter,
+          type: payload.transaction?.type || 'CREDIT_UPDATE',
+          timestamp: payload.timestamp || new Date().toISOString(),
+        });
+      }
+    };
+
+    const handleSubmissionResult = (payload) => {
+      if (payload) {
+        setLastEvaluationResult(payload);
+      }
+    };
+
     const handleStateUpdate = (payload) => {
       if (payload?.team) {
         setTeam(payload.team);
       }
+      if (payload?.transactions) {
+        setTransactions(payload.transactions);
+      }
+      if (payload?.creditsConfig) {
+        setCreditsConfig(payload.creditsConfig);
+      }
       if (payload?.catalog) {
         setCatalog(payload.catalog);
+      }
+      if (payload?.evaluationResult) {
+        setLastEvaluationResult(payload.evaluationResult);
       }
       if (payload?.onlineOperatives !== undefined) {
         setOnlineOperatives(payload.onlineOperatives);
@@ -135,6 +184,8 @@ export const TeamPortalProvider = ({ children }) => {
 
     socketClient.on('connect', handleConnect);
     socketClient.on('disconnect', handleDisconnect);
+    socketClient.on(NEXUS_SOCKET_EVENTS.CREDITS.UPDATE, handleCreditsUpdate);
+    socketClient.on(NEXUS_SOCKET_EVENTS.SUBMISSION.RESULT, handleSubmissionResult);
     socketClient.on(NEXUS_SOCKET_EVENTS.TEAM.STATE_UPDATE, handleStateUpdate);
     socketClient.on(NEXUS_SOCKET_EVENTS.TEAM.PRESENCE_UPDATE, handlePresenceUpdate);
 
@@ -148,6 +199,8 @@ export const TeamPortalProvider = ({ children }) => {
     return () => {
       socketClient.off('connect', handleConnect);
       socketClient.off('disconnect', handleDisconnect);
+      socketClient.off(NEXUS_SOCKET_EVENTS.CREDITS.UPDATE, handleCreditsUpdate);
+      socketClient.off(NEXUS_SOCKET_EVENTS.SUBMISSION.RESULT, handleSubmissionResult);
       socketClient.off(NEXUS_SOCKET_EVENTS.TEAM.STATE_UPDATE, handleStateUpdate);
       socketClient.off(NEXUS_SOCKET_EVENTS.TEAM.PRESENCE_UPDATE, handlePresenceUpdate);
     };
@@ -158,6 +211,8 @@ export const TeamPortalProvider = ({ children }) => {
     storeTeamSession(res.token, res.team.teamId);
     setToken(res.token);
     setTeam(res.team);
+    if (res.transactions) setTransactions(res.transactions);
+    if (res.creditsConfig) setCreditsConfig(res.creditsConfig);
     if (res.catalog) setCatalog(res.catalog);
     return res.team;
   }, []);
@@ -169,6 +224,8 @@ export const TeamPortalProvider = ({ children }) => {
     clearTeamSession();
     setToken(null);
     setTeam(null);
+    setTransactions([]);
+    setLastEvaluationResult(null);
     setJoinedRoom(null);
   }, [team?.teamId]);
 
@@ -191,6 +248,9 @@ export const TeamPortalProvider = ({ children }) => {
               },
               (ack) => {
                 if (ack?.ok) {
+                  if (ack.evaluationResult) {
+                    setLastEvaluationResult(ack.evaluationResult);
+                  }
                   resolve(ack);
                 } else {
                   reject(new Error(ack?.error || 'Action rejected by NEXUS Core.'));
@@ -203,7 +263,20 @@ export const TeamPortalProvider = ({ children }) => {
         // HTTP Fallback if WebSocket is reconnecting
         const res = await postTeamActionHttp(token, actionType, actionPayload);
         if (res.team) setTeam(res.team);
+        if (res.transactions) setTransactions(res.transactions);
+        if (res.creditsConfig) setCreditsConfig(res.creditsConfig);
         if (res.catalog) setCatalog(res.catalog);
+        if (res.evaluationResult) setLastEvaluationResult(res.evaluationResult);
+        if (res.event?.creditsDelta) {
+          setLastCreditChange({
+            id: `${Date.now()}`,
+            delta: res.event.creditsDelta,
+            balanceBefore: res.event.balanceBefore,
+            balanceAfter: res.team.credits,
+            type: res.event.type,
+            timestamp: new Date().toISOString(),
+          });
+        }
         return res;
       } catch (err) {
         pushNotification(err.message, 'crimson', 0);
@@ -220,6 +293,10 @@ export const TeamPortalProvider = ({ children }) => {
       value={{
         token,
         team,
+        transactions,
+        creditsConfig,
+        lastCreditChange,
+        lastEvaluationResult,
         catalog,
         isAuthenticated: Boolean(token && team),
         isInitializing,
@@ -231,6 +308,7 @@ export const TeamPortalProvider = ({ children }) => {
         loginTeam,
         logoutTeam,
         performTeamAction,
+        clearEvaluationResult,
         dismissNotification,
         pushNotification,
       }}

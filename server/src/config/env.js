@@ -17,7 +17,23 @@ export const env = {
   socketUrl: process.env.SOCKET_URL || 'http://localhost:5050',
   jwtSecret: process.env.JWT_SECRET || 'nexus_core_authoritative_secret_key_2026',
   jwtExpiresIn: process.env.JWT_EXPIRES_IN || '8h',
+  startingCredits:
+    process.env.STARTING_CREDITS !== undefined
+      ? Number(process.env.STARTING_CREDITS)
+      : 1250,
+  hintCost:
+    process.env.CREDIT_COST_HINT !== undefined
+      ? Number(process.env.CREDIT_COST_HINT)
+      : 100,
+  extraTimeCost:
+    process.env.CREDIT_COST_EXTRA_TIME !== undefined
+      ? Number(process.env.CREDIT_COST_EXTRA_TIME)
+      : 150,
+  reattemptMultiplier:
+    process.env.CREDIT_REATTEMPT_MULTIPLIER !== undefined
+      ? Number(process.env.CREDIT_REATTEMPT_MULTIPLIER)
+      : 1.25,
   serviceName: 'cyber-quest-server',
   systemDesignation: process.env.SYSTEM_DESIGNATION || 'NEXUS-CORE-01',
-  systemVersion: process.env.SYSTEM_VERSION || '0.4.0-PORTAL-SHELL',
+  systemVersion: process.env.SYSTEM_VERSION || '0.5.0-CREDITS-ENGINE',
 };

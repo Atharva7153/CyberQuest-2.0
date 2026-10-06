@@ -18,6 +18,12 @@ import {
 import { PortalShellLayout } from '../layouts/PortalShellLayout';
 import { BrutalistPanel } from '../components/BrutalistPanel';
 import { SystemBadge } from '../components/SystemBadge';
+import { ResistanceCreditsModule } from '../components/ResistanceCreditsModule';
+import {
+  ChallengeMarketModule,
+  formatTimeLimitDetailed,
+} from '../components/ChallengeMarketModule';
+import { ChallengeSessionContainer } from '../engine/ChallengeSessionContainer';
 import { useTeamPortal } from '../hooks/useTeamPortal';
 import { useReducedMotion } from '../hooks/useReducedMotion';
 
@@ -27,6 +33,10 @@ export const DashboardPage = () => {
   const {
     team,
     catalog,
+    transactions,
+    creditsConfig,
+    lastCreditChange,
+    lastEvaluationResult,
     isAuthenticated,
     isInitializing,
     socketConnected,
@@ -36,11 +46,11 @@ export const DashboardPage = () => {
     actionPending,
     logoutTeam,
     performTeamAction,
+    clearEvaluationResult,
     dismissNotification,
   } = useTeamPortal();
 
   const [activeSection, setActiveSection] = useState('DASHBOARD');
-  const [solutionInput, setSolutionInput] = useState('NEXUS{CORE_SYNCHRONIZED_2026}');
   const [selectedChallengeModal, setSelectedChallengeModal] = useState(null);
 
   useEffect(() => {
@@ -73,10 +83,18 @@ export const DashboardPage = () => {
     navigate('/login', { replace: true });
   };
 
+  const handleAcquireChallenge = async ({ challengeId, isReattempt = false }) => {
+    return performTeamAction('ACQUIRE_CHALLENGE', {
+      challengeId,
+      isReattempt,
+    });
+  };
+
   const handleConfirmPurchaseChallenge = async (challenge) => {
     try {
-      await performTeamAction('PURCHASE_CHALLENGE', {
+      await handleAcquireChallenge({
         challengeId: challenge.challengeId,
+        isReattempt: Boolean(challenge.isReattempt),
       });
       setSelectedChallengeModal(null);
     } catch {
@@ -100,11 +118,19 @@ export const DashboardPage = () => {
     }
   };
 
-  const handleSubmitSolution = async (e) => {
-    e.preventDefault();
-    if (!solutionInput.trim()) return;
+  const handleSubmitChallengeAnswer = async ({
+    challengeId,
+    attemptId,
+    submission,
+    simulateFailure = false,
+  }) => {
     try {
-      await performTeamAction('SUBMIT_CHALLENGE', { solution: solutionInput.trim() });
+      await performTeamAction('SUBMIT_CHALLENGE', {
+        challengeId,
+        attemptId,
+        submission,
+        simulateFailure,
+      });
     } catch {
       // Handled by provider
     }
@@ -121,17 +147,27 @@ export const DashboardPage = () => {
       title="LIVE CHALLENGE MARKET"
       accentTitle
       headerRight={
-        <span className="font-mono text-[10px] uppercase text-nexus-muted">
-          CLICK TO DEPLOY CREDITS
-        </span>
+        <button
+          type="button"
+          onClick={() => setActiveSection('CHALLENGES')}
+          className="px-2 py-0.5 bg-nexus-crimson text-white hover:bg-nexus-ink font-mono text-[10px] font-bold uppercase tracking-wider transition-colors cursor-pointer"
+        >
+          OPEN FULL MARKET ({catalog.length})
+        </button>
       }
       className="h-full"
     >
       <div className="space-y-2.5">
-        {catalog.map((chg) => {
+        {(expanded ? catalog : catalog.slice(0, 5)).map((chg) => {
           const isCurrent = activeChallenge?.challengeId === chg.challengeId;
           const isSolved = (team.completedChallenges || []).some(
             (c) => c.challengeId === chg.challengeId
+          );
+          const isFailed = (team.failedChallenges || []).some(
+            (c) => c.challengeId === chg.challengeId
+          );
+          const reattemptCost = Math.round(
+            chg.cost * (creditsConfig?.reattemptMultiplier || 1.25)
           );
 
           return (
@@ -158,6 +194,11 @@ export const DashboardPage = () => {
                       SOLVED
                     </span>
                   )}
+                  {isFailed && !isCurrent && (
+                    <span className="px-1.5 py-0.5 bg-nexus-crimson/20 text-nexus-crimson border border-nexus-crimson font-mono text-[9px] font-bold uppercase">
+                      REATTEMPT
+                    </span>
+                  )}
                 </div>
                 <p className="font-mono text-[10px] uppercase tracking-wider text-nexus-muted mt-0.5">
                   {chg.category} · RISK: {chg.risk} · REWARD: +{chg.reward} CR
@@ -171,15 +212,15 @@ export const DashboardPage = () => {
 
               <div className="text-right shrink-0 flex flex-col items-end gap-1.5">
                 <span className="font-mono text-xs font-bold text-nexus-crimson">
-                  {chg.cost} CR
+                  {isFailed ? `${reattemptCost} CR` : `${chg.cost} CR`}
                 </span>
                 <button
                   type="button"
                   disabled={actionPending}
-                  onClick={() => setSelectedChallengeModal(chg)}
+                  onClick={() => setSelectedChallengeModal({ ...chg, isReattempt: isFailed, effectiveCost: isFailed ? reattemptCost : chg.cost })}
                   className="px-2.5 py-1 bg-nexus-ink text-nexus-paper hover:bg-nexus-crimson font-mono text-[10px] font-bold uppercase tracking-wider transition-colors cursor-pointer disabled:opacity-50"
                 >
-                  {isCurrent ? 'RE-ENTER' : 'SELECT'}
+                  {isFailed ? 'REATTEMPT' : isCurrent ? 'RE-ENTER' : 'SELECT'}
                 </button>
               </div>
             </div>
@@ -190,88 +231,16 @@ export const DashboardPage = () => {
   );
 
   const renderSubmissionAndTacticalPanel = () => (
-    <BrutalistPanel
-      codeTag="EXEC"
-      title="SUBMIT SOLUTION & TACTICAL SPEND"
-      accentTitle
-      headerRight={
-        <SystemBadge variant={activeChallenge ? 'crimson' : 'outline'}>
-          {activeChallenge ? activeChallenge.title : 'IDLE'}
-        </SystemBadge>
-      }
-      className="h-full"
-    >
-      <div className="space-y-4 flex flex-col justify-between">
-        {/* Current Active Challenge Info */}
-        <div className="p-3 border border-nexus-ink bg-nexus-paper space-y-1.5">
-          <div className="flex items-center justify-between font-mono text-[10px] text-nexus-muted uppercase">
-            <span>ACTIVE OBJECTIVE</span>
-            <span>
-              HINTS: {team.activeAttempt?.hintsUnlocked || 0} | +TIME:{' '}
-              {team.activeAttempt?.extraTimeMinutes || 0}M
-            </span>
-          </div>
-          <p className="font-condensed text-lg font-extrabold uppercase tracking-wide text-nexus-ink">
-            {activeChallenge ? activeChallenge.title : 'SELECT A CHALLENGE FROM MARKET'}
-          </p>
-          <p className="font-mono text-[11px] text-nexus-crimson font-semibold">
-            {activeChallenge
-              ? `REWARD: +${activeChallenge.reward} CR // FAIL PENALTY: -${activeChallenge.penalty} CR`
-              : 'All 4 team members receive instant state sync upon submission.'}
-          </p>
-        </div>
-
-        {/* Submit Solution Form */}
-        <form onSubmit={handleSubmitSolution} className="space-y-2.5">
-          <label
-            htmlFor="portal-solution-input"
-            className="block font-mono text-[10px] uppercase tracking-widest text-nexus-muted"
-          >
-            UPLOAD / TRANSMIT SOLUTION PAYLOAD
-          </label>
-          <input
-            id="portal-solution-input"
-            type="text"
-            value={solutionInput}
-            onChange={(e) => setSolutionInput(e.target.value)}
-            placeholder="NEXUS{FLAG_OR_SOLUTION}"
-            className="w-full px-3 py-2.5 bg-nexus-paper border-2 border-nexus-ink font-mono text-xs font-bold text-nexus-ink focus:border-nexus-crimson focus:outline-none"
-          />
-          <button
-            type="submit"
-            disabled={actionPending}
-            className="w-full py-2.5 px-4 bg-nexus-crimson text-white hover:bg-nexus-ink font-condensed text-base font-extrabold uppercase tracking-[0.18em] border border-nexus-ink transition-colors cursor-pointer disabled:opacity-50"
-          >
-            SUBMIT SOLUTION
-          </button>
-        </form>
-
-        {/* Tactical Credit Spend Controls (Hint / Extra Time) */}
-        <div className="pt-3 border-t border-dashed border-nexus-ink/25 space-y-2">
-          <span className="block font-mono text-[10px] uppercase tracking-widest text-nexus-muted">
-            DEPLOY RESISTANCE CREDITS (SHARED SQUAD ACTION)
-          </span>
-          <div className="grid grid-cols-2 gap-2">
-            <button
-              type="button"
-              disabled={actionPending}
-              onClick={() => handleSpendCredits('HINT', 100)}
-              className="py-2 px-2.5 border border-nexus-ink bg-nexus-paper hover:bg-nexus-ink hover:text-nexus-paper font-mono text-[11px] font-bold uppercase transition-colors cursor-pointer"
-            >
-              UNLOCK HINT (-100 CR)
-            </button>
-            <button
-              type="button"
-              disabled={actionPending}
-              onClick={() => handleSpendCredits('EXTRA_TIME', 150)}
-              className="py-2 px-2.5 border border-nexus-ink bg-nexus-paper hover:bg-nexus-ink hover:text-nexus-paper font-mono text-[11px] font-bold uppercase transition-colors cursor-pointer"
-            >
-              +5M TIME (-150 CR)
-            </button>
-          </div>
-        </div>
-      </div>
-    </BrutalistPanel>
+    <ChallengeSessionContainer
+      team={team}
+      creditsConfig={creditsConfig}
+      actionPending={actionPending}
+      lastEvaluationResult={lastEvaluationResult}
+      onClearEvaluationResult={clearEvaluationResult}
+      onSubmitChallengeAnswer={handleSubmitChallengeAnswer}
+      onSpendTacticalCredits={handleSpendCredits}
+      onBrowseMarket={() => setActiveSection('CHALLENGES')}
+    />
   );
 
   const renderAbilitiesPanel = (expanded = false) => (
@@ -386,7 +355,15 @@ export const DashboardPage = () => {
       case 'CHALLENGES':
         return (
           <div className="space-y-6">
-            {renderChallengeMarketPanel(true)}
+            <ChallengeMarketModule
+              catalog={catalog}
+              team={team}
+              creditsConfig={creditsConfig}
+              actionPending={actionPending}
+              onAcquireChallenge={handleAcquireChallenge}
+              onOpenExecutionPanel={() => setActiveSection('SUBMISSIONS')}
+              compact={false}
+            />
             {renderSubmissionAndTacticalPanel()}
           </div>
         );
@@ -459,9 +436,18 @@ export const DashboardPage = () => {
 
       case 'CREDITS':
         return (
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-            <div className="lg:col-span-6">{renderSubmissionAndTacticalPanel()}</div>
-            <div className="lg:col-span-6">{renderProgressAndFeedPanel()}</div>
+          <div className="space-y-6">
+            <ResistanceCreditsModule
+              team={team}
+              transactions={transactions}
+              creditsConfig={creditsConfig}
+              lastCreditChange={lastCreditChange}
+              showFullLedger
+            />
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+              <div className="lg:col-span-6">{renderSubmissionAndTacticalPanel()}</div>
+              <div className="lg:col-span-6">{renderProgressAndFeedPanel()}</div>
+            </div>
           </div>
         );
 
@@ -533,6 +519,15 @@ export const DashboardPage = () => {
       default:
         return (
           <div className="space-y-6">
+            {/* Prominent Resistance Credits Component (Phase 5) */}
+            <ResistanceCreditsModule
+              team={team}
+              transactions={transactions}
+              creditsConfig={creditsConfig}
+              lastCreditChange={lastCreditChange}
+              showFullLedger={false}
+            />
+
             {/* Top 4 Status Metrics Strip */}
             <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
               <div className="nexus-editorial-box p-4">
@@ -579,6 +574,17 @@ export const DashboardPage = () => {
               <div className="lg:col-span-3">{renderAbilitiesPanel(false)}</div>
             </div>
 
+            {/* Live Challenge Market (Phase 6) */}
+            <ChallengeMarketModule
+              catalog={catalog}
+              team={team}
+              creditsConfig={creditsConfig}
+              actionPending={actionPending}
+              onAcquireChallenge={handleAcquireChallenge}
+              onOpenExecutionPanel={() => setActiveSection('SUBMISSIONS')}
+              compact={false}
+            />
+
             {/* Bottom Overall Progress & Shared Event Stream */}
             {renderProgressAndFeedPanel()}
           </div>
@@ -594,6 +600,7 @@ export const DashboardPage = () => {
       socketConnected={socketConnected}
       joinedRoom={joinedRoom}
       onlineOperatives={onlineOperatives}
+      lastCreditChange={lastCreditChange}
       notifications={notifications}
       onDismissNotification={dismissNotification}
       onLogout={handleLogout}
@@ -635,7 +642,9 @@ export const DashboardPage = () => {
             >
               <div className="flex items-center justify-between border-b-2 border-nexus-ink pb-3">
                 <span className="bg-nexus-crimson text-white font-mono text-[10px] font-bold px-2 py-0.5 uppercase tracking-widest">
-                  CONFIRM CHALLENGE ENTRY
+                  {selectedChallengeModal.isReattempt
+                    ? 'CONFIRM CHALLENGE REATTEMPT'
+                    : 'CONFIRM CHALLENGE ENTRY'}
                 </span>
                 <button
                   type="button"
@@ -659,15 +668,17 @@ export const DashboardPage = () => {
                 </p>
               </div>
 
-              <div className="grid grid-cols-2 gap-2 font-mono text-xs bg-nexus-paper p-3 border border-nexus-ink">
+              <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 font-mono text-xs bg-nexus-paper p-3 border border-nexus-ink">
                 <div>
-                  <span className="text-nexus-muted block text-[10px]">ENTRY COST</span>
+                  <span className="text-nexus-muted block text-[10px]">
+                    {selectedChallengeModal.isReattempt ? 'REATTEMPT COST' : 'COST'}
+                  </span>
                   <span className="font-bold text-nexus-crimson">
-                    -{selectedChallengeModal.cost} CR
+                    -{selectedChallengeModal.effectiveCost ?? selectedChallengeModal.cost} CR
                   </span>
                 </div>
                 <div>
-                  <span className="text-nexus-muted block text-[10px]">REWARD YIELD</span>
+                  <span className="text-nexus-muted block text-[10px]">REWARD</span>
                   <span className="font-bold text-nexus-ink">
                     +{selectedChallengeModal.reward} CR
                   </span>
@@ -677,8 +688,16 @@ export const DashboardPage = () => {
                   <span className="font-bold">{selectedChallengeModal.difficulty}</span>
                 </div>
                 <div>
-                  <span className="text-nexus-muted block text-[10px]">RISK TIER</span>
-                  <span className="font-bold">{selectedChallengeModal.risk}</span>
+                  <span className="text-nexus-muted block text-[10px]">RISK</span>
+                  <span className="font-bold text-nexus-crimson">
+                    {selectedChallengeModal.risk}
+                  </span>
+                </div>
+                <div className="col-span-2 sm:col-span-1">
+                  <span className="text-nexus-muted block text-[10px]">TIME</span>
+                  <span className="font-bold">
+                    {formatTimeLimitDetailed(selectedChallengeModal.timeLimit)}
+                  </span>
                 </div>
               </div>
 
@@ -696,7 +715,7 @@ export const DashboardPage = () => {
                   onClick={() => handleConfirmPurchaseChallenge(selectedChallengeModal)}
                   className="flex-1 py-2.5 border-2 border-nexus-ink bg-nexus-crimson text-white hover:bg-nexus-ink font-condensed text-base font-extrabold uppercase tracking-wider cursor-pointer disabled:opacity-50"
                 >
-                  COMMIT ({selectedChallengeModal.cost} CR)
+                  ACQUIRE ({selectedChallengeModal.effectiveCost ?? selectedChallengeModal.cost} CR)
                 </button>
               </div>
             </motion.div>

@@ -6,6 +6,8 @@ import {
   executeTeamAction,
   CHALLENGE_CATALOG,
 } from '../services/teamService.js';
+import { CreditService } from '../services/creditService.js';
+import { ChallengeService } from '../services/challengeService.js';
 
 const getRoomClientCount = (io, roomName) => {
   const room = io.sockets.adapter.rooms.get(roomName);
@@ -36,7 +38,6 @@ export const registerSocketChannels = (io, socket) => {
       const normalizedTeamId = String(resolvedTeamId).trim().toUpperCase();
       const roomName = SOCKET_ROOMS.teamRoom(normalizedTeamId);
 
-      // Leave previous team room if switching
       if (socket.data.teamRoom && socket.data.teamRoom !== roomName) {
         socket.leave(socket.data.teamRoom);
       }
@@ -51,7 +52,11 @@ export const registerSocketChannels = (io, socket) => {
         `Terminal [${socket.id}] joined [${roomName}] | Operatives online: ${onlineOperatives}`
       );
 
-      const teamState = await getTeamStateById(normalizedTeamId);
+      const [teamState, transactions, catalog] = await Promise.all([
+        getTeamStateById(normalizedTeamId),
+        CreditService.getTeamTransactions(normalizedTeamId),
+        ChallengeService.listChallenges(),
+      ]);
 
       const ackPayload = {
         ok: true,
@@ -60,13 +65,14 @@ export const registerSocketChannels = (io, socket) => {
         socketId: socket.id,
         onlineOperatives,
         team: teamState,
-        catalog: CHALLENGE_CATALOG,
+        transactions,
+        catalog: catalog || CHALLENGE_CATALOG,
+        creditsConfig: CreditService.getConfig(),
         timestamp: new Date().toISOString(),
       };
 
       socket.emit(SOCKET_EVENTS.TEAM.JOINED_ACK, ackPayload);
 
-      // Broadcast updated presence & authoritative state to all members in team:<teamId>
       io.to(roomName).emit(SOCKET_EVENTS.TEAM.PRESENCE_UPDATE, {
         teamId: normalizedTeamId,
         room: roomName,
@@ -85,15 +91,16 @@ export const registerSocketChannels = (io, socket) => {
     }
   });
 
-  // 2. Server-Authoritative Team Action via Socket (purchase challenge, spend credits, use ability, submit)
-  socket.on(SOCKET_EVENTS.TEAM.ACTION, async (payload = {}, callback) => {
+  // 2. Server-Authoritative Team & Credit Action via Socket
+  const handleAuthoritativeAction = async (payload = {}, callback) => {
     try {
       const teamId = socket.data.teamId || payload?.teamId;
       if (!teamId) {
         throw new Error('Socket is not bound to an authenticated team.');
       }
 
-      const { actionType, actionPayload } = payload;
+      const actionType = payload.actionType || payload.type;
+      const actionPayload = payload.actionPayload || payload.payload || payload;
       const result = await executeTeamAction(teamId, actionType, actionPayload);
       const roomName = SOCKET_ROOMS.teamRoom(teamId);
       const onlineOperatives = getRoomClientCount(io, roomName);
@@ -102,26 +109,52 @@ export const registerSocketChannels = (io, socket) => {
         teamId,
         room: roomName,
         team: result.team,
+        transaction: result.transaction,
+        evaluationResult: result.evaluationResult || null,
+        transactions: result.transactions,
         event: result.event,
         catalog: result.catalog,
+        creditsConfig: result.creditsConfig,
         onlineOperatives,
         triggeredBySocketId: socket.id,
         timestamp: new Date().toISOString(),
       };
 
-      // Broadcast updated authoritative state to ALL members in team:<teamId>
+      // Broadcast dedicated credits:update event AND full team:state:update to team:<teamId>
+      io.to(roomName).emit(SOCKET_EVENTS.CREDITS.UPDATE, {
+        teamId,
+        room: roomName,
+        balanceBefore: result.event.balanceBefore,
+        balanceAfter: result.team.credits,
+        delta: result.event.creditsDelta,
+        transaction: result.transaction,
+        transactions: result.transactions,
+        triggeredBySocketId: socket.id,
+        timestamp: new Date().toISOString(),
+      });
+
+      if (result.evaluationResult) {
+        io.to(roomName).emit(SOCKET_EVENTS.SUBMISSION.RESULT, {
+          ...result.evaluationResult,
+          triggeredBySocketId: socket.id,
+        });
+      }
+
       io.to(roomName).emit(SOCKET_EVENTS.TEAM.STATE_UPDATE, broadcastPayload);
 
       if (typeof callback === 'function') {
         callback({ ok: true, ...broadcastPayload });
       }
     } catch (error) {
-      logger.warn('SOCKET', `team:action error: ${error.message}`);
+      logger.warn('SOCKET', `Team/Credit action error: ${error.message}`);
       if (typeof callback === 'function') {
         callback({ ok: false, error: error.message });
       }
     }
-  });
+  };
+
+  socket.on(SOCKET_EVENTS.TEAM.ACTION, handleAuthoritativeAction);
+  socket.on(SOCKET_EVENTS.CREDITS.TRANSACTION, handleAuthoritativeAction);
 
   // 3. Leave Team Room
   socket.on(SOCKET_EVENTS.TEAM.LEAVE, (payload = {}, callback) => {
@@ -157,7 +190,6 @@ export const registerSocketChannels = (io, socket) => {
     }
   });
 
-  // 4. Leaderboard Room Subscription
   socket.on(SOCKET_EVENTS.LEADERBOARD.SUBSCRIBE, (payload = {}, callback) => {
     socket.join(SOCKET_ROOMS.LEADERBOARD);
     if (typeof callback === 'function') {
@@ -169,7 +201,6 @@ export const registerSocketChannels = (io, socket) => {
     }
   });
 
-  // 5. Timer Sync
   socket.on(SOCKET_EVENTS.TIMER.SYNC, (payload = {}, callback) => {
     const syncResponse = {
       ok: true,
@@ -197,6 +228,18 @@ export const createSocketEmitters = (getIo) => ({
     }
   },
 
+  emitCreditsUpdate: (teamId, creditsPayload) => {
+    const io = getIo();
+    if (io && teamId) {
+      const roomName = SOCKET_ROOMS.teamRoom(teamId);
+      io.to(roomName).emit(SOCKET_EVENTS.CREDITS.UPDATE, {
+        ...creditsPayload,
+        room: roomName,
+        timestamp: new Date().toISOString(),
+      });
+    }
+  },
+
   emitChallengeUpdate: (challengePayload, teamId = null) => {
     const io = getIo();
     if (!io) return;
@@ -208,13 +251,6 @@ export const createSocketEmitters = (getIo) => ({
     const io = getIo();
     if (io) {
       io.to(SOCKET_ROOMS.ARENA_GLOBAL).emit(SOCKET_EVENTS.TIMER.UPDATE, timerPayload);
-    }
-  },
-
-  emitCreditsUpdate: (teamId, creditsPayload) => {
-    const io = getIo();
-    if (io && teamId) {
-      io.to(SOCKET_ROOMS.teamRoom(teamId)).emit(SOCKET_EVENTS.CREDITS.UPDATE, creditsPayload);
     }
   },
 

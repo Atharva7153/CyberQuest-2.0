@@ -69,3 +69,43 @@ export const postTeamActionHttp = async (token, actionType, payload = {}) => {
 
   return data;
 };
+
+export const fetchChallengeMarket = async (filters = {}) => {
+  const params = new URLSearchParams();
+  if (filters.category && filters.category !== 'ALL') params.set('category', filters.category);
+  if (filters.difficulty && filters.difficulty !== 'ALL') params.set('difficulty', filters.difficulty);
+  if (filters.risk && filters.risk !== 'ALL') params.set('risk', filters.risk);
+
+  const qs = params.toString() ? `?${params.toString()}` : '';
+  const response = await fetch(`${API_BASE_URL}/api/challenges${qs}`, {
+    method: 'GET',
+    headers: { Accept: 'application/json' },
+  });
+
+  const data = await response.json().catch(() => ({}));
+  if (!response.ok) {
+    throw new Error(data.message || 'Unable to load Challenge Market.');
+  }
+
+  return data;
+};
+
+export const acquireChallengeHttp = async (token, challengeId, isReattempt = false) => {
+  const response = await fetch(`${API_BASE_URL}/api/challenges/${encodeURIComponent(challengeId)}/acquire`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Accept: 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify({ challengeId, isReattempt }),
+  });
+
+  const data = await response.json().catch(() => ({}));
+  if (!response.ok) {
+    throw new Error(data.message || 'Challenge acquisition rejected by NEXUS Core.');
+  }
+
+  return data;
+};
+

@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import { creditsConfig } from '../config/creditsConfig.js';
 
 const teamMemberSchema = new mongoose.Schema(
   {
@@ -19,6 +20,7 @@ const challengeRefSchema = new mongoose.Schema(
       enum: ['LOGIC', 'PUZZLES', 'OBSERVATION', 'KNOWLEDGE', 'TECHNICAL'],
       default: 'TECHNICAL',
     },
+    description: { type: String, default: '' },
     cost: { type: Number, default: 0 },
     reward: { type: Number, default: 0 },
     penalty: { type: Number, default: 0 },
@@ -32,6 +34,11 @@ const challengeRefSchema = new mongoose.Schema(
       enum: ['SAFE', 'BALANCED', 'AGGRESSIVE'],
       default: 'BALANCED',
     },
+    timeLimit: { type: Number, default: 1200 },
+    gameType: { type: String, default: 'TERMINAL_CHALLENGE' },
+    gameConfig: { type: mongoose.Schema.Types.Mixed, default: () => ({}) },
+    enabled: { type: Boolean, default: true },
+    available: { type: Boolean, default: true },
     timestamp: { type: Date, default: Date.now },
   },
   { _id: false }
@@ -43,12 +50,20 @@ const activeAttemptSchema = new mongoose.Schema(
     challengeId: { type: String, required: true },
     title: { type: String, required: true },
     category: { type: String, default: 'TECHNICAL' },
+    difficulty: { type: String, default: 'MODERATE' },
+    risk: { type: String, default: 'BALANCED' },
     costPaid: { type: Number, default: 0 },
     potentialReward: { type: Number, default: 0 },
     penaltyOnFail: { type: Number, default: 0 },
+    timeLimit: { type: Number, default: 1200 },
+    gameType: { type: String, default: 'wordGuess' },
+    gameConfig: { type: mongoose.Schema.Types.Mixed, default: () => ({}) },
     hintsUnlocked: { type: Number, default: 0 },
+    unlockedHints: { type: [String], default: [] },
     extraTimeMinutes: { type: Number, default: 0 },
+    isReattempt: { type: Boolean, default: false },
     startedAt: { type: Date, default: Date.now },
+    expiresAt: { type: Date, default: null },
     status: {
       type: String,
       enum: ['IN_PROGRESS', 'SUBMITTING', 'COMPLETED', 'FAILED'],
@@ -80,8 +95,10 @@ const teamStatsSchema = new mongoose.Schema(
   {
     totalSolved: { type: Number, default: 0 },
     totalFailed: { type: Number, default: 0 },
-    creditsEarned: { type: Number, default: 1250 },
+    creditsEarned: { type: Number, default: () => creditsConfig.getStartingCredits() },
     creditsSpent: { type: Number, default: 0 },
+    penaltiesIncurred: { type: Number, default: 0 },
+    reattemptsCount: { type: Number, default: 0 },
     hintsPurchased: { type: Number, default: 0 },
     extraTimePurchased: { type: Number, default: 0 },
     abilitiesUsed: { type: Number, default: 0 },
@@ -99,6 +116,9 @@ const teamStatsSchema = new mongoose.Schema(
           type: { type: String },
           summary: String,
           creditsDelta: Number,
+          balanceAfter: Number,
+          relatedChallenge: mongoose.Schema.Types.Mixed,
+          relatedAbility: mongoose.Schema.Types.Mixed,
           timestamp: { type: Date, default: Date.now },
         },
       ],
@@ -135,7 +155,7 @@ const teamSchema = new mongoose.Schema(
     credits: {
       type: Number,
       required: true,
-      default: 1250,
+      default: () => creditsConfig.getStartingCredits(),
       min: 0,
     },
     status: {
