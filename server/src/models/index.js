@@ -1,14 +1,4 @@
-/**
- * NEXUS / Cyber Quest — Database Model Registry (Phase 2 Infrastructure)
- *
- * No collections are prematurely instantiated in Phase 2.
- * This module defines the canonical collection architecture reserved for upcoming phases:
- * - teams
- * - players
- * - challenges
- * - challengeAttempts
- * - teamEvents
- */
+import { Team } from './Team.js';
 
 export const PLANNED_COLLECTIONS = Object.freeze({
   TEAMS: 'teams',
@@ -18,4 +8,5 @@ export const PLANNED_COLLECTIONS = Object.freeze({
   TEAM_EVENTS: 'teamEvents',
 });
 
+export { Team };
 export default PLANNED_COLLECTIONS;

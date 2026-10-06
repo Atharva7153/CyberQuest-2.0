@@ -2,6 +2,7 @@ import mongoose from 'mongoose';
 import { env } from './env.js';
 import { logger } from '../utils/logger.js';
 import { PLANNED_COLLECTIONS } from '../models/index.js';
+import { ensureDefaultTeamsSeeded } from '../services/teamService.js';
 
 const READY_STATES = {
   0: 'DISCONNECTED',
@@ -31,6 +32,7 @@ export const connectDB = async () => {
       'DB',
       `MongoDB connected -> ${mongoose.connection.host}/${mongoose.connection.name || 'nexus'}`
     );
+    await ensureDefaultTeamsSeeded();
   } catch (error) {
     lastConnectionError = error.message;
     logger.warn(

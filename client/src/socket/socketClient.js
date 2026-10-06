@@ -5,10 +5,6 @@ const SOCKET_URL =
   import.meta.env.VITE_SOCKET_URL ||
   'http://localhost:5050';
 
-/**
- * NEXUS / Cyber Quest Socket Event Registry
- * Shared contract between client and server for real-time channels.
- */
 export const NEXUS_SOCKET_EVENTS = {
   SYSTEM: {
     WELCOME: 'nexus:welcome',
@@ -19,8 +15,11 @@ export const NEXUS_SOCKET_EVENTS = {
   },
   TEAM: {
     JOIN: 'team:join',
+    JOINED_ACK: 'team:joined',
     LEAVE: 'team:leave',
+    ACTION: 'team:action',
     STATE_UPDATE: 'team:state:update',
+    PRESENCE_UPDATE: 'team:presence:update',
   },
   CHALLENGE: {
     UPDATE: 'challenge:update',
