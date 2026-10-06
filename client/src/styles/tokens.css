@@ -1,0 +1,56 @@
+/**
+ * NEXUS — THE LAST CHANCE
+ * Primary Design Tokens (CSS Custom Properties)
+ * Visual Reference: Dystopian Industrial Brutalist Editorial Poster
+ */
+
+:root {
+  /* ==========================================
+   * 1. ARCHIVAL PAPER & SURFACE TOKENS
+   * ========================================== */
+  --nexus-paper-base: #ece7df;       /* Primary distressed warm off-white paper */
+  --nexus-paper-elevated: #f4f0e8;   /* Elevated editorial panel surface */
+  --nexus-paper-aged: #dfd8cd;       /* Weathered secondary paper block */
+  --nexus-paper-stain: #d4cbbd;      /* Deep aged border / crease tone */
+
+  /* ==========================================
+   * 2. INK & TYPOGRAPHY TOKENS
+   * ========================================== */
+  --nexus-ink-black: #111111;        /* Primary brutalist carbon black */
+  --nexus-ink-charcoal: #22201e;     /* Secondary industrial dark ink */
+  --nexus-ink-muted: #5a554e;        /* Technical annotation & sub-label ink */
+  --nexus-ink-faint: #8c857b;        /* Hairline coordinate & tick labels */
+
+  /* ==========================================
+   * 3. WARNING & SYSTEM ACCENT TOKENS
+   * ========================================== */
+  --nexus-crimson: #c8191e;          /* Primary NEXUS warning crimson (Red Sun / X) */
+  --nexus-crimson-dark: #961014;     /* Deep dried blood warning accent */
+  --nexus-crimson-tint: rgba(200, 25, 30, 0.09);
+  --nexus-crimson-line: rgba(200, 25, 30, 0.55);
+
+  /* ==========================================
+   * 4. TECHNICAL GRID & BORDER TOKENS
+   * ========================================== */
+  --nexus-border-color: #181715;
+  --nexus-border-subtle: rgba(17, 17, 17, 0.28);
+  --nexus-grid-line: rgba(17, 17, 17, 0.085);
+  --nexus-grid-major: rgba(17, 17, 17, 0.16);
+  --nexus-grid-size: 32px;
+  --nexus-grid-sub-size: 8px;
+
+  /* ==========================================
+   * 5. TYPOGRAPHY & SPACING SCALE
+   * ========================================== */
+  --nexus-font-display: 'Anton', 'Oswald', Impact, sans-serif;
+  --nexus-font-condensed: 'Barlow Condensed', 'Oswald', sans-serif;
+  --nexus-font-editorial: 'Space Grotesk', system-ui, sans-serif;
+  --nexus-font-mono: 'JetBrains Mono', monospace;
+
+  /* ==========================================
+   * 6. BRUTALIST ELEVATION (NO BLUR / NO GLASS)
+   * ========================================== */
+  --nexus-shadow-hard: 4px 4px 0px 0px #111111;
+  --nexus-shadow-hard-sm: 2px 2px 0px 0px #111111;
+  --nexus-shadow-crimson: 4px 4px 0px 0px #c8191e;
+}

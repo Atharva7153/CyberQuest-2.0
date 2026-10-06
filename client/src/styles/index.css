@@ -1,0 +1,92 @@
+@import './tokens.css';
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html,
+  body {
+    background-color: var(--nexus-paper-base);
+    color: var(--nexus-ink-black);
+    font-family: var(--nexus-font-editorial);
+    overflow-x: hidden;
+  }
+}
+
+/* ==========================================================================
+ * DISTRESSED PAPER, TECHNICAL GRID & BRUTALIST SURFACE UTILITIES
+ * ========================================================================== */
+
+.nexus-paper-canvas {
+  background-color: var(--nexus-paper-base);
+  background-image:
+    radial-gradient(circle at 18% 12%, rgba(212, 203, 189, 0.45) 0%, transparent 45%),
+    radial-gradient(circle at 85% 78%, rgba(196, 186, 170, 0.5) 0%, transparent 50%),
+    radial-gradient(circle at 50% 42%, rgba(200, 25, 30, 0.04) 0%, transparent 55%),
+    linear-gradient(to right, var(--nexus-grid-line) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--nexus-grid-line) 1px, transparent 1px);
+  background-size:
+    100% 100%,
+    100% 100%,
+    100% 100%,
+    var(--nexus-grid-size) var(--nexus-grid-size),
+    var(--nexus-grid-size) var(--nexus-grid-size);
+}
+
+/* Fine technical sub-grid for telemetry & poster backdrop */
+.nexus-fine-grid {
+  background-image:
+    linear-gradient(to right, rgba(17, 17, 17, 0.05) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(17, 17, 17, 0.05) 1px, transparent 1px);
+  background-size: 12px 12px;
+}
+
+/* Distressed halftone dot matrix pattern */
+.nexus-halftone {
+  background-image: radial-gradient(rgba(17, 17, 17, 0.18) 1px, transparent 0);
+  background-size: 6px 6px;
+}
+
+.nexus-halftone-crimson {
+  background-image: radial-gradient(rgba(200, 25, 30, 0.24) 1px, transparent 0);
+  background-size: 6px 6px;
+}
+
+/* Brutalist Editorial Box (matches poster bottom info cells) */
+.nexus-editorial-box {
+  background-color: var(--nexus-paper-elevated);
+  border: 1.5px solid var(--nexus-ink-black);
+  box-shadow: 3px 3px 0px 0px rgba(17, 17, 17, 0.9);
+  position: relative;
+}
+
+/* Industrial Glitch Scanline Overlay on Display Typography */
+.nexus-scanline-overlay {
+  background: repeating-linear-gradient(
+    to bottom,
+    transparent 0px,
+    transparent 3px,
+    rgba(236, 231, 223, 0.16) 3px,
+    rgba(236, 231, 223, 0.16) 4px
+  );
+}
+
+/* Custom Brutalist Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--nexus-paper-aged);
+  border-left: 1px solid var(--nexus-ink-black);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--nexus-ink-black);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--nexus-crimson);
+}
