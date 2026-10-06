@@ -1,0 +1,59 @@
+services:
+  mongodb:
+    image: mongo:7
+    container_name: nexus-mongodb
+    restart: unless-stopped
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodb_data:/data/db
+    healthcheck:
+      test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping')"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  server:
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    container_name: nexus-server
+    restart: unless-stopped
+    ports:
+      - "${PORT:-5050}:${PORT:-5050}"
+    environment:
+      NODE_ENV: ${NODE_ENV:-development}
+      PORT: ${PORT:-5050}
+      MONGO_URI: ${MONGO_URI:-mongodb://mongodb:27017/nexus}
+      CLIENT_URL: ${CLIENT_URL:-http://localhost:5173}
+      SOCKET_URL: ${SOCKET_URL:-http://localhost:5050}
+    volumes:
+      - ./server:/app
+      - /app/node_modules
+    depends_on:
+      mongodb:
+        condition: service_healthy
+
+  client:
+    build:
+      context: ./client
+      dockerfile: Dockerfile
+    container_name: nexus-client
+    restart: unless-stopped
+    ports:
+      - "5173:5173"
+    environment:
+      CLIENT_URL: ${CLIENT_URL:-http://localhost:5173}
+      SOCKET_URL: ${SOCKET_URL:-http://localhost:5050}
+      VITE_API_BASE_URL: ${SOCKET_URL:-http://localhost:5050}
+      VITE_SOCKET_URL: ${SOCKET_URL:-http://localhost:5050}
+      DOCKER_API_TARGET: http://server:${PORT:-5050}
+    volumes:
+      - ./client:/app
+      - /app/node_modules
+    depends_on:
+      - server
+
+volumes:
+  mongodb_data:
+    driver: local

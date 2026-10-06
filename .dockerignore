@@ -1,0 +1,26 @@
+# Dependencies
+node_modules
+client/node_modules
+server/node_modules
+
+# Build artifacts
+client/dist
+dist
+
+# Environment files (never bake real credentials into images)
+.env
+.env.*
+!.env.example
+client/.env
+client/.env.*
+!client/.env.example
+server/.env
+server/.env.*
+!server/.env.example
+
+# Git & OS
+.git
+.gitignore
+.DS_Store
+*.log
+npm-debug.log*

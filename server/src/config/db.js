@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
 import { env } from './env.js';
 import { logger } from '../utils/logger.js';
-import { SystemNode } from '../models/SystemNode.js';
+import { PLANNED_COLLECTIONS } from '../models/index.js';
 
 const READY_STATES = {
   0: 'DISCONNECTED',
@@ -13,27 +13,14 @@ const READY_STATES = {
 let lastConnectionError = null;
 let retryTimer = null;
 
-const syncSystemNodeRecord = async () => {
-  try {
-    await SystemNode.findOneAndUpdate(
-      { designation: env.systemDesignation },
-      {
-        designation: env.systemDesignation,
-        version: env.systemVersion,
-        status: 'ONLINE',
-        lastHeartbeatAt: new Date(),
-      },
-      { upsert: true, new: true, setDefaultsOnInsert: true }
-    );
-  } catch (err) {
-    logger.warn('DB', `Could not sync system node record: ${err.message}`);
-  }
+const maskMongoUri = (uri = '') => {
+  return uri.replace(/\/\/([^:]+):([^@]+)@/, '//***:***@');
 };
 
 export const connectDB = async () => {
   try {
     await mongoose.connect(env.mongoUri, {
-      serverSelectionTimeoutMS: 3500,
+      serverSelectionTimeoutMS: 5000,
     });
     lastConnectionError = null;
     if (retryTimer) {
@@ -42,14 +29,13 @@ export const connectDB = async () => {
     }
     logger.info(
       'DB',
-      `MongoDB connected -> ${mongoose.connection.host}/${mongoose.connection.name}`
+      `MongoDB connected -> ${mongoose.connection.host}/${mongoose.connection.name || 'nexus'}`
     );
-    await syncSystemNodeRecord();
   } catch (error) {
     lastConnectionError = error.message;
     logger.warn(
       'DB',
-      `Local MongoDB unreachable at ${env.mongoUri} (${error.message}). Retrying in 10s...`
+      `MongoDB unreachable (${error.message}). Retrying in 10s...`
     );
     if (!retryTimer) {
       retryTimer = setTimeout(() => {
@@ -61,7 +47,7 @@ export const connectDB = async () => {
 };
 
 mongoose.connection.on('disconnected', () => {
-  logger.warn('DB', 'MongoDB connection lost.');
+  logger.warn('DB', 'MongoDB connection disconnected.');
 });
 
 mongoose.connection.on('reconnected', () => {
@@ -77,8 +63,9 @@ export const getDatabaseStatus = () => {
     connected: isConnected,
     state: READY_STATES[readyState] || 'UNKNOWN',
     host: isConnected ? mongoose.connection.host : '127.0.0.1:27017',
-    dbName: isConnected ? mongoose.connection.name : 'nexus',
-    compassUri: env.mongoUri,
+    dbName: isConnected ? mongoose.connection.name || 'nexus' : 'nexus',
+    compassUri: maskMongoUri(env.mongoUri),
+    plannedCollections: Object.values(PLANNED_COLLECTIONS),
     error: isConnected ? null : lastConnectionError,
   };
 };

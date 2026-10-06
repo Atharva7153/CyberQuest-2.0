@@ -2,8 +2,14 @@ import { Server } from 'socket.io';
 import { env } from '../config/env.js';
 import { getDatabaseStatus } from '../config/db.js';
 import { logger } from '../utils/logger.js';
+import { SOCKET_EVENTS } from './socketEvents.js';
+import { registerSocketChannels, createSocketEmitters } from './channels.js';
 
 let ioInstance = null;
+
+export const getSocketServer = () => ioInstance;
+
+export const socketEmitters = createSocketEmitters(getSocketServer);
 
 export const initSocketServer = (httpServer) => {
   ioInstance = new Server(httpServer, {
@@ -18,26 +24,31 @@ export const initSocketServer = (httpServer) => {
     const activeTerminals = ioInstance.engine.clientsCount;
     logger.info('SOCKET', `Terminal connected [ID: ${socket.id}] | Active: ${activeTerminals}`);
 
+    // Register domain channels (team, challenge, timer, credits, submission, ability, core, leaderboard)
+    registerSocketChannels(ioInstance, socket);
+
     // Send initial handshake telemetry to newly connected terminal
-    socket.emit('nexus:welcome', {
+    socket.emit(SOCKET_EVENTS.SYSTEM.WELCOME, {
       socketId: socket.id,
+      service: env.serviceName,
       designation: env.systemDesignation,
       version: env.systemVersion,
       serverTime: new Date().toISOString(),
       uptimeSeconds: Math.floor(process.uptime()),
       activeTerminals,
       database: getDatabaseStatus(),
+      supportedChannels: Object.keys(SOCKET_EVENTS),
       message: 'NEXUS CORE TELEMETRY LINK ESTABLISHED.',
     });
 
     // Broadcast updated terminal count
-    ioInstance.emit('nexus:terminals', {
+    ioInstance.emit(SOCKET_EVENTS.SYSTEM.TERMINALS, {
       activeTerminals,
       timestamp: new Date().toISOString(),
     });
 
-    // Handle on-demand diagnostic ping from client
-    socket.on('nexus:ping', (payload = {}, callback) => {
+    // Handle diagnostic ping from client
+    socket.on(SOCKET_EVENTS.SYSTEM.PING, (payload = {}, callback) => {
       const response = {
         echo: payload?.signal || 'DIAGNOSTIC_PULSE',
         clientSentAt: payload?.clientTimestamp || null,
@@ -49,7 +60,7 @@ export const initSocketServer = (httpServer) => {
         database: getDatabaseStatus(),
       };
 
-      socket.emit('nexus:pong', response);
+      socket.emit(SOCKET_EVENTS.SYSTEM.PONG, response);
       if (typeof callback === 'function') {
         callback(response);
       }
@@ -61,7 +72,7 @@ export const initSocketServer = (httpServer) => {
         'SOCKET',
         `Terminal disconnected [ID: ${socket.id}] (${reason}) | Active: ${remaining}`
       );
-      ioInstance.emit('nexus:terminals', {
+      ioInstance.emit(SOCKET_EVENTS.SYSTEM.TERMINALS, {
         activeTerminals: remaining,
         timestamp: new Date().toISOString(),
       });
@@ -71,7 +82,8 @@ export const initSocketServer = (httpServer) => {
   // Periodic system pulse broadcast every 5 seconds
   setInterval(() => {
     if (ioInstance && ioInstance.engine.clientsCount > 0) {
-      ioInstance.emit('nexus:telemetry', {
+      ioInstance.emit(SOCKET_EVENTS.SYSTEM.TELEMETRY, {
+        service: env.serviceName,
         designation: env.systemDesignation,
         serverTime: new Date().toISOString(),
         uptimeSeconds: Math.floor(process.uptime()),

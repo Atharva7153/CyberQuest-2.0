@@ -1,17 +1,21 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 
+const apiProxyTarget = process.env.DOCKER_API_TARGET || 'http://localhost:5050';
+
 export default defineConfig({
   plugins: [react()],
+  envPrefix: ['VITE_', 'SOCKET_', 'CLIENT_'],
   server: {
+    host: true,
     port: 5173,
     proxy: {
       '/api': {
-        target: 'http://localhost:5050',
+        target: apiProxyTarget,
         changeOrigin: true,
       },
       '/socket.io': {
-        target: 'http://localhost:5050',
+        target: apiProxyTarget,
         ws: true,
       },
     },

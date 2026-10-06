@@ -1,13 +1,13 @@
 {
-  "name": "nexus-server",
-  "version": "0.1.0",
+  "name": "cyber-quest-server",
+  "version": "0.2.0",
   "private": true,
-  "description": "NEXUS — THE LAST CHANCE Backend (Express + Socket.IO + MongoDB)",
+  "description": "NEXUS — THE LAST CHANCE / Cyber Quest Backend (Express + Socket.IO + MongoDB)",
   "type": "module",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
-    "dev": "node --watch index.js",
-    "start": "node index.js"
+    "dev": "node --watch server.js",
+    "start": "node server.js"
   },
   "dependencies": {
     "cors": "^2.8.5",

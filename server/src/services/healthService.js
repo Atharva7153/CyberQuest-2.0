@@ -1,18 +1,17 @@
 import { env } from '../config/env.js';
 import { getDatabaseStatus } from '../config/db.js';
-import { getSocketStatus } from '../socket/socketHandler.js';
+import { getSocketStatus } from '../socket/index.js';
 
 export const buildSystemHealthReport = () => {
   const dbStatus = getDatabaseStatus();
   const socketStatus = getSocketStatus();
 
   return {
-    ok: true,
-    application: 'NEXUS — THE LAST CHANCE',
+    status: 'ok',
+    service: env.serviceName,
     designation: env.systemDesignation,
     version: env.systemVersion,
     environment: env.nodeEnv,
-    status: dbStatus.connected ? 'OPERATIONAL' : 'ONLINE_DB_STANDBY',
     timestamp: new Date().toISOString(),
     uptimeSeconds: Math.floor(process.uptime()),
     subsystems: {
