@@ -5,7 +5,10 @@ import {
   SUPPORTED_GAME_TYPES,
 } from '../models/Challenge.js';
 import { ChallengeService } from '../services/challengeService.js';
-import { executeTeamAction } from '../services/teamService.js';
+import {
+  executeTeamAction,
+  getTeamStateById,
+} from '../services/teamService.js';
 import { socketEmitters } from '../socket/index.js';
 
 export const getChallengeMarket = async (req, res, next) => {
@@ -44,6 +47,45 @@ export const getChallengeById = async (req, res, next) => {
       status: 'ok',
       service: 'cyber-quest-server',
       challenge,
+      serverTime: new Date().toISOString(),
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const getChallengeSession = async (req, res, next) => {
+  try {
+    const requestedChallengeId = String(req.params.challengeId || '')
+      .trim()
+      .toUpperCase();
+
+    const [team, challenge, attempts] = await Promise.all([
+      getTeamStateById(req.team.teamId),
+      ChallengeService.getChallengeById(requestedChallengeId),
+      ChallengeService.getAttemptsForTeam(req.team.teamId),
+    ]);
+
+    if (!challenge) {
+      const err = new Error(`Challenge [${requestedChallengeId}] not found.`);
+      err.statusCode = 404;
+      throw err;
+    }
+
+    const timer = ChallengeService.computeSessionTimerTelemetry(team?.activeAttempt);
+
+    res.status(200).json({
+      status: 'ok',
+      service: 'cyber-quest-server',
+      challenge,
+      team,
+      activeAttempt: team?.activeAttempt || null,
+      isMatchingActiveSession:
+        Boolean(team?.activeAttempt) &&
+        String(team.activeAttempt.challengeId).toUpperCase() === requestedChallengeId,
+      timer,
+      attempts: attempts || [],
+      serverTime: new Date().toISOString(),
     });
   } catch (error) {
     next(error);
@@ -73,6 +115,9 @@ export const acquireChallenge = async (req, res, next) => {
       teamId: req.team.teamId,
       team: result.team,
       transaction: result.transaction,
+      attempts: result.attempts || [],
+      timer: result.timer,
+      serverTime: result.serverTime,
       transactions: result.transactions,
       event: result.event,
       catalog: result.catalog,
@@ -84,6 +129,7 @@ export const acquireChallenge = async (req, res, next) => {
         teamId: req.team.teamId,
         challenge: result.team.currentChallenge,
         activeAttempt: result.team.activeAttempt,
+        timer: result.timer,
         timestamp: new Date().toISOString(),
       },
       req.team.teamId
@@ -95,6 +141,9 @@ export const acquireChallenge = async (req, res, next) => {
       team: result.team,
       activeAttempt: result.team.activeAttempt,
       currentChallenge: result.team.currentChallenge,
+      attempts: result.attempts || [],
+      timer: result.timer,
+      serverTime: result.serverTime,
       transaction: result.transaction,
       transactions: result.transactions,
       event: result.event,
@@ -108,12 +157,22 @@ export const acquireChallenge = async (req, res, next) => {
 
 export const submitChallengeSession = async (req, res, next) => {
   try {
-    const { challengeId, submission, answer, solution, simulateFailure } = req.body || {};
+    const {
+      challengeId,
+      attemptId,
+      submission,
+      answer,
+      solution,
+      simulateFailure,
+      outcomeOverride,
+    } = req.body || {};
 
     const result = await executeTeamAction(req.team.teamId, 'SUBMIT_CHALLENGE', {
       challengeId: req.params.challengeId || challengeId,
+      attemptId,
       submission: submission ?? answer ?? solution,
       simulateFailure: Boolean(simulateFailure),
+      outcomeOverride: outcomeOverride || null,
     });
 
     socketEmitters.emitCreditsUpdate(req.team.teamId, {
@@ -134,6 +193,9 @@ export const submitChallengeSession = async (req, res, next) => {
       team: result.team,
       transaction: result.transaction,
       evaluationResult: result.evaluationResult,
+      attempts: result.attempts || [],
+      timer: result.timer,
+      serverTime: result.serverTime,
       transactions: result.transactions,
       event: result.event,
       catalog: result.catalog,
@@ -145,6 +207,64 @@ export const submitChallengeSession = async (req, res, next) => {
       service: 'cyber-quest-server',
       team: result.team,
       evaluationResult: result.evaluationResult,
+      attempts: result.attempts || [],
+      timer: result.timer,
+      serverTime: result.serverTime,
+      transaction: result.transaction,
+      transactions: result.transactions,
+      event: result.event,
+      catalog: result.catalog,
+      creditsConfig: result.creditsConfig,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const abandonChallengeSession = async (req, res, next) => {
+  try {
+    const { challengeId, attemptId } = req.body || {};
+
+    const result = await executeTeamAction(req.team.teamId, 'ABANDON_CHALLENGE', {
+      challengeId: req.params.challengeId || challengeId,
+      attemptId,
+    });
+
+    socketEmitters.emitCreditsUpdate(req.team.teamId, {
+      teamId: req.team.teamId,
+      balanceBefore: result.event.balanceBefore,
+      balanceAfter: result.team.credits,
+      delta: result.event.creditsDelta,
+      transaction: result.transaction,
+      transactions: result.transactions,
+    });
+
+    if (result.evaluationResult) {
+      socketEmitters.emitSubmissionResult(req.team.teamId, result.evaluationResult);
+    }
+
+    socketEmitters.emitTeamStateUpdate(req.team.teamId, {
+      teamId: req.team.teamId,
+      team: result.team,
+      transaction: result.transaction,
+      evaluationResult: result.evaluationResult,
+      attempts: result.attempts || [],
+      timer: result.timer,
+      serverTime: result.serverTime,
+      transactions: result.transactions,
+      event: result.event,
+      catalog: result.catalog,
+      creditsConfig: result.creditsConfig,
+    });
+
+    res.status(200).json({
+      status: 'ok',
+      service: 'cyber-quest-server',
+      team: result.team,
+      evaluationResult: result.evaluationResult,
+      attempts: result.attempts || [],
+      timer: result.timer,
+      serverTime: result.serverTime,
       transaction: result.transaction,
       transactions: result.transactions,
       event: result.event,

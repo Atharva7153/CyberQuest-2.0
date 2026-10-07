@@ -13,6 +13,8 @@ export const WordGuessGame = ({
   challenge,
   gameConfig = {},
   actionPending = false,
+  disabled = false,
+  onDraftChange,
   onSubmitAnswer,
 }) => {
   const prefersReducedMotion = useReducedMotion();
@@ -30,6 +32,7 @@ export const WordGuessGame = ({
     : ['P', 'A', 'Y', 'L', 'O', 'A', 'D', 'F', 'I', 'R', 'E', 'W'];
 
   const [characters, setCharacters] = useState([]);
+  const isLocked = Boolean(actionPending || disabled);
 
   // Reset character buffer when switching challenges
   useEffect(() => {
@@ -38,8 +41,17 @@ export const WordGuessGame = ({
 
   const currentWord = characters.join('');
 
+  useEffect(() => {
+    if (typeof onDraftChange === 'function') {
+      onDraftChange({
+        gameType: 'wordGuess',
+        answer: currentWord.trim(),
+      });
+    }
+  }, [currentWord, onDraftChange]);
+
   const handleAppendLetter = (letter) => {
-    if (actionPending) return;
+    if (isLocked) return;
     setCharacters((prev) => {
       if (prev.length >= wordLength) return prev;
       return [...prev, String(letter).toUpperCase()];
@@ -47,16 +59,17 @@ export const WordGuessGame = ({
   };
 
   const handleBackspace = () => {
-    if (actionPending) return;
+    if (isLocked) return;
     setCharacters((prev) => prev.slice(0, -1));
   };
 
   const handleClear = () => {
-    if (actionPending) return;
+    if (isLocked) return;
     setCharacters([]);
   };
 
   const handleDirectInputChange = (e) => {
+    if (isLocked) return;
     const cleaned = e.target.value
       .toUpperCase()
       .replace(/[^A-Z0-9_-]/g, '')
@@ -66,7 +79,7 @@ export const WordGuessGame = ({
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!currentWord.trim() || actionPending) return;
+    if (!currentWord.trim() || isLocked) return;
     onSubmitAnswer({
       gameType: 'wordGuess',
       answer: currentWord.trim(),

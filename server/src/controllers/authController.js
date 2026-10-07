@@ -11,10 +11,8 @@ import { socketEmitters } from '../socket/index.js';
 export const loginTeam = async (req, res, next) => {
   try {
     const { teamId, password } = req.body || {};
-    const { token, team, transactions, catalog, creditsConfig } = await authenticateTeam(
-      teamId,
-      password
-    );
+    const { token, team, transactions, catalog, attempts, timer, creditsConfig, serverTime } =
+      await authenticateTeam(teamId, password);
 
     res.status(200).json({
       status: 'ok',
@@ -22,6 +20,9 @@ export const loginTeam = async (req, res, next) => {
       token,
       team,
       transactions,
+      attempts: attempts || [],
+      timer,
+      serverTime: serverTime || new Date().toISOString(),
       creditsConfig,
       catalog: catalog || CHALLENGE_CATALOG,
     });
@@ -32,16 +33,20 @@ export const loginTeam = async (req, res, next) => {
 
 export const getCurrentTeam = async (req, res, next) => {
   try {
-    const [team, transactions, catalog] = await Promise.all([
+    const [team, transactions, catalog, attempts] = await Promise.all([
       getTeamStateById(req.team.teamId),
       CreditService.getTeamTransactions(req.team.teamId),
       ChallengeService.listChallenges(),
+      ChallengeService.getAttemptsForTeam(req.team.teamId),
     ]);
     res.status(200).json({
       status: 'ok',
       service: 'cyber-quest-server',
       team,
       transactions,
+      attempts: attempts || [],
+      timer: ChallengeService.computeSessionTimerTelemetry(team?.activeAttempt),
+      serverTime: new Date().toISOString(),
       creditsConfig: CreditService.getConfig(),
       catalog,
     });
@@ -74,6 +79,9 @@ export const postTeamAction = async (req, res, next) => {
       team: result.team,
       transaction: result.transaction,
       evaluationResult: result.evaluationResult || null,
+      attempts: result.attempts || [],
+      timer: result.timer,
+      serverTime: result.serverTime,
       transactions: result.transactions,
       event: result.event,
       catalog: result.catalog,
@@ -86,6 +94,9 @@ export const postTeamAction = async (req, res, next) => {
       team: result.team,
       transaction: result.transaction,
       evaluationResult: result.evaluationResult || null,
+      attempts: result.attempts || [],
+      timer: result.timer,
+      serverTime: result.serverTime,
       transactions: result.transactions,
       event: result.event,
       catalog: result.catalog,

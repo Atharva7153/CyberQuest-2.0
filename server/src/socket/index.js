@@ -93,6 +93,73 @@ export const initSocketServer = (httpServer) => {
     }
   }, 5000);
 
+  // Server-authoritative session expiration watchdog every 2 seconds
+  setInterval(async () => {
+    if (!ioInstance || ioInstance.engine.clientsCount === 0) return;
+
+    try {
+      const { Team } = await import('../models/Team.js');
+      const { executeTeamAction } = await import('../services/teamService.js');
+      const { SOCKET_ROOMS } = await import('./socketEvents.js');
+
+      const expiredTeams = await Team.find({
+        'activeAttempt.status': 'IN_PROGRESS',
+        'activeAttempt.expiresAt': { $lte: new Date() },
+      }).select('teamId activeAttempt');
+
+      for (const expiredTeam of expiredTeams) {
+        const teamId = expiredTeam.teamId;
+        const roomName = SOCKET_ROOMS.teamRoom(teamId);
+
+        const result = await executeTeamAction(teamId, 'TIMEOUT_CHALLENGE', {
+          challengeId: expiredTeam.activeAttempt?.challengeId,
+          attemptId: expiredTeam.activeAttempt?.attemptId,
+        });
+
+        ioInstance.to(roomName).emit(SOCKET_EVENTS.TIMER.EXPIRED, {
+          teamId,
+          attemptId: result.evaluationResult?.attemptId,
+          challengeId: result.evaluationResult?.challengeId,
+          evaluationResult: result.evaluationResult,
+          serverTime: new Date().toISOString(),
+        });
+
+        ioInstance.to(roomName).emit(SOCKET_EVENTS.CREDITS.UPDATE, {
+          teamId,
+          room: roomName,
+          balanceBefore: result.event.balanceBefore,
+          balanceAfter: result.team.credits,
+          delta: result.event.creditsDelta,
+          transaction: result.transaction,
+          transactions: result.transactions,
+          timestamp: new Date().toISOString(),
+        });
+
+        if (result.evaluationResult) {
+          ioInstance.to(roomName).emit(SOCKET_EVENTS.SUBMISSION.RESULT, result.evaluationResult);
+        }
+
+        ioInstance.to(roomName).emit(SOCKET_EVENTS.TEAM.STATE_UPDATE, {
+          teamId,
+          room: roomName,
+          team: result.team,
+          transaction: result.transaction,
+          evaluationResult: result.evaluationResult,
+          attempts: result.attempts || [],
+          timer: result.timer,
+          serverTime: result.serverTime,
+          transactions: result.transactions,
+          event: result.event,
+          catalog: result.catalog,
+          creditsConfig: result.creditsConfig,
+          timestamp: new Date().toISOString(),
+        });
+      }
+    } catch {
+      // Ignore transient DB or lock contention during background check
+    }
+  }, 2000);
+
   return ioInstance;
 };
 

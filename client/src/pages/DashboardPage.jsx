@@ -34,6 +34,7 @@ export const DashboardPage = () => {
     team,
     catalog,
     transactions,
+    serverClockOffsetMs,
     creditsConfig,
     lastCreditChange,
     lastEvaluationResult,
@@ -84,19 +85,27 @@ export const DashboardPage = () => {
   };
 
   const handleAcquireChallenge = async ({ challengeId, isReattempt = false }) => {
-    return performTeamAction('ACQUIRE_CHALLENGE', {
+    const res = await performTeamAction('ACQUIRE_CHALLENGE', {
       challengeId,
       isReattempt,
     });
+    if (challengeId) {
+      navigate(`/challenge/${challengeId}`);
+    }
+    return res;
   };
 
   const handleConfirmPurchaseChallenge = async (challenge) => {
     try {
+      setSelectedChallengeModal(null);
+      if (activeChallenge?.challengeId === challenge.challengeId) {
+        navigate(`/challenge/${challenge.challengeId}`);
+        return;
+      }
       await handleAcquireChallenge({
         challengeId: challenge.challengeId,
         isReattempt: Boolean(challenge.isReattempt),
       });
-      setSelectedChallengeModal(null);
     } catch {
       // Error notification handled by provider
     }
@@ -217,7 +226,17 @@ export const DashboardPage = () => {
                 <button
                   type="button"
                   disabled={actionPending}
-                  onClick={() => setSelectedChallengeModal({ ...chg, isReattempt: isFailed, effectiveCost: isFailed ? reattemptCost : chg.cost })}
+                  onClick={() => {
+                    if (isCurrent) {
+                      navigate(`/challenge/${chg.challengeId}`);
+                      return;
+                    }
+                    setSelectedChallengeModal({
+                      ...chg,
+                      isReattempt: isFailed,
+                      effectiveCost: isFailed ? reattemptCost : chg.cost,
+                    });
+                  }}
                   className="px-2.5 py-1 bg-nexus-ink text-nexus-paper hover:bg-nexus-crimson font-mono text-[10px] font-bold uppercase tracking-wider transition-colors cursor-pointer disabled:opacity-50"
                 >
                   {isFailed ? 'REATTEMPT' : isCurrent ? 'RE-ENTER' : 'SELECT'}
@@ -234,6 +253,7 @@ export const DashboardPage = () => {
     <ChallengeSessionContainer
       team={team}
       creditsConfig={creditsConfig}
+      serverClockOffsetMs={serverClockOffsetMs}
       actionPending={actionPending}
       lastEvaluationResult={lastEvaluationResult}
       onClearEvaluationResult={clearEvaluationResult}
@@ -361,7 +381,13 @@ export const DashboardPage = () => {
               creditsConfig={creditsConfig}
               actionPending={actionPending}
               onAcquireChallenge={handleAcquireChallenge}
-              onOpenExecutionPanel={() => setActiveSection('SUBMISSIONS')}
+              onOpenExecutionPanel={() => {
+                if (activeChallenge?.challengeId) {
+                  navigate(`/challenge/${activeChallenge.challengeId}`);
+                } else {
+                  setActiveSection('SUBMISSIONS');
+                }
+              }}
               compact={false}
             />
             {renderSubmissionAndTacticalPanel()}
@@ -581,7 +607,13 @@ export const DashboardPage = () => {
               creditsConfig={creditsConfig}
               actionPending={actionPending}
               onAcquireChallenge={handleAcquireChallenge}
-              onOpenExecutionPanel={() => setActiveSection('SUBMISSIONS')}
+              onOpenExecutionPanel={() => {
+                if (activeChallenge?.challengeId) {
+                  navigate(`/challenge/${activeChallenge.challengeId}`);
+                } else {
+                  setActiveSection('SUBMISSIONS');
+                }
+              }}
               compact={false}
             />
 

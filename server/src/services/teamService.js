@@ -1,6 +1,7 @@
 import mongoose from 'mongoose';
 import { Team } from '../models/Team.js';
 import { CreditTransaction } from '../models/CreditTransaction.js';
+import { ChallengeAttempt } from '../models/ChallengeAttempt.js';
 import { CreditService } from './creditService.js';
 import {
   ChallengeService,
@@ -264,9 +265,88 @@ export const ensureDefaultTeamsSeeded = async () => {
           });
         }
       }
+
+      // Ensure active attempt record exists in challengeAttempts collection
+      if (existing.activeAttempt?.attemptId) {
+        await ChallengeAttempt.findOneAndUpdate(
+          { attemptId: existing.activeAttempt.attemptId },
+          {
+            $setOnInsert: {
+              attemptId: existing.activeAttempt.attemptId,
+              teamId: existing.teamId,
+              challengeId: existing.activeAttempt.challengeId,
+              title: existing.activeAttempt.title,
+              category: existing.activeAttempt.category,
+              difficulty: existing.activeAttempt.difficulty,
+              risk: existing.activeAttempt.risk,
+              gameType: existing.activeAttempt.gameType || 'wordGuess',
+              gameConfig: existing.activeAttempt.gameConfig || {},
+              costPaid: existing.activeAttempt.costPaid || 0,
+              potentialReward: existing.activeAttempt.potentialReward || 500,
+              penaltyOnFail: existing.activeAttempt.penaltyOnFail || 100,
+              timeLimit: existing.activeAttempt.timeLimit || 1200,
+              hintsUnlocked: existing.activeAttempt.hintsUnlocked || 0,
+              unlockedHints: existing.activeAttempt.unlockedHints || [],
+              extraTimeMinutes: existing.activeAttempt.extraTimeMinutes || 0,
+              isReattempt: Boolean(existing.activeAttempt.isReattempt),
+              startedAt: existing.activeAttempt.startedAt || new Date(),
+              expiresAt:
+                existing.activeAttempt.expiresAt ||
+                new Date(Date.now() + (existing.activeAttempt.timeLimit || 1200) * 1000),
+              status: 'IN_PROGRESS',
+            },
+          },
+          { upsert: true }
+        ).catch(() => {});
+      }
     }
   } catch (err) {
     logger.warn('SEED', `Team seed check warning: ${err.message}`);
+  }
+};
+
+/**
+ * Server-authoritative check: if the team's activeAttempt has expired (now >= expiresAt),
+ * automatically evaluate it as TIMEOUT and record the penalty + attempt outcome.
+ */
+export const checkAndExpireTeamSessionIfNeeded = async (teamDocOrId) => {
+  const team =
+    typeof teamDocOrId === 'object' && teamDocOrId !== null
+      ? teamDocOrId
+      : await Team.findOne({
+          teamId: String(teamDocOrId || '')
+            .trim()
+            .toUpperCase(),
+        });
+
+  if (!team || !team.activeAttempt || !team.activeAttempt.expiresAt) {
+    return { expired: false, team, evaluationResult: null, creditResult: null };
+  }
+
+  const now = new Date();
+  const expiresAt = new Date(team.activeAttempt.expiresAt);
+  if (now < expiresAt) {
+    return { expired: false, team, evaluationResult: null, creditResult: null };
+  }
+
+  try {
+    const evalResponse = await ChallengeService.evaluateAndCompleteSession({
+      teamDoc: team,
+      challengeId: team.activeAttempt.challengeId,
+      attemptId: team.activeAttempt.attemptId,
+      submission: { outcome: 'TIMEOUT' },
+      outcomeOverride: 'TIMEOUT',
+    });
+
+    return {
+      expired: true,
+      team: evalResponse.team,
+      evaluationResult: evalResponse.evaluationResult,
+      creditResult: evalResponse.creditResult,
+    };
+  } catch (err) {
+    logger.warn('SESSION', `Auto-expire check warning: ${err.message}`);
+    return { expired: false, team, evaluationResult: null, creditResult: null };
   }
 };
 
@@ -300,10 +380,13 @@ export const authenticateTeam = async (rawTeamId, plainPassword) => {
     throw err;
   }
 
+  await checkAndExpireTeamSessionIfNeeded(team);
+
   const token = signTeamToken(team);
-  const [transactions, catalog] = await Promise.all([
+  const [transactions, catalog, attempts] = await Promise.all([
     CreditService.getTeamTransactions(normalizedTeamId),
     ChallengeService.listChallenges(),
+    ChallengeService.getAttemptsForTeam(normalizedTeamId),
   ]);
 
   return {
@@ -311,7 +394,10 @@ export const authenticateTeam = async (rawTeamId, plainPassword) => {
     team: team.toPublicJSON(),
     transactions,
     catalog,
+    attempts,
+    timer: ChallengeService.computeSessionTimerTelemetry(team.activeAttempt),
     creditsConfig: CreditService.getConfig(),
+    serverTime: new Date().toISOString(),
   };
 };
 
@@ -327,6 +413,8 @@ export const getTeamStateById = async (rawTeamId) => {
     err.code = 'TEAM_NOT_FOUND';
     throw err;
   }
+
+  await checkAndExpireTeamSessionIfNeeded(team);
   return team.toPublicJSON();
 };
 
@@ -340,6 +428,8 @@ export const getTeamStateById = async (rawTeamId) => {
  * - HINT
  * - ABILITY
  * - REATTEMPT
+ * - ABANDON_CHALLENGE
+ * - TIMEOUT_CHALLENGE
  */
 export const executeTeamAction = async (rawTeamId, actionType, payload = {}) => {
   const normalizedTeamId = String(rawTeamId || '')
@@ -425,9 +515,10 @@ export const executeTeamAction = async (rawTeamId, actionType, payload = {}) => 
 
       if (isExtraTime) {
         team.stats.extraTimePurchased += 1;
-        if (team.activeAttempt) {
-          team.activeAttempt.extraTimeMinutes += creditsConfig.getExtraTimeMinutes();
-        }
+        await ChallengeService.extendSessionTimerForTeam(
+          team,
+          creditsConfig.getExtraTimeMinutes()
+        );
       } else {
         team.stats.hintsPurchased += 1;
         await ChallengeService.unlockNextHintForTeam(team);
@@ -477,16 +568,44 @@ export const executeTeamAction = async (rawTeamId, actionType, payload = {}) => 
       break;
     }
 
+    case 'ABANDON_CHALLENGE': {
+      const evalResponse = await ChallengeService.evaluateAndCompleteSession({
+        teamDoc: team,
+        challengeId: payload.challengeId,
+        attemptId: payload.attemptId,
+        submission: { outcome: 'ABANDONED' },
+        outcomeOverride: 'ABANDONED',
+      });
+      creditResult = evalResponse.creditResult;
+      evaluationResult = evalResponse.evaluationResult;
+      break;
+    }
+
+    case 'TIMEOUT_CHALLENGE': {
+      const evalResponse = await ChallengeService.evaluateAndCompleteSession({
+        teamDoc: team,
+        challengeId: payload.challengeId,
+        attemptId: payload.attemptId,
+        submission: { outcome: 'TIMEOUT' },
+        outcomeOverride: 'TIMEOUT',
+      });
+      creditResult = evalResponse.creditResult;
+      evaluationResult = evalResponse.evaluationResult;
+      break;
+    }
+
     case 'SUBMIT_CHALLENGE':
     case CREDIT_TRANSACTION_TYPES.CHALLENGE_REWARD:
     case CREDIT_TRANSACTION_TYPES.FAILURE_PENALTY: {
       const evalResponse = await ChallengeService.evaluateAndCompleteSession({
         teamDoc: team,
         challengeId: payload.challengeId,
+        attemptId: payload.attemptId,
         submission: payload.submission ?? payload.answer ?? payload.solution ?? payload,
         simulateFailure:
           actionType === CREDIT_TRANSACTION_TYPES.FAILURE_PENALTY ||
           Boolean(payload.simulateFailure),
+        outcomeOverride: payload.outcomeOverride || null,
       });
       creditResult = evalResponse.creditResult;
       evaluationResult = evalResponse.evaluationResult;
@@ -500,15 +619,19 @@ export const executeTeamAction = async (rawTeamId, actionType, payload = {}) => 
     }
   }
 
-  const [transactions, catalog] = await Promise.all([
+  const [transactions, catalog, attempts] = await Promise.all([
     CreditService.getTeamTransactions(normalizedTeamId),
     ChallengeService.listChallenges(),
+    ChallengeService.getAttemptsForTeam(normalizedTeamId),
   ]);
 
   return {
     team: team.toPublicJSON(),
     transaction: creditResult?.transaction || null,
     evaluationResult,
+    attempts,
+    timer: ChallengeService.computeSessionTimerTelemetry(team.activeAttempt),
+    serverTime: new Date().toISOString(),
     event: {
       eventId: creditResult?.transaction?._id?.toString() || `EVT-${Date.now()}`,
       type: creditResult?.transaction?.type || actionType,
@@ -525,3 +648,4 @@ export const executeTeamAction = async (rawTeamId, actionType, payload = {}) => 
     creditsConfig: CreditService.getConfig(),
   };
 };
+

@@ -13,6 +13,8 @@ export const ChallengeRenderer = ({
   challenge,
   session,
   actionPending = false,
+  disabled = false,
+  onDraftChange,
   onSubmitAnswer,
 }) => {
   const prefersReducedMotion = useReducedMotion();
@@ -51,7 +53,9 @@ export const ChallengeRenderer = ({
             session={session}
             gameType={gameType}
             gameConfig={gameConfig}
-            actionPending={actionPending}
+            actionPending={actionPending || disabled}
+            disabled={disabled}
+            onDraftChange={onDraftChange}
             onSubmitAnswer={onSubmitAnswer}
           />
         </motion.div>

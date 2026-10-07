@@ -109,3 +109,68 @@ export const acquireChallengeHttp = async (token, challengeId, isReattempt = fal
   return data;
 };
 
+export const fetchChallengeSessionHttp = async (token, challengeId) => {
+  const response = await fetch(
+    `${API_BASE_URL}/api/challenges/${encodeURIComponent(challengeId)}/session`,
+    {
+      method: 'GET',
+      headers: {
+        Accept: 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+
+  const data = await response.json().catch(() => ({}));
+  if (!response.ok) {
+    throw new Error(data.message || 'Failed to load challenge session.');
+  }
+
+  return data;
+};
+
+export const submitChallengeSessionHttp = async (token, challengeId, payload = {}) => {
+  const response = await fetch(
+    `${API_BASE_URL}/api/challenges/${encodeURIComponent(challengeId)}/submit`,
+    {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(payload),
+    }
+  );
+
+  const data = await response.json().catch(() => ({}));
+  if (!response.ok) {
+    throw new Error(data.message || 'Challenge submission rejected by NEXUS Core.');
+  }
+
+  return data;
+};
+
+export const abandonChallengeSessionHttp = async (token, challengeId, payload = {}) => {
+  const response = await fetch(
+    `${API_BASE_URL}/api/challenges/${encodeURIComponent(challengeId)}/abandon`,
+    {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(payload),
+    }
+  );
+
+  const data = await response.json().catch(() => ({}));
+  if (!response.ok) {
+    throw new Error(data.message || 'Failed to abandon challenge session.');
+  }
+
+  return data;
+};
+
+

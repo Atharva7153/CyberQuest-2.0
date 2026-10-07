@@ -21,6 +21,9 @@ export const TeamPortalProvider = ({ children }) => {
   const [token, setToken] = useState(() => getStoredToken());
   const [team, setTeam] = useState(null);
   const [transactions, setTransactions] = useState([]);
+  const [attempts, setAttempts] = useState([]);
+  const [sessionTimer, setSessionTimer] = useState(null);
+  const [serverClockOffsetMs, setServerClockOffsetMs] = useState(0);
   const [creditsConfig, setCreditsConfig] = useState({
     startingCredits: 1250,
     hintCost: 100,
@@ -37,6 +40,14 @@ export const TeamPortalProvider = ({ children }) => {
   const [onlineOperatives, setOnlineOperatives] = useState(1);
   const [notifications, setNotifications] = useState([]);
   const [actionPending, setActionPending] = useState(false);
+
+  const applyServerClock = useCallback((serverIsoTime) => {
+    if (!serverIsoTime) return;
+    const parsed = new Date(serverIsoTime).getTime();
+    if (!Number.isNaN(parsed)) {
+      setServerClockOffsetMs(parsed - Date.now());
+    }
+  }, []);
 
   const pushNotification = useCallback((summary, variant = 'info', creditsDelta = 0) => {
     const id = `NOTIF-${Date.now()}-${Math.random().toString(36).slice(2, 6)}`;
@@ -70,6 +81,9 @@ export const TeamPortalProvider = ({ children }) => {
         if (!active) return;
         setTeam(res.team);
         if (res.transactions) setTransactions(res.transactions);
+        if (res.attempts) setAttempts(res.attempts);
+        if (res.timer) setSessionTimer(res.timer);
+        if (res.serverTime) applyServerClock(res.serverTime);
         if (res.creditsConfig) setCreditsConfig(res.creditsConfig);
         if (res.catalog) setCatalog(res.catalog);
       })
@@ -86,7 +100,7 @@ export const TeamPortalProvider = ({ children }) => {
     return () => {
       active = false;
     };
-  }, [token]);
+  }, [token, applyServerClock]);
 
   // Socket.IO connection & team:<teamId> room synchronization
   useEffect(() => {
@@ -104,6 +118,9 @@ export const TeamPortalProvider = ({ children }) => {
             setOnlineOperatives(ack.onlineOperatives || 1);
             if (ack.team) setTeam(ack.team);
             if (ack.transactions) setTransactions(ack.transactions);
+            if (ack.attempts) setAttempts(ack.attempts);
+            if (ack.timer) setSessionTimer(ack.timer);
+            if (ack.serverTime) applyServerClock(ack.serverTime);
             if (ack.creditsConfig) setCreditsConfig(ack.creditsConfig);
             if (ack.catalog) setCatalog(ack.catalog);
           }
@@ -137,6 +154,24 @@ export const TeamPortalProvider = ({ children }) => {
       }
     };
 
+    const handleTimerUpdate = (payload) => {
+      if (payload?.serverTime) {
+        applyServerClock(payload.serverTime);
+      }
+      if (payload?.timer) {
+        setSessionTimer(payload.timer);
+      }
+    };
+
+    const handleTimerExpired = (payload) => {
+      if (payload?.serverTime) {
+        applyServerClock(payload.serverTime);
+      }
+      if (payload?.evaluationResult) {
+        setLastEvaluationResult(payload.evaluationResult);
+      }
+    };
+
     const handleSubmissionResult = (payload) => {
       if (payload) {
         setLastEvaluationResult(payload);
@@ -149,6 +184,15 @@ export const TeamPortalProvider = ({ children }) => {
       }
       if (payload?.transactions) {
         setTransactions(payload.transactions);
+      }
+      if (payload?.attempts) {
+        setAttempts(payload.attempts);
+      }
+      if (payload?.timer) {
+        setSessionTimer(payload.timer);
+      }
+      if (payload?.serverTime) {
+        applyServerClock(payload.serverTime);
       }
       if (payload?.creditsConfig) {
         setCreditsConfig(payload.creditsConfig);
@@ -185,6 +229,8 @@ export const TeamPortalProvider = ({ children }) => {
     socketClient.on('connect', handleConnect);
     socketClient.on('disconnect', handleDisconnect);
     socketClient.on(NEXUS_SOCKET_EVENTS.CREDITS.UPDATE, handleCreditsUpdate);
+    socketClient.on(NEXUS_SOCKET_EVENTS.TIMER.UPDATE, handleTimerUpdate);
+    socketClient.on(NEXUS_SOCKET_EVENTS.TIMER.EXPIRED, handleTimerExpired);
     socketClient.on(NEXUS_SOCKET_EVENTS.SUBMISSION.RESULT, handleSubmissionResult);
     socketClient.on(NEXUS_SOCKET_EVENTS.TEAM.STATE_UPDATE, handleStateUpdate);
     socketClient.on(NEXUS_SOCKET_EVENTS.TEAM.PRESENCE_UPDATE, handlePresenceUpdate);
@@ -200,22 +246,46 @@ export const TeamPortalProvider = ({ children }) => {
       socketClient.off('connect', handleConnect);
       socketClient.off('disconnect', handleDisconnect);
       socketClient.off(NEXUS_SOCKET_EVENTS.CREDITS.UPDATE, handleCreditsUpdate);
+      socketClient.off(NEXUS_SOCKET_EVENTS.TIMER.UPDATE, handleTimerUpdate);
+      socketClient.off(NEXUS_SOCKET_EVENTS.TIMER.EXPIRED, handleTimerExpired);
       socketClient.off(NEXUS_SOCKET_EVENTS.SUBMISSION.RESULT, handleSubmissionResult);
       socketClient.off(NEXUS_SOCKET_EVENTS.TEAM.STATE_UPDATE, handleStateUpdate);
       socketClient.off(NEXUS_SOCKET_EVENTS.TEAM.PRESENCE_UPDATE, handlePresenceUpdate);
     };
-  }, [token, team?.teamId, pushNotification]);
+  }, [token, team?.teamId, pushNotification, applyServerClock]);
 
-  const loginTeam = useCallback(async (teamId, password) => {
-    const res = await loginTeamRequest(teamId, password);
-    storeTeamSession(res.token, res.team.teamId);
-    setToken(res.token);
-    setTeam(res.team);
-    if (res.transactions) setTransactions(res.transactions);
-    if (res.creditsConfig) setCreditsConfig(res.creditsConfig);
-    if (res.catalog) setCatalog(res.catalog);
-    return res.team;
-  }, []);
+  const syncSessionTimer = useCallback(() => {
+    if (!socketClient.connected || !team?.teamId) return Promise.resolve(null);
+    return new Promise((resolve) => {
+      socketClient.emit(
+        NEXUS_SOCKET_EVENTS.TIMER.SYNC,
+        { teamId: team.teamId },
+        (ack) => {
+          if (ack?.serverTime) applyServerClock(ack.serverTime);
+          if (ack?.timer) setSessionTimer(ack.timer);
+          if (ack?.evaluationResult) setLastEvaluationResult(ack.evaluationResult);
+          resolve(ack || null);
+        }
+      );
+    });
+  }, [team?.teamId, applyServerClock]);
+
+  const loginTeam = useCallback(
+    async (teamId, password) => {
+      const res = await loginTeamRequest(teamId, password);
+      storeTeamSession(res.token, res.team.teamId);
+      setToken(res.token);
+      setTeam(res.team);
+      if (res.transactions) setTransactions(res.transactions);
+      if (res.attempts) setAttempts(res.attempts);
+      if (res.timer) setSessionTimer(res.timer);
+      if (res.serverTime) applyServerClock(res.serverTime);
+      if (res.creditsConfig) setCreditsConfig(res.creditsConfig);
+      if (res.catalog) setCatalog(res.catalog);
+      return res.team;
+    },
+    [applyServerClock]
+  );
 
   const logoutTeam = useCallback(() => {
     if (socketClient.connected && team?.teamId) {
@@ -225,6 +295,8 @@ export const TeamPortalProvider = ({ children }) => {
     setToken(null);
     setTeam(null);
     setTransactions([]);
+    setAttempts([]);
+    setSessionTimer(null);
     setLastEvaluationResult(null);
     setJoinedRoom(null);
   }, [team?.teamId]);
@@ -248,6 +320,9 @@ export const TeamPortalProvider = ({ children }) => {
               },
               (ack) => {
                 if (ack?.ok) {
+                  if (ack.serverTime) applyServerClock(ack.serverTime);
+                  if (ack.timer) setSessionTimer(ack.timer);
+                  if (ack.attempts) setAttempts(ack.attempts);
                   if (ack.evaluationResult) {
                     setLastEvaluationResult(ack.evaluationResult);
                   }
@@ -264,6 +339,9 @@ export const TeamPortalProvider = ({ children }) => {
         const res = await postTeamActionHttp(token, actionType, actionPayload);
         if (res.team) setTeam(res.team);
         if (res.transactions) setTransactions(res.transactions);
+        if (res.attempts) setAttempts(res.attempts);
+        if (res.timer) setSessionTimer(res.timer);
+        if (res.serverTime) applyServerClock(res.serverTime);
         if (res.creditsConfig) setCreditsConfig(res.creditsConfig);
         if (res.catalog) setCatalog(res.catalog);
         if (res.evaluationResult) setLastEvaluationResult(res.evaluationResult);
@@ -285,7 +363,7 @@ export const TeamPortalProvider = ({ children }) => {
         setActionPending(false);
       }
     },
-    [token, team?.teamId, pushNotification]
+    [token, team?.teamId, pushNotification, applyServerClock]
   );
 
   return (
@@ -294,6 +372,9 @@ export const TeamPortalProvider = ({ children }) => {
         token,
         team,
         transactions,
+        attempts,
+        sessionTimer,
+        serverClockOffsetMs,
         creditsConfig,
         lastCreditChange,
         lastEvaluationResult,
@@ -308,6 +389,7 @@ export const TeamPortalProvider = ({ children }) => {
         loginTeam,
         logoutTeam,
         performTeamAction,
+        syncSessionTimer,
         clearEvaluationResult,
         dismissNotification,
         pushNotification,

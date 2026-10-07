@@ -101,7 +101,16 @@ const challengeAttemptSchema = new mongoose.Schema(
     },
     status: {
       type: String,
-      enum: ['IN_PROGRESS', 'SUBMITTING', 'COMPLETED', 'FAILED', 'EXPIRED'],
+      enum: [
+        'IN_PROGRESS',
+        'SUBMITTING',
+        'SUCCESS',
+        'FAILED',
+        'TIMEOUT',
+        'ABANDONED',
+        'COMPLETED',
+        'EXPIRED',
+      ],
       default: 'IN_PROGRESS',
       index: true,
     },

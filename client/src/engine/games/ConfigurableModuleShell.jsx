@@ -16,16 +16,28 @@ export const ConfigurableModuleShell = ({
   gameType,
   gameConfig = {},
   actionPending = false,
+  disabled = false,
+  onDraftChange,
   onSubmitAnswer,
 }) => {
   const prefersReducedMotion = useReducedMotion();
   const meta = getGameTypeMeta(gameType || challenge?.gameType);
+  const isLocked = Boolean(actionPending || disabled);
 
   const [answerInput, setAnswerInput] = useState('');
 
   useEffect(() => {
     setAnswerInput('');
   }, [challenge?.challengeId, gameType]);
+
+  useEffect(() => {
+    if (typeof onDraftChange === 'function') {
+      onDraftChange({
+        gameType: gameType || challenge?.gameType,
+        answer: answerInput.trim(),
+      });
+    }
+  }, [answerInput, gameType, challenge?.gameType, onDraftChange]);
 
   const promptText =
     gameConfig.prompt ||
@@ -37,7 +49,7 @@ export const ConfigurableModuleShell = ({
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!answerInput.trim() || actionPending) return;
+    if (!answerInput.trim() || isLocked) return;
     onSubmitAnswer({
       gameType: gameType || challenge?.gameType,
       answer: answerInput.trim(),

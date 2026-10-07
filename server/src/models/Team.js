@@ -66,7 +66,16 @@ const activeAttemptSchema = new mongoose.Schema(
     expiresAt: { type: Date, default: null },
     status: {
       type: String,
-      enum: ['IN_PROGRESS', 'SUBMITTING', 'COMPLETED', 'FAILED'],
+      enum: [
+        'IN_PROGRESS',
+        'SUBMITTING',
+        'SUCCESS',
+        'FAILED',
+        'TIMEOUT',
+        'ABANDONED',
+        'COMPLETED',
+        'EXPIRED',
+      ],
       default: 'IN_PROGRESS',
     },
   },

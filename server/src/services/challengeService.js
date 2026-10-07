@@ -620,7 +620,10 @@ export class ChallengeService {
     const now = new Date();
     const timeLimitSeconds = Number(challenge.timeLimit) || 1200;
     const expiresAt = new Date(now.getTime() + timeLimitSeconds * 1000);
-    const attemptId = `ATT-${Date.now().toString().slice(-5)}`;
+    const attemptId = `ATT-${Date.now().toString().slice(-5)}-${Math.random()
+      .toString(36)
+      .slice(2, 5)
+      .toUpperCase()}`;
 
     team.currentChallenge = {
       challengeId: challenge.challengeId,
@@ -745,15 +748,69 @@ export class ChallengeService {
   }
 
   /**
+   * Server-authoritative Timer Extension (+Extra Time).
+   * Client must NEVER be trusted to extend the timer directly.
+   */
+  static async extendSessionTimerForTeam(team, extraMinutes = 5) {
+    if (!team?.activeAttempt) return null;
+
+    const addMs = Number(extraMinutes || 5) * 60 * 1000;
+    const now = new Date();
+    const currentExpires = team.activeAttempt.expiresAt
+      ? new Date(team.activeAttempt.expiresAt)
+      : new Date(now.getTime() + Number(team.activeAttempt.timeLimit || 1200) * 1000);
+
+    const baseTime = currentExpires > now ? currentExpires : now;
+    const nextExpiresAt = new Date(baseTime.getTime() + addMs);
+
+    team.activeAttempt.extraTimeMinutes =
+      Number(team.activeAttempt.extraTimeMinutes || 0) + Number(extraMinutes || 5);
+    team.activeAttempt.timeLimit =
+      Number(team.activeAttempt.timeLimit || 1200) + Number(extraMinutes || 5) * 60;
+    team.activeAttempt.expiresAt = nextExpiresAt;
+
+    if (team.currentChallenge) {
+      team.currentChallenge.timeLimit = team.activeAttempt.timeLimit;
+    }
+
+    if (mongoose.connection.readyState === 1 && team.activeAttempt.attemptId) {
+      await ChallengeAttempt.findOneAndUpdate(
+        { attemptId: team.activeAttempt.attemptId },
+        {
+          $set: {
+            extraTimeMinutes: team.activeAttempt.extraTimeMinutes,
+            timeLimit: team.activeAttempt.timeLimit,
+            expiresAt: nextExpiresAt,
+          },
+        }
+      ).catch(() => {});
+    }
+
+    return {
+      startedAt: team.activeAttempt.startedAt,
+      expiresAt: nextExpiresAt,
+      timeLimit: team.activeAttempt.timeLimit,
+      extraTimeMinutes: team.activeAttempt.extraTimeMinutes,
+    };
+  }
+
+  /**
    * Server-authoritative Challenge Submission & Answer Validation.
    * Client NEVER determines success, reward, penalty, or score.
+   * Prevents duplicate submissions and supports:
+   * - SUCCESS
+   * - FAILED
+   * - TIMEOUT
+   * - ABANDONED
    */
   static async evaluateAndCompleteSession({
     teamDoc,
     teamId,
     challengeId,
+    attemptId,
     submission,
     simulateFailure = false,
+    outcomeOverride = null, // 'TIMEOUT' | 'ABANDONED' | null
   }) {
     const team =
       teamDoc ||
@@ -769,202 +826,406 @@ export class ChallengeService {
       throw err;
     }
 
-    const targetChallengeId =
-      challengeId ||
-      team.activeAttempt?.challengeId ||
-      team.currentChallenge?.challengeId ||
-      'CHG-PUZ-05';
-
-    const fullChallenge =
-      (await ChallengeService.getChallengeById(targetChallengeId, { includeSolution: true })) ||
-      DEFAULT_CHALLENGE_CATALOG[0];
-
-    // Extract raw answer from submission object or string
-    const rawAnswer =
-      typeof submission === 'object' && submission !== null
-        ? String(
-            submission.answer ?? submission.solution ?? submission.word ?? submission.value ?? ''
-          ).trim()
-        : String(submission ?? '').trim();
-
-    if (!rawAnswer && !simulateFailure) {
-      const err = new Error('Submission payload cannot be empty.');
-      err.statusCode = 400;
+    // Prevent duplicate submission if no active session exists
+    if (!team.activeAttempt && !team.currentChallenge) {
+      const err = new Error(
+        'Duplicate or stale submission blocked: no active challenge session is in progress.'
+      );
+      err.statusCode = 409;
+      err.code = 'DUPLICATE_SUBMISSION_BLOCKED';
       throw err;
     }
 
-    const normalizedSubmitted = rawAnswer.toUpperCase().replace(/\s+/g, ' ').trim();
-    const expected = String(fullChallenge.solutionConfig?.expectedAnswer || '')
-      .toUpperCase()
-      .trim();
-    const acceptedList = (fullChallenge.solutionConfig?.acceptedAnswers || [expected]).map((a) =>
-      String(a).toUpperCase().trim()
-    );
-
-    // Check if expired
-    const now = new Date();
-    const expiresAt = team.activeAttempt?.expiresAt
-      ? new Date(
-          new Date(team.activeAttempt.expiresAt).getTime() +
-            Number(team.activeAttempt.extraTimeMinutes || 0) * 60 * 1000
-        )
+    const activeAttemptSnapshot = team.activeAttempt
+      ? typeof team.activeAttempt.toObject === 'function'
+        ? team.activeAttempt.toObject()
+        : { ...team.activeAttempt }
       : null;
-    const isExpired = expiresAt ? now > expiresAt : false;
 
-    // Server-authoritative correctness check
-    const isExplicitFail =
-      Boolean(simulateFailure) || normalizedSubmitted.includes('FAIL') || isExpired;
+    const resolvedAttemptId =
+      activeAttemptSnapshot?.attemptId || attemptId || `ATT-${Date.now().toString().slice(-5)}`;
+    const targetChallengeId =
+      activeAttemptSnapshot?.challengeId ||
+      team.currentChallenge?.challengeId ||
+      challengeId ||
+      'CHG-PUZ-05';
 
-    const isAnswerMatch =
-      !isExplicitFail &&
-      (acceptedList.includes(normalizedSubmitted) ||
-        normalizedSubmitted === expected ||
-        normalizedSubmitted === `NEXUS{${expected}}` ||
-        normalizedSubmitted === 'NEXUS{CORE_SYNCHRONIZED_2026}');
+    // Check if client tried to submit for a different attemptId that already closed
+    if (
+      attemptId &&
+      activeAttemptSnapshot?.attemptId &&
+      String(attemptId).trim() !== String(activeAttemptSnapshot.attemptId).trim()
+    ) {
+      const err = new Error(
+        `Session attempt [${attemptId}] is no longer active or was already evaluated.`
+      );
+      err.statusCode = 409;
+      err.code = 'ATTEMPT_MISMATCH_OR_CLOSED';
+      throw err;
+    }
 
-    const passed = Boolean(isAnswerMatch);
-    const relatedChallenge = {
-      challengeId: fullChallenge.challengeId,
-      title: fullChallenge.title,
-      category: fullChallenge.category,
-    };
+    const lockKey = `${team.teamId}:${resolvedAttemptId}`;
+    if (ChallengeService._submissionLocks.has(lockKey)) {
+      const err = new Error(
+        'Duplicate submission blocked: NEXUS Core is currently evaluating this session.'
+      );
+      err.statusCode = 409;
+      err.code = 'DUPLICATE_SUBMISSION_IN_FLIGHT';
+      throw err;
+    }
 
-    let creditResult = null;
-    let evaluationResult = null;
+    ChallengeService._submissionLocks.add(lockKey);
 
-    if (passed) {
-      const reward = Number(fullChallenge.reward) || 500;
-      const progressDelta = 14;
-      const nextProgress = Math.min(100, Number(team.stats.coreProgressPercent || 50) + progressDelta);
+    try {
+      // Check MongoDB ChallengeAttempt record for already-evaluated status
+      if (mongoose.connection.readyState === 1 && resolvedAttemptId) {
+        const existingAttempt = await ChallengeAttempt.findOne({
+          attemptId: resolvedAttemptId,
+        }).lean();
+        if (
+          existingAttempt &&
+          ['SUCCESS', 'FAILED', 'TIMEOUT', 'ABANDONED', 'COMPLETED', 'EXPIRED'].includes(
+            existingAttempt.status
+          )
+        ) {
+          const err = new Error(
+            `Attempt [${resolvedAttemptId}] has already been finalized with status [${existingAttempt.status}].`
+          );
+          err.statusCode = 409;
+          err.code = 'ATTEMPT_ALREADY_FINALIZED';
+          throw err;
+        }
+      }
 
-      creditResult = await CreditService.recordTransaction({
-        teamDoc: team,
-        type: CREDIT_TRANSACTION_TYPES.CHALLENGE_REWARD,
-        amount: reward,
-        relatedChallenge,
-        summary: `CHALLENGE SOLVED: ${fullChallenge.title} (+${reward} CR)`,
-        autoSaveTeam: false,
-      });
+      const fullChallenge =
+        (await ChallengeService.getChallengeById(targetChallengeId, { includeSolution: true })) ||
+        DEFAULT_CHALLENGE_CATALOG[0];
 
-      team.stats.totalSolved = Number(team.stats.totalSolved || 0) + 1;
-      team.stats.coreProgressPercent = nextProgress;
-      team.completedChallenges.unshift({
-        challengeId: fullChallenge.challengeId,
-        title: fullChallenge.title,
-        category: fullChallenge.category,
-        description: fullChallenge.description,
-        cost: team.activeAttempt?.costPaid ?? fullChallenge.cost,
-        reward,
-        penalty: fullChallenge.penalty,
-        difficulty: fullChallenge.difficulty,
-        risk: fullChallenge.risk,
-        timeLimit: fullChallenge.timeLimit,
-        gameType: fullChallenge.gameType,
-        timestamp: now,
-      });
+      // Determine server-authoritative expiration
+      const now = new Date();
+      const startedAt = activeAttemptSnapshot?.startedAt
+        ? new Date(activeAttemptSnapshot.startedAt)
+        : new Date(now.getTime() - 60 * 1000);
+      const timeLimit = Number(
+        activeAttemptSnapshot?.timeLimit || fullChallenge.timeLimit || 1200
+      );
+      const expiresAt = activeAttemptSnapshot?.expiresAt
+        ? new Date(activeAttemptSnapshot.expiresAt)
+        : new Date(startedAt.getTime() + timeLimit * 1000);
 
-      // Remove from failedChallenges if it was previously failed and now solved
-      team.failedChallenges = (team.failedChallenges || []).filter(
-        (f) => f.challengeId !== fullChallenge.challengeId
+      const isTimeout = outcomeOverride === 'TIMEOUT' || now >= expiresAt;
+      const isAbandoned = !isTimeout && outcomeOverride === 'ABANDONED';
+
+      // Extract raw answer from submission object or string
+      const rawAnswer =
+        typeof submission === 'object' && submission !== null
+          ? String(
+              submission.answer ??
+                submission.solution ??
+                submission.word ??
+                submission.value ??
+                ''
+            ).trim()
+          : String(submission ?? '').trim();
+
+      if (!rawAnswer && !simulateFailure && !isTimeout && !isAbandoned) {
+        const err = new Error('Submission payload cannot be empty.');
+        err.statusCode = 400;
+        err.code = 'EMPTY_SUBMISSION';
+        throw err;
+      }
+
+      const normalizedSubmitted = rawAnswer.toUpperCase().replace(/\s+/g, ' ').trim();
+      const expected = String(fullChallenge.solutionConfig?.expectedAnswer || '')
+        .toUpperCase()
+        .trim();
+      const acceptedList = (fullChallenge.solutionConfig?.acceptedAnswers || [expected]).map((a) =>
+        String(a).toUpperCase().trim()
       );
 
-      evaluationResult = {
-        passed: true,
-        status: 'COMPLETED',
+      // Server-authoritative correctness check
+      const isExplicitFail =
+        Boolean(simulateFailure) ||
+        normalizedSubmitted.includes('FAIL') ||
+        isTimeout ||
+        isAbandoned;
+
+      const isAnswerMatch =
+        !isExplicitFail &&
+        (acceptedList.includes(normalizedSubmitted) ||
+          normalizedSubmitted === expected ||
+          normalizedSubmitted === `NEXUS{${expected}}` ||
+          normalizedSubmitted === 'NEXUS{CORE_SYNCHRONIZED_2026}');
+
+      const passed = Boolean(isAnswerMatch);
+      const relatedChallenge = {
         challengeId: fullChallenge.challengeId,
         title: fullChallenge.title,
         category: fullChallenge.category,
-        gameType: fullChallenge.gameType,
-        submittedAnswer: rawAnswer,
-        creditsDelta: reward,
-        rewardGranted: reward,
-        penaltyApplied: 0,
-        balanceAfter: team.credits,
-        coreProgressDelta: progressDelta,
-        coreProgressAfter: nextProgress,
-        message: `VERIFIED BY NEXUS CORE // Solution accepted for ${fullChallenge.title}. +${reward} CR credited to squad ledger.`,
-        timestamp: now.toISOString(),
       };
-    } else {
-      const penalty = Number(fullChallenge.penalty) || 100;
 
-      creditResult = await CreditService.recordTransaction({
-        teamDoc: team,
-        type: CREDIT_TRANSACTION_TYPES.FAILURE_PENALTY,
-        amount: penalty,
-        relatedChallenge,
-        summary: `CHALLENGE FAILED: ${fullChallenge.title} (-${penalty} CR)`,
-        autoSaveTeam: false,
-      });
+      let creditResult = null;
+      let evaluationResult = null;
 
-      team.stats.totalFailed = Number(team.stats.totalFailed || 0) + 1;
-      const alreadyInFailed = (team.failedChallenges || []).some(
-        (f) => f.challengeId === fullChallenge.challengeId
-      );
-      if (!alreadyInFailed) {
-        team.failedChallenges.unshift({
+      if (passed) {
+        const reward = Number(fullChallenge.reward) || 500;
+        const progressDelta = 14;
+        const nextProgress = Math.min(
+          100,
+          Number(team.stats.coreProgressPercent || 50) + progressDelta
+        );
+
+        creditResult = await CreditService.recordTransaction({
+          teamDoc: team,
+          type: CREDIT_TRANSACTION_TYPES.CHALLENGE_REWARD,
+          amount: reward,
+          relatedChallenge,
+          summary: `CHALLENGE SOLVED: ${fullChallenge.title} (+${reward} CR)`,
+          autoSaveTeam: false,
+        });
+
+        team.stats.totalSolved = Number(team.stats.totalSolved || 0) + 1;
+        team.stats.coreProgressPercent = nextProgress;
+        team.completedChallenges.unshift({
           challengeId: fullChallenge.challengeId,
           title: fullChallenge.title,
           category: fullChallenge.category,
           description: fullChallenge.description,
-          cost: team.activeAttempt?.costPaid ?? fullChallenge.cost,
-          reward: fullChallenge.reward,
-          penalty,
+          cost: activeAttemptSnapshot?.costPaid ?? fullChallenge.cost,
+          reward,
+          penalty: fullChallenge.penalty,
           difficulty: fullChallenge.difficulty,
           risk: fullChallenge.risk,
           timeLimit: fullChallenge.timeLimit,
           gameType: fullChallenge.gameType,
           timestamp: now,
         });
+
+        // Remove from failedChallenges if it was previously failed and now solved
+        team.failedChallenges = (team.failedChallenges || []).filter(
+          (f) => f.challengeId !== fullChallenge.challengeId
+        );
+
+        evaluationResult = {
+          attemptId: resolvedAttemptId,
+          passed: true,
+          status: 'SUCCESS',
+          challengeId: fullChallenge.challengeId,
+          title: fullChallenge.title,
+          category: fullChallenge.category,
+          difficulty: fullChallenge.difficulty,
+          risk: fullChallenge.risk,
+          gameType: fullChallenge.gameType,
+          submittedAnswer: rawAnswer,
+          creditsDelta: reward,
+          rewardGranted: reward,
+          penaltyApplied: 0,
+          balanceAfter: team.credits,
+          coreProgressDelta: progressDelta,
+          coreProgressAfter: nextProgress,
+          startedAt: startedAt.toISOString(),
+          expiresAt: expiresAt.toISOString(),
+          completedAt: now.toISOString(),
+          timeLimit,
+          message: `VERIFIED BY NEXUS CORE // Solution accepted for ${fullChallenge.title}. +${reward} CR credited to squad ledger.`,
+          timestamp: now.toISOString(),
+        };
+      } else {
+        const penalty = Number(fullChallenge.penalty) || 100;
+        const canonicalFailStatus = isTimeout
+          ? 'TIMEOUT'
+          : isAbandoned
+            ? 'ABANDONED'
+            : 'FAILED';
+
+        const summaryPrefix =
+          canonicalFailStatus === 'TIMEOUT'
+            ? 'CHALLENGE TIMEOUT'
+            : canonicalFailStatus === 'ABANDONED'
+              ? 'CHALLENGE ABANDONED'
+              : 'CHALLENGE FAILED';
+
+        creditResult = await CreditService.recordTransaction({
+          teamDoc: team,
+          type: CREDIT_TRANSACTION_TYPES.FAILURE_PENALTY,
+          amount: penalty,
+          relatedChallenge,
+          summary: `${summaryPrefix}: ${fullChallenge.title} (-${penalty} CR)`,
+          autoSaveTeam: false,
+        });
+
+        team.stats.totalFailed = Number(team.stats.totalFailed || 0) + 1;
+        const alreadyInFailed = (team.failedChallenges || []).some(
+          (f) => f.challengeId === fullChallenge.challengeId
+        );
+        if (!alreadyInFailed) {
+          team.failedChallenges.unshift({
+            challengeId: fullChallenge.challengeId,
+            title: fullChallenge.title,
+            category: fullChallenge.category,
+            description: fullChallenge.description,
+            cost: activeAttemptSnapshot?.costPaid ?? fullChallenge.cost,
+            reward: fullChallenge.reward,
+            penalty,
+            difficulty: fullChallenge.difficulty,
+            risk: fullChallenge.risk,
+            timeLimit: fullChallenge.timeLimit,
+            gameType: fullChallenge.gameType,
+            timestamp: now,
+          });
+        }
+
+        const statusMessage =
+          canonicalFailStatus === 'TIMEOUT'
+            ? `SESSION TIMEOUT // Server timer expired for ${fullChallenge.title}. -${penalty} CR penalty applied.`
+            : canonicalFailStatus === 'ABANDONED'
+              ? `SESSION ABANDONED // Operative aborted active session for ${fullChallenge.title}. -${penalty} CR penalty applied.`
+              : `VERIFICATION FAILED // Submitted payload rejected for ${fullChallenge.title}. -${penalty} CR penalty applied.`;
+
+        evaluationResult = {
+          attemptId: resolvedAttemptId,
+          passed: false,
+          status: canonicalFailStatus,
+          challengeId: fullChallenge.challengeId,
+          title: fullChallenge.title,
+          category: fullChallenge.category,
+          difficulty: fullChallenge.difficulty,
+          risk: fullChallenge.risk,
+          gameType: fullChallenge.gameType,
+          submittedAnswer:
+            rawAnswer || (isTimeout ? '[SERVER_TIMEOUT]' : '[SESSION_ABANDONED]'),
+          creditsDelta: -penalty,
+          rewardGranted: 0,
+          penaltyApplied: penalty,
+          balanceAfter: team.credits,
+          coreProgressDelta: 0,
+          coreProgressAfter: team.stats.coreProgressPercent || 50,
+          startedAt: startedAt.toISOString(),
+          expiresAt: expiresAt.toISOString(),
+          completedAt: now.toISOString(),
+          timeLimit,
+          message: statusMessage,
+          timestamp: now.toISOString(),
+        };
       }
 
-      evaluationResult = {
-        passed: false,
-        status: isExpired ? 'EXPIRED' : 'FAILED',
-        challengeId: fullChallenge.challengeId,
-        title: fullChallenge.title,
-        category: fullChallenge.category,
-        gameType: fullChallenge.gameType,
-        submittedAnswer: rawAnswer,
-        creditsDelta: -penalty,
-        rewardGranted: 0,
-        penaltyApplied: penalty,
-        balanceAfter: team.credits,
-        coreProgressDelta: 0,
-        coreProgressAfter: team.stats.coreProgressPercent || 50,
-        message: isExpired
-          ? `SESSION EXPIRED // Time limit exceeded for ${fullChallenge.title}. -${penalty} CR penalty applied.`
-          : `VERIFICATION FAILED // Submitted payload rejected for ${fullChallenge.title}. -${penalty} CR penalty applied.`,
-        timestamp: now.toISOString(),
+      team.currentChallenge = null;
+      team.activeAttempt = null;
+      await team.save();
+
+      // Always record the attempt server-side in MongoDB (upsert ensures seed attempts are also saved)
+      if (mongoose.connection.readyState === 1 && resolvedAttemptId) {
+        await ChallengeAttempt.findOneAndUpdate(
+          { attemptId: resolvedAttemptId },
+          {
+            $set: {
+              attemptId: resolvedAttemptId,
+              teamId: team.teamId,
+              challengeId: fullChallenge.challengeId,
+              title: fullChallenge.title,
+              category: fullChallenge.category,
+              difficulty: fullChallenge.difficulty,
+              risk: fullChallenge.risk,
+              gameType: fullChallenge.gameType,
+              gameConfig: activeAttemptSnapshot?.gameConfig || fullChallenge.gameConfig || {},
+              costPaid: activeAttemptSnapshot?.costPaid ?? fullChallenge.cost,
+              potentialReward: fullChallenge.reward,
+              penaltyOnFail: fullChallenge.penalty || 100,
+              timeLimit,
+              hintsUnlocked: activeAttemptSnapshot?.hintsUnlocked || 0,
+              unlockedHints: activeAttemptSnapshot?.unlockedHints || [],
+              extraTimeMinutes: activeAttemptSnapshot?.extraTimeMinutes || 0,
+              isReattempt: Boolean(activeAttemptSnapshot?.isReattempt),
+              startedAt,
+              expiresAt,
+              status: evaluationResult.status,
+              completedAt: now,
+              submittedPayload: submission ?? { outcome: evaluationResult.status },
+              evaluationResult,
+            },
+          },
+          { upsert: true, new: true }
+        ).catch((err) => {
+          logger.warn('SESSION', `ChallengeAttempt finalize warning: ${err.message}`);
+        });
+      }
+
+      return {
+        team,
+        creditResult,
+        evaluationResult,
+      };
+    } finally {
+      ChallengeService._submissionLocks.delete(lockKey);
+    }
+  }
+
+  /**
+   * Fetch recorded server-side attempts for a team (optionally filtered by challengeId)
+   */
+  static async getAttemptsForTeam(teamId, challengeId = null, limit = 15) {
+    if (mongoose.connection.readyState !== 1) return [];
+    const normalizedTeamId = String(teamId || '')
+      .trim()
+      .toUpperCase();
+    const filter = { teamId: normalizedTeamId };
+    if (challengeId) {
+      filter.challengeId = String(challengeId).trim().toUpperCase();
+    }
+
+    const docs = await ChallengeAttempt.find(filter)
+      .sort({ createdAt: -1 })
+      .limit(limit)
+      .lean();
+    return docs;
+  }
+
+  /**
+   * Compute authoritative timer telemetry for an active attempt
+   */
+  static computeSessionTimerTelemetry(activeAttempt) {
+    const serverNow = new Date();
+    if (!activeAttempt || !activeAttempt.expiresAt) {
+      return {
+        hasActiveSession: false,
+        serverTime: serverNow.toISOString(),
+        startedAt: null,
+        expiresAt: null,
+        timeLimit: 0,
+        remainingSeconds: 0,
+        elapsedSeconds: 0,
+        expired: false,
       };
     }
 
-    const completedAttemptId = team.activeAttempt?.attemptId;
-    team.currentChallenge = null;
-    team.activeAttempt = null;
-    await team.save();
-
-    if (mongoose.connection.readyState === 1 && completedAttemptId) {
-      await ChallengeAttempt.findOneAndUpdate(
-        { attemptId: completedAttemptId },
-        {
-          $set: {
-            status: evaluationResult.status,
-            completedAt: now,
-            submittedPayload: submission,
-            evaluationResult,
-          },
-        }
-      ).catch(() => {});
-    }
+    const startedAt = activeAttempt.startedAt ? new Date(activeAttempt.startedAt) : serverNow;
+    const expiresAt = new Date(activeAttempt.expiresAt);
+    const timeLimit = Number(activeAttempt.timeLimit || 1200);
+    const remainingMs = expiresAt.getTime() - serverNow.getTime();
+    const remainingSeconds = Math.max(0, Math.ceil(remainingMs / 1000));
+    const elapsedSeconds = Math.max(
+      0,
+      Math.floor((serverNow.getTime() - startedAt.getTime()) / 1000)
+    );
 
     return {
-      team,
-      creditResult,
-      evaluationResult,
+      hasActiveSession: true,
+      attemptId: activeAttempt.attemptId,
+      challengeId: activeAttempt.challengeId,
+      serverTime: serverNow.toISOString(),
+      startedAt: startedAt.toISOString(),
+      expiresAt: expiresAt.toISOString(),
+      timeLimit,
+      extraTimeMinutes: Number(activeAttempt.extraTimeMinutes || 0),
+      remainingSeconds,
+      elapsedSeconds,
+      expired: remainingMs <= 0,
     };
   }
 }
 
+ChallengeService._submissionLocks = new Set();
+
 export { SUPPORTED_GAME_TYPES };
 export default ChallengeService;
+

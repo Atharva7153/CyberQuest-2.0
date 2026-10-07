@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   Clock,
-  HelpCircle,
   CheckCircle2,
   AlertTriangle,
   Crosshair,
+  ExternalLink,
   X,
 } from 'lucide-react';
 import { BrutalistPanel } from '../components/BrutalistPanel';
@@ -29,6 +30,7 @@ const formatSessionTimer = (seconds) => {
 export const ChallengeSessionContainer = ({
   team,
   creditsConfig,
+  serverClockOffsetMs = 0,
   actionPending = false,
   lastEvaluationResult,
   onClearEvaluationResult,
@@ -41,26 +43,25 @@ export const ChallengeSessionContainer = ({
   const activeChallenge = team?.currentChallenge;
   const activeAttempt = team?.activeAttempt;
 
-  // Session countdown timer based on challenge timeLimit + extraTimeMinutes
-  const baseLimitSec = Number(
-    activeAttempt?.timeLimit || activeChallenge?.timeLimit || 1200
-  );
-  const extraSec = Number(activeAttempt?.extraTimeMinutes || 0) * 60;
-  const [elapsedSec, setElapsedSec] = useState(0);
-
-  useEffect(() => {
-    setElapsedSec(0);
-  }, [activeAttempt?.attemptId, activeChallenge?.challengeId]);
+  const [nowTick, setNowTick] = useState(() => Date.now());
 
   useEffect(() => {
     if (!activeChallenge) return undefined;
     const timer = setInterval(() => {
-      setElapsedSec((prev) => prev + 1);
+      setNowTick(Date.now());
     }, 1000);
     return () => clearInterval(timer);
   }, [activeChallenge]);
 
-  const remainingSessionSec = Math.max(0, baseLimitSec + extraSec - elapsedSec);
+  // Server-authoritative countdown computed from activeAttempt.expiresAt
+  const expiresAtMs = activeAttempt?.expiresAt
+    ? new Date(activeAttempt.expiresAt).getTime()
+    : null;
+  const estimatedServerNow = nowTick + Number(serverClockOffsetMs || 0);
+  const remainingSessionSec = expiresAtMs
+    ? Math.max(0, Math.ceil((expiresAtMs - estimatedServerNow) / 1000))
+    : Number(activeAttempt?.timeLimit || activeChallenge?.timeLimit || 1200);
+
   const unlockedHints = Array.isArray(activeAttempt?.unlockedHints)
     ? activeAttempt.unlockedHints
     : [];
@@ -91,9 +92,23 @@ export const ChallengeSessionContainer = ({
         title="CHALLENGE SESSION & GAME ENGINE"
         accentTitle
         headerRight={
-          <SystemBadge variant={activeChallenge ? 'crimson' : 'outline'} pulse={Boolean(activeChallenge)}>
-            {activeChallenge ? activeChallenge.title : 'SESSION STANDBY'}
-          </SystemBadge>
+          <div className="flex items-center gap-2">
+            {activeChallenge && (
+              <Link
+                to={`/challenge/${activeChallenge.challengeId}`}
+                className="px-2.5 py-1 bg-nexus-crimson text-white hover:bg-nexus-ink font-mono text-[10px] font-bold uppercase tracking-wider transition-colors inline-flex items-center gap-1"
+              >
+                <span>FULL SESSION</span>
+                <ExternalLink className="w-3 h-3" />
+              </Link>
+            )}
+            <SystemBadge
+              variant={activeChallenge ? 'crimson' : 'outline'}
+              pulse={Boolean(activeChallenge)}
+            >
+              {activeChallenge ? activeChallenge.title : 'SESSION STANDBY'}
+            </SystemBadge>
+          </div>
         }
         className="h-full"
       >
@@ -131,7 +146,7 @@ export const ChallengeSessionContainer = ({
                 </span>
                 <span className="flex items-center gap-1.5 text-nexus-ink font-bold">
                   <Clock className="w-3.5 h-3.5 text-nexus-crimson" />
-                  SESSION TIMER: {formatSessionTimer(remainingSessionSec)}
+                  SERVER TIMER: {formatSessionTimer(remainingSessionSec)}
                 </span>
               </div>
 
