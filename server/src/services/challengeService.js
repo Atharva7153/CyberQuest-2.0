@@ -761,6 +761,8 @@ export class ChallengeService {
       timestamp: now,
     };
 
+    const maxHints = Number(challenge.gameConfig?.maxHints || 2);
+
     team.activeAttempt = {
       attemptId,
       challengeId: challenge.challengeId,
@@ -774,9 +776,11 @@ export class ChallengeService {
       timeLimit: timeLimitSeconds,
       gameType: challenge.gameType,
       gameConfig: challenge.gameConfig || {},
+      maxHints,
       hintsUnlocked: 0,
       unlockedHints: [],
       extraTimeMinutes: 0,
+      activeAbilities: [],
       isReattempt,
       startedAt: now,
       expiresAt,
@@ -821,7 +825,69 @@ export class ChallengeService {
   }
 
   /**
-   * Server-authoritative Hint Decryption for the Active Challenge Session
+   * Server-controlled validation before charging credits for a Hint:
+   * - Requires an active challenge session
+   * - Ensures locked hint strings are NEVER exposed before purchase
+   * - Prevents charging credits if all available hints are already unlocked
+   */
+  static async validateHintPurchaseEligibility(team) {
+    const activeId = team?.currentChallenge?.challengeId || team?.activeAttempt?.challengeId;
+    if (!activeId || !team?.activeAttempt) {
+      const err = new Error(
+        'Cannot purchase a hint: no active challenge session is currently in progress.'
+      );
+      err.statusCode = 400;
+      err.code = 'NO_ACTIVE_CHALLENGE_FOR_HINT';
+      throw err;
+    }
+
+    const fullChallenge = await ChallengeService.getChallengeById(activeId, {
+      includeSolution: true,
+    });
+    const hintsPool = fullChallenge?.solutionConfig?.hints || [
+      `HINT 01 // Verify the target syntax and constraints in ${team.currentChallenge?.title || activeId}.`,
+      `HINT 02 // Cross-check the sector reference telemetry in the module header.`,
+    ];
+
+    const currentUnlockedCount = Array.isArray(team.activeAttempt.unlockedHints)
+      ? team.activeAttempt.unlockedHints.length
+      : Number(team.activeAttempt.hintsUnlocked || 0);
+
+    if (currentUnlockedCount >= hintsPool.length) {
+      const err = new Error(
+        `All ${hintsPool.length} intelligence hints for ${team.currentChallenge?.title || activeId} have already been decrypted.`
+      );
+      err.statusCode = 409;
+      err.code = 'ALL_HINTS_ALREADY_UNLOCKED';
+      throw err;
+    }
+
+    return {
+      activeId,
+      hintsPool,
+      nextIndex: currentUnlockedCount,
+      maxHints: hintsPool.length,
+    };
+  }
+
+  /**
+   * Server-controlled validation before charging credits for Extra Time
+   */
+  static validateExtraTimeEligibility(team) {
+    if (!team?.activeAttempt || !team?.currentChallenge) {
+      const err = new Error(
+        'Cannot purchase Extra Time: no active challenge session is currently in progress.'
+      );
+      err.statusCode = 400;
+      err.code = 'NO_ACTIVE_CHALLENGE_FOR_EXTRA_TIME';
+      throw err;
+    }
+    return true;
+  }
+
+  /**
+   * Server-authoritative Hint Decryption for the Active Challenge Session.
+   * Only reveals the single purchased hint string after credits are deducted.
    */
   static async unlockNextHintForTeam(team) {
     const activeId = team.currentChallenge?.challengeId || team.activeAttempt?.challengeId;
@@ -835,19 +901,20 @@ export class ChallengeService {
       `HINT 02 // Cross-check the sector reference telemetry in the module header.`,
     ];
 
-    const currentCount = Number(team.activeAttempt?.hintsUnlocked || 0);
+    const existingHints = Array.isArray(team.activeAttempt?.unlockedHints)
+      ? team.activeAttempt.unlockedHints
+      : [];
+    const currentCount = existingHints.length;
     const nextHint =
       hintsPool[Math.min(currentCount, hintsPool.length - 1)] ||
       `HINT // All available intelligence layers decrypted for ${activeId}.`;
 
     if (team.activeAttempt) {
-      team.activeAttempt.hintsUnlocked = currentCount + 1;
-      const existingHints = Array.isArray(team.activeAttempt.unlockedHints)
-        ? team.activeAttempt.unlockedHints
-        : [];
+      team.activeAttempt.maxHints = hintsPool.length;
       if (!existingHints.includes(nextHint)) {
         team.activeAttempt.unlockedHints = [...existingHints, nextHint];
       }
+      team.activeAttempt.hintsUnlocked = team.activeAttempt.unlockedHints.length;
     }
 
     if (mongoose.connection.readyState === 1 && team.activeAttempt?.attemptId) {

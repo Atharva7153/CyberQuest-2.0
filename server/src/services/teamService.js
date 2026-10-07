@@ -10,51 +10,30 @@ import {
   applyTeamRiskTelemetry,
   normalizeRiskTier,
 } from './challengeService.js';
+import {
+  AbilityService,
+  DEFAULT_ABILITY_CATALOG,
+  ensureDefaultAbilitiesSeeded,
+} from './abilityService.js';
+import {
+  normalizeAttemptHistory,
+  buildTeamProgressSummary,
+  buildCanonicalLiveFeed,
+  buildActionLiveFeedEvents,
+} from './progressHistoryService.js';
+import {
+  NexusCoreService,
+  ensureNexusCoreSeeded,
+} from './nexusCoreService.js';
 import { CREDIT_TRANSACTION_TYPES, creditsConfig } from '../config/creditsConfig.js';
 import { hashPassword, verifyPassword } from '../utils/password.js';
 import { signTeamToken } from '../utils/jwt.js';
 import { logger } from '../utils/logger.js';
 
 export const CHALLENGE_CATALOG = DEFAULT_CHALLENGE_CATALOG;
+export const ABILITY_CATALOG = DEFAULT_ABILITY_CATALOG;
 
-const DEFAULT_ABILITIES = [
-  {
-    abilityId: 'ABL-01',
-    name: 'Code Breaker',
-    code: 'CB-01',
-    description: 'Decrypts one obfuscated layer or reveals structural syntax in active challenge.',
-    cost: 200,
-    chargePercent: 88,
-    status: 'READY',
-  },
-  {
-    abilityId: 'ABL-02',
-    name: 'Signal Mapper',
-    code: 'SM-02',
-    description: 'Exposes hidden reward multipliers and risk ratios in the Challenge Market.',
-    cost: 150,
-    chargePercent: 74,
-    status: 'READY',
-  },
-  {
-    abilityId: 'ABL-03',
-    name: 'System Analyst',
-    code: 'SA-03',
-    description: 'Shields 50% of penalty loss on the next high-risk submission attempt.',
-    cost: 250,
-    chargePercent: 65,
-    status: 'READY',
-  },
-  {
-    abilityId: 'ABL-04',
-    name: 'Exploit Hunter',
-    code: 'EH-04',
-    description: 'Boosts Resistance Credit payout by +20% upon solving the active challenge.',
-    cost: 300,
-    chargePercent: 92,
-    status: 'READY',
-  },
-];
+const DEFAULT_ABILITIES = AbilityService.buildInitialTeamAbilitySlots(DEFAULT_ABILITY_CATALOG);
 
 const buildSeedTeams = () => {
   const startingCredits = creditsConfig.getStartingCredits();
@@ -114,6 +93,15 @@ const buildSeedTeams = () => {
       ],
       failedChallenges: [],
       abilities: DEFAULT_ABILITIES,
+      nexusCore: {
+        state: 'LOCKED',
+        unlockedAt: null,
+        activatedAt: null,
+        completedAt: null,
+        attemptsCount: 0,
+        completionRank: null,
+        proclamationCode: null,
+      },
       stats: {
         totalSolved: 1,
         totalFailed: 0,
@@ -187,6 +175,15 @@ const buildSeedTeams = () => {
       completedChallenges: [],
       failedChallenges: [],
       abilities: DEFAULT_ABILITIES,
+      nexusCore: {
+        state: 'LOCKED',
+        unlockedAt: null,
+        activatedAt: null,
+        completedAt: null,
+        attemptsCount: 0,
+        completionRank: null,
+        proclamationCode: null,
+      },
       stats: {
         totalSolved: 0,
         totalFailed: 0,
@@ -223,7 +220,11 @@ export const ensureDefaultTeamsSeeded = async () => {
   if (mongoose.connection.readyState !== 1) return;
 
   try {
-    await ensureDefaultChallengesSeeded();
+    await Promise.all([
+      ensureDefaultChallengesSeeded(),
+      ensureDefaultAbilitiesSeeded(),
+      ensureNexusCoreSeeded(),
+    ]);
     const seeds = buildSeedTeams();
     for (const seed of seeds) {
       let existing = await Team.findOne({ teamId: seed.teamId });
@@ -269,9 +270,11 @@ export const ensureDefaultTeamsSeeded = async () => {
             potentialReward: match.reward,
             penaltyOnFail: match.penalty,
             timeLimit: match.timeLimit,
+            maxHints: Number(match.gameConfig?.maxHints || 2),
             hintsUnlocked: existing.activeAttempt?.hintsUnlocked || 0,
             unlockedHints: existing.activeAttempt?.unlockedHints || [],
             extraTimeMinutes: existing.activeAttempt?.extraTimeMinutes || 0,
+            activeAbilities: existing.activeAttempt?.activeAbilities || [],
             isReattempt: Boolean(existing.activeAttempt?.isReattempt),
             startedAt: existing.activeAttempt?.startedAt || new Date(),
             expiresAt: new Date(Date.now() + match.timeLimit * 1000),
@@ -310,6 +313,11 @@ export const ensureDefaultTeamsSeeded = async () => {
           needsSave = true;
         }
 
+        // Reconcile Phase 10 configurable abilities & expired cooldowns
+        if (AbilityService.reconcileTeamAbilitiesState(existing, DEFAULT_ABILITY_CATALOG)) {
+          needsSave = true;
+        }
+
         if (needsSave) {
           await existing.save();
         }
@@ -329,6 +337,53 @@ export const ensureDefaultTeamsSeeded = async () => {
             summary: item.summary,
             timestamp: item.timestamp || new Date(),
           });
+        }
+      }
+
+      // Ensure completed attempt records exist in challengeAttempts collection
+      if (Array.isArray(existing.completedChallenges)) {
+        for (let idx = 0; idx < existing.completedChallenges.length; idx++) {
+          const comp = existing.completedChallenges[idx];
+          if (!comp?.challengeId) continue;
+          const existingSuccess = await ChallengeAttempt.findOne({
+            teamId: existing.teamId,
+            challengeId: comp.challengeId,
+            status: { $in: ['SUCCESS', 'COMPLETED'] },
+          });
+          if (existingSuccess) continue;
+
+          const compAttemptId = `ATT-900-${existing.teamId}-${comp.challengeId}`;
+          const completedTs = comp.timestamp ? new Date(comp.timestamp) : new Date(Date.now() - 1800 * 1000);
+          const startedTs = new Date(completedTs.getTime() - 420 * 1000);
+          await ChallengeAttempt.findOneAndUpdate(
+            { attemptId: compAttemptId },
+            {
+              $setOnInsert: {
+                attemptId: compAttemptId,
+                teamId: existing.teamId,
+                challengeId: comp.challengeId,
+                title: comp.title || comp.challengeId,
+                category: comp.category || 'LOGIC',
+                difficulty: comp.difficulty || 'LOW',
+                risk: comp.risk || 'SAFE',
+                gameType: comp.gameType || 'wordGuess',
+                gameConfig: {},
+                costPaid: comp.cost || 150,
+                potentialReward: comp.reward || 400,
+                penaltyOnFail: comp.penalty || 50,
+                timeLimit: 900,
+                hintsUnlocked: 0,
+                unlockedHints: [],
+                extraTimeMinutes: 0,
+                isReattempt: false,
+                startedAt: startedTs,
+                expiresAt: new Date(startedTs.getTime() + 900 * 1000),
+                completedAt: completedTs,
+                status: 'SUCCESS',
+              },
+            },
+            { upsert: true }
+          ).catch(() => {});
         }
       }
 
@@ -447,20 +502,35 @@ export const authenticateTeam = async (rawTeamId, plainPassword) => {
   }
 
   await checkAndExpireTeamSessionIfNeeded(team);
+  if (AbilityService.reconcileTeamAbilitiesState(team, DEFAULT_ABILITY_CATALOG)) {
+    await team.save();
+  }
 
   const token = signTeamToken(team);
-  const [transactions, catalog, attempts] = await Promise.all([
+  const [transactions, catalog, attempts, abilitiesCatalog, nexusCore] = await Promise.all([
     CreditService.getTeamTransactions(normalizedTeamId),
     ChallengeService.listChallenges(),
     ChallengeService.getAttemptsForTeam(normalizedTeamId),
+    AbilityService.listAbilities(),
+    NexusCoreService.getNexusCoreStatusForTeam(team),
   ]);
+
+  const publicTeam = team.toPublicJSON();
+  const attemptHistory = normalizeAttemptHistory(publicTeam, attempts, catalog);
+  const progressSummary = buildTeamProgressSummary(publicTeam, attempts, transactions, catalog);
+  const liveFeed = buildCanonicalLiveFeed(publicTeam, attempts, transactions, catalog);
 
   return {
     token,
-    team: team.toPublicJSON(),
+    team: publicTeam,
+    nexusCore,
     transactions,
     catalog,
+    abilitiesCatalog,
     attempts,
+    attemptHistory,
+    progressSummary,
+    liveFeed,
     timer: ChallengeService.computeSessionTimerTelemetry(team.activeAttempt),
     creditsConfig: CreditService.getConfig(),
     serverTime: new Date().toISOString(),
@@ -481,12 +551,15 @@ export const getTeamStateById = async (rawTeamId) => {
   }
 
   await checkAndExpireTeamSessionIfNeeded(team);
+  if (AbilityService.reconcileTeamAbilitiesState(team, DEFAULT_ABILITY_CATALOG)) {
+    await team.save();
+  }
   return team.toPublicJSON();
 };
 
 /**
  * Server-authoritative team & credit action processor.
- * Uses CreditService and ChallengeService for all credit balance changes and transaction records:
+ * Uses CreditService, ChallengeService, AbilityService, and NexusCoreService:
  * - CHALLENGE_PURCHASE
  * - CHALLENGE_REWARD
  * - FAILURE_PENALTY
@@ -496,6 +569,10 @@ export const getTeamStateById = async (rawTeamId) => {
  * - REATTEMPT
  * - ABANDON_CHALLENGE
  * - TIMEOUT_CHALLENGE
+ * - UNLOCK_NEXUS_CORE
+ * - ACTIVATE_NEXUS_CORE
+ * - SUBMIT_NEXUS_CORE
+ * - UPDATE_NEXUS_CORE_CONFIG
  */
 export const executeTeamAction = async (rawTeamId, actionType, payload = {}) => {
   const normalizedTeamId = String(rawTeamId || '')
@@ -509,8 +586,15 @@ export const executeTeamAction = async (rawTeamId, actionType, payload = {}) => 
     throw err;
   }
 
+  AbilityService.reconcileTeamAbilitiesState(team, DEFAULT_ABILITY_CATALOG);
+
   let creditResult = null;
   let evaluationResult = null;
+  let abilityActivation = null;
+  let coreEvaluation = null;
+  let coreAvailabilityBroadcast = false;
+  let coreCompletedBroadcast = false;
+  let coreStateChanged = false;
 
   switch (actionType) {
     case 'ACQUIRE_CHALLENGE':
@@ -558,6 +642,13 @@ export const executeTeamAction = async (rawTeamId, actionType, payload = {}) => 
         Number(payload.cost) ||
         (isExtraTime ? creditsConfig.getExtraTimeCost() : creditsConfig.getHintCost());
 
+      // Server-controlled validation BEFORE charging Resistance Credits
+      if (isExtraTime) {
+        ChallengeService.validateExtraTimeEligibility(team);
+      } else {
+        await ChallengeService.validateHintPurchaseEligibility(team);
+      }
+
       const relatedChallenge = team.currentChallenge
         ? {
             challengeId: team.currentChallenge.challengeId,
@@ -602,50 +693,27 @@ export const executeTeamAction = async (rawTeamId, actionType, payload = {}) => 
     }
 
     case 'USE_ABILITY':
+    case 'ACTIVATE_ABILITY':
     case CREDIT_TRANSACTION_TYPES.ABILITY: {
-      const abilityId = payload.abilityId || 'ABL-01';
-      const ability = team.abilities.find((a) => a.abilityId === abilityId);
-
-      if (!ability) {
-        const err = new Error('Specified ability module not found.');
-        err.statusCode = 404;
-        throw err;
-      }
-
-      const relatedChallenge = team.currentChallenge
-        ? {
-            challengeId: team.currentChallenge.challengeId,
-            title: team.currentChallenge.title,
-            category: team.currentChallenge.category,
-          }
-        : null;
-
-      creditResult = await CreditService.recordTransaction({
+      const abilityId = payload.abilityId || 'ABL-03';
+      const activation = await AbilityService.activateAbilityForTeam({
         teamDoc: team,
-        type: CREDIT_TRANSACTION_TYPES.ABILITY,
-        amount: ability.cost,
-        relatedChallenge,
-        relatedAbility: {
-          abilityId: ability.abilityId,
-          name: ability.name,
-          code: ability.code,
-        },
-        summary: `ABILITY: ${ability.name} [${ability.code}] (-${ability.cost} CR)`,
-        autoSaveTeam: false,
+        abilityId,
+        payload,
       });
 
-      team.stats.abilitiesUsed += 1;
+      creditResult = activation.creditResult;
+      abilityActivation = activation.abilityActivation;
+
       applyTeamRiskTelemetry(team, {
         risk:
           team.currentChallenge?.risk ||
           team.activeAttempt?.risk ||
           team.stats?.riskProfile ||
           'BALANCED',
-        creditsLost: ability.cost,
+        creditsLost: activation.abilityActivation.cost,
       });
-      ability.status = 'ACTIVE';
-      ability.lastUsedAt = new Date();
-      ability.chargePercent = Math.max(15, (ability.chargePercent || 100) - 25);
+
       await team.save();
       break;
     }
@@ -691,6 +759,63 @@ export const executeTeamAction = async (rawTeamId, actionType, payload = {}) => 
       });
       creditResult = evalResponse.creditResult;
       evaluationResult = evalResponse.evaluationResult;
+
+      // Reconcile if solving this challenge newly unlocked NEXUS Core (LOCKED -> AVAILABLE)
+      const reconcileRes = await NexusCoreService.reconcileCoreAvailabilityForTeam(team);
+      if (reconcileRes.newlyAvailable) {
+        coreAvailabilityBroadcast = true;
+        coreStateChanged = true;
+      }
+      break;
+    }
+
+    case 'UNLOCK_NEXUS_CORE': {
+      const unlockRes = await NexusCoreService.unlockCoreForTeam(team);
+      coreAvailabilityBroadcast = Boolean(unlockRes.newlyAvailable);
+      coreStateChanged = true;
+      break;
+    }
+
+    case 'ACTIVATE_NEXUS_CORE': {
+      await NexusCoreService.activateCoreForTeam(team);
+      coreStateChanged = true;
+      break;
+    }
+
+    case 'SUBMIT_NEXUS_CORE': {
+      const submitRes = await NexusCoreService.submitCoreObjectiveForTeam({
+        teamDoc: team,
+        submission: payload.submission ?? payload.answer ?? payload.solution ?? payload,
+        simulateFailure: Boolean(payload.simulateFailure),
+      });
+      creditResult = submitRes.creditResult;
+      coreEvaluation = submitRes.coreEvaluation;
+      evaluationResult = submitRes.coreEvaluation;
+      coreStateChanged = true;
+      if (submitRes.passed) {
+        coreCompletedBroadcast = true;
+      }
+      break;
+    }
+
+    case 'UPDATE_NEXUS_CORE_CONFIG': {
+      await NexusCoreService.updateCoreConfig(payload.updates || payload);
+      coreStateChanged = true;
+      break;
+    }
+
+    case 'RESET_DEMO_STATE': {
+      const seed = buildSeedTeams().find((s) => s.teamId === normalizedTeamId);
+      if (seed) {
+        const { plainPassword, ...seedFields } = seed;
+        Object.assign(team, seedFields);
+        await team.save();
+        await CreditTransaction.deleteMany({ teamId: normalizedTeamId });
+        await ChallengeAttempt.deleteMany({ teamId: normalizedTeamId });
+        await NexusCoreService.resetNexusCoreDemoState();
+        await ensureDefaultTeamsSeeded();
+        coreStateChanged = true;
+      }
       break;
     }
 
@@ -701,17 +826,43 @@ export const executeTeamAction = async (rawTeamId, actionType, payload = {}) => 
     }
   }
 
-  const [transactions, catalog, attempts] = await Promise.all([
+  const [transactions, catalog, attempts, abilitiesCatalog, nexusCore] = await Promise.all([
     CreditService.getTeamTransactions(normalizedTeamId),
     ChallengeService.listChallenges(),
     ChallengeService.getAttemptsForTeam(normalizedTeamId),
+    AbilityService.listAbilities(),
+    NexusCoreService.getNexusCoreStatusForTeam(team),
   ]);
 
+  const publicTeam = team.toPublicJSON();
+  const attemptHistory = normalizeAttemptHistory(publicTeam, attempts, catalog);
+  const progressSummary = buildTeamProgressSummary(publicTeam, attempts, transactions, catalog);
+  const liveFeed = buildCanonicalLiveFeed(publicTeam, attempts, transactions, catalog);
+  const liveFeedEvents = buildActionLiveFeedEvents({
+    teamId: normalizedTeamId,
+    actionType,
+    team: publicTeam,
+    creditResult,
+    evaluationResult,
+    abilityActivation,
+  });
+
   return {
-    team: team.toPublicJSON(),
+    team: publicTeam,
+    nexusCore,
+    coreEvaluation,
+    coreAvailabilityBroadcast,
+    coreCompletedBroadcast,
+    coreStateChanged,
     transaction: creditResult?.transaction || null,
     evaluationResult,
+    abilityActivation,
+    abilitiesCatalog,
     attempts,
+    attemptHistory,
+    progressSummary,
+    liveFeed,
+    liveFeedEvents,
     timer: ChallengeService.computeSessionTimerTelemetry(team.activeAttempt),
     serverTime: new Date().toISOString(),
     event: {

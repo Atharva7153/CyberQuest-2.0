@@ -22,6 +22,7 @@ import {
 import { BrutalistPanel } from '../components/BrutalistPanel';
 import { SystemBadge } from '../components/SystemBadge';
 import { RiskBadge, getRiskMetadata } from '../components/RiskBadge';
+import { AbilitiesAndSupportModule } from '../components/AbilitiesAndSupportModule';
 import { ChallengeRenderer } from '../engine/ChallengeRenderer';
 import { useTeamPortal } from '../hooks/useTeamPortal';
 import { fetchChallengeSessionHttp } from '../services/authService';
@@ -61,11 +62,13 @@ export const ChallengeSessionPage = () => {
     token,
     team,
     catalog,
+    abilitiesCatalog,
     attempts,
     sessionTimer,
     serverClockOffsetMs,
     creditsConfig,
     lastEvaluationResult,
+    lastAbilityActivation,
     isAuthenticated,
     isInitializing,
     socketConnected,
@@ -75,6 +78,7 @@ export const ChallengeSessionPage = () => {
     performTeamAction,
     syncSessionTimer,
     clearEvaluationResult,
+    clearAbilityActivation,
     dismissNotification,
   } = useTeamPortal();
 
@@ -383,6 +387,17 @@ export const ChallengeSessionPage = () => {
     } catch {
       // Handled by provider notification
     }
+  };
+
+  // Activate configurable NEXUS ability module during session
+  const handleActivateAbility = async (ability) => {
+    if (!ability || actionPending || localSubmitting) return;
+    await performTeamAction('ABILITY', {
+      abilityId: ability.abilityId,
+      abilityName: ability.name,
+      cost: ability.cost,
+    });
+    await refreshSessionFromServer();
   };
 
   // Acquire or Reattempt this challenge right from /challenge/:challengeId
@@ -964,6 +979,20 @@ export const ChallengeSessionPage = () => {
                   </div>
                 </div>
               </BrutalistPanel>
+
+              {/* Restricted NEXUS System Modules (Phase 10 Abilities) */}
+              <AbilitiesAndSupportModule
+                team={team}
+                abilitiesCatalog={abilitiesCatalog}
+                creditsConfig={creditsConfig}
+                serverClockOffsetMs={serverClockOffsetMs}
+                actionPending={actionPending || localSubmitting || isSubmissionLocked}
+                lastAbilityActivation={lastAbilityActivation}
+                onClearAbilityActivation={clearAbilityActivation}
+                onActivateAbility={handleActivateAbility}
+                compact
+                showTacticalControls={false}
+              />
 
               {/* Server Attempt Ledger (Recorded Server-Side) */}
               <BrutalistPanel

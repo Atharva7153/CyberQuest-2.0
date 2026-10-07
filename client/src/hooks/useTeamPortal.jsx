@@ -20,8 +20,14 @@ const TeamPortalContext = createContext(null);
 export const TeamPortalProvider = ({ children }) => {
   const [token, setToken] = useState(() => getStoredToken());
   const [team, setTeam] = useState(null);
+  const [nexusCore, setNexusCore] = useState(null);
+  const [coreDiscoveryEvent, setCoreDiscoveryEvent] = useState(null);
   const [transactions, setTransactions] = useState([]);
   const [attempts, setAttempts] = useState([]);
+  const [attemptHistory, setAttemptHistory] = useState([]);
+  const [progressSummary, setProgressSummary] = useState(null);
+  const [liveFeed, setLiveFeed] = useState([]);
+  const [lastFeedEvent, setLastFeedEvent] = useState(null);
   const [sessionTimer, setSessionTimer] = useState(null);
   const [serverClockOffsetMs, setServerClockOffsetMs] = useState(0);
   const [creditsConfig, setCreditsConfig] = useState({
@@ -33,7 +39,9 @@ export const TeamPortalProvider = ({ children }) => {
   });
   const [lastCreditChange, setLastCreditChange] = useState(null);
   const [lastEvaluationResult, setLastEvaluationResult] = useState(null);
+  const [lastAbilityActivation, setLastAbilityActivation] = useState(null);
   const [catalog, setCatalog] = useState([]);
+  const [abilitiesCatalog, setAbilitiesCatalog] = useState([]);
   const [isInitializing, setIsInitializing] = useState(() => Boolean(getStoredToken()));
   const [socketConnected, setSocketConnected] = useState(false);
   const [joinedRoom, setJoinedRoom] = useState(null);
@@ -47,6 +55,37 @@ export const TeamPortalProvider = ({ children }) => {
     if (!Number.isNaN(parsed)) {
       setServerClockOffsetMs(parsed - Date.now());
     }
+  }, []);
+
+  const mergeIncomingFeedEvents = useCallback((incomingEvents = [], fullFeed = null) => {
+    if (Array.isArray(fullFeed) && fullFeed.length > 0 && (!incomingEvents || incomingEvents.length === 0)) {
+      setLiveFeed(fullFeed);
+      return;
+    }
+
+    if (Array.isArray(incomingEvents) && incomingEvents.length > 0) {
+      setLastFeedEvent({
+        ...incomingEvents[0],
+        receivedAt: Date.now(),
+      });
+    }
+
+    setLiveFeed((prev) => {
+      const base = Array.isArray(fullFeed) && fullFeed.length > 0 ? fullFeed : prev;
+      const combined = [...(incomingEvents || []), ...base];
+      const seen = new Set();
+      const deduped = [];
+      for (const item of combined) {
+        if (!item) continue;
+        const key = item.feedId || `${item.eventType}-${item.title}-${item.timestamp}`;
+        if (!seen.has(key)) {
+          seen.add(key);
+          deduped.push(item);
+        }
+      }
+      deduped.sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime());
+      return deduped.slice(0, 80);
+    });
   }, []);
 
   const pushNotification = useCallback((summary, variant = 'info', creditsDelta = 0) => {
@@ -68,6 +107,14 @@ export const TeamPortalProvider = ({ children }) => {
     setLastEvaluationResult(null);
   }, []);
 
+  const clearAbilityActivation = useCallback(() => {
+    setLastAbilityActivation(null);
+  }, []);
+
+  const clearCoreDiscovery = useCallback(() => {
+    setCoreDiscoveryEvent(null);
+  }, []);
+
   // Restore session on mount if token exists
   useEffect(() => {
     let active = true;
@@ -80,18 +127,24 @@ export const TeamPortalProvider = ({ children }) => {
       .then((res) => {
         if (!active) return;
         setTeam(res.team);
+        if (res.nexusCore) setNexusCore(res.nexusCore);
         if (res.transactions) setTransactions(res.transactions);
         if (res.attempts) setAttempts(res.attempts);
+        if (res.attemptHistory) setAttemptHistory(res.attemptHistory);
+        if (res.progressSummary) setProgressSummary(res.progressSummary);
+        if (res.liveFeed) setLiveFeed(res.liveFeed);
         if (res.timer) setSessionTimer(res.timer);
         if (res.serverTime) applyServerClock(res.serverTime);
         if (res.creditsConfig) setCreditsConfig(res.creditsConfig);
         if (res.catalog) setCatalog(res.catalog);
+        if (res.abilitiesCatalog) setAbilitiesCatalog(res.abilitiesCatalog);
       })
       .catch(() => {
         if (!active) return;
         clearTeamSession();
         setToken(null);
         setTeam(null);
+        setNexusCore(null);
       })
       .finally(() => {
         if (active) setIsInitializing(false);
@@ -117,12 +170,17 @@ export const TeamPortalProvider = ({ children }) => {
             setJoinedRoom(ack.room);
             setOnlineOperatives(ack.onlineOperatives || 1);
             if (ack.team) setTeam(ack.team);
+            if (ack.nexusCore) setNexusCore(ack.nexusCore);
             if (ack.transactions) setTransactions(ack.transactions);
             if (ack.attempts) setAttempts(ack.attempts);
+            if (ack.attemptHistory) setAttemptHistory(ack.attemptHistory);
+            if (ack.progressSummary) setProgressSummary(ack.progressSummary);
+            if (ack.liveFeed) setLiveFeed(ack.liveFeed);
             if (ack.timer) setSessionTimer(ack.timer);
             if (ack.serverTime) applyServerClock(ack.serverTime);
             if (ack.creditsConfig) setCreditsConfig(ack.creditsConfig);
             if (ack.catalog) setCatalog(ack.catalog);
+            if (ack.abilitiesCatalog) setAbilitiesCatalog(ack.abilitiesCatalog);
           }
         }
       );
@@ -154,6 +212,12 @@ export const TeamPortalProvider = ({ children }) => {
       }
     };
 
+    const handleFeedEvent = (payload) => {
+      if (payload?.events || payload?.liveFeed) {
+        mergeIncomingFeedEvents(payload.events || [], payload.liveFeed || null);
+      }
+    };
+
     const handleTimerUpdate = (payload) => {
       if (payload?.serverTime) {
         applyServerClock(payload.serverTime);
@@ -178,15 +242,74 @@ export const TeamPortalProvider = ({ children }) => {
       }
     };
 
+    const handleAbilityEffect = (payload) => {
+      if (payload?.abilityId) {
+        setLastAbilityActivation({
+          ...payload,
+          receivedAt: Date.now(),
+        });
+      }
+    };
+
+    const handleCoreAvailable = (payload) => {
+      if (payload?.nexusCore) {
+        setNexusCore(payload.nexusCore);
+      }
+      setCoreDiscoveryEvent({
+        ...(payload || {}),
+        receivedAt: Date.now(),
+      });
+      pushNotification(
+        payload?.message || 'THE NEXUS CORE IS NOW AVAILABLE // ULTIMATE SYSTEM OBJECTIVE UNLOCKED',
+        'crimson',
+        0
+      );
+    };
+
+    const handleCoreStateUpdate = (payload) => {
+      if (payload?.nexusCore) {
+        setNexusCore(payload.nexusCore);
+      }
+      if (payload?.coreEvaluation) {
+        setLastEvaluationResult(payload.coreEvaluation);
+      }
+    };
+
+    const handleCoreCompleted = (payload) => {
+      if (payload?.nexusCore) {
+        setNexusCore(payload.nexusCore);
+      }
+      if (payload?.coreEvaluation) {
+        setLastEvaluationResult(payload.coreEvaluation);
+      }
+      pushNotification(
+        `NEXUS CORE OVERTHROWN // SQUAD [${payload?.teamName || payload?.teamId}] CLAIMED THE CORE!`,
+        'operational',
+        payload?.coreEvaluation?.creditsDelta || 0
+      );
+    };
+
     const handleStateUpdate = (payload) => {
       if (payload?.team) {
         setTeam(payload.team);
+      }
+      if (payload?.nexusCore) {
+        setNexusCore(payload.nexusCore);
       }
       if (payload?.transactions) {
         setTransactions(payload.transactions);
       }
       if (payload?.attempts) {
         setAttempts(payload.attempts);
+      }
+      if (payload?.attemptHistory) {
+        setAttemptHistory(payload.attemptHistory);
+      }
+      if (payload?.progressSummary) {
+        setProgressSummary(payload.progressSummary);
+      }
+      if (payload?.liveFeed || payload?.liveFeedEvents) {
+        mergeIncomingFeedEvents(payload.liveFeedEvents || [], payload.liveFeed || null);
       }
       if (payload?.timer) {
         setSessionTimer(payload.timer);
@@ -199,6 +322,15 @@ export const TeamPortalProvider = ({ children }) => {
       }
       if (payload?.catalog) {
         setCatalog(payload.catalog);
+      }
+      if (payload?.abilitiesCatalog) {
+        setAbilitiesCatalog(payload.abilitiesCatalog);
+      }
+      if (payload?.abilityActivation) {
+        setLastAbilityActivation({
+          ...payload.abilityActivation,
+          receivedAt: Date.now(),
+        });
       }
       if (payload?.evaluationResult) {
         setLastEvaluationResult(payload.evaluationResult);
@@ -229,9 +361,14 @@ export const TeamPortalProvider = ({ children }) => {
     socketClient.on('connect', handleConnect);
     socketClient.on('disconnect', handleDisconnect);
     socketClient.on(NEXUS_SOCKET_EVENTS.CREDITS.UPDATE, handleCreditsUpdate);
+    socketClient.on(NEXUS_SOCKET_EVENTS.FEED.EVENT, handleFeedEvent);
     socketClient.on(NEXUS_SOCKET_EVENTS.TIMER.UPDATE, handleTimerUpdate);
     socketClient.on(NEXUS_SOCKET_EVENTS.TIMER.EXPIRED, handleTimerExpired);
     socketClient.on(NEXUS_SOCKET_EVENTS.SUBMISSION.RESULT, handleSubmissionResult);
+    socketClient.on(NEXUS_SOCKET_EVENTS.ABILITY.EFFECT, handleAbilityEffect);
+    socketClient.on(NEXUS_SOCKET_EVENTS.CORE.AVAILABLE, handleCoreAvailable);
+    socketClient.on(NEXUS_SOCKET_EVENTS.CORE.STATE_UPDATE, handleCoreStateUpdate);
+    socketClient.on(NEXUS_SOCKET_EVENTS.CORE.COMPLETED, handleCoreCompleted);
     socketClient.on(NEXUS_SOCKET_EVENTS.TEAM.STATE_UPDATE, handleStateUpdate);
     socketClient.on(NEXUS_SOCKET_EVENTS.TEAM.PRESENCE_UPDATE, handlePresenceUpdate);
 
@@ -246,13 +383,18 @@ export const TeamPortalProvider = ({ children }) => {
       socketClient.off('connect', handleConnect);
       socketClient.off('disconnect', handleDisconnect);
       socketClient.off(NEXUS_SOCKET_EVENTS.CREDITS.UPDATE, handleCreditsUpdate);
+      socketClient.off(NEXUS_SOCKET_EVENTS.FEED.EVENT, handleFeedEvent);
       socketClient.off(NEXUS_SOCKET_EVENTS.TIMER.UPDATE, handleTimerUpdate);
       socketClient.off(NEXUS_SOCKET_EVENTS.TIMER.EXPIRED, handleTimerExpired);
       socketClient.off(NEXUS_SOCKET_EVENTS.SUBMISSION.RESULT, handleSubmissionResult);
+      socketClient.off(NEXUS_SOCKET_EVENTS.ABILITY.EFFECT, handleAbilityEffect);
+      socketClient.off(NEXUS_SOCKET_EVENTS.CORE.AVAILABLE, handleCoreAvailable);
+      socketClient.off(NEXUS_SOCKET_EVENTS.CORE.STATE_UPDATE, handleCoreStateUpdate);
+      socketClient.off(NEXUS_SOCKET_EVENTS.CORE.COMPLETED, handleCoreCompleted);
       socketClient.off(NEXUS_SOCKET_EVENTS.TEAM.STATE_UPDATE, handleStateUpdate);
       socketClient.off(NEXUS_SOCKET_EVENTS.TEAM.PRESENCE_UPDATE, handlePresenceUpdate);
     };
-  }, [token, team?.teamId, pushNotification, applyServerClock]);
+  }, [token, team?.teamId, pushNotification, applyServerClock, mergeIncomingFeedEvents]);
 
   const syncSessionTimer = useCallback(() => {
     if (!socketClient.connected || !team?.teamId) return Promise.resolve(null);
@@ -276,12 +418,17 @@ export const TeamPortalProvider = ({ children }) => {
       storeTeamSession(res.token, res.team.teamId);
       setToken(res.token);
       setTeam(res.team);
+      if (res.nexusCore) setNexusCore(res.nexusCore);
       if (res.transactions) setTransactions(res.transactions);
       if (res.attempts) setAttempts(res.attempts);
+      if (res.attemptHistory) setAttemptHistory(res.attemptHistory);
+      if (res.progressSummary) setProgressSummary(res.progressSummary);
+      if (res.liveFeed) setLiveFeed(res.liveFeed);
       if (res.timer) setSessionTimer(res.timer);
       if (res.serverTime) applyServerClock(res.serverTime);
       if (res.creditsConfig) setCreditsConfig(res.creditsConfig);
       if (res.catalog) setCatalog(res.catalog);
+      if (res.abilitiesCatalog) setAbilitiesCatalog(res.abilitiesCatalog);
       return res.team;
     },
     [applyServerClock]
@@ -294,10 +441,17 @@ export const TeamPortalProvider = ({ children }) => {
     clearTeamSession();
     setToken(null);
     setTeam(null);
+    setNexusCore(null);
+    setCoreDiscoveryEvent(null);
     setTransactions([]);
     setAttempts([]);
+    setAttemptHistory([]);
+    setProgressSummary(null);
+    setLiveFeed([]);
+    setLastFeedEvent(null);
     setSessionTimer(null);
     setLastEvaluationResult(null);
+    setLastAbilityActivation(null);
     setJoinedRoom(null);
   }, [team?.teamId]);
 
@@ -322,7 +476,20 @@ export const TeamPortalProvider = ({ children }) => {
                 if (ack?.ok) {
                   if (ack.serverTime) applyServerClock(ack.serverTime);
                   if (ack.timer) setSessionTimer(ack.timer);
+                  if (ack.nexusCore) setNexusCore(ack.nexusCore);
                   if (ack.attempts) setAttempts(ack.attempts);
+                  if (ack.attemptHistory) setAttemptHistory(ack.attemptHistory);
+                  if (ack.progressSummary) setProgressSummary(ack.progressSummary);
+                  if (ack.liveFeed || ack.liveFeedEvents) {
+                    mergeIncomingFeedEvents(ack.liveFeedEvents || [], ack.liveFeed || null);
+                  }
+                  if (ack.abilitiesCatalog) setAbilitiesCatalog(ack.abilitiesCatalog);
+                  if (ack.abilityActivation) {
+                    setLastAbilityActivation({
+                      ...ack.abilityActivation,
+                      receivedAt: Date.now(),
+                    });
+                  }
                   if (ack.evaluationResult) {
                     setLastEvaluationResult(ack.evaluationResult);
                   }
@@ -338,12 +505,33 @@ export const TeamPortalProvider = ({ children }) => {
         // HTTP Fallback if WebSocket is reconnecting
         const res = await postTeamActionHttp(token, actionType, actionPayload);
         if (res.team) setTeam(res.team);
+        if (res.nexusCore) setNexusCore(res.nexusCore);
+        if (actionType === 'UNLOCK_NEXUS_CORE' && res.nexusCore?.state === 'AVAILABLE') {
+          setCoreDiscoveryEvent({
+            teamId: res.team?.teamId,
+            nexusCore: res.nexusCore,
+            state: 'AVAILABLE',
+            receivedAt: Date.now(),
+          });
+        }
         if (res.transactions) setTransactions(res.transactions);
         if (res.attempts) setAttempts(res.attempts);
+        if (res.attemptHistory) setAttemptHistory(res.attemptHistory);
+        if (res.progressSummary) setProgressSummary(res.progressSummary);
+        if (res.liveFeed || res.liveFeedEvents) {
+          mergeIncomingFeedEvents(res.liveFeedEvents || [], res.liveFeed || null);
+        }
         if (res.timer) setSessionTimer(res.timer);
         if (res.serverTime) applyServerClock(res.serverTime);
         if (res.creditsConfig) setCreditsConfig(res.creditsConfig);
         if (res.catalog) setCatalog(res.catalog);
+        if (res.abilitiesCatalog) setAbilitiesCatalog(res.abilitiesCatalog);
+        if (res.abilityActivation) {
+          setLastAbilityActivation({
+            ...res.abilityActivation,
+            receivedAt: Date.now(),
+          });
+        }
         if (res.evaluationResult) setLastEvaluationResult(res.evaluationResult);
         if (res.event?.creditsDelta) {
           setLastCreditChange({
@@ -363,7 +551,7 @@ export const TeamPortalProvider = ({ children }) => {
         setActionPending(false);
       }
     },
-    [token, team?.teamId, pushNotification, applyServerClock]
+    [token, team?.teamId, pushNotification, applyServerClock, mergeIncomingFeedEvents]
   );
 
   return (
@@ -371,14 +559,22 @@ export const TeamPortalProvider = ({ children }) => {
       value={{
         token,
         team,
+        nexusCore,
+        coreDiscoveryEvent,
         transactions,
         attempts,
+        attemptHistory,
+        progressSummary,
+        liveFeed,
+        lastFeedEvent,
         sessionTimer,
         serverClockOffsetMs,
         creditsConfig,
         lastCreditChange,
         lastEvaluationResult,
+        lastAbilityActivation,
         catalog,
+        abilitiesCatalog,
         isAuthenticated: Boolean(token && team),
         isInitializing,
         socketConnected,
@@ -391,6 +587,8 @@ export const TeamPortalProvider = ({ children }) => {
         performTeamAction,
         syncSessionTimer,
         clearEvaluationResult,
+        clearAbilityActivation,
+        clearCoreDiscovery,
         dismissNotification,
         pushNotification,
       }}

@@ -58,9 +58,11 @@ const activeAttemptSchema = new mongoose.Schema(
     timeLimit: { type: Number, default: 1200 },
     gameType: { type: String, default: 'wordGuess' },
     gameConfig: { type: mongoose.Schema.Types.Mixed, default: () => ({}) },
+    maxHints: { type: Number, default: 2 },
     hintsUnlocked: { type: Number, default: 0 },
     unlockedHints: { type: [String], default: [] },
     extraTimeMinutes: { type: Number, default: 0 },
+    activeAbilities: { type: [mongoose.Schema.Types.Mixed], default: [] },
     isReattempt: { type: Boolean, default: false },
     startedAt: { type: Date, default: Date.now },
     expiresAt: { type: Date, default: null },
@@ -86,16 +88,23 @@ const abilitySlotSchema = new mongoose.Schema(
   {
     abilityId: { type: String, required: true },
     name: { type: String, required: true },
-    code: { type: String, required: true },
+    code: { type: String, default: 'MOD-00' },
     description: { type: String, default: '' },
     cost: { type: Number, required: true },
+    enabled: { type: Boolean, default: true },
+    effectType: { type: String, default: 'CONFIGURABLE_MODULE' },
+    effectConfig: { type: mongoose.Schema.Types.Mixed, default: () => ({}) },
     chargePercent: { type: Number, default: 100 },
     status: {
       type: String,
-      enum: ['READY', 'ACTIVE', 'COOLDOWN', 'DEPLETED'],
-      default: 'READY',
+      enum: ['AVAILABLE', 'READY', 'ACTIVE', 'COOLDOWN', 'DISABLED', 'DEPLETED'],
+      default: 'AVAILABLE',
     },
+    cooldownSeconds: { type: Number, default: 30 },
+    cooldownExpiresAt: { type: Date, default: null },
+    activationsCount: { type: Number, default: 0 },
     lastUsedAt: { type: Date, default: null },
+    lastActivationPayload: { type: mongoose.Schema.Types.Mixed, default: null },
   },
   { _id: false }
 );
@@ -220,6 +229,19 @@ const teamSchema = new mongoose.Schema(
     stats: {
       type: teamStatsSchema,
       default: () => ({}),
+    },
+    nexusCore: {
+      state: {
+        type: String,
+        enum: ['LOCKED', 'AVAILABLE', 'ACTIVE', 'COMPLETED'],
+        default: 'LOCKED',
+      },
+      unlockedAt: { type: Date, default: null },
+      activatedAt: { type: Date, default: null },
+      completedAt: { type: Date, default: null },
+      attemptsCount: { type: Number, default: 0 },
+      completionRank: { type: Number, default: null },
+      proclamationCode: { type: String, default: null },
     },
   },
   {

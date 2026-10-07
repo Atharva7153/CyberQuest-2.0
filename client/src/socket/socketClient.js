@@ -44,15 +44,32 @@ export const NEXUS_SOCKET_EVENTS = {
     COOLDOWN: 'ability:cooldown',
   },
   CORE: {
+    AVAILABLE: 'core:available',
+    STATE_UPDATE: 'core:state:update',
+    COMPLETED: 'core:completed',
     DIRECTIVE: 'core:directive',
     BROADCAST: 'core:broadcast',
     ANOMALY: 'core:anomaly',
   },
   LEADERBOARD: {
+    SUBSCRIBE: 'leaderboard:subscribe',
     UPDATE: 'leaderboard:update',
     SNAPSHOT: 'leaderboard:snapshot',
   },
+  FEED: {
+    EVENT: 'feed:event',
+  },
 };
+
+export const LIVE_FEED_EVENT_TYPES = Object.freeze({
+  CHALLENGE_ACQUIRED: 'CHALLENGE ACQUIRED',
+  CHALLENGE_STARTED: 'CHALLENGE STARTED',
+  SUBMISSION: 'SUBMISSION',
+  SUCCESS: 'SUCCESS',
+  FAILURE: 'FAILURE',
+  CREDITS_UPDATED: 'CREDITS UPDATED',
+  ABILITY_USED: 'ABILITY USED',
+});
 
 export const socketClient = io(SOCKET_URL, {
   autoConnect: false,

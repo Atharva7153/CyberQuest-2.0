@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef, useLayoutEffect } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import gsap from 'gsap';
 import {
@@ -9,6 +10,7 @@ import {
   Send,
   Zap,
   BarChart3,
+  History,
   Cpu,
   LogOut,
   Menu,
@@ -26,8 +28,9 @@ export const PORTAL_NAV_ITEMS = [
   { id: 'CREDITS', label: 'CREDITS', icon: Coins, code: '04' },
   { id: 'SUBMISSIONS', label: 'SUBMISSIONS', icon: Send, code: '05' },
   { id: 'ABILITIES', label: 'ABILITIES', icon: Zap, code: '06' },
-  { id: 'PROGRESS', label: 'PROGRESS', icon: BarChart3, code: '07' },
-  { id: 'NEXUS_CORE', label: 'NEXUS CORE', icon: Cpu, code: '08' },
+  { id: 'PROGRESS', label: 'PROGRESS', icon: BarChart3, code: '07', route: '/progress' },
+  { id: 'HISTORY', label: 'HISTORY', icon: History, code: '08', route: '/history' },
+  { id: 'NEXUS_CORE', label: 'NEXUS CORE', icon: Cpu, code: '09', route: '/nexus-core' },
 ];
 
 const formatCountdown = (totalSeconds) => {
@@ -52,8 +55,25 @@ export const PortalShellLayout = ({
   onLogout,
   children,
 }) => {
+  const navigate = useNavigate();
+  const location = useLocation();
   const prefersReducedMotion = useReducedMotion();
   const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
+
+  const handleNavClick = (item) => {
+    setMobileSidebarOpen(false);
+    if (item.route) {
+      navigate(item.route);
+      return;
+    }
+    if (location.pathname !== '/dashboard') {
+      navigate(`/dashboard?section=${item.id}`);
+      return;
+    }
+    if (onSelectSection) {
+      onSelectSection(item.id);
+    }
+  };
 
   // Base marathon timer (2h 15m = 8100s) + any extra time purchased by the team
   const extraSeconds = (team?.activeAttempt?.extraTimeMinutes || 0) * 60;
@@ -103,7 +123,7 @@ export const PortalShellLayout = ({
           </p>
         </div>
 
-        {/* 8 Portal Navigation Items (Framer Motion active indicator) */}
+        {/* Portal Navigation Items (Framer Motion active indicator) */}
         <nav aria-label="NEXUS Portal Navigation" className="p-3 space-y-1">
           {PORTAL_NAV_ITEMS.map((item) => {
             const Icon = item.icon;
@@ -113,10 +133,7 @@ export const PortalShellLayout = ({
               <button
                 key={item.id}
                 type="button"
-                onClick={() => {
-                  onSelectSection(item.id);
-                  setMobileSidebarOpen(false);
-                }}
+                onClick={() => handleNavClick(item)}
                 className={`relative w-full flex items-center justify-between px-3.5 py-2.5 font-condensed text-base font-bold uppercase tracking-[0.14em] text-left transition-colors cursor-pointer focus-visible:outline-2 focus-visible:outline-nexus-crimson ${
                   isActive
                     ? 'text-white'

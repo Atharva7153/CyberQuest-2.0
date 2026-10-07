@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams, Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   Crosshair,
@@ -20,7 +20,12 @@ import { BrutalistPanel } from '../components/BrutalistPanel';
 import { SystemBadge } from '../components/SystemBadge';
 import { RiskBadge } from '../components/RiskBadge';
 import { TeamRiskProfileModule } from '../components/TeamRiskProfileModule';
+import { AbilitiesAndSupportModule } from '../components/AbilitiesAndSupportModule';
 import { ResistanceCreditsModule } from '../components/ResistanceCreditsModule';
+import { LiveFeedModule } from '../components/LiveFeedModule';
+import { TeamProgressModule } from '../components/TeamProgressModule';
+import { AttemptHistoryModule } from '../components/AttemptHistoryModule';
+import { NexusCoreModule } from '../components/NexusCoreModule';
 import {
   ChallengeMarketModule,
   formatTimeLimitDetailed,
@@ -31,16 +36,25 @@ import { useReducedMotion } from '../hooks/useReducedMotion';
 
 export const DashboardPage = () => {
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
   const prefersReducedMotion = useReducedMotion();
   const {
     team,
+    nexusCore,
+    coreDiscoveryEvent,
+    clearCoreDiscovery,
     catalog,
+    abilitiesCatalog,
     transactions,
     attempts,
+    attemptHistory,
+    progressSummary,
+    liveFeed,
     serverClockOffsetMs,
     creditsConfig,
     lastCreditChange,
     lastEvaluationResult,
+    lastAbilityActivation,
     isAuthenticated,
     isInitializing,
     socketConnected,
@@ -51,12 +65,22 @@ export const DashboardPage = () => {
     logoutTeam,
     performTeamAction,
     clearEvaluationResult,
+    clearAbilityActivation,
     dismissNotification,
   } = useTeamPortal();
 
-  const [activeSection, setActiveSection] = useState('DASHBOARD');
+  const [activeSection, setActiveSection] = useState(
+    () => searchParams.get('section') || 'DASHBOARD'
+  );
   const [selectedChallengeModal, setSelectedChallengeModal] = useState(null);
   const [marketRiskFilter, setMarketRiskFilter] = useState('ALL');
+
+  useEffect(() => {
+    const requestedSection = searchParams.get('section');
+    if (requestedSection) {
+      setActiveSection(requestedSection);
+    }
+  }, [searchParams]);
 
   useEffect(() => {
     if (!isInitializing && !isAuthenticated) {
@@ -124,11 +148,7 @@ export const DashboardPage = () => {
   };
 
   const handleUseAbility = async (abilityId) => {
-    try {
-      await performTeamAction('USE_ABILITY', { abilityId });
-    } catch {
-      // Handled by provider
-    }
+    return performTeamAction('USE_ABILITY', { abilityId });
   };
 
   const handleSubmitChallengeAnswer = async ({
@@ -271,110 +291,82 @@ export const DashboardPage = () => {
   );
 
   const renderAbilitiesPanel = (expanded = false) => (
-    <BrutalistPanel
-      codeTag="MODS"
-      title="ABILITIES"
-      accentTitle
-      headerRight={
-        <span className="font-mono text-[10px] text-nexus-muted uppercase">
-          USED: {team.stats?.abilitiesUsed || 0}
-        </span>
-      }
-      className="h-full"
-    >
-      <div className="space-y-3.5">
-        {(team.abilities || []).map((ability) => (
-          <div
-            key={ability.abilityId}
-            className="p-3 border border-nexus-ink/25 bg-nexus-paper space-y-2"
-          >
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="font-condensed text-base font-extrabold uppercase tracking-wider text-nexus-ink">
-                  {ability.name}
-                </p>
-                {expanded && (
-                  <p className="font-editorial text-xs text-nexus-charcoal mt-0.5">
-                    {ability.description}
-                  </p>
-                )}
-              </div>
-              <button
-                type="button"
-                disabled={actionPending}
-                onClick={() => handleUseAbility(ability.abilityId)}
-                className="px-2.5 py-1 bg-nexus-ink text-nexus-paper hover:bg-nexus-crimson font-mono text-[10px] font-bold uppercase tracking-wider transition-colors cursor-pointer shrink-0"
-              >
-                USE (-{ability.cost} CR)
-              </button>
-            </div>
-
-            {/* Charge bar matching portal visual reference */}
-            <div className="w-full h-2 bg-nexus-ink/15 overflow-hidden">
-              <div
-                className="h-full bg-nexus-crimson transition-all duration-300"
-                style={{ width: `${ability.chargePercent || 75}%` }}
-              />
-            </div>
-          </div>
-        ))}
-      </div>
-    </BrutalistPanel>
+    <AbilitiesAndSupportModule
+      team={team}
+      abilitiesCatalog={abilitiesCatalog}
+      creditsConfig={creditsConfig}
+      serverClockOffsetMs={serverClockOffsetMs}
+      actionPending={actionPending}
+      lastAbilityActivation={lastAbilityActivation}
+      onClearAbilityActivation={clearAbilityActivation}
+      onActivateAbility={handleUseAbility}
+      onPurchaseHint={(cost) => handleSpendCredits('HINT', cost)}
+      onPurchaseExtraTime={(cost) => handleSpendCredits('EXTRA_TIME', cost)}
+      compact={!expanded}
+      showTacticalControls={expanded}
+    />
   );
 
   const renderProgressAndFeedPanel = () => (
-    <BrutalistPanel
-      codeTag="CORE_TRACKER"
-      title="OVERALL PROGRESS TOWARD NEXUS CORE"
-      accentTitle={false}
-      headerRight={
-        <span className="font-mono text-sm font-bold text-nexus-crimson">
-          {progressPercent}%
-        </span>
-      }
-    >
-      <div className="space-y-5">
-        {/* Progress Bar */}
-        <div className="w-full h-4 bg-nexus-ink p-0.5 border border-nexus-ink">
-          <div
-            className="h-full bg-nexus-crimson transition-all duration-500"
-            style={{ width: `${progressPercent}%` }}
-          />
-        </div>
-
-        {/* Synchronized Real-Time Squad Activity Log */}
-        <div className="space-y-2">
+    <div className="space-y-5">
+      <BrutalistPanel
+        codeTag="CORE_TRACKER"
+        title="OVERALL PROGRESS TOWARD NEXUS CORE"
+        accentTitle={false}
+        headerRight={
+          <div className="flex flex-wrap items-center gap-2">
+            <Link
+              to="/progress"
+              className="px-2.5 py-1 border border-nexus-ink bg-nexus-paper hover:bg-nexus-ink hover:text-nexus-paper font-mono text-[10px] font-bold uppercase tracking-wider transition-colors"
+            >
+              OPEN /PROGRESS
+            </Link>
+            <Link
+              to="/history"
+              className="px-2.5 py-1 border border-nexus-ink bg-nexus-paper hover:bg-nexus-ink hover:text-nexus-paper font-mono text-[10px] font-bold uppercase tracking-wider transition-colors"
+            >
+              OPEN /HISTORY
+            </Link>
+            <Link
+              to="/nexus-core"
+              className="px-2.5 py-1 border border-nexus-ink bg-nexus-crimson text-white hover:bg-nexus-ink font-mono text-[10px] font-bold uppercase tracking-wider transition-colors"
+            >
+              OPEN /NEXUS-CORE ({nexusCore?.state || 'LOCKED'})
+            </Link>
+            <span className="font-mono text-sm font-bold text-nexus-crimson">
+              {progressPercent}%
+            </span>
+          </div>
+        }
+      >
+        <div className="space-y-4">
+          {/* Progress Bar */}
+          <div className="w-full h-4 bg-nexus-ink p-0.5 border border-nexus-ink">
+            <div
+              className="h-full bg-nexus-crimson transition-all duration-500"
+              style={{ width: `${progressPercent}%` }}
+            />
+          </div>
           <div className="flex items-center justify-between font-mono text-[10px] uppercase tracking-widest text-nexus-muted">
-            <span>SERVER-AUTHORITATIVE SQUAD EVENT LOG ({joinedRoom})</span>
-            <span>SOLVED: {team.stats?.totalSolved || 0}</span>
-          </div>
-
-          <div className="bg-nexus-ink text-nexus-paper p-3 font-mono text-xs max-h-40 overflow-y-auto space-y-1.5 border border-nexus-ink">
-            {recentActivity.length === 0 ? (
-              <p className="text-nexus-paper/60">No squad events recorded yet.</p>
-            ) : (
-              recentActivity.map((item) => (
-                <div
-                  key={item.eventId || item.timestamp}
-                  className="flex items-center justify-between gap-3 border-b border-nexus-paper/10 pb-1 last:border-none"
-                >
-                  <span className="truncate">{item.summary}</span>
-                  <span
-                    className={`shrink-0 font-bold ${
-                      item.creditsDelta >= 0 ? 'text-white' : 'text-nexus-crimson'
-                    }`}
-                  >
-                    {item.creditsDelta > 0
-                      ? `+${item.creditsDelta} CR`
-                      : `${item.creditsDelta} CR`}
-                  </span>
-                </div>
-              ))
-            )}
+            <span>AUTHORITATIVE ROOM: {joinedRoom}</span>
+            <span>
+              CORE STATE: {nexusCore?.state || 'LOCKED'} // SOLVED: {team.stats?.totalSolved || 0}
+            </span>
           </div>
         </div>
-      </div>
-    </BrutalistPanel>
+      </BrutalistPanel>
+
+      <LiveFeedModule
+        team={team}
+        liveFeed={liveFeed}
+        attempts={attempts}
+        transactions={transactions}
+        joinedRoom={joinedRoom}
+        socketConnected={socketConnected}
+        maxItems={12}
+        compact
+      />
+    </div>
   );
 
   const handleSelectMarketRiskFilter = (riskTier) => {
@@ -505,55 +497,39 @@ export const DashboardPage = () => {
         );
 
       case 'SUBMISSIONS':
+      case 'HISTORY':
         return (
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-            <div className="lg:col-span-6">{renderSubmissionAndTacticalPanel()}</div>
-            <div className="lg:col-span-6">
-              <BrutalistPanel codeTag="HISTORY" title="COMPLETED & FAILED SUBMISSIONS">
-                <div className="space-y-3 font-mono text-xs">
-                  <p className="font-bold text-nexus-ink uppercase">
-                    SOLVED ({team.completedChallenges?.length || 0})
-                  </p>
-                  {(team.completedChallenges || []).map((c, idx) => (
-                    <div
-                      key={`${c.challengeId}-${idx}`}
-                      className="p-2.5 border border-nexus-ink bg-nexus-paper flex items-center justify-between gap-2"
-                    >
-                      <div className="flex items-center gap-2 min-w-0">
-                        <RiskBadge risk={c.risk} size="xs" />
-                        <span className="font-bold truncate">{c.title}</span>
-                      </div>
-                      <span className="text-nexus-crimson font-bold shrink-0">+{c.reward} CR</span>
-                    </div>
-                  ))}
-                  <p className="font-bold text-nexus-crimson uppercase pt-2">
-                    FAILED ({team.failedChallenges?.length || 0})
-                  </p>
-                  {(team.failedChallenges || []).map((c, idx) => (
-                    <div
-                      key={`${c.challengeId}-fail-${idx}`}
-                      className="p-2.5 border border-nexus-crimson bg-nexus-crimson/5 flex items-center justify-between gap-2"
-                    >
-                      <div className="flex items-center gap-2 min-w-0">
-                        <RiskBadge risk={c.risk} size="xs" />
-                        <span className="font-bold truncate">{c.title}</span>
-                      </div>
-                      <span className="text-nexus-crimson font-bold shrink-0">-{c.penalty} CR</span>
-                    </div>
-                  ))}
-                </div>
-              </BrutalistPanel>
-            </div>
+          <div className="space-y-6">
+            {renderSubmissionAndTacticalPanel()}
+            <AttemptHistoryModule
+              team={team}
+              attemptHistory={attemptHistory}
+              attempts={attempts}
+              catalog={catalog}
+            />
+            <LiveFeedModule
+              team={team}
+              liveFeed={liveFeed}
+              attempts={attempts}
+              transactions={transactions}
+              joinedRoom={joinedRoom}
+              socketConnected={socketConnected}
+            />
           </div>
         );
 
       case 'ABILITIES':
-        return <div className="max-w-4xl">{renderAbilitiesPanel(true)}</div>;
+        return <div className="max-w-6xl">{renderAbilitiesPanel(true)}</div>;
 
       case 'PROGRESS':
-      case 'NEXUS_CORE':
         return (
           <div className="space-y-6">
+            <TeamProgressModule
+              team={team}
+              progressSummary={progressSummary}
+              attempts={attempts}
+              catalog={catalog}
+            />
             <TeamRiskProfileModule
               team={team}
               attempts={attempts}
@@ -562,22 +538,28 @@ export const DashboardPage = () => {
               onSelectMarketRiskFilter={handleSelectMarketRiskFilter}
             />
             {renderProgressAndFeedPanel()}
-            <BrutalistPanel
-              codeTag="CORE_GATE"
-              title="THE NEXUS CORE // FINAL OBJECTIVE THRESHOLD"
-              accentTitle
-            >
-              <div className="space-y-3 font-editorial text-base text-nexus-ink">
-                <p className="font-bold text-xl">
-                  The final objective remains unknown until Core convergence reaches 100%.
-                </p>
-                <p className="text-nexus-charcoal">
-                  Current Squad Core Convergence:{' '}
-                  <strong className="text-nexus-crimson">{progressPercent}%</strong>. Continue
-                  solving challenges and managing Resistance Credits to unlock the NEXUS Core.
-                </p>
-              </div>
-            </BrutalistPanel>
+          </div>
+        );
+
+      case 'NEXUS_CORE':
+        return (
+          <div className="space-y-6">
+            <NexusCoreModule
+              team={team}
+              nexusCore={nexusCore}
+              coreDiscoveryEvent={coreDiscoveryEvent}
+              onClearCoreDiscovery={clearCoreDiscovery}
+              onUnlockCore={() => performTeamAction('UNLOCK_NEXUS_CORE')}
+              onActivateCore={() => performTeamAction('ACTIVATE_NEXUS_CORE')}
+              onSubmitCoreObjective={(payload) =>
+                performTeamAction('SUBMIT_NEXUS_CORE', payload)
+              }
+              onUpdateCoreConfig={(updates) =>
+                performTeamAction('UPDATE_NEXUS_CORE_CONFIG', { updates })
+              }
+              actionPending={actionPending}
+            />
+            {renderProgressAndFeedPanel()}
           </div>
         );
 

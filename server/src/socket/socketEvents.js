@@ -57,6 +57,9 @@ export const SOCKET_EVENTS = Object.freeze({
   },
 
   CORE: {
+    AVAILABLE: 'core:available',
+    STATE_UPDATE: 'core:state:update',
+    COMPLETED: 'core:completed',
     DIRECTIVE: 'core:directive',
     BROADCAST: 'core:broadcast',
     ANOMALY: 'core:anomaly',
@@ -67,4 +70,19 @@ export const SOCKET_EVENTS = Object.freeze({
     UPDATE: 'leaderboard:update',
     SNAPSHOT: 'leaderboard:snapshot',
   },
+
+  FEED: {
+    EVENT: 'feed:event',
+  },
 });
+
+export const LIVE_FEED_EVENT_TYPES = Object.freeze({
+  CHALLENGE_ACQUIRED: 'CHALLENGE ACQUIRED',
+  CHALLENGE_STARTED: 'CHALLENGE STARTED',
+  SUBMISSION: 'SUBMISSION',
+  SUCCESS: 'SUCCESS',
+  FAILURE: 'FAILURE',
+  CREDITS_UPDATED: 'CREDITS UPDATED',
+  ABILITY_USED: 'ABILITY USED',
+});
+

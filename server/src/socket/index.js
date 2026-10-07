@@ -80,8 +80,9 @@ export const initSocketServer = (httpServer) => {
   });
 
   // Periodic system pulse broadcast every 5 seconds
-  setInterval(() => {
+  setInterval(async () => {
     if (ioInstance && ioInstance.engine.clientsCount > 0) {
+      const { computeGlobalArenaTimer } = await import('../services/displayService.js');
       ioInstance.emit(SOCKET_EVENTS.SYSTEM.TELEMETRY, {
         service: env.serviceName,
         designation: env.systemDesignation,
@@ -89,6 +90,7 @@ export const initSocketServer = (httpServer) => {
         uptimeSeconds: Math.floor(process.uptime()),
         activeTerminals: ioInstance.engine.clientsCount,
         database: getDatabaseStatus(),
+        globalTimer: computeGlobalArenaTimer(),
       });
     }
   }, 5000);

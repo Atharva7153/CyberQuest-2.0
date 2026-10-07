@@ -8,6 +8,14 @@ import {
 } from '../services/teamService.js';
 import { CreditService } from '../services/creditService.js';
 import { ChallengeService } from '../services/challengeService.js';
+import { AbilityService } from '../services/abilityService.js';
+import {
+  normalizeAttemptHistory,
+  buildTeamProgressSummary,
+  buildCanonicalLiveFeed,
+} from '../services/progressHistoryService.js';
+import { NexusCoreService } from '../services/nexusCoreService.js';
+import { DisplayService } from '../services/displayService.js';
 
 const getRoomClientCount = (io, roomName) => {
   const room = io.sockets.adapter.rooms.get(roomName);
@@ -52,12 +60,24 @@ export const registerSocketChannels = (io, socket) => {
         `Terminal [${socket.id}] joined [${roomName}] | Operatives online: ${onlineOperatives}`
       );
 
-      const [teamState, transactions, catalog, attempts] = await Promise.all([
+      const [teamState, transactions, catalog, attempts, abilitiesCatalog] = await Promise.all([
         getTeamStateById(normalizedTeamId),
         CreditService.getTeamTransactions(normalizedTeamId),
         ChallengeService.listChallenges(),
         ChallengeService.getAttemptsForTeam(normalizedTeamId),
+        AbilityService.listAbilities(),
       ]);
+
+      const nexusCore = await NexusCoreService.getNexusCoreStatusForTeam(teamState);
+      const resolvedCatalog = catalog || CHALLENGE_CATALOG;
+      const attemptHistory = normalizeAttemptHistory(teamState, attempts, resolvedCatalog);
+      const progressSummary = buildTeamProgressSummary(
+        teamState,
+        attempts,
+        transactions,
+        resolvedCatalog
+      );
+      const liveFeed = buildCanonicalLiveFeed(teamState, attempts, transactions, resolvedCatalog);
 
       const timer = ChallengeService.computeSessionTimerTelemetry(teamState?.activeAttempt);
       const serverTime = new Date().toISOString();
@@ -69,11 +89,16 @@ export const registerSocketChannels = (io, socket) => {
         socketId: socket.id,
         onlineOperatives,
         team: teamState,
+        nexusCore,
         transactions,
         attempts: attempts || [],
+        attemptHistory,
+        progressSummary,
+        liveFeed,
         timer,
         serverTime,
-        catalog: catalog || CHALLENGE_CATALOG,
+        catalog: resolvedCatalog,
+        abilitiesCatalog: abilitiesCatalog || [],
         creditsConfig: CreditService.getConfig(),
         timestamp: serverTime,
       };
@@ -116,9 +141,17 @@ export const registerSocketChannels = (io, socket) => {
         teamId,
         room: roomName,
         team: result.team,
+        nexusCore: result.nexusCore || null,
+        coreEvaluation: result.coreEvaluation || null,
         transaction: result.transaction,
         evaluationResult: result.evaluationResult || null,
+        abilityActivation: result.abilityActivation || null,
+        abilitiesCatalog: result.abilitiesCatalog || [],
         attempts: result.attempts || [],
+        attemptHistory: result.attemptHistory || [],
+        progressSummary: result.progressSummary || null,
+        liveFeed: result.liveFeed || [],
+        liveFeedEvents: result.liveFeedEvents || [],
         timer: result.timer,
         serverTime: result.serverTime || new Date().toISOString(),
         transactions: result.transactions,
@@ -143,12 +176,75 @@ export const registerSocketChannels = (io, socket) => {
         timestamp: new Date().toISOString(),
       });
 
+      if (result.liveFeedEvents && result.liveFeedEvents.length > 0) {
+        io.to(roomName).emit(SOCKET_EVENTS.FEED.EVENT, {
+          teamId,
+          room: roomName,
+          events: result.liveFeedEvents,
+          liveFeed: result.liveFeed || [],
+          triggeredBySocketId: socket.id,
+          timestamp: new Date().toISOString(),
+        });
+      }
+
+      if (result.coreAvailabilityBroadcast && result.nexusCore) {
+        const coreAvailablePayload = {
+          teamId,
+          teamName: result.team.teamName,
+          room: roomName,
+          nexusCore: result.nexusCore,
+          state: result.nexusCore.state || 'AVAILABLE',
+          message: 'THE NEXUS CORE IS NOW AVAILABLE // ULTIMATE SYSTEM OBJECTIVE UNLOCKED',
+          triggeredBySocketId: socket.id,
+          timestamp: new Date().toISOString(),
+        };
+        io.to(roomName).emit(SOCKET_EVENTS.CORE.AVAILABLE, coreAvailablePayload);
+        io.to(SOCKET_ROOMS.CORE_FEED).emit(SOCKET_EVENTS.CORE.AVAILABLE, coreAvailablePayload);
+      }
+
+      if (result.coreCompletedBroadcast && result.nexusCore) {
+        const coreCompletedPayload = {
+          teamId,
+          teamName: result.team.teamName,
+          room: roomName,
+          nexusCore: result.nexusCore,
+          winner: result.nexusCore.winner || null,
+          completedTeams: result.nexusCore.completedTeams || [],
+          coreEvaluation: result.coreEvaluation || null,
+          triggeredBySocketId: socket.id,
+          timestamp: new Date().toISOString(),
+        };
+        io.to(roomName).emit(SOCKET_EVENTS.CORE.COMPLETED, coreCompletedPayload);
+        io.to(SOCKET_ROOMS.ARENA_GLOBAL).emit(SOCKET_EVENTS.CORE.COMPLETED, coreCompletedPayload);
+      }
+
+      if (result.coreStateChanged && result.nexusCore) {
+        const coreStatePayload = {
+          teamId,
+          room: roomName,
+          nexusCore: result.nexusCore,
+          coreEvaluation: result.coreEvaluation || null,
+          triggeredBySocketId: socket.id,
+          timestamp: new Date().toISOString(),
+        };
+        io.to(roomName).emit(SOCKET_EVENTS.CORE.STATE_UPDATE, coreStatePayload);
+      }
+
       if (result.timer) {
         io.to(roomName).emit(SOCKET_EVENTS.TIMER.UPDATE, {
           teamId,
           room: roomName,
           timer: result.timer,
           serverTime: result.serverTime || new Date().toISOString(),
+        });
+      }
+
+      if (result.abilityActivation) {
+        io.to(roomName).emit(SOCKET_EVENTS.ABILITY.EFFECT, {
+          ...result.abilityActivation,
+          teamId,
+          room: roomName,
+          triggeredBySocketId: socket.id,
         });
       }
 
@@ -170,6 +266,11 @@ export const registerSocketChannels = (io, socket) => {
       }
 
       io.to(roomName).emit(SOCKET_EVENTS.TEAM.STATE_UPDATE, broadcastPayload);
+
+      // Broadcast sanitized arena projector snapshot to /display subscribers
+      const projectorSnapshot = await DisplayService.getProjectorDisplaySnapshot();
+      io.to(SOCKET_ROOMS.LEADERBOARD).emit(SOCKET_EVENTS.LEADERBOARD.UPDATE, projectorSnapshot);
+      io.to(SOCKET_ROOMS.ARENA_GLOBAL).emit(SOCKET_EVENTS.LEADERBOARD.UPDATE, projectorSnapshot);
 
       if (typeof callback === 'function') {
         callback({ ok: true, ...broadcastPayload });
@@ -219,14 +320,24 @@ export const registerSocketChannels = (io, socket) => {
     }
   });
 
-  socket.on(SOCKET_EVENTS.LEADERBOARD.SUBSCRIBE, (payload = {}, callback) => {
-    socket.join(SOCKET_ROOMS.LEADERBOARD);
-    if (typeof callback === 'function') {
-      callback({
-        ok: true,
-        room: SOCKET_ROOMS.LEADERBOARD,
-        timestamp: new Date().toISOString(),
-      });
+  socket.on(SOCKET_EVENTS.LEADERBOARD.SUBSCRIBE, async (payload = {}, callback) => {
+    try {
+      socket.join(SOCKET_ROOMS.LEADERBOARD);
+      socket.join(SOCKET_ROOMS.ARENA_GLOBAL);
+      const snapshot = await DisplayService.getProjectorDisplaySnapshot();
+      socket.emit(SOCKET_EVENTS.LEADERBOARD.SNAPSHOT, snapshot);
+      if (typeof callback === 'function') {
+        callback({
+          ok: true,
+          room: SOCKET_ROOMS.LEADERBOARD,
+          snapshot,
+          timestamp: new Date().toISOString(),
+        });
+      }
+    } catch (error) {
+      if (typeof callback === 'function') {
+        callback({ ok: false, error: error.message });
+      }
     }
   });
 
@@ -409,10 +520,68 @@ export const createSocketEmitters = (getIo) => ({
     }
   },
 
+  emitCoreAvailable: (teamId, availablePayload = {}) => {
+    const io = getIo();
+    if (io && teamId) {
+      const roomName = SOCKET_ROOMS.teamRoom(teamId);
+      const payload = {
+        teamId,
+        room: roomName,
+        ...availablePayload,
+        timestamp: new Date().toISOString(),
+      };
+      io.to(roomName).emit(SOCKET_EVENTS.CORE.AVAILABLE, payload);
+      io.to(SOCKET_ROOMS.CORE_FEED).emit(SOCKET_EVENTS.CORE.AVAILABLE, payload);
+    }
+  },
+
+  emitCoreStateUpdate: (teamId, statePayload = {}) => {
+    const io = getIo();
+    if (io && teamId) {
+      const roomName = SOCKET_ROOMS.teamRoom(teamId);
+      io.to(roomName).emit(SOCKET_EVENTS.CORE.STATE_UPDATE, {
+        teamId,
+        room: roomName,
+        ...statePayload,
+        timestamp: new Date().toISOString(),
+      });
+    }
+  },
+
+  emitCoreCompleted: (teamId, completedPayload = {}) => {
+    const io = getIo();
+    if (io && teamId) {
+      const roomName = SOCKET_ROOMS.teamRoom(teamId);
+      const payload = {
+        teamId,
+        room: roomName,
+        ...completedPayload,
+        timestamp: new Date().toISOString(),
+      };
+      io.to(roomName).emit(SOCKET_EVENTS.CORE.COMPLETED, payload);
+      io.to(SOCKET_ROOMS.ARENA_GLOBAL).emit(SOCKET_EVENTS.CORE.COMPLETED, payload);
+    }
+  },
+
   emitLeaderboardUpdate: (leaderboardPayload) => {
     const io = getIo();
     if (io) {
       io.to(SOCKET_ROOMS.LEADERBOARD).emit(SOCKET_EVENTS.LEADERBOARD.UPDATE, leaderboardPayload);
+      io.to(SOCKET_ROOMS.ARENA_GLOBAL).emit(SOCKET_EVENTS.LEADERBOARD.UPDATE, leaderboardPayload);
+    }
+  },
+
+  emitFeedEvents: (teamId, events = [], liveFeed = []) => {
+    const io = getIo();
+    if (io && teamId && events.length > 0) {
+      const roomName = SOCKET_ROOMS.teamRoom(teamId);
+      io.to(roomName).emit(SOCKET_EVENTS.FEED.EVENT, {
+        teamId,
+        room: roomName,
+        events,
+        liveFeed,
+        timestamp: new Date().toISOString(),
+      });
     }
   },
 });
