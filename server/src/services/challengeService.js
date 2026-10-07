@@ -443,6 +443,106 @@ export const DEFAULT_CHALLENGE_CATALOG = [
   },
 ];
 
+export const normalizeRiskTier = (rawRisk) => {
+  const val = String(rawRisk || 'BALANCED')
+    .trim()
+    .toUpperCase();
+  if (val === 'SAFE' || val === 'LOW') return 'SAFE';
+  if (
+    val === 'AGGRESSIVE' ||
+    val === 'HIGH' ||
+    val === 'HIGH_STAKES' ||
+    val === 'EXTREME' ||
+    val === 'CRITICAL'
+  ) {
+    return 'AGGRESSIVE';
+  }
+  return 'BALANCED';
+};
+
+/**
+ * Updates server-authoritative Team Risk Profile telemetry:
+ * - safeAttempts, balancedAttempts, aggressiveAttempts
+ * - successByRisk: { SAFE, BALANCED, AGGRESSIVE }
+ * - creditsByRisk: { SAFE: { gained, lost, net }, BALANCED: {...}, AGGRESSIVE: {...} }
+ * - riskProfile: 'SAFE' | 'BALANCED' | 'AGGRESSIVE'
+ * Uses direct configurable challenge risk & credit amounts (no hidden formula).
+ */
+export const applyTeamRiskTelemetry = (
+  team,
+  {
+    risk = 'BALANCED',
+    attemptIncrement = 0,
+    successIncrement = 0,
+    creditsGained = 0,
+    creditsLost = 0,
+    setActiveRiskProfile = false,
+  } = {}
+) => {
+  if (!team || !team.stats) return;
+
+  const tier = normalizeRiskTier(risk);
+
+  team.stats.safeAttempts = Number(team.stats.safeAttempts || 0);
+  team.stats.balancedAttempts = Number(team.stats.balancedAttempts || 0);
+  team.stats.aggressiveAttempts = Number(team.stats.aggressiveAttempts || 0);
+
+  if (attemptIncrement > 0) {
+    if (tier === 'SAFE') team.stats.safeAttempts += attemptIncrement;
+    else if (tier === 'AGGRESSIVE') team.stats.aggressiveAttempts += attemptIncrement;
+    else team.stats.balancedAttempts += attemptIncrement;
+  }
+
+  if (!team.stats.successByRisk) {
+    team.stats.successByRisk = { SAFE: 0, BALANCED: 0, AGGRESSIVE: 0 };
+  }
+  if (successIncrement > 0) {
+    team.stats.successByRisk[tier] =
+      Number(team.stats.successByRisk[tier] || 0) + successIncrement;
+  }
+
+  if (!team.stats.creditsByRisk) {
+    team.stats.creditsByRisk = {
+      SAFE: { gained: 0, lost: 0, net: 0 },
+      BALANCED: { gained: 0, lost: 0, net: 0 },
+      AGGRESSIVE: { gained: 0, lost: 0, net: 0 },
+    };
+  }
+
+  for (const key of ['SAFE', 'BALANCED', 'AGGRESSIVE']) {
+    if (!team.stats.creditsByRisk[key]) {
+      team.stats.creditsByRisk[key] = { gained: 0, lost: 0, net: 0 };
+    }
+  }
+
+  const bucket = team.stats.creditsByRisk[tier];
+  bucket.gained = Number(bucket.gained || 0) + Math.max(0, Number(creditsGained || 0));
+  bucket.lost = Number(bucket.lost || 0) + Math.max(0, Number(creditsLost || 0));
+  bucket.net = bucket.gained - bucket.lost;
+
+  if (setActiveRiskProfile) {
+    team.stats.riskProfile = tier;
+  } else {
+    // Reflect dominant attempt tier when no active session override is specified
+    const counts = {
+      SAFE: team.stats.safeAttempts,
+      BALANCED: team.stats.balancedAttempts,
+      AGGRESSIVE: team.stats.aggressiveAttempts,
+    };
+    if (counts.AGGRESSIVE > counts.BALANCED && counts.AGGRESSIVE >= counts.SAFE) {
+      team.stats.riskProfile = 'AGGRESSIVE';
+    } else if (counts.SAFE > counts.BALANCED && counts.SAFE > counts.AGGRESSIVE) {
+      team.stats.riskProfile = 'SAFE';
+    } else {
+      team.stats.riskProfile = tier;
+    }
+  }
+
+  if (typeof team.markModified === 'function') {
+    team.markModified('stats');
+  }
+};
+
 export const ensureDefaultChallengesSeeded = async () => {
   if (mongoose.connection.readyState !== 1) return;
 
@@ -454,6 +554,17 @@ export const ensureDefaultChallengesSeeded = async () => {
         { upsert: true, new: true }
       );
     }
+
+    // Normalize any legacy risk values in existing MongoDB documents to SAFE | BALANCED | AGGRESSIVE
+    await Challenge.updateMany(
+      { risk: { $in: ['HIGH', 'EXTREME', 'CRITICAL', 'HIGH_STAKES'] } },
+      { $set: { risk: 'AGGRESSIVE' } }
+    );
+    await Challenge.updateMany(
+      { risk: { $in: ['MODERATE', 'MEDIUM'] } },
+      { $set: { risk: 'BALANCED' } }
+    );
+    await Challenge.updateMany({ risk: 'LOW' }, { $set: { risk: 'SAFE' } });
   } catch (err) {
     logger.warn('SEED', `Challenge catalog seed check warning: ${err.message}`);
   }
@@ -615,7 +726,14 @@ export class ChallengeService {
     if (isReattempt) {
       team.stats.reattemptsCount = Number(team.stats.reattemptsCount || 0) + 1;
     }
-    team.stats.riskProfile = challenge.risk;
+
+    const normalizedRisk = normalizeRiskTier(challenge.risk);
+    applyTeamRiskTelemetry(team, {
+      risk: normalizedRisk,
+      attemptIncrement: 1,
+      creditsLost: effectiveCost,
+      setActiveRiskProfile: true,
+    });
 
     const now = new Date();
     const timeLimitSeconds = Number(challenge.timeLimit) || 1200;
@@ -631,7 +749,7 @@ export class ChallengeService {
       category: challenge.category,
       description: challenge.description,
       difficulty: challenge.difficulty,
-      risk: challenge.risk,
+      risk: normalizedRisk,
       cost: effectiveCost,
       reward: challenge.reward,
       penalty: challenge.penalty || 100,
@@ -649,7 +767,7 @@ export class ChallengeService {
       title: challenge.title,
       category: challenge.category,
       difficulty: challenge.difficulty,
-      risk: challenge.risk,
+      risk: normalizedRisk,
       costPaid: effectiveCost,
       potentialReward: challenge.reward,
       penaltyOnFail: challenge.penalty || 100,
@@ -675,7 +793,7 @@ export class ChallengeService {
         title: challenge.title,
         category: challenge.category,
         difficulty: challenge.difficulty,
-        risk: challenge.risk,
+        risk: normalizedRisk,
         gameType: challenge.gameType,
         gameConfig: challenge.gameConfig || {},
         costPaid: effectiveCost,
@@ -901,6 +1019,8 @@ export class ChallengeService {
         (await ChallengeService.getChallengeById(targetChallengeId, { includeSolution: true })) ||
         DEFAULT_CHALLENGE_CATALOG[0];
 
+      const normalizedRisk = normalizeRiskTier(fullChallenge.risk);
+
       // Determine server-authoritative expiration
       const now = new Date();
       const startedAt = activeAttemptSnapshot?.startedAt
@@ -986,6 +1106,13 @@ export class ChallengeService {
 
         team.stats.totalSolved = Number(team.stats.totalSolved || 0) + 1;
         team.stats.coreProgressPercent = nextProgress;
+
+        applyTeamRiskTelemetry(team, {
+          risk: normalizedRisk,
+          successIncrement: 1,
+          creditsGained: reward,
+        });
+
         team.completedChallenges.unshift({
           challengeId: fullChallenge.challengeId,
           title: fullChallenge.title,
@@ -995,7 +1122,7 @@ export class ChallengeService {
           reward,
           penalty: fullChallenge.penalty,
           difficulty: fullChallenge.difficulty,
-          risk: fullChallenge.risk,
+          risk: normalizedRisk,
           timeLimit: fullChallenge.timeLimit,
           gameType: fullChallenge.gameType,
           timestamp: now,
@@ -1014,7 +1141,7 @@ export class ChallengeService {
           title: fullChallenge.title,
           category: fullChallenge.category,
           difficulty: fullChallenge.difficulty,
-          risk: fullChallenge.risk,
+          risk: normalizedRisk,
           gameType: fullChallenge.gameType,
           submittedAnswer: rawAnswer,
           creditsDelta: reward,
@@ -1055,6 +1182,12 @@ export class ChallengeService {
         });
 
         team.stats.totalFailed = Number(team.stats.totalFailed || 0) + 1;
+
+        applyTeamRiskTelemetry(team, {
+          risk: normalizedRisk,
+          creditsLost: penalty,
+        });
+
         const alreadyInFailed = (team.failedChallenges || []).some(
           (f) => f.challengeId === fullChallenge.challengeId
         );
@@ -1068,7 +1201,7 @@ export class ChallengeService {
             reward: fullChallenge.reward,
             penalty,
             difficulty: fullChallenge.difficulty,
-            risk: fullChallenge.risk,
+            risk: normalizedRisk,
             timeLimit: fullChallenge.timeLimit,
             gameType: fullChallenge.gameType,
             timestamp: now,
@@ -1090,7 +1223,7 @@ export class ChallengeService {
           title: fullChallenge.title,
           category: fullChallenge.category,
           difficulty: fullChallenge.difficulty,
-          risk: fullChallenge.risk,
+          risk: normalizedRisk,
           gameType: fullChallenge.gameType,
           submittedAnswer:
             rawAnswer || (isTimeout ? '[SERVER_TIMEOUT]' : '[SESSION_ABANDONED]'),

@@ -19,6 +19,7 @@ import {
 } from 'lucide-react';
 import { CrosshairMark } from './CrosshairMark';
 import { SystemBadge } from './SystemBadge';
+import { RiskBadge, getRiskMetadata } from './RiskBadge';
 import { useReducedMotion } from '../hooks/useReducedMotion';
 
 // Supplied NEXUS architectural imagery
@@ -342,9 +343,7 @@ const ClassifiedChallengeCard = ({
           <span className="text-[10px] uppercase tracking-[0.18em] text-white/85 font-semibold">
             RISK
           </span>
-          <span className="px-1.5 py-0.5 bg-nexus-ink text-nexus-paper font-bold text-[10px] uppercase tracking-widest">
-            {challenge.risk}
-          </span>
+          <RiskBadge risk={challenge.risk} size="xs" variant="onCrimson" />
         </div>
       </div>
     </motion.article>
@@ -361,6 +360,7 @@ export const ChallengeMarketModule = ({
   actionPending = false,
   onAcquireChallenge,
   onOpenExecutionPanel,
+  initialRiskFilter = 'ALL',
   compact = false,
 }) => {
   const prefersReducedMotion = useReducedMotion();
@@ -368,7 +368,13 @@ export const ChallengeMarketModule = ({
   // Filter states: category (ALL, LOGIC, PUZZLES, OBSERVATION, KNOWLEDGE, TECHNICAL), difficulty, risk
   const [selectedCategory, setSelectedCategory] = useState('ALL');
   const [selectedDifficulty, setSelectedDifficulty] = useState('ALL');
-  const [selectedRisk, setSelectedRisk] = useState('ALL');
+  const [selectedRisk, setSelectedRisk] = useState(initialRiskFilter || 'ALL');
+
+  React.useEffect(() => {
+    if (initialRiskFilter && MARKET_RISKS.includes(initialRiskFilter)) {
+      setSelectedRisk(initialRiskFilter);
+    }
+  }, [initialRiskFilter]);
 
   // Selected challenge for the Confirmation Panel
   const [inspectingChallenge, setInspectingChallenge] = useState(null);
@@ -841,12 +847,10 @@ export const ChallengeMarketModule = ({
                   </div>
 
                   <div className="p-3">
-                    <span className="block text-[9px] uppercase tracking-widest text-nexus-paper/60">
+                    <span className="block text-[9px] uppercase tracking-widest text-nexus-paper/60 mb-1">
                       RISK
                     </span>
-                    <span className="font-bold text-xs uppercase text-nexus-crimson">
-                      {inspectingChallenge.risk}
-                    </span>
+                    <RiskBadge risk={inspectingChallenge.risk} size="xs" variant="onDark" />
                   </div>
 
                   <div className="p-3 col-span-2 sm:col-span-1">
@@ -857,6 +861,19 @@ export const ChallengeMarketModule = ({
                       {formatTimeLimitDetailed(inspectingChallenge.timeLimit)}
                     </span>
                   </div>
+                </div>
+
+                {/* Risk Classification Banner (NEXUS Proposal) */}
+                <div className="p-3 border-2 border-nexus-ink bg-nexus-paper-elevated flex flex-wrap items-center justify-between gap-2 font-mono text-[11px]">
+                  <div className="flex items-center gap-2">
+                    <RiskBadge risk={inspectingChallenge.risk} size="xs" />
+                    <span className="font-bold text-nexus-ink uppercase tracking-wider">
+                      {getRiskMetadata(inspectingChallenge.risk).headline}
+                    </span>
+                  </div>
+                  <span className="text-[10px] text-nexus-muted uppercase">
+                    FAIL PENALTY: -{inspectingChallenge.penalty || 100} CR
+                  </span>
                 </div>
 
                 {/* Server Authority Notice */}

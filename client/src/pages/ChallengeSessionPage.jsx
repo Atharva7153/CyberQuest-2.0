@@ -21,6 +21,7 @@ import {
 } from 'lucide-react';
 import { BrutalistPanel } from '../components/BrutalistPanel';
 import { SystemBadge } from '../components/SystemBadge';
+import { RiskBadge, getRiskMetadata } from '../components/RiskBadge';
 import { ChallengeRenderer } from '../engine/ChallengeRenderer';
 import { useTeamPortal } from '../hooks/useTeamPortal';
 import { fetchChallengeSessionHttp } from '../services/authService';
@@ -510,15 +511,19 @@ export const ChallengeSessionPage = () => {
 
             {/* 5. RISK */}
             <div className="p-2.5 border border-nexus-paper/20 bg-black/30 flex flex-col justify-between">
-              <span className="font-mono text-[9px] uppercase tracking-[0.2em] text-nexus-paper/60">
-                RISK
-              </span>
-              <div className="mt-1 flex items-center justify-between">
-                <span className="font-condensed text-lg sm:text-xl font-extrabold uppercase tracking-wider text-nexus-crimson">
-                  {targetChallenge?.risk || 'BALANCED'}
-                </span>
-                <span className="font-mono text-[10px] text-nexus-paper/65">
-                  -{targetChallenge?.penalty || 100} CR
+              <div className="flex items-center justify-between font-mono text-[9px] uppercase tracking-[0.2em] text-nexus-paper/60">
+                <span>RISK</span>
+                <span>-{targetChallenge?.penalty || 100} CR</span>
+              </div>
+              <div className="mt-1 flex items-center justify-between gap-2">
+                <RiskBadge
+                  risk={targetChallenge?.risk || 'BALANCED'}
+                  size="sm"
+                  variant="onDark"
+                  pulseAggressive
+                />
+                <span className="font-mono text-[9px] text-nexus-paper/65 truncate hidden xl:inline">
+                  {getRiskMetadata(targetChallenge?.risk || 'BALANCED').pillars[0]}
                 </span>
               </div>
             </div>

@@ -7,6 +7,8 @@ import {
   ChallengeService,
   DEFAULT_CHALLENGE_CATALOG,
   ensureDefaultChallengesSeeded,
+  applyTeamRiskTelemetry,
+  normalizeRiskTier,
 } from './challengeService.js';
 import { CREDIT_TRANSACTION_TYPES, creditsConfig } from '../config/creditsConfig.js';
 import { hashPassword, verifyPassword } from '../utils/password.js';
@@ -123,6 +125,19 @@ const buildSeedTeams = () => {
         extraTimePurchased: 0,
         abilitiesUsed: 0,
         riskProfile: 'BALANCED',
+        safeAttempts: 1,
+        balancedAttempts: 1,
+        aggressiveAttempts: 0,
+        successByRisk: {
+          SAFE: 1,
+          BALANCED: 0,
+          AGGRESSIVE: 0,
+        },
+        creditsByRisk: {
+          SAFE: { gained: 400, lost: 150, net: 250 },
+          BALANCED: { gained: 0, lost: initialChallenge.cost, net: -initialChallenge.cost },
+          AGGRESSIVE: { gained: 0, lost: 0, net: 0 },
+        },
         coreProgressPercent: 72,
         lastActionAt: new Date(),
         recentActivity: [
@@ -183,6 +198,19 @@ const buildSeedTeams = () => {
         extraTimePurchased: 0,
         abilitiesUsed: 0,
         riskProfile: 'SAFE',
+        safeAttempts: 0,
+        balancedAttempts: 0,
+        aggressiveAttempts: 0,
+        successByRisk: {
+          SAFE: 0,
+          BALANCED: 0,
+          AGGRESSIVE: 0,
+        },
+        creditsByRisk: {
+          SAFE: { gained: 0, lost: 0, net: 0 },
+          BALANCED: { gained: 0, lost: 0, net: 0 },
+          AGGRESSIVE: { gained: 0, lost: 0, net: 0 },
+        },
         coreProgressPercent: 25,
         lastActionAt: new Date(),
         recentActivity: [],
@@ -210,43 +238,81 @@ export const ensureDefaultTeamsSeeded = async () => {
           'SEED',
           `Seeded operative team [${seed.teamId}] with ${seed.credits} starting credits`
         );
-      } else if (
-        existing.currentChallenge &&
-        (!existing.currentChallenge.gameConfig?.wordLength &&
-          !existing.currentChallenge.gameConfig?.prompt)
-      ) {
-        // Upgrade any pre-Phase-7 active challenge to the Phase 7 engine schema
-        const match =
-          CHALLENGE_CATALOG.find(
-            (c) => c.challengeId === existing.currentChallenge.challengeId
-          ) || CHALLENGE_CATALOG[0];
-        existing.currentChallenge = {
-          ...match,
-          solutionConfig: undefined,
-          timestamp: new Date(),
-        };
-        existing.activeAttempt = {
-          attemptId: existing.activeAttempt?.attemptId || 'ATT-901',
-          challengeId: match.challengeId,
-          title: match.title,
-          category: match.category,
-          difficulty: match.difficulty,
-          risk: match.risk,
-          gameType: match.gameType,
-          gameConfig: match.gameConfig,
-          costPaid: match.cost,
-          potentialReward: match.reward,
-          penaltyOnFail: match.penalty,
-          timeLimit: match.timeLimit,
-          hintsUnlocked: existing.activeAttempt?.hintsUnlocked || 0,
-          unlockedHints: existing.activeAttempt?.unlockedHints || [],
-          extraTimeMinutes: existing.activeAttempt?.extraTimeMinutes || 0,
-          isReattempt: Boolean(existing.activeAttempt?.isReattempt),
-          startedAt: existing.activeAttempt?.startedAt || new Date(),
-          expiresAt: new Date(Date.now() + match.timeLimit * 1000),
-          status: 'IN_PROGRESS',
-        };
-        await existing.save();
+      } else {
+        let needsSave = false;
+
+        if (
+          existing.currentChallenge &&
+          (!existing.currentChallenge.gameConfig?.wordLength &&
+            !existing.currentChallenge.gameConfig?.prompt)
+        ) {
+          // Upgrade any pre-Phase-7 active challenge to the Phase 7 engine schema
+          const match =
+            CHALLENGE_CATALOG.find(
+              (c) => c.challengeId === existing.currentChallenge.challengeId
+            ) || CHALLENGE_CATALOG[0];
+          existing.currentChallenge = {
+            ...match,
+            solutionConfig: undefined,
+            timestamp: new Date(),
+          };
+          existing.activeAttempt = {
+            attemptId: existing.activeAttempt?.attemptId || 'ATT-901',
+            challengeId: match.challengeId,
+            title: match.title,
+            category: match.category,
+            difficulty: match.difficulty,
+            risk: match.risk,
+            gameType: match.gameType,
+            gameConfig: match.gameConfig,
+            costPaid: match.cost,
+            potentialReward: match.reward,
+            penaltyOnFail: match.penalty,
+            timeLimit: match.timeLimit,
+            hintsUnlocked: existing.activeAttempt?.hintsUnlocked || 0,
+            unlockedHints: existing.activeAttempt?.unlockedHints || [],
+            extraTimeMinutes: existing.activeAttempt?.extraTimeMinutes || 0,
+            isReattempt: Boolean(existing.activeAttempt?.isReattempt),
+            startedAt: existing.activeAttempt?.startedAt || new Date(),
+            expiresAt: new Date(Date.now() + match.timeLimit * 1000),
+            status: 'IN_PROGRESS',
+          };
+          needsSave = true;
+        }
+
+        // Upgrade any pre-Phase-9 team stats to include risk telemetry
+        if (
+          existing.stats &&
+          (existing.stats.safeAttempts === undefined ||
+            (existing.stats.safeAttempts === 0 &&
+              existing.stats.balancedAttempts === 0 &&
+              existing.stats.aggressiveAttempts === 0 &&
+              (existing.completedChallenges?.length > 0 ||
+                existing.failedChallenges?.length > 0 ||
+                existing.activeAttempt)))
+        ) {
+          existing.stats.safeAttempts = seed.stats.safeAttempts || 0;
+          existing.stats.balancedAttempts = seed.stats.balancedAttempts || 0;
+          existing.stats.aggressiveAttempts = seed.stats.aggressiveAttempts || 0;
+          existing.stats.successByRisk = seed.stats.successByRisk || {
+            SAFE: 0,
+            BALANCED: 0,
+            AGGRESSIVE: 0,
+          };
+          existing.stats.creditsByRisk = seed.stats.creditsByRisk || {
+            SAFE: { gained: 0, lost: 0, net: 0 },
+            BALANCED: { gained: 0, lost: 0, net: 0 },
+            AGGRESSIVE: { gained: 0, lost: 0, net: 0 },
+          };
+          existing.stats.riskProfile = normalizeRiskTier(
+            existing.currentChallenge?.risk || existing.stats.riskProfile || seed.stats.riskProfile
+          );
+          needsSave = true;
+        }
+
+        if (needsSave) {
+          await existing.save();
+        }
       }
 
       // Ensure initial credit transaction records exist for TEAM-CIPHER
@@ -523,6 +589,14 @@ export const executeTeamAction = async (rawTeamId, actionType, payload = {}) => 
         team.stats.hintsPurchased += 1;
         await ChallengeService.unlockNextHintForTeam(team);
       }
+      applyTeamRiskTelemetry(team, {
+        risk:
+          team.currentChallenge?.risk ||
+          team.activeAttempt?.risk ||
+          team.stats?.riskProfile ||
+          'BALANCED',
+        creditsLost: cost,
+      });
       await team.save();
       break;
     }
@@ -561,6 +635,14 @@ export const executeTeamAction = async (rawTeamId, actionType, payload = {}) => 
       });
 
       team.stats.abilitiesUsed += 1;
+      applyTeamRiskTelemetry(team, {
+        risk:
+          team.currentChallenge?.risk ||
+          team.activeAttempt?.risk ||
+          team.stats?.riskProfile ||
+          'BALANCED',
+        creditsLost: ability.cost,
+      });
       ability.status = 'ACTIVE';
       ability.lastUsedAt = new Date();
       ability.chargePercent = Math.max(15, (ability.chargePercent || 100) - 25);

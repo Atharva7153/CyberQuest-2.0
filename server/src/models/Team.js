@@ -116,6 +116,31 @@ const teamStatsSchema = new mongoose.Schema(
       enum: ['SAFE', 'BALANCED', 'AGGRESSIVE'],
       default: 'BALANCED',
     },
+    safeAttempts: { type: Number, default: 0 },
+    balancedAttempts: { type: Number, default: 0 },
+    aggressiveAttempts: { type: Number, default: 0 },
+    successByRisk: {
+      SAFE: { type: Number, default: 0 },
+      BALANCED: { type: Number, default: 0 },
+      AGGRESSIVE: { type: Number, default: 0 },
+    },
+    creditsByRisk: {
+      SAFE: {
+        gained: { type: Number, default: 0 },
+        lost: { type: Number, default: 0 },
+        net: { type: Number, default: 0 },
+      },
+      BALANCED: {
+        gained: { type: Number, default: 0 },
+        lost: { type: Number, default: 0 },
+        net: { type: Number, default: 0 },
+      },
+      AGGRESSIVE: {
+        gained: { type: Number, default: 0 },
+        lost: { type: Number, default: 0 },
+        net: { type: Number, default: 0 },
+      },
+    },
     coreProgressPercent: { type: Number, default: 24 },
     lastActionAt: { type: Date, default: Date.now },
     recentActivity: {

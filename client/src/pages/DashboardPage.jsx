@@ -18,6 +18,8 @@ import {
 import { PortalShellLayout } from '../layouts/PortalShellLayout';
 import { BrutalistPanel } from '../components/BrutalistPanel';
 import { SystemBadge } from '../components/SystemBadge';
+import { RiskBadge } from '../components/RiskBadge';
+import { TeamRiskProfileModule } from '../components/TeamRiskProfileModule';
 import { ResistanceCreditsModule } from '../components/ResistanceCreditsModule';
 import {
   ChallengeMarketModule,
@@ -34,6 +36,7 @@ export const DashboardPage = () => {
     team,
     catalog,
     transactions,
+    attempts,
     serverClockOffsetMs,
     creditsConfig,
     lastCreditChange,
@@ -53,6 +56,7 @@ export const DashboardPage = () => {
 
   const [activeSection, setActiveSection] = useState('DASHBOARD');
   const [selectedChallengeModal, setSelectedChallengeModal] = useState(null);
+  const [marketRiskFilter, setMarketRiskFilter] = useState('ALL');
 
   useEffect(() => {
     if (!isInitializing && !isAuthenticated) {
@@ -209,9 +213,12 @@ export const DashboardPage = () => {
                     </span>
                   )}
                 </div>
-                <p className="font-mono text-[10px] uppercase tracking-wider text-nexus-muted mt-0.5">
-                  {chg.category} · RISK: {chg.risk} · REWARD: +{chg.reward} CR
-                </p>
+                <div className="flex flex-wrap items-center gap-2 mt-1">
+                  <span className="font-mono text-[10px] uppercase tracking-wider text-nexus-muted">
+                    {chg.category} · REWARD: +{chg.reward} CR
+                  </span>
+                  <RiskBadge risk={chg.risk} size="xs" />
+                </div>
                 {expanded && (
                   <p className="font-editorial text-xs text-nexus-charcoal mt-1.5">
                     {chg.description}
@@ -370,6 +377,11 @@ export const DashboardPage = () => {
     </BrutalistPanel>
   );
 
+  const handleSelectMarketRiskFilter = (riskTier) => {
+    setMarketRiskFilter(riskTier || 'ALL');
+    setActiveSection('CHALLENGES');
+  };
+
   const renderSectionContent = () => {
     switch (activeSection) {
       case 'CHALLENGES':
@@ -380,6 +392,7 @@ export const DashboardPage = () => {
               team={team}
               creditsConfig={creditsConfig}
               actionPending={actionPending}
+              initialRiskFilter={marketRiskFilter}
               onAcquireChallenge={handleAcquireChallenge}
               onOpenExecutionPanel={() => {
                 if (activeChallenge?.challengeId) {
@@ -389,6 +402,13 @@ export const DashboardPage = () => {
                 }
               }}
               compact={false}
+            />
+            <TeamRiskProfileModule
+              team={team}
+              attempts={attempts}
+              catalog={catalog}
+              compact={false}
+              onSelectMarketRiskFilter={handleSelectMarketRiskFilter}
             />
             {renderSubmissionAndTacticalPanel()}
           </div>
@@ -470,6 +490,13 @@ export const DashboardPage = () => {
               lastCreditChange={lastCreditChange}
               showFullLedger
             />
+            <TeamRiskProfileModule
+              team={team}
+              attempts={attempts}
+              catalog={catalog}
+              compact={false}
+              onSelectMarketRiskFilter={handleSelectMarketRiskFilter}
+            />
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
               <div className="lg:col-span-6">{renderSubmissionAndTacticalPanel()}</div>
               <div className="lg:col-span-6">{renderProgressAndFeedPanel()}</div>
@@ -490,10 +517,13 @@ export const DashboardPage = () => {
                   {(team.completedChallenges || []).map((c, idx) => (
                     <div
                       key={`${c.challengeId}-${idx}`}
-                      className="p-2.5 border border-nexus-ink bg-nexus-paper flex justify-between"
+                      className="p-2.5 border border-nexus-ink bg-nexus-paper flex items-center justify-between gap-2"
                     >
-                      <span className="font-bold">{c.title}</span>
-                      <span className="text-nexus-crimson font-bold">+{c.reward} CR</span>
+                      <div className="flex items-center gap-2 min-w-0">
+                        <RiskBadge risk={c.risk} size="xs" />
+                        <span className="font-bold truncate">{c.title}</span>
+                      </div>
+                      <span className="text-nexus-crimson font-bold shrink-0">+{c.reward} CR</span>
                     </div>
                   ))}
                   <p className="font-bold text-nexus-crimson uppercase pt-2">
@@ -502,10 +532,13 @@ export const DashboardPage = () => {
                   {(team.failedChallenges || []).map((c, idx) => (
                     <div
                       key={`${c.challengeId}-fail-${idx}`}
-                      className="p-2.5 border border-nexus-crimson bg-nexus-crimson/5 flex justify-between"
+                      className="p-2.5 border border-nexus-crimson bg-nexus-crimson/5 flex items-center justify-between gap-2"
                     >
-                      <span className="font-bold">{c.title}</span>
-                      <span className="text-nexus-crimson font-bold">-{c.penalty} CR</span>
+                      <div className="flex items-center gap-2 min-w-0">
+                        <RiskBadge risk={c.risk} size="xs" />
+                        <span className="font-bold truncate">{c.title}</span>
+                      </div>
+                      <span className="text-nexus-crimson font-bold shrink-0">-{c.penalty} CR</span>
                     </div>
                   ))}
                 </div>
@@ -521,6 +554,13 @@ export const DashboardPage = () => {
       case 'NEXUS_CORE':
         return (
           <div className="space-y-6">
+            <TeamRiskProfileModule
+              team={team}
+              attempts={attempts}
+              catalog={catalog}
+              compact={false}
+              onSelectMarketRiskFilter={handleSelectMarketRiskFilter}
+            />
             {renderProgressAndFeedPanel()}
             <BrutalistPanel
               codeTag="CORE_GATE"
@@ -583,12 +623,20 @@ export const DashboardPage = () => {
                 </p>
               </div>
 
-              <div className="nexus-editorial-box p-4">
-                <span className="font-mono text-[10px] uppercase tracking-widest text-nexus-muted">
-                  RISK PROFILE
-                </span>
-                <p className="font-condensed text-xl font-extrabold uppercase text-nexus-crimson mt-1">
-                  {team.stats?.riskProfile || 'BALANCED'}
+              <div className="nexus-editorial-box p-4 flex flex-col justify-between">
+                <div className="flex items-center justify-between gap-2">
+                  <span className="font-mono text-[10px] uppercase tracking-widest text-nexus-muted">
+                    RISK PROFILE
+                  </span>
+                  <RiskBadge
+                    risk={activeChallenge?.risk || team.stats?.riskProfile || 'BALANCED'}
+                    size="xs"
+                    pulseAggressive
+                  />
+                </div>
+                <p className="font-mono text-[11px] font-bold uppercase text-nexus-ink mt-1.5">
+                  S:{team.stats?.safeAttempts ?? 1} · B:{team.stats?.balancedAttempts ?? 1} · A:
+                  {team.stats?.aggressiveAttempts ?? 0} ATTEMPTS
                 </p>
               </div>
             </div>
@@ -600,12 +648,22 @@ export const DashboardPage = () => {
               <div className="lg:col-span-3">{renderAbilitiesPanel(false)}</div>
             </div>
 
+            {/* Phase 9: Team Risk Profile & Risk/Reward Classification */}
+            <TeamRiskProfileModule
+              team={team}
+              attempts={attempts}
+              catalog={catalog}
+              compact={false}
+              onSelectMarketRiskFilter={handleSelectMarketRiskFilter}
+            />
+
             {/* Live Challenge Market (Phase 6) */}
             <ChallengeMarketModule
               catalog={catalog}
               team={team}
               creditsConfig={creditsConfig}
               actionPending={actionPending}
+              initialRiskFilter={marketRiskFilter}
               onAcquireChallenge={handleAcquireChallenge}
               onOpenExecutionPanel={() => {
                 if (activeChallenge?.challengeId) {
@@ -720,10 +778,8 @@ export const DashboardPage = () => {
                   <span className="font-bold">{selectedChallengeModal.difficulty}</span>
                 </div>
                 <div>
-                  <span className="text-nexus-muted block text-[10px]">RISK</span>
-                  <span className="font-bold text-nexus-crimson">
-                    {selectedChallengeModal.risk}
-                  </span>
+                  <span className="text-nexus-muted block text-[10px] mb-0.5">RISK</span>
+                  <RiskBadge risk={selectedChallengeModal.risk} size="xs" />
                 </div>
                 <div className="col-span-2 sm:col-span-1">
                   <span className="text-nexus-muted block text-[10px]">TIME</span>

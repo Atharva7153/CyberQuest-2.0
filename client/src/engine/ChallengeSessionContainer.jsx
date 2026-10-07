@@ -11,6 +11,7 @@ import {
 } from 'lucide-react';
 import { BrutalistPanel } from '../components/BrutalistPanel';
 import { SystemBadge } from '../components/SystemBadge';
+import { RiskBadge } from '../components/RiskBadge';
 import { ChallengeRenderer } from './ChallengeRenderer';
 import { useReducedMotion } from '../hooks/useReducedMotion';
 
@@ -140,9 +141,11 @@ export const ChallengeSessionContainer = ({
             {/* Active Session Header Telemetry */}
             <div className="p-3.5 border-2 border-nexus-ink bg-nexus-paper space-y-2">
               <div className="flex flex-wrap items-center justify-between gap-2 font-mono text-[10px] text-nexus-muted uppercase">
-                <span>
-                  {activeChallenge.challengeId} // {activeChallenge.category} · RISK:{' '}
-                  <strong className="text-nexus-crimson">{activeChallenge.risk}</strong>
+                <span className="flex items-center gap-2">
+                  <span>
+                    {activeChallenge.challengeId} // {activeChallenge.category}
+                  </span>
+                  <RiskBadge risk={activeChallenge.risk} size="xs" />
                 </span>
                 <span className="flex items-center gap-1.5 text-nexus-ink font-bold">
                   <Clock className="w-3.5 h-3.5 text-nexus-crimson" />
