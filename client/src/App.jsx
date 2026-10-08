@@ -9,6 +9,7 @@ import { ProgressPage } from './pages/ProgressPage';
 import { HistoryPage } from './pages/HistoryPage';
 import { NexusCorePage } from './pages/NexusCorePage';
 import { ProjectorDisplayPage } from './pages/ProjectorDisplayPage';
+import { AdminControlPage } from './pages/AdminControlPage';
 import { SystemEntryPage } from './pages/SystemEntryPage';
 import { NexusPageTransition } from './components/NexusPageTransition';
 
@@ -25,6 +26,12 @@ export const App = () => {
             <Route path="/history" element={<HistoryPage />} />
             <Route path="/nexus-core" element={<NexusCorePage />} />
             <Route path="/display" element={<ProjectorDisplayPage />} />
+            <Route path="/admin" element={<AdminControlPage />} />
+            <Route path="/admin/teams" element={<AdminControlPage />} />
+            <Route path="/admin/challenges" element={<AdminControlPage />} />
+            <Route path="/admin/attempts" element={<AdminControlPage />} />
+            <Route path="/admin/events" element={<AdminControlPage />} />
+            <Route path="/admin/settings" element={<AdminControlPage />} />
             <Route path="/challenge/:challengeId" element={<ChallengeSessionPage />} />
             <Route path="/system" element={<SystemEntryPage />} />
             <Route path="*" element={<Navigate to="/" replace />} />

@@ -138,34 +138,53 @@ const defaultConfigurableEffectHandler = async ({ ability, team, payload = {} })
   };
 };
 
+let abilitiesSeeded = false;
+let abilitiesSeedPromise = null;
+let cachedAbilitiesCatalog = null;
+let cachedAbilitiesCatalogExpiresAt = 0;
+
 export const ensureDefaultAbilitiesSeeded = async () => {
   if (mongoose.connection.readyState !== 1) return;
+  if (abilitiesSeeded) return;
+  if (abilitiesSeedPromise) return abilitiesSeedPromise;
 
-  try {
-    for (const def of DEFAULT_ABILITY_CATALOG) {
-      await Ability.findOneAndUpdate(
-        { abilityId: def.abilityId },
-        {
-          $setOnInsert: {
-            abilityId: def.abilityId,
-            name: def.name,
-            code: def.code,
-            description: def.description,
-            cost: def.cost,
-            enabled: def.enabled,
-            effectType: def.effectType,
-            effectConfig: def.effectConfig,
+  abilitiesSeedPromise = (async () => {
+    try {
+      for (const def of DEFAULT_ABILITY_CATALOG) {
+        await Ability.findOneAndUpdate(
+          { abilityId: def.abilityId },
+          {
+            $setOnInsert: {
+              abilityId: def.abilityId,
+              name: def.name,
+              code: def.code,
+              description: def.description,
+              cost: def.cost,
+              enabled: def.enabled,
+              effectType: def.effectType,
+              effectConfig: def.effectConfig,
+            },
           },
-        },
-        { upsert: true, new: true }
-      );
+          { upsert: true, new: true }
+        );
+      }
+      abilitiesSeeded = true;
+    } catch (err) {
+      logger.warn('SEED', `Ability catalog seed warning: ${err.message}`);
+    } finally {
+      abilitiesSeedPromise = null;
     }
-  } catch (err) {
-    logger.warn('SEED', `Ability catalog seed warning: ${err.message}`);
-  }
+  })();
+
+  return abilitiesSeedPromise;
 };
 
 export class AbilityService {
+  static invalidateCatalogCache() {
+    cachedAbilitiesCatalog = null;
+    cachedAbilitiesCatalogExpiresAt = 0;
+  }
+
   /**
    * Register a custom server-side effect handler for a specific `effectType`.
    */
@@ -182,9 +201,16 @@ export class AbilityService {
       return DEFAULT_ABILITY_CATALOG;
     }
 
+    if (cachedAbilitiesCatalog && Date.now() < cachedAbilitiesCatalogExpiresAt) {
+      return cachedAbilitiesCatalog;
+    }
+
     await ensureDefaultAbilitiesSeeded();
     const docs = await Ability.find({}).sort({ abilityId: 1 }).lean();
-    return docs.length > 0 ? docs : DEFAULT_ABILITY_CATALOG;
+    const resolved = docs.length > 0 ? docs : DEFAULT_ABILITY_CATALOG;
+    cachedAbilitiesCatalog = resolved;
+    cachedAbilitiesCatalogExpiresAt = Date.now() + 3000;
+    return resolved;
   }
 
   /**
@@ -295,146 +321,165 @@ export class AbilityService {
       throw err;
     }
 
-    const catalog = await AbilityService.listAbilities();
-    AbilityService.reconcileTeamAbilitiesState(teamDoc, catalog);
-
     const normalizedAbilityId = String(abilityId || 'ABL-03')
       .trim()
       .toUpperCase();
-    const abilitySlot = (teamDoc.abilities || []).find(
-      (a) => String(a.abilityId).toUpperCase() === normalizedAbilityId
-    );
+    const lockKey = `${teamDoc.teamId}:${normalizedAbilityId}`;
 
-    if (!abilitySlot) {
-      const err = new Error(`Ability module [${normalizedAbilityId}] is not registered.`);
-      err.statusCode = 404;
-      err.code = 'ABILITY_NOT_FOUND';
-      throw err;
-    }
-
-    if (abilitySlot.enabled === false || abilitySlot.status === 'DISABLED') {
+    if (AbilityService._abilityLocks.has(lockKey)) {
       const err = new Error(
-        `Ability module [${abilitySlot.name}] is currently disabled by NEXUS Core.`
-      );
-      err.statusCode = 403;
-      err.code = 'ABILITY_DISABLED';
-      throw err;
-    }
-
-    const now = new Date();
-    if (
-      abilitySlot.cooldownExpiresAt &&
-      now < new Date(abilitySlot.cooldownExpiresAt)
-    ) {
-      const remainingCooldownSec = Math.ceil(
-        (new Date(abilitySlot.cooldownExpiresAt).getTime() - now.getTime()) / 1000
-      );
-      const err = new Error(
-        `${abilitySlot.name} is recharging (${remainingCooldownSec}s cooldown remaining).`
+        `Simultaneous ability activation blocked: [${normalizedAbilityId}] is already being activated for your squad.`
       );
       err.statusCode = 409;
-      err.code = 'ABILITY_ON_COOLDOWN';
+      err.code = 'ABILITY_ACTIVATION_IN_FLIGHT';
       throw err;
     }
 
-    const cost = Math.max(0, Number(abilitySlot.cost ?? 100));
-    const relatedChallenge = teamDoc.currentChallenge
-      ? {
-          challengeId: teamDoc.currentChallenge.challengeId,
-          title: teamDoc.currentChallenge.title,
-          category: teamDoc.currentChallenge.category,
-        }
-      : null;
+    AbilityService._abilityLocks.add(lockKey);
 
-    // 1. Deduct Resistance Credits server-side (throws 400 INSUFFICIENT_CREDITS if balance < cost)
-    const creditResult = await CreditService.recordTransaction({
-      teamDoc,
-      type: CREDIT_TRANSACTION_TYPES.ABILITY,
-      amount: cost,
-      relatedChallenge,
-      relatedAbility: {
-        abilityId: abilitySlot.abilityId,
-        name: abilitySlot.name,
-        code: abilitySlot.code,
-        effectType: abilitySlot.effectType,
-      },
-      summary: `ABILITY ACTIVATED: ${abilitySlot.name.toUpperCase()} [${abilitySlot.code}] (-${cost} CR)`,
-      autoSaveTeam: false,
-    });
+    try {
+      const catalog = await AbilityService.listAbilities();
+      AbilityService.reconcileTeamAbilitiesState(teamDoc, catalog);
 
-    // 2. Dispatch extensible effect handler
-    const handlerKey = String(abilitySlot.effectType || '').toUpperCase();
-    const handler =
-      effectHandlerRegistry.get(handlerKey) || defaultConfigurableEffectHandler;
-    const effectOutcome = await handler({
-      ability: abilitySlot,
-      team: teamDoc,
-      payload,
-    });
+      const abilitySlot = (teamDoc.abilities || []).find(
+        (a) => String(a.abilityId).toUpperCase() === normalizedAbilityId
+      );
 
-    const cooldownSeconds = Number(
-      effectOutcome?.cooldownSeconds ??
-        abilitySlot.effectConfig?.cooldownSeconds ??
-        abilitySlot.cooldownSeconds ??
-        25
-    );
-    const cooldownExpiresAt =
-      cooldownSeconds > 0 ? new Date(now.getTime() + cooldownSeconds * 1000) : null;
+      if (!abilitySlot) {
+        const err = new Error(`Ability module [${normalizedAbilityId}] is not registered.`);
+        err.statusCode = 404;
+        err.code = 'ABILITY_NOT_FOUND';
+        throw err;
+      }
 
-    // 3. Update ability slot state
-    abilitySlot.status = 'ACTIVE';
-    abilitySlot.lastUsedAt = now;
-    abilitySlot.cooldownSeconds = cooldownSeconds;
-    abilitySlot.cooldownExpiresAt = cooldownExpiresAt;
-    abilitySlot.activationsCount = Number(abilitySlot.activationsCount || 0) + 1;
-    abilitySlot.chargePercent = Math.max(20, (abilitySlot.chargePercent || 100) - 20);
-    abilitySlot.lastActivationPayload = effectOutcome;
+      if (abilitySlot.enabled === false || abilitySlot.status === 'DISABLED') {
+        const err = new Error(
+          `Ability module [${abilitySlot.name}] is currently disabled by NEXUS Core.`
+        );
+        err.statusCode = 403;
+        err.code = 'ABILITY_DISABLED';
+        throw err;
+      }
 
-    teamDoc.stats.abilitiesUsed = Number(teamDoc.stats.abilitiesUsed || 0) + 1;
+      const now = new Date();
+      if (
+        abilitySlot.cooldownExpiresAt &&
+        now < new Date(abilitySlot.cooldownExpiresAt)
+      ) {
+        const remainingCooldownSec = Math.ceil(
+          (new Date(abilitySlot.cooldownExpiresAt).getTime() - now.getTime()) / 1000
+        );
+        const err = new Error(
+          `${abilitySlot.name} is recharging (${remainingCooldownSec}s cooldown remaining).`
+        );
+        err.statusCode = 409;
+        err.code = 'ABILITY_ON_COOLDOWN';
+        throw err;
+      }
 
-    // 4. Attach activation record to activeAttempt if a session is in progress
-    if (teamDoc.activeAttempt) {
-      const existingActive = Array.isArray(teamDoc.activeAttempt.activeAbilities)
-        ? teamDoc.activeAttempt.activeAbilities
-        : [];
-      teamDoc.activeAttempt.activeAbilities = [
-        ...existingActive,
-        {
+      const cost = Math.max(0, Number(abilitySlot.cost ?? 100));
+      const relatedChallenge = teamDoc.currentChallenge
+        ? {
+            challengeId: teamDoc.currentChallenge.challengeId,
+            title: teamDoc.currentChallenge.title,
+            category: teamDoc.currentChallenge.category,
+          }
+        : null;
+
+      // 1. Deduct Resistance Credits server-side (throws 400 INSUFFICIENT_CREDITS if balance < cost)
+      const creditResult = await CreditService.recordTransaction({
+        teamDoc,
+        type: CREDIT_TRANSACTION_TYPES.ABILITY,
+        amount: cost,
+        relatedChallenge,
+        relatedAbility: {
           abilityId: abilitySlot.abilityId,
           name: abilitySlot.name,
           code: abilitySlot.code,
-          cost,
           effectType: abilitySlot.effectType,
-          effectConfig: abilitySlot.effectConfig,
-          activatedAt: now.toISOString(),
         },
-      ];
+        summary: `ABILITY ACTIVATED: ${abilitySlot.name.toUpperCase()} [${abilitySlot.code}] (-${cost} CR)`,
+        autoSaveTeam: false,
+      });
+
+      // 2. Dispatch extensible effect handler
+      const handlerKey = String(abilitySlot.effectType || '').toUpperCase();
+      const handler =
+        effectHandlerRegistry.get(handlerKey) || defaultConfigurableEffectHandler;
+      const effectOutcome = await handler({
+        ability: abilitySlot,
+        team: teamDoc,
+        payload,
+      });
+
+      const cooldownSeconds = Number(
+        effectOutcome?.cooldownSeconds ??
+          abilitySlot.effectConfig?.cooldownSeconds ??
+          abilitySlot.cooldownSeconds ??
+          25
+      );
+      const cooldownExpiresAt =
+        cooldownSeconds > 0 ? new Date(now.getTime() + cooldownSeconds * 1000) : null;
+
+      // 3. Update ability slot state
+      abilitySlot.status = 'ACTIVE';
+      abilitySlot.lastUsedAt = now;
+      abilitySlot.cooldownSeconds = cooldownSeconds;
+      abilitySlot.cooldownExpiresAt = cooldownExpiresAt;
+      abilitySlot.activationsCount = Number(abilitySlot.activationsCount || 0) + 1;
+      abilitySlot.chargePercent = Math.max(20, (abilitySlot.chargePercent || 100) - 20);
+      abilitySlot.lastActivationPayload = effectOutcome;
+
+      teamDoc.stats.abilitiesUsed = Number(teamDoc.stats.abilitiesUsed || 0) + 1;
+
+      // 4. Attach activation record to activeAttempt if a session is in progress
+      if (teamDoc.activeAttempt) {
+        const existingActive = Array.isArray(teamDoc.activeAttempt.activeAbilities)
+          ? teamDoc.activeAttempt.activeAbilities
+          : [];
+        teamDoc.activeAttempt.activeAbilities = [
+          ...existingActive,
+          {
+            abilityId: abilitySlot.abilityId,
+            name: abilitySlot.name,
+            code: abilitySlot.code,
+            cost,
+            effectType: abilitySlot.effectType,
+            effectConfig: abilitySlot.effectConfig,
+            activatedAt: now.toISOString(),
+          },
+        ];
+      }
+
+      const abilityActivation = {
+        activationId: `ACT-${Date.now().toString().slice(-6)}`,
+        abilityId: abilitySlot.abilityId,
+        name: abilitySlot.name,
+        code: abilitySlot.code,
+        cost,
+        status: abilitySlot.status,
+        enabled: abilitySlot.enabled,
+        effectType: abilitySlot.effectType,
+        effectConfig: abilitySlot.effectConfig,
+        cooldownSeconds,
+        cooldownExpiresAt: cooldownExpiresAt ? cooldownExpiresAt.toISOString() : null,
+        activationsCount: abilitySlot.activationsCount,
+        effectOutcome,
+        relatedChallenge,
+        timestamp: now.toISOString(),
+      };
+
+      return {
+        creditResult,
+        abilityActivation,
+        abilitySlot,
+      };
+    } finally {
+      AbilityService._abilityLocks.delete(lockKey);
     }
-
-    const abilityActivation = {
-      activationId: `ACT-${Date.now().toString().slice(-6)}`,
-      abilityId: abilitySlot.abilityId,
-      name: abilitySlot.name,
-      code: abilitySlot.code,
-      cost,
-      status: abilitySlot.status,
-      enabled: abilitySlot.enabled,
-      effectType: abilitySlot.effectType,
-      effectConfig: abilitySlot.effectConfig,
-      cooldownSeconds,
-      cooldownExpiresAt: cooldownExpiresAt ? cooldownExpiresAt.toISOString() : null,
-      activationsCount: abilitySlot.activationsCount,
-      effectOutcome,
-      relatedChallenge,
-      timestamp: now.toISOString(),
-    };
-
-    return {
-      creditResult,
-      abilityActivation,
-      abilitySlot,
-    };
   }
 }
+
+AbilityService._abilityLocks = new Set();
 
 export default AbilityService;

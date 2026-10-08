@@ -63,6 +63,7 @@ const activeAttemptSchema = new mongoose.Schema(
     unlockedHints: { type: [String], default: [] },
     extraTimeMinutes: { type: Number, default: 0 },
     activeAbilities: { type: [mongoose.Schema.Types.Mixed], default: [] },
+    attemptNumber: { type: Number, default: 1, min: 1 },
     isReattempt: { type: Boolean, default: false },
     startedAt: { type: Date, default: Date.now },
     expiresAt: { type: Date, default: null },

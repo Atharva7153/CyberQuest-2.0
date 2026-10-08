@@ -7,6 +7,7 @@ export const signTeamToken = (team) => {
       sub: team._id?.toString(),
       teamId: team.teamId,
       teamName: team.teamName,
+      tokenScope: 'TEAM_OPERATIVE',
     },
     env.jwtSecret,
     {
@@ -16,5 +17,38 @@ export const signTeamToken = (team) => {
 };
 
 export const verifyTeamToken = (token) => {
-  return jwt.verify(token, env.jwtSecret);
+  const decoded = jwt.verify(token, env.jwtSecret);
+  if (!decoded?.teamId || decoded?.isAdminOperator || decoded?.tokenScope === 'ADMIN_OPERATOR') {
+    throw new Error('Token is not a valid Team Operative credential.');
+  }
+  return decoded;
+};
+
+export const signAdminToken = (operator) => {
+  return jwt.sign(
+    {
+      sub: operator.operatorId,
+      operatorId: operator.operatorId,
+      name: operator.name,
+      role: operator.role || 'ADMIN',
+      clearance: operator.clearance || 'OMEGA',
+      isAdminOperator: true,
+      tokenScope: 'ADMIN_OPERATOR',
+    },
+    env.jwtSecret,
+    {
+      expiresIn: env.jwtExpiresIn,
+    }
+  );
+};
+
+export const verifyAdminToken = (token) => {
+  const decoded = jwt.verify(token, env.jwtSecret);
+  if (
+    (!decoded?.isAdminOperator && decoded?.role !== 'ADMIN' && decoded?.role !== 'VOLUNTEER') ||
+    decoded?.tokenScope === 'TEAM_OPERATIVE'
+  ) {
+    throw new Error('Token does not grant Admin/Volunteer clearance.');
+  }
+  return decoded;
 };

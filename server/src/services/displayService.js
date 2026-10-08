@@ -6,9 +6,8 @@ import { NexusCoreService } from './nexusCoreService.js';
 import { CREDIT_TRANSACTION_TYPES } from '../config/creditsConfig.js';
 import { LIVE_FEED_EVENT_TYPES } from '../socket/socketEvents.js';
 
-// Arena global marathon timer reference (2h 15m = 8100s window anchored at server boot)
-const ARENA_DURATION_SECONDS = 8100;
-const ARENA_BOOT_TIMESTAMP_MS = Date.now() - 1238 * 1000;
+// Arena global marathon timer & event control state
+const DEFAULT_ARENA_DURATION_SECONDS = 8100;
 
 const CORE_STATE_PRIORITY = {
   LOCKED: 0,
@@ -17,32 +16,219 @@ const CORE_STATE_PRIORITY = {
   COMPLETED: 3,
 };
 
+const globalArenaState = {
+  eventStatus: 'RUNNING', // RUNNING | PAUSED | ENDED
+  totalDurationSeconds: DEFAULT_ARENA_DURATION_SECONDS,
+  targetExpiresAtMs: Date.now() + (DEFAULT_ARENA_DURATION_SECONDS - 1238) * 1000,
+  pausedRemainingSeconds: DEFAULT_ARENA_DURATION_SECONDS - 1238,
+  lastTransitionAt: new Date().toISOString(),
+  lastCommandBy: 'SYSTEM_BOOT',
+  adminEventLog: [
+    {
+      logId: 'ADM-EVT-BOOT',
+      action: 'START',
+      category: 'EVENT_CONTROL',
+      actor: 'SYSTEM_BOOT',
+      summary: 'GLOBAL ARENA EVENT INITIALIZED (RUNNING)',
+      timestamp: new Date(Date.now() - 1238 * 1000).toISOString(),
+    },
+  ],
+};
+
+export const recordAdminEventLog = ({ action, category = 'EVENT_CONTROL', actor = 'ADMIN-NEXUS', summary }) => {
+  const entry = {
+    logId: `ADM-EVT-${Date.now()}-${Math.random().toString(36).slice(2, 6).toUpperCase()}`,
+    action,
+    category,
+    actor,
+    summary,
+    timestamp: new Date().toISOString(),
+  };
+  globalArenaState.adminEventLog.unshift(entry);
+  if (globalArenaState.adminEventLog.length > 50) {
+    globalArenaState.adminEventLog.length = 50;
+  }
+  return entry;
+};
+
+export const getAdminEventLogs = () => [...globalArenaState.adminEventLog];
+
 /**
  * Compute server-authoritative Global Arena Timer telemetry
  */
 export const computeGlobalArenaTimer = () => {
   const nowMs = Date.now();
-  const elapsedSeconds = Math.max(0, Math.floor((nowMs - ARENA_BOOT_TIMESTAMP_MS) / 1000));
-  const remainingSeconds = Math.max(
-    600,
-    ARENA_DURATION_SECONDS - (elapsedSeconds % ARENA_DURATION_SECONDS)
-  );
-  const expiresAt = new Date(nowMs + remainingSeconds * 1000).toISOString();
+  let remainingSeconds = 0;
 
+  if (globalArenaState.eventStatus === 'ENDED') {
+    remainingSeconds = 0;
+  } else if (globalArenaState.eventStatus === 'PAUSED') {
+    remainingSeconds = Math.max(0, Math.floor(globalArenaState.pausedRemainingSeconds));
+  } else {
+    remainingSeconds = Math.max(0, Math.floor((globalArenaState.targetExpiresAtMs - nowMs) / 1000));
+  }
+
+  const expiresAt = new Date(nowMs + remainingSeconds * 1000).toISOString();
   const hrs = Math.floor(remainingSeconds / 3600);
   const mins = Math.floor((remainingSeconds % 3600) / 60);
   const secs = remainingSeconds % 60;
 
+  let phase = 'ARENA_LIVE';
+  if (globalArenaState.eventStatus === 'PAUSED') {
+    phase = 'EVENT_PAUSED';
+  } else if (globalArenaState.eventStatus === 'ENDED') {
+    phase = 'EVENT_ENDED';
+  } else if (remainingSeconds <= 900) {
+    phase = 'CRITICAL_CONVERGENCE';
+  }
+
   return {
-    totalDurationSeconds: ARENA_DURATION_SECONDS,
+    status: globalArenaState.eventStatus === 'RUNNING' ? 'ACTIVE' : globalArenaState.eventStatus,
+    eventStatus: globalArenaState.eventStatus,
+    totalDurationSeconds: globalArenaState.totalDurationSeconds,
     remainingSeconds,
     expiresAt,
+    targetTimestamp: expiresAt,
     serverTime: new Date(nowMs).toISOString(),
-    phase: remainingSeconds <= 900 ? 'CRITICAL_CONVERGENCE' : 'ARENA_LIVE',
+    lastTransitionAt: globalArenaState.lastTransitionAt,
+    lastCommandBy: globalArenaState.lastCommandBy,
+    phase,
     formatted: `${String(hrs).padStart(2, '0')}:${String(mins).padStart(2, '0')}:${String(
       secs
     ).padStart(2, '0')}`,
   };
+};
+
+/**
+ * Control the Global Arena Event lifecycle & Global Timer (START | PAUSE | RESUME | END | SET_TIMER | ADJUST_TIMER)
+ */
+export const controlGlobalArenaEvent = (command, payload = {}, actor = 'ADMIN-NEXUS') => {
+  const normalizedCmd = String(command || '').trim().toUpperCase();
+  const nowMs = Date.now();
+  const currentTimer = computeGlobalArenaTimer();
+
+  switch (normalizedCmd) {
+    case 'START': {
+      const durationSec =
+        Number(payload.durationSeconds) > 0
+          ? Number(payload.durationSeconds)
+          : globalArenaState.totalDurationSeconds || DEFAULT_ARENA_DURATION_SECONDS;
+      globalArenaState.totalDurationSeconds = durationSec;
+      globalArenaState.eventStatus = 'RUNNING';
+      globalArenaState.targetExpiresAtMs = nowMs + durationSec * 1000;
+      globalArenaState.pausedRemainingSeconds = durationSec;
+      globalArenaState.lastTransitionAt = new Date(nowMs).toISOString();
+      globalArenaState.lastCommandBy = actor;
+      recordAdminEventLog({
+        action: 'START',
+        category: 'EVENT_CONTROL',
+        actor,
+        summary: `EVENT STARTED // GLOBAL TIMER SET TO ${Math.round(durationSec / 60)} MIN`,
+      });
+      break;
+    }
+
+    case 'PAUSE': {
+      globalArenaState.pausedRemainingSeconds = currentTimer.remainingSeconds;
+      globalArenaState.eventStatus = 'PAUSED';
+      globalArenaState.lastTransitionAt = new Date(nowMs).toISOString();
+      globalArenaState.lastCommandBy = actor;
+      recordAdminEventLog({
+        action: 'PAUSE',
+        category: 'EVENT_CONTROL',
+        actor,
+        summary: `EVENT PAUSED AT ${currentTimer.formatted} REMAINING`,
+      });
+      break;
+    }
+
+    case 'RESUME': {
+      const resumeSec =
+        globalArenaState.pausedRemainingSeconds > 0
+          ? globalArenaState.pausedRemainingSeconds
+          : DEFAULT_ARENA_DURATION_SECONDS;
+      globalArenaState.eventStatus = 'RUNNING';
+      globalArenaState.targetExpiresAtMs = nowMs + resumeSec * 1000;
+      globalArenaState.lastTransitionAt = new Date(nowMs).toISOString();
+      globalArenaState.lastCommandBy = actor;
+      recordAdminEventLog({
+        action: 'RESUME',
+        category: 'EVENT_CONTROL',
+        actor,
+        summary: `EVENT RESUMED WITH ${currentTimer.formatted} REMAINING`,
+      });
+      break;
+    }
+
+    case 'END': {
+      globalArenaState.pausedRemainingSeconds = 0;
+      globalArenaState.targetExpiresAtMs = nowMs;
+      globalArenaState.eventStatus = 'ENDED';
+      globalArenaState.lastTransitionAt = new Date(nowMs).toISOString();
+      globalArenaState.lastCommandBy = actor;
+      recordAdminEventLog({
+        action: 'END',
+        category: 'EVENT_CONTROL',
+        actor,
+        summary: 'EVENT ENDED BY COMMAND OVERRIDE',
+      });
+      break;
+    }
+
+    case 'SET_TIMER': {
+      const nextRemaining = Math.max(
+        0,
+        Number(payload.durationSeconds ?? payload.remainingSeconds ?? payload.seconds ?? 3600)
+      );
+      if (Number(payload.totalDurationSeconds) > 0) {
+        globalArenaState.totalDurationSeconds = Number(payload.totalDurationSeconds);
+      } else if (nextRemaining > globalArenaState.totalDurationSeconds) {
+        globalArenaState.totalDurationSeconds = nextRemaining;
+      }
+      globalArenaState.pausedRemainingSeconds = nextRemaining;
+      globalArenaState.targetExpiresAtMs = nowMs + nextRemaining * 1000;
+      if (globalArenaState.eventStatus === 'ENDED' && nextRemaining > 0) {
+        globalArenaState.eventStatus = 'RUNNING';
+      }
+      globalArenaState.lastTransitionAt = new Date(nowMs).toISOString();
+      globalArenaState.lastCommandBy = actor;
+      const updated = computeGlobalArenaTimer();
+      recordAdminEventLog({
+        action: 'GLOBAL_TIMER',
+        category: 'TIMER_CONTROL',
+        actor,
+        summary: `GLOBAL TIMER SET TO ${updated.formatted}`,
+      });
+      return updated;
+    }
+
+    case 'ADJUST_TIMER': {
+      const deltaSeconds = Number(payload.deltaSeconds ?? 0);
+      const nextRemaining = Math.max(0, currentTimer.remainingSeconds + deltaSeconds);
+      if (nextRemaining > globalArenaState.totalDurationSeconds) {
+        globalArenaState.totalDurationSeconds = nextRemaining;
+      }
+      globalArenaState.pausedRemainingSeconds = nextRemaining;
+      globalArenaState.targetExpiresAtMs = nowMs + nextRemaining * 1000;
+      globalArenaState.lastTransitionAt = new Date(nowMs).toISOString();
+      globalArenaState.lastCommandBy = actor;
+      const updated = computeGlobalArenaTimer();
+      recordAdminEventLog({
+        action: 'GLOBAL_TIMER',
+        category: 'TIMER_CONTROL',
+        actor,
+        summary: `GLOBAL TIMER ADJUSTED (${deltaSeconds >= 0 ? '+' : ''}${Math.round(
+          deltaSeconds / 60
+        )}m) -> ${updated.formatted}`,
+      });
+      return updated;
+    }
+
+    default:
+      break;
+  }
+
+  return computeGlobalArenaTimer();
 };
 
 /**

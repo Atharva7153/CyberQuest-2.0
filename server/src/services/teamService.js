@@ -25,6 +25,7 @@ import {
   NexusCoreService,
   ensureNexusCoreSeeded,
 } from './nexusCoreService.js';
+import { AuditService, AUDIT_ACTION_TYPES } from './auditService.js';
 import { CREDIT_TRANSACTION_TYPES, creditsConfig } from '../config/creditsConfig.js';
 import { hashPassword, verifyPassword } from '../utils/password.js';
 import { signTeamToken } from '../utils/jwt.js';
@@ -216,16 +217,22 @@ const buildSeedTeams = () => {
   ];
 };
 
+let teamsSeeded = false;
+let teamsSeedPromise = null;
+
 export const ensureDefaultTeamsSeeded = async () => {
   if (mongoose.connection.readyState !== 1) return;
+  if (teamsSeeded) return;
+  if (teamsSeedPromise) return teamsSeedPromise;
 
-  try {
-    await Promise.all([
-      ensureDefaultChallengesSeeded(),
-      ensureDefaultAbilitiesSeeded(),
-      ensureNexusCoreSeeded(),
-    ]);
-    const seeds = buildSeedTeams();
+  teamsSeedPromise = (async () => {
+    try {
+      await Promise.all([
+        ensureDefaultChallengesSeeded(),
+        ensureDefaultAbilitiesSeeded(),
+        ensureNexusCoreSeeded(),
+      ]);
+      const seeds = buildSeedTeams();
     for (const seed of seeds) {
       let existing = await Team.findOne({ teamId: seed.teamId });
       if (!existing) {
@@ -421,9 +428,15 @@ export const ensureDefaultTeamsSeeded = async () => {
         ).catch(() => {});
       }
     }
-  } catch (err) {
-    logger.warn('SEED', `Team seed check warning: ${err.message}`);
-  }
+      teamsSeeded = true;
+    } catch (err) {
+      logger.warn('SEED', `Team seed check warning: ${err.message}`);
+    } finally {
+      teamsSeedPromise = null;
+    }
+  })();
+
+  return teamsSeedPromise;
 };
 
 /**
@@ -507,6 +520,21 @@ export const authenticateTeam = async (rawTeamId, plainPassword) => {
   }
 
   const token = signTeamToken(team);
+
+  await AuditService.record({
+    action: AUDIT_ACTION_TYPES.LOGIN,
+    actorType: 'TEAM',
+    actorId: normalizedTeamId,
+    teamId: normalizedTeamId,
+    creditsDelta: 0,
+    balanceAfter: team.credits,
+    summary: `Operative squad [${normalizedTeamId}] (${team.teamName}) authenticated into NEXUS Portal.`,
+    metadata: {
+      teamName: team.teamName,
+      credits: team.credits,
+    },
+  });
+
   const [transactions, catalog, attempts, abilitiesCatalog, nexusCore] = await Promise.all([
     CreditService.getTeamTransactions(normalizedTeamId),
     ChallengeService.listChallenges(),
@@ -558,6 +586,37 @@ export const getTeamStateById = async (rawTeamId) => {
 };
 
 /**
+ * Strip untrusted client-supplied values (cost, price, reward, penalty, credits, timers, outcomeOverride).
+ * Server controls credits, rewards, penalties, timers, attempts, submissions, abilities, Core, and team state.
+ */
+const sanitizeClientActionPayload = (rawPayload = {}, isTrustedAdmin = false) => {
+  if (!rawPayload || typeof rawPayload !== 'object' || Array.isArray(rawPayload)) {
+    return rawPayload;
+  }
+  if (isTrustedAdmin) {
+    return { ...rawPayload };
+  }
+  const {
+    cost: _ignoreCost,
+    price: _ignorePrice,
+    amount: _ignoreAmount,
+    reward: _ignoreReward,
+    penalty: _ignorePenalty,
+    credits: _ignoreCredits,
+    balance: _ignoreBalance,
+    expiresAt: _ignoreExpiresAt,
+    startedAt: _ignoreStartedAt,
+    timeLimit: _ignoreTimeLimit,
+    extraTimeMinutes: _ignoreExtraMinutes,
+    outcomeOverride: _ignoreOutcomeOverride,
+    unlockedHints: _ignoreUnlockedHints,
+    hintsUnlocked: _ignoreHintsUnlocked,
+    ...safePayload
+  } = rawPayload;
+  return safePayload;
+};
+
+/**
  * Server-authoritative team & credit action processor.
  * Uses CreditService, ChallengeService, AbilityService, and NexusCoreService:
  * - CHALLENGE_PURCHASE
@@ -574,17 +633,49 @@ export const getTeamStateById = async (rawTeamId) => {
  * - SUBMIT_NEXUS_CORE
  * - UPDATE_NEXUS_CORE_CONFIG
  */
-export const executeTeamAction = async (rawTeamId, actionType, payload = {}) => {
+const inFlightTeamActions = new Map();
+
+export const executeTeamAction = async (rawTeamId, actionType, rawPayload = {}, options = {}) => {
+  const isTrustedAdmin = Boolean(options?.isTrustedAdmin);
+  const payload = sanitizeClientActionPayload(rawPayload, isTrustedAdmin);
+
   const normalizedTeamId = String(rawTeamId || '')
     .trim()
     .toUpperCase();
-  const team = await Team.findOne({ teamId: normalizedTeamId });
 
-  if (!team) {
-    const err = new Error(`Team [${normalizedTeamId}] not found.`);
-    err.statusCode = 404;
+  if (inFlightTeamActions.has(normalizedTeamId)) {
+    const normalizedAction = String(actionType || '').toUpperCase();
+    const err = new Error(
+      `Concurrent team action blocked: another operation [${inFlightTeamActions.get(normalizedTeamId)}] is currently in flight for [${normalizedTeamId}].`
+    );
+    err.statusCode = 409;
+    if (
+      normalizedAction.includes('ACQUIRE') ||
+      normalizedAction.includes('PURCHASE_CHALLENGE') ||
+      normalizedAction.includes('START_CHALLENGE') ||
+      normalizedAction.includes('REATTEMPT')
+    ) {
+      err.code = 'SIMULTANEOUS_PURCHASE_BLOCKED';
+    } else if (normalizedAction.includes('SUBMIT')) {
+      err.code = 'DUPLICATE_SUBMISSION_IN_FLIGHT';
+    } else if (normalizedAction.includes('ABILITY')) {
+      err.code = 'ABILITY_ACTIVATION_IN_FLIGHT';
+    } else {
+      err.code = 'TEAM_ACTION_IN_FLIGHT';
+    }
     throw err;
   }
+
+  inFlightTeamActions.set(normalizedTeamId, actionType);
+
+  try {
+    const team = await Team.findOne({ teamId: normalizedTeamId });
+
+    if (!team) {
+      const err = new Error(`Team [${normalizedTeamId}] not found.`);
+      err.statusCode = 404;
+      throw err;
+    }
 
   AbilityService.reconcileTeamAbilitiesState(team, DEFAULT_ABILITY_CATALOG);
 
@@ -599,6 +690,7 @@ export const executeTeamAction = async (rawTeamId, actionType, payload = {}) => 
   switch (actionType) {
     case 'ACQUIRE_CHALLENGE':
     case 'PURCHASE_CHALLENGE':
+    case 'START_CHALLENGE':
     case CREDIT_TRANSACTION_TYPES.CHALLENGE_PURCHASE: {
       const challengeId = payload.challengeId || 'CHG-PUZ-05';
       const acquisition = await ChallengeService.acquireChallengeForTeam({
@@ -638,9 +730,11 @@ export const executeTeamAction = async (rawTeamId, actionType, payload = {}) => 
       const txType = isExtraTime
         ? CREDIT_TRANSACTION_TYPES.EXTRA_TIME
         : CREDIT_TRANSACTION_TYPES.HINT;
-      const cost =
-        Number(payload.cost) ||
-        (isExtraTime ? creditsConfig.getExtraTimeCost() : creditsConfig.getHintCost());
+
+      // Server-authoritative cost only — never trust client cost
+      const cost = isExtraTime
+        ? creditsConfig.getExtraTimeCost()
+        : creditsConfig.getHintCost();
 
       // Server-controlled validation BEFORE charging Resistance Credits
       if (isExtraTime) {
@@ -689,6 +783,26 @@ export const executeTeamAction = async (rawTeamId, actionType, payload = {}) => 
         creditsLost: cost,
       });
       await team.save();
+
+      await AuditService.record({
+        action: isExtraTime ? AUDIT_ACTION_TYPES.EXTRA_TIME : AUDIT_ACTION_TYPES.HINT,
+        actorType: 'TEAM',
+        actorId: normalizedTeamId,
+        teamId: normalizedTeamId,
+        challengeId: relatedChallenge?.challengeId || team.activeAttempt?.challengeId || null,
+        attemptId: team.activeAttempt?.attemptId || null,
+        attemptNumber: team.activeAttempt?.attemptNumber || 1,
+        creditsDelta: -cost,
+        balanceAfter: team.credits,
+        summary: isExtraTime
+          ? `${normalizedTeamId} purchased +${creditsConfig.getExtraTimeMinutes()}m Extra Time (-${cost} CR)`
+          : `${normalizedTeamId} decrypted Hint #${team.activeAttempt?.hintsUnlocked || 1} (-${cost} CR)`,
+        metadata: {
+          cost,
+          expiresAt: team.activeAttempt?.expiresAt || null,
+          hintsUnlocked: team.activeAttempt?.hintsUnlocked || 0,
+        },
+      });
       break;
     }
 
@@ -715,6 +829,25 @@ export const executeTeamAction = async (rawTeamId, actionType, payload = {}) => 
       });
 
       await team.save();
+
+      await AuditService.record({
+        action: AUDIT_ACTION_TYPES.ABILITY,
+        actorType: 'TEAM',
+        actorId: normalizedTeamId,
+        teamId: normalizedTeamId,
+        challengeId: team.activeAttempt?.challengeId || null,
+        attemptId: team.activeAttempt?.attemptId || null,
+        attemptNumber: team.activeAttempt?.attemptNumber || null,
+        creditsDelta: -Math.abs(activation.abilityActivation.cost || 0),
+        balanceAfter: team.credits,
+        summary: `${normalizedTeamId} activated ability [${activation.abilityActivation.abilityId}] ${activation.abilityActivation.name} (-${activation.abilityActivation.cost} CR)`,
+        metadata: {
+          abilityId: activation.abilityActivation.abilityId,
+          abilityName: activation.abilityActivation.name,
+          effectType: activation.abilityActivation.effectType,
+          cost: activation.abilityActivation.cost,
+        },
+      });
       break;
     }
 
@@ -755,7 +888,7 @@ export const executeTeamAction = async (rawTeamId, actionType, payload = {}) => 
         simulateFailure:
           actionType === CREDIT_TRANSACTION_TYPES.FAILURE_PENALTY ||
           Boolean(payload.simulateFailure),
-        outcomeOverride: payload.outcomeOverride || null,
+        outcomeOverride: isTrustedAdmin ? payload.outcomeOverride || null : null,
       });
       creditResult = evalResponse.creditResult;
       evaluationResult = evalResponse.evaluationResult;
@@ -795,6 +928,30 @@ export const executeTeamAction = async (rawTeamId, actionType, payload = {}) => 
       if (submitRes.passed) {
         coreCompletedBroadcast = true;
       }
+
+      await AuditService.record({
+        action: AUDIT_ACTION_TYPES.SUBMISSION,
+        actorType: 'TEAM',
+        actorId: normalizedTeamId,
+        teamId: normalizedTeamId,
+        challengeId: 'NEXUS-CORE-OMEGA',
+        creditsDelta: 0,
+        balanceAfter: team.credits,
+        summary: `${normalizedTeamId} submitted NEXUS Core Singularity solution.`,
+      });
+
+      await AuditService.record({
+        action: submitRes.passed ? AUDIT_ACTION_TYPES.SUCCESS : AUDIT_ACTION_TYPES.FAILURE,
+        actorType: 'TEAM',
+        actorId: normalizedTeamId,
+        teamId: normalizedTeamId,
+        challengeId: 'NEXUS-CORE-OMEGA',
+        creditsDelta: submitRes.coreEvaluation?.creditsDelta || 0,
+        balanceAfter: team.credits,
+        summary: submitRes.passed
+          ? `${normalizedTeamId} COMPLETED THE NEXUS CORE (+${submitRes.coreEvaluation?.creditsDelta || 0} CR)`
+          : `${normalizedTeamId} failed NEXUS Core verification (${submitRes.coreEvaluation?.creditsDelta || 0} CR)`,
+      });
       break;
     }
 
@@ -880,5 +1037,8 @@ export const executeTeamAction = async (rawTeamId, actionType, payload = {}) => 
     catalog,
     creditsConfig: CreditService.getConfig(),
   };
+  } finally {
+    inFlightTeamActions.delete(normalizedTeamId);
+  }
 };
 

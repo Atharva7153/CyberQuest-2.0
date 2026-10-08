@@ -49,32 +49,60 @@ export const DEFAULT_NEXUS_CORE_DEFINITION = {
   completedTeams: [],
 };
 
+let nexusCoreSeeded = false;
+let nexusCoreSeedPromise = null;
+let cachedPublicCoreDoc = null;
+let cachedPublicCoreExpiresAt = 0;
+
 export const ensureNexusCoreSeeded = async () => {
   if (mongoose.connection.readyState !== 1) {
     return DEFAULT_NEXUS_CORE_DEFINITION;
   }
+  if (nexusCoreSeeded) return;
+  if (nexusCoreSeedPromise) return nexusCoreSeedPromise;
 
-  try {
-    let doc = await NexusCoreConfig.findOne({ coreId: 'NEXUS-CORE-PRIME' });
-    if (!doc) {
-      doc = await NexusCoreConfig.create(DEFAULT_NEXUS_CORE_DEFINITION);
-      logger.info('SEED', 'Seeded configurable NEXUS Core objective [NEXUS-CORE-PRIME]');
+  nexusCoreSeedPromise = (async () => {
+    try {
+      let doc = await NexusCoreConfig.findOne({ coreId: 'NEXUS-CORE-PRIME' });
+      if (!doc) {
+        doc = await NexusCoreConfig.create(DEFAULT_NEXUS_CORE_DEFINITION);
+        logger.info('SEED', 'Seeded configurable NEXUS Core objective [NEXUS-CORE-PRIME]');
+      }
+      nexusCoreSeeded = true;
+      return doc;
+    } catch (err) {
+      logger.warn('SEED', `NexusCore seed warning: ${err.message}`);
+      return DEFAULT_NEXUS_CORE_DEFINITION;
+    } finally {
+      nexusCoreSeedPromise = null;
     }
-    return doc;
-  } catch (err) {
-    logger.warn('SEED', `NexusCore seed warning: ${err.message}`);
-    return DEFAULT_NEXUS_CORE_DEFINITION;
-  }
+  })();
+
+  return nexusCoreSeedPromise;
 };
 
 export class NexusCoreService {
+  static invalidateCoreCache() {
+    cachedPublicCoreDoc = null;
+    cachedPublicCoreExpiresAt = 0;
+  }
+
   static async getCoreConfigDoc({ includeSolution = false } = {}) {
     await ensureNexusCoreSeeded();
+    if (!includeSolution && cachedPublicCoreDoc && Date.now() < cachedPublicCoreExpiresAt) {
+      return cachedPublicCoreDoc;
+    }
     if (mongoose.connection.readyState === 1) {
       const q = NexusCoreConfig.findOne({ coreId: 'NEXUS-CORE-PRIME' });
       if (includeSolution) q.select('+solutionConfig');
       const doc = await q;
-      if (doc) return doc;
+      if (doc) {
+        if (!includeSolution) {
+          cachedPublicCoreDoc = doc;
+          cachedPublicCoreExpiresAt = Date.now() + 2000;
+        }
+        return doc;
+      }
     }
     return {
       ...DEFAULT_NEXUS_CORE_DEFINITION,
@@ -422,6 +450,7 @@ export class NexusCoreService {
         coreDoc.markModified('completedTeams');
         coreDoc.markModified('winner');
         await coreDoc.save();
+        this.invalidateCoreCache();
       } else {
         completionRank = alreadyListed.rank || 1;
       }
@@ -450,6 +479,7 @@ export class NexusCoreService {
     }
 
     await teamDoc.save();
+    this.invalidateCoreCache();
     const nexusCore = await this.getNexusCoreStatusForTeam(teamDoc);
 
     return {
@@ -514,6 +544,7 @@ export class NexusCoreService {
     }
 
     await coreDoc.save();
+    this.invalidateCoreCache();
     return coreDoc.toPublicJSON();
   }
 
@@ -521,6 +552,7 @@ export class NexusCoreService {
    * Reset global NEXUS Core winner & completedTeams for demo/testing resets.
    */
   static async resetNexusCoreDemoState() {
+    this.invalidateCoreCache();
     if (mongoose.connection.readyState !== 1) return;
     await NexusCoreConfig.findOneAndUpdate(
       { coreId: 'NEXUS-CORE-PRIME' },

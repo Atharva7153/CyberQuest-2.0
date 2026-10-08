@@ -19,8 +19,16 @@ export const creditsConfig = {
   getExtraTimeCost: () => env.extraTimeCost,
   getExtraTimeMinutes: () => 5,
   getReattemptMultiplier: () => env.reattemptMultiplier,
-  calculateReattemptCost: (baseCost) =>
-    Math.ceil(Number(baseCost || 0) * env.reattemptMultiplier),
+  /**
+   * Server-authoritative reattempt cost calculation.
+   * Never accepts price from client; scales cost by reattemptMultiplier^reattemptIndex.
+   */
+  calculateReattemptCost: (baseCost, reattemptIndex = 1) => {
+    const safeBase = Math.max(0, Number(baseCost || 0));
+    const safeExponent = Math.max(1, Math.floor(Number(reattemptIndex) || 1));
+    const multiplier = Math.max(1, Number(env.reattemptMultiplier || 1.25));
+    return Math.ceil(safeBase * Math.pow(multiplier, safeExponent));
+  },
 };
 
 export default creditsConfig;

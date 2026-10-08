@@ -5,6 +5,7 @@ import { getSocketStatus } from '../socket/index.js';
 export const buildSystemHealthReport = () => {
   const dbStatus = getDatabaseStatus();
   const socketStatus = getSocketStatus();
+  const mem = process.memoryUsage();
 
   return {
     status: 'ok',
@@ -14,6 +15,12 @@ export const buildSystemHealthReport = () => {
     environment: env.nodeEnv,
     timestamp: new Date().toISOString(),
     uptimeSeconds: Math.floor(process.uptime()),
+    database: dbStatus,
+    memoryMB: {
+      rss: Number((mem.rss / 1024 / 1024).toFixed(1)),
+      heapTotal: Number((mem.heapTotal / 1024 / 1024).toFixed(1)),
+      heapUsed: Number((mem.heapUsed / 1024 / 1024).toFixed(1)),
+    },
     subsystems: {
       expressApi: {
         status: 'ONLINE',

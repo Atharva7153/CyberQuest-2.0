@@ -164,7 +164,6 @@ export const submitChallengeSession = async (req, res, next) => {
       answer,
       solution,
       simulateFailure,
-      outcomeOverride,
     } = req.body || {};
 
     const result = await executeTeamAction(req.team.teamId, 'SUBMIT_CHALLENGE', {
@@ -172,7 +171,6 @@ export const submitChallengeSession = async (req, res, next) => {
       attemptId,
       submission: submission ?? answer ?? solution,
       simulateFailure: Boolean(simulateFailure),
-      outcomeOverride: outcomeOverride || null,
     });
 
     socketEmitters.emitCreditsUpdate(req.team.teamId, {

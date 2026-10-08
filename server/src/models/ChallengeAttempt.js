@@ -8,6 +8,11 @@ const challengeAttemptSchema = new mongoose.Schema(
       unique: true,
       index: true,
     },
+    attemptNumber: {
+      type: Number,
+      required: true,
+      default: 1,
+    },
     teamId: {
       type: String,
       required: true,
@@ -62,6 +67,10 @@ const challengeAttemptSchema = new mongoose.Schema(
       required: true,
       default: 0,
     },
+    rewardPenaltyDelta: {
+      type: Number,
+      default: 0,
+    },
     timeLimit: {
       type: Number,
       required: true,
@@ -91,13 +100,25 @@ const challengeAttemptSchema = new mongoose.Schema(
       type: Date,
       default: null,
     },
+    submittedAt: {
+      type: Date,
+      default: null,
+    },
     completedAt: {
       type: Date,
+      default: null,
+    },
+    submission: {
+      type: mongoose.Schema.Types.Mixed,
       default: null,
     },
     submittedPayload: {
       type: mongoose.Schema.Types.Mixed,
       default: null,
+    },
+    result: {
+      type: String,
+      default: 'IN_PROGRESS',
     },
     status: {
       type: String,
@@ -117,6 +138,11 @@ const challengeAttemptSchema = new mongoose.Schema(
     evaluationResult: {
       type: mongoose.Schema.Types.Mixed,
       default: null,
+    },
+    timestamp: {
+      type: Date,
+      default: Date.now,
+      index: true,
     },
   },
   {

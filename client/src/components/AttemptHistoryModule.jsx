@@ -85,10 +85,11 @@ export const buildClientAttemptHistory = (team, attempts = [], catalog = []) => 
       rewardPenaltyType,
       hintsUnlocked: Number(att.hintsUnlocked || att.unlockedHints?.length || 0),
       extraTimeMinutes: Number(att.extraTimeMinutes || 0),
-      isReattempt: Boolean(att.isReattempt),
+      attemptNumber: Math.max(1, Number(att.attemptNumber) || (att.isReattempt ? 2 : 1)),
+      isReattempt: Boolean(att.isReattempt || Number(att.attemptNumber) > 1),
       startedAt: att.startedAt || att.createdAt,
       completedAt: att.completedAt || null,
-      timestamp: att.completedAt || att.startedAt || att.createdAt || new Date().toISOString(),
+      timestamp: att.timestamp || att.completedAt || att.startedAt || att.createdAt || new Date().toISOString(),
     });
   }
 
@@ -463,7 +464,10 @@ export const AttemptHistoryModule = ({
                               <span className="font-condensed text-base font-extrabold uppercase text-nexus-ink">
                                 {item.title}
                               </span>
-                              {item.isReattempt && (
+                              <span className="inline-flex items-center px-1.5 py-0.2 border border-nexus-ink/35 bg-nexus-paper-elevated text-nexus-ink text-[9px] font-bold uppercase">
+                                ATTEMPT #{item.attemptNumber || (item.isReattempt ? 2 : 1)}
+                              </span>
+                              {(item.isReattempt || Number(item.attemptNumber) > 1) && (
                                 <span className="inline-flex items-center gap-0.5 px-1.5 py-0.2 bg-nexus-crimson/15 text-nexus-crimson text-[9px] font-bold uppercase">
                                   <RotateCcw className="w-2.5 h-2.5" />
                                   REATTEMPT

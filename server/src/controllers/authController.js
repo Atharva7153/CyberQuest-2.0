@@ -16,6 +16,21 @@ import { NexusCoreService } from '../services/nexusCoreService.js';
 import { DisplayService } from '../services/displayService.js';
 import { socketEmitters } from '../socket/index.js';
 
+let projectorBroadcastTimer = null;
+
+const scheduleProjectorLeaderboardBroadcast = () => {
+  if (projectorBroadcastTimer) return;
+  projectorBroadcastTimer = setTimeout(async () => {
+    projectorBroadcastTimer = null;
+    try {
+      const projectorSnapshot = await DisplayService.getProjectorDisplaySnapshot();
+      socketEmitters.emitLeaderboardUpdate(projectorSnapshot);
+    } catch {
+      // Ignore background projector refresh error
+    }
+  }, 250);
+};
+
 export const loginTeam = async (req, res, next) => {
   try {
     const { teamId, password } = req.body || {};
@@ -273,9 +288,8 @@ export const postTeamAction = async (req, res, next) => {
       creditsConfig: result.creditsConfig,
     });
 
-    // Broadcast sanitized arena projector snapshot to /display subscribers
-    const projectorSnapshot = await DisplayService.getProjectorDisplaySnapshot();
-    socketEmitters.emitLeaderboardUpdate(projectorSnapshot);
+    // Schedule debounced arena projector snapshot broadcast to /display subscribers (non-blocking)
+    scheduleProjectorLeaderboardBroadcast();
 
     res.status(200).json({
       status: 'ok',

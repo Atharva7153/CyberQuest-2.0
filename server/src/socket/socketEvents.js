@@ -6,6 +6,7 @@ export const SOCKET_ROOMS = Object.freeze({
   ARENA_GLOBAL: 'room:arena',
   LEADERBOARD: 'room:leaderboard',
   CORE_FEED: 'room:core',
+  ADMIN_CONTROL: 'room:admin',
   teamRoom: (teamId) => `team:${String(teamId || '').trim().toUpperCase()}`,
 });
 
@@ -73,6 +74,12 @@ export const SOCKET_EVENTS = Object.freeze({
 
   FEED: {
     EVENT: 'feed:event',
+  },
+
+  ADMIN: {
+    SUBSCRIBE: 'admin:subscribe',
+    STATE_UPDATE: 'admin:state:update',
+    EVENT_ACTION: 'admin:event:action',
   },
 });
 

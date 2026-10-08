@@ -53,16 +53,26 @@ export const normalizeAttemptHistory = (team, attempts = [], catalog = []) => {
     }
 
     const timestamp =
-      rawObj.completedAt || rawObj.startedAt || rawObj.createdAt || new Date().toISOString();
+      rawObj.timestamp ||
+      rawObj.completedAt ||
+      rawObj.startedAt ||
+      rawObj.createdAt ||
+      new Date().toISOString();
 
     if (rawObj.attemptId) {
       seenAttemptIds.add(rawObj.attemptId);
     }
 
+    const resolvedTitle = rawObj.title || challengeDef.title || rawObj.challengeId;
+    const attemptNumber = Math.max(1, Number(rawObj.attemptNumber || (rawObj.isReattempt ? 2 : 1)));
+
     unified.push({
       attemptId: rawObj.attemptId || `ATT-${rawObj.challengeId}`,
+      attemptNumber,
+      teamId: rawObj.teamId || team?.teamId || null,
       challengeId: rawObj.challengeId,
-      title: rawObj.title || challengeDef.title || rawObj.challengeId,
+      title: resolvedTitle,
+      challengeTitle: resolvedTitle,
       category: String(rawObj.category || challengeDef.category || 'LOGIC').toUpperCase(),
       difficulty: String(rawObj.difficulty || challengeDef.difficulty || 'MODERATE').toUpperCase(),
       risk: normalizeRiskTier(rawObj.risk || challengeDef.risk || 'BALANCED'),
@@ -72,12 +82,15 @@ export const normalizeAttemptHistory = (team, attempts = [], catalog = []) => {
       reward: rewardVal,
       penalty: penaltyVal,
       rewardPenaltyDelta,
+      netCredits: rewardPenaltyDelta,
       rewardPenaltyType,
       hintsUnlocked: Number(rawObj.hintsUnlocked || rawObj.unlockedHints?.length || 0),
       extraTimeMinutes: Number(rawObj.extraTimeMinutes || 0),
       isReattempt: Boolean(rawObj.isReattempt),
       startedAt: rawObj.startedAt || timestamp,
+      submittedAt: rawObj.submittedAt || rawObj.completedAt || null,
       completedAt: rawObj.completedAt || null,
+      submission: rawObj.evaluationResult?.submittedAnswer || rawObj.submittedPayload || null,
       timestamp,
     });
   }
@@ -90,11 +103,15 @@ export const normalizeAttemptHistory = (team, attempts = [], catalog = []) => {
     const penaltyVal = Number(comp.penalty ?? challengeDef.penalty ?? 50);
     const costVal = Number(comp.cost ?? challengeDef.cost ?? 150);
     const ts = comp.timestamp || new Date().toISOString();
+    const resolvedTitle = comp.title || challengeDef.title || comp.challengeId;
 
     unified.push({
       attemptId: `ATT-${comp.challengeId}`,
+      attemptNumber: Math.max(1, Number(comp.attemptNumber || 1)),
+      teamId: team?.teamId || null,
       challengeId: comp.challengeId,
-      title: comp.title || challengeDef.title || comp.challengeId,
+      title: resolvedTitle,
+      challengeTitle: resolvedTitle,
       category: String(comp.category || challengeDef.category || 'LOGIC').toUpperCase(),
       difficulty: String(comp.difficulty || challengeDef.difficulty || 'LOW').toUpperCase(),
       risk: normalizeRiskTier(comp.risk || challengeDef.risk || 'SAFE'),
@@ -104,12 +121,15 @@ export const normalizeAttemptHistory = (team, attempts = [], catalog = []) => {
       reward: rewardVal,
       penalty: penaltyVal,
       rewardPenaltyDelta: rewardVal,
+      netCredits: rewardVal,
       rewardPenaltyType: 'REWARD',
       hintsUnlocked: 0,
       extraTimeMinutes: 0,
       isReattempt: false,
       startedAt: ts,
+      submittedAt: ts,
       completedAt: ts,
+      submission: '[VERIFIED]',
       timestamp: ts,
     });
   }

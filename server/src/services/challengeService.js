@@ -10,6 +10,7 @@ import {
 import { ChallengeAttempt } from '../models/ChallengeAttempt.js';
 import { Team } from '../models/Team.js';
 import { CreditService } from './creditService.js';
+import { AuditService, AUDIT_ACTION_TYPES } from './auditService.js';
 import { CREDIT_TRANSACTION_TYPES, creditsConfig } from '../config/creditsConfig.js';
 import { logger } from '../utils/logger.js';
 
@@ -543,34 +544,53 @@ export const applyTeamRiskTelemetry = (
   }
 };
 
+let challengesSeeded = false;
+let challengesSeedPromise = null;
+let cachedPublicCatalog = null;
+let cachedPublicCatalogExpiresAt = 0;
+
 export const ensureDefaultChallengesSeeded = async () => {
   if (mongoose.connection.readyState !== 1) return;
+  if (challengesSeeded) return;
+  if (challengesSeedPromise) return challengesSeedPromise;
 
-  try {
-    for (const item of DEFAULT_CHALLENGE_CATALOG) {
-      await Challenge.findOneAndUpdate(
-        { challengeId: item.challengeId },
-        { $set: item },
-        { upsert: true, new: true }
+  challengesSeedPromise = (async () => {
+    try {
+      for (const item of DEFAULT_CHALLENGE_CATALOG) {
+        await Challenge.findOneAndUpdate(
+          { challengeId: item.challengeId },
+          { $setOnInsert: item },
+          { upsert: true, new: true }
+        );
+      }
+
+      // Normalize any legacy risk values in existing MongoDB documents to SAFE | BALANCED | AGGRESSIVE
+      await Challenge.updateMany(
+        { risk: { $in: ['HIGH', 'EXTREME', 'CRITICAL', 'HIGH_STAKES'] } },
+        { $set: { risk: 'AGGRESSIVE' } }
       );
+      await Challenge.updateMany(
+        { risk: { $in: ['MODERATE', 'MEDIUM'] } },
+        { $set: { risk: 'BALANCED' } }
+      );
+      await Challenge.updateMany({ risk: 'LOW' }, { $set: { risk: 'SAFE' } });
+      challengesSeeded = true;
+    } catch (err) {
+      logger.warn('SEED', `Challenge catalog seed check warning: ${err.message}`);
+    } finally {
+      challengesSeedPromise = null;
     }
+  })();
 
-    // Normalize any legacy risk values in existing MongoDB documents to SAFE | BALANCED | AGGRESSIVE
-    await Challenge.updateMany(
-      { risk: { $in: ['HIGH', 'EXTREME', 'CRITICAL', 'HIGH_STAKES'] } },
-      { $set: { risk: 'AGGRESSIVE' } }
-    );
-    await Challenge.updateMany(
-      { risk: { $in: ['MODERATE', 'MEDIUM'] } },
-      { $set: { risk: 'BALANCED' } }
-    );
-    await Challenge.updateMany({ risk: 'LOW' }, { $set: { risk: 'SAFE' } });
-  } catch (err) {
-    logger.warn('SEED', `Challenge catalog seed check warning: ${err.message}`);
-  }
+  return challengesSeedPromise;
 };
 
 export class ChallengeService {
+  static invalidateCatalogCache() {
+    cachedPublicCatalog = null;
+    cachedPublicCatalogExpiresAt = 0;
+  }
+
   static async listChallenges(filters = {}) {
     await ensureDefaultChallengesSeeded();
 
@@ -600,20 +620,36 @@ export class ChallengeService {
       query.risk = String(filters.risk).toUpperCase();
     }
 
+    const isUnfiltered = Object.keys(query).length === 1;
+    if (isUnfiltered && cachedPublicCatalog && Date.now() < cachedPublicCatalogExpiresAt) {
+      return cachedPublicCatalog;
+    }
+
     if (mongoose.connection.readyState === 1) {
       const docs = await Challenge.find(query).sort({ cost: 1, challengeId: 1 }).lean();
-      if (docs.length > 0 || Object.keys(query).length > 1) {
-        return docs.map((d) => sanitizePublicChallenge(d));
+      if (docs.length > 0 || !isUnfiltered) {
+        const sanitized = docs.map((d) => sanitizePublicChallenge(d));
+        if (isUnfiltered) {
+          cachedPublicCatalog = sanitized;
+          cachedPublicCatalogExpiresAt = Date.now() + 3000;
+        }
+        return sanitized;
       }
     }
 
-    return DEFAULT_CHALLENGE_CATALOG.filter((c) => {
+    const fallbackList = DEFAULT_CHALLENGE_CATALOG.filter((c) => {
       if (!c.enabled) return false;
       if (query.category && c.category !== query.category) return false;
       if (query.difficulty && c.difficulty !== query.difficulty) return false;
       if (query.risk && c.risk !== query.risk) return false;
       return true;
     }).map((c) => sanitizePublicChallenge(c));
+
+    if (isUnfiltered) {
+      cachedPublicCatalog = fallbackList;
+      cachedPublicCatalogExpiresAt = Date.now() + 3000;
+    }
+    return fallbackList;
   }
 
   static async getChallengeById(rawChallengeId, { includeSolution = false } = {}) {
@@ -643,67 +679,109 @@ export class ChallengeService {
    * Server-authoritative Challenge Acquisition & Session Initialization
    */
   static async acquireChallengeForTeam({ teamDoc, teamId, challengeId, isReattemptRequested }) {
-    const team =
-      teamDoc ||
-      (await Team.findOne({
-        teamId: String(teamId || '')
-          .trim()
-          .toUpperCase(),
-      }));
-
-    if (!team) {
-      const err = new Error('Authenticated team record not found in NEXUS Core.');
-      err.statusCode = 404;
-      err.code = 'TEAM_NOT_FOUND';
-      throw err;
-    }
-
-    const normalizedChallengeId = String(challengeId || '')
+    const resolvedTeamId = String(teamDoc?.teamId || teamId || '')
       .trim()
       .toUpperCase();
-    if (!normalizedChallengeId) {
-      const err = new Error('Challenge ID is required to acquire a module.');
-      err.statusCode = 400;
-      err.code = 'CHALLENGE_ID_REQUIRED';
-      throw err;
-    }
+    const acqLockKey = resolvedTeamId || 'UNKNOWN_TEAM';
 
-    const challenge = await ChallengeService.getChallengeById(normalizedChallengeId);
-    if (!challenge) {
-      const err = new Error(`Challenge module [${normalizedChallengeId}] does not exist.`);
-      err.statusCode = 404;
-      err.code = 'CHALLENGE_NOT_FOUND';
-      throw err;
-    }
-
-    if (!challenge.enabled || !challenge.available) {
+    if (ChallengeService._acquisitionLocks.has(acqLockKey)) {
       const err = new Error(
-        `Challenge module [${challenge.title}] is currently restricted or unavailable.`
+        'Simultaneous challenge purchase blocked: another squad member is currently acquiring a module.'
       );
-      err.statusCode = 400;
-      err.code = 'CHALLENGE_UNAVAILABLE';
+      err.statusCode = 409;
+      err.code = 'SIMULTANEOUS_PURCHASE_BLOCKED';
       throw err;
     }
 
-    const alreadySolved = (team.completedChallenges || []).some(
-      (c) => c.challengeId === challenge.challengeId
-    );
-    if (alreadySolved) {
-      const err = new Error(
-        `Challenge [${challenge.title}] has already been solved by your squad.`
+    ChallengeService._acquisitionLocks.add(acqLockKey);
+
+    try {
+      const team =
+        teamDoc ||
+        (await Team.findOne({
+          teamId: resolvedTeamId,
+        }));
+
+      if (!team) {
+        const err = new Error('Authenticated team record not found in NEXUS Core.');
+        err.statusCode = 404;
+        err.code = 'TEAM_NOT_FOUND';
+        throw err;
+      }
+
+      const normalizedChallengeId = String(challengeId || '')
+        .trim()
+        .toUpperCase();
+      if (!normalizedChallengeId) {
+        const err = new Error('Challenge ID is required to acquire a module.');
+        err.statusCode = 400;
+        err.code = 'CHALLENGE_ID_REQUIRED';
+        throw err;
+      }
+
+      const challenge = await ChallengeService.getChallengeById(normalizedChallengeId);
+      if (!challenge) {
+        const err = new Error(`Challenge module [${normalizedChallengeId}] does not exist.`);
+        err.statusCode = 404;
+        err.code = 'CHALLENGE_NOT_FOUND';
+        throw err;
+      }
+
+      if (!challenge.enabled || !challenge.available) {
+        const err = new Error(
+          `Challenge module [${challenge.title}] is currently restricted or unavailable.`
+        );
+        err.statusCode = 400;
+        err.code = 'CHALLENGE_UNAVAILABLE';
+        throw err;
+      }
+
+      // Prevent duplicate purchase if this challenge is already actively in progress
+      if (
+        team.activeAttempt &&
+        team.activeAttempt.status === 'IN_PROGRESS' &&
+        String(team.activeAttempt.challengeId).toUpperCase() === challenge.challengeId
+      ) {
+        const err = new Error(
+          `Challenge [${challenge.title}] is already active in progress for your squad.`
+        );
+        err.statusCode = 409;
+        err.code = 'CHALLENGE_ALREADY_ACTIVE';
+        throw err;
+      }
+
+      const alreadySolved = (team.completedChallenges || []).some(
+        (c) => c.challengeId === challenge.challengeId
       );
-      err.statusCode = 400;
-      err.code = 'CHALLENGE_ALREADY_SOLVED';
-      throw err;
+      if (alreadySolved) {
+        const err = new Error(
+          `Challenge [${challenge.title}] has already been solved by your squad.`
+        );
+        err.statusCode = 400;
+        err.code = 'CHALLENGE_ALREADY_SOLVED';
+        throw err;
+      }
+
+      const wasFailed = (team.failedChallenges || []).some(
+        (c) => c.challengeId === challenge.challengeId
+      );
+
+    let priorAttemptsCount = wasFailed ? 1 : 0;
+    if (mongoose.connection.readyState === 1) {
+      const dbPriorCount = await ChallengeAttempt.countDocuments({
+        teamId: team.teamId,
+        challengeId: challenge.challengeId,
+      }).catch(() => 0);
+      priorAttemptsCount = Math.max(priorAttemptsCount, dbPriorCount);
     }
 
-    const wasFailed = (team.failedChallenges || []).some(
-      (c) => c.challengeId === challenge.challengeId
-    );
-    const isReattempt = Boolean(isReattemptRequested || wasFailed);
+    const attemptNumber = priorAttemptsCount + 1;
+    const isReattempt = Boolean(priorAttemptsCount > 0 || wasFailed || isReattemptRequested);
+
+    // Server calculates increased reattempt cost — never accept price from client
     const effectiveCost = isReattempt
-      ? creditsConfig.calculateReattemptCost(challenge.cost)
-      : challenge.cost;
+      ? creditsConfig.calculateReattemptCost(challenge.cost, Math.max(1, priorAttemptsCount))
+      : Number(challenge.cost || 0);
     const txType = isReattempt
       ? CREDIT_TRANSACTION_TYPES.REATTEMPT
       : CREDIT_TRANSACTION_TYPES.CHALLENGE_PURCHASE;
@@ -718,7 +796,7 @@ export class ChallengeService {
         category: challenge.category,
       },
       summary: isReattempt
-        ? `REATTEMPT ACQUIRED: ${challenge.title} (-${effectiveCost} CR)`
+        ? `REATTEMPT #${attemptNumber} ACQUIRED: ${challenge.title} (-${effectiveCost} CR)`
         : `CHALLENGE ACQUIRED: ${challenge.title} (-${effectiveCost} CR)`,
       autoSaveTeam: false,
     });
@@ -765,6 +843,7 @@ export class ChallengeService {
 
     team.activeAttempt = {
       attemptId,
+      attemptNumber,
       challengeId: challenge.challengeId,
       title: challenge.title,
       category: challenge.category,
@@ -792,6 +871,7 @@ export class ChallengeService {
     if (mongoose.connection.readyState === 1) {
       await ChallengeAttempt.create({
         attemptId,
+        attemptNumber,
         teamId: team.teamId,
         challengeId: challenge.challengeId,
         title: challenge.title,
@@ -803,6 +883,7 @@ export class ChallengeService {
         costPaid: effectiveCost,
         potentialReward: challenge.reward,
         penaltyOnFail: challenge.penalty || 100,
+        rewardPenaltyDelta: 0,
         timeLimit: timeLimitSeconds,
         hintsUnlocked: 0,
         unlockedHints: [],
@@ -810,18 +891,63 @@ export class ChallengeService {
         isReattempt,
         startedAt: now,
         expiresAt,
+        result: 'IN_PROGRESS',
         status: 'IN_PROGRESS',
+        timestamp: now,
       }).catch((err) => {
         logger.warn('SESSION', `ChallengeAttempt record warning: ${err.message}`);
       });
     }
 
-    return {
-      team,
-      challenge,
-      creditResult,
-      activeAttempt: team.activeAttempt,
-    };
+    await AuditService.record({
+      action: AUDIT_ACTION_TYPES.PURCHASE,
+      actorType: 'TEAM',
+      actorId: team.teamId,
+      teamId: team.teamId,
+      challengeId: challenge.challengeId,
+      attemptId,
+      attemptNumber,
+      creditsDelta: -effectiveCost,
+      balanceAfter: team.credits,
+      summary: `${team.teamId} purchased ${
+        isReattempt ? `reattempt #${attemptNumber}` : 'challenge'
+      } [${challenge.challengeId}] ${challenge.title} for ${effectiveCost} CR`,
+      metadata: {
+        baseCost: challenge.cost,
+        effectiveCost,
+        isReattempt,
+        attemptNumber,
+        risk: normalizedRisk,
+      },
+    });
+
+    await AuditService.record({
+      action: AUDIT_ACTION_TYPES.START,
+      actorType: 'TEAM',
+      actorId: team.teamId,
+      teamId: team.teamId,
+      challengeId: challenge.challengeId,
+      attemptId,
+      attemptNumber,
+      creditsDelta: 0,
+      balanceAfter: team.credits,
+      summary: `${team.teamId} started session [${attemptId}] (Attempt #${attemptNumber}) on [${challenge.challengeId}]`,
+      metadata: {
+        startedAt: now.toISOString(),
+        expiresAt: expiresAt.toISOString(),
+        timeLimit: timeLimitSeconds,
+      },
+    });
+
+      return {
+        team,
+        challenge,
+        creditResult,
+        activeAttempt: team.activeAttempt,
+      };
+    } finally {
+      ChallengeService._acquisitionLocks.delete(acqLockKey);
+    }
   }
 
   /**
@@ -997,60 +1123,12 @@ export class ChallengeService {
     simulateFailure = false,
     outcomeOverride = null, // 'TIMEOUT' | 'ABANDONED' | null
   }) {
-    const team =
-      teamDoc ||
-      (await Team.findOne({
-        teamId: String(teamId || '')
-          .trim()
-          .toUpperCase(),
-      }));
+    const resolvedTeamId = String(teamDoc?.teamId || teamId || '')
+      .trim()
+      .toUpperCase();
+    const teamLockKey = `${resolvedTeamId}:SUBMIT`;
 
-    if (!team) {
-      const err = new Error('Team not found.');
-      err.statusCode = 404;
-      throw err;
-    }
-
-    // Prevent duplicate submission if no active session exists
-    if (!team.activeAttempt && !team.currentChallenge) {
-      const err = new Error(
-        'Duplicate or stale submission blocked: no active challenge session is in progress.'
-      );
-      err.statusCode = 409;
-      err.code = 'DUPLICATE_SUBMISSION_BLOCKED';
-      throw err;
-    }
-
-    const activeAttemptSnapshot = team.activeAttempt
-      ? typeof team.activeAttempt.toObject === 'function'
-        ? team.activeAttempt.toObject()
-        : { ...team.activeAttempt }
-      : null;
-
-    const resolvedAttemptId =
-      activeAttemptSnapshot?.attemptId || attemptId || `ATT-${Date.now().toString().slice(-5)}`;
-    const targetChallengeId =
-      activeAttemptSnapshot?.challengeId ||
-      team.currentChallenge?.challengeId ||
-      challengeId ||
-      'CHG-PUZ-05';
-
-    // Check if client tried to submit for a different attemptId that already closed
-    if (
-      attemptId &&
-      activeAttemptSnapshot?.attemptId &&
-      String(attemptId).trim() !== String(activeAttemptSnapshot.attemptId).trim()
-    ) {
-      const err = new Error(
-        `Session attempt [${attemptId}] is no longer active or was already evaluated.`
-      );
-      err.statusCode = 409;
-      err.code = 'ATTEMPT_MISMATCH_OR_CLOSED';
-      throw err;
-    }
-
-    const lockKey = `${team.teamId}:${resolvedAttemptId}`;
-    if (ChallengeService._submissionLocks.has(lockKey)) {
+    if (ChallengeService._submissionLocks.has(teamLockKey)) {
       const err = new Error(
         'Duplicate submission blocked: NEXUS Core is currently evaluating this session.'
       );
@@ -1059,9 +1137,59 @@ export class ChallengeService {
       throw err;
     }
 
-    ChallengeService._submissionLocks.add(lockKey);
+    ChallengeService._submissionLocks.add(teamLockKey);
 
     try {
+      const team =
+        teamDoc ||
+        (await Team.findOne({
+          teamId: resolvedTeamId,
+        }));
+
+      if (!team) {
+        const err = new Error('Team not found.');
+        err.statusCode = 404;
+        throw err;
+      }
+
+      // Prevent duplicate submission if no active session exists
+      if (!team.activeAttempt && !team.currentChallenge) {
+        const err = new Error(
+          'Duplicate or stale submission blocked: no active challenge session is in progress.'
+        );
+        err.statusCode = 409;
+        err.code = 'DUPLICATE_SUBMISSION_BLOCKED';
+        throw err;
+      }
+
+      const activeAttemptSnapshot = team.activeAttempt
+        ? typeof team.activeAttempt.toObject === 'function'
+          ? team.activeAttempt.toObject()
+          : { ...team.activeAttempt }
+        : null;
+
+      const resolvedAttemptId =
+        activeAttemptSnapshot?.attemptId || attemptId || `ATT-${Date.now().toString().slice(-5)}`;
+      const targetChallengeId =
+        activeAttemptSnapshot?.challengeId ||
+        team.currentChallenge?.challengeId ||
+        challengeId ||
+        'CHG-PUZ-05';
+
+      // Check if client tried to submit for a different attemptId that already closed
+      if (
+        attemptId &&
+        activeAttemptSnapshot?.attemptId &&
+        String(attemptId).trim() !== String(activeAttemptSnapshot.attemptId).trim()
+      ) {
+        const err = new Error(
+          `Session attempt [${attemptId}] is no longer active or was already evaluated.`
+        );
+        err.statusCode = 409;
+        err.code = 'ATTEMPT_MISMATCH_OR_CLOSED';
+        throw err;
+      }
+
       // Check MongoDB ChallengeAttempt record for already-evaluated status
       if (mongoose.connection.readyState === 1 && resolvedAttemptId) {
         const existingAttempt = await ChallengeAttempt.findOne({
@@ -1115,12 +1243,16 @@ export class ChallengeService {
             ).trim()
           : String(submission ?? '').trim();
 
-      if (!rawAnswer && !simulateFailure && !isTimeout && !isAbandoned) {
+      const isAdminForceSuccess = outcomeOverride === 'SUCCESS';
+      if (!rawAnswer && !simulateFailure && !isTimeout && !isAbandoned && !isAdminForceSuccess) {
         const err = new Error('Submission payload cannot be empty.');
         err.statusCode = 400;
         err.code = 'EMPTY_SUBMISSION';
         throw err;
       }
+
+      const attemptNumber = Math.max(1, Number(activeAttemptSnapshot?.attemptNumber || 1));
+      const costPaid = Number(activeAttemptSnapshot?.costPaid ?? fullChallenge.cost ?? 0);
 
       const normalizedSubmitted = rawAnswer.toUpperCase().replace(/\s+/g, ' ').trim();
       const expected = String(fullChallenge.solutionConfig?.expectedAnswer || '')
@@ -1132,17 +1264,19 @@ export class ChallengeService {
 
       // Server-authoritative correctness check
       const isExplicitFail =
-        Boolean(simulateFailure) ||
-        normalizedSubmitted.includes('FAIL') ||
-        isTimeout ||
-        isAbandoned;
+        !isAdminForceSuccess &&
+        (Boolean(simulateFailure) ||
+          normalizedSubmitted.includes('FAIL') ||
+          isTimeout ||
+          isAbandoned);
 
       const isAnswerMatch =
-        !isExplicitFail &&
-        (acceptedList.includes(normalizedSubmitted) ||
-          normalizedSubmitted === expected ||
-          normalizedSubmitted === `NEXUS{${expected}}` ||
-          normalizedSubmitted === 'NEXUS{CORE_SYNCHRONIZED_2026}');
+        isAdminForceSuccess ||
+        (!isExplicitFail &&
+          (acceptedList.includes(normalizedSubmitted) ||
+            normalizedSubmitted === expected ||
+            normalizedSubmitted === `NEXUS{${expected}}` ||
+            normalizedSubmitted === 'NEXUS{CORE_SYNCHRONIZED_2026}'));
 
       const passed = Boolean(isAnswerMatch);
       const relatedChallenge = {
@@ -1150,6 +1284,26 @@ export class ChallengeService {
         title: fullChallenge.title,
         category: fullChallenge.category,
       };
+
+      await AuditService.record({
+        action: AUDIT_ACTION_TYPES.SUBMISSION,
+        actorType: 'TEAM',
+        actorId: team.teamId,
+        teamId: team.teamId,
+        challengeId: fullChallenge.challengeId,
+        attemptId: resolvedAttemptId,
+        attemptNumber,
+        creditsDelta: 0,
+        balanceAfter: team.credits,
+        summary: `${team.teamId} submitted solution for [${fullChallenge.challengeId}] ${fullChallenge.title} (Attempt #${attemptNumber})`,
+        metadata: {
+          attemptId: resolvedAttemptId,
+          attemptNumber,
+          cost: costPaid,
+          isTimeout,
+          isAbandoned,
+        },
+      });
 
       let creditResult = null;
       let evaluationResult = null;
@@ -1185,13 +1339,14 @@ export class ChallengeService {
           title: fullChallenge.title,
           category: fullChallenge.category,
           description: fullChallenge.description,
-          cost: activeAttemptSnapshot?.costPaid ?? fullChallenge.cost,
+          cost: costPaid,
           reward,
           penalty: fullChallenge.penalty,
           difficulty: fullChallenge.difficulty,
           risk: normalizedRisk,
           timeLimit: fullChallenge.timeLimit,
           gameType: fullChallenge.gameType,
+          attemptNumber,
           timestamp: now,
         });
 
@@ -1202,7 +1357,9 @@ export class ChallengeService {
 
         evaluationResult = {
           attemptId: resolvedAttemptId,
+          attemptNumber,
           passed: true,
+          result: 'SUCCESS',
           status: 'SUCCESS',
           challengeId: fullChallenge.challengeId,
           title: fullChallenge.title,
@@ -1210,7 +1367,8 @@ export class ChallengeService {
           difficulty: fullChallenge.difficulty,
           risk: normalizedRisk,
           gameType: fullChallenge.gameType,
-          submittedAnswer: rawAnswer,
+          cost: costPaid,
+          submittedAnswer: rawAnswer || '[ADMIN_ADJUDICATED_PASS]',
           creditsDelta: reward,
           rewardGranted: reward,
           penaltyApplied: 0,
@@ -1219,11 +1377,30 @@ export class ChallengeService {
           coreProgressAfter: nextProgress,
           startedAt: startedAt.toISOString(),
           expiresAt: expiresAt.toISOString(),
+          submittedAt: now.toISOString(),
           completedAt: now.toISOString(),
           timeLimit,
           message: `VERIFIED BY NEXUS CORE // Solution accepted for ${fullChallenge.title}. +${reward} CR credited to squad ledger.`,
           timestamp: now.toISOString(),
         };
+
+        await AuditService.record({
+          action: AUDIT_ACTION_TYPES.SUCCESS,
+          actorType: 'TEAM',
+          actorId: team.teamId,
+          teamId: team.teamId,
+          challengeId: fullChallenge.challengeId,
+          attemptId: resolvedAttemptId,
+          attemptNumber,
+          creditsDelta: reward,
+          balanceAfter: team.credits,
+          summary: `${team.teamId} succeeded on [${fullChallenge.challengeId}] ${fullChallenge.title} (Attempt #${attemptNumber}, +${reward} CR)`,
+          metadata: {
+            cost: costPaid,
+            reward,
+            attemptNumber,
+          },
+        });
       } else {
         const penalty = Number(fullChallenge.penalty) || 100;
         const canonicalFailStatus = isTimeout
@@ -1264,13 +1441,14 @@ export class ChallengeService {
             title: fullChallenge.title,
             category: fullChallenge.category,
             description: fullChallenge.description,
-            cost: activeAttemptSnapshot?.costPaid ?? fullChallenge.cost,
+            cost: costPaid,
             reward: fullChallenge.reward,
             penalty,
             difficulty: fullChallenge.difficulty,
             risk: normalizedRisk,
             timeLimit: fullChallenge.timeLimit,
             gameType: fullChallenge.gameType,
+            attemptNumber,
             timestamp: now,
           });
         }
@@ -1284,7 +1462,9 @@ export class ChallengeService {
 
         evaluationResult = {
           attemptId: resolvedAttemptId,
+          attemptNumber,
           passed: false,
+          result: canonicalFailStatus,
           status: canonicalFailStatus,
           challengeId: fullChallenge.challengeId,
           title: fullChallenge.title,
@@ -1292,6 +1472,7 @@ export class ChallengeService {
           difficulty: fullChallenge.difficulty,
           risk: normalizedRisk,
           gameType: fullChallenge.gameType,
+          cost: costPaid,
           submittedAnswer:
             rawAnswer || (isTimeout ? '[SERVER_TIMEOUT]' : '[SESSION_ABANDONED]'),
           creditsDelta: -penalty,
@@ -1302,11 +1483,31 @@ export class ChallengeService {
           coreProgressAfter: team.stats.coreProgressPercent || 50,
           startedAt: startedAt.toISOString(),
           expiresAt: expiresAt.toISOString(),
+          submittedAt: now.toISOString(),
           completedAt: now.toISOString(),
           timeLimit,
           message: statusMessage,
           timestamp: now.toISOString(),
         };
+
+        await AuditService.record({
+          action: AUDIT_ACTION_TYPES.FAILURE,
+          actorType: 'TEAM',
+          actorId: team.teamId,
+          teamId: team.teamId,
+          challengeId: fullChallenge.challengeId,
+          attemptId: resolvedAttemptId,
+          attemptNumber,
+          creditsDelta: -penalty,
+          balanceAfter: team.credits,
+          summary: `${team.teamId} failed [${fullChallenge.challengeId}] ${fullChallenge.title} with [${canonicalFailStatus}] (Attempt #${attemptNumber}, -${penalty} CR)`,
+          metadata: {
+            cost: costPaid,
+            penalty,
+            status: canonicalFailStatus,
+            attemptNumber,
+          },
+        });
       }
 
       team.currentChallenge = null;
@@ -1320,6 +1521,7 @@ export class ChallengeService {
           {
             $set: {
               attemptId: resolvedAttemptId,
+              attemptNumber,
               teamId: team.teamId,
               challengeId: fullChallenge.challengeId,
               title: fullChallenge.title,
@@ -1328,9 +1530,10 @@ export class ChallengeService {
               risk: fullChallenge.risk,
               gameType: fullChallenge.gameType,
               gameConfig: activeAttemptSnapshot?.gameConfig || fullChallenge.gameConfig || {},
-              costPaid: activeAttemptSnapshot?.costPaid ?? fullChallenge.cost,
+              costPaid,
               potentialReward: fullChallenge.reward,
               penaltyOnFail: fullChallenge.penalty || 100,
+              rewardPenaltyDelta: evaluationResult.creditsDelta,
               timeLimit,
               hintsUnlocked: activeAttemptSnapshot?.hintsUnlocked || 0,
               unlockedHints: activeAttemptSnapshot?.unlockedHints || [],
@@ -1338,10 +1541,14 @@ export class ChallengeService {
               isReattempt: Boolean(activeAttemptSnapshot?.isReattempt),
               startedAt,
               expiresAt,
-              status: evaluationResult.status,
+              submittedAt: now,
               completedAt: now,
+              result: evaluationResult.status,
+              status: evaluationResult.status,
+              submission: submission ?? { outcome: evaluationResult.status },
               submittedPayload: submission ?? { outcome: evaluationResult.status },
               evaluationResult,
+              timestamp: now,
             },
           },
           { upsert: true, new: true }
@@ -1356,7 +1563,7 @@ export class ChallengeService {
         evaluationResult,
       };
     } finally {
-      ChallengeService._submissionLocks.delete(lockKey);
+      ChallengeService._submissionLocks.delete(teamLockKey);
     }
   }
 
@@ -1424,6 +1631,7 @@ export class ChallengeService {
   }
 }
 
+ChallengeService._acquisitionLocks = new Set();
 ChallengeService._submissionLocks = new Set();
 
 export { SUPPORTED_GAME_TYPES };

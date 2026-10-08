@@ -1,6 +1,6 @@
 import { SOCKET_EVENTS, SOCKET_ROOMS } from './socketEvents.js';
 import { logger } from '../utils/logger.js';
-import { verifyTeamToken } from '../utils/jwt.js';
+import { verifyTeamToken, verifyAdminToken } from '../utils/jwt.js';
 import {
   getTeamStateById,
   executeTeamAction,
@@ -16,50 +16,44 @@ import {
 } from '../services/progressHistoryService.js';
 import { NexusCoreService } from '../services/nexusCoreService.js';
 import { DisplayService } from '../services/displayService.js';
+import { AdminService } from '../services/adminService.js';
+import { enforceSocketActionRateLimit } from '../middleware/rateLimitMiddleware.js';
 
 const getRoomClientCount = (io, roomName) => {
   const room = io.sockets.adapter.rooms.get(roomName);
   return room ? room.size : 0;
 };
 
-export const registerSocketChannels = (io, socket) => {
-  socket.join(SOCKET_ROOMS.ARENA_GLOBAL);
-  socket.join(SOCKET_ROOMS.CORE_FEED);
+let adminMonitorDebounceTimer = null;
 
-  // 1. Authenticated Team Room Join: team:<teamId>
-  socket.on(SOCKET_EVENTS.TEAM.JOIN, async (payload = {}, callback) => {
+const emitLiveAdminMonitorUpdate = (io) => {
+  if (!io || getRoomClientCount(io, SOCKET_ROOMS.ADMIN_CONTROL) === 0) return;
+  if (adminMonitorDebounceTimer) return;
+
+  adminMonitorDebounceTimer = setTimeout(async () => {
+    adminMonitorDebounceTimer = null;
     try {
-      let resolvedTeamId = payload?.teamId;
+      if (!io || getRoomClientCount(io, SOCKET_ROOMS.ADMIN_CONTROL) === 0) return;
+      const adminState = await AdminService.getAdminControlState();
+      io.to(SOCKET_ROOMS.ADMIN_CONTROL).emit(SOCKET_EVENTS.ADMIN.STATE_UPDATE, {
+        ...adminState,
+        timestamp: new Date().toISOString(),
+      });
+    } catch (err) {
+      logger.warn('SOCKET', `Admin monitor broadcast skipped: ${err.message}`);
+    }
+  }, 250);
+};
 
-      if (payload?.token) {
-        const decoded = verifyTeamToken(payload.token);
-        resolvedTeamId = decoded.teamId;
-      }
+const inFlightTeamJoinHydrations = new Map();
 
-      if (!resolvedTeamId) {
-        if (typeof callback === 'function') {
-          callback({ ok: false, error: 'TEAM_ID_REQUIRED' });
-        }
-        return;
-      }
+const hydrateTeamChannelSnapshot = (normalizedTeamId) => {
+  if (inFlightTeamJoinHydrations.has(normalizedTeamId)) {
+    return inFlightTeamJoinHydrations.get(normalizedTeamId);
+  }
 
-      const normalizedTeamId = String(resolvedTeamId).trim().toUpperCase();
-      const roomName = SOCKET_ROOMS.teamRoom(normalizedTeamId);
-
-      if (socket.data.teamRoom && socket.data.teamRoom !== roomName) {
-        socket.leave(socket.data.teamRoom);
-      }
-
-      socket.join(roomName);
-      socket.data.teamId = normalizedTeamId;
-      socket.data.teamRoom = roomName;
-
-      const onlineOperatives = getRoomClientCount(io, roomName);
-      logger.info(
-        'SOCKET',
-        `Terminal [${socket.id}] joined [${roomName}] | Operatives online: ${onlineOperatives}`
-      );
-
+  const promise = (async () => {
+    try {
       const [teamState, transactions, catalog, attempts, abilitiesCatalog] = await Promise.all([
         getTeamStateById(normalizedTeamId),
         CreditService.getTeamTransactions(normalizedTeamId),
@@ -78,16 +72,9 @@ export const registerSocketChannels = (io, socket) => {
         resolvedCatalog
       );
       const liveFeed = buildCanonicalLiveFeed(teamState, attempts, transactions, resolvedCatalog);
-
       const timer = ChallengeService.computeSessionTimerTelemetry(teamState?.activeAttempt);
-      const serverTime = new Date().toISOString();
 
-      const ackPayload = {
-        ok: true,
-        teamId: normalizedTeamId,
-        room: roomName,
-        socketId: socket.id,
-        onlineOperatives,
+      return {
         team: teamState,
         nexusCore,
         transactions,
@@ -96,10 +83,89 @@ export const registerSocketChannels = (io, socket) => {
         progressSummary,
         liveFeed,
         timer,
-        serverTime,
         catalog: resolvedCatalog,
         abilitiesCatalog: abilitiesCatalog || [],
         creditsConfig: CreditService.getConfig(),
+      };
+    } finally {
+      inFlightTeamJoinHydrations.delete(normalizedTeamId);
+    }
+  })();
+
+  inFlightTeamJoinHydrations.set(normalizedTeamId, promise);
+  return promise;
+};
+
+export const registerSocketChannels = (io, socket) => {
+  socket.join(SOCKET_ROOMS.ARENA_GLOBAL);
+  socket.join(SOCKET_ROOMS.CORE_FEED);
+
+  // 1. Authenticated Team Room Join: team:<teamId>
+  // Phase 15 Security: Team members MUST authenticate with a valid Team JWT and only receive their own team state.
+  socket.on(SOCKET_EVENTS.TEAM.JOIN, async (payload = {}, callback) => {
+    try {
+      const providedToken = payload?.token || socket.handshake?.auth?.token;
+      let verifiedTeamId = socket.data.authenticatedTeamId || null;
+
+      if (providedToken) {
+        const decoded = verifyTeamToken(providedToken);
+        verifiedTeamId = String(decoded.teamId || '').trim().toUpperCase();
+      }
+
+      if (!verifiedTeamId) {
+        const errResponse = {
+          ok: false,
+          code: 'SOCKET_AUTH_REQUIRED',
+          error: 'Valid Team JWT authentication is required to join a team channel.',
+        };
+        if (typeof callback === 'function') callback(errResponse);
+        return;
+      }
+
+      if (
+        payload?.teamId &&
+        String(payload.teamId).trim().toUpperCase() !== verifiedTeamId
+      ) {
+        const errResponse = {
+          ok: false,
+          code: 'CROSS_TEAM_ACCESS_DENIED',
+          error: 'Unauthorized: Team members may only access their own team state.',
+        };
+        if (typeof callback === 'function') callback(errResponse);
+        return;
+      }
+
+      const normalizedTeamId = verifiedTeamId;
+      const roomName = SOCKET_ROOMS.teamRoom(normalizedTeamId);
+
+      if (socket.data.teamRoom && socket.data.teamRoom !== roomName) {
+        socket.leave(socket.data.teamRoom);
+      }
+
+      socket.join(roomName);
+      socket.data.authenticatedTeamId = normalizedTeamId;
+      socket.data.teamId = normalizedTeamId;
+      socket.data.teamRoom = roomName;
+      socket.data.authRole = 'TEAM';
+
+      const onlineOperatives = getRoomClientCount(io, roomName);
+      logger.info(
+        'SOCKET',
+        `Terminal [${socket.id}] authenticated & joined [${roomName}] | Operatives online: ${onlineOperatives}`
+      );
+
+      const snapshot = await hydrateTeamChannelSnapshot(normalizedTeamId);
+      const currentOnlineOperatives = getRoomClientCount(io, roomName);
+      const serverTime = new Date().toISOString();
+
+      const ackPayload = {
+        ok: true,
+        teamId: normalizedTeamId,
+        room: roomName,
+        socketId: socket.id,
+        onlineOperatives: currentOnlineOperatives,
+        ...snapshot,
+        serverTime,
         timestamp: serverTime,
       };
 
@@ -108,9 +174,11 @@ export const registerSocketChannels = (io, socket) => {
       io.to(roomName).emit(SOCKET_EVENTS.TEAM.PRESENCE_UPDATE, {
         teamId: normalizedTeamId,
         room: roomName,
-        onlineOperatives,
+        onlineOperatives: currentOnlineOperatives,
         timestamp: serverTime,
       });
+
+      emitLiveAdminMonitorUpdate(io);
 
       if (typeof callback === 'function') {
         callback(ackPayload);
@@ -118,7 +186,7 @@ export const registerSocketChannels = (io, socket) => {
     } catch (error) {
       logger.warn('SOCKET', `team:join failed: ${error.message}`);
       if (typeof callback === 'function') {
-        callback({ ok: false, error: error.message });
+        callback({ ok: false, code: 'SOCKET_AUTH_FAILED', error: error.message });
       }
     }
   });
@@ -126,13 +194,40 @@ export const registerSocketChannels = (io, socket) => {
   // 2. Server-Authoritative Team & Credit Action via Socket
   const handleAuthoritativeAction = async (payload = {}, callback) => {
     try {
-      const teamId = socket.data.teamId || payload?.teamId;
+      let teamId = socket.data.authenticatedTeamId || null;
+      if (!teamId && payload?.token) {
+        const decoded = verifyTeamToken(payload.token);
+        teamId = String(decoded.teamId || '').trim().toUpperCase();
+        socket.data.authenticatedTeamId = teamId;
+        socket.data.teamId = teamId;
+      }
+
       if (!teamId) {
-        throw new Error('Socket is not bound to an authenticated team.');
+        const err = new Error('Socket is not bound to an authenticated team.');
+        err.code = 'SOCKET_AUTH_REQUIRED';
+        throw err;
+      }
+
+      if (
+        payload?.teamId &&
+        String(payload.teamId).trim().toUpperCase() !== teamId
+      ) {
+        const err = new Error('Cross-team action rejected: You may only act for your own team.');
+        err.code = 'CROSS_TEAM_ACTION_FORBIDDEN';
+        throw err;
       }
 
       const actionType = payload.actionType || payload.type;
       const actionPayload = payload.actionPayload || payload.payload || payload;
+
+      // Enforce Phase 15 Socket Action Rate Limit
+      enforceSocketActionRateLimit({
+        socketId: socket.id,
+        teamId,
+        actionType,
+        payload: actionPayload,
+      });
+
       const result = await executeTeamAction(teamId, actionType, actionPayload);
       const roomName = SOCKET_ROOMS.teamRoom(teamId);
       const onlineOperatives = getRoomClientCount(io, roomName);
@@ -272,13 +367,19 @@ export const registerSocketChannels = (io, socket) => {
       io.to(SOCKET_ROOMS.LEADERBOARD).emit(SOCKET_EVENTS.LEADERBOARD.UPDATE, projectorSnapshot);
       io.to(SOCKET_ROOMS.ARENA_GLOBAL).emit(SOCKET_EVENTS.LEADERBOARD.UPDATE, projectorSnapshot);
 
+      emitLiveAdminMonitorUpdate(io);
+
       if (typeof callback === 'function') {
         callback({ ok: true, ...broadcastPayload });
       }
     } catch (error) {
       logger.warn('SOCKET', `Team/Credit action error: ${error.message}`);
       if (typeof callback === 'function') {
-        callback({ ok: false, error: error.message });
+        callback({
+          ok: false,
+          code: error.code || 'ACTION_FAILED',
+          error: error.message,
+        });
       }
     }
   };
@@ -302,6 +403,7 @@ export const registerSocketChannels = (io, socket) => {
     }
     socket.data.teamId = null;
     socket.data.teamRoom = null;
+    emitLiveAdminMonitorUpdate(io);
     if (typeof callback === 'function') {
       callback({ ok: true });
     }
@@ -318,6 +420,7 @@ export const registerSocketChannels = (io, socket) => {
         timestamp: new Date().toISOString(),
       });
     }
+    emitLiveAdminMonitorUpdate(io);
   });
 
   socket.on(SOCKET_EVENTS.LEADERBOARD.SUBSCRIBE, async (payload = {}, callback) => {
@@ -337,6 +440,51 @@ export const registerSocketChannels = (io, socket) => {
     } catch (error) {
       if (typeof callback === 'function') {
         callback({ ok: false, error: error.message });
+      }
+    }
+  });
+
+  // Protected Admin/Volunteer Live Monitor Subscription
+  socket.on(SOCKET_EVENTS.ADMIN.SUBSCRIBE, async (payload = {}, callback) => {
+    try {
+      const token = payload?.token || socket.handshake?.auth?.adminToken;
+      if (!token) {
+        const err = new Error('Admin token required to subscribe to room:admin.');
+        err.code = 'ADMIN_AUTH_REQUIRED';
+        throw err;
+      }
+      const decoded = verifyAdminToken(token);
+      if (!decoded || !['ADMIN', 'VOLUNTEER'].includes(decoded.role)) {
+        const err = new Error('Insufficient clearance for Admin Live Monitor.');
+        err.code = 'ADMIN_AUTH_INVALID';
+        throw err;
+      }
+
+      socket.join(SOCKET_ROOMS.ADMIN_CONTROL);
+      socket.data.adminOperatorId = decoded.operatorId;
+      socket.data.adminRole = decoded.role;
+      socket.data.authRole = 'ADMIN';
+
+      const state = await AdminService.getAdminControlState();
+      socket.emit(SOCKET_EVENTS.ADMIN.STATE_UPDATE, state);
+
+      if (typeof callback === 'function') {
+        callback({
+          ok: true,
+          room: SOCKET_ROOMS.ADMIN_CONTROL,
+          operator: decoded,
+          state,
+          timestamp: new Date().toISOString(),
+        });
+      }
+    } catch (error) {
+      logger.warn('SOCKET', `admin:subscribe failed: ${error.message}`);
+      if (typeof callback === 'function') {
+        callback({
+          ok: false,
+          code: error.code || 'ADMIN_AUTH_INVALID',
+          error: error.message,
+        });
       }
     }
   });
@@ -567,7 +715,6 @@ export const createSocketEmitters = (getIo) => ({
     const io = getIo();
     if (io) {
       io.to(SOCKET_ROOMS.LEADERBOARD).emit(SOCKET_EVENTS.LEADERBOARD.UPDATE, leaderboardPayload);
-      io.to(SOCKET_ROOMS.ARENA_GLOBAL).emit(SOCKET_EVENTS.LEADERBOARD.UPDATE, leaderboardPayload);
     }
   },
 

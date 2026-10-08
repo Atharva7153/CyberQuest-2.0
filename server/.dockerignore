@@ -1,7 +1,18 @@
+# ==============================================================================
+# NEXUS — THE LAST CHANCE (Cyber Quest)
+# Server .dockerignore
+# ==============================================================================
+
 node_modules
+coverage
 .env
 .env.*
 !.env.example
+.git
+.gitignore
 .DS_Store
+Thumbs.db
 *.log
 npm-debug.log*
+.vscode
+.idea

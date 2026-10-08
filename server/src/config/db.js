@@ -22,6 +22,9 @@ export const connectDB = async () => {
   try {
     await mongoose.connect(env.mongoUri, {
       serverSelectionTimeoutMS: 5000,
+      maxPoolSize: 50,
+      minPoolSize: 5,
+      socketTimeoutMS: 30000,
     });
     lastConnectionError = null;
     if (retryTimer) {

@@ -2,6 +2,7 @@ import { Server } from 'socket.io';
 import { env } from '../config/env.js';
 import { getDatabaseStatus } from '../config/db.js';
 import { logger } from '../utils/logger.js';
+import { verifyTeamToken, verifyAdminToken } from '../utils/jwt.js';
 import { SOCKET_EVENTS } from './socketEvents.js';
 import { registerSocketChannels, createSocketEmitters } from './channels.js';
 
@@ -14,11 +15,76 @@ export const socketEmitters = createSocketEmitters(getSocketServer);
 export const initSocketServer = (httpServer) => {
   ioInstance = new Server(httpServer, {
     cors: {
-      origin: [env.clientUrl, 'http://localhost:5173', 'http://127.0.0.1:5173'],
+      origin: true,
       methods: ['GET', 'POST'],
       credentials: true,
     },
   });
+
+  // Phase 15 Socket.IO Handshake Authentication & Authorization Separation Middleware
+  ioInstance.use((socket, next) => {
+    const rawHeader = socket.handshake?.headers?.authorization || '';
+    const bearerToken = rawHeader.startsWith('Bearer ') ? rawHeader.slice(7).trim() : '';
+    const token = socket.handshake?.auth?.token || bearerToken || '';
+    const mode = String(socket.handshake?.auth?.mode || '').toUpperCase();
+
+    socket.data.authRole = 'PUBLIC_DISPLAY';
+    socket.data.authenticatedTeamId = null;
+    socket.data.isAdminAuthorized = false;
+
+    if (!token) {
+      return next();
+    }
+
+    if (mode === 'ADMIN_OPERATOR') {
+      try {
+        const decodedAdmin = verifyAdminToken(token);
+        socket.data.authRole = decodedAdmin.role || 'ADMIN';
+        socket.data.adminOperatorId = decodedAdmin.operatorId;
+        socket.data.isAdminAuthorized = true;
+        return next();
+      } catch (err) {
+        return next(new Error(`ADMIN_SOCKET_AUTH_FAILED: ${err.message}`));
+      }
+    }
+
+    // Try Team Token first, then Admin Token
+    try {
+      const decodedTeam = verifyTeamToken(token);
+      const normalizedTeamId = String(decodedTeam.teamId).trim().toUpperCase();
+      socket.data.authRole = 'TEAM';
+      socket.data.authenticatedTeamId = normalizedTeamId;
+      socket.data.teamId = normalizedTeamId;
+      return next();
+    } catch {
+      try {
+        const decodedAdmin = verifyAdminToken(token);
+        socket.data.authRole = decodedAdmin.role || 'ADMIN';
+        socket.data.adminOperatorId = decodedAdmin.operatorId;
+        socket.data.isAdminAuthorized = true;
+        return next();
+      } catch {
+        if (socket.handshake?.auth?.strict) {
+          return next(new Error('SOCKET_AUTH_INVALID_TOKEN'));
+        }
+        return next();
+      }
+    }
+  });
+
+  let terminalsBroadcastTimer = null;
+  const scheduleTerminalsBroadcast = () => {
+    if (terminalsBroadcastTimer) return;
+    terminalsBroadcastTimer = setTimeout(() => {
+      terminalsBroadcastTimer = null;
+      if (ioInstance) {
+        ioInstance.emit(SOCKET_EVENTS.SYSTEM.TERMINALS, {
+          activeTerminals: ioInstance.engine.clientsCount,
+          timestamp: new Date().toISOString(),
+        });
+      }
+    }, 150);
+  };
 
   ioInstance.on('connection', (socket) => {
     const activeTerminals = ioInstance.engine.clientsCount;
@@ -41,11 +107,8 @@ export const initSocketServer = (httpServer) => {
       message: 'NEXUS CORE TELEMETRY LINK ESTABLISHED.',
     });
 
-    // Broadcast updated terminal count
-    ioInstance.emit(SOCKET_EVENTS.SYSTEM.TERMINALS, {
-      activeTerminals,
-      timestamp: new Date().toISOString(),
-    });
+    // Debounced broadcast of updated terminal count
+    scheduleTerminalsBroadcast();
 
     // Handle diagnostic ping from client
     socket.on(SOCKET_EVENTS.SYSTEM.PING, (payload = {}, callback) => {
@@ -72,10 +135,7 @@ export const initSocketServer = (httpServer) => {
         'SOCKET',
         `Terminal disconnected [ID: ${socket.id}] (${reason}) | Active: ${remaining}`
       );
-      ioInstance.emit(SOCKET_EVENTS.SYSTEM.TERMINALS, {
-        activeTerminals: remaining,
-        timestamp: new Date().toISOString(),
-      });
+      scheduleTerminalsBroadcast();
     });
   });
 

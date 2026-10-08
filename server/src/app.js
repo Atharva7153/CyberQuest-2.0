@@ -1,3 +1,6 @@
+import fs from 'fs';
+import path from 'path';
+import { fileURLToPath } from 'url';
 import express from 'express';
 import cors from 'cors';
 import { env } from './config/env.js';
@@ -5,13 +8,18 @@ import apiRouter from './routes/index.js';
 import { requestLogger } from './middleware/requestLogger.js';
 import { notFoundHandler, globalErrorHandler } from './middleware/errorMiddleware.js';
 
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+const CLIENT_DIST_DIR = path.resolve(__dirname, '../../client/dist');
+const CLIENT_INDEX_HTML = path.join(CLIENT_DIST_DIR, 'index.html');
+
 export const createApp = () => {
   const app = express();
 
   // Global Middleware
   app.use(
     cors({
-      origin: [env.clientUrl, 'http://localhost:5173', 'http://127.0.0.1:5173'],
+      origin: true,
       methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
       credentials: true,
     })
@@ -20,20 +28,46 @@ export const createApp = () => {
   app.use(express.urlencoded({ extended: true }));
   app.use(requestLogger);
 
-  // Root System Banner Route
-  app.get('/', (req, res) => {
-    res.status(200).json({
-      status: 'ok',
-      service: env.serviceName,
-      system: 'NEXUS — THE LAST CHANCE',
-      designation: env.systemDesignation,
-      version: env.systemVersion,
-      healthEndpoint: '/api/health',
-    });
-  });
-
   // API Routes
   app.use('/api', apiRouter);
+
+  const hasBuiltClient = fs.existsSync(CLIENT_INDEX_HTML);
+
+  if (hasBuiltClient) {
+    // Unified single-container deployment (e.g. Render root Dockerfile): serve built React frontend
+    app.use(express.static(CLIENT_DIST_DIR));
+
+    app.get('*', (req, res, next) => {
+      if (req.path.startsWith('/api') || req.path.startsWith('/socket.io')) {
+        return next();
+      }
+      // If an API test client explicitly requests JSON on '/', return the banner JSON
+      const accept = String(req.headers.accept || '');
+      if (req.path === '/' && accept.includes('application/json') && !accept.includes('text/html')) {
+        return res.status(200).json({
+          status: 'ok',
+          service: env.serviceName,
+          system: 'NEXUS — THE LAST CHANCE',
+          designation: env.systemDesignation,
+          version: env.systemVersion,
+          healthEndpoint: '/api/health',
+        });
+      }
+      return res.sendFile(CLIENT_INDEX_HTML);
+    });
+  } else {
+    // Root System Banner Route (when running API standalone in dev)
+    app.get('/', (req, res) => {
+      res.status(200).json({
+        status: 'ok',
+        service: env.serviceName,
+        system: 'NEXUS — THE LAST CHANCE',
+        designation: env.systemDesignation,
+        version: env.systemVersion,
+        healthEndpoint: '/api/health',
+      });
+    });
+  }
 
   // Centralized Error Handling Middleware
   app.use(notFoundHandler);

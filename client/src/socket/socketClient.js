@@ -3,7 +3,9 @@ import { io } from 'socket.io-client';
 const SOCKET_URL =
   import.meta.env.SOCKET_URL ||
   import.meta.env.VITE_SOCKET_URL ||
-  'http://localhost:5050';
+  (typeof window !== 'undefined' && window.location.port !== '5173'
+    ? window.location.origin
+    : 'http://localhost:5050');
 
 export const NEXUS_SOCKET_EVENTS = {
   SYSTEM: {
@@ -58,6 +60,11 @@ export const NEXUS_SOCKET_EVENTS = {
   },
   FEED: {
     EVENT: 'feed:event',
+  },
+  ADMIN: {
+    SUBSCRIBE: 'admin:subscribe',
+    STATE_UPDATE: 'admin:state:update',
+    EVENT_ACTION: 'admin:event:action',
   },
 };
 
