@@ -1,5 +1,10 @@
 export const GAME_TYPES = Object.freeze({
   SUDOKU: 'sudoku',
+  XO4X4: 'xo4x4',
+  WEND: 'wend',
+  PATCHES: 'patches',
+  ZIP: 'zip',
+  // Legacy / Extensible types
   WORD_GUESS: 'wordGuess',
   CONNECT_4: 'connect4',
   XO: 'xo',
@@ -15,68 +20,92 @@ export const GAME_TYPES = Object.freeze({
 export const GAME_TYPE_METADATA = Object.freeze({
   sudoku: {
     id: 'sudoku',
-    label: 'SUDOKU CONSTRAINT MATRIX',
-    code: 'ENG-SDK',
+    label: 'SUDOKU',
+    code: 'GM-SDK',
     defaultCategory: 'LOGIC',
+  },
+  xo4x4: {
+    id: 'xo4x4',
+    label: '4×4 TIC-TAC-TOE VS AI',
+    code: 'GM-XO4',
+    defaultCategory: 'LOGIC',
+  },
+  wend: {
+    id: 'wend',
+    label: 'WEND',
+    code: 'GM-WND',
+    defaultCategory: 'PUZZLES',
+  },
+  patches: {
+    id: 'patches',
+    label: 'PATCHES',
+    code: 'GM-PTC',
+    defaultCategory: 'OBSERVATION',
+  },
+  zip: {
+    id: 'zip',
+    label: 'ZIP',
+    code: 'GM-ZIP',
+    defaultCategory: 'PUZZLES',
   },
   wordGuess: {
     id: 'wordGuess',
-    label: 'CIPHER WORD DECRYPTION',
-    code: 'ENG-WRD',
+    label: 'WORD DECRYPTION',
+    code: 'GM-WRD',
     defaultCategory: 'PUZZLES',
   },
   connect4: {
     id: 'connect4',
-    label: 'CONNECT-4 TACTICAL VECTOR',
-    code: 'ENG-CN4',
+    label: 'CONNECT-4',
+    code: 'GM-CN4',
     defaultCategory: 'LOGIC',
   },
   xo: {
     id: 'xo',
-    label: 'X/O CONTAINMENT LOCK',
-    code: 'ENG-XOX',
+    label: '4×4 TIC-TAC-TOE VS AI',
+    code: 'GM-XO4',
     defaultCategory: 'PUZZLES',
   },
   pattern: {
     id: 'pattern',
-    label: 'SIGNAL PATTERN EXTRAPOLATION',
-    code: 'ENG-PTN',
+    label: 'PATTERN',
+    code: 'GM-PTN',
     defaultCategory: 'OBSERVATION',
   },
   imageObservation: {
     id: 'imageObservation',
-    label: 'VISUAL TELEMETRY RECON',
-    code: 'ENG-IMG',
+    label: 'OBSERVATION',
+    code: 'GM-IMG',
     defaultCategory: 'OBSERVATION',
   },
   quiz: {
     id: 'quiz',
-    label: 'TECHNICAL INTERROGATION QUIZ',
-    code: 'ENG-QUZ',
+    label: 'QUIZ',
+    code: 'GM-QUZ',
     defaultCategory: 'KNOWLEDGE',
   },
   aptitude: {
     id: 'aptitude',
-    label: 'QUANTITATIVE APTITUDE MODULE',
-    code: 'ENG-APT',
+    label: 'APTITUDE',
+    code: 'GM-APT',
     defaultCategory: 'KNOWLEDGE',
   },
   algorithm: {
     id: 'algorithm',
-    label: 'ALGORITHMIC GRAPH SOLVER',
-    code: 'ENG-ALG',
+    label: 'ALGORITHM',
+    code: 'GM-ALG',
     defaultCategory: 'TECHNICAL',
   },
   programmingLogic: {
     id: 'programmingLogic',
-    label: 'PROGRAMMING LOGIC EVALUATOR',
-    code: 'ENG-PRG',
+    label: 'PROGRAMMING LOGIC',
+    code: 'GM-PRG',
     defaultCategory: 'TECHNICAL',
   },
   systemProblem: {
     id: 'systemProblem',
-    label: 'DISTRIBUTED SYSTEM DIAGNOSTIC',
-    code: 'ENG-SYS',
+    label: 'SYSTEM OBJECTIVE',
+    code: 'GM-SYS',
     defaultCategory: 'TECHNICAL',
   },
 });
@@ -84,10 +113,10 @@ export const GAME_TYPE_METADATA = Object.freeze({
 export const getGameTypeMeta = (gameType) => {
   return (
     GAME_TYPE_METADATA[gameType] || {
-      id: gameType || 'wordGuess',
-      label: String(gameType || 'CHALLENGE MODULE').toUpperCase(),
-      code: 'ENG-GEN',
-      defaultCategory: 'TECHNICAL',
+      id: gameType || 'sudoku',
+      label: String(gameType || 'CHALLENGE').toUpperCase(),
+      code: 'GM-GEN',
+      defaultCategory: 'LOGIC',
     }
   );
 };

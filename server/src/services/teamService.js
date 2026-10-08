@@ -249,16 +249,23 @@ export const ensureDefaultTeamsSeeded = async () => {
       } else {
         let needsSave = false;
 
+        const catalogMatch = existing.currentChallenge
+          ? CHALLENGE_CATALOG.find(
+              (c) => c.challengeId === existing.currentChallenge.challengeId
+            )
+          : null;
+
         if (
           existing.currentChallenge &&
-          (!existing.currentChallenge.gameConfig?.wordLength &&
-            !existing.currentChallenge.gameConfig?.prompt)
+          (catalogMatch?.gameType !== existing.currentChallenge.gameType ||
+            (!existing.currentChallenge.gameConfig?.wordLength &&
+              !existing.currentChallenge.gameConfig?.size &&
+              !existing.currentChallenge.gameConfig?.rows &&
+              !existing.currentChallenge.gameConfig?.aiSkill &&
+              !existing.currentChallenge.gameConfig?.prompt))
         ) {
-          // Upgrade any pre-Phase-7 active challenge to the Phase 7 engine schema
-          const match =
-            CHALLENGE_CATALOG.find(
-              (c) => c.challengeId === existing.currentChallenge.challengeId
-            ) || CHALLENGE_CATALOG[0];
+          // Upgrade any legacy active challenge to the Phase 19 GameRegistry schema
+          const match = catalogMatch || CHALLENGE_CATALOG[0];
           existing.currentChallenge = {
             ...match,
             solutionConfig: undefined,

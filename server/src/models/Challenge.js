@@ -14,6 +14,10 @@ export const CHALLENGE_RISKS = ['SAFE', 'BALANCED', 'AGGRESSIVE'];
 
 export const SUPPORTED_GAME_TYPES = [
   'sudoku',
+  'xo4x4',
+  'wend',
+  'patches',
+  'zip',
   'wordGuess',
   'connect4',
   'xo',

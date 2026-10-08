@@ -19,6 +19,10 @@ const CANONICAL_DIFFICULTIES = ['STANDARD', 'MODERATE', 'ELEVATED', 'EXTREME'];
 const CANONICAL_RISKS = ['SAFE', 'BALANCED', 'AGGRESSIVE'];
 const CANONICAL_GAME_TYPES = [
   'sudoku',
+  'xo4x4',
+  'wend',
+  'patches',
+  'zip',
   'wordGuess',
   'connect4',
   'xo',
@@ -76,7 +80,7 @@ const EMPTY_CHALLENGE_FORM = {
   reward: 650,
   penalty: 75,
   timeLimit: 900,
-  gameType: 'wordGuess',
+  gameType: 'wend',
   expectedAnswer: 'NEXUS',
   gameConfigText: JSON.stringify(
     {

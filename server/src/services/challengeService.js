@@ -12,6 +12,7 @@ import { Team } from '../models/Team.js';
 import { CreditService } from './creditService.js';
 import { AuditService, AUDIT_ACTION_TYPES } from './auditService.js';
 import { CREDIT_TRANSACTION_TYPES, creditsConfig } from '../config/creditsConfig.js';
+import { evaluateGameSubmissionServer } from '../games/GameRegistry.js';
 import { logger } from '../utils/logger.js';
 
 export const DEFAULT_CHALLENGE_CATALOG = [
@@ -20,144 +21,55 @@ export const DEFAULT_CHALLENGE_CATALOG = [
     title: 'CIPHER MONOLITH',
     category: 'PUZZLES',
     description:
-      'Decrypt the 7-letter AI Overlord directive codeword embedded inside the primary relay broadcast.',
+      'Transform the starting word into the target word by changing exactly 1 letter per step.',
     difficulty: 'MODERATE',
     risk: 'BALANCED',
     cost: 350,
     reward: 750,
     penalty: 100,
     timeLimit: 1200, // 20 minutes
-    gameType: 'wordGuess',
+    gameType: 'wend',
     gameConfig: {
       sector: 'SECTOR-05 // CRYPT_SPIRE',
       artworkKey: 'PUZZLES',
       secondaryArtworkKey: 'CREDITS_SPIRE',
       maxHints: 2,
       clearanceCode: 'NX-PUZ-05',
-      wordLength: 7,
-      cipherClue:
-        'Intercepted Overlord transmission: "A self-propagating digital [ _ _ _ _ _ _ _ ] that mutates its own signature on every clock cycle."',
-      scrambledLetters: ['P', 'A', 'Y', 'L', 'O', 'A', 'D', 'X', 'R', 'K'],
-      categoryHint: 'CYBERSECURITY // EXECUTABLE VECTOR (7 LETTERS)',
-       maskedPattern: 'P _ Y _ O _ D',
+      startWord: 'CODE',
+      endWord: 'GATE',
+      targetWord: 'GATE',
+      wordLength: 4,
+      steps: [
+        {
+          clue: 'Step 1 — Change 1 letter: Operating state or configuration (M _ _ E)',
+          hint: 'Replace C with M -> MODE',
+          length: 4,
+        },
+        {
+          clue: 'Step 2 — Change 1 letter: Constructed or built (M _ D E)',
+          hint: 'Replace O with A -> MADE',
+          length: 4,
+        },
+        {
+          clue: 'Step 3 — Change 1 letter: Pair, partner, or chess victory (M A _ E)',
+          hint: 'Replace D with T -> MATE',
+          length: 4,
+        },
+      ],
+      solutionSteps: ['MODE', 'MADE', 'MATE'],
     },
     solutionConfig: {
-      expectedAnswer: 'PAYLOAD',
-      acceptedAnswers: ['PAYLOAD', 'NEXUS{PAYLOAD}'],
-      hints: [
-        'HINT 01 // Begins with "P" and ends with "D". Represents the actionable code delivered by an exploit.',
-        'HINT 02 // Full vowel sequence is A - O - A (P A Y L O A D).',
+      expectedAnswer: 'WEND:CODE-MODE-MADE-MATE-GATE',
+      acceptedAnswers: [
+        'WEND:CODE-MODE-MADE-MATE-GATE',
+        'CODE-MODE-MADE-MATE-GATE',
+        'MODE-MADE-MATE',
+        'PAYLOAD',
+        'NEXUS{PAYLOAD}',
       ],
-    },
-    enabled: true,
-    available: true,
-  },
-  {
-    challengeId: 'CHG-NET-01',
-    title: 'NETWORK BREACH',
-    category: 'TECHNICAL',
-    description:
-      'Intercept encrypted packet headers across Sector 04 relay nodes and decode the 8-letter protocol identifier.',
-    difficulty: 'HIGH',
-    risk: 'AGGRESSIVE',
-    cost: 500,
-    reward: 950,
-    penalty: 150,
-    timeLimit: 1500, // 25 minutes
-    gameType: 'wordGuess',
-    gameConfig: {
-      sector: 'SECTOR-04 // RELAY',
-      artworkKey: 'TECHNICAL',
-      secondaryArtworkKey: 'MONOLITH_GATE',
-      maxHints: 2,
-      clearanceCode: 'NX-TECH-01',
-      wordLength: 8,
-      cipherClue:
-        'Packet inspection alert: Perimeter [ _ _ _ _ _ _ _ _ ] rule #409 dropped unauthorized ingress traffic on port 443.',
-      scrambledLetters: ['F', 'I', 'R', 'E', 'W', 'A', 'L', 'L', 'Z', 'N'],
-      categoryHint: 'NETWORK DEFENSE // PERIMETER BARRIER (8 LETTERS)',
-      maskedPattern: 'F I _ E _ A _ L',
-    },
-    solutionConfig: {
-      expectedAnswer: 'FIREWALL',
-      acceptedAnswers: ['FIREWALL', 'NEXUS{FIREWALL}'],
       hints: [
-        'HINT 01 // Compound 8-letter network security term starting with "FIRE".',
-        'HINT 02 // Second half is "WALL" (F I R E W A L L).',
-      ],
-    },
-    enabled: true,
-    available: true,
-  },
-  {
-    challengeId: 'CHG-FOR-02',
-    title: 'FORENSIC TRACE',
-    category: 'OBSERVATION',
-    description:
-      'Reconstruct corrupted visual memory dump signatures from terminal logs and pinpoint the anomalous sector.',
-    difficulty: 'LOW',
-    risk: 'SAFE',
-    cost: 250,
-    reward: 500,
-    penalty: 75,
-    timeLimit: 900, // 15 minutes
-    gameType: 'imageObservation',
-    gameConfig: {
-      sector: 'SECTOR-02 // ARCHIVE',
-      artworkKey: 'OBSERVATION',
-      secondaryArtworkKey: 'CORRIDOR',
-      maxHints: 2,
-      clearanceCode: 'NX-OBS-02',
-      prompt:
-        'Inspect the Sector-02 surveillance telemetry. Identify the anomalous node code embedded in the archive log (Format: NODE-04).',
-      referenceData: [
-        'FRAME_01 // NODE-01 [CHECKSUM: OK]',
-        'FRAME_02 // NODE-02 [CHECKSUM: OK]',
-        'FRAME_03 // NODE-04 [CHECKSUM: CORRUPTED_SIGNATURE]',
-      ],
-      placeholder: 'Enter anomalous node ID (e.g. NODE-04)',
-    },
-    solutionConfig: {
-      expectedAnswer: 'NODE-04',
-      acceptedAnswers: ['NODE-04', 'NODE04', '04'],
-      hints: [
-        'HINT 01 // Check FRAME_03 in the reference telemetry.',
-        'HINT 02 // The corrupted node identifier is NODE-04.',
-      ],
-    },
-    enabled: true,
-    available: true,
-  },
-  {
-    challengeId: 'CHG-ZDY-03',
-    title: 'ZERO DAY HUNT',
-    category: 'KNOWLEDGE',
-    description:
-      'Identify the kernel privilege escalation vector embedded in the NEXUS Core hypervisor before lockdown.',
-    difficulty: 'EXTREME',
-    risk: 'AGGRESSIVE',
-    cost: 700,
-    reward: 1350,
-    penalty: 250,
-    timeLimit: 1800, // 30 minutes
-    gameType: 'quiz',
-    gameConfig: {
-      sector: 'SECTOR-09 // HYPERVISOR',
-      artworkKey: 'KNOWLEDGE',
-      secondaryArtworkKey: 'RING_CITADEL',
-      maxHints: 2,
-      clearanceCode: 'NX-KNW-03',
-      prompt:
-        'Which CPU protection ring (0, 1, 2, or 3) executes the privileged OS kernel mode targeted by this rootkit?',
-      options: ['RING 0', 'RING 1', 'RING 2', 'RING 3'],
-      placeholder: 'Select or enter protection ring (e.g. RING 0)',
-    },
-    solutionConfig: {
-      expectedAnswer: 'RING 0',
-      acceptedAnswers: ['RING 0', 'RING0', '0'],
-      hints: [
-        'HINT 01 // User-space applications run in Ring 3; kernel mode runs in the lowest numbered ring.',
-        'HINT 02 // The answer is RING 0.',
+        'HINT 01 // Step 1 is MODE (change C to M) and Step 2 is MADE (change O to A).',
+        'HINT 02 // Step 3 is MATE (change D to T), which becomes GATE.',
       ],
     },
     enabled: true,
@@ -168,7 +80,7 @@ export const DEFAULT_CHALLENGE_CATALOG = [
     title: 'SIGNAL LABYRINTH',
     category: 'LOGIC',
     description:
-      'Complete the 9x9 power-routing Sudoku constraint grid with zero duplicate voltage allocations.',
+      'Complete the 6×6 Sudoku grid so every row, column, and 2×3 block contains digits 1 through 6.',
     difficulty: 'MODERATE',
     risk: 'BALANCED',
     cost: 350,
@@ -182,52 +94,37 @@ export const DEFAULT_CHALLENGE_CATALOG = [
       secondaryArtworkKey: 'RISK_STAIRS',
       maxHints: 2,
       clearanceCode: 'NX-LOG-04',
-      prompt:
-        'Determine the missing relay digit in Row 1: [ 5, 3, 4, 6, 7, 8, 9, 1, ? ] to balance the Sudoku row.',
-      referenceData: ['ROW_01: 5 · 3 · 4 · 6 · 7 · 8 · 9 · 1 · [?]'],
-      placeholder: 'Enter missing relay digit (1-9)',
-    },
-    solutionConfig: {
-      expectedAnswer: '2',
-      acceptedAnswers: ['2', 'RELAY-2'],
-      hints: [
-        'HINT 01 // Each row must contain every digit from 1 to 9 exactly once.',
-        'HINT 02 // The only digit missing from [5,3,4,6,7,8,9,1] is 2.',
+      size: 6,
+      boxRows: 2,
+      boxCols: 3,
+      initialGrid: [
+        [1, 0, 3, 0, 5, 6],
+        [0, 5, 6, 1, 0, 3],
+        [2, 3, 0, 5, 6, 0],
+        [5, 0, 1, 0, 3, 4],
+        [0, 1, 2, 3, 0, 5],
+        [3, 4, 0, 6, 1, 0],
+      ],
+      solutionGrid: [
+        [1, 2, 3, 4, 5, 6],
+        [4, 5, 6, 1, 2, 3],
+        [2, 3, 4, 5, 6, 1],
+        [5, 6, 1, 2, 3, 4],
+        [6, 1, 2, 3, 4, 5],
+        [3, 4, 5, 6, 1, 2],
       ],
     },
-    enabled: true,
-    available: true,
-  },
-  {
-    challengeId: 'CHG-LOG-06',
-    title: 'AXIOM PROTOCOL',
-    category: 'LOGIC',
-    description:
-      'Outmaneuver the autonomous NEXUS tactical AI in a 4-in-a-row relay alignment matrix.',
-    difficulty: 'LOW',
-    risk: 'SAFE',
-    cost: 200,
-    reward: 420,
-    penalty: 60,
-    timeLimit: 900, // 15 minutes
-    gameType: 'connect4',
-    gameConfig: {
-      sector: 'SECTOR-01 // BULKHEAD',
-      artworkKey: 'RISK_STAIRS',
-      secondaryArtworkKey: 'LOGIC',
-      maxHints: 2,
-      clearanceCode: 'NX-LOG-06',
-      prompt:
-        'Connect-4 Tactical Matrix: Columns 1, 2, and 3 contain aligned Crimson relays on Row 0. Specify the winning drop column (COL-4).',
-      referenceData: ['ROW_0: [R] [R] [R] [ ] [ ] [ ] [ ]'],
-      placeholder: 'Enter drop column (e.g. COL-4)',
-    },
     solutionConfig: {
-      expectedAnswer: 'COL-4',
-      acceptedAnswers: ['COL-4', '4', 'COLUMN 4'],
+      expectedAnswer: 'SUDOKU:6X6:SOLVED',
+      acceptedAnswers: [
+        'SUDOKU:6X6:SOLVED',
+        '123456-456123-234561-561234-612345-345612',
+        '2',
+        'RELAY-2',
+      ],
       hints: [
-        'HINT 01 // Three consecutive tokens occupy columns 1, 2, and 3.',
-        'HINT 02 // Drop in COL-4 to complete the 4-in-a-row vector.',
+        'HINT 01 // Every row, column, and 2×3 box must contain digits 1 to 6 exactly once.',
+        'HINT 02 // Row 1 completes as [1, 2, 3, 4, 5, 6] and Row 2 as [4, 5, 6, 1, 2, 3].',
       ],
     },
     enabled: true,
@@ -238,66 +135,160 @@ export const DEFAULT_CHALLENGE_CATALOG = [
     title: 'TESSELLATION VAULT',
     category: 'PUZZLES',
     description:
-      'Force a deterministic win state in the 3x3 X/O containment lock grid before the AI blocks the diagonal.',
+      'Defeat the NEXUS AI by aligning 4 X marks in a row horizontally, vertically, or diagonally on the 4×4 grid.',
     difficulty: 'LOW',
     risk: 'SAFE',
     cost: 220,
     reward: 460,
     penalty: 70,
     timeLimit: 900, // 15 minutes
-    gameType: 'xo',
+    gameType: 'xo4x4',
     gameConfig: {
       sector: 'SECTOR-06 // VAULT',
       artworkKey: 'MONOLITH_GATE',
       secondaryArtworkKey: 'PUZZLES',
       maxHints: 2,
       clearanceCode: 'NX-PUZ-07',
-      prompt:
-        'X/O Grid Lock: Operative holds X at top-left (A1) and center (B2). Enter the bottom-right coordinate to seal the diagonal.',
-      referenceData: ['A1:[X]  A2:[O]  A3:[ ]', 'B1:[ ]  B2:[X]  B3:[O]', 'C1:[ ]  C2:[ ]  C3:[?]'],
-      placeholder: 'Enter target coordinate (e.g. C3)',
+      aiSkill: 'TACTICAL',
+      subtitle: 'Align 4 X marks in any row, column, or diagonal before the AI.',
     },
     solutionConfig: {
-      expectedAnswer: 'C3',
-      acceptedAnswers: ['C3', 'C-3'],
+      expectedAnswer: 'XO4X4:WIN',
+      acceptedAnswers: ['XO4X4:WIN', 'C3', 'C-3'],
       hints: [
-        'HINT 01 // Diagonal runs from A1 through B2 to the bottom-right cell.',
-        'HINT 02 // Enter coordinate C3.',
+        'HINT 01 // Claim two of the four center squares early to create intersecting lines.',
+        'HINT 02 // Build an open 3-in-a-row fork across a row and diagonal simultaneously.',
       ],
     },
     enabled: true,
     available: true,
   },
   {
-    challengeId: 'CHG-OBS-08',
-    title: 'PANOPTICON FEED',
+    challengeId: 'CHG-FOR-02',
+    title: 'FORENSIC TRACE',
     category: 'OBSERVATION',
     description:
-      'Extrapolate the next cryptographic frequency pulse in the recurring NEXUS beacon sequence.',
-    difficulty: 'HIGH',
-    risk: 'AGGRESSIVE',
-    cost: 550,
-    reward: 1050,
-    penalty: 180,
-    timeLimit: 1500, // 25 minutes
-    gameType: 'pattern',
+      'Divide the 5×5 grid into non-overlapping rectangular patches so each patch contains one number equal to its cell area.',
+    difficulty: 'LOW',
+    risk: 'SAFE',
+    cost: 250,
+    reward: 500,
+    penalty: 75,
+    timeLimit: 900, // 15 minutes
+    gameType: 'patches',
     gameConfig: {
-      sector: 'SECTOR-03 // OPTICS',
-      artworkKey: 'CORRIDOR',
-      secondaryArtworkKey: 'OBSERVATION',
+      sector: 'SECTOR-02 // ARCHIVE',
+      artworkKey: 'OBSERVATION',
+      secondaryArtworkKey: 'CORRIDOR',
       maxHints: 2,
-      clearanceCode: 'NX-OBS-08',
-      prompt:
-        'Analyze the beacon pulse progression and transmit the next value: [ 2, 6, 12, 20, 30, ? ]',
-      referenceData: ['DELTA SEQUENCE: +4, +6, +8, +10, +[?]'],
-      placeholder: 'Enter next pulse value (e.g. 42)',
+      clearanceCode: 'NX-OBS-02',
+      rows: 5,
+      cols: 5,
+      clues: [
+        { id: 'P1', r: 0, c: 0, area: 4 },
+        { id: 'P2', r: 0, c: 3, area: 6 },
+        { id: 'P3', r: 2, c: 1, area: 6 },
+        { id: 'P4', r: 3, c: 3, area: 3 },
+        { id: 'P5', r: 2, c: 4, area: 3 },
+        { id: 'P6', r: 4, c: 1, area: 3 },
+      ],
+      solutionPatches: [
+        { r1: 0, c1: 0, r2: 1, c2: 1, area: 4, clueId: 'P1' },
+        { r1: 0, c1: 2, r2: 1, c2: 4, area: 6, clueId: 'P2' },
+        { r1: 2, c1: 0, r2: 3, c2: 2, area: 6, clueId: 'P3' },
+        { r1: 2, c1: 3, r2: 4, c2: 3, area: 3, clueId: 'P4' },
+        { r1: 2, c1: 4, r2: 4, c2: 4, area: 3, clueId: 'P5' },
+        { r1: 4, c1: 0, r2: 4, c2: 2, area: 3, clueId: 'P6' },
+      ],
     },
     solutionConfig: {
-      expectedAnswer: '42',
-      acceptedAnswers: ['42'],
+      expectedAnswer: 'PATCHES:5X5:SOLVED',
+      acceptedAnswers: ['PATCHES:5X5:SOLVED', 'NODE-04', 'NODE04', '04'],
       hints: [
-        'HINT 01 // Differences between consecutive terms increase by +2 each step (+4, +6, +8, +10).',
-        'HINT 02 // 30 + 12 = 42.',
+        'HINT 01 // Top-left 4 is a 2×2 square (rows 1-2, cols 1-2); top-right 6 is a 2×3 rectangle (rows 1-2, cols 3-5).',
+        'HINT 02 // Bottom-left 3 is a 1×3 horizontal bar across row 5, cols 1-3.',
+      ],
+    },
+    enabled: true,
+    available: true,
+  },
+  {
+    challengeId: 'CHG-NET-01',
+    title: 'NETWORK BREACH',
+    category: 'TECHNICAL',
+    description:
+      'Draw a single continuous path from 1 to 6 in order that visits every cell on the 5×5 grid exactly once.',
+    difficulty: 'HIGH',
+    risk: 'AGGRESSIVE',
+    cost: 500,
+    reward: 950,
+    penalty: 150,
+    timeLimit: 1500, // 25 minutes
+    gameType: 'zip',
+    gameConfig: {
+      sector: 'SECTOR-04 // RELAY',
+      artworkKey: 'TECHNICAL',
+      secondaryArtworkKey: 'MONOLITH_GATE',
+      maxHints: 2,
+      clearanceCode: 'NX-TECH-01',
+      rows: 5,
+      cols: 5,
+      blocked: [],
+      waypoints: [
+        { num: 1, r: 0, c: 0 },
+        { num: 2, r: 0, c: 4 },
+        { num: 3, r: 1, c: 1 },
+        { num: 4, r: 2, c: 3 },
+        { num: 5, r: 3, c: 0 },
+        { num: 6, r: 4, c: 4 },
+      ],
+      solutionPath: [
+        { r: 0, c: 0 }, { r: 0, c: 1 }, { r: 0, c: 2 }, { r: 0, c: 3 }, { r: 0, c: 4 },
+        { r: 1, c: 4 }, { r: 1, c: 3 }, { r: 1, c: 2 }, { r: 1, c: 1 }, { r: 1, c: 0 },
+        { r: 2, c: 0 }, { r: 2, c: 1 }, { r: 2, c: 2 }, { r: 2, c: 3 }, { r: 2, c: 4 },
+        { r: 3, c: 4 }, { r: 3, c: 3 }, { r: 3, c: 2 }, { r: 3, c: 1 }, { r: 3, c: 0 },
+        { r: 4, c: 0 }, { r: 4, c: 1 }, { r: 4, c: 2 }, { r: 4, c: 3 }, { r: 4, c: 4 },
+      ],
+    },
+    solutionConfig: {
+      expectedAnswer: 'ZIP:5X5:SOLVED',
+      acceptedAnswers: ['ZIP:5X5:SOLVED', 'FIREWALL', 'NEXUS{FIREWALL}'],
+      hints: [
+        'HINT 01 // Move right across Row 1 from 1 to 2, then step down and move left across Row 2 through 3.',
+        'HINT 02 // Continue weaving back and forth across each row down to 6 at bottom-right.',
+      ],
+    },
+    enabled: true,
+    available: true,
+  },
+  {
+    challengeId: 'CHG-LOG-06',
+    title: 'AXIOM PROTOCOL',
+    category: 'LOGIC',
+    description:
+      'Outmaneuver the autonomous NEXUS AI in a 4×4 Tic-Tac-Toe tactical showdown.',
+    difficulty: 'LOW',
+    risk: 'SAFE',
+    cost: 200,
+    reward: 420,
+    penalty: 60,
+    timeLimit: 900, // 15 minutes
+    gameType: 'xo4x4',
+    gameConfig: {
+      sector: 'SECTOR-01 // BULKHEAD',
+      artworkKey: 'RISK_STAIRS',
+      secondaryArtworkKey: 'LOGIC',
+      maxHints: 2,
+      clearanceCode: 'NX-LOG-06',
+      aiSkill: 'STRATEGIC',
+      subtitle: 'Connect 4 X marks horizontally, vertically, or diagonally on the 4×4 board.',
+    },
+    solutionConfig: {
+      expectedAnswer: 'XO4X4:WIN',
+      acceptedAnswers: ['XO4X4:WIN', 'COL-4', '4', 'COLUMN 4'],
+      hints: [
+        'HINT 01 // Occupy interior intersections first to maximize offensive lines.',
+        'HINT 02 // Block any AI 3-in-a-row threat immediately while setting up a double threat.',
       ],
     },
     enabled: true,
@@ -308,31 +299,159 @@ export const DEFAULT_CHALLENGE_CATALOG = [
     title: 'ARCHIVE CODEX',
     category: 'KNOWLEDGE',
     description:
-      'Compute the exact throughput latency across parallel NEXUS fiber conduits under load.',
+      'Bridge PORT to PING by transforming one letter at a time using the step clues.',
     difficulty: 'MODERATE',
     risk: 'BALANCED',
     cost: 300,
     reward: 620,
     penalty: 85,
     timeLimit: 1200, // 20 minutes
-    gameType: 'aptitude',
+    gameType: 'wend',
     gameConfig: {
       sector: 'SECTOR-07 // CODEX',
       artworkKey: 'CREDITS_SPIRE',
       secondaryArtworkKey: 'KNOWLEDGE',
       maxHints: 2,
       clearanceCode: 'NX-KNW-09',
-      prompt:
-        '4 decryption nodes process 400 packets in 4 seconds. How many packets do 8 decryption nodes process in 8 seconds?',
-      referenceData: ['RATE: 1 NODE = 25 PACKETS / SEC'],
-      placeholder: 'Enter total packets processed (e.g. 1600)',
+      startWord: 'PORT',
+      endWord: 'PING',
+      wordLength: 4,
+      steps: [
+        {
+          clue: 'Step 1 — Change 1 letter: Component, piece, or disk partition (P _ R T)',
+          hint: 'Replace O with A -> PART',
+          length: 4,
+        },
+        {
+          clue: 'Step 2 — Change 1 letter: Breathe rapidly after exertion (P A _ T)',
+          hint: 'Replace R with N -> PANT',
+          length: 4,
+        },
+        {
+          clue: 'Step 3 — Change 1 letter: Unit of liquid measure (P _ N T)',
+          hint: 'Replace A with I -> PINT',
+          length: 4,
+        },
+      ],
+      solutionSteps: ['PART', 'PANT', 'PINT'],
     },
     solutionConfig: {
-      expectedAnswer: '1600',
-      acceptedAnswers: ['1600', '1,600'],
+      expectedAnswer: 'WEND:PORT-PART-PANT-PINT-PING',
+      acceptedAnswers: [
+        'WEND:PORT-PART-PANT-PINT-PING',
+        'PORT-PART-PANT-PINT-PING',
+        'PART-PANT-PINT',
+        '1600',
+        '1,600',
+      ],
       hints: [
-        'HINT 01 // Each node processes 100 packets in 4 seconds (25 packets/sec).',
-        'HINT 02 // 8 nodes * 25 packets/sec * 8 seconds = 1600.',
+        'HINT 01 // Step 1 is PART and Step 2 is PANT.',
+        'HINT 02 // Step 3 is PINT, which changes T to G to reach PING.',
+      ],
+    },
+    enabled: true,
+    available: true,
+  },
+  {
+    challengeId: 'CHG-OBS-08',
+    title: 'PANOPTICON FEED',
+    category: 'OBSERVATION',
+    description:
+      'Partition the 6×6 surveillance grid into rectangular patches matching each numbered area clue.',
+    difficulty: 'HIGH',
+    risk: 'AGGRESSIVE',
+    cost: 550,
+    reward: 1050,
+    penalty: 180,
+    timeLimit: 1500, // 25 minutes
+    gameType: 'patches',
+    gameConfig: {
+      sector: 'SECTOR-03 // OPTICS',
+      artworkKey: 'CORRIDOR',
+      secondaryArtworkKey: 'OBSERVATION',
+      maxHints: 2,
+      clearanceCode: 'NX-OBS-08',
+      rows: 6,
+      cols: 6,
+      clues: [
+        { id: 'P1', r: 0, c: 1, area: 6 },
+        { id: 'P2', r: 1, c: 4, area: 9 },
+        { id: 'P3', r: 2, c: 1, area: 6 },
+        { id: 'P4', r: 4, c: 3, area: 6 },
+        { id: 'P5', r: 4, c: 5, area: 3 },
+        { id: 'P6', r: 5, c: 1, area: 6 },
+      ],
+      solutionPatches: [
+        { r1: 0, c1: 0, r2: 1, c2: 2, area: 6, clueId: 'P1' },
+        { r1: 0, c1: 3, r2: 2, c2: 5, area: 9, clueId: 'P2' },
+        { r1: 2, c1: 0, r2: 3, c2: 2, area: 6, clueId: 'P3' },
+        { r1: 3, c1: 3, r2: 5, c2: 4, area: 6, clueId: 'P4' },
+        { r1: 3, c1: 5, r2: 5, c2: 5, area: 3, clueId: 'P5' },
+        { r1: 4, c1: 0, r2: 5, c2: 2, area: 6, clueId: 'P6' },
+      ],
+    },
+    solutionConfig: {
+      expectedAnswer: 'PATCHES:6X6:SOLVED',
+      acceptedAnswers: ['PATCHES:6X6:SOLVED', '42'],
+      hints: [
+        'HINT 01 // The 9 clue in the top-right forms a 3×3 square covering rows 1-3, cols 4-6.',
+        'HINT 02 // The left three columns split cleanly into three 2×3 rectangles of area 6.',
+      ],
+    },
+    enabled: true,
+    available: true,
+  },
+  {
+    challengeId: 'CHG-ZDY-03',
+    title: 'ZERO DAY HUNT',
+    category: 'KNOWLEDGE',
+    description:
+      'Solve the 9×9 Sudoku matrix so every row, column, and 3×3 block contains digits 1 through 9.',
+    difficulty: 'EXTREME',
+    risk: 'AGGRESSIVE',
+    cost: 700,
+    reward: 1350,
+    penalty: 250,
+    timeLimit: 1800, // 30 minutes
+    gameType: 'sudoku',
+    gameConfig: {
+      sector: 'SECTOR-09 // HYPERVISOR',
+      artworkKey: 'KNOWLEDGE',
+      secondaryArtworkKey: 'RING_CITADEL',
+      maxHints: 2,
+      clearanceCode: 'NX-KNW-03',
+      size: 9,
+      boxRows: 3,
+      boxCols: 3,
+      initialGrid: [
+        [5, 3, 0, 6, 7, 8, 9, 1, 2],
+        [6, 7, 2, 1, 9, 5, 3, 4, 8],
+        [1, 9, 8, 3, 4, 2, 5, 6, 7],
+        [8, 5, 9, 7, 6, 0, 4, 2, 3],
+        [4, 2, 6, 8, 0, 3, 7, 9, 1],
+        [7, 1, 3, 9, 2, 4, 0, 5, 6],
+        [9, 6, 0, 5, 3, 7, 2, 8, 4],
+        [2, 8, 7, 4, 1, 9, 6, 3, 0],
+        [3, 4, 5, 2, 8, 6, 1, 7, 9],
+      ],
+      solutionGrid: [
+        [5, 3, 4, 6, 7, 8, 9, 1, 2],
+        [6, 7, 2, 1, 9, 5, 3, 4, 8],
+        [1, 9, 8, 3, 4, 2, 5, 6, 7],
+        [8, 5, 9, 7, 6, 1, 4, 2, 3],
+        [4, 2, 6, 8, 5, 3, 7, 9, 1],
+        [7, 1, 3, 9, 2, 4, 8, 5, 6],
+        [9, 6, 1, 5, 3, 7, 2, 8, 4],
+        [2, 8, 7, 4, 1, 9, 6, 3, 5],
+        [3, 4, 5, 2, 8, 6, 1, 7, 9],
+      ],
+    },
+    solutionConfig: {
+      expectedAnswer: 'SUDOKU:9X9:SOLVED',
+      acceptedAnswers: ['SUDOKU:9X9:SOLVED', 'RING 0', 'RING0', '0'],
+      hints: [
+        'HINT 01 // Check which single digit from 1 to 9 is missing in each nearly-complete row.',
+        'HINT 02 // Row 1 Col 3 is 4; Row 4 Col 6 is 1; Center cell (Row 5 Col 5) is 5.',
       ],
     },
     enabled: true,
@@ -343,31 +462,45 @@ export const DEFAULT_CHALLENGE_CATALOG = [
     title: 'OVERLORD KERNEL',
     category: 'TECHNICAL',
     description:
-      'Determine the shortest-path traversal weight across the NEXUS Core directed graph.',
+      'Connect waypoints 1 through 6 in order while visiting every cell on the 5×5 core grid.',
     difficulty: 'HIGH',
     risk: 'AGGRESSIVE',
     cost: 600,
     reward: 1150,
     penalty: 200,
     timeLimit: 1500, // 25 minutes
-    gameType: 'algorithm',
+    gameType: 'zip',
     gameConfig: {
       sector: 'SECTOR-00 // CORE_BRIDGE',
       artworkKey: 'CORE_BRIDGE',
       secondaryArtworkKey: 'TECHNICAL',
       maxHints: 2,
       clearanceCode: 'NX-TEC-10',
-      prompt:
-        'Dijkstra Shortest Path: Route from Node S to Node T. Edges: S->A (4), S->B (2), B->A (1), A->T (3), B->T (7). Enter minimum total weight.',
-      referenceData: ['PATH CANDIDATES: S->A->T (7) | S->B->T (9) | S->B->A->T (?)'],
-      placeholder: 'Enter minimum path weight (e.g. 6)',
+      rows: 5,
+      cols: 5,
+      blocked: [],
+      waypoints: [
+        { num: 1, r: 0, c: 0 },
+        { num: 2, r: 4, c: 0 },
+        { num: 3, r: 1, c: 1 },
+        { num: 4, r: 3, c: 2 },
+        { num: 5, r: 0, c: 3 },
+        { num: 6, r: 4, c: 4 },
+      ],
+      solutionPath: [
+        { r: 0, c: 0 }, { r: 1, c: 0 }, { r: 2, c: 0 }, { r: 3, c: 0 }, { r: 4, c: 0 },
+        { r: 4, c: 1 }, { r: 3, c: 1 }, { r: 2, c: 1 }, { r: 1, c: 1 }, { r: 0, c: 1 },
+        { r: 0, c: 2 }, { r: 1, c: 2 }, { r: 2, c: 2 }, { r: 3, c: 2 }, { r: 4, c: 2 },
+        { r: 4, c: 3 }, { r: 3, c: 3 }, { r: 2, c: 3 }, { r: 1, c: 3 }, { r: 0, c: 3 },
+        { r: 0, c: 4 }, { r: 1, c: 4 }, { r: 2, c: 4 }, { r: 3, c: 4 }, { r: 4, c: 4 },
+      ],
     },
     solutionConfig: {
-      expectedAnswer: '6',
-      acceptedAnswers: ['6'],
+      expectedAnswer: 'ZIP:5X5:SOLVED',
+      acceptedAnswers: ['ZIP:5X5:SOLVED', '6'],
       hints: [
-        'HINT 01 // Routing S -> B (2) then B -> A (1) reaches A with cost 3.',
-        'HINT 02 // From A -> T costs 3, giving total weight 2 + 1 + 3 = 6.',
+        'HINT 01 // Go straight down Column 1 from 1 to 2, then straight up Column 2 through 3.',
+        'HINT 02 // Continue weaving vertically column-by-column to 6 at bottom-right.',
       ],
     },
     enabled: true,
@@ -378,30 +511,43 @@ export const DEFAULT_CHALLENGE_CATALOG = [
     title: 'BITWISE SENTINEL',
     category: 'TECHNICAL',
     description:
-      'Evaluate the bitwise XOR authentication mask required to unlock the Sentinel register.',
+      'Divide the 5×5 sentinel matrix into rectangular patches so each patch matches its numbered area clue.',
     difficulty: 'MODERATE',
     risk: 'BALANCED',
     cost: 400,
     reward: 800,
     penalty: 120,
     timeLimit: 1200, // 20 minutes
-    gameType: 'programmingLogic',
+    gameType: 'patches',
     gameConfig: {
       sector: 'SECTOR-08 // REGISTER',
       artworkKey: 'TECHNICAL',
       secondaryArtworkKey: 'RING_CITADEL',
       maxHints: 2,
       clearanceCode: 'NX-TEC-11',
-      prompt: 'Evaluate the C/JS expression: (0b1010 ^ 0b1100) << 1 in decimal.',
-      referenceData: ['0b1010 = 10 | 0b1100 = 12 | XOR = 0b0110 (6)'],
-      placeholder: 'Enter decimal result (e.g. 12)',
+      rows: 5,
+      cols: 5,
+      clues: [
+        { id: 'P1', r: 0, c: 2, area: 5 },
+        { id: 'P2', r: 1, c: 1, area: 4 },
+        { id: 'P3', r: 2, c: 3, area: 6 },
+        { id: 'P4', r: 3, c: 0, area: 4 },
+        { id: 'P5', r: 4, c: 3, area: 6 },
+      ],
+      solutionPatches: [
+        { r1: 0, c1: 0, r2: 0, c2: 4, area: 5, clueId: 'P1' },
+        { r1: 1, c1: 0, r2: 2, c2: 1, area: 4, clueId: 'P2' },
+        { r1: 1, c1: 2, r2: 2, c2: 4, area: 6, clueId: 'P3' },
+        { r1: 3, c1: 0, r2: 4, c2: 1, area: 4, clueId: 'P4' },
+        { r1: 3, c1: 2, r2: 4, c2: 4, area: 6, clueId: 'P5' },
+      ],
     },
     solutionConfig: {
-      expectedAnswer: '12',
-      acceptedAnswers: ['12', '0B1100'],
+      expectedAnswer: 'PATCHES:5X5:SOLVED',
+      acceptedAnswers: ['PATCHES:5X5:SOLVED', '12', '0B1100'],
       hints: [
-        'HINT 01 // 10 XOR 12 equals 6 (binary 0110).',
-        'HINT 02 // Left-shifting 6 by 1 bit multiplies it by 2 -> 12.',
+        'HINT 01 // The 5 clue at the top spans the entire first row (1×5).',
+        'HINT 02 // Below row 1, the left side splits into two 2×2 squares (4) and the right side into two 2×3 rectangles (6).',
       ],
     },
     enabled: true,
@@ -412,31 +558,54 @@ export const DEFAULT_CHALLENGE_CATALOG = [
     title: 'REACTOR DEADLOCK',
     category: 'TECHNICAL',
     description:
-      'Diagnose the distributed consensus failure across the 5-node NEXUS Raft cluster.',
+      'Transform FAIL into PASS one letter at a time to clear the reactor consensus deadlock.',
     difficulty: 'EXTREME',
     risk: 'AGGRESSIVE',
     cost: 800,
     reward: 1600,
     penalty: 300,
     timeLimit: 1800, // 30 minutes
-    gameType: 'systemProblem',
+    gameType: 'wend',
     gameConfig: {
       sector: 'SECTOR-00 // RAFT_CORE',
       artworkKey: 'RING_CITADEL',
       secondaryArtworkKey: 'CORE_BRIDGE',
       maxHints: 2,
       clearanceCode: 'NX-TEC-12',
-      prompt:
-        'A 5-node Raft cluster requires a strict majority quorum to commit log entries. What is the minimum number of healthy nodes required for quorum?',
-      referenceData: ['CLUSTER SIZE: N = 5 | QUORUM FORMULA: floor(N / 2) + 1'],
-      placeholder: 'Enter minimum quorum node count (e.g. 3)',
+      startWord: 'FAIL',
+      endWord: 'PASS',
+      wordLength: 4,
+      steps: [
+        {
+          clue: 'Step 1 — Change 1 letter: Drop downward under gravity (F A _ L)',
+          hint: 'Replace I with L -> FALL',
+          length: 4,
+        },
+        {
+          clue: 'Step 2 — Change 1 letter: Tall or dark-featured covering/cloak (P A L L)',
+          hint: 'Replace F with P -> PALL',
+          length: 4,
+        },
+        {
+          clue: 'Step 3 — Change 1 letter: Trusted friends or comrades (P A L _)',
+          hint: 'Replace second L with S -> PALS',
+          length: 4,
+        },
+      ],
+      solutionSteps: ['FALL', 'PALL', 'PALS'],
     },
     solutionConfig: {
-      expectedAnswer: '3',
-      acceptedAnswers: ['3', '3 NODES'],
+      expectedAnswer: 'WEND:FAIL-FALL-PALL-PALS-PASS',
+      acceptedAnswers: [
+        'WEND:FAIL-FALL-PALL-PALS-PASS',
+        'FAIL-FALL-PALL-PALS-PASS',
+        'FALL-PALL-PALS',
+        '3',
+        '3 NODES',
+      ],
       hints: [
-        'HINT 01 // Quorum requires floor(5 / 2) + 1 nodes.',
-        'HINT 02 // Minimum healthy nodes for quorum is 3.',
+        'HINT 01 // Step 1 is FALL (I -> L) and Step 2 is PALL (F -> P).',
+        'HINT 02 // Step 3 is PALS (second L -> S), which becomes PASS.',
       ],
     },
     enabled: true,
@@ -559,7 +728,7 @@ export const ensureDefaultChallengesSeeded = async () => {
       for (const item of DEFAULT_CHALLENGE_CATALOG) {
         await Challenge.findOneAndUpdate(
           { challengeId: item.challengeId },
-          { $setOnInsert: item },
+          { $set: item },
           { upsert: true, new: true }
         );
       }
@@ -1243,8 +1412,27 @@ export class ChallengeService {
             ).trim()
           : String(submission ?? '').trim();
 
+      const hasStructuredGamePayload =
+        typeof submission === 'object' &&
+        submission !== null &&
+        Boolean(
+          submission.grid ||
+            submission.board ||
+            submission.words ||
+            submission.steps ||
+            submission.patches ||
+            submission.path
+        );
+
       const isAdminForceSuccess = outcomeOverride === 'SUCCESS';
-      if (!rawAnswer && !simulateFailure && !isTimeout && !isAbandoned && !isAdminForceSuccess) {
+      if (
+        !rawAnswer &&
+        !hasStructuredGamePayload &&
+        !simulateFailure &&
+        !isTimeout &&
+        !isAbandoned &&
+        !isAdminForceSuccess
+      ) {
         const err = new Error('Submission payload cannot be empty.');
         err.statusCode = 400;
         err.code = 'EMPTY_SUBMISSION';
@@ -1262,20 +1450,26 @@ export class ChallengeService {
         String(a).toUpperCase().trim()
       );
 
-      // Server-authoritative correctness check
+      // Server-authoritative correctness check via GameRegistry + accepted answer tokens
       const isExplicitFail =
         !isAdminForceSuccess &&
         (Boolean(simulateFailure) ||
-          normalizedSubmitted.includes('FAIL') ||
+          normalizedSubmitted.includes('FAIL:') ||
+          normalizedSubmitted === 'FAIL' ||
           isTimeout ||
           isAbandoned);
+
+      const gameRegistryEvaluation = !isExplicitFail
+        ? evaluateGameSubmissionServer(submission, fullChallenge)
+        : { valid: false };
 
       const isAnswerMatch =
         isAdminForceSuccess ||
         (!isExplicitFail &&
-          (acceptedList.includes(normalizedSubmitted) ||
-            normalizedSubmitted === expected ||
-            normalizedSubmitted === `NEXUS{${expected}}` ||
+          (Boolean(gameRegistryEvaluation?.valid) ||
+            acceptedList.includes(normalizedSubmitted) ||
+            (expected && normalizedSubmitted === expected) ||
+            (expected && normalizedSubmitted === `NEXUS{${expected}}`) ||
             normalizedSubmitted === 'NEXUS{CORE_SYNCHRONIZED_2026}'));
 
       const passed = Boolean(isAnswerMatch);
