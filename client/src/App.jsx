@@ -22,6 +22,8 @@ export const App = () => {
             <Route path="/" element={<LandingPage />} />
             <Route path="/login" element={<LoginPage />} />
             <Route path="/dashboard" element={<DashboardPage />} />
+            <Route path="/challenges" element={<DashboardPage initialSection="CHALLENGES" />} />
+            <Route path="/team" element={<ProgressPage />} />
             <Route path="/progress" element={<ProgressPage />} />
             <Route path="/history" element={<HistoryPage />} />
             <Route path="/nexus-core" element={<NexusCorePage />} />

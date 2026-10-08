@@ -431,7 +431,7 @@ export const NexusVisualDossierSection = () => {
                 </div>
                 <div className="mt-2 flex justify-between font-mono text-[10px] uppercase tracking-widest text-nexus-muted">
                   <span>FIG 05 // CENTRALIZED CYBER QUEST PORTAL</span>
-                  <span className="text-nexus-crimson font-bold">REAL-TIME TELEMETRY</span>
+                  <span className="text-nexus-crimson font-bold">TEAM PORTAL</span>
                 </div>
               </div>
             </div>

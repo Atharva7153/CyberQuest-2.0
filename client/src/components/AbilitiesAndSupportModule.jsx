@@ -3,7 +3,6 @@ import { motion, AnimatePresence } from 'framer-motion';
 import gsap from 'gsap';
 import {
   Zap,
-  ShieldAlert,
   Clock,
   HelpCircle,
   Lock,
@@ -12,7 +11,6 @@ import {
   Cpu,
   Radio,
   Crosshair,
-  CheckCircle2,
   AlertTriangle,
   X,
 } from 'lucide-react';
@@ -30,7 +28,6 @@ const ABILITY_ICON_MAP = {
 
 /**
  * Compute live status & remaining cooldown seconds for an ability slot
- * using server-synchronized clock offset.
  */
 export const computeAbilityLiveState = (ability, estimatedServerNowMs) => {
   if (!ability) {
@@ -77,11 +74,7 @@ export const computeAbilityLiveState = (ability, estimatedServerNowMs) => {
 };
 
 /**
- * Restricted NEXUS System Module Card
- * Uses Framer Motion for:
- * - activation state transitions
- * - availability & cooldown/status badges
- * - button interactions
+ * Ability Card for Participant UI
  */
 const RestrictedAbilityCard = ({
   ability,
@@ -96,7 +89,6 @@ const RestrictedAbilityCard = ({
     estimatedServerNowMs
   );
   const IconComponent = ABILITY_ICON_MAP[ability.abilityId] || Zap;
-  const effectConfig = ability.effectConfig || {};
 
   const statusBadgeStyle =
     canonicalStatus === 'AVAILABLE'
@@ -122,7 +114,7 @@ const RestrictedAbilityCard = ({
           : 'border-nexus-ink/50 bg-nexus-paper-elevated text-nexus-ink opacity-90'
       }`}
     >
-      {/* Top Restricted Module Classification Bar */}
+      {/* Top Bar */}
       <div>
         <div
           className={`px-3.5 py-2 border-b-2 flex items-center justify-between gap-2 font-mono text-[10px] uppercase tracking-widest ${
@@ -133,14 +125,12 @@ const RestrictedAbilityCard = ({
         >
           <span className="flex items-center gap-1.5 font-bold truncate">
             <IconComponent className="w-3 h-3 text-nexus-crimson shrink-0" />
-            <span>
-              {effectConfig.classification || `RESTRICTED // ${ability.abilityId}`}
-            </span>
+            <span>TEAM ABILITY</span>
           </span>
-          <span className="opacity-75 shrink-0">[{ability.code || ability.abilityId}]</span>
+          <span className="opacity-85 font-bold shrink-0">{ability.cost} CR</span>
         </div>
 
-        {/* Main Body: Title, STATUS, COST, Configurable Description */}
+        {/* Main Body: Title, STATUS, COST, Description */}
         <div className="p-4 space-y-3">
           <div className="flex items-start justify-between gap-2">
             <h3
@@ -155,87 +145,39 @@ const RestrictedAbilityCard = ({
             <CrosshairMark variant="crimson" size={12} />
           </div>
 
-          {/* Canonical Specification Lines (Matches Phase 10 Prompt Example)
-              SYSTEM ANALYST
-              STATUS: AVAILABLE
-              COST: 100 CREDITS
-          */}
+          <p
+            className={`font-editorial text-xs leading-relaxed ${
+              canonicalStatus === 'ACTIVE' ? 'text-nexus-paper/80' : 'text-nexus-charcoal'
+            }`}
+          >
+            {ability.description}
+          </p>
+
           <div
-            className={`p-3 border font-mono text-xs space-y-1.5 ${
+            className={`p-2.5 border font-mono text-xs flex items-center justify-between ${
               canonicalStatus === 'ACTIVE'
                 ? 'border-nexus-paper/20 bg-black/40 text-nexus-paper'
                 : 'border-nexus-ink bg-nexus-paper-elevated text-nexus-ink'
             }`}
           >
-            <div className="flex items-center justify-between border-b border-current/15 pb-1.5">
-              <span className="text-[10px] uppercase tracking-[0.18em] opacity-75 font-bold">
-                STATUS:
-              </span>
-              <AnimatePresence mode="wait" initial={false}>
-                <motion.span
-                  key={`${canonicalStatus}-${remainingCooldownSec > 0 ? 'cd' : 'rdy'}`}
-                  initial={prefersReducedMotion ? false : { opacity: 0, y: -3 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={prefersReducedMotion ? undefined : { opacity: 0, y: 3 }}
-                  transition={{ duration: 0.15 }}
-                  className={`px-2 py-0.5 border font-mono text-[10px] font-bold uppercase tracking-widest ${statusBadgeStyle}`}
-                >
-                  {remainingCooldownSec > 0
-                    ? `${canonicalStatus} (${remainingCooldownSec}S)`
-                    : canonicalStatus}
-                </motion.span>
-              </AnimatePresence>
-            </div>
-
-            <div className="flex items-center justify-between pt-0.5">
-              <span className="text-[10px] uppercase tracking-[0.18em] opacity-75 font-bold">
-                COST:
-              </span>
-              <span
-                className={`font-bold tracking-wider ${
-                  canonicalStatus === 'ACTIVE' ? 'text-white' : 'text-nexus-crimson'
-                }`}
+            <span className="text-[10px] uppercase tracking-[0.18em] opacity-75 font-bold">
+              STATUS:
+            </span>
+            <AnimatePresence mode="wait" initial={false}>
+              <motion.span
+                key={`${canonicalStatus}-${remainingCooldownSec > 0 ? 'cd' : 'rdy'}`}
+                initial={prefersReducedMotion ? false : { opacity: 0, y: -3 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={prefersReducedMotion ? undefined : { opacity: 0, y: 3 }}
+                transition={{ duration: 0.15 }}
+                className={`px-2 py-0.5 border font-mono text-[10px] font-bold uppercase tracking-widest ${statusBadgeStyle}`}
               >
-                {ability.cost} CREDITS
-              </span>
-            </div>
+                {remainingCooldownSec > 0
+                  ? `${canonicalStatus} (${remainingCooldownSec}S)`
+                  : canonicalStatus}
+              </motion.span>
+            </AnimatePresence>
           </div>
-
-          {!compact && (
-            <>
-              <p
-                className={`font-editorial text-xs leading-relaxed ${
-                  canonicalStatus === 'ACTIVE' ? 'text-nexus-paper/80' : 'text-nexus-charcoal'
-                }`}
-              >
-                {ability.description}
-              </p>
-
-              {/* Extensible effectType & effectConfig Metadata */}
-              <div className="flex flex-wrap items-center gap-1.5 font-mono text-[9px] uppercase tracking-wider">
-                <span
-                  className={`px-1.5 py-0.5 border ${
-                    canonicalStatus === 'ACTIVE'
-                      ? 'border-white/25 bg-white/10 text-white'
-                      : 'border-nexus-ink/30 bg-nexus-paper text-nexus-ink'
-                  }`}
-                >
-                  EFFECT: {ability.effectType || 'CONFIGURABLE_MODULE'}
-                </span>
-                {effectConfig.scope && (
-                  <span
-                    className={`px-1.5 py-0.5 border ${
-                      canonicalStatus === 'ACTIVE'
-                        ? 'border-white/25 bg-white/10 text-white'
-                        : 'border-nexus-ink/30 bg-nexus-paper text-nexus-muted'
-                    }`}
-                  >
-                    SCOPE: {effectConfig.scope}
-                  </span>
-                )}
-              </div>
-            </>
-          )}
         </div>
       </div>
 
@@ -281,8 +223,8 @@ const RestrictedAbilityCard = ({
           {remainingCooldownSec > 0
             ? `[ RECHARGING // ${remainingCooldownSec}S ]`
             : canonicalStatus === 'DISABLED'
-            ? '[ MODULE DISABLED ]'
-            : '[ ACTIVATE ]'}
+            ? '[ UNAVAILABLE ]'
+            : `[ ACTIVATE (-${ability.cost} CR) ]`}
         </motion.button>
       </div>
     </motion.article>
@@ -290,12 +232,8 @@ const RestrictedAbilityCard = ({
 };
 
 /**
- * PHASE 10 — ABILITIES, HINTS AND EXTRA TIME MODULE
- * - Extensible configurable ability cards (Code Breaker, Signal Mapper, System Analyst, Exploit Hunter)
- * - Server-controlled Hint decryption (never exposes answer/hint data before purchase)
- * - Server-controlled Extra Time (+5M modifies server expiresAt & syncs via Socket.IO)
- * - Framer Motion for activation modal, availability filter, and cooldown/state transitions
- * - GSAP strictly for the restrained cinematic activation sequence
+ * PHASE 18 — TEAM ABILITIES, HINTS AND EXTRA TIME
+ * Integrated inside the active Challenge Session
  */
 export const AbilitiesAndSupportModule = ({
   team,
@@ -319,7 +257,7 @@ export const AbilitiesAndSupportModule = ({
   const [modalError, setModalError] = useState('');
   const [cinematicBanner, setCinematicBanner] = useState(null);
 
-  // Dedicated GSAP refs for the Cinematic Activation Sequence (never animated by Framer Motion)
+  // Dedicated GSAP refs for the Cinematic Activation Sequence
   const gsapSequenceContainerRef = useRef(null);
   const gsapScanlineRef = useRef(null);
   const gsapPulseBarRef = useRef(null);
@@ -335,7 +273,6 @@ export const AbilitiesAndSupportModule = ({
 
   const estimatedServerNowMs = nowTick + Number(serverClockOffsetMs || 0);
 
-  // Merge team ability slots with configurable ability definitions
   const abilities = useMemo(() => {
     const teamSlots = Array.isArray(team?.abilities) ? team.abilities : [];
     const catalogMap = new Map(
@@ -356,8 +293,6 @@ export const AbilitiesAndSupportModule = ({
         ...def,
         ...slot,
         enabled: slot.enabled !== undefined ? slot.enabled : def?.enabled !== false,
-        effectType: slot.effectType || def?.effectType || 'CONFIGURABLE_MODULE',
-        effectConfig: slot.effectConfig || def?.effectConfig || {},
       };
     });
   }, [team?.abilities, abilitiesCatalog]);
@@ -371,7 +306,6 @@ export const AbilitiesAndSupportModule = ({
     });
   }, [abilities, availabilityFilter, estimatedServerNowMs]);
 
-  // Trigger GSAP Cinematic Activation Sequence when a new ability activation arrives
   useEffect(() => {
     if (!lastAbilityActivation?.activationId) return;
     if (lastProcessedActivationRef.current === lastAbilityActivation.activationId) return;
@@ -456,30 +390,24 @@ export const AbilitiesAndSupportModule = ({
     if (!confirmingAbility || !onActivateAbility) return;
     setModalError('');
     try {
-      const res = await onActivateAbility(confirmingAbility.abilityId);
+      const res = await onActivateAbility(confirmingAbility);
       const activationPayload = res?.abilityActivation || {
         activationId: `LOCAL-${Date.now()}`,
         abilityId: confirmingAbility.abilityId,
         name: confirmingAbility.name,
-        code: confirmingAbility.code,
         cost: confirmingAbility.cost,
-        effectType: confirmingAbility.effectType,
-        effectConfig: confirmingAbility.effectConfig,
         status: 'ACTIVE',
       };
       setCinematicBanner(activationPayload);
       setConfirmingAbility(null);
     } catch (err) {
-      setModalError(err?.message || 'Ability activation rejected by NEXUS Core.');
+      setModalError(err?.message || 'Unable to activate ability right now.');
     }
   };
 
   return (
     <div className="space-y-5">
-      {/* =====================================================================
-          GSAP CINEMATIC ACTIVATION SEQUENCE OVERLAY BANNER
-          Strictly driven by GSAP timeline on isolated refs (no Framer Motion)
-         ===================================================================== */}
+      {/* GSAP Cinematic Activation Sequence Banner */}
       {cinematicBanner && (
         <div
           ref={gsapSequenceContainerRef}
@@ -487,7 +415,6 @@ export const AbilitiesAndSupportModule = ({
           aria-live="polite"
           className="border-2 border-nexus-crimson bg-nexus-ink text-nexus-paper p-4 sm:p-5 shadow-brutal-crimson relative overflow-hidden"
         >
-          {/* GSAP Horizontal Scanline */}
           <div
             ref={gsapScanlineRef}
             className="h-1 w-full bg-nexus-crimson absolute top-0 left-0"
@@ -497,13 +424,7 @@ export const AbilitiesAndSupportModule = ({
             <div className="space-y-1">
               <div className="flex flex-wrap items-center gap-2 font-mono text-[10px] uppercase tracking-[0.22em]">
                 <span className="px-2 py-0.5 bg-nexus-crimson text-white font-bold">
-                  NEXUS MODULE ACTIVATION SEQUENCE
-                </span>
-                <span className="text-nexus-paper/70">
-                  [{cinematicBanner.abilityId} // {cinematicBanner.code}]
-                </span>
-                <span className="text-nexus-paper/70">
-                  EFFECT: {cinematicBanner.effectType || 'CONFIGURABLE_MODULE'}
+                  ABILITY ACTIVATED
                 </span>
               </div>
 
@@ -513,9 +434,9 @@ export const AbilitiesAndSupportModule = ({
                   <span className="text-nexus-crimson">// ENGAGED</span>
                 </p>
                 <p className="font-mono text-xs text-nexus-paper/80 mt-1">
-                  DEDUCTED: -{cinematicBanner.cost} CREDITS ·{' '}
+                  -{cinematicBanner.cost} CR ·{' '}
                   {cinematicBanner.effectOutcome?.directiveNote ||
-                    'Configurable server effect hook synchronized across squad room.'}
+                    'Ability active for your team.'}
                 </p>
               </div>
             </div>
@@ -532,19 +453,16 @@ export const AbilitiesAndSupportModule = ({
             </button>
           </div>
 
-          {/* GSAP Depleting Sequence Bar */}
           <div className="mt-3 h-1 w-full bg-white/10 overflow-hidden">
             <div ref={gsapPulseBarRef} className="h-full bg-nexus-crimson" />
           </div>
         </div>
       )}
 
-      {/* =====================================================================
-          RESTRICTED NEXUS SYSTEM MODULES (ABILITIES)
-         ===================================================================== */}
+      {/* TEAM ABILITIES */}
       <BrutalistPanel
-        codeTag="MODS"
-        title={compact ? 'ABILITIES' : 'RESTRICTED NEXUS ABILITY MODULES'}
+        codeTag="ABILITIES"
+        title="TEAM ABILITIES"
         accentTitle
         headerRight={
           <div className="flex items-center gap-2">
@@ -574,21 +492,6 @@ export const AbilitiesAndSupportModule = ({
         className="h-full"
       >
         <div className="space-y-4">
-          {!compact && (
-            <div className="p-3 border border-dashed border-nexus-ink/35 bg-nexus-paper-elevated flex flex-wrap items-center justify-between gap-2 font-mono text-[11px]">
-              <span className="text-nexus-charcoal">
-                <strong className="text-nexus-ink uppercase">
-                  EXTENSIBLE ABILITY ARCHITECTURE:
-                </strong>{' '}
-                Definitions (<code className="text-nexus-crimson">effectType</code> &amp;{' '}
-                <code className="text-nexus-crimson">effectConfig</code>) are server-configurable.
-              </span>
-              <span className="text-nexus-muted uppercase">
-                SQUAD BALANCE: {Number(team?.credits || 0).toLocaleString()} CR
-              </span>
-            </div>
-          )}
-
           <motion.div
             layout
             className={`grid grid-cols-1 ${
@@ -612,49 +515,41 @@ export const AbilitiesAndSupportModule = ({
         </div>
       </BrutalistPanel>
 
-      {/* =====================================================================
-          SERVER-CONTROLLED HINTS & EXTRA TIME TACTICAL SUPPORT
-          - Hints never expose answer/hint data before server purchase
-          - Extra Time modifies server expiresAt & synchronizes via Socket.IO
-         ===================================================================== */}
+      {/* HINTS & EXTRA TIME */}
       {showTacticalControls && (
         <BrutalistPanel
-          codeTag="TACTICAL_SUPPORT"
-          title="SERVER-AUTHORITATIVE HINTS & EXTRA TIME"
+          codeTag="SUPPORT"
+          title="HINTS & EXTRA TIME"
           accentTitle={false}
           headerRight={
             <SystemBadge
               variant={activeChallenge ? 'crimson' : 'outline'}
               pulse={Boolean(activeChallenge)}
             >
-              {activeChallenge
-                ? `ACTIVE: ${activeChallenge.challengeId}`
-                : 'REQUIRES ACTIVE SESSION'}
+              {activeChallenge ? 'ACTIVE CHALLENGE' : 'REQUIRES ACTIVE CHALLENGE'}
             </SystemBadge>
           }
         >
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-            {/* 1. SERVER-CONTROLLED HINT MODULE */}
+            {/* 1. HINT MODULE */}
             <div className="p-4 border-2 border-nexus-ink bg-nexus-paper flex flex-col justify-between space-y-4">
               <div className="space-y-2">
                 <div className="flex items-center justify-between gap-2">
                   <span className="font-mono text-[10px] font-bold uppercase tracking-widest text-nexus-crimson flex items-center gap-1.5">
                     <HelpCircle className="w-3.5 h-3.5" />
-                    SERVER-CONTROLLED INTELLIGENCE HINT
+                    CHALLENGE HINT
                   </span>
                   <span className="font-mono text-xs font-bold text-nexus-ink">
-                    COST: {hintCost} CREDITS
+                    COST: {hintCost} CR
                   </span>
                 </div>
 
                 <h4 className="font-display text-2xl uppercase tracking-wide text-nexus-ink leading-none">
-                  DECRYPT CHALLENGE HINT LAYER
+                  UNLOCK CHALLENGE HINT
                 </h4>
 
                 <p className="font-editorial text-xs text-nexus-charcoal leading-relaxed">
-                  Hint strings are stored exclusively inside server-side{' '}
-                  <code className="font-mono text-[11px]">solutionConfig</code> and are never
-                  transmitted to the client prior to purchase verification.
+                  Reveal a clue for your active challenge. Unlocked hints are shared with your entire team.
                 </p>
 
                 {/* Hint Slots Status */}
@@ -678,14 +573,10 @@ export const AbilitiesAndSupportModule = ({
                         )}
                         <div className="min-w-0 flex-1">
                           <span className="text-[10px] uppercase tracking-widest font-bold block">
-                            {isUnlocked
-                              ? `HINT LAYER 0${idx + 1} // DECRYPTED`
-                              : `HINT LAYER 0${idx + 1} // CLASSIFIED ON SERVER`}
+                            {isUnlocked ? `HINT 0${idx + 1}` : `HINT 0${idx + 1} // LOCKED`}
                           </span>
                           <p className="text-[11px] mt-0.5 break-words">
-                            {isUnlocked
-                              ? decryptedText
-                              : '████████████████████████ [PURCHASE REQUIRED TO DECRYPT]'}
+                            {isUnlocked ? decryptedText : 'Unlock to reveal this hint.'}
                           </p>
                         </div>
                       </div>
@@ -703,54 +594,41 @@ export const AbilitiesAndSupportModule = ({
                 className="w-full py-2.5 px-4 border-2 border-nexus-ink bg-nexus-ink text-nexus-paper hover:bg-nexus-crimson hover:text-white font-mono text-xs font-bold uppercase tracking-[0.2em] transition-colors cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {!activeChallenge
-                  ? '[ NO ACTIVE CHALLENGE SESSION ]'
+                  ? '[ NO ACTIVE CHALLENGE ]'
                   : hintsRemainingCount <= 0
-                  ? '[ ALL HINTS DECRYPTED ]'
-                  : `[ PURCHASE HINT // -${hintCost} CREDITS ]`}
+                  ? '[ ALL HINTS UNLOCKED ]'
+                  : `[ UNLOCK HINT // -${hintCost} CR ]`}
               </button>
             </div>
 
-            {/* 2. SERVER-CONTROLLED EXTRA TIME MODULE */}
+            {/* 2. EXTRA TIME MODULE */}
             <div className="p-4 border-2 border-nexus-ink bg-nexus-paper flex flex-col justify-between space-y-4">
               <div className="space-y-2">
                 <div className="flex items-center justify-between gap-2">
                   <span className="font-mono text-[10px] font-bold uppercase tracking-widest text-nexus-crimson flex items-center gap-1.5">
                     <Clock className="w-3.5 h-3.5" />
-                    SERVER TIMER EXTENSION (+{extraTimeMinutes} MIN)
+                    EXTRA TIME (+{extraTimeMinutes} MIN)
                   </span>
                   <span className="font-mono text-xs font-bold text-nexus-ink">
-                    COST: {extraTimeCost} CREDITS
+                    COST: {extraTimeCost} CR
                   </span>
                 </div>
 
                 <h4 className="font-display text-2xl uppercase tracking-wide text-nexus-ink leading-none">
-                  EXTEND AUTHORITATIVE EXPIRES_AT
+                  ADD +{extraTimeMinutes} MINUTES EXTRA TIME
                 </h4>
 
                 <p className="font-editorial text-xs text-nexus-charcoal leading-relaxed">
-                  NEXUS Core modifies <code className="font-mono text-[11px]">expiresAt</code> on
-                  the server and broadcasts the updated countdown to all squad terminals via
-                  Socket.IO.
+                  Extend the active challenge countdown timer for your team.
                 </p>
 
                 <div className="p-3 border border-nexus-ink bg-nexus-ink text-nexus-paper font-mono text-xs space-y-1.5">
                   <div className="flex items-center justify-between">
                     <span className="text-[10px] uppercase tracking-widest text-nexus-paper/65">
-                      SERVER EXPIRES_AT:
-                    </span>
-                    <span className="font-bold text-white">
-                      {activeAttempt?.expiresAt
-                        ? new Date(activeAttempt.expiresAt).toLocaleTimeString()
-                        : 'STANDBY'}
-                    </span>
-                  </div>
-                  <div className="flex items-center justify-between">
-                    <span className="text-[10px] uppercase tracking-widest text-nexus-paper/65">
-                      EXTRA TIME ALLOCATED:
+                      EXTRA TIME ADDED:
                     </span>
                     <span className="font-bold text-nexus-crimson">
-                      +{activeAttempt?.extraTimeMinutes || 0} MIN (
-                      {team?.stats?.extraTimePurchased || 0} PURCHASES)
+                      +{activeAttempt?.extraTimeMinutes || 0} MIN
                     </span>
                   </div>
                 </div>
@@ -763,17 +641,15 @@ export const AbilitiesAndSupportModule = ({
                 className="w-full py-2.5 px-4 border-2 border-nexus-ink bg-nexus-crimson text-white hover:bg-nexus-ink font-mono text-xs font-bold uppercase tracking-[0.2em] transition-colors cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {!activeChallenge
-                  ? '[ NO ACTIVE CHALLENGE SESSION ]'
-                  : `[ ALLOCATE +${extraTimeMinutes}M EXTRA TIME // -${extraTimeCost} CREDITS ]`}
+                  ? '[ NO ACTIVE CHALLENGE ]'
+                  : `[ +${extraTimeMinutes}M EXTRA TIME // -${extraTimeCost} CR ]`}
               </button>
             </div>
           </div>
         </BrutalistPanel>
       )}
 
-      {/* =====================================================================
-          FRAMER MOTION ABILITY ACTIVATION CONFIRMATION MODAL
-         ===================================================================== */}
+      {/* ABILITY ACTIVATION CONFIRMATION MODAL */}
       <AnimatePresence>
         {confirmingAbility && (
           <motion.div
@@ -797,14 +673,9 @@ export const AbilitiesAndSupportModule = ({
             >
               {/* Modal Header */}
               <div className="bg-nexus-ink text-nexus-paper px-5 py-3.5 border-b-2 border-nexus-ink flex items-center justify-between">
-                <div className="flex items-center gap-2">
-                  <span className="px-2 py-0.5 bg-nexus-crimson text-white font-mono text-[10px] font-bold uppercase tracking-widest">
-                    RESTRICTED MODULE
-                  </span>
-                  <span className="font-mono text-xs text-nexus-paper/70">
-                    {confirmingAbility.abilityId} // {confirmingAbility.code}
-                  </span>
-                </div>
+                <span className="px-2 py-0.5 bg-nexus-crimson text-white font-mono text-[10px] font-bold uppercase tracking-widest">
+                  ACTIVATE ABILITY
+                </span>
                 <button
                   type="button"
                   onClick={() => setConfirmingAbility(null)}
@@ -829,7 +700,6 @@ export const AbilitiesAndSupportModule = ({
                   </p>
                 </div>
 
-                {/* Specification Box matching Prompt */}
                 <div className="p-3.5 border-2 border-nexus-ink bg-nexus-ink text-nexus-paper font-mono text-xs space-y-2">
                   <div className="flex items-center justify-between border-b border-nexus-paper/15 pb-1.5">
                     <span className="text-nexus-paper/65 uppercase">STATUS:</span>
@@ -839,12 +709,6 @@ export const AbilitiesAndSupportModule = ({
                     <span className="text-nexus-paper/65 uppercase">COST:</span>
                     <span className="font-bold text-nexus-crimson uppercase">
                       {confirmingAbility.cost} CREDITS
-                    </span>
-                  </div>
-                  <div className="flex items-center justify-between border-b border-nexus-paper/15 pb-1.5">
-                    <span className="text-nexus-paper/65 uppercase">EFFECT TYPE:</span>
-                    <span className="font-bold text-nexus-paper uppercase">
-                      {confirmingAbility.effectType}
                     </span>
                   </div>
                   <div className="flex items-center justify-between">

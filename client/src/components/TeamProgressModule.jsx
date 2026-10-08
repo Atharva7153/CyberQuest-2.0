@@ -14,18 +14,12 @@ import {
   Cpu,
 } from 'lucide-react';
 import { BrutalistPanel } from './BrutalistPanel';
-import { SystemBadge } from './SystemBadge';
 import { RiskBadge } from './RiskBadge';
 import { CrosshairMark } from './CrosshairMark';
 import { useReducedMotion } from '../hooks/useReducedMotion';
 
 const CANONICAL_CATEGORIES = ['LOGIC', 'PUZZLES', 'OBSERVATION', 'KNOWLEDGE', 'TECHNICAL'];
 
-/**
- * Isolated GSAP Number Count-Up Span.
- * Animates only the textContent of its own span ref when `value` changes.
- * Never animated by Framer Motion; avoids constant movement.
- */
 const GsapAnimatedStatNumber = ({
   value = 0,
   prefix = '',
@@ -86,23 +80,6 @@ const GsapAnimatedStatNumber = ({
   );
 };
 
-/**
- * PHASE 11 — TEAM PROGRESS MODULE
- * Displays:
- * - challenges attempted
- * - completed
- * - failed
- * - credits earned
- * - credits spent
- * - hints
- * - extra time
- * - abilities
- * - risk profile
- *
- * Animation:
- * - Framer Motion: stat cards, progress bars, category filters
- * - GSAP: restrained number/count-up animation for major statistics on isolated refs
- */
 export const TeamProgressModule = ({
   team,
   progressSummary = null,
@@ -153,7 +130,6 @@ export const TeamProgressModule = ({
     const completionRate =
       challengesAttempted > 0 ? Math.round((completed / challengesAttempted) * 100) : 0;
 
-    // Category breakdown
     const categoryBreakdown =
       Array.isArray(progressSummary?.categoryBreakdown) &&
       progressSummary.categoryBreakdown.length > 0
@@ -214,75 +190,67 @@ export const TeamProgressModule = ({
   const primaryStatCards = [
     {
       id: 'CHALLENGES_ATTEMPTED',
-      code: 'STAT // 01',
       label: 'CHALLENGES ATTEMPTED',
       value: computed.challengesAttempted,
-      sublabel: `${computed.inProgress} ACTIVE SESSION · ${computed.completionRate}% SOLVE RATE`,
+      sublabel: `${computed.completionRate}% SOLVE RATE`,
       icon: Crosshair,
       accent: 'ink',
     },
     {
       id: 'COMPLETED',
-      code: 'STAT // 02',
       label: 'COMPLETED',
       value: computed.completed,
-      sublabel: 'MODULES VERIFIED BY NEXUS CORE',
+      sublabel: 'CHALLENGES SOLVED',
       icon: CheckCircle2,
       accent: 'ink',
     },
     {
       id: 'FAILED',
-      code: 'STAT // 03',
       label: 'FAILED',
       value: computed.failed,
-      sublabel: 'FAILED / TIMEOUT / ABANDONED',
+      sublabel: 'FAILED OR TIMED OUT',
       icon: AlertTriangle,
       accent: 'crimson',
     },
     {
       id: 'CREDITS_EARNED',
-      code: 'STAT // 04',
       label: 'CREDITS EARNED',
       value: computed.creditsEarned,
       suffix: ' CR',
-      sublabel: `CURRENT BALANCE: ${(team?.credits || 0).toLocaleString()} CR`,
+      sublabel: `BALANCE: ${(team?.credits || 0).toLocaleString()} CR`,
       icon: TrendingUp,
       accent: 'ink',
     },
     {
       id: 'CREDITS_SPENT',
-      code: 'STAT // 05',
       label: 'CREDITS SPENT',
       value: computed.creditsSpent,
       suffix: ' CR',
-      sublabel: `NET LEDGER: ${computed.netCredits >= 0 ? `+${computed.netCredits}` : computed.netCredits} CR`,
+      sublabel: `NET: ${computed.netCredits >= 0 ? `+${computed.netCredits}` : computed.netCredits} CR`,
       icon: TrendingDown,
       accent: 'crimson',
     },
     {
       id: 'HINTS',
-      code: 'STAT // 06',
-      label: 'HINTS',
+      label: 'HINTS USED',
       value: computed.hints,
-      sublabel: 'SERVER INTELLIGENCE DECRYPTIONS',
+      sublabel: 'HINTS UNLOCKED',
       icon: HelpCircle,
       accent: 'ink',
     },
     {
       id: 'EXTRA_TIME',
-      code: 'STAT // 07',
       label: 'EXTRA TIME',
       value: computed.extraTime,
-      sublabel: `+${computed.extraTimeMinutes} MINUTES ALLOCATED`,
+      sublabel: `+${computed.extraTimeMinutes} MINUTES ADDED`,
       icon: Clock,
       accent: 'ink',
     },
     {
       id: 'ABILITIES',
-      code: 'STAT // 08',
-      label: 'ABILITIES',
+      label: 'ABILITIES USED',
       value: computed.abilities,
-      sublabel: `${(team?.abilities || []).filter((a) => a.enabled !== false).length} RESTRICTED MODULES ARMED`,
+      sublabel: 'TEAM ABILITIES ACTIVATED',
       icon: Zap,
       accent: 'crimson',
     },
@@ -295,12 +263,9 @@ export const TeamProgressModule = ({
 
   return (
     <div className="space-y-6">
-      {/* =====================================================================
-          HERO CORE CONVERGENCE & RISK PROFILE BANNER
-         ===================================================================== */}
       <BrutalistPanel
-        codeTag="PROGRESS_DOSSIER // PHASE_11"
-        title={`SQUAD OPERATIONAL PROGRESS // TEAM ${team?.teamName || team?.teamId}`}
+        codeTag="PROGRESS"
+        title="TEAM PROGRESS"
         accentTitle
         headerRight={
           <div className="flex items-center gap-2">
@@ -312,23 +277,19 @@ export const TeamProgressModule = ({
         }
       >
         <div className="space-y-6">
-          {/* Top Core Convergence Progress Bar + Risk Profile Summary */}
+          {/* Core Progress Bar + Risk Profile Summary */}
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 items-stretch">
-            {/* Left 8 Cols: Overall NEXUS Core Convergence Progress Bar */}
             <div className="lg:col-span-8 p-5 border-2 border-nexus-ink bg-nexus-ink text-nexus-paper flex flex-col justify-between space-y-4">
               <div className="flex flex-wrap items-start justify-between gap-3">
                 <div>
                   <span className="font-mono text-[10px] uppercase tracking-[0.24em] text-nexus-crimson font-bold block">
-                    NEXUS CORE CONVERGENCE INDEX
+                    NEXUS CORE PROGRESS
                   </span>
                   <h3 className="font-display text-3xl sm:text-4xl uppercase tracking-wide text-nexus-paper mt-1">
-                    CORE SYNCHRONIZATION THRESHOLD
+                    PATH TO THE NEXUS CORE
                   </h3>
                 </div>
                 <div className="text-right font-mono">
-                  <span className="text-[10px] uppercase tracking-widest text-nexus-paper/60 block">
-                    CONVERGENCE
-                  </span>
                   <GsapAnimatedStatNumber
                     value={computed.coreProgressPercent}
                     suffix="%"
@@ -338,7 +299,6 @@ export const TeamProgressModule = ({
                 </div>
               </div>
 
-              {/* Framer Motion Progress Bar */}
               <div className="space-y-2">
                 <div className="w-full h-5 bg-black/50 p-0.5 border border-nexus-paper/30 overflow-hidden">
                   <motion.div
@@ -349,15 +309,14 @@ export const TeamProgressModule = ({
                   />
                 </div>
                 <div className="flex items-center justify-between font-mono text-[10px] uppercase tracking-widest text-nexus-paper/70">
-                  <span>PHASED PROGRESSION TOWARD FINAL OBJECTIVE</span>
+                  <span>PROGRESS TOWARD FINAL OBJECTIVE</span>
                   <span>
-                    SOLVED: {computed.completed} // ATTEMPTED: {computed.challengesAttempted}
+                    SOLVED: {computed.completed} / ATTEMPTED: {computed.challengesAttempted}
                   </span>
                 </div>
               </div>
             </div>
 
-            {/* Right 4 Cols: Dedicated 9th Metric — RISK PROFILE Card */}
             <motion.div
               whileHover={prefersReducedMotion ? undefined : { y: -2 }}
               transition={{ duration: 0.16 }}
@@ -367,7 +326,7 @@ export const TeamProgressModule = ({
                 <div className="flex items-center justify-between gap-2">
                   <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-nexus-muted font-bold flex items-center gap-1.5">
                     <Shield className="w-3.5 h-3.5 text-nexus-crimson" />
-                    STAT // 09 · RISK PROFILE
+                    RISK PROFILE
                   </span>
                   <CrosshairMark size={10} variant="crimson" />
                 </div>
@@ -401,10 +360,8 @@ export const TeamProgressModule = ({
             </motion.div>
           </div>
 
-          {/* =================================================================
-              8 CORE PROGRESS STAT CARDS (Framer Motion Cards + GSAP Count-Up)
-             ================================================================= */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          {/* 8 Stat Cards */}
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-3.5">
             {primaryStatCards.map((card, index) => {
               const IconComponent = card.icon;
               const isCrimson = card.accent === 'crimson';
@@ -420,36 +377,31 @@ export const TeamProgressModule = ({
                     delay: prefersReducedMotion ? 0 : index * 0.03,
                     ease: [0.22, 1, 0.36, 1],
                   }}
-                  className={`p-4 border-2 border-nexus-ink flex flex-col justify-between space-y-3 shadow-brutal-sm ${
+                  className={`p-4 border-2 border-nexus-ink flex flex-col justify-between space-y-2.5 shadow-brutal-sm ${
                     isCrimson ? 'bg-nexus-paper-elevated' : 'bg-nexus-paper'
                   }`}
                 >
                   <div className="flex items-center justify-between gap-2">
-                    <span className="font-mono text-[10px] uppercase tracking-widest text-nexus-muted font-bold">
-                      {card.code}
+                    <span className="font-mono text-[10px] uppercase tracking-wider text-nexus-charcoal font-bold">
+                      {card.label}
                     </span>
                     <IconComponent
-                      className={`w-4 h-4 ${
+                      className={`w-4 h-4 shrink-0 ${
                         isCrimson ? 'text-nexus-crimson' : 'text-nexus-ink'
                       }`}
                     />
                   </div>
 
-                  <div>
-                    <span className="font-mono text-[11px] uppercase tracking-wider text-nexus-charcoal font-bold block">
-                      {card.label}
-                    </span>
-                    <div
-                      className={`font-display text-4xl sm:text-5xl uppercase leading-none mt-1 ${
-                        isCrimson ? 'text-nexus-crimson' : 'text-nexus-ink'
-                      }`}
-                    >
-                      <GsapAnimatedStatNumber
-                        value={card.value}
-                        prefix={card.prefix || ''}
-                        suffix={card.suffix || ''}
-                      />
-                    </div>
+                  <div
+                    className={`font-display text-4xl sm:text-5xl uppercase leading-none ${
+                      isCrimson ? 'text-nexus-crimson' : 'text-nexus-ink'
+                    }`}
+                  >
+                    <GsapAnimatedStatNumber
+                      value={card.value}
+                      prefix={card.prefix || ''}
+                      suffix={card.suffix || ''}
+                    />
                   </div>
 
                   <div className="pt-2 border-t border-dashed border-nexus-ink/20 font-mono text-[10px] uppercase tracking-wider text-nexus-muted">
@@ -460,19 +412,16 @@ export const TeamProgressModule = ({
             })}
           </div>
 
-          {/* =================================================================
-              CATEGORY MASTERY & PROGRESS BARS (Framer Motion Filters + Bars)
-             ================================================================= */}
+          {/* Category Breakdown */}
           <div className="border-2 border-nexus-ink bg-nexus-paper p-5 space-y-4">
             <div className="flex flex-wrap items-center justify-between gap-3 border-b-2 border-nexus-ink pb-3">
               <div className="flex items-center gap-2">
                 <Cpu className="w-4 h-4 text-nexus-crimson" />
                 <span className="font-condensed text-lg font-extrabold uppercase tracking-wider text-nexus-ink">
-                  SECTOR & CATEGORY MASTERY BREAKDOWN
+                  CATEGORY PROGRESS
                 </span>
               </div>
 
-              {/* Category Filter Buttons (Framer Motion) */}
               <div className="flex flex-wrap gap-1.5">
                 {['ALL', ...CANONICAL_CATEGORIES].map((cat) => {
                   const isActive = selectedCategoryFilter === cat;
@@ -495,7 +444,7 @@ export const TeamProgressModule = ({
               </div>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-3.5">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3.5">
               {visibleCategories.map((catItem) => (
                 <motion.div
                   layout
@@ -510,7 +459,6 @@ export const TeamProgressModule = ({
                     <span className="text-nexus-crimson">{catItem.completionPercent}%</span>
                   </div>
 
-                  {/* Framer Motion Progress Bar */}
                   <div className="w-full h-2.5 bg-nexus-ink/15 border border-nexus-ink overflow-hidden">
                     <motion.div
                       initial={prefersReducedMotion ? false : { width: 0 }}

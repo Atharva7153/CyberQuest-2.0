@@ -30,7 +30,7 @@ export const LoginPage = () => {
     }
   }, [isAuthenticated, navigate]);
 
-  // GSAP: Initial cinematic entrance ONLY (separate DOM nodes from Framer Motion form fields)
+  // GSAP: Initial cinematic entrance
   useLayoutEffect(() => {
     if (prefersReducedMotion) return undefined;
 
@@ -95,7 +95,7 @@ export const LoginPage = () => {
     setFieldErrors(nextFieldErrors);
 
     if (nextFieldErrors.teamId || nextFieldErrors.password) {
-      setErrorMessage('IDENTIFICATION FAULT: Both TEAM ID and PASSWORD are required.');
+      setErrorMessage('Both TEAM ID and PASSWORD are required.');
       return;
     }
 
@@ -105,7 +105,7 @@ export const LoginPage = () => {
       navigate('/dashboard');
     } catch (err) {
       setFieldErrors({ teamId: true, password: true });
-      setErrorMessage(err.message || 'AUTHENTICATION REJECTED BY NEXUS CORE.');
+      setErrorMessage(err.message || 'Invalid Team ID or Password.');
     } finally {
       setIsSubmitting(false);
     }
@@ -128,9 +128,9 @@ export const LoginPage = () => {
         {/* Top System Divider */}
         <div className="mb-8 space-y-2">
           <div className="flex items-center justify-between">
-            <CrosshairMark variant="crimson" size={14} label="AUTH_PROTOCOL // GATE_01" />
+            <CrosshairMark variant="crimson" size={14} label="NEXUS // TEAM LOGIN" />
             <span className="font-mono text-[11px] uppercase tracking-widest text-nexus-muted">
-              ENCRYPTED SESSION // BCRYPT + JWT
+              CYBER QUEST // TEAM PORTAL
             </span>
           </div>
           <div className="login-gsap-line h-[2px] w-full bg-nexus-ink" />
@@ -138,12 +138,12 @@ export const LoginPage = () => {
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-stretch">
           {/* ===============================================================
-              LEFT COLUMN: CINEMATIC MONOLITH VISUAL ANCHOR (GSAP Entrance)
+              LEFT COLUMN: CINEMATIC MONOLITH VISUAL ANCHOR
              =============================================================== */}
           <div className="lg:col-span-5 flex flex-col justify-between nexus-editorial-box p-3 sm:p-4">
             <div className="flex items-center justify-between pb-2.5 mb-2.5 border-b border-nexus-ink/20 font-mono text-[10px] uppercase tracking-widest text-nexus-ink">
-              <span>NEXUS_CORE // PERIMETER CHECK</span>
-              <span className="text-nexus-crimson font-bold">● RESTRICTED</span>
+              <span>NEXUS // THE LAST CHANCE</span>
+              <span className="text-nexus-crimson font-bold">● LIVE EVENT</span>
             </div>
 
             <div
@@ -153,36 +153,36 @@ export const LoginPage = () => {
               <img
                 ref={artImgRef}
                 src={monolithGateArt}
-                alt="NEXUS Monolith Gate awaiting team authentication"
+                alt="NEXUS Monolith Gate awaiting team login"
                 className="w-full h-full object-cover will-change-transform"
               />
               <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-nexus-ink/85 via-transparent to-transparent" />
               <div className="absolute bottom-4 left-4 right-4 text-nexus-paper space-y-1">
                 <p className="font-mono text-[10px] uppercase tracking-[0.24em] text-nexus-crimson font-bold">
-                  DIRECTIVE // TEAM LOGIN
+                  TEAM PORTAL
                 </p>
                 <p className="font-condensed text-2xl font-extrabold uppercase tracking-wide leading-tight">
-                  ONE LOGIN FOR YOUR TEAM. SHARED AUTHORITATIVE STATE.
+                  ONE LOGIN FOR YOUR ENTIRE TEAM.
                 </p>
               </div>
             </div>
 
             <div className="mt-3 pt-2 border-t border-dashed border-nexus-ink/25 flex items-center justify-between font-mono text-[10px] uppercase tracking-wider text-nexus-muted">
-              <span>ROOM: team:&lt;TEAM_ID&gt;</span>
-              <span>4 OPERATIVES / SQUAD</span>
+              <span>SOLO · DUO · TRIO · SQUAD</span>
+              <span>UP TO 4 PLAYERS</span>
             </div>
           </div>
 
           {/* ===============================================================
-              RIGHT COLUMN: LOGIN TERMINAL (Framer Motion Fields & Validation)
+              RIGHT COLUMN: LOGIN TERMINAL
              =============================================================== */}
           <div className="lg:col-span-7 nexus-editorial-box p-6 sm:p-10 flex flex-col justify-between">
             <div className="space-y-6">
-              {/* Header (GSAP entrance) */}
+              {/* Header */}
               <div className="space-y-2 border-b-2 border-nexus-ink pb-5">
                 <div className="login-gsap-header inline-flex items-center gap-2 bg-nexus-crimson text-white font-mono text-[11px] font-bold uppercase tracking-[0.22em] px-3 py-1 border border-nexus-ink">
                   <Lock className="w-3.5 h-3.5" />
-                  TERMINAL AUTHENTICATION
+                  TEAM LOGIN
                 </div>
                 <h1
                   id="login-heading"
@@ -191,12 +191,11 @@ export const LoginPage = () => {
                   ENTER <span className="text-nexus-crimson">NEXUS</span> PORTAL
                 </h1>
                 <p className="login-gsap-header font-editorial text-sm sm:text-base text-nexus-charcoal">
-                  Authenticate with your assigned Team ID to synchronize your squad&apos;s
-                  Resistance Credits and join the live Challenge Marketplace.
+                  Sign in with your Team ID and Password to access challenges, manage your Resistance Credits, and compete with your team.
                 </p>
               </div>
 
-              {/* Framer Motion Error / Validation Banner */}
+              {/* Error / Validation Banner */}
               <AnimatePresence mode="wait">
                 {errorMessage && (
                   <motion.div
@@ -210,14 +209,14 @@ export const LoginPage = () => {
                   >
                     <ShieldAlert className="w-4 h-4 shrink-0 mt-0.5" />
                     <div className="space-y-0.5">
-                      <p className="font-bold uppercase tracking-wider">ACCESS DENIED</p>
+                      <p className="font-bold uppercase tracking-wider">LOGIN FAILED</p>
                       <p className="text-white/95">{errorMessage}</p>
                     </div>
                   </motion.div>
                 )}
               </AnimatePresence>
 
-              {/* Login Form (Framer Motion field appearance & validation states) */}
+              {/* Login Form */}
               <form onSubmit={handleSubmit} noValidate className="space-y-5">
                 {/* Field 1: TEAM ID */}
                 <motion.div
@@ -235,7 +234,7 @@ export const LoginPage = () => {
                     className="flex items-center justify-between font-condensed text-base font-extrabold uppercase tracking-[0.18em] text-nexus-ink"
                   >
                     <span>TEAM ID</span>
-                    <span className="font-mono text-[10px] text-nexus-crimson">REQUIRED // ID</span>
+                    <span className="font-mono text-[10px] text-nexus-crimson">REQUIRED</span>
                   </label>
                   <div className="relative">
                     <input
@@ -279,9 +278,7 @@ export const LoginPage = () => {
                     className="flex items-center justify-between font-condensed text-base font-extrabold uppercase tracking-[0.18em] text-nexus-ink"
                   >
                     <span>PASSWORD</span>
-                    <span className="font-mono text-[10px] text-nexus-crimson">
-                      HASHED // BCRYPT
-                    </span>
+                    <span className="font-mono text-[10px] text-nexus-crimson">REQUIRED</span>
                   </label>
                   <div className="relative">
                     <input
@@ -309,7 +306,7 @@ export const LoginPage = () => {
                   </div>
                 </motion.div>
 
-                {/* CTA: ENTER SYSTEM (Framer Motion button interaction) */}
+                {/* CTA: ENTER SYSTEM */}
                 <motion.div
                   initial={prefersReducedMotion ? false : { opacity: 0, y: 14 }}
                   animate={{ opacity: 1, y: 0 }}
@@ -331,7 +328,7 @@ export const LoginPage = () => {
                     }
                     className="w-full py-4 px-6 bg-nexus-crimson text-white font-condensed text-xl font-extrabold uppercase tracking-[0.22em] border-2 border-nexus-ink shadow-brutal hover:bg-nexus-ink transition-colors flex items-center justify-between cursor-pointer disabled:opacity-60"
                   >
-                    <span>{isSubmitting ? 'AUTHENTICATING TERMINAL...' : 'ENTER SYSTEM'}</span>
+                    <span>{isSubmitting ? 'SIGNING IN...' : 'ENTER SYSTEM'}</span>
                     <span className="inline-flex items-center justify-center w-7 h-7 border border-white/40 bg-black/20">
                       <ArrowUpRight className="w-4 h-4" />
                     </span>
@@ -340,12 +337,12 @@ export const LoginPage = () => {
               </form>
             </div>
 
-            {/* Quick-Select Seeded Squad Credentials for Multi-Tab Testing */}
+            {/* Quick-Select Demo Teams */}
             <div className="mt-8 pt-4 border-t border-dashed border-nexus-ink/30 space-y-2.5">
               <div className="flex items-center justify-between font-mono text-[10px] uppercase tracking-widest text-nexus-muted">
-                <span>PROVISIONED OPERATIVE SQUADS (PASS: NEXUS-2026)</span>
+                <span>QUICK SELECT DEMO TEAMS</span>
                 <Link to="/" className="text-nexus-crimson font-bold hover:underline">
-                  ← PUBLIC BRIEFING
+                  ← EVENT BRIEFING
                 </Link>
               </div>
               <div className="grid grid-cols-2 gap-2.5">
@@ -359,7 +356,7 @@ export const LoginPage = () => {
                   }`}
                 >
                   <span className="block font-bold">TEAM-CIPHER</span>
-                  <span className="text-[10px] opacity-75">1,250 CR · 4 MEMBERS</span>
+                  <span className="text-[10px] opacity-75">1,250 CR · SQUAD</span>
                 </button>
                 <button
                   type="button"
@@ -371,7 +368,7 @@ export const LoginPage = () => {
                   }`}
                 >
                   <span className="block font-bold">TEAM-VANGUARD</span>
-                  <span className="text-[10px] opacity-75">1,000 CR · 4 MEMBERS</span>
+                  <span className="text-[10px] opacity-75">1,000 CR · SQUAD</span>
                 </button>
               </div>
             </div>

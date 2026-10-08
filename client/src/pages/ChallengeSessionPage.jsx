@@ -8,22 +8,18 @@ import {
   Send,
   ShieldAlert,
   CheckCircle2,
-  AlertTriangle,
   HelpCircle,
   Ban,
-  RefreshCw,
-  Terminal,
-  History,
-  Lock,
   Wifi,
   WifiOff,
   X,
 } from 'lucide-react';
 import { BrutalistPanel } from '../components/BrutalistPanel';
 import { SystemBadge } from '../components/SystemBadge';
-import { RiskBadge, getRiskMetadata } from '../components/RiskBadge';
+import { RiskBadge } from '../components/RiskBadge';
 import { AbilitiesAndSupportModule } from '../components/AbilitiesAndSupportModule';
 import { ChallengeRenderer } from '../engine/ChallengeRenderer';
+import { getTeamSizeMeta } from '../layouts/PortalShellLayout';
 import { useTeamPortal } from '../hooks/useTeamPortal';
 import { fetchChallengeSessionHttp } from '../services/authService';
 import { useReducedMotion } from '../hooks/useReducedMotion';
@@ -35,23 +31,16 @@ const formatCountdown = (seconds) => {
   return `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
 };
 
-const formatTimestampShort = (isoStr) => {
-  if (!isoStr) return '--:--:--';
-  const date = new Date(isoStr);
-  if (Number.isNaN(date.getTime())) return '--:--:--';
-  return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
-};
-
 /**
- * PHASE 8 — SERVER-AUTHORITATIVE CHALLENGE SESSION
+ * PHASE 18 — PARTICIPANT CHALLENGE SESSION PAGE
  * Route: /challenge/:challengeId
  *
- * - Header: CYBER QUEST | TEAM | CREDITS | CHALLENGE | RISK | DIFFICULTY
- * - Server-Authoritative Timer: startedAt, expiresAt, timeLimit synchronized via Socket.IO
- * - Main Area: ChallengeRenderer + SUBMIT SOLUTION (duplicate-submission protected)
- * - Outcomes: SUCCESS | FAILED | TIMEOUT | ABANDONED
- * - Animation: Framer Motion for timer state changes & result modal; GSAP restrained urgency sequence in critical final seconds
- * - Record: Displays server-recorded ChallengeAttempt ledger
+ * Simplified participant experience:
+ * - Clean header: Back to Challenges, Team + Online Count, Credits, Challenge Title, Risk, Difficulty/Reward
+ * - Clear Challenge Timer bar with urgency feedback
+ * - Interactive Challenge Board + Submit Solution
+ * - Integrated Hints, Extra Time, and Team Abilities
+ * - Zero debug/simulation buttons or backend terminology
  */
 export const ChallengeSessionPage = () => {
   const { challengeId } = useParams();
@@ -63,7 +52,6 @@ export const ChallengeSessionPage = () => {
     team,
     catalog,
     abilitiesCatalog,
-    attempts,
     sessionTimer,
     serverClockOffsetMs,
     creditsConfig,
@@ -93,23 +81,19 @@ export const ChallengeSessionPage = () => {
   const [submittedAttemptIds, setSubmittedAttemptIds] = useState(() => new Set());
   const [nowTick, setNowTick] = useState(() => Date.now());
 
-  // Synchronous ref lock to prevent rapid double-click duplicate submissions
   const duplicateSubmitLockRef = useRef(false);
   const timeoutTriggeredForAttemptRef = useRef(null);
 
-  // Dedicated GSAP refs for restrained critical urgency sequence (never touched by Framer Motion)
   const urgencyFrameRef = useRef(null);
   const urgencyBarRef = useRef(null);
   const urgencyTweenRef = useRef(null);
 
-  // Redirect unauthenticated users to /login
   useEffect(() => {
     if (!isInitializing && !isAuthenticated) {
       navigate('/login', { replace: true });
     }
   }, [isInitializing, isAuthenticated, navigate]);
 
-  // Load authoritative session details from server on mount or challengeId change
   const refreshSessionFromServer = useCallback(async () => {
     if (!token || !normalizedRouteChallengeId) return;
     try {
@@ -127,7 +111,6 @@ export const ChallengeSessionPage = () => {
     refreshSessionFromServer();
   }, [refreshSessionFromServer, team?.activeAttempt?.attemptId, team?.credits]);
 
-  // Synchronize timer with server via Socket.IO on mount and every 10 seconds
   useEffect(() => {
     if (!isAuthenticated || !socketConnected) return undefined;
     syncSessionTimer();
@@ -137,7 +120,6 @@ export const ChallengeSessionPage = () => {
     return () => clearInterval(syncInterval);
   }, [isAuthenticated, socketConnected, syncSessionTimer]);
 
-  // 1-second render tick using serverClockOffsetMs (client never extends timer locally)
   useEffect(() => {
     const tick = setInterval(() => {
       setNowTick(Date.now());
@@ -145,7 +127,6 @@ export const ChallengeSessionPage = () => {
     return () => clearInterval(tick);
   }, []);
 
-  // Resolve target challenge & active attempt
   const activeAttempt = team?.activeAttempt || sessionMeta?.activeAttempt || null;
   const isThisChallengeActive =
     Boolean(activeAttempt) &&
@@ -158,10 +139,6 @@ export const ChallengeSessionPage = () => {
     team?.currentChallenge ||
     null;
 
-  // Compute server-authoritative timer values (startedAt, expiresAt, timeLimit)
-  const authoritativeStartedAt = isThisChallengeActive
-    ? activeAttempt?.startedAt || sessionTimer?.startedAt
-    : null;
   const authoritativeExpiresAt = isThisChallengeActive
     ? activeAttempt?.expiresAt || sessionTimer?.expiresAt
     : null;
@@ -181,18 +158,16 @@ export const ChallengeSessionPage = () => {
       ? Math.min(100, Math.max(0, (remainingSeconds / authoritativeTimeLimit) * 100))
       : 0;
 
-  // Timer state classification for Framer Motion state transitions
   const timerState = !isThisChallengeActive
     ? 'STANDBY'
     : remainingSeconds <= 0
-      ? 'TIMEOUT'
+      ? 'EXPIRED'
       : remainingSeconds <= 60
         ? 'CRITICAL'
         : remainingSeconds <= 180
-          ? 'CAUTION'
-          : 'NOMINAL';
+          ? 'WARNING'
+          : 'ACTIVE';
 
-  // When countdown reaches 0 on an active attempt, ask server to determine expiration via Socket.IO / action
   useEffect(() => {
     if (
       !isThisChallengeActive ||
@@ -208,7 +183,6 @@ export const ChallengeSessionPage = () => {
     }
     timeoutTriggeredForAttemptRef.current = activeAttempt.attemptId;
 
-    // Ask server via Socket.IO timer:sync to verify expiration and emit authoritative TIMEOUT
     syncSessionTimer().then((ack) => {
       if (!ack?.expired && !ack?.evaluationResult) {
         performTeamAction('TIMEOUT_CHALLENGE', {
@@ -226,7 +200,6 @@ export const ChallengeSessionPage = () => {
     performTeamAction,
   ]);
 
-  // GSAP Restrained Urgency Sequence in Critical Final Seconds (<= 60s)
   useEffect(() => {
     const frameEl = urgencyFrameRef.current;
     const barEl = urgencyBarRef.current;
@@ -246,7 +219,6 @@ export const ChallengeSessionPage = () => {
       return undefined;
     }
 
-    // Restrained urgency sequence: controlled crimson border tension & subtle bar pulse (no harsh flashing)
     const tl = gsap.timeline({ repeat: -1, yoyo: true });
     tl.to(
       frameEl,
@@ -279,7 +251,6 @@ export const ChallengeSessionPage = () => {
     };
   }, [timerState, prefersReducedMotion]);
 
-  // Reset duplicate submit lock when a new attempt starts
   useEffect(() => {
     duplicateSubmitLockRef.current = false;
     setLocalSubmitting(false);
@@ -294,8 +265,7 @@ export const ChallengeSessionPage = () => {
     isAttemptAlreadySubmitted ||
     remainingSeconds <= 0;
 
-  // Unified Server-Authoritative Solution Submission with Duplicate Prevention
-  const handleAuthoritativeSubmit = async (overridePayload = null, options = {}) => {
+  const handleAuthoritativeSubmit = async (overridePayload = null) => {
     if (!isThisChallengeActive || !activeAttempt?.attemptId) return;
     if (duplicateSubmitLockRef.current || isAttemptAlreadySubmitted || localSubmitting) {
       return;
@@ -307,7 +277,7 @@ export const ChallengeSessionPage = () => {
         ? String(submissionPayload.answer ?? submissionPayload.word ?? '').trim()
         : String(submissionPayload ?? '').trim();
 
-    if (!candidateAnswer && !options.simulateFailure && !options.outcomeOverride) {
+    if (!candidateAnswer) {
       return;
     }
 
@@ -321,12 +291,9 @@ export const ChallengeSessionPage = () => {
         challengeId: targetChallenge?.challengeId || normalizedRouteChallengeId,
         attemptId: currentAttemptId,
         submission: submissionPayload,
-        simulateFailure: Boolean(options.simulateFailure),
-        outcomeOverride: options.outcomeOverride || null,
       });
       await refreshSessionFromServer();
     } catch {
-      // Unlock if server rejected due to transient network error (unless already finalized)
       duplicateSubmitLockRef.current = false;
       setSubmittedAttemptIds((prev) => {
         const next = new Set(prev);
@@ -338,7 +305,6 @@ export const ChallengeSessionPage = () => {
     }
   };
 
-  // Abandon Active Session -> Server evaluates as ABANDONED
   const handleAbandonSession = async () => {
     if (!isThisChallengeActive || !activeAttempt?.attemptId) return;
     if (duplicateSubmitLockRef.current || localSubmitting || actionPending) return;
@@ -358,27 +324,6 @@ export const ChallengeSessionPage = () => {
     }
   };
 
-  // Trigger Server-Authoritative Timeout Evaluation (for testing / verification)
-  const handleTriggerServerTimeout = async () => {
-    if (!isThisChallengeActive || !activeAttempt?.attemptId) return;
-    if (duplicateSubmitLockRef.current || localSubmitting || actionPending) return;
-
-    duplicateSubmitLockRef.current = true;
-    setLocalSubmitting(true);
-    try {
-      await performTeamAction('TIMEOUT_CHALLENGE', {
-        challengeId: targetChallenge?.challengeId || normalizedRouteChallengeId,
-        attemptId: activeAttempt.attemptId,
-      });
-      await refreshSessionFromServer();
-    } catch {
-      duplicateSubmitLockRef.current = false;
-    } finally {
-      setLocalSubmitting(false);
-    }
-  };
-
-  // Spend credits for Hint or +5M Extra Time (Server-Authoritative)
   const handleTacticalSupport = async (itemType, cost) => {
     if (!isThisChallengeActive || actionPending || localSubmitting) return;
     try {
@@ -389,18 +334,20 @@ export const ChallengeSessionPage = () => {
     }
   };
 
-  // Activate configurable NEXUS ability module during session
   const handleActivateAbility = async (ability) => {
     if (!ability || actionPending || localSubmitting) return;
+    const abilityObj =
+      typeof ability === 'string'
+        ? abilitiesCatalog.find((a) => a.abilityId === ability) || { abilityId: ability }
+        : ability;
     await performTeamAction('ABILITY', {
-      abilityId: ability.abilityId,
-      abilityName: ability.name,
-      cost: ability.cost,
+      abilityId: abilityObj.abilityId,
+      abilityName: abilityObj.name,
+      cost: abilityObj.cost,
     });
     await refreshSessionFromServer();
   };
 
-  // Acquire or Reattempt this challenge right from /challenge/:challengeId
   const handleAcquireOrReattemptThisChallenge = async (isReattempt = false) => {
     if (!targetChallenge || actionPending || localSubmitting) return;
     try {
@@ -420,10 +367,10 @@ export const ChallengeSessionPage = () => {
       <div className="min-h-screen nexus-paper-canvas flex items-center justify-center p-6">
         <div className="nexus-editorial-box p-8 max-w-md w-full text-center space-y-3">
           <p className="font-mono text-xs uppercase tracking-[0.25em] text-nexus-crimson font-bold">
-            NEXUS SESSION // INITIALIZING
+            NEXUS // CHALLENGE
           </p>
           <h1 className="font-display text-3xl uppercase text-nexus-ink">
-            SYNCHRONIZING SERVER SESSION...
+            LOADING CHALLENGE...
           </h1>
         </div>
       </div>
@@ -432,17 +379,14 @@ export const ChallengeSessionPage = () => {
 
   if (!team) return null;
 
+  const { sizeType, memberTotal, onlineCount } = getTeamSizeMeta(team, onlineOperatives);
   const unlockedHints = Array.isArray(activeAttempt?.unlockedHints)
     ? activeAttempt.unlockedHints
     : [];
-  const allAttempts = Array.isArray(attempts) && attempts.length > 0
-    ? attempts
-    : sessionMeta?.attempts || [];
-  const challengeAttempts = allAttempts.filter(
-    (att) =>
-      !normalizedRouteChallengeId ||
-      String(att.challengeId).toUpperCase() === normalizedRouteChallengeId
+  const maxHints = Number(
+    activeAttempt?.maxHints || targetChallenge?.gameConfig?.maxHints || 2
   );
+  const hintsRemainingCount = Math.max(0, maxHints - unlockedHints.length);
 
   const isSolvedByTeam = (team.completedChallenges || []).some(
     (c) => String(c.challengeId).toUpperCase() === normalizedRouteChallengeId
@@ -458,24 +402,23 @@ export const ChallengeSessionPage = () => {
       <div className="nexus-vignette-overlay" aria-hidden="true" />
 
       {/* =====================================================================
-          CHALLENGE UI HEADER:
-          CYBER QUEST | TEAM | CREDITS | CHALLENGE | RISK | DIFFICULTY
+          CHALLENGE HEADER
          ===================================================================== */}
       <header className="relative z-20 border-b-2 border-nexus-ink bg-nexus-ink text-nexus-paper">
         <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 py-3">
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2.5 items-stretch">
-            {/* 1. CYBER QUEST */}
+            {/* 1. BACK TO CHALLENGES */}
             <div className="p-2.5 border border-nexus-paper/20 bg-black/30 flex flex-col justify-between">
               <div className="flex items-center justify-between gap-2">
                 <span className="font-mono text-[9px] uppercase tracking-[0.22em] text-nexus-crimson font-bold">
-                  SYSTEM
+                  NEXUS
                 </span>
                 <Link
-                  to="/dashboard"
+                  to="/challenges"
                   className="inline-flex items-center gap-1 font-mono text-[9px] uppercase tracking-wider text-nexus-paper/80 hover:text-nexus-crimson transition-colors"
                 >
                   <ArrowLeft className="w-3 h-3" />
-                  <span>PORTAL</span>
+                  <span>CHALLENGES</span>
                 </Link>
               </div>
               <p className="font-display text-xl sm:text-2xl uppercase tracking-wider text-nexus-paper leading-none mt-1">
@@ -483,24 +426,21 @@ export const ChallengeSessionPage = () => {
               </p>
             </div>
 
-            {/* 2. TEAM */}
+            {/* 2. TEAM (Variable Size Support) */}
             <div className="p-2.5 border border-nexus-paper/20 bg-black/30 flex flex-col justify-between">
               <div className="flex items-center justify-between font-mono text-[9px] uppercase tracking-[0.2em] text-nexus-paper/60">
-                <span>TEAM</span>
-                <span className="inline-flex items-center gap-1 text-nexus-crimson">
+                <span>{sizeType}</span>
+                <span className="inline-flex items-center gap-1 text-nexus-crimson font-bold">
                   {socketConnected ? (
                     <Wifi className="w-3 h-3" />
                   ) : (
                     <WifiOff className="w-3 h-3" />
                   )}
-                  {onlineOperatives}/4
+                  {onlineCount} / {memberTotal} ONLINE
                 </span>
               </div>
               <p className="font-condensed text-lg sm:text-xl font-extrabold uppercase tracking-wider text-nexus-paper truncate mt-1">
-                {team.teamName}{' '}
-                <span className="font-mono text-[10px] text-nexus-paper/60">
-                  [{team.teamId}]
-                </span>
+                {team.teamName}
               </p>
             </div>
 
@@ -517,10 +457,10 @@ export const ChallengeSessionPage = () => {
             {/* 4. CHALLENGE */}
             <div className="p-2.5 border border-nexus-paper/20 bg-black/30 flex flex-col justify-between">
               <span className="font-mono text-[9px] uppercase tracking-[0.2em] text-nexus-paper/60">
-                CHALLENGE // {targetChallenge?.challengeId || normalizedRouteChallengeId}
+                {targetChallenge?.category || 'CHALLENGE'}
               </span>
               <p className="font-condensed text-lg sm:text-xl font-extrabold uppercase tracking-wider text-nexus-paper truncate mt-1">
-                {targetChallenge?.title || normalizedRouteChallengeId}
+                {targetChallenge?.title || 'Challenge'}
               </p>
             </div>
 
@@ -528,7 +468,7 @@ export const ChallengeSessionPage = () => {
             <div className="p-2.5 border border-nexus-paper/20 bg-black/30 flex flex-col justify-between">
               <div className="flex items-center justify-between font-mono text-[9px] uppercase tracking-[0.2em] text-nexus-paper/60">
                 <span>RISK</span>
-                <span>-{targetChallenge?.penalty || 100} CR</span>
+                <span>-{targetChallenge?.penalty || 100} CR ON FAIL</span>
               </div>
               <div className="mt-1 flex items-center justify-between gap-2">
                 <RiskBadge
@@ -537,22 +477,19 @@ export const ChallengeSessionPage = () => {
                   variant="onDark"
                   pulseAggressive
                 />
-                <span className="font-mono text-[9px] text-nexus-paper/65 truncate hidden xl:inline">
-                  {getRiskMetadata(targetChallenge?.risk || 'BALANCED').pillars[0]}
-                </span>
               </div>
             </div>
 
-            {/* 6. DIFFICULTY */}
+            {/* 6. DIFFICULTY & REWARD */}
             <div className="p-2.5 border border-nexus-paper/20 bg-black/30 flex flex-col justify-between">
               <span className="font-mono text-[9px] uppercase tracking-[0.2em] text-nexus-paper/60">
-                DIFFICULTY
+                DIFFICULTY &amp; REWARD
               </span>
               <div className="mt-1 flex items-center justify-between">
                 <span className="font-condensed text-lg sm:text-xl font-extrabold uppercase tracking-wider text-nexus-paper">
                   {targetChallenge?.difficulty || 'MEDIUM'}
                 </span>
-                <span className="font-mono text-[10px] text-nexus-crimson font-bold">
+                <span className="font-mono text-xs text-nexus-crimson font-bold">
                   +{targetChallenge?.reward || 500} CR
                 </span>
               </div>
@@ -561,7 +498,7 @@ export const ChallengeSessionPage = () => {
         </div>
       </header>
 
-      {/* Live Socket Notification Banner */}
+      {/* Notification Banner */}
       <div className="fixed bottom-4 right-4 z-40 flex flex-col gap-2 max-w-sm w-full pointer-events-none px-4 sm:px-0">
         <AnimatePresence>
           {notifications.map((notif) => (
@@ -575,7 +512,7 @@ export const ChallengeSessionPage = () => {
             >
               <div className="space-y-1">
                 <div className="flex items-center gap-2 font-mono text-[10px] uppercase tracking-widest text-nexus-crimson">
-                  <span>TEAM ROOM SYNC</span>
+                  <span>TEAM UPDATE</span>
                   <span>·</span>
                   <span>{notif.timestamp}</span>
                 </div>
@@ -596,29 +533,24 @@ export const ChallengeSessionPage = () => {
       </div>
 
       {/* =====================================================================
-          MAIN SESSION WORKSPACE
+          MAIN CHALLENGE WORKSPACE
          ===================================================================== */}
       <main className="relative z-10 flex-1 max-w-[1440px] w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-6">
         {/* ===================================================================
-            SERVER-AUTHORITATIVE TIMER BAR
-            - Server stores: startedAt, expiresAt, timeLimit
-            - Framer Motion for state changes
-            - GSAP restrained urgency sequence in critical final seconds
+            CHALLENGE TIMER BAR
            =================================================================== */}
         <div
           ref={urgencyFrameRef}
           className="nexus-editorial-box p-4 sm:p-5 border-2 border-nexus-ink bg-nexus-paper"
         >
-          <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
-            {/* Timer Left: Server Timestamps (startedAt, expiresAt, timeLimit) */}
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <div className="space-y-1.5">
               <div className="flex flex-wrap items-center gap-2">
                 <span className="font-mono text-[10px] uppercase tracking-[0.22em] text-nexus-crimson font-bold flex items-center gap-1.5">
                   <Clock className="w-3.5 h-3.5" />
-                  SERVER-AUTHORITATIVE SESSION TIMER
+                  CHALLENGE TIMER
                 </span>
 
-                {/* Framer Motion Timer State Badge */}
                 <AnimatePresence mode="wait">
                   <motion.span
                     key={timerState}
@@ -627,14 +559,14 @@ export const ChallengeSessionPage = () => {
                     exit={prefersReducedMotion ? undefined : { opacity: 0, y: 4, scale: 0.95 }}
                     transition={{ duration: 0.18 }}
                     className={`px-2 py-0.5 font-mono text-[10px] font-bold uppercase tracking-widest border ${
-                      timerState === 'CRITICAL' || timerState === 'TIMEOUT'
+                      timerState === 'CRITICAL' || timerState === 'EXPIRED'
                         ? 'bg-nexus-crimson text-white border-nexus-ink'
-                        : timerState === 'CAUTION'
+                        : timerState === 'WARNING'
                           ? 'bg-nexus-ink text-nexus-crimson border-nexus-crimson'
                           : 'bg-nexus-ink text-nexus-paper border-nexus-ink'
                     }`}
                   >
-                    STATE // {timerState}
+                    {timerState}
                   </motion.span>
                 </AnimatePresence>
 
@@ -644,44 +576,38 @@ export const ChallengeSessionPage = () => {
                     animate={{ scale: 1, opacity: 1 }}
                     className="px-2 py-0.5 bg-nexus-crimson/15 text-nexus-crimson border border-nexus-crimson font-mono text-[10px] font-bold uppercase"
                   >
-                    +{activeAttempt.extraTimeMinutes}M SERVER EXTENSION APPLIED
+                    +{activeAttempt.extraTimeMinutes}M EXTRA TIME
                   </motion.span>
                 )}
               </div>
 
               <div className="flex flex-wrap items-center gap-x-5 gap-y-1 font-mono text-[11px] text-nexus-muted uppercase">
                 <span>
-                  STARTED_AT:{' '}
+                  TIME LIMIT:{' '}
                   <strong className="text-nexus-ink">
-                    {formatTimestampShort(authoritativeStartedAt)}
+                    {Math.round(authoritativeTimeLimit / 60)} MIN
                   </strong>
                 </span>
                 <span>
-                  EXPIRES_AT:{' '}
+                  REWARD:{' '}
+                  <strong className="text-nexus-ink">
+                    +{targetChallenge?.reward || 400} CR
+                  </strong>
+                </span>
+                <span>
+                  PENALTY ON FAIL:{' '}
                   <strong className="text-nexus-crimson">
-                    {formatTimestampShort(authoritativeExpiresAt)}
-                  </strong>
-                </span>
-                <span>
-                  TIME_LIMIT:{' '}
-                  <strong className="text-nexus-ink">
-                    {Math.round(authoritativeTimeLimit / 60)} MIN ({authoritativeTimeLimit}S)
-                  </strong>
-                </span>
-                <span>
-                  SOCKET SYNC:{' '}
-                  <strong className={socketConnected ? 'text-nexus-ink' : 'text-nexus-crimson'}>
-                    {socketConnected ? 'LOCKED' : 'RECONNECTING'}
+                    -{targetChallenge?.penalty || 100} CR
                   </strong>
                 </span>
               </div>
             </div>
 
-            {/* Timer Right: Countdown Readout & Sync Button */}
+            {/* Countdown Readout */}
             <div className="flex items-center gap-4">
-              <div className="text-right">
+              <div className="text-left sm:text-right">
                 <span className="font-mono text-[9px] uppercase tracking-[0.2em] text-nexus-muted block">
-                  REMAINING WINDOW
+                  TIME REMAINING
                 </span>
                 <AnimatePresence mode="popLayout">
                   <motion.div
@@ -690,7 +616,7 @@ export const ChallengeSessionPage = () => {
                     animate={{ opacity: 1, scale: 1 }}
                     transition={{ duration: 0.2 }}
                     className={`font-display text-4xl sm:text-5xl leading-none tracking-wider ${
-                      timerState === 'CRITICAL' || timerState === 'TIMEOUT'
+                      timerState === 'CRITICAL' || timerState === 'EXPIRED'
                         ? 'text-nexus-crimson'
                         : 'text-nexus-ink'
                     }`}
@@ -699,25 +625,15 @@ export const ChallengeSessionPage = () => {
                   </motion.div>
                 </AnimatePresence>
               </div>
-
-              <button
-                type="button"
-                onClick={() => syncSessionTimer()}
-                title="Synchronize with NEXUS Server Clock"
-                className="px-3 py-2 border-2 border-nexus-ink bg-nexus-paper hover:bg-nexus-ink hover:text-nexus-paper font-mono text-[10px] font-bold uppercase tracking-wider transition-colors cursor-pointer flex items-center gap-1.5"
-              >
-                <RefreshCw className="w-3.5 h-3.5" />
-                <span>SYNC</span>
-              </button>
             </div>
           </div>
 
-          {/* Server Progress Bar */}
+          {/* Progress Bar */}
           <div className="mt-3 w-full h-2.5 bg-nexus-ink/15 border border-nexus-ink overflow-hidden">
             <div
               ref={urgencyBarRef}
               className={`h-full transition-all duration-500 ${
-                timerState === 'CRITICAL' || timerState === 'TIMEOUT'
+                timerState === 'CRITICAL' || timerState === 'EXPIRED'
                   ? 'bg-nexus-crimson'
                   : 'bg-nexus-ink'
               }`}
@@ -727,36 +643,35 @@ export const ChallengeSessionPage = () => {
         </div>
 
         {/* ===================================================================
-            MAIN AREA: ChallengeRenderer + Submission + Session Controls
+            MAIN AREA: Challenge Board + Submission + Support/Abilities
            =================================================================== */}
         {!isThisChallengeActive ? (
           <BrutalistPanel
-            codeTag="SESSION_STANDBY"
-            title={`CHALLENGE MODULE // ${targetChallenge?.title || normalizedRouteChallengeId}`}
+            codeTag="CHALLENGE"
+            title={targetChallenge?.title || 'CHALLENGE'}
             accentTitle
             headerRight={
               <SystemBadge variant={isSolvedByTeam ? 'operational' : 'crimson'}>
                 {isSolvedByTeam
                   ? 'SOLVED'
                   : isFailedByTeam
-                    ? 'PREVIOUSLY FAILED'
-                    : 'SESSION NOT INITIALIZED'}
+                    ? 'FAILED PREVIOUSLY'
+                    : 'READY TO START'}
               </SystemBadge>
             }
           >
             <div className="p-6 border-2 border-nexus-ink bg-nexus-paper space-y-5">
               <div className="space-y-2">
                 <p className="font-mono text-xs uppercase tracking-[0.2em] text-nexus-crimson font-bold">
-                  {targetChallenge?.challengeId || normalizedRouteChallengeId} //{' '}
-                  {targetChallenge?.category || 'CLASSIFIED'} · ENGINE:{' '}
-                  {targetChallenge?.gameType || 'wordGuess'}
+                  {targetChallenge?.category || 'CHALLENGE'} · DIFFICULTY:{' '}
+                  {targetChallenge?.difficulty || 'MEDIUM'}
                 </p>
                 <h2 className="font-display text-4xl uppercase text-nexus-ink leading-none">
-                  {targetChallenge?.title || 'CLASSIFIED NEXUS CHALLENGE'}
+                  {targetChallenge?.title || 'CHALLENGE'}
                 </h2>
                 <p className="font-editorial text-sm text-nexus-charcoal max-w-2xl">
                   {targetChallenge?.description ||
-                    'Initialize an authoritative server session to unlock this challenge module and start the synchronized countdown timer.'}
+                    'Start this challenge to unlock the board and begin your team countdown.'}
                 </p>
               </div>
 
@@ -765,16 +680,16 @@ export const ChallengeSessionPage = () => {
                   normalizedRouteChallengeId && (
                   <div className="p-3.5 bg-nexus-ink text-nexus-paper border-l-4 border-nexus-crimson font-mono text-xs flex flex-wrap items-center justify-between gap-3">
                     <span>
-                      ACTIVE SQUAD SESSION IN PROGRESS:{' '}
+                      YOUR TEAM HAS AN ACTIVE CHALLENGE:{' '}
                       <strong className="text-nexus-crimson">
-                        {team.currentChallenge.title} ({team.currentChallenge.challengeId})
+                        {team.currentChallenge.title}
                       </strong>
                     </span>
                     <Link
                       to={`/challenge/${team.currentChallenge.challengeId}`}
                       className="px-3 py-1.5 bg-nexus-crimson text-white font-bold uppercase tracking-wider hover:bg-white hover:text-nexus-ink transition-colors"
                     >
-                      SWITCH TO ACTIVE SESSION
+                      OPEN ACTIVE CHALLENGE
                     </Link>
                   </div>
                 )}
@@ -788,39 +703,38 @@ export const ChallengeSessionPage = () => {
                     className="px-6 py-3 bg-nexus-crimson text-white hover:bg-nexus-ink font-condensed text-lg font-extrabold uppercase tracking-[0.18em] border-2 border-nexus-ink transition-colors cursor-pointer disabled:opacity-50"
                   >
                     {isFailedByTeam
-                      ? `REATTEMPT MODULE (-${Math.round(
+                      ? `[ REATTEMPT CHALLENGE (-${Math.round(
                           targetChallenge.cost * (creditsConfig?.reattemptMultiplier || 1.25)
-                        )} CR)`
-                      : `INITIALIZE SERVER SESSION (-${targetChallenge.cost} CR)`}
+                        )} CR) ]`
+                      : `[ START CHALLENGE (-${targetChallenge.cost} CR) ]`}
                   </button>
                 )}
 
                 <Link
-                  to="/dashboard"
+                  to="/challenges"
                   className="px-6 py-3 border-2 border-nexus-ink bg-nexus-paper hover:bg-nexus-ink hover:text-nexus-paper font-condensed text-lg font-extrabold uppercase tracking-[0.18em] transition-colors inline-flex items-center gap-2"
                 >
                   <ArrowLeft className="w-4 h-4" />
-                  <span>RETURN TO NEXUS PORTAL</span>
+                  <span>BACK TO CHALLENGES</span>
                 </Link>
               </div>
             </div>
           </BrutalistPanel>
         ) : (
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
-            {/* Left 8 Columns: ChallengeRenderer + Primary SUBMIT SOLUTION Bar */}
+            {/* Left 8 Columns: ChallengeRenderer + Submit Bar */}
             <div className="lg:col-span-8 space-y-5">
               <BrutalistPanel
-                codeTag="CHALLENGE_RENDERER"
-                title={`ACTIVE MODULE // ${targetChallenge?.title}`}
+                codeTag="ACTIVE CHALLENGE"
+                title={targetChallenge?.title || 'ACTIVE CHALLENGE'}
                 accentTitle
                 headerRight={
                   <SystemBadge variant="crimson" pulse>
-                    SESSION {activeAttempt?.attemptId}
+                    IN PROGRESS
                   </SystemBadge>
                 }
               >
                 <div className="space-y-5">
-                  {/* ChallengeRenderer (Game Architecture Pipeline) */}
                   <ChallengeRenderer
                     challenge={targetChallenge}
                     session={activeAttempt}
@@ -830,7 +744,7 @@ export const ChallengeSessionPage = () => {
                     onSubmitAnswer={(payload) => handleAuthoritativeSubmit(payload)}
                   />
 
-                  {/* Decrypted Server Intelligence Hints */}
+                  {/* Unlocked Hints */}
                   <AnimatePresence>
                     {unlockedHints.length > 0 && (
                       <motion.div
@@ -840,7 +754,7 @@ export const ChallengeSessionPage = () => {
                         className="p-3.5 bg-nexus-ink text-nexus-paper border-l-4 border-nexus-crimson font-mono text-xs space-y-1.5"
                       >
                         <span className="text-[10px] uppercase tracking-widest text-nexus-crimson font-bold block">
-                          DECRYPTED SERVER INTELLIGENCE ({unlockedHints.length})
+                          UNLOCKED HINTS ({unlockedHints.length})
                         </span>
                         {unlockedHints.map((hintText, idx) => (
                           <p key={idx} className="text-nexus-paper/90 leading-relaxed">
@@ -851,74 +765,55 @@ export const ChallengeSessionPage = () => {
                     )}
                   </AnimatePresence>
 
-                  {/* =========================================================
-                      SUBMISSION BAR: SUBMIT SOLUTION (Duplicate-Protected)
-                     ========================================================= */}
-                  <div className="p-4 border-2 border-nexus-ink bg-nexus-paper-elevated space-y-3">
-                    <div className="flex flex-wrap items-center justify-between gap-2 font-mono text-[10px] uppercase tracking-widest text-nexus-muted">
-                      <span className="flex items-center gap-1.5 text-nexus-ink font-bold">
-                        <Lock className="w-3.5 h-3.5 text-nexus-crimson" />
-                        AUTHORITATIVE SUBMISSION GATE // DUPLICATE LOCK:{' '}
-                        {isSubmissionLocked ? 'ENGAGED' : 'ARMED'}
-                      </span>
+                  {/* Submit / Abandon Controls */}
+                  <div className="p-4 border-2 border-nexus-ink bg-nexus-paper-elevated flex flex-col sm:flex-row gap-3">
+                    <button
+                      type="button"
+                      disabled={isSubmissionLocked || !draftSubmission?.answer}
+                      onClick={() => handleAuthoritativeSubmit(draftSubmission)}
+                      className="flex-1 py-3.5 px-6 bg-nexus-crimson text-white hover:bg-nexus-ink font-condensed text-lg font-extrabold uppercase tracking-[0.2em] border-2 border-nexus-ink transition-colors cursor-pointer disabled:opacity-45 flex items-center justify-center gap-2.5"
+                    >
+                      <Send className="w-4 h-4" />
                       <span>
-                        BUFFERED PAYLOAD:{' '}
-                        <strong className="text-nexus-crimson">
-                          {draftSubmission?.answer ? draftSubmission.answer : '[AWAITING INPUT]'}
-                        </strong>
+                        {localSubmitting || actionPending
+                          ? 'SUBMITTING...'
+                          : isAttemptAlreadySubmitted
+                            ? 'SUBMITTED'
+                            : 'SUBMIT SOLUTION'}
                       </span>
-                    </div>
+                    </button>
 
-                    <div className="flex flex-col sm:flex-row gap-3">
-                      <button
-                        type="button"
-                        disabled={isSubmissionLocked || !draftSubmission?.answer}
-                        onClick={() => handleAuthoritativeSubmit(draftSubmission)}
-                        className="flex-1 py-3.5 px-6 bg-nexus-crimson text-white hover:bg-nexus-ink font-condensed text-lg font-extrabold uppercase tracking-[0.2em] border-2 border-nexus-ink transition-colors cursor-pointer disabled:opacity-45 flex items-center justify-center gap-2.5"
-                      >
-                        <Send className="w-4 h-4" />
-                        <span>
-                          {localSubmitting || actionPending
-                            ? 'EVALUATING ON SERVER...'
-                            : isAttemptAlreadySubmitted
-                              ? 'SUBMISSION RECORDED'
-                              : 'SUBMIT SOLUTION'}
-                        </span>
-                      </button>
-
-                      <button
-                        type="button"
-                        disabled={isSubmissionLocked}
-                        onClick={handleAbandonSession}
-                        className="py-3.5 px-5 border-2 border-nexus-ink bg-nexus-paper hover:bg-nexus-ink hover:text-nexus-paper font-condensed text-base font-extrabold uppercase tracking-[0.16em] transition-colors cursor-pointer disabled:opacity-45 flex items-center justify-center gap-2"
-                      >
-                        <Ban className="w-4 h-4 text-nexus-crimson" />
-                        <span>ABANDON SESSION</span>
-                      </button>
-                    </div>
+                    <button
+                      type="button"
+                      disabled={isSubmissionLocked}
+                      onClick={handleAbandonSession}
+                      className="py-3.5 px-5 border-2 border-nexus-ink bg-nexus-paper hover:bg-nexus-ink hover:text-nexus-paper font-condensed text-base font-extrabold uppercase tracking-[0.16em] transition-colors cursor-pointer disabled:opacity-45 flex items-center justify-center gap-2"
+                    >
+                      <Ban className="w-4 h-4 text-nexus-crimson" />
+                      <span>ABANDON CHALLENGE</span>
+                    </button>
                   </div>
                 </div>
               </BrutalistPanel>
             </div>
 
-            {/* Right 4 Columns: Tactical Support + Server Evaluation Diagnostics + Attempt Ledger */}
+            {/* Right 4 Columns: Hints & Extra Time + Team Abilities */}
             <div className="lg:col-span-4 space-y-5">
-              {/* Tactical Credit Support */}
+              {/* Hints & Extra Time */}
               <BrutalistPanel
-                codeTag="TACTICAL_SUPPORT"
-                title="SESSION TACTICAL ACTIONS"
+                codeTag="SUPPORT"
+                title="HINTS & EXTRA TIME"
                 accentTitle
               >
                 <div className="space-y-3">
                   <p className="font-editorial text-xs text-nexus-charcoal">
-                    All timer extensions and intelligence decryptions are executed on NEXUS Core and
-                    broadcast to every terminal in <code className="font-mono">team:{team.teamId}</code>.
+                    Need help or more time? Unlocked hints and extra time apply immediately for your whole team.
                   </p>
 
                   <div className="grid grid-cols-2 gap-2.5">
                     <button
                       type="button"
-                      disabled={isSubmissionLocked}
+                      disabled={isSubmissionLocked || hintsRemainingCount <= 0}
                       onClick={() =>
                         handleTacticalSupport('HINT', creditsConfig?.hintCost || 100)
                       }
@@ -928,7 +823,9 @@ export const ChallengeSessionPage = () => {
                         <HelpCircle className="w-4 h-4" />
                         <span>-{creditsConfig?.hintCost || 100} CR</span>
                       </div>
-                      <span className="block">DECRYPT HINT</span>
+                      <span className="block">
+                        {hintsRemainingCount <= 0 ? 'ALL HINTS USED' : 'UNLOCK HINT'}
+                      </span>
                     </button>
 
                     <button
@@ -943,44 +840,15 @@ export const ChallengeSessionPage = () => {
                         <Clock className="w-4 h-4" />
                         <span>-{creditsConfig?.extraTimeCost || 150} CR</span>
                       </div>
-                      <span className="block">+{creditsConfig?.extraTimeMinutes || 5}M SERVER TIME</span>
+                      <span className="block">
+                        +{creditsConfig?.extraTimeMinutes || 5}M EXTRA TIME
+                      </span>
                     </button>
-                  </div>
-
-                  {/* Verification / Simulation Triggers for FAILED and TIMEOUT */}
-                  <div className="pt-3 border-t border-dashed border-nexus-ink/25 space-y-2">
-                    <span className="font-mono text-[10px] uppercase tracking-widest text-nexus-muted block">
-                      SERVER OUTCOME VERIFICATION CONTROLS
-                    </span>
-                    <div className="grid grid-cols-2 gap-2">
-                      <button
-                        type="button"
-                        disabled={isSubmissionLocked}
-                        onClick={() =>
-                          handleAuthoritativeSubmit(
-                            { answer: 'INVALID_PAYLOAD' },
-                            { simulateFailure: true }
-                          )
-                        }
-                        className="py-2 px-2.5 border border-nexus-crimson bg-nexus-crimson/10 text-nexus-crimson hover:bg-nexus-crimson hover:text-white font-mono text-[10px] font-bold uppercase transition-colors cursor-pointer disabled:opacity-50"
-                      >
-                        SIMULATE FAILED
-                      </button>
-
-                      <button
-                        type="button"
-                        disabled={isSubmissionLocked}
-                        onClick={handleTriggerServerTimeout}
-                        className="py-2 px-2.5 border border-nexus-ink bg-nexus-ink text-nexus-paper hover:bg-nexus-crimson font-mono text-[10px] font-bold uppercase transition-colors cursor-pointer disabled:opacity-50"
-                      >
-                        SIMULATE TIMEOUT
-                      </button>
-                    </div>
                   </div>
                 </div>
               </BrutalistPanel>
 
-              {/* Restricted NEXUS System Modules (Phase 10 Abilities) */}
+              {/* Team Abilities (Integrated inside Challenge Session) */}
               <AbilitiesAndSupportModule
                 team={team}
                 abilitiesCatalog={abilitiesCatalog}
@@ -993,65 +861,13 @@ export const ChallengeSessionPage = () => {
                 compact
                 showTacticalControls={false}
               />
-
-              {/* Server Attempt Ledger (Recorded Server-Side) */}
-              <BrutalistPanel
-                codeTag="ATTEMPT_LEDGER"
-                title="SERVER ATTEMPT RECORDS"
-                headerRight={
-                  <span className="font-mono text-[10px] uppercase text-nexus-muted">
-                    {challengeAttempts.length} LOGGED
-                  </span>
-                }
-              >
-                <div className="space-y-2 max-h-72 overflow-y-auto pr-1">
-                  {challengeAttempts.length === 0 ? (
-                    <p className="font-mono text-xs text-nexus-muted py-3 text-center">
-                      No attempts recorded yet for this module.
-                    </p>
-                  ) : (
-                    challengeAttempts.map((att) => {
-                      const isSuccess =
-                        att.status === 'SUCCESS' || att.status === 'COMPLETED';
-                      const isInProgress = att.status === 'IN_PROGRESS';
-                      return (
-                        <div
-                          key={att.attemptId}
-                          className="p-2.5 border border-nexus-ink/30 bg-nexus-paper font-mono text-xs space-y-1"
-                        >
-                          <div className="flex items-center justify-between">
-                            <span className="font-bold text-nexus-ink">
-                              {att.attemptId} // {att.challengeId}
-                            </span>
-                            <span
-                              className={`px-1.5 py-0.5 text-[9px] font-bold uppercase ${
-                                isSuccess
-                                  ? 'bg-nexus-ink text-nexus-paper'
-                                  : isInProgress
-                                    ? 'bg-nexus-crimson/15 text-nexus-crimson border border-nexus-crimson'
-                                    : 'bg-nexus-crimson text-white'
-                              }`}
-                            >
-                              {att.status}
-                            </span>
-                          </div>
-                          <div className="flex items-center justify-between text-[10px] text-nexus-muted">
-                            <span>START: {formatTimestampShort(att.startedAt)}</span>
-                            <span>EXP: {formatTimestampShort(att.expiresAt)}</span>
-                          </div>
-                        </div>
-                      );
-                    })
-                  )}
-                </div>
-              </BrutalistPanel>
             </div>
           </div>
         )}
       </main>
 
       {/* =====================================================================
-          SERVER EVALUATION RESULT MODAL (Framer Motion)
+          CHALLENGE RESULT MODAL (Framer Motion)
           Supports: SUCCESS | FAILED | TIMEOUT | ABANDONED
          ===================================================================== */}
       <AnimatePresence>
@@ -1090,14 +906,14 @@ export const ChallengeSessionPage = () => {
                     <ShieldAlert className="w-4 h-4 text-white" />
                   )}
                   <span>
-                    NEXUS CORE // SESSION RESULT: {lastEvaluationResult.status}
+                    CHALLENGE RESULT // {lastEvaluationResult.status}
                   </span>
                 </div>
 
                 <button
                   type="button"
                   onClick={clearEvaluationResult}
-                  aria-label="Close session evaluation modal"
+                  aria-label="Close result modal"
                   className="opacity-80 hover:opacity-100 cursor-pointer"
                 >
                   <X className="w-5 h-5" />
@@ -1108,9 +924,7 @@ export const ChallengeSessionPage = () => {
               <div className="p-6 space-y-5 bg-nexus-paper">
                 <div>
                   <span className="font-mono text-[10px] uppercase tracking-widest text-nexus-muted block">
-                    ATTEMPT: {lastEvaluationResult.attemptId || 'RECORDED'} //{' '}
-                    {lastEvaluationResult.challengeId} · ENGINE:{' '}
-                    {lastEvaluationResult.gameType}
+                    {targetChallenge?.category || 'CHALLENGE'}
                   </span>
                   <h2
                     id="session-result-modal-title"
@@ -1123,11 +937,11 @@ export const ChallengeSessionPage = () => {
                   </p>
                 </div>
 
-                {/* Outcome Telemetry Grid */}
+                {/* Outcome Summary Grid */}
                 <div className="grid grid-cols-3 border-2 border-nexus-ink bg-nexus-ink text-nexus-paper divide-x divide-nexus-paper/15 font-mono">
                   <div className="p-3">
                     <span className="block text-[9px] uppercase tracking-widest text-nexus-paper/60">
-                      STATUS
+                      OUTCOME
                     </span>
                     <span
                       className={`font-bold text-sm uppercase ${
@@ -1140,7 +954,7 @@ export const ChallengeSessionPage = () => {
 
                   <div className="p-3">
                     <span className="block text-[9px] uppercase tracking-widest text-nexus-paper/60">
-                      CREDIT DELTA
+                      CREDITS
                     </span>
                     <span
                       className={`font-bold text-base ${
@@ -1157,7 +971,7 @@ export const ChallengeSessionPage = () => {
 
                   <div className="p-3">
                     <span className="block text-[9px] uppercase tracking-widest text-nexus-paper/60">
-                      SQUAD BALANCE
+                      NEW BALANCE
                     </span>
                     <span className="font-bold text-base text-nexus-crimson">
                       {Number(
@@ -1177,7 +991,7 @@ export const ChallengeSessionPage = () => {
                       onClick={() => handleAcquireOrReattemptThisChallenge(true)}
                       className="flex-1 py-3 px-4 bg-nexus-crimson text-white hover:bg-nexus-ink font-condensed text-base font-extrabold uppercase tracking-[0.18em] border-2 border-nexus-ink transition-colors cursor-pointer"
                     >
-                      REATTEMPT MODULE
+                      REATTEMPT CHALLENGE
                     </button>
                   )}
 
@@ -1185,11 +999,11 @@ export const ChallengeSessionPage = () => {
                     type="button"
                     onClick={() => {
                       clearEvaluationResult();
-                      navigate('/dashboard');
+                      navigate('/challenges');
                     }}
                     className="flex-1 py-3 px-4 border-2 border-nexus-ink bg-nexus-ink text-nexus-paper hover:bg-nexus-crimson font-condensed text-base font-extrabold uppercase tracking-[0.18em] transition-colors cursor-pointer"
                   >
-                    RETURN TO PORTAL
+                    BACK TO CHALLENGES
                   </button>
                 </div>
               </div>

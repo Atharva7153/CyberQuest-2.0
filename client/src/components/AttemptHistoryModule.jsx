@@ -2,7 +2,6 @@ import React, { useState, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import {
-  History,
   Filter,
   Search,
   CheckCircle2,
@@ -31,7 +30,6 @@ const formatFullTimestamp = (isoStr) => {
     day: '2-digit',
     hour: '2-digit',
     minute: '2-digit',
-    second: '2-digit',
   });
 };
 
@@ -72,11 +70,10 @@ export const buildClientAttemptHistory = (team, attempts = [], catalog = []) => 
     list.push({
       attemptId: att.attemptId || `ATT-${att.challengeId}`,
       challengeId: att.challengeId,
-      title: att.title || def.title || att.challengeId,
+      title: att.title || def.title || 'Challenge',
       category: String(att.category || def.category || 'LOGIC').toUpperCase(),
       difficulty: String(att.difficulty || def.difficulty || 'MODERATE').toUpperCase(),
       risk: String(att.risk || def.risk || 'BALANCED').toUpperCase(),
-      gameType: att.gameType || def.gameType || 'wordGuess',
       cost,
       result,
       reward,
@@ -104,11 +101,10 @@ export const buildClientAttemptHistory = (team, attempts = [], catalog = []) => 
     list.push({
       attemptId: `ATT-${comp.challengeId}`,
       challengeId: comp.challengeId,
-      title: comp.title || def.title || comp.challengeId,
+      title: comp.title || def.title || 'Challenge',
       category: String(comp.category || def.category || 'LOGIC').toUpperCase(),
       difficulty: String(comp.difficulty || def.difficulty || 'LOW').toUpperCase(),
       risk: String(comp.risk || def.risk || 'SAFE').toUpperCase(),
-      gameType: comp.gameType || def.gameType || 'wordGuess',
       cost,
       result: 'SUCCESS',
       reward,
@@ -129,15 +125,15 @@ export const buildClientAttemptHistory = (team, attempts = [], catalog = []) => 
 };
 
 /**
- * PHASE 11 — ATTEMPT HISTORY MODULE
- * Shows every attempt:
- * - challenge
- * - category
- * - risk
- * - cost
- * - result
- * - reward/penalty
- * - timestamp
+ * PHASE 18 — PARTICIPANT ATTEMPT HISTORY
+ * Shows every attempt cleanly:
+ * - Challenge
+ * - Category
+ * - Risk
+ * - Cost
+ * - Result
+ * - Reward / Penalty
+ * - Time
  */
 export const AttemptHistoryModule = ({
   team,
@@ -171,13 +167,10 @@ export const AttemptHistoryModule = ({
         const matchTitle = String(item.title || '')
           .toLowerCase()
           .includes(q);
-        const matchId = String(item.challengeId || '')
+        const matchCategory = String(item.category || '')
           .toLowerCase()
           .includes(q);
-        const matchAttempt = String(item.attemptId || '')
-          .toLowerCase()
-          .includes(q);
-        if (!matchTitle && !matchId && !matchAttempt) return false;
+        if (!matchTitle && !matchCategory) return false;
       }
 
       return true;
@@ -248,8 +241,8 @@ export const AttemptHistoryModule = ({
 
   return (
     <BrutalistPanel
-      codeTag="ATTEMPT_HISTORY // PHASE_11"
-      title="SERVER-AUTHORITATIVE CHALLENGE ATTEMPT LEDGER"
+      codeTag="HISTORY // ATTEMPTS"
+      title="CHALLENGE ATTEMPT HISTORY"
       accentTitle
       headerRight={
         <SystemBadge variant="operational">
@@ -258,14 +251,14 @@ export const AttemptHistoryModule = ({
       }
     >
       <div className="space-y-5">
-        {/* Top 4 Summary Stat Cards (Framer Motion) */}
+        {/* Top 4 Summary Stat Cards */}
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-3.5">
           <motion.div
             whileHover={prefersReducedMotion ? undefined : { y: -2 }}
             className="p-3.5 border-2 border-nexus-ink bg-nexus-paper"
           >
             <span className="font-mono text-[10px] uppercase tracking-widest text-nexus-muted block">
-              TOTAL ATTEMPTS LOGGED
+              TOTAL ATTEMPTS
             </span>
             <p className="font-display text-4xl text-nexus-ink leading-none mt-1">
               {summaryMetrics.totalAttempts}
@@ -277,7 +270,7 @@ export const AttemptHistoryModule = ({
             className="p-3.5 border-2 border-nexus-ink bg-nexus-paper"
           >
             <span className="font-mono text-[10px] uppercase tracking-widest text-nexus-muted block">
-              SUCCESSFUL / FAILED
+              COMPLETED / FAILED
             </span>
             <p className="font-display text-4xl text-nexus-ink leading-none mt-1">
               {summaryMetrics.totalSuccess} /{' '}
@@ -290,7 +283,7 @@ export const AttemptHistoryModule = ({
             className="p-3.5 border-2 border-nexus-ink bg-nexus-paper"
           >
             <span className="font-mono text-[10px] uppercase tracking-widest text-nexus-muted block">
-              TOTAL ENTRY COST PAID
+              ENTRY COST SPENT
             </span>
             <p className="font-display text-4xl text-nexus-crimson leading-none mt-1">
               -{summaryMetrics.totalCostPaid.toLocaleString()} CR
@@ -316,12 +309,12 @@ export const AttemptHistoryModule = ({
           </motion.div>
         </div>
 
-        {/* Multi-Dimensional Filter Bar (Framer Motion) */}
+        {/* Filter Bar */}
         <div className="p-4 border-2 border-nexus-ink bg-nexus-paper-elevated space-y-3">
           <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-3">
             <div className="flex items-center gap-2 font-mono text-xs font-bold uppercase text-nexus-ink">
               <Filter className="w-3.5 h-3.5 text-nexus-crimson" />
-              <span>FILTER ATTEMPT RECORDS</span>
+              <span>FILTER ATTEMPTS</span>
             </div>
 
             <div className="relative w-full lg:w-72">
@@ -330,7 +323,7 @@ export const AttemptHistoryModule = ({
                 type="text"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder="SEARCH CHALLENGE OR ATTEMPT ID..."
+                placeholder="SEARCH CHALLENGES..."
                 aria-label="Search attempt history"
                 className="w-full pl-8 pr-3 py-1.5 border border-nexus-ink bg-nexus-paper font-mono text-xs uppercase text-nexus-ink placeholder:text-nexus-muted/70 focus:outline-none focus:border-nexus-crimson"
               />
@@ -341,7 +334,7 @@ export const AttemptHistoryModule = ({
             {/* Result Filter */}
             <div className="space-y-1.5">
               <span className="font-mono text-[9px] uppercase tracking-widest text-nexus-muted block">
-                RESULT STATUS
+                RESULT
               </span>
               <div className="flex flex-wrap gap-1">
                 {RESULT_FILTERS.map((resKey) => (
@@ -356,7 +349,7 @@ export const AttemptHistoryModule = ({
                         : 'bg-nexus-paper text-nexus-ink border-nexus-ink/30 hover:border-nexus-ink'
                     }`}
                   >
-                    {resKey}
+                    {resKey === 'IN_PROGRESS' ? 'IN PROGRESS' : resKey}
                   </motion.button>
                 ))}
               </div>
@@ -389,7 +382,7 @@ export const AttemptHistoryModule = ({
             {/* Risk Filter */}
             <div className="space-y-1.5">
               <span className="font-mono text-[9px] uppercase tracking-widest text-nexus-muted block">
-                RISK CLASSIFICATION
+                RISK
               </span>
               <div className="flex flex-wrap gap-1">
                 {RISK_FILTERS.map((riskKey) => (
@@ -414,7 +407,7 @@ export const AttemptHistoryModule = ({
 
         {/* ===================================================================
             ATTEMPT HISTORY TABLE
-            Columns: CHALLENGE | CATEGORY | RISK | COST | RESULT | REWARD/PENALTY | TIMESTAMP
+            Columns: CHALLENGE | CATEGORY | RISK | COST | RESULT | REWARD/PENALTY | TIME
            =================================================================== */}
         <div className="border-2 border-nexus-ink bg-nexus-paper overflow-x-auto">
           <table className="w-full text-left border-collapse">
@@ -426,7 +419,7 @@ export const AttemptHistoryModule = ({
                 <th className="py-3 px-3">COST</th>
                 <th className="py-3 px-3">RESULT</th>
                 <th className="py-3 px-3">REWARD / PENALTY</th>
-                <th className="py-3 px-3.5 text-right">TIMESTAMP</th>
+                <th className="py-3 px-3.5 text-right">TIME</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-nexus-ink/15 font-mono text-xs">
@@ -439,18 +432,18 @@ export const AttemptHistoryModule = ({
                     exit={{ opacity: 0 }}
                   >
                     <td colSpan={7} className="py-10 px-4 text-center text-nexus-muted">
-                      NO ATTEMPT RECORDS MATCH THE SELECTED FILTERS.
+                      NO ATTEMPTS MATCH THE SELECTED FILTERS.
                     </td>
                   </motion.tr>
                 ) : (
-                  filteredAttempts.map((item) => {
+                  filteredAttempts.map((item, idx) => {
                     const isSuccess = item.result === 'SUCCESS';
                     const isInProgress = item.result === 'IN_PROGRESS';
 
                     return (
                       <motion.tr
                         layout
-                        key={`${item.attemptId}-${item.challengeId}-${item.timestamp}`}
+                        key={`${item.challengeId}-${item.timestamp}-${idx}`}
                         initial={prefersReducedMotion ? false : { opacity: 0, y: 6 }}
                         animate={{ opacity: 1, y: 0 }}
                         exit={prefersReducedMotion ? undefined : { opacity: 0 }}
@@ -459,24 +452,16 @@ export const AttemptHistoryModule = ({
                       >
                         {/* 1. CHALLENGE */}
                         <td className="py-3.5 px-3.5">
-                          <div className="flex flex-col gap-0.5">
-                            <div className="flex items-center gap-2">
-                              <span className="font-condensed text-base font-extrabold uppercase text-nexus-ink">
-                                {item.title}
-                              </span>
-                              <span className="inline-flex items-center px-1.5 py-0.2 border border-nexus-ink/35 bg-nexus-paper-elevated text-nexus-ink text-[9px] font-bold uppercase">
-                                ATTEMPT #{item.attemptNumber || (item.isReattempt ? 2 : 1)}
-                              </span>
-                              {(item.isReattempt || Number(item.attemptNumber) > 1) && (
-                                <span className="inline-flex items-center gap-0.5 px-1.5 py-0.2 bg-nexus-crimson/15 text-nexus-crimson text-[9px] font-bold uppercase">
-                                  <RotateCcw className="w-2.5 h-2.5" />
-                                  REATTEMPT
-                                </span>
-                              )}
-                            </div>
-                            <span className="text-[10px] text-nexus-muted">
-                              {item.challengeId} // {item.attemptId} · ENGINE: {item.gameType}
+                          <div className="flex flex-wrap items-center gap-2">
+                            <span className="font-condensed text-base font-extrabold uppercase text-nexus-ink">
+                              {item.title}
                             </span>
+                            {(item.isReattempt || Number(item.attemptNumber) > 1) && (
+                              <span className="inline-flex items-center gap-0.5 px-1.5 py-0.2 bg-nexus-crimson/15 text-nexus-crimson text-[9px] font-bold uppercase">
+                                <RotateCcw className="w-2.5 h-2.5" />
+                                REATTEMPT
+                              </span>
+                            )}
                           </div>
                         </td>
 
@@ -504,20 +489,20 @@ export const AttemptHistoryModule = ({
                         <td className="py-3.5 px-3">
                           {isInProgress ? (
                             <span className="text-[11px] text-nexus-muted font-bold">
-                              PENDING (+{item.reward} / -{item.penalty} CR)
+                              +{item.reward} / -{item.penalty} CR
                             </span>
                           ) : isSuccess ? (
                             <span className="px-2 py-0.5 bg-nexus-ink text-nexus-paper font-bold text-xs">
-                              +{item.reward} CR (REWARD)
+                              +{item.reward} CR
                             </span>
                           ) : (
                             <span className="px-2 py-0.5 bg-nexus-crimson/10 text-nexus-crimson border border-nexus-crimson/40 font-bold text-xs">
-                              -{item.penalty} CR (PENALTY)
+                              -{item.penalty} CR
                             </span>
                           )}
                         </td>
 
-                        {/* 7. TIMESTAMP + SESSION LINK */}
+                        {/* 7. TIME + LINK */}
                         <td className="py-3.5 px-3.5 text-right">
                           <div className="flex flex-col items-end gap-1">
                             <span className="text-[11px] text-nexus-ink font-semibold">
@@ -528,7 +513,7 @@ export const AttemptHistoryModule = ({
                               onClick={() => navigate(`/challenge/${item.challengeId}`)}
                               className="inline-flex items-center gap-1 text-[10px] font-bold uppercase tracking-wider text-nexus-crimson hover:text-nexus-ink transition-colors cursor-pointer"
                             >
-                              <span>{isInProgress ? 'RESUME SESSION' : 'OPEN MODULE'}</span>
+                              <span>{isInProgress ? 'CONTINUE' : 'OPEN'}</span>
                               <ArrowUpRight className="w-3 h-3" />
                             </button>
                           </div>
