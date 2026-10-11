@@ -392,9 +392,9 @@ export const CinematicHeroSection = ({ onEnterSystem, onHowItWorks }) => {
                 </p>
               </div>
               <div>
-                <p className="font-display text-2xl sm:text-4xl leading-none tracking-wider">4</p>
+                <p className="font-display text-2xl sm:text-4xl leading-none tracking-wider">1–4</p>
                 <p className="font-mono text-[10px] sm:text-[11px] uppercase tracking-widest mt-1 text-white/90">
-                  MEMBERS / TEAM
+                  SOLO · DUO · TRIO · MAX 4
                 </p>
               </div>
             </div>

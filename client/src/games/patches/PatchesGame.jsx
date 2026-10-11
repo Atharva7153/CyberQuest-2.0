@@ -23,6 +23,7 @@ const PATCH_PALETTE = [
 
 export const PatchesGame = ({
   challenge,
+  session,
   gameConfig = {},
   actionPending = false,
   disabled = false,
@@ -43,7 +44,7 @@ export const PatchesGame = ({
     setAnchorCell(null);
     setHoverCell(null);
     setIsDragging(false);
-  }, [challenge?.challengeId, rows, cols]);
+  }, [challenge?.challengeId, session?.attemptId]);
 
   const clueMap = useMemo(() => {
     const map = new Map();
@@ -89,6 +90,11 @@ export const PatchesGame = ({
 
   const handleCellPointerDown = (r, c) => {
     if (isLocked) return;
+    // If user already tapped Corner 1 in two-tap mode, do not overwrite anchorCell on pointerDown
+    if (anchorCell && !isDragging) {
+      setHoverCell({ r, c });
+      return;
+    }
     setIsDragging(true);
     setAnchorCell({ r, c });
     setHoverCell({ r, c });
@@ -106,8 +112,27 @@ export const PatchesGame = ({
     if (!anchorCell) return;
 
     const sameCell = anchorCell.r === r && anchorCell.c === c;
+
+    // Case 1: User was already in 2-tap mode (isDragging === false) and tapped a second time
+    if (!isDragging) {
+      if (sameCell) {
+        // Tapped the same anchor cell again -> create 1x1 patch or cancel
+        if (clueMap.get(`${r}-${c}`) === 1) {
+          commitRectangle(r, c, r, c);
+        }
+        setAnchorCell(null);
+        setHoverCell(null);
+        return;
+      }
+      commitRectangle(anchorCell.r, anchorCell.c, r, c);
+      setAnchorCell(null);
+      setHoverCell(null);
+      return;
+    }
+
+    // Case 2: PointerDown + PointerUp on the same cell (first tap)
     if (sameCell) {
-      // If user tapped an existing multi-cell patch without dragging, remove that patch
+      // If user tapped an existing patch without dragging, remove that patch
       const existingIdx = rectangles.findIndex((rect) => cellInRect(r, c, rect));
       if (existingIdx >= 0) {
         setRectangles((prev) => prev.filter((_, i) => i !== existingIdx));
@@ -116,26 +141,20 @@ export const PatchesGame = ({
         setIsDragging(false);
         return;
       }
-      // Keep anchorCell active for 2-tap corner selection on mobile!
+      // Keep anchorCell active for 2-tap corner selection!
       setIsDragging(false);
       return;
     }
 
+    // Case 3: Dragged from anchorCell to (r, c)
     commitRectangle(anchorCell.r, anchorCell.c, r, c);
     setAnchorCell(null);
     setHoverCell(null);
     setIsDragging(false);
   };
 
-  const handleCellClick = (r, c) => {
-    if (isLocked) return;
-    // Supports two-tap mode on touch screens: Tap Corner 1, then Tap Corner 2
-    if (anchorCell && (anchorCell.r !== r || anchorCell.c !== c)) {
-      commitRectangle(anchorCell.r, anchorCell.c, r, c);
-      setAnchorCell(null);
-      setHoverCell(null);
-      setIsDragging(false);
-    }
+  const handleCellClick = () => {
+    // Handled via pointer events
   };
 
   const handleUndo = () => {

@@ -19,6 +19,7 @@ import {
 
 export const ZipGame = ({
   challenge,
+  session,
   gameConfig = {},
   actionPending = false,
   disabled = false,
@@ -40,7 +41,8 @@ export const ZipGame = ({
   useEffect(() => {
     setPath([startCell]);
     setIsDrawing(false);
-  }, [challenge?.challengeId, startCell]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [challenge?.challengeId, session?.attemptId]);
 
   const waypointMap = useMemo(() => {
     const map = new Map();
@@ -91,25 +93,48 @@ export const ZipGame = ({
           return prev.slice(0, existingIdx + 1);
         }
 
-        // Must be orthogonally adjacent to current head
-        if (!isAdjacentOrthogonal(head, { r, c })) {
+        // Build candidate step sequence (either 1 adjacent cell, or straight orthogonal line)
+        const candidateSteps = [];
+        if (isAdjacentOrthogonal(head, { r, c })) {
+          candidateSteps.push({ r, c });
+        } else if (head.r === r || head.c === c) {
+          const dr = Math.sign(r - head.r);
+          const dc = Math.sign(c - head.c);
+          let currR = head.r;
+          let currC = head.c;
+          while (currR !== r || currC !== c) {
+            currR += dr;
+            currC += dc;
+            candidateSteps.push({ r: currR, c: currC });
+          }
+        } else {
           return prev;
         }
 
-        // Check waypoint order constraint: cannot step on waypoint N unless N-1 was already visited
-        const targetWp = waypointMap.get(`${r}-${c}`);
-        if (targetWp !== undefined) {
-          let highestReached = 1;
-          for (const pt of prev) {
-            const w = waypointMap.get(`${pt.r}-${pt.c}`);
-            if (w && w > highestReached) highestReached = w;
-          }
-          if (targetWp !== highestReached + 1) {
-            return prev;
-          }
+        let working = [...prev];
+        let highestReached = 1;
+        for (const pt of working) {
+          const w = waypointMap.get(`${pt.r}-${pt.c}`);
+          if (w && w > highestReached) highestReached = w;
         }
 
-        return [...prev, { r, c }];
+        for (const stepPt of candidateSteps) {
+          const key = `${stepPt.r}-${stepPt.c}`;
+          if (blockedSet.has(key)) return working;
+          if (working.some((pt) => pt.r === stepPt.r && pt.c === stepPt.c)) {
+            return working;
+          }
+          const targetWp = waypointMap.get(key);
+          if (targetWp !== undefined) {
+            if (targetWp !== highestReached + 1) {
+              return working;
+            }
+            highestReached = targetWp;
+          }
+          working.push(stepPt);
+        }
+
+        return working;
       });
     },
     [isLocked, rows, cols, blockedSet, waypointMap]

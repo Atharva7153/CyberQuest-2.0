@@ -20,10 +20,12 @@ import {
   DEFAULT_CHALLENGE_CATALOG,
 } from './challengeService.js';
 import { CreditService } from './creditService.js';
-import { AbilityService } from './abilityService.js';
+import {
+  AbilityService,
+  DEFAULT_ABILITY_CATALOG,
+} from './abilityService.js';
 import { NexusCoreService } from './nexusCoreService.js';
 import {
-  DisplayService,
   computeGlobalArenaTimer,
   controlGlobalArenaEvent,
   getAdminEventLogs,
@@ -33,6 +35,7 @@ import { normalizeAttemptHistory } from './progressHistoryService.js';
 import { AuditService, AUDIT_ACTION_TYPES } from './auditService.js';
 import { resetRateLimitBuckets } from '../middleware/rateLimitMiddleware.js';
 import { CREDIT_TRANSACTION_TYPES, creditsConfig } from '../config/creditsConfig.js';
+import { hashPassword } from '../utils/password.js';
 import { signAdminToken } from '../utils/jwt.js';
 import { getSocketServer } from '../socket/index.js';
 import { SOCKET_ROOMS } from '../socket/socketEvents.js';
@@ -64,6 +67,9 @@ const runtimeSettingsOverride = {
   arenaAnnouncement: 'ALL SECTORS NOMINAL // RESISTANCE OPERATIVES ACTIVE',
 };
 
+let cachedAdminChallenges = null;
+let cachedAdminChallengesExpiresAt = 0;
+
 const getRoomConnectionCount = (teamId) => {
   const io = getSocketServer();
   if (!io) return 0;
@@ -72,7 +78,41 @@ const getRoomConnectionCount = (teamId) => {
   return room ? room.size : 0;
 };
 
+/**
+ * Normalize 1 to 4 team members (SOLO = 1, DUO = 2, TRIO = 3, SQUAD = 4 max)
+ */
+export const buildNormalizedTeamMembers = (rawMembers = [], requestedSize = null) => {
+  const validStringsOrObjs = Array.isArray(rawMembers)
+    ? rawMembers.filter((m) =>
+        typeof m === 'string' ? m.trim().length > 0 : Boolean(m && String(m.name || '').trim())
+      )
+    : [];
+
+  const targetCount = Math.min(
+    4,
+    Math.max(1, Number(requestedSize || validStringsOrObjs.length || 1))
+  );
+
+  return Array.from({ length: targetCount }, (_, idx) => {
+    const raw = Array.isArray(rawMembers) ? rawMembers[idx] : null;
+    const rawName =
+      typeof raw === 'string' ? raw.trim() : String(raw?.name || '').trim();
+    const defaultName = idx === 0 ? 'PLAYER 1 (LEAD)' : `PLAYER ${idx + 1}`;
+    return {
+      memberId: raw?.memberId || `OP-0${idx + 1}`,
+      name: (rawName || defaultName).toUpperCase(),
+      role: raw?.role || (idx === 0 ? 'LEAD' : 'OPERATIVE'),
+      online: Boolean(raw?.online),
+    };
+  });
+};
+
 export class AdminService {
+  static invalidateAdminChallengeCache() {
+    cachedAdminChallenges = null;
+    cachedAdminChallengesExpiresAt = 0;
+  }
+
   /**
    * Authenticate an Admin or Volunteer operator
    */
@@ -122,6 +162,9 @@ export class AdminService {
    * List all challenges including disabled challenges and solutionConfig for Admin editing
    */
   static async listAllChallengesForAdmin() {
+    if (cachedAdminChallenges && Date.now() < cachedAdminChallengesExpiresAt) {
+      return cachedAdminChallenges;
+    }
     await ensureDefaultTeamsSeeded();
     if (mongoose.connection.readyState === 1) {
       const docs = await Challenge.find({})
@@ -129,6 +172,8 @@ export class AdminService {
         .sort({ category: 1, cost: 1 })
         .lean();
       if (docs.length > 0) {
+        cachedAdminChallenges = docs;
+        cachedAdminChallengesExpiresAt = Date.now() + 5000;
         return docs;
       }
     }
@@ -136,7 +181,7 @@ export class AdminService {
   }
 
   /**
-   * Build the full Admin & Volunteer Control System state
+   * Build the full Admin & Volunteer Control System state (Optimized single-wave query)
    */
   static async getAdminControlState() {
     await ensureDefaultTeamsSeeded();
@@ -148,34 +193,78 @@ export class AdminService {
       transactions,
       abilities,
       coreDoc,
-      displaySnapshot,
       auditLogs,
     ] = await Promise.all([
-      Team.find({}).sort({ credits: -1 }).lean(),
+      Team.find({ teamId: { $not: /^SIM-TEAM-/ } }).sort({ credits: -1 }).lean(),
       this.listAllChallengesForAdmin(),
-      ChallengeAttempt.find({}).sort({ startedAt: -1 }).limit(120).lean(),
-      CreditTransaction.find({}).sort({ timestamp: -1 }).limit(150).lean(),
+      ChallengeAttempt.find({ teamId: { $not: /^SIM-TEAM-/ } })
+        .sort({ startedAt: -1 })
+        .limit(60)
+        .lean(),
+      CreditTransaction.find({ teamId: { $not: /^SIM-TEAM-/ } })
+        .sort({ timestamp: -1 })
+        .limit(80)
+        .lean(),
       AbilityService.listAbilities(),
       NexusCoreService.getCoreConfigDoc({ includeSolution: true }),
-      DisplayService.getProjectorDisplaySnapshot(),
-      AuditService.listLogs({ limit: 120 }),
+      AuditService.listLogs({ limit: 40 }),
     ]);
 
     const io = getSocketServer();
     const totalConnectedSockets = io ? io.engine.clientsCount : 0;
 
+    // Pre-group attempts & transactions by teamId in O(N)
+    const attemptsByTeam = new Map();
+    for (const att of attempts) {
+      const list = attemptsByTeam.get(att.teamId);
+      if (list) list.push(att);
+      else attemptsByTeam.set(att.teamId, [att]);
+    }
+
+    const txByTeam = new Map();
+    for (const tx of transactions) {
+      const list = txByTeam.get(tx.teamId);
+      if (list) list.push(tx);
+      else txByTeam.set(tx.teamId, [tx]);
+    }
+
+    let unlockedTeamsCount = 0;
+    let activeTeamsCount = 0;
+    let completedTeamsCount = 0;
+
     // Enrich each team with connection state, active timer, attempt history, and credit ledger
     const enrichedTeams = teams.map((team) => {
       const onlineOperatives = getRoomConnectionCount(team.teamId);
       const roomName = SOCKET_ROOMS.teamRoom(team.teamId);
-      const teamAttempts = attempts.filter((a) => a.teamId === team.teamId);
-      const teamTransactions = transactions.filter((t) => t.teamId === team.teamId);
+      const teamAttempts = attemptsByTeam.get(team.teamId) || [];
+      const teamTransactions = txByTeam.get(team.teamId) || [];
       const history = normalizeAttemptHistory(team, teamAttempts, challenges);
       const activeTimer = ChallengeService.computeSessionTimerTelemetry(team.activeAttempt);
       const coreState = NexusCoreService.computeAuthoritativeState(team, coreDoc);
 
+      if (coreState === 'AVAILABLE') unlockedTeamsCount += 1;
+      else if (coreState === 'ACTIVE') {
+        unlockedTeamsCount += 1;
+        activeTeamsCount += 1;
+      } else if (coreState === 'COMPLETED') {
+        unlockedTeamsCount += 1;
+        completedTeamsCount += 1;
+      }
+
+      const memberCount = Math.min(4, Math.max(1, (team.members || []).length || 1));
+      const teamFormat =
+        memberCount === 1
+          ? 'SOLO'
+          : memberCount === 2
+            ? 'DUO'
+            : memberCount === 3
+              ? 'TRIO'
+              : 'SQUAD';
+
       return {
         ...team,
+        teamSize: memberCount,
+        teamFormat,
         coreState,
         activeTimer,
         connectionState: {
@@ -185,7 +274,7 @@ export class AdminService {
           room: roomName,
         },
         attemptHistory: history,
-        recentTransactions: teamTransactions.slice(0, 25),
+        recentTransactions: teamTransactions.slice(0, 15),
       };
     });
 
@@ -222,6 +311,16 @@ export class AdminService {
       arenaAnnouncement: runtimeSettingsOverride.arenaAnnouncement,
     };
 
+    const globalCoreState =
+      coreDoc?.globalOverrideState ||
+      (completedTeamsCount > 0
+        ? 'COMPLETED'
+        : activeTeamsCount > 0
+          ? 'ACTIVE'
+          : unlockedTeamsCount > 0
+            ? 'AVAILABLE'
+            : 'LOCKED');
+
     return {
       status: 'ok',
       service: 'cyber-quest-admin-control',
@@ -236,7 +335,10 @@ export class AdminService {
       },
       globalTimer: computeGlobalArenaTimer(),
       coreStatus: {
-        ...displaySnapshot.coreStatus,
+        state: globalCoreState,
+        unlockedTeamsCount,
+        activeTeamsCount,
+        completedTeamsCount,
         globalOverrideState: coreDoc?.globalOverrideState || null,
         unlockConfig: coreDoc?.unlockConfig || {},
         gameType: coreDoc?.gameType || 'systemProblem',
@@ -246,9 +348,9 @@ export class AdminService {
       teams: enrichedTeams,
       challenges,
       attempts: enrichedAttempts,
-      transactions: transactions.slice(0, 80),
+      transactions: transactions.slice(0, 50),
       abilitiesCatalog: abilities,
-      recentSystemEvents: displaySnapshot.recentSystemEvents || [],
+      recentSystemEvents: getAdminEventLogs().slice(0, 15),
       adminEventLogs: getAdminEventLogs(),
       auditLogs: auditLogs || [],
       settings: effectiveSettings,
@@ -369,6 +471,7 @@ export class AdminService {
       DEFAULT_CHALLENGE_CATALOG.push(challengeData);
     }
     ChallengeService.invalidateCatalogCache();
+    this.invalidateAdminChallengeCache();
 
     const summaryMsg = `${memIdx >= 0 ? 'UPDATED' : 'CREATED'} CHALLENGE [${challengeId}] ${
       challengeData.title
@@ -381,7 +484,7 @@ export class AdminService {
       summary: summaryMsg,
     });
 
-    await AuditService.record({
+    AuditService.record({
       action: AUDIT_ACTION_TYPES.ADMIN_ACTION,
       actorType: 'ADMIN',
       actorId: actor,
@@ -394,7 +497,7 @@ export class AdminService {
         risk,
         enabled,
       },
-    });
+    }).catch(() => {});
 
     return challengeData;
   }
@@ -425,14 +528,203 @@ export class AdminService {
   }
 
   /**
+   * Register a new Team (Supports Solo = 1, Duo = 2, Trio = 3, Squad = 4 max + custom initial credits)
+   */
+  static async registerTeam(payload = {}, actor = 'ADMIN-NEXUS') {
+    await ensureDefaultTeamsSeeded();
+
+    const rawTeamName = String(payload.teamName || payload.name || '')
+      .trim()
+      .toUpperCase();
+    const rawTeamId = String(payload.teamId || '')
+      .trim()
+      .toUpperCase();
+
+    if (!rawTeamName && !rawTeamId) {
+      const err = new Error('Team Name or Team ID is required to register a team.');
+      err.statusCode = 400;
+      throw err;
+    }
+
+    const cleanSlug = (rawTeamId || rawTeamName)
+      .replace(/^TEAM[-_\s]*/i, '')
+      .replace(/[^A-Z0-9-]+/g, '-')
+      .replace(/^-+|-+$/g, '')
+      .slice(0, 18);
+
+    const normalizedTeamId = rawTeamId
+      ? rawTeamId.replace(/\s+/g, '-')
+      : `TEAM-${cleanSlug || Math.floor(100 + Math.random() * 900)}`;
+
+    const normalizedTeamName =
+      rawTeamName || normalizedTeamId.replace(/^TEAM[-_]/i, '') || normalizedTeamId;
+
+    const existing = await Team.findOne({ teamId: normalizedTeamId }).lean();
+    if (existing) {
+      const err = new Error(`Team [${normalizedTeamId}] is already registered.`);
+      err.statusCode = 409;
+      throw err;
+    }
+
+    const plainPassword = String(payload.password || 'NEXUS-2026').trim() || 'NEXUS-2026';
+    const passwordHash = await hashPassword(plainPassword);
+
+    const defaultStarting =
+      runtimeSettingsOverride.startingCredits ?? creditsConfig.getStartingCredits();
+    const initialCredits = Math.max(
+      0,
+      Number(
+        payload.initialCredits !== undefined && payload.initialCredits !== ''
+          ? payload.initialCredits
+          : payload.credits !== undefined && payload.credits !== ''
+            ? payload.credits
+            : defaultStarting
+      )
+    );
+
+    const requestedSize = Math.min(
+      4,
+      Math.max(1, Number(payload.teamSize || payload.members?.length || 1))
+    );
+    const members = buildNormalizedTeamMembers(payload.members, requestedSize);
+    const formatLabel =
+      members.length === 1
+        ? 'SOLO'
+        : members.length === 2
+          ? 'DUO'
+          : members.length === 3
+            ? 'TRIO'
+            : 'SQUAD';
+
+    const abilities = AbilityService.buildInitialTeamAbilitySlots(DEFAULT_ABILITY_CATALOG);
+    const now = new Date();
+
+    const newTeam = await Team.create({
+      teamId: normalizedTeamId,
+      teamName: normalizedTeamName,
+      passwordHash,
+      credits: initialCredits,
+      status: 'ACTIVE',
+      members,
+      currentChallenge: null,
+      activeAttempt: null,
+      completedChallenges: [],
+      failedChallenges: [],
+      abilities,
+      nexusCore: {
+        state: 'LOCKED',
+        unlockedAt: null,
+        activatedAt: null,
+        completedAt: null,
+        attemptsCount: 0,
+        completionRank: null,
+        proclamationCode: null,
+      },
+      stats: {
+        totalSolved: 0,
+        totalFailed: 0,
+        creditsEarned: initialCredits,
+        creditsSpent: 0,
+        penaltiesIncurred: 0,
+        reattemptsCount: 0,
+        hintsPurchased: 0,
+        extraTimePurchased: 0,
+        abilitiesUsed: 0,
+        riskProfile: 'SAFE',
+        safeAttempts: 0,
+        balancedAttempts: 0,
+        aggressiveAttempts: 0,
+        successByRisk: { SAFE: 0, BALANCED: 0, AGGRESSIVE: 0 },
+        creditsByRisk: {
+          SAFE: { gained: 0, lost: 0, net: 0 },
+          BALANCED: { gained: 0, lost: 0, net: 0 },
+          AGGRESSIVE: { gained: 0, lost: 0, net: 0 },
+        },
+        coreProgressPercent: 0,
+        lastActionAt: now,
+        recentActivity: [
+          {
+            eventId: `EVT-INIT-${Date.now()}`,
+            type: CREDIT_TRANSACTION_TYPES.CHALLENGE_REWARD,
+            summary: `INITIAL TEAM REGISTRATION: +${initialCredits} CR (${formatLabel})`,
+            creditsDelta: initialCredits,
+            balanceAfter: initialCredits,
+            timestamp: now,
+          },
+        ],
+      },
+    });
+
+    if (initialCredits > 0) {
+      CreditTransaction.create({
+        teamId: normalizedTeamId,
+        type: CREDIT_TRANSACTION_TYPES.CHALLENGE_REWARD,
+        amount: initialCredits,
+        balanceAfter: initialCredits,
+        summary: `INITIAL TEAM REGISTRATION (+${initialCredits} CR)`,
+        timestamp: now,
+      }).catch(() => {});
+    }
+
+    const summaryMsg = `REGISTERED NEW TEAM [${normalizedTeamId}] (${normalizedTeamName} · ${formatLabel} · ${members.length}P) WITH ${initialCredits} CR`;
+    recordAdminEventLog({
+      action: 'REGISTER_TEAM',
+      category: 'TEAM_CONTROL',
+      actor,
+      summary: summaryMsg,
+    });
+
+    AuditService.record({
+      action: AUDIT_ACTION_TYPES.ADMIN_ACTION,
+      actorType: 'ADMIN',
+      actorId: actor,
+      teamId: normalizedTeamId,
+      creditsDelta: initialCredits,
+      balanceAfter: initialCredits,
+      summary: summaryMsg,
+      metadata: {
+        subAction: 'REGISTER_TEAM',
+        teamName: normalizedTeamName,
+        teamSize: members.length,
+        formatLabel,
+        initialCredits,
+      },
+    }).catch(() => {});
+
+    const state = await this.getAdminControlState();
+    return {
+      ...state,
+      registeredTeam: {
+        teamId: newTeam.teamId,
+        teamName: newTeam.teamName,
+        password: plainPassword,
+        credits: newTeam.credits,
+        teamSize: members.length,
+        teamFormat: formatLabel,
+        members,
+      },
+    };
+  }
+
+  /**
    * Admin Team Control Actions:
+   * - REGISTER_TEAM
    * - ADJUST_CREDITS
-   * - FORCE_RESOLVE_ATTEMPT
+   * - SET_CREDITS
+   * - UPDATE_TEAM_MEMBERS / UPDATE_TEAM
+   * - DELETE_TEAM
+   * - FORCE_RESOLVE_ATTEMPT / ADJUDICATE_ATTEMPT
    * - SET_TEAM_CORE_STATE
    * - RESET_TEAM
    */
   static async executeAdminTeamControl({ teamId, action, payload = {} }, actor = 'ADMIN-NEXUS') {
-    const normalizedTeamId = String(teamId || '')
+    const normalizedAction = String(action || '').trim().toUpperCase();
+
+    if (normalizedAction === 'REGISTER_TEAM' || normalizedAction === 'CREATE_TEAM') {
+      return this.registerTeam({ ...payload, teamId: payload.teamId || teamId }, actor);
+    }
+
+    const normalizedTeamId = String(teamId || payload.teamId || '')
       .trim()
       .toUpperCase();
     const team = await Team.findOne({ teamId: normalizedTeamId });
@@ -442,12 +734,10 @@ export class AdminService {
       throw err;
     }
 
-    const normalizedAction = String(action || '').trim().toUpperCase();
-
     switch (normalizedAction) {
       case 'ADJUST_CREDITS': {
         const delta = Number(payload.amount ?? payload.delta ?? 0);
-        const reason = String(payload.reason || 'ADMIN COMMAND CREDIT ADJUSTMENT').trim();
+        const reason = String(payload.reason || 'ADMIN CREDIT ADJUSTMENT').trim();
         const txType =
           delta >= 0
             ? CREDIT_TRANSACTION_TYPES.CHALLENGE_REWARD
@@ -472,7 +762,7 @@ export class AdminService {
           summary: summaryMsg,
         });
 
-        await AuditService.record({
+        AuditService.record({
           action: AUDIT_ACTION_TYPES.ADMIN_ACTION,
           actorType: 'ADMIN',
           actorId: actor,
@@ -481,6 +771,81 @@ export class AdminService {
           balanceAfter: team.credits,
           summary: summaryMsg,
           metadata: { subAction: 'ADJUST_CREDITS', reason },
+        }).catch(() => {});
+        break;
+      }
+
+      case 'SET_CREDITS': {
+        const targetCredits = Math.max(0, Number(payload.credits ?? payload.amount ?? team.credits));
+        const delta = targetCredits - Number(team.credits || 0);
+        team.credits = targetCredits;
+        await team.save();
+
+        const summaryMsg = `SET ${normalizedTeamId} CREDITS TO ${targetCredits} CR`;
+        recordAdminEventLog({
+          action: 'SET_CREDITS',
+          category: 'TEAM_CONTROL',
+          actor,
+          summary: summaryMsg,
+        });
+
+        AuditService.record({
+          action: AUDIT_ACTION_TYPES.ADMIN_ACTION,
+          actorType: 'ADMIN',
+          actorId: actor,
+          teamId: normalizedTeamId,
+          creditsDelta: delta,
+          balanceAfter: team.credits,
+          summary: summaryMsg,
+          metadata: { subAction: 'SET_CREDITS', targetCredits },
+        }).catch(() => {});
+        break;
+      }
+
+      case 'UPDATE_TEAM_MEMBERS':
+      case 'UPDATE_TEAM': {
+        const requestedSize = Math.min(
+          4,
+          Math.max(1, Number(payload.teamSize || payload.members?.length || team.members?.length || 1))
+        );
+        team.members = buildNormalizedTeamMembers(
+          payload.members || team.members,
+          requestedSize
+        );
+        if (payload.teamName && String(payload.teamName).trim()) {
+          team.teamName = String(payload.teamName).trim().toUpperCase();
+        }
+        if (payload.password && String(payload.password).trim()) {
+          team.passwordHash = await hashPassword(String(payload.password).trim());
+        }
+        team.markModified('members');
+        await team.save();
+
+        const summaryMsg = `UPDATED ${normalizedTeamId} ROSTER (${team.members.length} PLAYER${
+          team.members.length > 1 ? 'S' : ''
+        })`;
+        recordAdminEventLog({
+          action: 'UPDATE_TEAM',
+          category: 'TEAM_CONTROL',
+          actor,
+          summary: summaryMsg,
+        });
+        break;
+      }
+
+      case 'DELETE_TEAM': {
+        await Promise.all([
+          Team.deleteOne({ teamId: normalizedTeamId }),
+          ChallengeAttempt.deleteMany({ teamId: normalizedTeamId }),
+          CreditTransaction.deleteMany({ teamId: normalizedTeamId }),
+        ]);
+
+        const summaryMsg = `DELETED TEAM [${normalizedTeamId}]`;
+        recordAdminEventLog({
+          action: 'DELETE_TEAM',
+          category: 'TEAM_CONTROL',
+          actor,
+          summary: summaryMsg,
         });
         break;
       }
@@ -520,14 +885,14 @@ export class AdminService {
           summary: summaryMsg,
         });
 
-        await AuditService.record({
+        AuditService.record({
           action: AUDIT_ACTION_TYPES.ADMIN_ACTION,
           actorType: 'ADMIN',
           actorId: actor,
           teamId: normalizedTeamId,
           summary: summaryMsg,
           metadata: { subAction: 'ADJUDICATE_ATTEMPT', outcome },
-        });
+        }).catch(() => {});
         break;
       }
 
@@ -555,14 +920,14 @@ export class AdminService {
           summary: summaryMsg,
         });
 
-        await AuditService.record({
+        AuditService.record({
           action: AUDIT_ACTION_TYPES.ADMIN_ACTION,
           actorType: 'ADMIN',
           actorId: actor,
           teamId: normalizedTeamId,
           summary: summaryMsg,
           metadata: { subAction: 'SET_TEAM_CORE_STATE', targetState },
-        });
+        }).catch(() => {});
         break;
       }
 
@@ -581,14 +946,14 @@ export class AdminService {
           summary: summaryMsg,
         });
 
-        await AuditService.record({
+        AuditService.record({
           action: AUDIT_ACTION_TYPES.ADMIN_ACTION,
           actorType: 'ADMIN',
           actorId: actor,
           teamId: normalizedTeamId,
           summary: summaryMsg,
           metadata: { subAction: 'RESET_TEAM' },
-        });
+        }).catch(() => {});
         break;
       }
 
@@ -689,13 +1054,13 @@ export class AdminService {
       throw err;
     }
 
-    await AuditService.record({
+    AuditService.record({
       action: AUDIT_ACTION_TYPES.ADMIN_ACTION,
       actorType: 'ADMIN',
       actorId: actor,
       summary: auditSummary,
       metadata: { command: normalizedCmd, payload },
-    });
+    }).catch(() => {});
 
     const state = await this.getAdminControlState();
     return {
@@ -712,10 +1077,15 @@ export class AdminService {
   static async updateSettings(payload = {}, actor = 'ADMIN-NEXUS') {
     if (payload.resetAllDemoState) {
       resetRateLimitBuckets();
+      await Team.deleteMany({ teamId: /^SIM-TEAM-/ });
       const teams = await Team.find({}).select('teamId').lean();
-      for (const t of teams) {
-        await executeTeamAction(t.teamId, 'RESET_DEMO_STATE', {}, { isTrustedAdmin: true });
-      }
+      await Promise.all(
+        teams.map((t) =>
+          executeTeamAction(t.teamId, 'RESET_DEMO_STATE', {}, { isTrustedAdmin: true }).catch(
+            () => {}
+          )
+        )
+      );
       await NexusCoreService.resetNexusCoreDemoState();
       controlGlobalArenaEvent('START', { durationSeconds: 8100 }, actor);
       const summaryMsg = 'FULL ARENA DEMO STATE RESET EXECUTED ACROSS ALL TEAMS';
@@ -725,13 +1095,13 @@ export class AdminService {
         actor,
         summary: summaryMsg,
       });
-      await AuditService.record({
+      AuditService.record({
         action: AUDIT_ACTION_TYPES.ADMIN_ACTION,
         actorType: 'ADMIN',
         actorId: actor,
         summary: summaryMsg,
         metadata: { subAction: 'RESET_ALL' },
-      });
+      }).catch(() => {});
       return this.getAdminControlState();
     }
 
@@ -765,13 +1135,13 @@ export class AdminService {
       summary: summaryMsg,
     });
 
-    await AuditService.record({
+    AuditService.record({
       action: AUDIT_ACTION_TYPES.ADMIN_ACTION,
       actorType: 'ADMIN',
       actorId: actor,
       summary: summaryMsg,
       metadata: { subAction: 'UPDATE_SETTINGS' },
-    });
+    }).catch(() => {});
 
     return this.getAdminControlState();
   }

@@ -215,6 +215,10 @@ const teamSchema = new mongoose.Schema(
       type: activeAttemptSchema,
       default: null,
     },
+    purchasedChallenges: {
+      type: [challengeRefSchema],
+      default: [],
+    },
     completedChallenges: {
       type: [challengeRefSchema],
       default: [],

@@ -2,8 +2,42 @@ import React, { useState, useEffect, useRef, useMemo, useCallback } from 'react'
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import gsap from 'gsap';
+import {
+  Users,
+  UserPlus,
+  Coins,
+  Play,
+  Pause,
+  Square,
+  RotateCcw,
+  Lock,
+  Unlock,
+  Sparkles,
+  CheckCircle2,
+  XCircle,
+  Search,
+  Plus,
+  Edit3,
+  Trash2,
+  RefreshCw,
+  LogOut,
+  Copy,
+  Check,
+  Clock,
+  Sliders,
+  Gamepad2,
+  Activity,
+  Filter,
+  ChevronDown,
+  ChevronUp,
+} from 'lucide-react';
 import { socketClient, NEXUS_SOCKET_EVENTS as SOCKET_EVENTS } from '../socket/socketClient';
-import { RiskBadge } from '../components/RiskBadge';
+import { GamePreviewThumbnail } from '../components/GamePreviewThumbnail';
+import { ThemeToggleButton } from '../components/ThemeToggleButton';
+import {
+  getFriendlyChallengeTitle,
+  getFriendlyChallengeDescription,
+} from '../components/ChallengeMarketModule';
 
 const API_BASE_URL =
   import.meta.env.VITE_API_BASE_URL ||
@@ -11,45 +45,45 @@ const API_BASE_URL =
   (typeof window !== 'undefined' && window.location.port !== '5173'
     ? window.location.origin
     : 'http://localhost:5050');
+
 const ADMIN_TOKEN_KEY = 'nexus_admin_token';
 const ADMIN_OPERATOR_KEY = 'nexus_admin_operator';
 
 const CANONICAL_CATEGORIES = ['LOGIC', 'PUZZLES', 'OBSERVATION', 'KNOWLEDGE', 'TECHNICAL'];
-const CANONICAL_DIFFICULTIES = ['STANDARD', 'MODERATE', 'ELEVATED', 'EXTREME'];
+const CANONICAL_DIFFICULTIES = ['LOW', 'MODERATE', 'HIGH', 'EXTREME'];
 const CANONICAL_RISKS = ['SAFE', 'BALANCED', 'AGGRESSIVE'];
 const CANONICAL_GAME_TYPES = [
-  'sudoku',
-  'xo4x4',
-  'wend',
-  'patches',
-  'zip',
-  'wordGuess',
-  'connect4',
-  'xo',
-  'pattern',
-  'imageObservation',
-  'quiz',
-  'aptitude',
-  'algorithm',
-  'programmingLogic',
-  'systemProblem',
+  { value: 'sudoku', label: 'Sudoku Grid' },
+  { value: 'connect4', label: 'Connect 4 vs AI' },
+  { value: 'wordGuess', label: 'Word Guessing' },
+  { value: 'xo4x4', label: '4×4 Tic-Tac-Toe vs AI' },
+  { value: 'wend', label: 'Wend (Word Ladder)' },
+  { value: 'patches', label: 'Patches (Grid Partition)' },
+  { value: 'zip', label: 'Zip (Circuit Path)' },
 ];
+
+const TEAM_SIZE_MODES = [
+  { size: 1, tag: 'SOLO', label: 'Solo (1 Player)' },
+  { size: 2, tag: 'DUO', label: 'Duo (2 Players)' },
+  { size: 3, tag: 'TRIO', label: 'Trio (3 Players)' },
+  { size: 4, tag: 'SQUAD', label: 'Squad (Max 4)' },
+];
+
+const ROUND_TIME_PRESETS = [30, 45, 60, 90, 120, 135];
 
 const NAV_TABS = [
-  { path: '/admin', id: 'monitor', label: '01 // LIVE MONITOR' },
-  { path: '/admin/teams', id: 'teams', label: '02 // TEAMS' },
-  { path: '/admin/challenges', id: 'challenges', label: '03 // CHALLENGES' },
-  { path: '/admin/attempts', id: 'attempts', label: '04 // ATTEMPTS' },
-  { path: '/admin/events', id: 'events', label: '05 // EVENT & CORE' },
-  { path: '/admin/settings', id: 'settings', label: '06 // SETTINGS' },
+  { path: '/admin/teams', id: 'teams', label: 'Teams', icon: Users },
+  { path: '/admin/attempts', id: 'attempts', label: 'Live Events', icon: Activity },
+  { path: '/admin/challenges', id: 'challenges', label: 'Challenges', icon: Gamepad2 },
+  { path: '/admin/events', id: 'events', label: 'Round & Settings', icon: Sliders },
 ];
 
-const formatDurationClock = (seconds) => {
+const formatDurationClock = (seconds, forceHours = false) => {
   const safe = Math.max(0, Math.floor(Number(seconds) || 0));
   const hrs = Math.floor(safe / 3600);
   const mins = Math.floor((safe % 3600) / 60);
   const secs = safe % 60;
-  if (hrs > 0) {
+  if (hrs > 0 || forceHours) {
     return `${String(hrs).padStart(2, '0')}:${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
   }
   return `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
@@ -69,10 +103,18 @@ const formatTimestampShort = (iso) => {
   }
 };
 
+const getTeamFormatInfo = (team) => {
+  const count = Math.min(4, Math.max(1, Number(team?.teamSize || team?.members?.length || 1)));
+  if (count === 1) return { size: 1, label: 'SOLO', badgeClass: 'bg-sky-50 text-sky-700 border-sky-200' };
+  if (count === 2) return { size: 2, label: 'DUO', badgeClass: 'bg-indigo-50 text-indigo-700 border-indigo-200' };
+  if (count === 3) return { size: 3, label: 'TRIO', badgeClass: 'bg-purple-50 text-purple-700 border-purple-200' };
+  return { size: 4, label: 'SQUAD (4)', badgeClass: 'bg-emerald-50 text-emerald-700 border-emerald-200' };
+};
+
 const EMPTY_CHALLENGE_FORM = {
   challengeId: '',
   title: '',
-  category: 'TECHNICAL',
+  category: 'LOGIC',
   description: '',
   difficulty: 'MODERATE',
   risk: 'BALANCED',
@@ -80,16 +122,9 @@ const EMPTY_CHALLENGE_FORM = {
   reward: 650,
   penalty: 75,
   timeLimit: 900,
-  gameType: 'wend',
-  expectedAnswer: 'NEXUS',
-  gameConfigText: JSON.stringify(
-    {
-      prompt: 'Enter the tactical authentication code to verify module completion.',
-      maxHints: 2,
-    },
-    null,
-    2
-  ),
+  gameType: 'wordGuess',
+  expectedAnswer: 'CIPHER',
+  gameConfigText: JSON.stringify({ maxHints: 2 }, null, 2),
   enabled: true,
   available: true,
 };
@@ -117,37 +152,46 @@ export const AdminControlPage = () => {
   const [adminState, setAdminState] = useState(null);
   const [socketConnected, setSocketConnected] = useState(false);
   const [loadingState, setLoadingState] = useState(false);
-  const [actionBusy, setActionBusy] = useState(false);
+  const [pendingKey, setPendingKey] = useState(null);
   const [feedbackToast, setFeedbackToast] = useState(null);
 
   // Live 1s ticker for global timer & active session countdowns
   const [nowMs, setNowMs] = useState(() => Date.now());
   const [serverOffsetMs, setServerOffsetMs] = useState(0);
 
-  // Team Control UI state
+  // Team Registration state (collapsible so UI stays clean)
+  const [showRegisterForm, setShowRegisterForm] = useState(false);
+  const [regTeamName, setRegTeamName] = useState('');
+  const [regTeamId, setRegTeamId] = useState('');
+  const [regPassword, setRegPassword] = useState('NEXUS-2026');
+  const [regCredits, setRegCredits] = useState(1500);
+  const [regTeamSize, setRegTeamSize] = useState(4);
+  const [regMembers, setRegMembers] = useState(['', '', '', '']);
+  const [lastCreatedTeam, setLastCreatedTeam] = useState(null);
+  const [copiedTeamId, setCopiedTeamId] = useState(false);
+
+  // Team Search, Filter & Quick Edit state
   const [teamSearch, setTeamSearch] = useState('');
   const [teamFilter, setTeamFilter] = useState('ALL');
-  const [selectedTeamId, setSelectedTeamId] = useState(null);
-  const [creditAdjustDelta, setCreditAdjustDelta] = useState(250);
-  const [creditAdjustReason, setCreditAdjustReason] = useState('ADMIN TACTICAL ADJUSTMENT');
+  const [customCreditInputs, setCustomCreditInputs] = useState({});
+  const [editingTeamModal, setEditingTeamModal] = useState(null);
 
-  // Challenge Control UI state
+  // Live Events (Team-Wise Filter + Event Type Filter)
+  const [selectedEventTeamId, setSelectedEventTeamId] = useState('ALL');
+  const [attemptStatusFilter, setAttemptStatusFilter] = useState('ALL');
+  const [attemptSearch, setAttemptSearch] = useState('');
+
+  // Challenge Control state
   const [challengeSearch, setChallengeSearch] = useState('');
   const [challengeCategoryFilter, setChallengeCategoryFilter] = useState('ALL');
   const [editingChallenge, setEditingChallenge] = useState(null);
   const [challengeForm, setChallengeForm] = useState(EMPTY_CHALLENGE_FORM);
   const [challengeFormError, setChallengeFormError] = useState('');
+  const [showAdvancedJson, setShowAdvancedJson] = useState(false);
 
-  // Attempts Filter state
-  const [attemptStatusFilter, setAttemptStatusFilter] = useState('ALL');
-  const [attemptSearch, setAttemptSearch] = useState('');
-
-  // Event Control UI state
-  const [customTimerMinutes, setCustomTimerMinutes] = useState(135);
-  const [lastGlobalCommand, setLastGlobalCommand] = useState(null);
-  const [auditActionFilter, setAuditActionFilter] = useState('ALL');
-
-  // Settings Form state
+  // Round Timer & Settings state
+  const [customTimerMinutes, setCustomTimerMinutes] = useState(45);
+  const lastSyncedTotalSecRef = useRef(null);
   const [settingsForm, setSettingsForm] = useState({
     startingCredits: 1500,
     hintCost: 120,
@@ -157,9 +201,7 @@ export const AdminControlPage = () => {
     arenaAnnouncement: 'ALL SECTORS NOMINAL // RESISTANCE OPERATIVES ACTIVE',
   });
 
-  // GSAP refs ONLY for important global event actions
   const globalEventBannerRef = useRef(null);
-  const globalEventPulseBarRef = useRef(null);
 
   const showToast = useCallback((message, tone = 'info') => {
     setFeedbackToast({ id: Date.now(), message, tone });
@@ -167,44 +209,36 @@ export const AdminControlPage = () => {
 
   useEffect(() => {
     if (!feedbackToast) return undefined;
-    const t = setTimeout(() => setFeedbackToast(null), 4000);
+    const t = setTimeout(() => setFeedbackToast(null), 3200);
     return () => clearTimeout(t);
   }, [feedbackToast]);
 
-  // GSAP animation triggered ONLY for important global event actions (START, PAUSE, RESUME, END, CORE LOCK/UNLOCK/REVEAL)
-  const triggerGlobalEventActionGsap = useCallback((commandLabel, tone = 'red') => {
-    setLastGlobalCommand({
-      command: commandLabel,
-      tone,
-      timestamp: new Date().toISOString(),
-    });
-
+  const triggerGlobalEventGsap = useCallback(() => {
     if (!globalEventBannerRef.current) return;
-    const ctx = gsap.context(() => {
-      gsap.killTweensOf([globalEventBannerRef.current, globalEventPulseBarRef.current]);
-      gsap.fromTo(
-        globalEventBannerRef.current,
-        { opacity: 0.35, y: -6 },
-        { opacity: 1, y: 0, duration: 0.32, ease: 'power2.out' }
-      );
-      if (globalEventPulseBarRef.current) {
-        gsap.fromTo(
-          globalEventPulseBarRef.current,
-          { scaleX: 0, transformOrigin: 'left center', opacity: 1 },
-          { scaleX: 1, opacity: 0.25, duration: 0.65, ease: 'expo.out' }
-        );
-      }
-    });
-    return () => ctx.revert();
+    gsap.fromTo(
+      globalEventBannerRef.current,
+      { y: -2 },
+      { y: 0, duration: 0.25, ease: 'power2.out', clearProps: 'transform,backgroundColor' }
+    );
   }, []);
 
   const applyServerState = useCallback((data) => {
     if (!data) return;
-    setAdminState(data);
+    setAdminState((prev) => ({
+      ...(prev || {}),
+      ...data,
+    }));
     if (data.serverTime) {
       const parsed = new Date(data.serverTime).getTime();
       if (!Number.isNaN(parsed)) {
         setServerOffsetMs(parsed - Date.now());
+      }
+    }
+    if (data.globalTimer?.totalDurationSeconds) {
+      const totalSec = Number(data.globalTimer.totalDurationSeconds);
+      if (totalSec > 0 && lastSyncedTotalSecRef.current !== totalSec) {
+        lastSyncedTotalSecRef.current = totalSec;
+        setCustomTimerMinutes(Math.max(1, Math.round(totalSec / 60)));
       }
     }
     if (data.settings) {
@@ -217,9 +251,9 @@ export const AdminControlPage = () => {
 
   // Fetch initial state when token exists
   const fetchAdminState = useCallback(
-    async (overrideToken = token) => {
+    async (overrideToken = token, silent = false) => {
       if (!overrideToken) return;
-      setLoadingState(true);
+      if (!silent) setLoadingState(true);
       try {
         const res = await fetch(`${API_BASE_URL}/api/admin/state`, {
           headers: {
@@ -238,9 +272,9 @@ export const AdminControlPage = () => {
           applyServerState(data);
         }
       } catch (err) {
-        showToast(`Failed to sync admin state: ${err.message}`, 'error');
+        if (!silent) showToast(`Sync error: ${err.message}`, 'error');
       } finally {
-        setLoadingState(false);
+        if (!silent) setLoadingState(false);
       }
     },
     [token, applyServerState, showToast]
@@ -275,12 +309,6 @@ export const AdminControlPage = () => {
       }
     };
 
-    const handleAdminEventAction = (payload) => {
-      if (payload?.command) {
-        triggerGlobalEventActionGsap(payload.command);
-      }
-    };
-
     if (socket.connected) {
       subscribeAdminRoom();
     } else {
@@ -290,15 +318,13 @@ export const AdminControlPage = () => {
     socket.on('connect', subscribeAdminRoom);
     socket.on('disconnect', handleDisconnect);
     socket.on(SOCKET_EVENTS.ADMIN.STATE_UPDATE, handleAdminStateUpdate);
-    socket.on(SOCKET_EVENTS.ADMIN.EVENT_ACTION, handleAdminEventAction);
 
     return () => {
       socket.off('connect', subscribeAdminRoom);
       socket.off('disconnect', handleDisconnect);
       socket.off(SOCKET_EVENTS.ADMIN.STATE_UPDATE, handleAdminStateUpdate);
-      socket.off(SOCKET_EVENTS.ADMIN.EVENT_ACTION, handleAdminEventAction);
     };
-  }, [token, applyServerState, triggerGlobalEventActionGsap]);
+  }, [token, applyServerState]);
 
   // 1-second local clock tick for live timers
   useEffect(() => {
@@ -308,32 +334,66 @@ export const AdminControlPage = () => {
     return () => clearInterval(interval);
   }, []);
 
-  // Compute live global timer
+  // Compute live global timer with full Start / Pause / End / Total Time accuracy
   const liveGlobalTimer = useMemo(() => {
     const gt = adminState?.globalTimer;
+    const fallbackTotalSec = Math.max(60, (Number(customTimerMinutes) || 45) * 60);
+
     if (!gt) {
       return {
-        formatted: '02:15:00',
-        status: 'ACTIVE',
-        remainingSeconds: 8100,
+        formatted: formatDurationClock(fallbackTotalSec, true),
+        status: 'PAUSED',
+        remainingSeconds: fallbackTotalSec,
+        totalDurationSeconds: fallbackTotalSec,
+        totalDurationMinutes: Math.round(fallbackTotalSec / 60),
+        totalFormatted: formatDurationClock(fallbackTotalSec, true),
+        elapsedSeconds: 0,
+        elapsedFormatted: '00:00:00',
+        progressPercent: 0,
       };
     }
-    if (gt.status !== 'ACTIVE' || !gt.targetTimestamp) {
-      return {
-        formatted: gt.formatted || formatDurationClock(gt.remainingSeconds),
-        status: gt.status || 'PAUSED',
-        remainingSeconds: gt.remainingSeconds ?? 0,
-      };
+
+    const totalSec = Math.max(
+      1,
+      Number(gt.totalDurationSeconds) || Number(gt.remainingSeconds) || fallbackTotalSec
+    );
+    const totalMins = Math.max(1, Math.round(totalSec / 60));
+
+    let remSec = Math.max(0, Number(gt.remainingSeconds ?? 0));
+    let status = gt.status || 'PAUSED';
+
+    if (status === 'ACTIVE' && gt.targetTimestamp) {
+      const targetMs = new Date(gt.targetTimestamp).getTime();
+      const currentServerMs = nowMs + serverOffsetMs;
+      remSec = Math.max(0, Math.floor((targetMs - currentServerMs) / 1000));
+      if (remSec <= 0) {
+        status = 'ENDED';
+      }
+    } else if (status === 'ENDED') {
+      remSec = 0;
     }
-    const targetMs = new Date(gt.targetTimestamp).getTime();
-    const currentServerMs = nowMs + serverOffsetMs;
-    const remSec = Math.max(0, Math.floor((targetMs - currentServerMs) / 1000));
+
+    const effectiveTotalSec = Math.max(totalSec, remSec);
+    const elapsedSec = Math.max(0, effectiveTotalSec - remSec);
+    const progressPercent = Math.min(
+      100,
+      Math.max(0, Math.round((elapsedSec / Math.max(1, effectiveTotalSec)) * 100))
+    );
+
     return {
-      formatted: formatDurationClock(remSec),
-      status: remSec > 0 ? 'ACTIVE' : 'ENDED',
+      formatted: formatDurationClock(remSec, true),
+      status,
       remainingSeconds: remSec,
+      totalDurationSeconds: effectiveTotalSec,
+      totalDurationMinutes: totalMins,
+      totalFormatted: formatDurationClock(effectiveTotalSec, true),
+      elapsedSeconds: elapsedSec,
+      elapsedFormatted: formatDurationClock(elapsedSec, true),
+      progressPercent,
+      roundStartedAt: gt.roundStartedAt || null,
+      roundEndedAt: gt.roundEndedAt || null,
     };
-  }, [adminState?.globalTimer, nowMs, serverOffsetMs]);
+  }, [adminState?.globalTimer, customTimerMinutes, nowMs, serverOffsetMs]);
 
   // Compute live remaining seconds for any team activeAttempt
   const getLiveAttemptClock = useCallback(
@@ -353,58 +413,36 @@ export const AdminControlPage = () => {
   // Determine active route section
   const activeTabId = useMemo(() => {
     const p = location.pathname.replace(/\/+$/, '');
-    if (p === '/admin/teams') return 'teams';
     if (p === '/admin/challenges') return 'challenges';
     if (p === '/admin/attempts') return 'attempts';
-    if (p === '/admin/events') return 'events';
-    if (p === '/admin/settings') return 'settings';
-    return 'monitor';
+    if (p === '/admin/events' || p === '/admin/settings') return 'events';
+    return 'teams';
   }, [location.pathname]);
 
-  // Selected team object for detail drawer/panel
-  const selectedTeam = useMemo(() => {
-    if (!adminState?.teams?.length) return null;
-    if (selectedTeamId) {
-      return adminState.teams.find((t) => t.teamId === selectedTeamId) || adminState.teams[0];
-    }
-    return adminState.teams[0];
-  }, [adminState?.teams, selectedTeamId]);
-
-  // Filtered teams
+  // Filtered teams for Teams tab
   const filteredTeams = useMemo(() => {
     const list = adminState?.teams || [];
     return list.filter((team) => {
       if (teamFilter === 'ONLINE' && !team.connectionState?.connected) return false;
       if (teamFilter === 'IN_CHALLENGE' && team.activeAttempt?.status !== 'IN_PROGRESS')
         return false;
-      if (
-        teamFilter === 'CORE_UNLOCKED' &&
-        !['AVAILABLE', 'ACTIVE', 'COMPLETED'].includes(team.coreState)
-      )
-        return false;
+      if (teamFilter === 'SOLO' && getTeamFormatInfo(team).size !== 1) return false;
+      if (teamFilter === 'DUO' && getTeamFormatInfo(team).size !== 2) return false;
+      if (teamFilter === 'TRIO' && getTeamFormatInfo(team).size !== 3) return false;
+      if (teamFilter === 'SQUAD' && getTeamFormatInfo(team).size !== 4) return false;
 
       if (!teamSearch.trim()) return true;
       const q = teamSearch.trim().toLowerCase();
-      const memberMatch = (team.members || []).some(
-        (m) =>
-          String(m.name || '')
-            .toLowerCase()
-            .includes(q) ||
-          String(m.role || '')
-            .toLowerCase()
-            .includes(q)
+      const memberMatch = (team.members || []).some((m) =>
+        String(m.name || '')
+          .toLowerCase()
+          .includes(q)
       );
       return (
         String(team.teamId || '')
           .toLowerCase()
           .includes(q) ||
         String(team.teamName || '')
-          .toLowerCase()
-          .includes(q) ||
-        String(team.sector || '')
-          .toLowerCase()
-          .includes(q) ||
-        String(team.activeAttempt?.challengeTitle || '')
           .toLowerCase()
           .includes(q) ||
         memberMatch
@@ -420,6 +458,7 @@ export const AdminControlPage = () => {
         return false;
       if (!challengeSearch.trim()) return true;
       const q = challengeSearch.trim().toLowerCase();
+      const friendlyTitle = getFriendlyChallengeTitle(chg).toLowerCase();
       return (
         String(chg.challengeId || '')
           .toLowerCase()
@@ -427,39 +466,153 @@ export const AdminControlPage = () => {
         String(chg.title || '')
           .toLowerCase()
           .includes(q) ||
+        friendlyTitle.includes(q) ||
         String(chg.gameType || '')
-          .toLowerCase()
-          .includes(q) ||
-        String(chg.risk || '')
           .toLowerCase()
           .includes(q)
       );
     });
   }, [adminState?.challenges, challengeCategoryFilter, challengeSearch]);
 
-  // Filtered attempts
-  const filteredAttempts = useMemo(() => {
-    const list = adminState?.attempts || [];
-    return list.filter((att) => {
-      if (attemptStatusFilter !== 'ALL' && att.status !== attemptStatusFilter) return false;
+  // Team lookup map for Live Events
+  const teamsById = useMemo(() => {
+    const map = {};
+    for (const t of adminState?.teams || []) {
+      map[t.teamId] = t;
+    }
+    return map;
+  }, [adminState?.teams]);
+
+  // Unified Live Events list (combines Challenge Attempts + Credit/Team Transactions)
+  const unifiedLiveEvents = useMemo(() => {
+    const items = [];
+    const attempts = adminState?.attempts || [];
+    const transactions = adminState?.transactions || [];
+
+    for (const att of attempts) {
+      const teamObj = teamsById[att.teamId];
+      const friendlyTitle = getFriendlyChallengeTitle({
+        challengeId: att.challengeId,
+        title: att.challengeTitle || att.title,
+        gameType: att.gameType,
+      });
+      const ts = att.completedAt || att.startedAt || att.createdAt;
+      items.push({
+        id: `att-${att.attemptId}`,
+        kind: 'ATTEMPT',
+        attempt: att,
+        teamId: att.teamId,
+        teamName: att.teamName || teamObj?.teamName || att.teamId,
+        status: att.status, // IN_PROGRESS, COMPLETED, FAILED, TIMEOUT, ABANDONED
+        title: friendlyTitle,
+        challengeId: att.challengeId,
+        detail:
+          att.status === 'IN_PROGRESS'
+            ? `Playing ${friendlyTitle} (Entry: -${att.cost || 0} CR)`
+            : att.status === 'COMPLETED'
+              ? `Solved ${friendlyTitle} (+${att.reward || 0} CR)`
+              : `Failed / Ended ${friendlyTitle}${att.penalty ? ` (-${att.penalty} CR)` : ''}`,
+        creditDelta:
+          att.status === 'COMPLETED'
+            ? Number(att.reward || 0)
+            : att.status === 'IN_PROGRESS'
+              ? -Number(att.cost || 0)
+              : -Number(att.penalty || 0),
+        timestamp: ts,
+        timeMs: ts ? new Date(ts).getTime() : 0,
+      });
+    }
+
+    for (const tx of transactions) {
+      // Avoid duplicating standard challenge entry/reward rows if user only filters attempts,
+      // but include manual admin adjustments, hints, abilities, core unlocks, etc.
+      const teamObj = teamsById[tx.teamId];
+      const ts = tx.timestamp || tx.createdAt;
+      items.push({
+        id: `tx-${tx._id || `${tx.teamId}-${ts}-${tx.amount}`}`,
+        kind: 'CREDIT_EVENT',
+        transaction: tx,
+        teamId: tx.teamId,
+        teamName: teamObj?.teamName || tx.teamId,
+        status: 'CREDITS',
+        title: String(tx.type || 'CREDIT UPDATE').replace(/_/g, ' '),
+        challengeId: tx.challengeId || '',
+        detail: tx.summary || `${tx.type}: ${tx.amount >= 0 ? '+' : ''}${tx.amount} CR`,
+        creditDelta: Number(tx.amount || 0),
+        balanceAfter: tx.balanceAfter,
+        timestamp: ts,
+        timeMs: ts ? new Date(ts).getTime() : 0,
+      });
+    }
+
+    // Sort with IN_PROGRESS first, then newest timestamp
+    items.sort((a, b) => {
+      if (a.status === 'IN_PROGRESS' && b.status !== 'IN_PROGRESS') return -1;
+      if (b.status === 'IN_PROGRESS' && a.status !== 'IN_PROGRESS') return 1;
+      return b.timeMs - a.timeMs;
+    });
+
+    return items;
+  }, [adminState?.attempts, adminState?.transactions, teamsById]);
+
+  // Event counts per team for the Team-Wise Filter pills
+  const teamEventCounts = useMemo(() => {
+    const counts = { ALL: unifiedLiveEvents.length };
+    for (const t of adminState?.teams || []) {
+      counts[t.teamId] = 0;
+    }
+    for (const ev of unifiedLiveEvents) {
+      if (ev.teamId) {
+        counts[ev.teamId] = (counts[ev.teamId] || 0) + 1;
+      }
+    }
+    return counts;
+  }, [unifiedLiveEvents, adminState?.teams]);
+
+  // Filtered Live Events by Team + Event Status + Search
+  const filteredLiveEvents = useMemo(() => {
+    return unifiedLiveEvents.filter((ev) => {
+      // 1. Team-wise filter
+      if (selectedEventTeamId !== 'ALL' && ev.teamId !== selectedEventTeamId) {
+        return false;
+      }
+
+      // 2. Status / Type filter
+      if (attemptStatusFilter === 'IN_PROGRESS' && ev.status !== 'IN_PROGRESS') return false;
+      if (attemptStatusFilter === 'COMPLETED' && ev.status !== 'COMPLETED') return false;
+      if (
+        attemptStatusFilter === 'FAILED' &&
+        !['FAILED', 'TIMEOUT', 'ABANDONED'].includes(ev.status)
+      ) {
+        return false;
+      }
+      if (attemptStatusFilter === 'CREDITS' && ev.kind !== 'CREDIT_EVENT') return false;
+      if (attemptStatusFilter === 'ATTEMPTS_ONLY' && ev.kind !== 'ATTEMPT') return false;
+
+      // 3. Text search
       if (!attemptSearch.trim()) return true;
       const q = attemptSearch.trim().toLowerCase();
       return (
-        String(att.teamId || '')
+        String(ev.teamId || '')
           .toLowerCase()
           .includes(q) ||
-        String(att.teamName || '')
+        String(ev.teamName || '')
           .toLowerCase()
           .includes(q) ||
-        String(att.challengeId || '')
+        String(ev.title || '')
           .toLowerCase()
           .includes(q) ||
-        String(att.challengeTitle || '')
+        String(ev.detail || '')
           .toLowerCase()
           .includes(q)
       );
     });
-  }, [adminState?.attempts, attemptStatusFilter, attemptSearch]);
+  }, [unifiedLiveEvents, selectedEventTeamId, attemptStatusFilter, attemptSearch]);
+
+  const selectedEventTeamObj = useMemo(() => {
+    if (selectedEventTeamId === 'ALL') return null;
+    return teamsById[selectedEventTeamId] || null;
+  }, [selectedEventTeamId, teamsById]);
 
   // Login handler
   const handleAdminLogin = async (e) => {
@@ -477,14 +630,14 @@ export const AdminControlPage = () => {
       });
       const data = await res.json();
       if (!res.ok) {
-        throw new Error(data?.message || 'Authentication rejected by NEXUS Command.');
+        throw new Error(data?.message || 'Invalid Admin credentials.');
       }
       localStorage.setItem(ADMIN_TOKEN_KEY, data.token);
       localStorage.setItem(ADMIN_OPERATOR_KEY, JSON.stringify(data.operator));
       setToken(data.token);
       setOperator(data.operator);
       applyServerState(data.state);
-      showToast(`Authenticated as ${data.operator.operatorId} (${data.operator.role})`, 'success');
+      showToast(`Signed in as ${data.operator.operatorId}`, 'success');
     } catch (err) {
       setAuthError(err.message);
     } finally {
@@ -500,9 +653,20 @@ export const AdminControlPage = () => {
     setAdminState(null);
   };
 
-  // Authenticated API helper
-  const executeAdminApi = async (url, method, body, successMessage, gsapCommand = null) => {
-    setActionBusy(true);
+  // Fast API helper with optimistic state support
+  const executeAdminApi = async (
+    url,
+    method,
+    body,
+    { key = 'global', successMessage = '', optimisticUpdate = null, isGlobalEvent = false } = {}
+  ) => {
+    setPendingKey(key);
+    if (typeof optimisticUpdate === 'function') {
+      setAdminState((prev) => (prev ? optimisticUpdate(prev) : prev));
+    }
+    if (isGlobalEvent) {
+      triggerGlobalEventGsap();
+    }
     try {
       const targetUrl = url.startsWith('http') ? url : `${API_BASE_URL}${url}`;
       const res = await fetch(targetUrl, {
@@ -515,54 +679,350 @@ export const AdminControlPage = () => {
       });
       const data = await res.json();
       if (!res.ok) {
-        throw new Error(data?.message || 'Admin command failed.');
+        throw new Error(data?.message || 'Request failed.');
       }
       applyServerState(data);
-      if (gsapCommand) {
-        triggerGlobalEventActionGsap(gsapCommand);
-      }
       if (successMessage) {
         showToast(successMessage, 'success');
       }
       return data;
     } catch (err) {
       showToast(err.message, 'error');
+      fetchAdminState(token, true);
       return null;
     } finally {
-      setActionBusy(false);
+      setPendingKey(null);
     }
   };
 
-  // Global Event & Core Control handler
-  const handleEventCommand = async (command, payload = {}) => {
-    await executeAdminApi(
-      '/api/admin/events/control',
+  // Register New Team handler
+  const handleRegisterTeam = async (e) => {
+    e.preventDefault();
+    const cleanName = regTeamName.trim().toUpperCase();
+    const cleanId = regTeamId.trim().toUpperCase();
+    if (!cleanName && !cleanId) {
+      showToast('Please enter a Team Name.', 'error');
+      return;
+    }
+
+    const derivedId =
+      cleanId ||
+      `TEAM-${cleanName
+        .replace(/^TEAM[-_\s]*/i, '')
+        .replace(/[^A-Z0-9]+/g, '-')
+        .replace(/^-+|-+$/g, '')}`;
+
+    const membersPayload = Array.from({ length: regTeamSize }, (_, idx) => {
+      const entered = (regMembers[idx] || '').trim();
+      return {
+        memberId: `OP-0${idx + 1}`,
+        name: (entered || (idx === 0 ? 'PLAYER 1 (LEAD)' : `PLAYER ${idx + 1}`)).toUpperCase(),
+        role: idx === 0 ? 'LEAD' : 'OPERATIVE',
+        online: false,
+      };
+    });
+
+    const initialCreditsNum = Math.max(0, Number(regCredits || 0));
+
+    const data = await executeAdminApi(
+      '/api/admin/teams/register',
       'POST',
-      { command, payload },
-      `GLOBAL COMMAND EXECUTED: ${command}`,
-      command
+      {
+        teamId: derivedId,
+        teamName: cleanName || derivedId,
+        password: regPassword.trim() || 'NEXUS-2026',
+        initialCredits: initialCreditsNum,
+        teamSize: regTeamSize,
+        members: membersPayload,
+      },
+      {
+        key: 'register-team',
+        successMessage: `Registered ${derivedId} with ${initialCreditsNum} CR`,
+        optimisticUpdate: (prev) => ({
+          ...prev,
+          teams: [
+            {
+              teamId: derivedId,
+              teamName: cleanName || derivedId,
+              credits: initialCreditsNum,
+              teamSize: regTeamSize,
+              teamFormat:
+                regTeamSize === 1
+                  ? 'SOLO'
+                  : regTeamSize === 2
+                    ? 'DUO'
+                    : regTeamSize === 3
+                      ? 'TRIO'
+                      : 'SQUAD',
+              members: membersPayload,
+              status: 'ACTIVE',
+              coreState: 'LOCKED',
+              connectionState: { connected: false, status: 'OFFLINE', onlineOperatives: 0 },
+              completedChallenges: [],
+              failedChallenges: [],
+            },
+            ...(prev.teams || []),
+          ],
+        }),
+      }
     );
+
+    if (data?.registeredTeam) {
+      setLastCreatedTeam(data.registeredTeam);
+      setRegTeamName('');
+      setRegTeamId('');
+      setRegMembers(['', '', '', '']);
+    }
   };
 
-  // Team Control Action handler
+  // Team Quick Action handler (Optimistic)
   const handleTeamAction = async (teamId, action, payload = {}, label = '') => {
     await executeAdminApi(
       '/api/admin/teams/action',
       'POST',
       { teamId, action, payload },
-      label || `Executed ${action} on ${teamId}`
+      {
+        key: `team-${teamId}-${action}`,
+        successMessage: label || `Updated ${teamId}`,
+        optimisticUpdate: (prev) => {
+          if (!prev?.teams) return prev;
+          if (action === 'ADJUST_CREDITS') {
+            const delta = Number(payload.amount ?? payload.delta ?? 0);
+            return {
+              ...prev,
+              teams: prev.teams.map((t) =>
+                t.teamId === teamId
+                  ? { ...t, credits: Math.max(0, Number(t.credits || 0) + delta) }
+                  : t
+              ),
+            };
+          }
+          if (action === 'SET_CREDITS') {
+            const nextCr = Math.max(0, Number(payload.credits ?? 0));
+            return {
+              ...prev,
+              teams: prev.teams.map((t) => (t.teamId === teamId ? { ...t, credits: nextCr } : t)),
+            };
+          }
+          if (action === 'DELETE_TEAM') {
+            return {
+              ...prev,
+              teams: prev.teams.filter((t) => t.teamId !== teamId),
+            };
+          }
+          if (action === 'UPDATE_TEAM_MEMBERS') {
+            return {
+              ...prev,
+              teams: prev.teams.map((t) =>
+                t.teamId === teamId
+                  ? {
+                      ...t,
+                      teamName: payload.teamName || t.teamName,
+                      teamSize: payload.teamSize || payload.members?.length || t.teamSize,
+                      members: payload.members || t.members,
+                    }
+                  : t
+              ),
+            };
+          }
+          return prev;
+        },
+      }
     );
   };
 
-  // Populate Challenge Form for Editing
+  // Global Event & Round Timer Control handler (Optimistic + Accurate)
+  const handleEventCommand = async (command, payload = {}, customLabel = '') => {
+    const cmd = String(command || '').toUpperCase();
+    await executeAdminApi(
+      '/api/admin/events/control',
+      'POST',
+      { command: cmd, payload },
+      {
+        key: `event-${cmd}`,
+        successMessage: customLabel || `Round command: ${cmd}`,
+        isGlobalEvent: true,
+        optimisticUpdate: (prev) => {
+          if (!prev) return prev;
+          const next = { ...prev };
+          const currentGt = prev.globalTimer || {};
+          const nowServer = Date.now() + serverOffsetMs;
+
+          if (cmd === 'START') {
+            const durSec = Math.max(
+              1,
+              Number(
+                payload.durationSeconds ??
+                  (payload.minutes ? Number(payload.minutes) * 60 : null) ??
+                  (Number(customTimerMinutes) || 45) * 60
+              )
+            );
+            lastSyncedTotalSecRef.current = durSec;
+            next.globalTimer = {
+              ...currentGt,
+              status: 'ACTIVE',
+              remainingSeconds: durSec,
+              totalDurationSeconds: durSec,
+              totalDurationMinutes: Math.max(1, Math.round(durSec / 60)),
+              formatted: formatDurationClock(durSec, true),
+              totalFormatted: formatDurationClock(durSec, true),
+              targetTimestamp: new Date(nowServer + durSec * 1000).toISOString(),
+              roundStartedAt: new Date(nowServer).toISOString(),
+              roundEndedAt: null,
+            };
+          } else if (cmd === 'PAUSE') {
+            const remSec = liveGlobalTimer.remainingSeconds;
+            next.globalTimer = {
+              ...currentGt,
+              status: 'PAUSED',
+              remainingSeconds: remSec,
+              formatted: formatDurationClock(remSec, true),
+              targetTimestamp: null,
+            };
+          } else if (cmd === 'RESUME') {
+            const fallbackSec =
+              Number(currentGt.totalDurationSeconds) || (Number(customTimerMinutes) || 45) * 60;
+            const remSec =
+              liveGlobalTimer.remainingSeconds > 0
+                ? liveGlobalTimer.remainingSeconds
+                : fallbackSec;
+            next.globalTimer = {
+              ...currentGt,
+              status: 'ACTIVE',
+              remainingSeconds: remSec,
+              formatted: formatDurationClock(remSec, true),
+              targetTimestamp: new Date(nowServer + remSec * 1000).toISOString(),
+              roundEndedAt: null,
+            };
+          } else if (cmd === 'END') {
+            next.globalTimer = {
+              ...currentGt,
+              status: 'ENDED',
+              remainingSeconds: 0,
+              formatted: '00:00:00',
+              targetTimestamp: null,
+              roundEndedAt: new Date(nowServer).toISOString(),
+            };
+          } else if (cmd === 'SET_TIMER') {
+            const durSec = Math.max(
+              0,
+              Number(
+                payload.durationSeconds ??
+                  (payload.minutes ? Number(payload.minutes) * 60 : 2700)
+              )
+            );
+            lastSyncedTotalSecRef.current = durSec;
+            const isRunning = currentGt.status === 'ACTIVE' && durSec > 0;
+            next.globalTimer = {
+              ...currentGt,
+              status: durSec === 0 ? 'ENDED' : currentGt.status === 'ENDED' ? 'PAUSED' : currentGt.status,
+              remainingSeconds: durSec,
+              totalDurationSeconds: Math.max(1, durSec),
+              totalDurationMinutes: Math.max(1, Math.round(durSec / 60)),
+              formatted: formatDurationClock(durSec, true),
+              totalFormatted: formatDurationClock(Math.max(1, durSec), true),
+              targetTimestamp: isRunning
+                ? new Date(nowServer + durSec * 1000).toISOString()
+                : null,
+            };
+          } else if (cmd === 'ADJUST_TIMER') {
+            const deltaSec = Number(payload.deltaSeconds || 0);
+            const remSec = Math.max(0, liveGlobalTimer.remainingSeconds + deltaSec);
+            const totalSec = Math.max(
+              Number(currentGt.totalDurationSeconds || 2700),
+              remSec
+            );
+            next.globalTimer = {
+              ...currentGt,
+              remainingSeconds: remSec,
+              totalDurationSeconds: totalSec,
+              formatted: formatDurationClock(remSec, true),
+              targetTimestamp:
+                currentGt.status === 'ACTIVE'
+                  ? new Date(nowServer + remSec * 1000).toISOString()
+                  : null,
+            };
+          } else if (cmd === 'LOCK' || cmd === 'CORE_LOCK') {
+            next.coreStatus = { ...(prev.coreStatus || {}), state: 'LOCKED' };
+          } else if (
+            cmd === 'UNLOCK' ||
+            cmd === 'CORE_UNLOCK' ||
+            cmd === 'REVEAL' ||
+            cmd === 'CORE_REVEAL'
+          ) {
+            next.coreStatus = { ...(prev.coreStatus || {}), state: 'AVAILABLE' };
+          }
+          return next;
+        },
+      }
+    );
+  };
+
+  // Dedicated helpers for Round Start, Pause/Resume, End, and Total Time
+  const handleStartRound = () => {
+    const mins = Math.max(1, Number(customTimerMinutes) || 135);
+    const durSec = mins * 60;
+    handleEventCommand(
+      'START',
+      { durationSeconds: durSec, minutes: mins },
+      `Round Started (${mins} mins total)`
+    );
+  };
+
+  const handlePauseOrResumeRound = () => {
+    if (liveGlobalTimer.status === 'ACTIVE') {
+      handleEventCommand('PAUSE', {}, 'Round Paused');
+    } else if (liveGlobalTimer.status === 'PAUSED' && liveGlobalTimer.remainingSeconds > 0) {
+      handleEventCommand('RESUME', {}, 'Round Resumed');
+    } else {
+      handleStartRound();
+    }
+  };
+
+  const handleEndRound = () => {
+    handleEventCommand('END', {}, 'Round Ended (00:00:00)');
+  };
+
+  const handleApplyTotalTime = (overrideMins) => {
+    const mins = Math.max(1, Number(overrideMins ?? customTimerMinutes) || 135);
+    setCustomTimerMinutes(mins);
+    handleEventCommand(
+      'SET_TIMER',
+      { durationSeconds: mins * 60, minutes: mins },
+      `Total Round Time set to ${mins} mins`
+    );
+  };
+
+  // Toggle Challenge Enabled (Optimistic)
+  const handleToggleChallengeEnabled = async (chg) => {
+    const nextEnabled = !chg.enabled;
+    const friendlyTitle = getFriendlyChallengeTitle(chg);
+    await executeAdminApi(
+      `/api/admin/challenges/${chg.challengeId}`,
+      'PATCH',
+      { enabled: nextEnabled },
+      {
+        key: `chg-${chg.challengeId}`,
+        successMessage: `${friendlyTitle} ${nextEnabled ? 'Enabled' : 'Disabled'}`,
+        optimisticUpdate: (prev) => ({
+          ...prev,
+          challenges: (prev.challenges || []).map((c) =>
+            c.challengeId === chg.challengeId ? { ...c, enabled: nextEnabled } : c
+          ),
+        }),
+      }
+    );
+  };
+
   const openEditChallenge = (chg) => {
     setChallengeFormError('');
+    setShowAdvancedJson(false);
     setEditingChallenge(chg.challengeId);
     setChallengeForm({
       challengeId: chg.challengeId || '',
-      title: chg.title || '',
-      category: chg.category || 'TECHNICAL',
-      description: chg.description || '',
+      title: getFriendlyChallengeTitle(chg) || chg.title || '',
+      category: chg.category || 'LOGIC',
+      description: getFriendlyChallengeDescription(chg) || chg.description || '',
       difficulty: chg.difficulty || 'MODERATE',
       risk: chg.risk || 'BALANCED',
       cost: chg.cost ?? 300,
@@ -580,6 +1040,7 @@ export const AdminControlPage = () => {
 
   const openCreateChallenge = () => {
     setChallengeFormError('');
+    setShowAdvancedJson(false);
     setEditingChallenge('NEW');
     setChallengeForm({
       ...EMPTY_CHALLENGE_FORM,
@@ -597,7 +1058,7 @@ export const AdminControlPage = () => {
         ? JSON.parse(challengeForm.gameConfigText)
         : {};
     } catch (err) {
-      setChallengeFormError(`Invalid JSON in gameConfig: ${err.message}`);
+      setChallengeFormError(`Invalid JSON in Advanced Config: ${err.message}`);
       return;
     }
 
@@ -619,89 +1080,82 @@ export const AdminControlPage = () => {
       available: Boolean(challengeForm.available),
     };
 
-    const result = await executeAdminApi(
-      '/api/admin/challenges',
-      'POST',
-      payload,
-      `Saved challenge [${payload.challengeId}]`
-    );
+    const result = await executeAdminApi('/api/admin/challenges', 'POST', payload, {
+      key: 'save-challenge',
+      successMessage: `Saved challenge ${payload.title}`,
+    });
     if (result) {
       setEditingChallenge(null);
     }
   };
 
-  const handleToggleChallengeEnabled = async (chg) => {
-    await executeAdminApi(
-      `/api/admin/challenges/${chg.challengeId}`,
-      'PATCH',
-      { enabled: !chg.enabled },
-      `Challenge [${chg.challengeId}] ${!chg.enabled ? 'ENABLED' : 'DISABLED'}`
-    );
+  const jumpToTeamLiveEvents = (teamId) => {
+    setSelectedEventTeamId(teamId);
+    navigate('/admin/attempts');
   };
 
   // ============================================================================
-  // PROTECTED ROUTE AUTHENTICATION GATE
+  // WHITE-THEMED ADMIN LOGIN SCREEN
   // ============================================================================
   if (!token) {
     return (
-      <div className="min-h-screen bg-[#070707] text-[#F1EFEA] font-mono flex flex-col justify-between p-6 md:p-10 selection:bg-[#E11D2E] selection:text-white">
-        <header className="flex items-center justify-between border-b border-white/15 pb-4">
+      <div className="min-h-screen bg-[#FAF9F5] text-[#111111] flex flex-col justify-between p-6 md:p-10">
+        <header className="max-w-5xl w-full mx-auto flex items-center justify-between border-b-2 border-[#111111] pb-4">
           <div className="flex items-center gap-3">
-            <span className="w-2.5 h-2.5 bg-[#E11D2E] inline-block" />
-            <span className="text-xs tracking-[0.25em] uppercase text-white/80">
-              CYBER QUEST // NEXUS ADMIN &amp; VOLUNTEER CONTROL
+            <span className="w-3 h-3 bg-[#E11D2E] inline-block" />
+            <span className="font-mono text-xs font-bold tracking-widest uppercase text-[#111111]">
+              CYBER QUEST // ADMIN PANEL
             </span>
           </div>
-          <div className="flex items-center gap-4 text-xs">
+          <div className="flex items-center gap-3 text-xs font-mono">
+            <ThemeToggleButton />
             <Link
               to="/display"
-              className="text-white/60 hover:text-white border border-white/15 px-3 py-1.5 transition-colors"
+              className="px-3 py-1.5 bg-white border border-[#111111] font-bold hover:bg-[#111111] hover:text-white transition-colors"
             >
-              PROJECTOR DISPLAY
+              Projector
             </Link>
             <Link
               to="/dashboard"
-              className="text-white/60 hover:text-white border border-white/15 px-3 py-1.5 transition-colors"
+              className="px-3 py-1.5 bg-white border border-[#111111] font-bold hover:bg-[#111111] hover:text-white transition-colors"
             >
-              TEAM PORTAL
+              Team Portal
             </Link>
           </div>
         </header>
 
-        <main className="max-w-lg w-full mx-auto my-auto border border-white/20 bg-[#0D0D0D] p-6 md:p-8">
-          <div className="flex items-center justify-between border-b border-white/10 pb-4 mb-6">
-            <div>
-              <p className="text-[10px] tracking-[0.28em] text-[#E11D2E] uppercase">
-                PROTECTED COMMAND SECTOR // CLEARANCE REQUIRED
-              </p>
-              <h1 className="text-xl md:text-2xl font-bold tracking-wider uppercase mt-1">
-                ADMIN / VOLUNTEER AUTHENTICATION
-              </h1>
-            </div>
-            <span className="text-[10px] border border-[#E11D2E]/50 text-[#E11D2E] px-2 py-1">
-              RESTRICTED
+        <main className="max-w-md w-full mx-auto my-auto bg-white border-2 border-[#111111] shadow-[4px_4px_0px_#111111] p-6 sm:p-8 space-y-6">
+          <div className="border-b border-neutral-200 pb-4">
+            <span className="inline-block px-2.5 py-0.5 bg-[#E11D2E] text-white font-mono text-[10px] font-bold uppercase tracking-widest">
+              ORGANIZER ACCESS
             </span>
+            <h1 className="font-display text-3xl uppercase tracking-wide text-[#111111] mt-2">
+              ADMIN SIGN IN
+            </h1>
+            <p className="text-xs text-neutral-600 mt-1">
+              Manage teams, round timer, live events by team, and challenges.
+            </p>
           </div>
 
-          <div className="mb-6">
-            <p className="text-[11px] text-white/50 uppercase tracking-wider mb-2">
-              QUICK CREDENTIAL PRESETS (FLOOR EVALUATION):
+          <div>
+            <p className="font-mono text-[10px] font-bold uppercase tracking-wider text-neutral-500 mb-2">
+              Quick Fill Credentials:
             </p>
-            <div className="grid grid-cols-2 gap-2">
+            <div className="grid grid-cols-2 gap-2.5">
               <button
                 type="button"
                 onClick={() => {
                   setLoginId('ADMIN-NEXUS');
                   setLoginPassword('NEXUS-ADMIN-2026');
                 }}
-                className={`text-left p-2.5 border text-xs transition-colors ${
+                className={`text-left p-2.5 border text-xs transition-colors cursor-pointer ${
                   loginId === 'ADMIN-NEXUS'
-                    ? 'border-[#E11D2E] bg-[#E11D2E]/10 text-white'
-                    : 'border-white/15 bg-black/40 text-white/70 hover:border-white/30'
+                    ? 'border-[#E11D2E] bg-red-50/70 text-[#111111]'
+                    : 'border-neutral-300 bg-neutral-50 text-neutral-700 hover:border-neutral-400'
                 }`}
               >
-                <div className="font-bold text-[11px] text-[#E11D2E]">ADMIN-NEXUS</div>
-                <div className="text-[10px] text-white/60 mt-0.5">OMEGA-ADMIN CLEARANCE</div>
+                <div className="font-mono font-bold text-[11px] text-[#E11D2E]">ADMIN-NEXUS</div>
+                <div className="text-[11px] text-neutral-500">Event Organizer</div>
               </button>
               <button
                 type="button"
@@ -709,1898 +1163,2140 @@ export const AdminControlPage = () => {
                   setLoginId('VOLUNTEER-01');
                   setLoginPassword('NEXUS-VOL-2026');
                 }}
-                className={`text-left p-2.5 border text-xs transition-colors ${
+                className={`text-left p-2.5 border text-xs transition-colors cursor-pointer ${
                   loginId === 'VOLUNTEER-01'
-                    ? 'border-[#E11D2E] bg-[#E11D2E]/10 text-white'
-                    : 'border-white/15 bg-black/40 text-white/70 hover:border-white/30'
+                    ? 'border-[#E11D2E] bg-red-50/70 text-[#111111]'
+                    : 'border-neutral-300 bg-neutral-50 text-neutral-700 hover:border-neutral-400'
                 }`}
               >
-                <div className="font-bold text-[11px] text-amber-400">VOLUNTEER-01</div>
-                <div className="text-[10px] text-white/60 mt-0.5">SECTOR MARSHAL OPS</div>
+                <div className="font-mono font-bold text-[11px] text-amber-700">VOLUNTEER-01</div>
+                <div className="text-[11px] text-neutral-500">Floor Volunteer</div>
               </button>
             </div>
           </div>
 
           <form onSubmit={handleAdminLogin} className="space-y-4">
             <div>
-              <label className="block text-[11px] uppercase tracking-widest text-white/60 mb-1.5">
-                OPERATOR ID
+              <label className="block font-mono text-xs font-bold uppercase text-neutral-700 mb-1">
+                Operator ID
               </label>
               <input
                 type="text"
                 value={loginId}
                 onChange={(e) => setLoginId(e.target.value)}
-                className="w-full bg-black border border-white/25 px-3.5 py-2.5 text-sm text-white focus:outline-none focus:border-[#E11D2E]"
+                className="w-full bg-white border-2 border-[#111111] px-3.5 py-2.5 font-mono text-sm text-[#111111] focus:outline-none focus:border-[#E11D2E]"
                 placeholder="ADMIN-NEXUS"
                 required
               />
             </div>
 
             <div>
-              <label className="block text-[11px] uppercase tracking-widest text-white/60 mb-1.5">
-                ACCESS KEY
+              <label className="block font-mono text-xs font-bold uppercase text-neutral-700 mb-1">
+                Password
               </label>
               <input
                 type="password"
                 value={loginPassword}
                 onChange={(e) => setLoginPassword(e.target.value)}
-                className="w-full bg-black border border-white/25 px-3.5 py-2.5 text-sm text-white focus:outline-none focus:border-[#E11D2E]"
+                className="w-full bg-white border-2 border-[#111111] px-3.5 py-2.5 font-mono text-sm text-[#111111] focus:outline-none focus:border-[#E11D2E]"
                 placeholder="••••••••••••"
                 required
               />
             </div>
 
             {authError && (
-              <div className="border border-[#E11D2E] bg-[#E11D2E]/10 px-3 py-2 text-xs text-[#E11D2E]">
-                ERROR // {authError}
+              <div className="p-3 bg-red-50 border border-[#E11D2E] text-xs font-mono text-[#E11D2E]">
+                {authError}
               </div>
             )}
 
             <button
               type="submit"
               disabled={authLoading}
-              className="w-full bg-[#E11D2E] hover:bg-[#c81625] disabled:opacity-50 text-white font-bold text-xs tracking-[0.22em] uppercase py-3 transition-colors cursor-pointer"
+              className="w-full py-3 bg-[#E11D2E] hover:bg-[#111111] text-white font-mono text-xs font-bold uppercase tracking-widest transition-colors cursor-pointer disabled:opacity-50"
             >
-              {authLoading ? 'VERIFYING CLEARANCE...' : 'AUTHENTICATE OPERATOR CONSOLE'}
+              {authLoading ? 'Signing In...' : 'Sign In to Admin Panel →'}
             </button>
           </form>
         </main>
 
-        <footer className="border-t border-white/15 pt-4 flex items-center justify-between text-[11px] text-white/40">
-          <span>NEXUS COMMAND SYSTEM // PHASE 14 ADMIN CONTROL</span>
-          <span>ROUTE: {location.pathname}</span>
+        <footer className="max-w-5xl w-full mx-auto text-center text-xs font-mono text-neutral-500 border-t border-neutral-200 pt-4">
+          Cyber Quest Organizer Console · Solo, Duo, Trio & Squad (Max 4) Ready
         </footer>
       </div>
     );
   }
 
-  // ============================================================================
-  // AUTHENTICATED ADMIN / VOLUNTEER FUNCTIONAL CONSOLE
-  // ============================================================================
-  const monitor = adminState?.monitor || {
-    totalTeams: 0,
-    onlineTeamsCount: 0,
-    activeSessionsCount: 0,
-    totalConnectedSockets: 0,
-  };
-  const coreStatus = adminState?.coreStatus || { state: 'LOCKED', unlockedTeamsCount: 0 };
+  // Summary metrics
+  const totalTeams = adminState?.teams?.length || 0;
+  const onlineTeamsCount = (adminState?.teams || []).filter(
+    (t) => t.connectionState?.connected
+  ).length;
+  const activeAttemptsCount = (adminState?.teams || []).filter(
+    (t) => t.activeAttempt?.status === 'IN_PROGRESS'
+  ).length;
+  const coreUnlocked =
+    adminState?.coreStatus?.state === 'AVAILABLE' ||
+    adminState?.coreStatus?.state === 'UNLOCKED';
 
+  // ============================================================================
+  // SIMPLIFIED WHITE-THEMED ADMIN CONSOLE
+  // ============================================================================
   return (
-    <div className="min-h-screen bg-[#080808] text-[#F1EFEA] font-mono flex flex-col selection:bg-[#E11D2E] selection:text-white">
-      {/* TOP OPERATIONAL BAR */}
-      <header className="border-b border-white/15 bg-[#0C0C0C] px-4 lg:px-6 py-3">
-        <div className="flex flex-wrap items-center justify-between gap-4">
-          <div className="flex items-center gap-3">
-            <span className="w-2.5 h-2.5 bg-[#E11D2E] inline-block" />
-            <div>
-              <div className="flex items-center gap-2">
-                <span className="text-sm font-bold tracking-[0.18em] uppercase">
-                  NEXUS ADMIN / VOLUNTEER CONTROL
+    <div className="min-h-screen bg-[#FAF9F5] text-[#111111] flex flex-col">
+      {/* 1. CLEAN TOP BAR + ALWAYS-VISIBLE ROUND TIMER & TOTAL TIME CONTROLLER */}
+      <header
+        ref={globalEventBannerRef}
+        className="sticky top-0 z-30 bg-white border-b-2 border-[#111111] shadow-sm"
+      >
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-3 space-y-3">
+          {/* Top Row: Brand + Quick Stats + Links */}
+          <div className="flex flex-wrap items-center justify-between gap-3">
+            <div className="flex items-center gap-3">
+              <div className="w-3 h-3 bg-[#E11D2E]" />
+              <div>
+                <div className="flex items-center gap-2">
+                  <span className="font-display text-xl tracking-wide uppercase text-[#111111]">
+                    CYBER QUEST ADMIN
+                  </span>
+                  <span
+                    className={`inline-flex items-center gap-1 px-2 py-0.5 text-[10px] font-mono font-bold uppercase border ${
+                      socketConnected
+                        ? 'bg-emerald-50 text-emerald-700 border-emerald-300'
+                        : 'bg-amber-50 text-amber-700 border-amber-300'
+                    }`}
+                  >
+                    <span
+                      className={`w-1.5 h-1.5 rounded-full ${
+                        socketConnected ? 'bg-emerald-600' : 'bg-amber-500'
+                      }`}
+                    />
+                    {socketConnected ? 'LIVE' : 'SYNCING'}
+                  </span>
+                </div>
+              </div>
+              <div className="hidden md:flex items-center gap-2 ml-3 pl-3 border-l border-neutral-200 font-mono text-xs">
+                <span className="px-2 py-0.5 bg-neutral-100 border border-neutral-300 font-bold">
+                  {totalTeams} Teams ({onlineTeamsCount} Online)
                 </span>
-                <span className="text-[10px] px-2 py-0.5 border border-white/20 bg-white/5 text-white/80">
-                  {operator?.operatorId || 'ADMIN'} // {operator?.role || 'ADMIN'}
+                <span className="px-2 py-0.5 bg-red-50 text-[#E11D2E] border border-red-200 font-bold">
+                  {activeAttemptsCount} Playing Now
                 </span>
               </div>
-              <p className="text-[10px] text-white/45 tracking-wider uppercase">
-                SERVER-AUTHORITATIVE COMMAND &amp; LIVE SOCKET.IO TELEMETRY
-              </p>
+            </div>
+
+            <div className="flex items-center gap-2 font-mono text-xs">
+              <ThemeToggleButton compact />
+              <button
+                type="button"
+                onClick={() => fetchAdminState(token)}
+                className="p-1.5 bg-white border border-neutral-300 hover:border-[#111111] text-neutral-700 cursor-pointer"
+                title="Refresh State"
+              >
+                <RefreshCw className={`w-3.5 h-3.5 ${loadingState ? 'animate-spin' : ''}`} />
+              </button>
+              <Link
+                to="/display"
+                className="px-2.5 py-1.5 bg-white border border-neutral-300 hover:border-[#111111] font-bold text-[#111111]"
+              >
+                Projector
+              </Link>
+              <Link
+                to="/dashboard"
+                className="px-2.5 py-1.5 bg-white border border-neutral-300 hover:border-[#111111] font-bold text-[#111111]"
+              >
+                Portal
+              </Link>
+              <button
+                type="button"
+                onClick={handleAdminLogout}
+                className="px-2.5 py-1.5 bg-neutral-100 hover:bg-[#111111] hover:text-white border border-neutral-300 font-bold cursor-pointer transition-colors inline-flex items-center gap-1"
+              >
+                <LogOut className="w-3.5 h-3.5" />
+                Exit
+              </button>
             </div>
           </div>
 
-          {/* LIVE SYSTEM STATUS METRICS */}
-          <div className="flex flex-wrap items-center gap-3 text-xs">
-            <div className="border border-white/15 bg-black px-3 py-1.5 flex items-center gap-2">
-              <span
-                className={`w-2 h-2 rounded-full ${
-                  socketConnected ? 'bg-emerald-400' : 'bg-[#E11D2E]'
-                }`}
-              />
-              <span className="text-[10px] text-white/50 uppercase">SOCKET:</span>
-              <span className="font-bold text-[11px]">
-                {socketConnected ? 'LIVE' : 'RECONNECTING'}
-              </span>
+          {/* Second Row: Round Start / Pause / End + Total Time Bar */}
+          <div className="flex flex-wrap items-center justify-between gap-3 bg-[#FAF9F5] border-2 border-[#111111] px-3.5 py-2.5 font-mono text-xs">
+            {/* Time Remaining + Total Time Readout */}
+            <div className="flex flex-wrap items-center gap-4">
+              <div className="flex items-center gap-2">
+                <Clock className="w-4 h-4 text-[#E11D2E]" />
+                <div>
+                  <div className="text-[10px] font-bold uppercase text-neutral-500">
+                    Time Remaining
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <span className="font-bold text-lg tracking-wider text-[#111111]">
+                      {liveGlobalTimer.formatted}
+                    </span>
+                    <span
+                      className={`px-1.5 py-0.5 text-[10px] font-bold uppercase ${
+                        liveGlobalTimer.status === 'ACTIVE'
+                          ? 'bg-emerald-100 text-emerald-800'
+                          : liveGlobalTimer.status === 'ENDED'
+                            ? 'bg-red-100 text-[#E11D2E]'
+                            : 'bg-amber-100 text-amber-800'
+                      }`}
+                    >
+                      {liveGlobalTimer.status === 'ACTIVE'
+                        ? 'RUNNING'
+                        : liveGlobalTimer.status}
+                    </span>
+                  </div>
+                </div>
+              </div>
+
+              <div className="pl-4 border-l border-neutral-300">
+                <div className="text-[10px] font-bold uppercase text-neutral-500">
+                  Total Round Time
+                </div>
+                <div className="font-bold text-sm text-[#111111]">
+                  {liveGlobalTimer.totalDurationMinutes}m ({liveGlobalTimer.totalFormatted})
+                </div>
+              </div>
+
+              {/* Inline Total Time Setter */}
+              <div className="flex items-center gap-1.5 pl-4 border-l border-neutral-300">
+                <label className="text-[10px] font-bold uppercase text-neutral-600">
+                  Total (Min):
+                </label>
+                <input
+                  type="number"
+                  min={1}
+                  max={600}
+                  value={customTimerMinutes}
+                  onChange={(e) => setCustomTimerMinutes(e.target.value)}
+                  className="w-16 px-2 py-1 bg-white border border-[#111111] font-bold text-xs text-[#111111]"
+                />
+                <button
+                  type="button"
+                  onClick={() => handleApplyTotalTime(customTimerMinutes)}
+                  className="px-2.5 py-1 bg-white hover:bg-[#111111] hover:text-white border border-[#111111] font-bold uppercase text-[11px] cursor-pointer transition-colors"
+                >
+                  Set Total
+                </button>
+              </div>
             </div>
 
-            <div className="border border-white/15 bg-black px-3 py-1.5 flex items-center gap-2">
-              <span className="text-[10px] text-white/50 uppercase">EVENT:</span>
-              <span
-                className={`font-bold text-[11px] ${
+            {/* Round Start / Pause / End + Core Lock/Unlock Buttons */}
+            <div className="flex flex-wrap items-center gap-2">
+              <button
+                type="button"
+                onClick={handleStartRound}
+                className="px-3 py-1.5 bg-emerald-600 hover:bg-emerald-700 text-white font-bold uppercase text-[11px] inline-flex items-center gap-1.5 cursor-pointer shadow-[2px_2px_0px_#111111]"
+                title="Start or Restart Round with the configured Total Time"
+              >
+                <Play className="w-3.5 h-3.5" />
+                Start Round
+              </button>
+
+              <button
+                type="button"
+                onClick={handlePauseOrResumeRound}
+                className={`px-3 py-1.5 font-bold uppercase text-[11px] inline-flex items-center gap-1.5 cursor-pointer border border-[#111111] ${
                   liveGlobalTimer.status === 'ACTIVE'
-                    ? 'text-emerald-400'
-                    : liveGlobalTimer.status === 'PAUSED'
-                    ? 'text-amber-400'
-                    : 'text-[#E11D2E]'
+                    ? 'bg-amber-500 hover:bg-amber-600 text-white'
+                    : 'bg-white hover:bg-neutral-100 text-[#111111]'
                 }`}
               >
-                {liveGlobalTimer.status}
-              </span>
-              <span className="text-white/30">|</span>
-              <span className="font-bold tracking-wider">{liveGlobalTimer.formatted}</span>
-            </div>
+                {liveGlobalTimer.status === 'ACTIVE' ? (
+                  <>
+                    <Pause className="w-3.5 h-3.5" /> Pause
+                  </>
+                ) : (
+                  <>
+                    <Play className="w-3.5 h-3.5" /> Resume
+                  </>
+                )}
+              </button>
 
-            <div className="border border-white/15 bg-black px-3 py-1.5 flex items-center gap-2">
-              <span className="text-[10px] text-white/50 uppercase">CORE:</span>
-              <span
-                className={`font-bold text-[11px] ${
-                  coreStatus.state === 'LOCKED' ? 'text-white/70' : 'text-[#E11D2E]'
+              <button
+                type="button"
+                onClick={handleEndRound}
+                disabled={liveGlobalTimer.status === 'ENDED'}
+                className="px-3 py-1.5 bg-[#E11D2E] hover:bg-red-700 disabled:opacity-40 text-white font-bold uppercase text-[11px] inline-flex items-center gap-1.5 cursor-pointer shadow-[2px_2px_0px_#111111]"
+              >
+                <Square className="w-3.5 h-3.5" />
+                End Round
+              </button>
+
+              <button
+                type="button"
+                onClick={() => handleEventCommand(coreUnlocked ? 'LOCK' : 'UNLOCK')}
+                className={`px-3 py-1.5 font-bold uppercase text-[11px] inline-flex items-center gap-1.5 border border-[#111111] cursor-pointer transition-colors ${
+                  coreUnlocked
+                    ? 'bg-emerald-50 text-emerald-800 hover:bg-emerald-100'
+                    : 'bg-white text-neutral-800 hover:bg-neutral-100'
                 }`}
               >
-                {coreStatus.state}
-              </span>
+                {coreUnlocked ? (
+                  <>
+                    <Unlock className="w-3.5 h-3.5 text-emerald-600" /> Core Open
+                  </>
+                ) : (
+                  <>
+                    <Lock className="w-3.5 h-3.5 text-neutral-500" /> Core Locked
+                  </>
+                )}
+              </button>
             </div>
-
-            <div className="border border-white/15 bg-black px-3 py-1.5 flex items-center gap-2">
-              <span className="text-[10px] text-white/50 uppercase">ONLINE TEAMS:</span>
-              <span className="font-bold text-emerald-400">
-                {monitor.onlineTeamsCount}/{monitor.totalTeams}
-              </span>
-            </div>
-
-            <div className="border border-white/15 bg-black px-3 py-1.5 flex items-center gap-2">
-              <span className="text-[10px] text-white/50 uppercase">ACTIVE SESSIONS:</span>
-              <span className="font-bold text-amber-400">{monitor.activeSessionsCount}</span>
-            </div>
-
-            <Link
-              to="/display"
-              className="border border-white/20 hover:border-white/50 bg-black px-3 py-1.5 text-[11px] uppercase tracking-wider text-white/80 hover:text-white transition-colors"
-            >
-              /DISPLAY
-            </Link>
-
-            <Link
-              to="/dashboard"
-              className="border border-white/20 hover:border-white/50 bg-black px-3 py-1.5 text-[11px] uppercase tracking-wider text-white/80 hover:text-white transition-colors"
-            >
-              /DASHBOARD
-            </Link>
-
-            <button
-              type="button"
-              onClick={handleAdminLogout}
-              className="border border-[#E11D2E]/50 hover:bg-[#E11D2E] hover:text-white text-[#E11D2E] px-3 py-1.5 text-[11px] uppercase tracking-wider transition-colors cursor-pointer"
-            >
-              LOGOUT
-            </button>
           </div>
-        </div>
 
-        {/* ROUTE NAVIGATION TABS */}
-        <nav className="flex flex-wrap items-center justify-between gap-2 mt-3 pt-3 border-t border-white/10">
-          <div className="flex flex-wrap items-center gap-1.5">
+          {/* Navigation Tabs */}
+          <div className="flex items-center gap-1 pt-1 overflow-x-auto">
             {NAV_TABS.map((tab) => {
+              const Icon = tab.icon;
               const isActive = activeTabId === tab.id;
               return (
-                <button
+                <Link
                   key={tab.id}
-                  type="button"
-                  onClick={() => navigate(tab.path)}
-                  className={`px-3.5 py-1.5 text-xs tracking-wider uppercase border transition-colors cursor-pointer ${
+                  to={tab.path}
+                  className={`inline-flex items-center gap-2 px-4 py-2 font-mono text-xs font-bold uppercase transition-colors border-b-2 whitespace-nowrap ${
                     isActive
-                      ? 'bg-[#E11D2E] border-[#E11D2E] text-white font-bold'
-                      : 'bg-black/60 border-white/15 text-white/65 hover:text-white hover:border-white/35'
+                      ? 'border-[#E11D2E] text-[#E11D2E] bg-red-50/60'
+                      : 'border-transparent text-neutral-600 hover:text-[#111111] hover:bg-neutral-100'
                   }`}
                 >
+                  <Icon className="w-4 h-4" />
                   {tab.label}
-                </button>
+                  {tab.id === 'teams' && (
+                    <span className="px-1.5 py-0.2 bg-neutral-200 text-[#111111] text-[10px]">
+                      {totalTeams}
+                    </span>
+                  )}
+                  {tab.id === 'attempts' && activeAttemptsCount > 0 && (
+                    <span className="px-1.5 py-0.2 bg-[#E11D2E] text-white text-[10px]">
+                      {activeAttemptsCount} LIVE
+                    </span>
+                  )}
+                </Link>
               );
             })}
           </div>
-
-          {/* QUICK GLOBAL EVENT BAR */}
-          <div className="flex flex-wrap items-center gap-1.5">
-            <span className="text-[10px] text-white/40 uppercase mr-1">QUICK EVENT:</span>
-            <button
-              type="button"
-              disabled={actionBusy}
-              onClick={() => handleEventCommand('START')}
-              className="px-2.5 py-1 text-[11px] border border-emerald-500/40 bg-emerald-500/10 text-emerald-300 hover:bg-emerald-500/20 uppercase cursor-pointer"
-            >
-              START
-            </button>
-            <button
-              type="button"
-              disabled={actionBusy}
-              onClick={() => handleEventCommand('PAUSE')}
-              className="px-2.5 py-1 text-[11px] border border-amber-500/40 bg-amber-500/10 text-amber-300 hover:bg-amber-500/20 uppercase cursor-pointer"
-            >
-              PAUSE
-            </button>
-            <button
-              type="button"
-              disabled={actionBusy}
-              onClick={() => handleEventCommand('RESUME')}
-              className="px-2.5 py-1 text-[11px] border border-sky-500/40 bg-sky-500/10 text-sky-300 hover:bg-sky-500/20 uppercase cursor-pointer"
-            >
-              RESUME
-            </button>
-            <button
-              type="button"
-              disabled={actionBusy}
-              onClick={() => handleEventCommand('END')}
-              className="px-2.5 py-1 text-[11px] border border-[#E11D2E]/50 bg-[#E11D2E]/10 text-[#E11D2E] hover:bg-[#E11D2E]/20 uppercase cursor-pointer"
-            >
-              END
-            </button>
-            <span className="text-white/20 mx-1">|</span>
-            <span className="text-[10px] text-white/40 uppercase mr-1">CORE:</span>
-            <button
-              type="button"
-              disabled={actionBusy}
-              onClick={() => handleEventCommand('LOCK')}
-              className="px-2.5 py-1 text-[11px] border border-white/25 bg-white/5 text-white/80 hover:bg-white/15 uppercase cursor-pointer"
-            >
-              LOCK
-            </button>
-            <button
-              type="button"
-              disabled={actionBusy}
-              onClick={() => handleEventCommand('UNLOCK')}
-              className="px-2.5 py-1 text-[11px] border border-amber-500/50 bg-amber-500/10 text-amber-300 hover:bg-amber-500/20 uppercase cursor-pointer"
-            >
-              UNLOCK
-            </button>
-            <button
-              type="button"
-              disabled={actionBusy}
-              onClick={() => handleEventCommand('REVEAL')}
-              className="px-2.5 py-1 text-[11px] border border-[#E11D2E] bg-[#E11D2E] text-white font-bold hover:bg-[#c81625] uppercase cursor-pointer"
-            >
-              REVEAL
-            </button>
-          </div>
-        </nav>
+        </div>
       </header>
 
-      {/* GSAP GLOBAL EVENT ACTION BANNER (ONLY ANIMATED BY GSAP ON GLOBAL EVENT ACTIONS) */}
-      <div
-        ref={globalEventBannerRef}
-        className="border-b border-white/15 bg-[#111111] px-4 lg:px-6 py-2 relative overflow-hidden"
-      >
-        <div
-          ref={globalEventPulseBarRef}
-          className="absolute inset-0 bg-[#E11D2E]/20 pointer-events-none opacity-0"
-        />
-        <div className="relative z-10 flex flex-wrap items-center justify-between gap-2 text-xs">
-          <div className="flex items-center gap-2">
-            <span className="text-[10px] px-1.5 py-0.5 bg-[#E11D2E] text-white font-bold uppercase">
-              ARENA DIRECTIVE
-            </span>
-            <span className="text-white/85">
-              {lastGlobalCommand
-                ? `EXECUTED GLOBAL ACTION [${lastGlobalCommand.command}] AT ${formatTimestampShort(
-                    lastGlobalCommand.timestamp
-                  )}`
-                : adminState?.settings?.arenaAnnouncement ||
-                  'ALL SECTORS NOMINAL // RESISTANCE OPERATIVES ACTIVE'}
-            </span>
-          </div>
-          <div className="flex items-center gap-3 text-[11px] text-white/50">
-            <span>SOCKETS: {monitor.totalConnectedSockets}</span>
-            <span>|</span>
-            <button
-              type="button"
-              onClick={() => fetchAdminState(token)}
-              className="text-white/70 hover:text-white underline cursor-pointer"
-            >
-              {loadingState ? 'SYNCING...' : 'FORCE REFRESH'}
-            </button>
-          </div>
-        </div>
-      </div>
-
-      {/* TOAST NOTIFICATION (FRAMER MOTION FOR SMALL STATE CHANGES) */}
+      {/* Toast Feedback Banner */}
       <AnimatePresence>
         {feedbackToast && (
           <motion.div
-            key={feedbackToast.id}
-            initial={{ opacity: 0, y: -8 }}
+            initial={{ opacity: 0, y: -12 }}
             animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -8 }}
-            transition={{ duration: 0.18 }}
-            className={`fixed top-4 right-4 z-50 border px-4 py-2.5 text-xs shadow-lg ${
-              feedbackToast.tone === 'error'
-                ? 'bg-[#1a080a] border-[#E11D2E] text-[#E11D2E]'
-                : 'bg-[#0b1610] border-emerald-500/60 text-emerald-300'
-            }`}
+            exit={{ opacity: 0, y: -12 }}
+            className="fixed bottom-5 right-5 z-50 max-w-sm bg-[#111111] text-white border-2 border-[#E11D2E] shadow-[4px_4px_0px_#E11D2E] px-4 py-3 font-mono text-xs flex items-center gap-3"
           >
-            <div className="flex items-center gap-3">
-              <span className="font-bold uppercase">
-                {feedbackToast.tone === 'error' ? 'ERROR' : 'CONFIRMED'} //
-              </span>
-              <span>{feedbackToast.message}</span>
-            </div>
+            <span className="w-2 h-2 bg-[#E11D2E] shrink-0" />
+            <span className="font-bold">{feedbackToast.message}</span>
           </motion.div>
         )}
       </AnimatePresence>
 
-      {/* MAIN CONTENT AREA */}
-      <main className="flex-1 p-4 lg:p-6 max-w-[1600px] w-full mx-auto space-y-6">
-        {/* ===================================================================
-            TAB 1: /admin — LIVE MONITOR (SOCKET.IO POWERED)
-        =================================================================== */}
-        {activeTabId === 'monitor' && (
-          <div className="space-y-6">
-            {/* SUMMARY METRIC ROW */}
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-              <div className="border border-white/15 bg-[#0D0D0D] p-4">
-                <div className="text-[10px] text-white/50 uppercase tracking-widest">
-                  GLOBAL TIMER ({liveGlobalTimer.status})
-                </div>
-                <div className="text-2xl font-bold mt-1 tracking-wider">
-                  {liveGlobalTimer.formatted}
-                </div>
-                <div className="text-[11px] text-white/45 mt-1">
-                  Synchronized with /display projector
-                </div>
-              </div>
-
-              <div className="border border-white/15 bg-[#0D0D0D] p-4">
-                <div className="text-[10px] text-white/50 uppercase tracking-widest">
-                  NEXUS CORE STATUS
-                </div>
-                <div
-                  className={`text-2xl font-bold mt-1 uppercase ${
-                    coreStatus.state === 'LOCKED' ? 'text-white/80' : 'text-[#E11D2E]'
-                  }`}
-                >
-                  {coreStatus.state}
-                </div>
-                <div className="text-[11px] text-white/45 mt-1">
-                  Unlocked Squads: {coreStatus.unlockedTeamsCount || 0} / {monitor.totalTeams}
-                </div>
-              </div>
-
-              <div className="border border-white/15 bg-[#0D0D0D] p-4">
-                <div className="text-[10px] text-white/50 uppercase tracking-widest">
-                  CONNECTED TEAMS (SOCKET.IO)
-                </div>
-                <div className="text-2xl font-bold mt-1 text-emerald-400">
-                  {monitor.onlineTeamsCount} <span className="text-sm text-white/40">/ {monitor.totalTeams}</span>
-                </div>
-                <div className="text-[11px] text-white/45 mt-1">
-                  Active Socket Connections: {monitor.totalConnectedSockets}
-                </div>
-              </div>
-
-              <div className="border border-white/15 bg-[#0D0D0D] p-4">
-                <div className="text-[10px] text-white/50 uppercase tracking-widest">
-                  LIVE CHALLENGE SESSIONS
-                </div>
-                <div className="text-2xl font-bold mt-1 text-amber-400">
-                  {monitor.activeSessionsCount}
-                </div>
-                <div className="text-[11px] text-white/45 mt-1">
-                  Enabled Challenges: {(adminState?.challenges || []).filter((c) => c.enabled).length}
-                </div>
-              </div>
-            </div>
-
-            {/* ACTIVE TEAMS & CURRENT STATES TABLE + LIVE FEED */}
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-              <div className="lg:col-span-2 border border-white/15 bg-[#0D0D0D] flex flex-col">
-                <div className="border-b border-white/15 px-4 py-3 flex flex-wrap items-center justify-between gap-2">
-                  <div>
-                    <h2 className="text-sm font-bold uppercase tracking-wider">
-                      LIVE TEAM TELEMETRY &amp; CURRENT STATES
-                    </h2>
-                    <p className="text-[11px] text-white/45">
-                      Real-time Socket.IO room presence, active challenge timers, and credits
-                    </p>
-                  </div>
-                  <button
-                    type="button"
-                    onClick={() => navigate('/admin/teams')}
-                    className="text-xs border border-white/20 px-3 py-1 hover:border-white/50 text-white/80 cursor-pointer"
-                  >
-                    OPEN TEAM CONTROL →
-                  </button>
-                </div>
-
-                <div className="overflow-x-auto">
-                  <table className="w-full text-left border-collapse text-xs">
-                    <thead>
-                      <tr className="border-b border-white/15 bg-black/50 text-[10px] uppercase tracking-wider text-white/50">
-                        <th className="py-2.5 px-3">CONNECTION</th>
-                        <th className="py-2.5 px-3">TEAM</th>
-                        <th className="py-2.5 px-3">CREDITS</th>
-                        <th className="py-2.5 px-3">ACTIVE CHALLENGE</th>
-                        <th className="py-2.5 px-3">CORE STATE</th>
-                        <th className="py-2.5 px-3 text-right">ACTION</th>
-                      </tr>
-                    </thead>
-                    <tbody className="divide-y divide-white/10">
-                      {(adminState?.teams || []).map((team) => {
-                        const liveClock = getLiveAttemptClock(team.activeAttempt);
-                        const isOnline = team.connectionState?.connected;
-                        return (
-                          <motion.tr
-                            key={team.teamId}
-                            layout
-                            className="hover:bg-white/[0.03] transition-colors"
-                          >
-                            <td className="py-3 px-3">
-                              <span
-                                className={`inline-flex items-center gap-1.5 px-2 py-0.5 text-[10px] font-bold border ${
-                                  isOnline
-                                    ? 'border-emerald-500/40 bg-emerald-500/10 text-emerald-300'
-                                    : 'border-white/15 bg-white/5 text-white/45'
-                                }`}
-                              >
-                                <span
-                                  className={`w-1.5 h-1.5 rounded-full ${
-                                    isOnline ? 'bg-emerald-400' : 'bg-white/30'
-                                  }`}
-                                />
-                                {team.connectionState?.status || 'OFFLINE'} (
-                                {team.connectionState?.onlineOperatives || 0})
-                              </span>
-                            </td>
-                            <td className="py-3 px-3">
-                              <div className="font-bold text-white">{team.teamName}</div>
-                              <div className="text-[10px] text-white/45">
-                                {team.teamId} // {(team.members || []).length} MEMBERS
-                              </div>
-                            </td>
-                            <td className="py-3 px-3 font-bold text-sm">
-                              {Number(team.credits || 0).toLocaleString()} CR
-                            </td>
-                            <td className="py-3 px-3">
-                              {team.activeAttempt?.status === 'IN_PROGRESS' ? (
-                                <div>
-                                  <div className="flex items-center gap-1.5">
-                                    <span className="text-amber-300 font-bold">
-                                      {team.activeAttempt.challengeTitle}
-                                    </span>
-                                    <RiskBadge risk={team.activeAttempt.risk} size="sm" />
-                                  </div>
-                                  <div className="text-[10px] text-white/60 mt-0.5">
-                                    TIMER:{' '}
-                                    <span
-                                      className={
-                                        liveClock?.isCritical
-                                          ? 'text-[#E11D2E] font-bold'
-                                          : 'text-emerald-300 font-bold'
-                                      }
-                                    >
-                                      {liveClock?.formatted || '--:--'}
-                                    </span>{' '}
-                                    // {team.activeAttempt.category}
-                                  </div>
-                                </div>
-                              ) : (
-                                <span className="text-white/40 text-[11px]">IDLE IN PORTAL</span>
-                              )}
-                            </td>
-                            <td className="py-3 px-3">
-                              <span
-                                className={`text-[10px] px-2 py-0.5 border font-bold uppercase ${
-                                  team.coreState === 'COMPLETED'
-                                    ? 'border-emerald-500/50 bg-emerald-500/10 text-emerald-300'
-                                    : team.coreState === 'AVAILABLE' || team.coreState === 'ACTIVE'
-                                    ? 'border-[#E11D2E] bg-[#E11D2E]/15 text-[#E11D2E]'
-                                    : 'border-white/15 text-white/50'
-                                }`}
-                              >
-                                {team.coreState || 'LOCKED'}
-                              </span>
-                            </td>
-                            <td className="py-3 px-3 text-right">
-                              <button
-                                type="button"
-                                onClick={() => {
-                                  setSelectedTeamId(team.teamId);
-                                  navigate('/admin/teams');
-                                }}
-                                className="border border-white/20 hover:border-[#E11D2E] px-2.5 py-1 text-[10px] uppercase tracking-wider text-white/80 hover:text-white cursor-pointer"
-                              >
-                                INSPECT
-                              </button>
-                            </td>
-                          </motion.tr>
-                        );
-                      })}
-                    </tbody>
-                  </table>
-                </div>
-              </div>
-
-              {/* LIVE EVENT STREAM & ADMIN AUDIT LOG */}
-              <div className="border border-white/15 bg-[#0D0D0D] flex flex-col">
-                <div className="border-b border-white/15 px-4 py-3 flex items-center justify-between">
-                  <div>
-                    <h2 className="text-sm font-bold uppercase tracking-wider">
-                      RECENT SYSTEM &amp; ADMIN EVENTS
-                    </h2>
-                    <p className="text-[11px] text-white/45">
-                      Live Socket.IO feed across all sectors
-                    </p>
-                  </div>
-                  <span className="text-[10px] px-2 py-0.5 border border-white/15 text-white/60">
-                    LIVE
-                  </span>
-                </div>
-
-                <div className="p-3 space-y-2 max-h-[480px] overflow-y-auto">
-                  {(adminState?.recentSystemEvents || []).slice(0, 14).map((evt) => (
-                    <motion.div
-                      key={evt.eventId}
-                      initial={{ opacity: 0, y: 4 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      className="border border-white/10 bg-black/50 p-2.5 text-xs"
-                    >
-                      <div className="flex items-center justify-between text-[10px] text-white/45 mb-1">
-                        <span className="font-bold text-[#E11D2E]">{evt.type}</span>
-                        <span>{formatTimestampShort(evt.timestamp)}</span>
-                      </div>
-                      <div className="text-white/85 text-[11px] leading-snug">{evt.summary}</div>
-                    </motion.div>
-                  ))}
-                </div>
-              </div>
-            </div>
-          </div>
-        )}
-
-        {/* ===================================================================
-            TAB 2: /admin/teams — TEAM CONTROL
-            View teams, search teams, view credits, view active challenge,
-            view members, view history, view connection state
-        =================================================================== */}
+      {/* MAIN CONTENT CONTAINER */}
+      <main className="max-w-7xl w-full mx-auto px-4 sm:px-6 py-6 flex-1 space-y-6">
+        {/* =======================================================================
+            TAB 1: TEAMS & REGISTRATION (/admin/teams)
+           ======================================================================= */}
         {activeTabId === 'teams' && (
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-            {/* LEFT COLUMN: TEAM SEARCH & LIST */}
-            <div className="lg:col-span-5 border border-white/15 bg-[#0D0D0D] flex flex-col">
-              <div className="p-4 border-b border-white/15 space-y-3">
-                <div className="flex items-center justify-between">
-                  <h2 className="text-sm font-bold uppercase tracking-wider">
-                    TEAM DIRECTORY ({filteredTeams.length})
+          <div className="space-y-5">
+            {/* Collapsible Register New Team Card */}
+            <section className="bg-white border-2 border-[#111111] shadow-[4px_4px_0px_#111111]">
+              <div
+                onClick={() => setShowRegisterForm((v) => !v)}
+                className="px-5 py-3.5 bg-[#FAF9F5] flex items-center justify-between cursor-pointer select-none"
+              >
+                <div className="flex items-center gap-2.5">
+                  <UserPlus className="w-4 h-4 text-[#E11D2E]" />
+                  <h2 className="font-display text-lg uppercase tracking-wide text-[#111111]">
+                    Register New Team & Give Initial Credits
                   </h2>
-                  <span className="text-[10px] text-white/45 uppercase">
-                    ONLINE: {monitor.onlineTeamsCount}/{monitor.totalTeams}
+                  <span className="hidden sm:inline-block px-2 py-0.5 bg-neutral-200 text-neutral-700 font-mono text-[10px] font-bold uppercase">
+                    Solo · Duo · Trio · Max 4
                   </span>
                 </div>
+                <button
+                  type="button"
+                  className="px-3 py-1 bg-[#111111] text-white font-mono text-xs font-bold uppercase inline-flex items-center gap-1 cursor-pointer"
+                >
+                  {showRegisterForm ? (
+                    <>
+                      Hide Form <ChevronUp className="w-3.5 h-3.5" />
+                    </>
+                  ) : (
+                    <>
+                      + New Team <ChevronDown className="w-3.5 h-3.5" />
+                    </>
+                  )}
+                </button>
+              </div>
 
+              {showRegisterForm && (
+                <form
+                  onSubmit={handleRegisterTeam}
+                  className="p-5 border-t-2 border-[#111111] space-y-4 font-mono text-xs"
+                >
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3.5">
+                    <div>
+                      <label className="block font-bold uppercase text-neutral-700 mb-1">
+                        Team Name *
+                      </label>
+                      <input
+                        type="text"
+                        value={regTeamName}
+                        onChange={(e) => setRegTeamName(e.target.value)}
+                        placeholder="e.g. ALPHA SQUAD"
+                        className="w-full px-3 py-2 bg-[#FAF9F5] border-2 border-[#111111] text-sm font-bold uppercase focus:outline-none focus:border-[#E11D2E]"
+                        required
+                      />
+                    </div>
+
+                    <div>
+                      <label className="block font-bold uppercase text-neutral-700 mb-1">
+                        Team ID (Auto if blank)
+                      </label>
+                      <input
+                        type="text"
+                        value={regTeamId}
+                        onChange={(e) => setRegTeamId(e.target.value)}
+                        placeholder={
+                          regTeamName.trim()
+                            ? `TEAM-${regTeamName
+                                .trim()
+                                .toUpperCase()
+                                .replace(/^TEAM[-_\s]*/i, '')
+                                .replace(/[^A-Z0-9]+/g, '-')}`
+                            : 'TEAM-ALPHA'
+                        }
+                        className="w-full px-3 py-2 bg-[#FAF9F5] border border-neutral-300 focus:border-[#111111] text-sm uppercase focus:outline-none"
+                      />
+                    </div>
+
+                    <div>
+                      <label className="block font-bold uppercase text-neutral-700 mb-1">
+                        Login Password *
+                      </label>
+                      <input
+                        type="text"
+                        value={regPassword}
+                        onChange={(e) => setRegPassword(e.target.value)}
+                        placeholder="NEXUS-2026"
+                        className="w-full px-3 py-2 bg-[#FAF9F5] border-2 border-[#111111] text-sm font-bold focus:outline-none focus:border-[#E11D2E]"
+                        required
+                      />
+                    </div>
+
+                    <div>
+                      <label className="block font-bold uppercase text-neutral-700 mb-1">
+                        Initial Credits (CR) *
+                      </label>
+                      <div className="flex items-center gap-1.5">
+                        <input
+                          type="number"
+                          min={0}
+                          step={50}
+                          value={regCredits}
+                          onChange={(e) => setRegCredits(e.target.value)}
+                          className="w-full px-3 py-2 bg-[#FAF9F5] border-2 border-[#111111] text-sm font-bold text-[#E11D2E] focus:outline-none"
+                          required
+                        />
+                        {[1000, 1500, 2500].map((preset) => (
+                          <button
+                            key={preset}
+                            type="button"
+                            onClick={() => setRegCredits(preset)}
+                            className={`px-2 py-2 border text-[10px] font-bold cursor-pointer ${
+                              Number(regCredits) === preset
+                                ? 'bg-[#111111] text-white border-[#111111]'
+                                : 'bg-neutral-100 text-neutral-700 border-neutral-300 hover:border-[#111111]'
+                            }`}
+                          >
+                            {preset}
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Team Size Mode Selector: Solo (1), Duo (2), Trio (3), Squad (4) */}
+                  <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 items-end pt-1">
+                    <div className="lg:col-span-5">
+                      <label className="block font-bold uppercase text-neutral-700 mb-1.5">
+                        Team Size Format
+                      </label>
+                      <div className="grid grid-cols-4 gap-2">
+                        {TEAM_SIZE_MODES.map((mode) => {
+                          const active = regTeamSize === mode.size;
+                          return (
+                            <button
+                              key={mode.size}
+                              type="button"
+                              onClick={() => setRegTeamSize(mode.size)}
+                              className={`p-2 border-2 text-center transition-colors cursor-pointer ${
+                                active
+                                  ? 'border-[#111111] bg-[#E11D2E] text-white font-bold'
+                                  : 'border-neutral-300 bg-[#FAF9F5] text-neutral-700 hover:border-[#111111]'
+                              }`}
+                            >
+                              <div className="text-xs font-bold">{mode.tag}</div>
+                              <div className="text-[10px] opacity-85">{mode.size}P</div>
+                            </button>
+                          );
+                        })}
+                      </div>
+                    </div>
+
+                    <div className="lg:col-span-5">
+                      <label className="block font-bold uppercase text-neutral-700 mb-1.5">
+                        Player Names (Optional — {regTeamSize} Slots)
+                      </label>
+                      <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
+                        {Array.from({ length: regTeamSize }, (_, idx) => (
+                          <input
+                            key={idx}
+                            type="text"
+                            value={regMembers[idx] || ''}
+                            onChange={(e) => {
+                              const next = [...regMembers];
+                              next[idx] = e.target.value;
+                              setRegMembers(next);
+                            }}
+                            placeholder={`P${idx + 1}`}
+                            className="w-full px-2.5 py-2 bg-[#FAF9F5] border border-neutral-300 focus:border-[#111111] text-xs uppercase focus:outline-none"
+                          />
+                        ))}
+                      </div>
+                    </div>
+
+                    <div className="lg:col-span-2">
+                      <button
+                        type="submit"
+                        disabled={pendingKey === 'register-team'}
+                        className="w-full py-2.5 px-4 bg-[#E11D2E] hover:bg-[#111111] text-white font-bold uppercase tracking-wider transition-colors cursor-pointer shadow-[2px_2px_0px_#111111] disabled:opacity-50"
+                      >
+                        {pendingKey === 'register-team' ? 'Creating...' : '+ Register'}
+                      </button>
+                    </div>
+                  </div>
+
+                  {lastCreatedTeam && (
+                    <div className="p-3 bg-emerald-50 border border-emerald-400 flex flex-wrap items-center justify-between gap-2 text-emerald-950">
+                      <div>
+                        Registered{' '}
+                        <span className="font-bold">{lastCreatedTeam.teamId}</span> · Password:{' '}
+                        <span className="font-bold">{lastCreatedTeam.password}</span> · Credits:{' '}
+                        <span className="font-bold">{lastCreatedTeam.credits} CR</span>
+                      </div>
+                      <button
+                        type="button"
+                        onClick={() => {
+                          navigator.clipboard?.writeText(
+                            `Team ID: ${lastCreatedTeam.teamId} | Password: ${lastCreatedTeam.password}`
+                          );
+                          setCopiedTeamId(true);
+                          setTimeout(() => setCopiedTeamId(false), 2000);
+                        }}
+                        className="px-2.5 py-1 bg-white border border-emerald-600 text-[11px] font-bold inline-flex items-center gap-1 cursor-pointer"
+                      >
+                        {copiedTeamId ? (
+                          <Check className="w-3 h-3" />
+                        ) : (
+                          <Copy className="w-3 h-3" />
+                        )}
+                        {copiedTeamId ? 'Copied' : 'Copy Login'}
+                      </button>
+                    </div>
+                  )}
+                </form>
+              )}
+            </section>
+
+            {/* Filter & Search Bar */}
+            <section className="bg-white border-2 border-[#111111] p-3.5 flex flex-wrap items-center justify-between gap-3">
+              <div className="relative flex-1 min-w-[220px]">
+                <Search className="w-4 h-4 text-neutral-400 absolute left-3 top-1/2 -translate-y-1/2" />
                 <input
                   type="text"
                   value={teamSearch}
                   onChange={(e) => setTeamSearch(e.target.value)}
-                  placeholder="Search team ID, name, member, sector, or challenge..."
-                  className="w-full bg-black border border-white/20 px-3 py-2 text-xs text-white focus:outline-none focus:border-[#E11D2E]"
+                  placeholder="Search team name, ID, or player..."
+                  className="w-full pl-9 pr-3 py-1.5 bg-[#FAF9F5] border border-neutral-300 focus:border-[#111111] font-mono text-xs focus:outline-none"
                 />
-
-                <div className="flex flex-wrap gap-1.5">
-                  {['ALL', 'ONLINE', 'IN_CHALLENGE', 'CORE_UNLOCKED'].map((f) => (
-                    <button
-                      key={f}
-                      type="button"
-                      onClick={() => setTeamFilter(f)}
-                      className={`px-2.5 py-1 text-[10px] uppercase border cursor-pointer ${
-                        teamFilter === f
-                          ? 'border-[#E11D2E] bg-[#E11D2E]/15 text-white font-bold'
-                          : 'border-white/15 text-white/60 hover:text-white'
-                      }`}
-                    >
-                      {f.replace('_', ' ')}
-                    </button>
-                  ))}
-                </div>
               </div>
 
-              <div className="divide-y divide-white/10 max-h-[680px] overflow-y-auto">
-                {filteredTeams.map((team) => {
-                  const isSelected = selectedTeam?.teamId === team.teamId;
-                  const isOnline = team.connectionState?.connected;
-                  const liveClock = getLiveAttemptClock(team.activeAttempt);
-                  return (
-                    <button
-                      key={team.teamId}
-                      type="button"
-                      onClick={() => setSelectedTeamId(team.teamId)}
-                      className={`w-full text-left p-4 transition-colors cursor-pointer ${
-                        isSelected
-                          ? 'bg-[#E11D2E]/10 border-l-2 border-l-[#E11D2E]'
-                          : 'hover:bg-white/[0.03]'
-                      }`}
-                    >
-                      <div className="flex items-center justify-between gap-2">
-                        <div>
-                          <span className="text-[10px] text-white/45 uppercase block">
-                            {team.teamId} // {team.sector}
+              <div className="flex flex-wrap items-center gap-1.5 font-mono text-xs">
+                {[
+                  { id: 'ALL', label: `All (${totalTeams})` },
+                  { id: 'ONLINE', label: `Online (${onlineTeamsCount})` },
+                  { id: 'IN_CHALLENGE', label: `Playing (${activeAttemptsCount})` },
+                  { id: 'SOLO', label: 'Solo' },
+                  { id: 'DUO', label: 'Duo' },
+                  { id: 'TRIO', label: 'Trio' },
+                  { id: 'SQUAD', label: 'Squad' },
+                ].map((f) => (
+                  <button
+                    key={f.id}
+                    type="button"
+                    onClick={() => setTeamFilter(f.id)}
+                    className={`px-2.5 py-1 border font-bold uppercase cursor-pointer transition-colors ${
+                      teamFilter === f.id
+                        ? 'bg-[#111111] text-white border-[#111111]'
+                        : 'bg-white text-neutral-700 border-neutral-300 hover:border-[#111111]'
+                    }`}
+                  >
+                    {f.label}
+                  </button>
+                ))}
+              </div>
+            </section>
+
+            {/* Card-Wise Team Grid */}
+            <section className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 font-mono text-xs">
+              {filteredTeams.map((team) => {
+                const formatInfo = getTeamFormatInfo(team);
+                const isOnline = Boolean(team.connectionState?.connected);
+                const activeAttempt =
+                  team.activeAttempt?.status === 'IN_PROGRESS' ? team.activeAttempt : null;
+                const attemptClock = getLiveAttemptClock(activeAttempt);
+                const customVal = customCreditInputs[team.teamId] ?? '';
+
+                return (
+                  <div
+                    key={team.teamId}
+                    className={`bg-white border-2 p-4 flex flex-col justify-between gap-3.5 transition-colors ${
+                      activeAttempt
+                        ? 'border-[#E11D2E] shadow-[4px_4px_0px_#E11D2E]'
+                        : 'border-[#111111] shadow-[4px_4px_0px_#111111]'
+                    }`}
+                  >
+                    {/* Card Header: Team Name, ID, Format Badge, Actions */}
+                    <div className="flex items-start justify-between gap-2 border-b border-neutral-200 pb-3">
+                      <div className="min-w-0">
+                        <div className="flex items-center gap-2 flex-wrap">
+                          <span
+                            className={`w-2.5 h-2.5 rounded-full shrink-0 ${
+                              isOnline ? 'bg-emerald-500' : 'bg-neutral-400'
+                            }`}
+                            title={isOnline ? 'Online' : 'Offline'}
+                          />
+                          <h3 className="font-display text-2xl uppercase text-[#111111] truncate">
+                            {team.teamName}
+                          </h3>
+                          <span
+                            className={`px-2 py-0.5 text-[10px] font-bold uppercase border ${formatInfo.badgeClass}`}
+                          >
+                            {formatInfo.label}
                           </span>
-                          <span className="text-sm font-bold text-white">{team.teamName}</span>
                         </div>
-                        <div className="text-right">
-                          <div className="text-sm font-bold text-white">
-                            {Number(team.credits || 0).toLocaleString()} CR
+                        <div className="text-[11px] text-neutral-500 mt-0.5 flex items-center gap-2">
+                          <span>{team.teamId}</span>
+                          <span>·</span>
+                          <span>{isOnline ? 'ONLINE' : 'OFFLINE'}</span>
+                        </div>
+                      </div>
+
+                      <div className="flex items-center gap-1 shrink-0">
+                        <button
+                          type="button"
+                          onClick={() => jumpToTeamLiveEvents(team.teamId)}
+                          className="px-2 py-1 bg-[#FAF9F5] hover:bg-[#111111] hover:text-white border border-neutral-300 font-bold text-[10px] uppercase cursor-pointer transition-colors"
+                          title="View Live Events for this team"
+                        >
+                          Events
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() =>
+                            setEditingTeamModal({
+                              teamId: team.teamId,
+                              teamName: team.teamName || team.teamId,
+                              password: '',
+                              teamSize: formatInfo.size,
+                              members: Array.from(
+                                { length: 4 },
+                                (_, i) => team.members?.[i]?.name || ''
+                              ),
+                            })
+                          }
+                          className="p-1.5 bg-[#FAF9F5] hover:bg-[#111111] hover:text-white border border-neutral-300 text-neutral-700 cursor-pointer transition-colors"
+                          title="Edit Team & Roster"
+                        >
+                          <Edit3 className="w-3.5 h-3.5" />
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => {
+                            if (window.confirm(`Delete team ${team.teamId}?`)) {
+                              handleTeamAction(
+                                team.teamId,
+                                'DELETE_TEAM',
+                                {},
+                                `Deleted ${team.teamId}`
+                              );
+                            }
+                          }}
+                          className="p-1.5 bg-[#FAF9F5] hover:bg-[#E11D2E] hover:text-white border border-neutral-300 text-neutral-500 cursor-pointer transition-colors"
+                          title="Delete Team"
+                        >
+                          <Trash2 className="w-3.5 h-3.5" />
+                        </button>
+                      </div>
+                    </div>
+
+                    {/* Credits Balance + Solved/Failed + Player Roster */}
+                    <div className="space-y-2.5">
+                      <div className="flex items-baseline justify-between bg-[#FAF9F5] border border-neutral-200 px-3 py-2.5">
+                        <div>
+                          <div className="text-[10px] font-bold uppercase text-neutral-500">
+                            Team Credits
                           </div>
-                          <div
-                            className={`text-[10px] font-bold ${
-                              isOnline ? 'text-emerald-400' : 'text-white/40'
+                          <div className="font-display text-3xl text-[#111111] leading-none mt-0.5">
+                            {Number(team.credits || 0).toLocaleString()}{' '}
+                            <span className="font-mono text-xs text-[#E11D2E]">CR</span>
+                          </div>
+                        </div>
+                        <div className="text-right text-[11px]">
+                          <div className="text-emerald-700 font-bold">
+                            Solved: {team.completedChallenges?.length || 0}
+                          </div>
+                          <div className="text-neutral-500">
+                            Failed: {team.failedChallenges?.length || 0}
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Players List */}
+                      <div className="flex flex-wrap gap-1.5">
+                        {(team.members || []).slice(0, formatInfo.size).map((m, idx) => (
+                          <span
+                            key={m.memberId || idx}
+                            className="px-2 py-0.5 bg-[#FAF9F5] border border-neutral-300 text-[10px] font-bold uppercase text-neutral-700"
+                          >
+                            P{idx + 1}: {m.name}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+
+                    {/* Quick Credit Presets + Custom CR Input (+ Add / - Deduct / Set) */}
+                    <div className="space-y-2 pt-2 border-t border-neutral-200">
+                      <div className="text-[10px] font-bold uppercase text-neutral-500">
+                        Quick Credit Adjust & Custom CR
+                      </div>
+
+                      {/* Row 1: Quick Presets */}
+                      <div className="grid grid-cols-5 gap-1">
+                        {[
+                          { label: '+100', amount: 100, pos: true },
+                          { label: '+250', amount: 250, pos: true },
+                          { label: '+500', amount: 500, pos: true },
+                          { label: '-100', amount: -100, pos: false },
+                          { label: '-250', amount: -250, pos: false },
+                        ].map((btn) => (
+                          <button
+                            key={btn.label}
+                            type="button"
+                            onClick={() =>
+                              handleTeamAction(
+                                team.teamId,
+                                'ADJUST_CREDITS',
+                                { amount: btn.amount, reason: `Admin ${btn.label} CR` },
+                                `${btn.label} CR (${team.teamId})`
+                              )
+                            }
+                            className={`py-1.5 border font-bold text-[11px] cursor-pointer transition-colors ${
+                              btn.pos
+                                ? 'bg-emerald-50 hover:bg-emerald-600 hover:text-white text-emerald-800 border-emerald-300'
+                                : 'bg-red-50 hover:bg-[#E11D2E] hover:text-white text-[#E11D2E] border-red-200'
                             }`}
                           >
-                            ● {team.connectionState?.status || 'OFFLINE'} (
-                            {team.connectionState?.onlineOperatives || 0})
-                          </div>
-                        </div>
+                            {btn.label}
+                          </button>
+                        ))}
                       </div>
 
-                      <div className="mt-2 flex flex-wrap items-center justify-between gap-2 text-[11px]">
-                        <span className="text-white/60">
-                          Members: {(team.members || []).length} | Solved:{' '}
-                          {(team.completedChallenges || []).length}
-                        </span>
-                        {team.activeAttempt?.status === 'IN_PROGRESS' ? (
-                          <span className="text-amber-300 font-bold">
-                            ACTIVE: {team.activeAttempt.challengeTitle} (
-                            {liveClock?.formatted || '--:--'})
-                          </span>
-                        ) : (
-                          <span className="text-white/35">NO ACTIVE CHALLENGE</span>
-                        )}
-                      </div>
-                    </button>
-                  );
-                })}
-              </div>
-            </div>
-
-            {/* RIGHT COLUMN: SELECTED TEAM INSPECTOR (CREDITS, ACTIVE CHALLENGE, MEMBERS, HISTORY, CONNECTION) */}
-            <div className="lg:col-span-7 space-y-6">
-              {selectedTeam ? (
-                <div className="border border-white/15 bg-[#0D0D0D] p-5 space-y-6">
-                  {/* TEAM HEADER & CONNECTION STATE */}
-                  <div className="flex flex-wrap items-start justify-between gap-4 border-b border-white/15 pb-4">
-                    <div>
-                      <div className="flex items-center gap-2">
-                        <span className="text-xs text-[#E11D2E] font-bold">
-                          {selectedTeam.teamId}
-                        </span>
-                        <span className="text-white/30">//</span>
-                        <span className="text-xs text-white/60">{selectedTeam.sector}</span>
-                        <span
-                          className={`text-[10px] px-2 py-0.5 border font-bold ${
-                            selectedTeam.connectionState?.connected
-                              ? 'border-emerald-500/40 bg-emerald-500/10 text-emerald-300'
-                              : 'border-white/20 bg-white/5 text-white/50'
-                          }`}
-                        >
-                          SOCKET: {selectedTeam.connectionState?.status} (
-                          {selectedTeam.connectionState?.onlineOperatives || 0} TERMINALS IN{' '}
-                          {selectedTeam.connectionState?.room})
-                        </span>
-                      </div>
-                      <h2 className="text-xl font-bold uppercase mt-1">{selectedTeam.teamName}</h2>
-                    </div>
-
-                    <div className="flex items-center gap-2">
-                      <button
-                        type="button"
-                        disabled={actionBusy}
-                        onClick={() =>
-                          handleTeamAction(
-                            selectedTeam.teamId,
-                            'RESET_TEAM',
-                            {},
-                            `Reset ${selectedTeam.teamId} to default state`
-                          )
-                        }
-                        className="border border-white/20 hover:border-[#E11D2E] px-3 py-1.5 text-xs uppercase text-white/75 hover:text-white cursor-pointer"
-                      >
-                        RESET TEAM STATE
-                      </button>
-                    </div>
-                  </div>
-
-                  {/* CREDITS & CORE STATE CONTROL */}
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div className="border border-white/15 bg-black/50 p-4 space-y-3">
-                      <div className="flex items-center justify-between">
-                        <span className="text-[10px] uppercase tracking-widest text-white/50">
-                          RESISTANCE CREDITS BALANCE
-                        </span>
-                        <span className="text-lg font-bold text-white">
-                          {Number(selectedTeam.credits || 0).toLocaleString()} CR
-                        </span>
-                      </div>
-
-                      <div className="flex gap-2">
+                      {/* Row 2: Custom CR Input with + Add, - Deduct, and Set Exact */}
+                      <div className="flex items-center gap-1.5">
                         <input
                           type="number"
-                          value={creditAdjustDelta}
-                          onChange={(e) => setCreditAdjustDelta(Number(e.target.value))}
-                          className="w-28 bg-black border border-white/20 px-2.5 py-1.5 text-xs text-white"
+                          min={0}
+                          step={10}
+                          value={customVal}
+                          onChange={(e) =>
+                            setCustomCreditInputs((p) => ({
+                              ...p,
+                              [team.teamId]: e.target.value,
+                            }))
+                          }
+                          placeholder="Custom CR..."
+                          className="flex-1 min-w-0 px-2.5 py-1.5 bg-[#FAF9F5] border border-neutral-300 focus:border-[#111111] font-bold text-xs text-[#111111] focus:outline-none"
                         />
-                        <input
-                          type="text"
-                          value={creditAdjustReason}
-                          onChange={(e) => setCreditAdjustReason(e.target.value)}
-                          placeholder="Reason..."
-                          className="flex-1 bg-black border border-white/20 px-2.5 py-1.5 text-xs text-white"
-                        />
-                      </div>
-
-                      <div className="flex flex-wrap gap-1.5">
                         <button
                           type="button"
-                          disabled={actionBusy}
-                          onClick={() =>
-                            handleTeamAction(selectedTeam.teamId, 'ADJUST_CREDITS', {
-                              amount: Math.abs(creditAdjustDelta),
-                              reason: creditAdjustReason,
-                            })
-                          }
-                          className="px-3 py-1.5 text-[11px] bg-emerald-600/20 border border-emerald-500/50 text-emerald-300 hover:bg-emerald-600/30 font-bold uppercase cursor-pointer"
+                          onClick={() => {
+                            const num = Math.abs(Number(customVal));
+                            if (!customVal || Number.isNaN(num) || num <= 0) {
+                              showToast('Enter a positive custom CR amount first', 'error');
+                              return;
+                            }
+                            handleTeamAction(
+                              team.teamId,
+                              'ADJUST_CREDITS',
+                              { amount: num, reason: `Custom +${num} CR` },
+                              `Added +${num} CR to ${team.teamId}`
+                            );
+                            setCustomCreditInputs((p) => ({ ...p, [team.teamId]: '' }));
+                          }}
+                          className="px-2.5 py-1.5 bg-emerald-600 hover:bg-emerald-700 text-white font-bold uppercase text-[10px] cursor-pointer whitespace-nowrap"
+                          title="Add custom CR to team balance"
                         >
-                          +{Math.abs(creditAdjustDelta)} CR
+                          + Add
                         </button>
                         <button
                           type="button"
-                          disabled={actionBusy}
-                          onClick={() =>
-                            handleTeamAction(selectedTeam.teamId, 'ADJUST_CREDITS', {
-                              amount: -Math.abs(creditAdjustDelta),
-                              reason: creditAdjustReason,
-                            })
-                          }
-                          className="px-3 py-1.5 text-[11px] bg-[#E11D2E]/20 border border-[#E11D2E]/50 text-[#E11D2E] hover:bg-[#E11D2E]/30 font-bold uppercase cursor-pointer"
+                          onClick={() => {
+                            const num = Math.abs(Number(customVal));
+                            if (!customVal || Number.isNaN(num) || num <= 0) {
+                              showToast('Enter a positive custom CR amount first', 'error');
+                              return;
+                            }
+                            handleTeamAction(
+                              team.teamId,
+                              'ADJUST_CREDITS',
+                              { amount: -num, reason: `Custom -${num} CR` },
+                              `Deducted -${num} CR from ${team.teamId}`
+                            );
+                            setCustomCreditInputs((p) => ({ ...p, [team.teamId]: '' }));
+                          }}
+                          className="px-2.5 py-1.5 bg-[#E11D2E] hover:bg-red-700 text-white font-bold uppercase text-[10px] cursor-pointer whitespace-nowrap"
+                          title="Deduct custom CR from team balance"
                         >
-                          -{Math.abs(creditAdjustDelta)} CR
+                          - Sub
                         </button>
                         <button
                           type="button"
-                          disabled={actionBusy}
-                          onClick={() =>
-                            handleTeamAction(selectedTeam.teamId, 'ADJUST_CREDITS', {
-                              amount: 500,
-                              reason: 'VOLUNTEER BONUS AWARD',
-                            })
-                          }
-                          className="px-2.5 py-1.5 text-[11px] border border-white/20 text-white/75 hover:text-white uppercase cursor-pointer"
+                          onClick={() => {
+                            const num = Number(customVal);
+                            if (customVal === '' || Number.isNaN(num) || num < 0) {
+                              showToast('Enter a valid CR balance to set', 'error');
+                              return;
+                            }
+                            handleTeamAction(
+                              team.teamId,
+                              'SET_CREDITS',
+                              { credits: Math.max(0, num) },
+                              `Set ${team.teamId} balance to ${num} CR`
+                            );
+                            setCustomCreditInputs((p) => ({ ...p, [team.teamId]: '' }));
+                          }}
+                          className="px-2.5 py-1.5 bg-[#111111] hover:bg-[#E11D2E] text-white font-bold uppercase text-[10px] cursor-pointer whitespace-nowrap"
+                          title="Set exact credit balance"
                         >
-                          +500 BONUS
+                          Set
                         </button>
                       </div>
                     </div>
 
-                    {/* ACTIVE CHALLENGE & TEAM CORE OVERRIDE */}
-                    <div className="border border-white/15 bg-black/50 p-4 space-y-3">
-                      <div className="flex items-center justify-between">
-                        <span className="text-[10px] uppercase tracking-widest text-white/50">
-                          ACTIVE CHALLENGE SESSION
-                        </span>
-                        <span className="text-[10px] uppercase px-2 py-0.5 border border-white/15">
-                          CORE: {selectedTeam.coreState}
-                        </span>
-                      </div>
-
-                      {selectedTeam.activeAttempt?.status === 'IN_PROGRESS' ? (
-                        <div className="space-y-2">
-                          <div className="flex items-center justify-between">
-                            <span className="font-bold text-amber-300 text-xs">
-                              {selectedTeam.activeAttempt.challengeTitle} (
-                              {selectedTeam.activeAttempt.challengeId})
-                            </span>
-                            <RiskBadge risk={selectedTeam.activeAttempt.risk} size="sm" />
+                    {/* Active Challenge Status Footer */}
+                    <div className="pt-2.5 border-t border-neutral-200">
+                      {activeAttempt ? (
+                        <div className="p-2.5 bg-red-50/40 border border-red-200 flex items-center justify-between gap-2">
+                          <div className="min-w-0">
+                            <div className="flex items-center gap-1.5">
+                              <span className="px-1.5 py-0.5 bg-[#E11D2E] text-white font-bold text-[9px] uppercase">
+                                PLAYING
+                              </span>
+                              <span className="font-bold text-xs text-[#111111] truncate">
+                                {getFriendlyChallengeTitle({
+                                  challengeId: activeAttempt.challengeId,
+                                  title: activeAttempt.title,
+                                  gameType: activeAttempt.gameType,
+                                })}
+                              </span>
+                            </div>
+                            {attemptClock && (
+                              <div className="text-[11px] font-bold text-[#E11D2E] mt-0.5">
+                                Time Left: {attemptClock.formatted}
+                              </div>
+                            )}
                           </div>
-                          <div className="text-xs text-white/70">
-                            Timer Remaining:{' '}
-                            <span className="font-bold text-white">
-                              {getLiveAttemptClock(selectedTeam.activeAttempt)?.formatted ||
-                                '--:--'}
-                            </span>{' '}
-                            | Reward: +{selectedTeam.activeAttempt.reward} CR
-                          </div>
-                          <div className="flex flex-wrap gap-1.5 pt-1">
+                          <div className="flex items-center gap-1 shrink-0">
                             <button
                               type="button"
-                              disabled={actionBusy}
                               onClick={() =>
-                                handleTeamAction(selectedTeam.teamId, 'ADJUDICATE_ATTEMPT', {
-                                  outcome: 'SUCCESS',
-                                })
+                                handleTeamAction(
+                                  team.teamId,
+                                  'FORCE_COMPLETE',
+                                  { challengeId: activeAttempt.challengeId },
+                                  `Passed ${team.teamId}`
+                                )
                               }
-                              className="px-2.5 py-1 text-[10px] border border-emerald-500/50 bg-emerald-500/15 text-emerald-300 uppercase font-bold cursor-pointer"
+                              className="px-2.5 py-1 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-[10px] uppercase cursor-pointer"
                             >
-                              FORCE SUCCESS
+                              Pass
                             </button>
                             <button
                               type="button"
-                              disabled={actionBusy}
                               onClick={() =>
-                                handleTeamAction(selectedTeam.teamId, 'ADJUDICATE_ATTEMPT', {
-                                  outcome: 'FAILED',
-                                })
+                                handleTeamAction(
+                                  team.teamId,
+                                  'FORCE_FAIL',
+                                  { challengeId: activeAttempt.challengeId },
+                                  `Failed ${team.teamId}`
+                                )
                               }
-                              className="px-2.5 py-1 text-[10px] border border-[#E11D2E]/50 bg-[#E11D2E]/15 text-[#E11D2E] uppercase font-bold cursor-pointer"
+                              className="px-2.5 py-1 bg-[#E11D2E] hover:bg-red-700 text-white font-bold text-[10px] uppercase cursor-pointer"
                             >
-                              FORCE FAIL
-                            </button>
-                            <button
-                              type="button"
-                              disabled={actionBusy}
-                              onClick={() =>
-                                handleTeamAction(selectedTeam.teamId, 'ADJUDICATE_ATTEMPT', {
-                                  outcome: 'ABANDONED',
-                                })
-                              }
-                              className="px-2.5 py-1 text-[10px] border border-white/25 text-white/70 uppercase cursor-pointer"
-                            >
-                              FORCE ABANDON
+                              Fail
                             </button>
                           </div>
                         </div>
                       ) : (
-                        <div className="text-xs text-white/45 py-2">
-                          No challenge currently in progress for this team.
+                        <div className="flex items-center justify-between text-[11px] text-neutral-500">
+                          <span>Status: Idle (No active game)</span>
+                          <span className="uppercase font-bold">
+                            Core: {team.coreState || 'LOCKED'}
+                          </span>
                         </div>
                       )}
-
-                      <div className="pt-2 border-t border-white/10 flex items-center justify-between gap-2">
-                        <span className="text-[10px] text-white/45 uppercase">TEAM CORE:</span>
-                        <div className="flex gap-1.5">
-                          {['LOCKED', 'AVAILABLE', 'ACTIVE'].map((st) => (
-                            <button
-                              key={st}
-                              type="button"
-                              disabled={actionBusy}
-                              onClick={() =>
-                                handleTeamAction(selectedTeam.teamId, 'SET_TEAM_CORE_STATE', {
-                                  state: st,
-                                })
-                              }
-                              className={`px-2 py-0.5 text-[10px] border uppercase cursor-pointer ${
-                                selectedTeam.coreState === st
-                                  ? 'border-[#E11D2E] bg-[#E11D2E] text-white font-bold'
-                                  : 'border-white/20 text-white/60 hover:text-white'
-                              }`}
-                            >
-                              {st}
-                            </button>
-                          ))}
-                        </div>
-                      </div>
                     </div>
                   </div>
+                );
+              })}
 
-                  {/* TEAM MEMBERS ROSTER */}
-                  <div className="border border-white/15 bg-black/40 p-4">
-                    <h3 className="text-xs font-bold uppercase tracking-wider text-white/75 mb-3">
-                      OPERATIVE MEMBERS ({(selectedTeam.members || []).length})
-                    </h3>
-                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
-                      {(selectedTeam.members || []).map((member, idx) => (
-                        <div
-                          key={member.operativeId || idx}
-                          className="border border-white/10 bg-[#0B0B0B] p-2.5 text-xs"
-                        >
-                          <div className="flex items-center justify-between">
-                            <span className="font-bold text-white">{member.name}</span>
-                            <span className="text-[10px] text-emerald-400">
-                              {member.status || 'ONLINE'}
-                            </span>
-                          </div>
-                          <div className="text-[10px] text-white/50 mt-0.5">
-                            {member.operativeId || `OP-0${idx + 1}`} // {member.role || 'OPERATIVE'}
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-
-                  {/* TEAM ATTEMPT HISTORY */}
-                  <div className="border border-white/15 bg-black/40 p-4">
-                    <h3 className="text-xs font-bold uppercase tracking-wider text-white/75 mb-3">
-                      TEAM CHALLENGE HISTORY ({(selectedTeam.attemptHistory || []).length})
-                    </h3>
-                    <div className="overflow-x-auto max-h-60 overflow-y-auto">
-                      <table className="w-full text-left border-collapse text-xs">
-                        <thead>
-                          <tr className="border-b border-white/15 text-[10px] text-white/45 uppercase">
-                            <th className="py-2 px-2">CHALLENGE</th>
-                            <th className="py-2 px-2">CATEGORY</th>
-                            <th className="py-2 px-2">RISK</th>
-                            <th className="py-2 px-2">COST</th>
-                            <th className="py-2 px-2">RESULT</th>
-                            <th className="py-2 px-2">NET</th>
-                            <th className="py-2 px-2">TIME</th>
-                          </tr>
-                        </thead>
-                        <tbody className="divide-y divide-white/10">
-                          {(selectedTeam.attemptHistory || []).map((h) => (
-                            <tr key={h.attemptId}>
-                              <td className="py-2 px-2 font-bold">{h.challengeTitle}</td>
-                              <td className="py-2 px-2 text-white/60">{h.category}</td>
-                              <td className="py-2 px-2">
-                                <RiskBadge risk={h.risk} size="sm" />
-                              </td>
-                              <td className="py-2 px-2">{h.cost} CR</td>
-                              <td className="py-2 px-2">
-                                <span
-                                  className={`text-[10px] font-bold px-1.5 py-0.5 border ${
-                                    h.result === 'SUCCESS'
-                                      ? 'border-emerald-500/40 text-emerald-300'
-                                      : h.result === 'IN_PROGRESS'
-                                      ? 'border-amber-500/40 text-amber-300'
-                                      : 'border-[#E11D2E]/40 text-[#E11D2E]'
-                                  }`}
-                                >
-                                  {h.result}
-                                </span>
-                              </td>
-                              <td
-                                className={`py-2 px-2 font-bold ${
-                                  h.netCredits >= 0 ? 'text-emerald-400' : 'text-[#E11D2E]'
-                                }`}
-                              >
-                                {h.netCredits >= 0 ? `+${h.netCredits}` : h.netCredits} CR
-                              </td>
-                              <td className="py-2 px-2 text-white/45">
-                                {formatTimestampShort(h.timestamp)}
-                              </td>
-                            </tr>
-                          ))}
-                        </tbody>
-                      </table>
-                    </div>
-                  </div>
-                </div>
-              ) : (
-                <div className="border border-white/15 bg-[#0D0D0D] p-8 text-center text-white/50">
-                  Select a team to inspect and control.
+              {filteredTeams.length === 0 && (
+                <div className="col-span-full bg-white border-2 border-[#111111] p-10 text-center text-neutral-500">
+                  No teams match the current search or filter.
                 </div>
               )}
-            </div>
+            </section>
           </div>
         )}
 
-        {/* ===================================================================
-            TAB 3: /admin/challenges — CHALLENGE CONTROL
-            Create/edit: challenge, cost, reward, difficulty, risk, time,
-            gameType, gameConfig, enabled
-        =================================================================== */}
-        {activeTabId === 'challenges' && (
-          <div className="space-y-6">
-            <div className="border border-white/15 bg-[#0D0D0D] p-4 flex flex-wrap items-center justify-between gap-4">
-              <div className="flex flex-wrap items-center gap-3">
-                <input
-                  type="text"
-                  value={challengeSearch}
-                  onChange={(e) => setChallengeSearch(e.target.value)}
-                  placeholder="Search challenge ID, title, gameType..."
-                  className="bg-black border border-white/20 px-3 py-2 text-xs text-white w-64 focus:outline-none focus:border-[#E11D2E]"
-                />
-                <div className="flex flex-wrap gap-1.5">
-                  {['ALL', ...CANONICAL_CATEGORIES].map((cat) => (
-                    <button
-                      key={cat}
-                      type="button"
-                      onClick={() => setChallengeCategoryFilter(cat)}
-                      className={`px-2.5 py-1 text-[10px] border uppercase cursor-pointer ${
-                        challengeCategoryFilter === cat
-                          ? 'border-[#E11D2E] bg-[#E11D2E]/15 text-white font-bold'
-                          : 'border-white/15 text-white/60 hover:text-white'
-                      }`}
+        {/* =======================================================================
+            TAB 2: LIVE EVENTS WITH TEAM-WISE FILTER (/admin/attempts)
+           ======================================================================= */}
+        {activeTabId === 'attempts' && (
+          <div className="space-y-5">
+            {/* Team-Wise Filter Header Card */}
+            <section className="bg-white border-2 border-[#111111] shadow-[4px_4px_0px_#111111] p-4 space-y-4">
+              <div className="flex flex-wrap items-center justify-between gap-3">
+                <div>
+                  <h2 className="font-display text-2xl uppercase text-[#111111]">
+                    Live Events & Team Activity
+                  </h2>
+                  <p className="font-mono text-xs text-neutral-600">
+                    Filter live challenge sessions, results, and credit updates by team.
+                  </p>
+                </div>
+
+                {/* Team Dropdown + Search + Event Type Filter */}
+                <div className="flex flex-wrap items-center gap-2 font-mono text-xs">
+                  <div className="flex items-center gap-1.5 bg-[#FAF9F5] border-2 border-[#111111] px-2.5 py-1.5">
+                    <Filter className="w-3.5 h-3.5 text-[#E11D2E]" />
+                    <span className="font-bold uppercase text-[11px] text-neutral-600">Team:</span>
+                    <select
+                      value={selectedEventTeamId}
+                      onChange={(e) => setSelectedEventTeamId(e.target.value)}
+                      className="bg-transparent font-bold text-[#111111] focus:outline-none cursor-pointer"
                     >
-                      {cat}
-                    </button>
-                  ))}
+                      <option value="ALL">ALL TEAMS ({unifiedLiveEvents.length})</option>
+                      {(adminState?.teams || []).map((t) => (
+                        <option key={t.teamId} value={t.teamId}>
+                          {t.teamName} ({t.teamId}) — {teamEventCounts[t.teamId] || 0} events
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+
+                  <div className="relative">
+                    <Search className="w-3.5 h-3.5 text-neutral-400 absolute left-2.5 top-1/2 -translate-y-1/2" />
+                    <input
+                      type="text"
+                      value={attemptSearch}
+                      onChange={(e) => setAttemptSearch(e.target.value)}
+                      placeholder="Search game or event..."
+                      className="pl-8 pr-3 py-1.5 bg-[#FAF9F5] border border-neutral-300 focus:border-[#111111] text-xs"
+                    />
+                  </div>
                 </div>
               </div>
 
-              <button
-                type="button"
-                onClick={openCreateChallenge}
-                className="bg-[#E11D2E] hover:bg-[#c81625] text-white font-bold text-xs uppercase tracking-wider px-4 py-2 cursor-pointer"
-              >
-                + CREATE CHALLENGE MODULE
-              </button>
-            </div>
-
-            {/* CREATE / EDIT CHALLENGE DRAWER FORM */}
-            <AnimatePresence>
-              {editingChallenge && (
-                <motion.form
-                  initial={{ opacity: 0, y: -8 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -8 }}
-                  onSubmit={handleSaveChallenge}
-                  className="border border-[#E11D2E] bg-[#0F0F0F] p-5 space-y-4"
-                >
-                  <div className="flex items-center justify-between border-b border-white/15 pb-3">
-                    <div>
-                      <span className="text-[10px] text-[#E11D2E] uppercase tracking-widest">
-                        CHALLENGE CONFIGURATION EDITOR
-                      </span>
-                      <h3 className="text-base font-bold uppercase">
-                        {editingChallenge === 'NEW'
-                          ? 'CREATE NEW CHALLENGE MODULE'
-                          : `EDIT CHALLENGE // ${editingChallenge}`}
-                      </h3>
-                    </div>
-                    <button
-                      type="button"
-                      onClick={() => setEditingChallenge(null)}
-                      className="text-xs border border-white/20 px-3 py-1 text-white/70 hover:text-white cursor-pointer"
-                    >
-                      CLOSE [X]
-                    </button>
-                  </div>
-
-                  <div className="grid grid-cols-1 md:grid-cols-4 gap-4 text-xs">
-                    <div>
-                      <label className="block text-[10px] text-white/55 uppercase mb-1">
-                        CHALLENGE ID
-                      </label>
-                      <input
-                        type="text"
-                        value={challengeForm.challengeId}
-                        onChange={(e) =>
-                          setChallengeForm({ ...challengeForm, challengeId: e.target.value })
-                        }
-                        className="w-full bg-black border border-white/25 px-3 py-2 text-white"
-                        required
-                      />
-                    </div>
-
-                    <div className="md:col-span-2">
-                      <label className="block text-[10px] text-white/55 uppercase mb-1">
-                        CHALLENGE TITLE
-                      </label>
-                      <input
-                        type="text"
-                        value={challengeForm.title}
-                        onChange={(e) =>
-                          setChallengeForm({ ...challengeForm, title: e.target.value })
-                        }
-                        className="w-full bg-black border border-white/25 px-3 py-2 text-white"
-                        required
-                      />
-                    </div>
-
-                    <div>
-                      <label className="block text-[10px] text-white/55 uppercase mb-1">
-                        CATEGORY
-                      </label>
-                      <select
-                        value={challengeForm.category}
-                        onChange={(e) =>
-                          setChallengeForm({ ...challengeForm, category: e.target.value })
-                        }
-                        className="w-full bg-black border border-white/25 px-3 py-2 text-white"
-                      >
-                        {CANONICAL_CATEGORIES.map((c) => (
-                          <option key={c} value={c}>
-                            {c}
-                          </option>
-                        ))}
-                      </select>
-                    </div>
-
-                    <div>
-                      <label className="block text-[10px] text-white/55 uppercase mb-1">
-                        COST (CREDITS)
-                      </label>
-                      <input
-                        type="number"
-                        value={challengeForm.cost}
-                        onChange={(e) =>
-                          setChallengeForm({ ...challengeForm, cost: Number(e.target.value) })
-                        }
-                        className="w-full bg-black border border-white/25 px-3 py-2 text-white"
-                        required
-                      />
-                    </div>
-
-                    <div>
-                      <label className="block text-[10px] text-white/55 uppercase mb-1">
-                        REWARD (CREDITS)
-                      </label>
-                      <input
-                        type="number"
-                        value={challengeForm.reward}
-                        onChange={(e) =>
-                          setChallengeForm({ ...challengeForm, reward: Number(e.target.value) })
-                        }
-                        className="w-full bg-black border border-white/25 px-3 py-2 text-white"
-                        required
-                      />
-                    </div>
-
-                    <div>
-                      <label className="block text-[10px] text-white/55 uppercase mb-1">
-                        DIFFICULTY
-                      </label>
-                      <select
-                        value={challengeForm.difficulty}
-                        onChange={(e) =>
-                          setChallengeForm({ ...challengeForm, difficulty: e.target.value })
-                        }
-                        className="w-full bg-black border border-white/25 px-3 py-2 text-white"
-                      >
-                        {CANONICAL_DIFFICULTIES.map((d) => (
-                          <option key={d} value={d}>
-                            {d}
-                          </option>
-                        ))}
-                      </select>
-                    </div>
-
-                    <div>
-                      <label className="block text-[10px] text-white/55 uppercase mb-1">
-                        RISK CLASSIFICATION
-                      </label>
-                      <select
-                        value={challengeForm.risk}
-                        onChange={(e) =>
-                          setChallengeForm({ ...challengeForm, risk: e.target.value })
-                        }
-                        className="w-full bg-black border border-white/25 px-3 py-2 text-white"
-                      >
-                        {CANONICAL_RISKS.map((r) => (
-                          <option key={r} value={r}>
-                            {r}
-                          </option>
-                        ))}
-                      </select>
-                    </div>
-
-                    <div>
-                      <label className="block text-[10px] text-white/55 uppercase mb-1">
-                        TIME LIMIT (SECONDS)
-                      </label>
-                      <input
-                        type="number"
-                        value={challengeForm.timeLimit}
-                        onChange={(e) =>
-                          setChallengeForm({ ...challengeForm, timeLimit: Number(e.target.value) })
-                        }
-                        className="w-full bg-black border border-white/25 px-3 py-2 text-white"
-                        required
-                      />
-                    </div>
-
-                    <div>
-                      <label className="block text-[10px] text-white/55 uppercase mb-1">
-                        GAME TYPE (ENGINE REGISTRY)
-                      </label>
-                      <select
-                        value={challengeForm.gameType}
-                        onChange={(e) =>
-                          setChallengeForm({ ...challengeForm, gameType: e.target.value })
-                        }
-                        className="w-full bg-black border border-white/25 px-3 py-2 text-white"
-                      >
-                        {CANONICAL_GAME_TYPES.map((gt) => (
-                          <option key={gt} value={gt}>
-                            {gt}
-                          </option>
-                        ))}
-                      </select>
-                    </div>
-
-                    <div>
-                      <label className="block text-[10px] text-white/55 uppercase mb-1">
-                        EXPECTED ANSWER TOKEN
-                      </label>
-                      <input
-                        type="text"
-                        value={challengeForm.expectedAnswer}
-                        onChange={(e) =>
-                          setChallengeForm({ ...challengeForm, expectedAnswer: e.target.value })
-                        }
-                        className="w-full bg-black border border-white/25 px-3 py-2 text-white"
-                      />
-                    </div>
-
-                    <div className="flex items-center gap-6 pt-5">
-                      <label className="flex items-center gap-2 cursor-pointer">
-                        <input
-                          type="checkbox"
-                          checked={challengeForm.enabled}
-                          onChange={(e) =>
-                            setChallengeForm({ ...challengeForm, enabled: e.target.checked })
-                          }
-                        />
-                        <span className="font-bold uppercase">ENABLED</span>
-                      </label>
-
-                      <label className="flex items-center gap-2 cursor-pointer">
-                        <input
-                          type="checkbox"
-                          checked={challengeForm.available}
-                          onChange={(e) =>
-                            setChallengeForm({ ...challengeForm, available: e.target.checked })
-                          }
-                        />
-                        <span className="font-bold uppercase">AVAILABLE</span>
-                      </label>
-                    </div>
-                  </div>
-
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
-                    <div>
-                      <label className="block text-[10px] text-white/55 uppercase mb-1">
-                        CHALLENGE DESCRIPTION
-                      </label>
-                      <textarea
-                        rows={4}
-                        value={challengeForm.description}
-                        onChange={(e) =>
-                          setChallengeForm({ ...challengeForm, description: e.target.value })
-                        }
-                        className="w-full bg-black border border-white/25 p-3 text-white"
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-[10px] text-white/55 uppercase mb-1">
-                        GAME CONFIG (JSON)
-                      </label>
-                      <textarea
-                        rows={4}
-                        value={challengeForm.gameConfigText}
-                        onChange={(e) =>
-                          setChallengeForm({ ...challengeForm, gameConfigText: e.target.value })
-                        }
-                        className="w-full bg-black border border-white/25 p-3 text-white font-mono text-[11px]"
-                      />
-                    </div>
-                  </div>
-
-                  {challengeFormError && (
-                    <div className="border border-[#E11D2E] bg-[#E11D2E]/10 px-3 py-2 text-xs text-[#E11D2E]">
-                      {challengeFormError}
-                    </div>
-                  )}
-
-                  <div className="flex justify-end gap-3">
-                    <button
-                      type="button"
-                      onClick={() => setEditingChallenge(null)}
-                      className="border border-white/20 px-4 py-2 text-xs uppercase text-white/70 cursor-pointer"
-                    >
-                      CANCEL
-                    </button>
-                    <button
-                      type="submit"
-                      disabled={actionBusy}
-                      className="bg-[#E11D2E] hover:bg-[#c81625] text-white font-bold px-5 py-2 text-xs uppercase tracking-wider cursor-pointer"
-                    >
-                      SAVE CHALLENGE MODULE
-                    </button>
-                  </div>
-                </motion.form>
-              )}
-            </AnimatePresence>
-
-            {/* CHALLENGES TABLE */}
-            <div className="border border-white/15 bg-[#0D0D0D] overflow-x-auto">
-              <table className="w-full text-left border-collapse text-xs">
-                <thead>
-                  <tr className="border-b border-white/15 bg-black/50 text-[10px] uppercase tracking-wider text-white/50">
-                    <th className="py-3 px-3">STATUS</th>
-                    <th className="py-3 px-3">ID &amp; TITLE</th>
-                    <th className="py-3 px-3">CATEGORY</th>
-                    <th className="py-3 px-3">GAME TYPE</th>
-                    <th className="py-3 px-3">DIFFICULTY</th>
-                    <th className="py-3 px-3">RISK</th>
-                    <th className="py-3 px-3">COST / REWARD</th>
-                    <th className="py-3 px-3">TIME</th>
-                    <th className="py-3 px-3 text-right">CONTROLS</th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-white/10">
-                  {filteredChallenges.map((chg) => (
-                    <tr key={chg.challengeId} className="hover:bg-white/[0.03]">
-                      <td className="py-3 px-3">
-                        <button
-                          type="button"
-                          onClick={() => handleToggleChallengeEnabled(chg)}
-                          className={`px-2 py-0.5 text-[10px] font-bold border uppercase cursor-pointer ${
-                            chg.enabled
-                              ? 'border-emerald-500/40 bg-emerald-500/10 text-emerald-300'
-                              : 'border-white/20 bg-white/5 text-white/40'
-                          }`}
-                        >
-                          {chg.enabled ? 'ENABLED' : 'DISABLED'}
-                        </button>
-                      </td>
-                      <td className="py-3 px-3">
-                        <div className="font-bold text-white">{chg.title}</div>
-                        <div className="text-[10px] text-white/45">{chg.challengeId}</div>
-                      </td>
-                      <td className="py-3 px-3 text-white/75">{chg.category}</td>
-                      <td className="py-3 px-3">
-                        <span className="px-2 py-0.5 border border-white/15 bg-black text-[11px]">
-                          {chg.gameType}
-                        </span>
-                      </td>
-                      <td className="py-3 px-3 text-white/75">{chg.difficulty}</td>
-                      <td className="py-3 px-3">
-                        <RiskBadge risk={chg.risk} size="sm" />
-                      </td>
-                      <td className="py-3 px-3">
-                        <span className="text-white/80">{chg.cost} CR</span>
-                        <span className="text-white/30 mx-1">/</span>
-                        <span className="text-emerald-400 font-bold">+{chg.reward} CR</span>
-                      </td>
-                      <td className="py-3 px-3 text-white/75">
-                        {Math.round((chg.timeLimit || 900) / 60)}m ({chg.timeLimit || 900}s)
-                      </td>
-                      <td className="py-3 px-3 text-right">
-                        <button
-                          type="button"
-                          onClick={() => openEditChallenge(chg)}
-                          className="border border-white/25 hover:border-[#E11D2E] px-3 py-1 text-[10px] uppercase text-white/85 hover:text-white cursor-pointer"
-                        >
-                          EDIT MODULE
-                        </button>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          </div>
-        )}
-
-        {/* ===================================================================
-            TAB 4: /admin/attempts — ATTEMPTS MONITOR & ADJUDICATION
-        =================================================================== */}
-        {activeTabId === 'attempts' && (
-          <div className="space-y-4">
-            <div className="border border-white/15 bg-[#0D0D0D] p-4 flex flex-wrap items-center justify-between gap-4">
-              <div className="flex flex-wrap items-center gap-3">
-                <input
-                  type="text"
-                  value={attemptSearch}
-                  onChange={(e) => setAttemptSearch(e.target.value)}
-                  placeholder="Search team or challenge..."
-                  className="bg-black border border-white/20 px-3 py-2 text-xs text-white w-64 focus:outline-none focus:border-[#E11D2E]"
-                />
-                <div className="flex flex-wrap gap-1.5">
-                  {['ALL', 'IN_PROGRESS', 'SUCCESS', 'FAILED', 'TIMEOUT', 'ABANDONED'].map(
-                    (st) => (
+              {/* Clickable Team Filter Pills (Team-Wise Filter Strip) */}
+              <div className="border-t border-neutral-200 pt-3">
+                <div className="font-mono text-[10px] font-bold uppercase text-neutral-500 mb-2">
+                  Filter by Team:
+                </div>
+                <div className="flex items-center gap-1.5 overflow-x-auto pb-1 font-mono text-xs">
+                  <button
+                    type="button"
+                    onClick={() => setSelectedEventTeamId('ALL')}
+                    className={`px-3 py-1.5 border font-bold uppercase whitespace-nowrap cursor-pointer transition-colors ${
+                      selectedEventTeamId === 'ALL'
+                        ? 'bg-[#E11D2E] text-white border-[#111111]'
+                        : 'bg-[#FAF9F5] text-neutral-700 border-neutral-300 hover:border-[#111111]'
+                    }`}
+                  >
+                    All Teams ({unifiedLiveEvents.length})
+                  </button>
+                  {(adminState?.teams || []).map((team) => {
+                    const isSelected = selectedEventTeamId === team.teamId;
+                    const count = teamEventCounts[team.teamId] || 0;
+                    const isPlaying = team.activeAttempt?.status === 'IN_PROGRESS';
+                    return (
                       <button
-                        key={st}
+                        key={team.teamId}
                         type="button"
-                        onClick={() => setAttemptStatusFilter(st)}
-                        className={`px-2.5 py-1 text-[10px] border uppercase cursor-pointer ${
-                          attemptStatusFilter === st
-                            ? 'border-[#E11D2E] bg-[#E11D2E]/15 text-white font-bold'
-                            : 'border-white/15 text-white/60 hover:text-white'
+                        onClick={() => setSelectedEventTeamId(team.teamId)}
+                        className={`px-3 py-1.5 border font-bold uppercase whitespace-nowrap inline-flex items-center gap-1.5 cursor-pointer transition-colors ${
+                          isSelected
+                            ? 'bg-[#111111] text-white border-[#111111]'
+                            : 'bg-white text-neutral-800 border-neutral-300 hover:border-[#111111]'
                         }`}
                       >
-                        {st}
+                        <span
+                          className={`w-2 h-2 rounded-full ${
+                            isPlaying
+                              ? 'bg-[#E11D2E]'
+                              : team.connectionState?.connected
+                                ? 'bg-emerald-500'
+                                : 'bg-neutral-300'
+                          }`}
+                        />
+                        <span>{team.teamName}</span>
+                        <span
+                          className={`px-1.5 py-0.2 text-[10px] ${
+                            isSelected ? 'bg-white/20 text-white' : 'bg-neutral-100 text-neutral-600'
+                          }`}
+                        >
+                          {count}
+                        </span>
                       </button>
-                    )
-                  )}
+                    );
+                  })}
                 </div>
               </div>
-              <span className="text-xs text-white/50">
-                SHOWING {filteredAttempts.length} ATTEMPTS
-              </span>
-            </div>
 
-            <div className="border border-white/15 bg-[#0D0D0D] overflow-x-auto">
-              <table className="w-full text-left border-collapse text-xs">
+              {/* Event Status Filter Pills */}
+              <div className="flex flex-wrap items-center gap-1.5 pt-1 font-mono text-xs">
+                {[
+                  { id: 'ALL', label: 'All Events' },
+                  { id: 'IN_PROGRESS', label: 'Playing Now' },
+                  { id: 'COMPLETED', label: 'Solved' },
+                  { id: 'FAILED', label: 'Failed / Timeout' },
+                  { id: 'CREDITS', label: 'Credit Logs' },
+                ].map((st) => (
+                  <button
+                    key={st.id}
+                    type="button"
+                    onClick={() => setAttemptStatusFilter(st.id)}
+                    className={`px-2.5 py-1 border font-bold uppercase cursor-pointer ${
+                      attemptStatusFilter === st.id
+                        ? 'bg-[#111111] text-white border-[#111111]'
+                        : 'bg-white text-neutral-600 border-neutral-300 hover:border-[#111111]'
+                    }`}
+                  >
+                    {st.label}
+                  </button>
+                ))}
+              </div>
+            </section>
+
+            {/* Selected Team Summary Banner (when filtering by a specific team) */}
+            {selectedEventTeamObj && (
+              <section className="bg-white border-2 border-[#111111] p-4 flex flex-wrap items-center justify-between gap-4 font-mono text-xs">
+                <div className="flex items-center gap-3">
+                  <div className="w-3 h-10 bg-[#E11D2E]" />
+                  <div>
+                    <div className="flex items-center gap-2">
+                      <span className="font-display text-2xl uppercase text-[#111111]">
+                        {selectedEventTeamObj.teamName}
+                      </span>
+                      <span className="px-2 py-0.5 bg-neutral-100 border border-neutral-300 font-bold text-[11px]">
+                        {selectedEventTeamObj.teamId}
+                      </span>
+                      <span className="px-2 py-0.5 bg-emerald-50 text-emerald-800 border border-emerald-200 font-bold text-[10px]">
+                        {getTeamFormatInfo(selectedEventTeamObj).label}
+                      </span>
+                    </div>
+                    <div className="text-neutral-500 mt-0.5">
+                      Credits:{' '}
+                      <strong className="text-[#111111]">
+                        {Number(selectedEventTeamObj.credits || 0).toLocaleString()} CR
+                      </strong>{' '}
+                      · Solved: <strong>{selectedEventTeamObj.completedChallenges?.length || 0}</strong>{' '}
+                      · Failed: <strong>{selectedEventTeamObj.failedChallenges?.length || 0}</strong>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="flex flex-wrap items-center gap-2">
+                  <input
+                    type="number"
+                    min={0}
+                    step={10}
+                    value={customCreditInputs[selectedEventTeamObj.teamId] ?? ''}
+                    onChange={(e) =>
+                      setCustomCreditInputs((p) => ({
+                        ...p,
+                        [selectedEventTeamObj.teamId]: e.target.value,
+                      }))
+                    }
+                    placeholder="Custom CR..."
+                    className="w-28 px-2.5 py-1.5 bg-[#FAF9F5] border border-neutral-300 font-bold text-xs"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => {
+                      const num = Math.abs(
+                        Number(customCreditInputs[selectedEventTeamObj.teamId])
+                      );
+                      if (!num || Number.isNaN(num)) {
+                        showToast('Enter custom CR amount first', 'error');
+                        return;
+                      }
+                      handleTeamAction(
+                        selectedEventTeamObj.teamId,
+                        'ADJUST_CREDITS',
+                        { amount: num, reason: `Custom +${num} CR` },
+                        `+${num} CR to ${selectedEventTeamObj.teamId}`
+                      );
+                      setCustomCreditInputs((p) => ({
+                        ...p,
+                        [selectedEventTeamObj.teamId]: '',
+                      }));
+                    }}
+                    className="px-3 py-1.5 bg-emerald-600 hover:bg-emerald-700 text-white font-bold uppercase cursor-pointer"
+                  >
+                    + Add CR
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() =>
+                      handleTeamAction(
+                        selectedEventTeamObj.teamId,
+                        'ADJUST_CREDITS',
+                        { amount: 100, reason: 'Admin Bonus +100 CR' },
+                        `+100 CR to ${selectedEventTeamObj.teamId}`
+                      )
+                    }
+                    className="px-3 py-1.5 bg-emerald-50 hover:bg-emerald-600 hover:text-white text-emerald-800 border border-emerald-300 font-bold uppercase cursor-pointer"
+                  >
+                    +100 CR
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() =>
+                      handleTeamAction(
+                        selectedEventTeamObj.teamId,
+                        'ADJUST_CREDITS',
+                        { amount: -100, reason: 'Admin Penalty -100 CR' },
+                        `-100 CR from ${selectedEventTeamObj.teamId}`
+                      )
+                    }
+                    className="px-3 py-1.5 bg-red-50 hover:bg-[#E11D2E] hover:text-white text-[#E11D2E] border border-red-200 font-bold uppercase cursor-pointer"
+                  >
+                    -100 CR
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setSelectedEventTeamId('ALL')}
+                    className="px-3 py-1.5 bg-neutral-100 hover:bg-[#111111] hover:text-white border border-neutral-300 font-bold uppercase cursor-pointer"
+                  >
+                    Show All Teams
+                  </button>
+                </div>
+              </section>
+            )}
+
+            {/* Unified Live Events Table */}
+            <section className="bg-white border-2 border-[#111111] shadow-[4px_4px_0px_#111111] overflow-x-auto">
+              <table className="w-full text-left border-collapse font-mono text-xs">
                 <thead>
-                  <tr className="border-b border-white/15 bg-black/50 text-[10px] uppercase tracking-wider text-white/50">
-                    <th className="py-3 px-3">ATTEMPT ID / #</th>
-                    <th className="py-3 px-3">TEAM</th>
-                    <th className="py-3 px-3">CHALLENGE</th>
-                    <th className="py-3 px-3">RISK</th>
-                    <th className="py-3 px-3">STATUS / RESULT</th>
-                    <th className="py-3 px-3">COST &amp; REWARD/PENALTY</th>
-                    <th className="py-3 px-3">STARTED / TIMESTAMP</th>
-                    <th className="py-3 px-3 text-right">ADJUDICATE</th>
+                  <tr className="bg-[#FAF9F5] border-b-2 border-[#111111] text-[11px] uppercase text-neutral-600">
+                    <th className="py-3 px-4">Time</th>
+                    <th className="py-3 px-4">Team</th>
+                    <th className="py-3 px-4">Event / Game</th>
+                    <th className="py-3 px-4">Status</th>
+                    <th className="py-3 px-4">Credits</th>
+                    <th className="py-3 px-4 text-right">Actions</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-white/10">
-                  {filteredAttempts.map((att) => {
-                    const liveClock = getLiveAttemptClock(att);
-                    const attemptNum = Number(att.attemptNumber) || (att.isReattempt ? 2 : 1);
+                <tbody className="divide-y divide-neutral-200">
+                  {filteredLiveEvents.map((ev) => {
+                    const isPlaying = ev.status === 'IN_PROGRESS';
+                    const liveClock = isPlaying ? getLiveAttemptClock(ev.attempt) : null;
+
                     return (
-                      <tr key={att.attemptId} className="hover:bg-white/[0.03]">
-                        <td className="py-3 px-3 font-mono text-[11px] text-white/65">
-                          <div>{att.attemptId}</div>
-                          <div className="mt-0.5 flex items-center gap-1.5">
-                            <span className="px-1.5 py-0.5 text-[9px] font-bold border border-white/20 bg-white/5 text-white/85 uppercase">
-                              ATTEMPT #{attemptNum}
-                            </span>
-                            {(att.isReattempt || attemptNum > 1) && (
-                              <span className="px-1.5 py-0.5 text-[9px] font-bold border border-[#E11D2E]/50 bg-[#E11D2E]/15 text-[#E11D2E] uppercase">
-                                REATTEMPT
-                              </span>
-                            )}
-                          </div>
+                      <tr
+                        key={ev.id}
+                        className={`hover:bg-[#FAF9F5] ${isPlaying ? 'bg-red-50/30' : ''}`}
+                      >
+                        <td className="py-3 px-4 text-neutral-500 whitespace-nowrap">
+                          {formatTimestampShort(ev.timestamp)}
                         </td>
-                        <td className="py-3 px-3">
-                          <div className="font-bold">{att.teamName}</div>
-                          <div className="text-[10px] text-white/45">{att.teamId}</div>
+
+                        <td className="py-3 px-4">
+                          <button
+                            type="button"
+                            onClick={() => setSelectedEventTeamId(ev.teamId)}
+                            className="text-left group cursor-pointer"
+                            title="Filter events by this team"
+                          >
+                            <div className="font-bold text-[#111111] group-hover:text-[#E11D2E] underline-offset-2 group-hover:underline">
+                              {ev.teamName}
+                            </div>
+                            <div className="text-[11px] text-neutral-500">{ev.teamId}</div>
+                          </button>
                         </td>
-                        <td className="py-3 px-3">
-                          <div className="font-bold">{att.challengeTitle}</div>
-                          <div className="text-[10px] text-white/45">
-                            {att.challengeId} // {att.category}
-                          </div>
+
+                        <td className="py-3 px-4">
+                          <div className="font-bold text-[#111111]">{ev.title}</div>
+                          <div className="text-[11px] text-neutral-500">{ev.detail}</div>
                         </td>
-                        <td className="py-3 px-3">
-                          <RiskBadge risk={att.risk} size="sm" />
-                        </td>
-                        <td className="py-3 px-3">
+
+                        <td className="py-3 px-4">
                           <span
-                            className={`px-2 py-0.5 text-[10px] font-bold border uppercase ${
-                              att.status === 'SUCCESS'
-                                ? 'border-emerald-500/40 bg-emerald-500/10 text-emerald-300'
-                                : att.status === 'IN_PROGRESS'
-                                ? 'border-amber-500/40 bg-amber-500/10 text-amber-300'
-                                : 'border-[#E11D2E]/40 bg-[#E11D2E]/10 text-[#E11D2E]'
+                            className={`inline-block px-2 py-0.5 text-[10px] font-bold uppercase ${
+                              ev.status === 'IN_PROGRESS'
+                                ? 'bg-red-100 text-[#E11D2E]'
+                                : ev.status === 'COMPLETED'
+                                  ? 'bg-emerald-100 text-emerald-800'
+                                  : ev.status === 'CREDITS'
+                                    ? 'bg-sky-100 text-sky-800'
+                                    : 'bg-neutral-200 text-neutral-700'
                             }`}
                           >
-                            {att.result || att.status}
-                            {liveClock ? ` (${liveClock.formatted})` : ''}
+                            {ev.status === 'IN_PROGRESS'
+                              ? `PLAYING ${liveClock ? `(${liveClock.formatted})` : ''}`
+                              : ev.status}
                           </span>
                         </td>
-                        <td className="py-3 px-3">
-                          <div>Cost: -{att.cost} CR</div>
-                          <div className="text-[10px] text-white/55">
-                            Reward: +{att.reward} CR | Penalty: -{att.penalty ?? 75} CR
-                          </div>
-                        </td>
-                        <td className="py-3 px-3 text-white/50">
-                          <div>Start: {formatTimestampShort(att.startedAt)}</div>
-                          {att.timestamp && (
-                            <div className="text-[10px] text-white/35">
-                              Recorded: {formatTimestampShort(att.timestamp)}
-                            </div>
+
+                        <td className="py-3 px-4 font-bold">
+                          {ev.creditDelta > 0 ? (
+                            <span className="text-emerald-700">+{ev.creditDelta} CR</span>
+                          ) : ev.creditDelta < 0 ? (
+                            <span className="text-[#E11D2E]">{ev.creditDelta} CR</span>
+                          ) : (
+                            <span className="text-neutral-400">0 CR</span>
                           )}
                         </td>
-                        <td className="py-3 px-3 text-right">
-                          {att.status === 'IN_PROGRESS' ? (
-                            <div className="inline-flex gap-1.5">
+
+                        <td className="py-3 px-4 text-right">
+                          {isPlaying && ev.attempt ? (
+                            <div className="inline-flex items-center gap-1.5">
                               <button
                                 type="button"
-                                disabled={actionBusy}
                                 onClick={() =>
-                                  handleTeamAction(att.teamId, 'ADJUDICATE_ATTEMPT', {
-                                    attemptId: att.attemptId,
-                                    challengeId: att.challengeId,
-                                    outcome: 'SUCCESS',
-                                  })
+                                  handleTeamAction(
+                                    ev.teamId,
+                                    'FORCE_COMPLETE',
+                                    { challengeId: ev.challengeId },
+                                    `Passed ${ev.teamId}`
+                                  )
                                 }
-                                className="px-2 py-1 text-[10px] border border-emerald-500/50 text-emerald-300 hover:bg-emerald-500/20 uppercase cursor-pointer"
+                                className="px-2.5 py-1 bg-emerald-600 hover:bg-emerald-700 text-white font-bold uppercase text-[10px] cursor-pointer"
                               >
-                                PASS
+                                Pass
                               </button>
                               <button
                                 type="button"
-                                disabled={actionBusy}
                                 onClick={() =>
-                                  handleTeamAction(att.teamId, 'ADJUDICATE_ATTEMPT', {
-                                    attemptId: att.attemptId,
-                                    challengeId: att.challengeId,
-                                    outcome: 'FAILED',
-                                  })
+                                  handleTeamAction(
+                                    ev.teamId,
+                                    'FORCE_FAIL',
+                                    { challengeId: ev.challengeId },
+                                    `Failed ${ev.teamId}`
+                                  )
                                 }
-                                className="px-2 py-1 text-[10px] border border-[#E11D2E]/50 text-[#E11D2E] hover:bg-[#E11D2E]/20 uppercase cursor-pointer"
+                                className="px-2.5 py-1 bg-[#E11D2E] hover:bg-red-700 text-white font-bold uppercase text-[10px] cursor-pointer"
                               >
-                                FAIL
+                                Fail
                               </button>
                             </div>
                           ) : (
-                            <span className="text-[10px] text-white/35 uppercase">FINALIZED</span>
+                            <span className="text-neutral-400 text-[11px]">—</span>
                           )}
                         </td>
                       </tr>
                     );
                   })}
+
+                  {filteredLiveEvents.length === 0 && (
+                    <tr>
+                      <td colSpan={6} className="py-10 text-center text-neutral-500">
+                        No live events found for{' '}
+                        <span className="font-bold text-[#111111]">
+                          {selectedEventTeamId === 'ALL' ? 'All Teams' : selectedEventTeamId}
+                        </span>
+                        .
+                      </td>
+                    </tr>
+                  )}
                 </tbody>
               </table>
-            </div>
+            </section>
           </div>
         )}
 
-        {/* ===================================================================
-            TAB 5: /admin/events — EVENT CONTROL & NEXUS CORE CONTROL
-            START, PAUSE, RESUME, END | CORE: LOCK, UNLOCK, REVEAL | GLOBAL TIMER
-        =================================================================== */}
-        {activeTabId === 'events' && (
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-            <div className="lg:col-span-7 space-y-6">
-              {/* GLOBAL EVENT & TIMER DECK */}
-              <div className="border border-white/15 bg-[#0D0D0D] p-5 space-y-5">
-                <div className="flex items-center justify-between border-b border-white/15 pb-3">
-                  <div>
-                    <span className="text-[10px] text-[#E11D2E] uppercase tracking-widest">
-                      ARENA SYNCHRONIZATION
-                    </span>
-                    <h2 className="text-base font-bold uppercase">
-                      GLOBAL EVENT &amp; TIMER CONTROL
-                    </h2>
-                  </div>
-                  <div className="text-right">
-                    <div className="text-2xl font-bold">{liveGlobalTimer.formatted}</div>
-                    <div className="text-[10px] text-white/50 uppercase">
-                      STATE: {liveGlobalTimer.status}
-                    </div>
-                  </div>
-                </div>
-
-                <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-                  <button
-                    type="button"
-                    disabled={actionBusy}
-                    onClick={() => handleEventCommand('START')}
-                    className="py-3 border border-emerald-500/50 bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-300 font-bold text-xs uppercase tracking-widest cursor-pointer"
-                  >
-                    START EVENT
-                  </button>
-                  <button
-                    type="button"
-                    disabled={actionBusy}
-                    onClick={() => handleEventCommand('PAUSE')}
-                    className="py-3 border border-amber-500/50 bg-amber-500/10 hover:bg-amber-500/20 text-amber-300 font-bold text-xs uppercase tracking-widest cursor-pointer"
-                  >
-                    PAUSE EVENT
-                  </button>
-                  <button
-                    type="button"
-                    disabled={actionBusy}
-                    onClick={() => handleEventCommand('RESUME')}
-                    className="py-3 border border-sky-500/50 bg-sky-500/10 hover:bg-sky-500/20 text-sky-300 font-bold text-xs uppercase tracking-widest cursor-pointer"
-                  >
-                    RESUME EVENT
-                  </button>
-                  <button
-                    type="button"
-                    disabled={actionBusy}
-                    onClick={() => handleEventCommand('END')}
-                    className="py-3 border border-[#E11D2E] bg-[#E11D2E]/15 hover:bg-[#E11D2E]/30 text-[#E11D2E] font-bold text-xs uppercase tracking-widest cursor-pointer"
-                  >
-                    END EVENT
-                  </button>
-                </div>
-
-                {/* GLOBAL TIMER DURATION & ADJUSTMENTS */}
-                <div className="border border-white/10 bg-black/50 p-4 space-y-3">
-                  <div className="text-[11px] font-bold uppercase text-white/75">
-                    GLOBAL TIMER CONFIGURATION
-                  </div>
-                  <div className="flex flex-wrap items-center gap-2">
-                    <input
-                      type="number"
-                      min={1}
-                      max={600}
-                      value={customTimerMinutes}
-                      onChange={(e) => setCustomTimerMinutes(Number(e.target.value))}
-                      className="w-24 bg-black border border-white/25 px-3 py-1.5 text-xs text-white"
-                    />
-                    <span className="text-xs text-white/50">MINUTES</span>
-                    <button
-                      type="button"
-                      disabled={actionBusy}
-                      onClick={() =>
-                        handleEventCommand('SET_TIMER', {
-                          durationSeconds: Math.max(60, customTimerMinutes * 60),
-                        })
-                      }
-                      className="px-3 py-1.5 bg-white/10 hover:bg-white/20 border border-white/25 text-xs uppercase font-bold cursor-pointer"
-                    >
-                      SET GLOBAL TIMER
-                    </button>
-                    <button
-                      type="button"
-                      disabled={actionBusy}
-                      onClick={() => handleEventCommand('ADJUST_TIMER', { deltaSeconds: 300 })}
-                      className="px-3 py-1.5 border border-emerald-500/40 text-emerald-300 text-xs uppercase cursor-pointer"
-                    >
-                      +5 MIN
-                    </button>
-                    <button
-                      type="button"
-                      disabled={actionBusy}
-                      onClick={() => handleEventCommand('ADJUST_TIMER', { deltaSeconds: -300 })}
-                      className="px-3 py-1.5 border border-[#E11D2E]/40 text-[#E11D2E] text-xs uppercase cursor-pointer"
-                    >
-                      -5 MIN
-                    </button>
-                  </div>
-                </div>
+        {/* =======================================================================
+            TAB 3: CHALLENGES (/admin/challenges)
+           ======================================================================= */}
+        {activeTabId === 'challenges' && (
+          <div className="space-y-5">
+            <div className="bg-white border-2 border-[#111111] p-4 flex flex-wrap items-center justify-between gap-3">
+              <div>
+                <h2 className="font-display text-2xl uppercase text-[#111111]">
+                  Challenge Market Catalog
+                </h2>
+                <p className="text-xs font-mono text-neutral-600">
+                  Enable or disable games and edit entry cost, reward, or time limit.
+                </p>
               </div>
+              <div className="flex flex-wrap items-center gap-2 font-mono text-xs">
+                <div className="relative">
+                  <Search className="w-3.5 h-3.5 text-neutral-400 absolute left-2.5 top-1/2 -translate-y-1/2" />
+                  <input
+                    type="text"
+                    value={challengeSearch}
+                    onChange={(e) => setChallengeSearch(e.target.value)}
+                    placeholder="Search challenge..."
+                    className="pl-8 pr-3 py-1.5 bg-[#FAF9F5] border border-neutral-300 focus:border-[#111111] text-xs"
+                  />
+                </div>
+                <button
+                  type="button"
+                  onClick={openCreateChallenge}
+                  className="px-3.5 py-2 bg-[#E11D2E] hover:bg-[#111111] text-white font-bold uppercase inline-flex items-center gap-1.5 cursor-pointer"
+                >
+                  <Plus className="w-3.5 h-3.5" /> Add Challenge
+                </button>
+              </div>
+            </div>
 
-              {/* NEXUS CORE CONTROL DECK */}
-              <div className="border border-white/15 bg-[#0D0D0D] p-5 space-y-4">
-                <div className="flex items-center justify-between border-b border-white/15 pb-3">
-                  <div>
-                    <span className="text-[10px] text-[#E11D2E] uppercase tracking-widest">
-                      ULTIMATE SYSTEM OBJECTIVE
-                    </span>
-                    <h2 className="text-base font-bold uppercase">
-                      NEXUS CORE GLOBAL CONTROL (LOCK / UNLOCK / REVEAL)
-                    </h2>
-                  </div>
-                  <span
-                    className={`px-2.5 py-1 text-xs font-bold border uppercase ${
-                      coreStatus.state === 'LOCKED'
-                        ? 'border-white/25 text-white/70'
-                        : 'border-[#E11D2E] bg-[#E11D2E]/15 text-[#E11D2E]'
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+              {filteredChallenges.map((chg) => {
+                const isEnabled = chg.enabled !== false;
+                const friendlyTitle = getFriendlyChallengeTitle(chg);
+                const friendlyDesc = getFriendlyChallengeDescription(chg);
+                return (
+                  <div
+                    key={chg.challengeId}
+                    className={`bg-white border-2 p-4 flex flex-col justify-between gap-3 transition-all ${
+                      isEnabled
+                        ? 'border-[#111111] shadow-[3px_3px_0px_#111111]'
+                        : 'border-neutral-300 opacity-65'
                     }`}
                   >
-                    CORE: {coreStatus.state}
-                  </span>
-                </div>
-
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-                  <button
-                    type="button"
-                    disabled={actionBusy}
-                    onClick={() => handleEventCommand('LOCK')}
-                    className="p-3.5 border border-white/25 bg-white/5 hover:bg-white/10 text-left cursor-pointer"
-                  >
-                    <div className="text-xs font-bold uppercase text-white">CORE: LOCK</div>
-                    <div className="text-[10px] text-white/50 mt-1">
-                      Locks NEXUS Core across all sectors.
-                    </div>
-                  </button>
-
-                  <button
-                    type="button"
-                    disabled={actionBusy}
-                    onClick={() => handleEventCommand('UNLOCK')}
-                    className="p-3.5 border border-amber-500/50 bg-amber-500/10 hover:bg-amber-500/20 text-left cursor-pointer"
-                  >
-                    <div className="text-xs font-bold uppercase text-amber-300">CORE: UNLOCK</div>
-                    <div className="text-[10px] text-white/60 mt-1">
-                      Sets Core state to AVAILABLE for all teams.
-                    </div>
-                  </button>
-
-                  <button
-                    type="button"
-                    disabled={actionBusy}
-                    onClick={() => handleEventCommand('REVEAL')}
-                    className="p-3.5 border border-[#E11D2E] bg-[#E11D2E]/20 hover:bg-[#E11D2E]/30 text-left cursor-pointer"
-                  >
-                    <div className="text-xs font-bold uppercase text-white">CORE: REVEAL</div>
-                    <div className="text-[10px] text-white/80 mt-1">
-                      Unlocks Core &amp; broadcasts live cinematic reveal sequence.
-                    </div>
-                  </button>
-                </div>
-              </div>
-            </div>
-
-            {/* RIGHT COLUMN: SECURITY & FAIR PLAY AUDIT LOG (PHASE 15) */}
-            <div className="lg:col-span-5 border border-white/15 bg-[#0D0D0D] flex flex-col">
-              <div className="border-b border-white/15 px-4 py-3 space-y-2.5">
-                <div>
-                  <h2 className="text-sm font-bold uppercase tracking-wider">
-                    SECURITY &amp; FAIR PLAY AUDIT LOG // PHASE 15
-                  </h2>
-                  <p className="text-[11px] text-white/45">
-                    Server-authoritative ledger of LOGIN, PURCHASE, START, SUBMISSION, SUCCESS, FAILURE, ABILITY, HINT, EXTRA_TIME, and ADMIN_ACTION
-                  </p>
-                </div>
-                <div className="flex flex-wrap gap-1">
-                  {[
-                    'ALL',
-                    'LOGIN',
-                    'PURCHASE',
-                    'START',
-                    'SUBMISSION',
-                    'SUCCESS',
-                    'FAILURE',
-                    'ABILITY',
-                    'HINT',
-                    'EXTRA_TIME',
-                    'ADMIN_ACTION',
-                  ].map((actionType) => (
-                    <button
-                      key={actionType}
-                      type="button"
-                      onClick={() => setAuditActionFilter(actionType)}
-                      className={`px-2 py-0.5 text-[9px] font-bold border uppercase cursor-pointer ${
-                        auditActionFilter === actionType
-                          ? 'border-[#E11D2E] bg-[#E11D2E] text-white'
-                          : 'border-white/15 bg-black/50 text-white/55 hover:text-white'
-                      }`}
-                    >
-                      {actionType}
-                    </button>
-                  ))}
-                </div>
-              </div>
-              <div className="p-4 space-y-2.5 max-h-[540px] overflow-y-auto">
-                {(adminState?.auditLogs || adminState?.adminEventLogs || [])
-                  .filter((log) => auditActionFilter === 'ALL' || log.action === auditActionFilter)
-                  .map((log) => (
-                    <div key={log.auditId || log.logId} className="border border-white/10 bg-black/50 p-3 text-xs">
-                      <div className="flex items-center justify-between text-[10px] text-white/45 mb-1">
-                        <span className="text-[#E11D2E] font-bold">
-                          {log.action} // {log.actorId || log.actor || log.teamId || 'SYSTEM'}
-                        </span>
-                        <span>{formatTimestampShort(log.timestamp)}</span>
-                      </div>
-                      <div className="text-white/85 text-[11px]">{log.summary}</div>
-                      {log.challengeId && (
-                        <div className="text-[10px] text-white/45 mt-1">
-                          CHALLENGE: {log.challengeId} {log.attemptId ? `// ${log.attemptId}` : ''}
+                    <div className="space-y-2.5">
+                      <div className="flex items-start justify-between gap-2">
+                        <div>
+                          <span className="font-mono text-[10px] font-bold uppercase px-2 py-0.5 bg-neutral-100 border border-neutral-300 text-neutral-700">
+                            {chg.category} · {chg.difficulty}
+                          </span>
+                          <h3 className="font-display text-2xl uppercase text-[#111111] mt-1">
+                            {friendlyTitle}
+                          </h3>
                         </div>
-                      )}
+                        <button
+                          type="button"
+                          onClick={() => handleToggleChallengeEnabled(chg)}
+                          className={`px-2.5 py-1 font-mono text-[10px] font-bold uppercase border cursor-pointer ${
+                            isEnabled
+                              ? 'bg-emerald-50 text-emerald-700 border-emerald-400'
+                              : 'bg-neutral-100 text-neutral-600 border-neutral-300'
+                          }`}
+                        >
+                          {isEnabled ? 'ENABLED' : 'DISABLED'}
+                        </button>
+                      </div>
+
+                      <p className="text-xs text-neutral-600 line-clamp-2">{friendlyDesc}</p>
                     </div>
-                  ))}
-              </div>
+
+                    <div className="space-y-2.5 pt-2 border-t border-neutral-200 font-mono text-xs">
+                      <div className="grid grid-cols-3 gap-2 text-center bg-[#FAF9F5] p-2 border border-neutral-200">
+                        <div>
+                          <div className="text-[10px] text-neutral-500">COST</div>
+                          <div className="font-bold text-[#111111]">{chg.cost} CR</div>
+                        </div>
+                        <div>
+                          <div className="text-[10px] text-neutral-500">REWARD</div>
+                          <div className="font-bold text-emerald-700">+{chg.reward} CR</div>
+                        </div>
+                        <div>
+                          <div className="text-[10px] text-neutral-500">TIME</div>
+                          <div className="font-bold text-[#111111]">
+                            {Math.round((chg.timeLimit || 600) / 60)}m
+                          </div>
+                        </div>
+                      </div>
+
+                      <div className="flex items-center justify-between">
+                        <span className="text-[11px] text-neutral-500 uppercase">
+                          ID: <strong className="text-[#111111]">{chg.challengeId}</strong>
+                        </span>
+                        <button
+                          type="button"
+                          onClick={() => openEditChallenge(chg)}
+                          className="px-3 py-1 bg-white hover:bg-[#111111] hover:text-white border border-[#111111] font-bold text-[11px] uppercase inline-flex items-center gap-1 cursor-pointer transition-colors"
+                        >
+                          <Edit3 className="w-3 h-3" /> Edit
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                );
+              })}
             </div>
           </div>
         )}
 
-        {/* ===================================================================
-            TAB 6: /admin/settings — SYSTEM SETTINGS & ARENA RESET
-        =================================================================== */}
-        {activeTabId === 'settings' && (
+        {/* =======================================================================
+            TAB 4: ROUND & SETTINGS (/admin/events)
+           ======================================================================= */}
+        {activeTabId === 'events' && (
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            <form
-              onSubmit={(e) => {
-                e.preventDefault();
-                executeAdminApi(
-                  '/api/admin/settings',
-                  'POST',
-                  settingsForm,
-                  'Updated global arena settings'
-                );
-              }}
-              className="border border-white/15 bg-[#0D0D0D] p-5 space-y-4"
-            >
-              <div className="border-b border-white/15 pb-3">
-                <span className="text-[10px] text-[#E11D2E] uppercase tracking-widest">
-                  ECONOMIC &amp; PORTAL PARAMETERS
+            {/* Round Timer & Total Time Control Card */}
+            <div className="bg-white border-2 border-[#111111] shadow-[4px_4px_0px_#111111] p-6 space-y-5">
+              <div className="border-b border-neutral-200 pb-3">
+                <span className="font-mono text-[10px] font-bold uppercase text-[#E11D2E]">
+                  ROUND CLOCK & TOTAL TIME
                 </span>
-                <h2 className="text-base font-bold uppercase">ARENA SYSTEM SETTINGS</h2>
+                <h2 className="font-display text-2xl uppercase text-[#111111] mt-0.5">
+                  Round Start, End & Total Time
+                </h2>
               </div>
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
-                <div>
-                  <label className="block text-[10px] text-white/55 uppercase mb-1">
-                    STARTING CREDITS
-                  </label>
-                  <input
-                    type="number"
-                    value={settingsForm.startingCredits}
-                    onChange={(e) =>
-                      setSettingsForm({
-                        ...settingsForm,
-                        startingCredits: Number(e.target.value),
-                      })
-                    }
-                    className="w-full bg-black border border-white/25 px-3 py-2 text-white"
-                  />
+              {/* Live Readout Box */}
+              <div className="p-4 bg-[#FAF9F5] border-2 border-[#111111] space-y-3">
+                <div className="grid grid-cols-3 gap-3 text-center font-mono">
+                  <div className="bg-white p-3 border border-neutral-300">
+                    <div className="text-[10px] font-bold uppercase text-neutral-500">
+                      Time Remaining
+                    </div>
+                    <div className="font-display text-3xl text-[#111111] mt-0.5">
+                      {liveGlobalTimer.formatted}
+                    </div>
+                  </div>
+                  <div className="bg-white p-3 border border-neutral-300">
+                    <div className="text-[10px] font-bold uppercase text-neutral-500">
+                      Total Round Time
+                    </div>
+                    <div className="font-display text-3xl text-[#111111] mt-0.5">
+                      {liveGlobalTimer.totalFormatted}
+                    </div>
+                    <div className="text-[10px] text-neutral-500">
+                      ({liveGlobalTimer.totalDurationMinutes} mins)
+                    </div>
+                  </div>
+                  <div className="bg-white p-3 border border-neutral-300">
+                    <div className="text-[10px] font-bold uppercase text-neutral-500">
+                      Elapsed Time
+                    </div>
+                    <div className="font-display text-3xl text-neutral-700 mt-0.5">
+                      {liveGlobalTimer.elapsedFormatted}
+                    </div>
+                    <div className="text-[10px] text-neutral-500">
+                      ({liveGlobalTimer.progressPercent}%)
+                    </div>
+                  </div>
                 </div>
 
-                <div>
-                  <label className="block text-[10px] text-white/55 uppercase mb-1">
-                    HINT PURCHASE COST (CR)
-                  </label>
-                  <input
-                    type="number"
-                    value={settingsForm.hintCost}
-                    onChange={(e) =>
-                      setSettingsForm({ ...settingsForm, hintCost: Number(e.target.value) })
-                    }
-                    className="w-full bg-black border border-white/25 px-3 py-2 text-white"
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-[10px] text-white/55 uppercase mb-1">
-                    EXTRA TIME COST (CR)
-                  </label>
-                  <input
-                    type="number"
-                    value={settingsForm.extraTimeCost}
-                    onChange={(e) =>
-                      setSettingsForm({ ...settingsForm, extraTimeCost: Number(e.target.value) })
-                    }
-                    className="w-full bg-black border border-white/25 px-3 py-2 text-white"
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-[10px] text-white/55 uppercase mb-1">
-                    EXTRA TIME EXTENSION (MINUTES)
-                  </label>
-                  <input
-                    type="number"
-                    value={settingsForm.extraTimeMinutes}
-                    onChange={(e) =>
-                      setSettingsForm({
-                        ...settingsForm,
-                        extraTimeMinutes: Number(e.target.value),
-                      })
-                    }
-                    className="w-full bg-black border border-white/25 px-3 py-2 text-white"
+                {/* Progress Bar */}
+                <div className="w-full h-2.5 bg-neutral-200 border border-[#111111] overflow-hidden">
+                  <div
+                    className="h-full bg-[#E11D2E] transition-all duration-500"
+                    style={{ width: `${liveGlobalTimer.progressPercent}%` }}
                   />
                 </div>
               </div>
 
-              <div className="text-xs">
-                <label className="block text-[10px] text-white/55 uppercase mb-1">
-                  ARENA OPERATOR ANNOUNCEMENT BANNER
-                </label>
-                <input
-                  type="text"
-                  value={settingsForm.arenaAnnouncement}
-                  onChange={(e) =>
-                    setSettingsForm({ ...settingsForm, arenaAnnouncement: e.target.value })
-                  }
-                  className="w-full bg-black border border-white/25 px-3 py-2 text-white"
-                />
+              {/* Start / Pause / End Primary Buttons */}
+              <div className="grid grid-cols-3 gap-2.5 font-mono text-xs">
+                <button
+                  type="button"
+                  onClick={handleStartRound}
+                  className="py-3 bg-emerald-600 hover:bg-emerald-700 text-white font-bold uppercase cursor-pointer shadow-[2px_2px_0px_#111111] inline-flex items-center justify-center gap-1.5"
+                >
+                  <Play className="w-4 h-4" /> Start Round
+                </button>
+                <button
+                  type="button"
+                  onClick={handlePauseOrResumeRound}
+                  className="py-3 bg-amber-500 hover:bg-amber-600 text-white font-bold uppercase cursor-pointer shadow-[2px_2px_0px_#111111] inline-flex items-center justify-center gap-1.5"
+                >
+                  {liveGlobalTimer.status === 'ACTIVE' ? (
+                    <>
+                      <Pause className="w-4 h-4" /> Pause Round
+                    </>
+                  ) : (
+                    <>
+                      <Play className="w-4 h-4" /> Resume Round
+                    </>
+                  )}
+                </button>
+                <button
+                  type="button"
+                  onClick={handleEndRound}
+                  className="py-3 bg-[#E11D2E] hover:bg-red-700 text-white font-bold uppercase cursor-pointer shadow-[2px_2px_0px_#111111] inline-flex items-center justify-center gap-1.5"
+                >
+                  <Square className="w-4 h-4" /> End Round
+                </button>
               </div>
 
-              <button
-                type="submit"
-                disabled={actionBusy}
-                className="bg-[#E11D2E] hover:bg-[#c81625] text-white font-bold text-xs uppercase tracking-wider px-5 py-2.5 cursor-pointer"
-              >
-                SAVE SYSTEM SETTINGS
-              </button>
-            </form>
+              {/* Total Time Configuration (Presets + Custom Input + +/-5m) */}
+              <div className="space-y-3 pt-2 border-t border-neutral-200 font-mono text-xs">
+                <div className="font-bold uppercase text-neutral-700">
+                  Configure Total Round Time (Minutes)
+                </div>
 
-            {/* FULL ARENA RESET */}
-            <div className="border border-white/15 bg-[#0D0D0D] p-5 space-y-4">
-              <div className="border-b border-white/15 pb-3">
-                <span className="text-[10px] text-[#E11D2E] uppercase tracking-widest">
-                  EMERGENCY / REHEARSAL PROTOCOL
+                <div className="flex flex-wrap items-center gap-1.5">
+                  {ROUND_TIME_PRESETS.map((mins) => (
+                    <button
+                      key={mins}
+                      type="button"
+                      onClick={() => handleApplyTotalTime(mins)}
+                      className={`px-3 py-1.5 border font-bold uppercase cursor-pointer ${
+                        Number(customTimerMinutes) === mins
+                          ? 'bg-[#111111] text-white border-[#111111]'
+                          : 'bg-[#FAF9F5] text-[#111111] border-neutral-300 hover:border-[#111111]'
+                      }`}
+                    >
+                      {mins}m
+                    </button>
+                  ))}
+                </div>
+
+                <div className="flex flex-wrap items-center gap-2">
+                  <input
+                    type="number"
+                    min={1}
+                    max={600}
+                    value={customTimerMinutes}
+                    onChange={(e) => setCustomTimerMinutes(e.target.value)}
+                    className="w-28 px-3 py-2 bg-[#FAF9F5] border-2 border-[#111111] font-bold"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => handleApplyTotalTime(customTimerMinutes)}
+                    className="px-4 py-2 bg-[#111111] hover:bg-[#E11D2E] text-white font-bold uppercase cursor-pointer transition-colors"
+                  >
+                    Apply Total Time ({customTimerMinutes}m)
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() =>
+                      handleEventCommand('ADJUST_TIMER', { deltaSeconds: 300 }, '+5m added to clock')
+                    }
+                    className="px-3 py-2 bg-emerald-50 hover:bg-emerald-600 hover:text-white text-emerald-800 border border-emerald-300 font-bold uppercase cursor-pointer"
+                  >
+                    +5 Min
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() =>
+                      handleEventCommand(
+                        'ADJUST_TIMER',
+                        { deltaSeconds: -300 },
+                        '-5m removed from clock'
+                      )
+                    }
+                    className="px-3 py-2 bg-red-50 hover:bg-[#E11D2E] hover:text-white text-[#E11D2E] border border-red-200 font-bold uppercase cursor-pointer"
+                  >
+                    -5 Min
+                  </button>
+                </div>
+              </div>
+
+              {/* NEXUS Core Lock / Unlock */}
+              <div className="pt-4 border-t border-neutral-200 space-y-2.5 font-mono text-xs">
+                <div className="flex items-center justify-between">
+                  <span className="font-bold uppercase text-neutral-700">
+                    NEXUS Final Core Status
+                  </span>
+                  <span
+                    className={`px-2 py-0.5 font-bold uppercase ${
+                      coreUnlocked
+                        ? 'bg-emerald-100 text-emerald-800'
+                        : 'bg-neutral-200 text-neutral-700'
+                    }`}
+                  >
+                    {adminState?.coreStatus?.state || 'LOCKED'}
+                  </span>
+                </div>
+                <div className="grid grid-cols-3 gap-2">
+                  <button
+                    type="button"
+                    onClick={() => handleEventCommand('LOCK', {}, 'NEXUS Core Locked')}
+                    className="py-2.5 border-2 border-[#111111] bg-white hover:bg-[#111111] hover:text-white font-bold uppercase cursor-pointer"
+                  >
+                    Lock Core
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => handleEventCommand('UNLOCK', {}, 'NEXUS Core Unlocked')}
+                    className="py-2.5 border-2 border-[#111111] bg-emerald-600 hover:bg-emerald-700 text-white font-bold uppercase cursor-pointer"
+                  >
+                    Unlock Core
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => handleEventCommand('REVEAL', {}, 'NEXUS Core Revealed')}
+                    className="py-2.5 border-2 border-[#111111] bg-[#E11D2E] hover:bg-red-700 text-white font-bold uppercase cursor-pointer"
+                  >
+                    Reveal Core
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            {/* Economy Settings & Demo Reset Card */}
+            <div className="bg-white border-2 border-[#111111] shadow-[4px_4px_0px_#111111] p-6 space-y-5">
+              <div className="border-b border-neutral-200 pb-3">
+                <span className="font-mono text-[10px] font-bold uppercase text-[#E11D2E]">
+                  ARENA CONFIGURATION
                 </span>
-                <h2 className="text-base font-bold uppercase">FULL ARENA DEMO STATE RESET</h2>
+                <h2 className="font-display text-2xl uppercase text-[#111111] mt-0.5">
+                  Economy & Arena Settings
+                </h2>
               </div>
 
-              <p className="text-xs text-white/65 leading-relaxed">
-                Resets all seeded teams back to their initial baseline state, clears active
-                challenge attempts, resets the NEXUS Core to LOCKED, and restarts the global arena
-                timer.
-              </p>
-
-              <button
-                type="button"
-                disabled={actionBusy}
-                onClick={() =>
-                  executeAdminApi(
-                    '/api/admin/settings',
-                    'POST',
-                    { resetAllDemoState: true },
-                    'Full Arena Demo State Reset Completed',
-                    'RESET_ALL'
-                  )
-                }
-                className="border border-[#E11D2E] bg-[#E11D2E]/15 hover:bg-[#E11D2E] text-white font-bold text-xs uppercase tracking-wider px-5 py-3 transition-colors cursor-pointer"
+              <form
+                onSubmit={(e) => {
+                  e.preventDefault();
+                  executeAdminApi('/api/admin/settings', 'POST', settingsForm, {
+                    key: 'save-settings',
+                    successMessage: 'Saved global arena settings',
+                  });
+                }}
+                className="space-y-4 font-mono text-xs"
               >
-                EXECUTE FULL ARENA RESET
-              </button>
+                <div className="grid grid-cols-2 gap-3">
+                  <div>
+                    <label className="block font-bold uppercase text-neutral-700 mb-1">
+                      Default Starting Credits
+                    </label>
+                    <input
+                      type="number"
+                      value={settingsForm.startingCredits}
+                      onChange={(e) =>
+                        setSettingsForm((p) => ({
+                          ...p,
+                          startingCredits: Number(e.target.value),
+                        }))
+                      }
+                      className="w-full px-3 py-2 bg-[#FAF9F5] border border-neutral-300 font-bold"
+                    />
+                  </div>
+                  <div>
+                    <label className="block font-bold uppercase text-neutral-700 mb-1">
+                      Hint Cost (CR)
+                    </label>
+                    <input
+                      type="number"
+                      value={settingsForm.hintCost}
+                      onChange={(e) =>
+                        setSettingsForm((p) => ({ ...p, hintCost: Number(e.target.value) }))
+                      }
+                      className="w-full px-3 py-2 bg-[#FAF9F5] border border-neutral-300 font-bold"
+                    />
+                  </div>
+                  <div>
+                    <label className="block font-bold uppercase text-neutral-700 mb-1">
+                      Extra Time Cost (CR)
+                    </label>
+                    <input
+                      type="number"
+                      value={settingsForm.extraTimeCost}
+                      onChange={(e) =>
+                        setSettingsForm((p) => ({
+                          ...p,
+                          extraTimeCost: Number(e.target.value),
+                        }))
+                      }
+                      className="w-full px-3 py-2 bg-[#FAF9F5] border border-neutral-300 font-bold"
+                    />
+                  </div>
+                  <div>
+                    <label className="block font-bold uppercase text-neutral-700 mb-1">
+                      Extra Time (+Minutes)
+                    </label>
+                    <input
+                      type="number"
+                      value={settingsForm.extraTimeMinutes}
+                      onChange={(e) =>
+                        setSettingsForm((p) => ({
+                          ...p,
+                          extraTimeMinutes: Number(e.target.value),
+                        }))
+                      }
+                      className="w-full px-3 py-2 bg-[#FAF9F5] border border-neutral-300 font-bold"
+                    />
+                  </div>
+                </div>
+
+                <div>
+                  <label className="block font-bold uppercase text-neutral-700 mb-1">
+                    Projector / Arena Announcement Banner
+                  </label>
+                  <input
+                    type="text"
+                    value={settingsForm.arenaAnnouncement || ''}
+                    onChange={(e) =>
+                      setSettingsForm((p) => ({ ...p, arenaAnnouncement: e.target.value }))
+                    }
+                    className="w-full px-3 py-2 bg-[#FAF9F5] border border-neutral-300 font-bold"
+                  />
+                </div>
+
+                <div className="flex flex-wrap items-center justify-between gap-3 pt-3 border-t border-neutral-200">
+                  <button
+                    type="submit"
+                    className="px-5 py-2.5 bg-[#111111] hover:bg-[#E11D2E] text-white font-bold uppercase cursor-pointer transition-colors"
+                  >
+                    Save Settings
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={() => {
+                      if (window.confirm('Reset all demo teams and sessions to initial state?')) {
+                        executeAdminApi(
+                          '/api/admin/settings',
+                          'POST',
+                          { resetAllDemoState: true },
+                          {
+                            key: 'reset-all',
+                            successMessage: 'Reset all demo teams to initial state',
+                          }
+                        );
+                      }
+                    }}
+                    className="px-4 py-2.5 bg-red-50 hover:bg-[#E11D2E] hover:text-white text-[#E11D2E] border border-[#E11D2E] font-bold uppercase cursor-pointer transition-colors"
+                  >
+                    Reset All Demo State
+                  </button>
+                </div>
+              </form>
             </div>
           </div>
         )}
       </main>
+
+      {/* =======================================================================
+          MODAL 1: EDIT TEAM ROSTER (SOLO / DUO / TRIO / SQUAD MAX 4)
+         ======================================================================= */}
+      <AnimatePresence>
+        {editingTeamModal && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-50 bg-black/50 flex items-center justify-center p-4"
+            onClick={() => setEditingTeamModal(null)}
+          >
+            <motion.div
+              initial={{ scale: 0.96, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.96, opacity: 0 }}
+              onClick={(e) => e.stopPropagation()}
+              className="bg-white border-2 border-[#111111] shadow-[6px_6px_0px_#111111] max-w-lg w-full p-6 space-y-5"
+            >
+              <div className="flex items-center justify-between border-b border-neutral-200 pb-3">
+                <div>
+                  <span className="font-mono text-[10px] font-bold uppercase text-[#E11D2E]">
+                    TEAM CONFIGURATION
+                  </span>
+                  <h3 className="font-display text-2xl uppercase text-[#111111]">
+                    Edit {editingTeamModal.teamId}
+                  </h3>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => setEditingTeamModal(null)}
+                  className="font-mono text-sm font-bold text-neutral-500 hover:text-[#111111] cursor-pointer"
+                >
+                  ✕
+                </button>
+              </div>
+
+              <form
+                onSubmit={async (e) => {
+                  e.preventDefault();
+                  const membersPayload = Array.from(
+                    { length: editingTeamModal.teamSize },
+                    (_, idx) => ({
+                      memberId: `OP-0${idx + 1}`,
+                      name: (
+                        editingTeamModal.members[idx] ||
+                        (idx === 0 ? 'PLAYER 1 (LEAD)' : `PLAYER ${idx + 1}`)
+                      )
+                        .trim()
+                        .toUpperCase(),
+                      role: idx === 0 ? 'LEAD' : 'OPERATIVE',
+                    })
+                  );
+                  await handleTeamAction(
+                    editingTeamModal.teamId,
+                    'UPDATE_TEAM_MEMBERS',
+                    {
+                      teamName: editingTeamModal.teamName,
+                      password: editingTeamModal.password || undefined,
+                      teamSize: editingTeamModal.teamSize,
+                      members: membersPayload,
+                    },
+                    `Updated ${editingTeamModal.teamId} (${editingTeamModal.teamSize}P)`
+                  );
+                  setEditingTeamModal(null);
+                }}
+                className="space-y-4 font-mono text-xs"
+              >
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  <div>
+                    <label className="block font-bold uppercase text-neutral-700 mb-1">
+                      Team Name
+                    </label>
+                    <input
+                      type="text"
+                      value={editingTeamModal.teamName}
+                      onChange={(e) =>
+                        setEditingTeamModal((p) => ({
+                          ...p,
+                          teamName: e.target.value.toUpperCase(),
+                        }))
+                      }
+                      className="w-full px-3 py-2 bg-[#FAF9F5] border-2 border-[#111111] font-bold uppercase"
+                      required
+                    />
+                  </div>
+                  <div>
+                    <label className="block font-bold uppercase text-neutral-700 mb-1">
+                      New Password (Optional)
+                    </label>
+                    <input
+                      type="text"
+                      value={editingTeamModal.password}
+                      onChange={(e) =>
+                        setEditingTeamModal((p) => ({ ...p, password: e.target.value }))
+                      }
+                      placeholder="Leave blank to keep current"
+                      className="w-full px-3 py-2 bg-[#FAF9F5] border border-neutral-300 focus:border-[#111111]"
+                    />
+                  </div>
+                </div>
+
+                <div>
+                  <label className="block font-bold uppercase text-neutral-700 mb-1.5">
+                    Team Format (Solo · Duo · Trio · Max 4)
+                  </label>
+                  <div className="grid grid-cols-4 gap-2">
+                    {TEAM_SIZE_MODES.map((m) => (
+                      <button
+                        key={m.size}
+                        type="button"
+                        onClick={() =>
+                          setEditingTeamModal((p) => ({ ...p, teamSize: m.size }))
+                        }
+                        className={`py-2 font-bold uppercase border-2 cursor-pointer ${
+                          editingTeamModal.teamSize === m.size
+                            ? 'bg-[#E11D2E] text-white border-[#111111]'
+                            : 'bg-white text-neutral-700 border-neutral-300'
+                        }`}
+                      >
+                        {m.tag} ({m.size})
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                  {Array.from({ length: editingTeamModal.teamSize }, (_, idx) => (
+                    <div key={idx}>
+                      <label className="block text-[10px] font-bold uppercase text-neutral-500 mb-1">
+                        Player {idx + 1} {idx === 0 ? '(Lead)' : ''}
+                      </label>
+                      <input
+                        type="text"
+                        value={editingTeamModal.members[idx] || ''}
+                        onChange={(e) => {
+                          const next = [...editingTeamModal.members];
+                          next[idx] = e.target.value;
+                          setEditingTeamModal((p) => ({ ...p, members: next }));
+                        }}
+                        className="w-full px-3 py-2 bg-[#FAF9F5] border border-neutral-300 focus:border-[#111111] uppercase"
+                      />
+                    </div>
+                  ))}
+                </div>
+
+                <div className="flex justify-end gap-2 pt-2">
+                  <button
+                    type="button"
+                    onClick={() => setEditingTeamModal(null)}
+                    className="px-4 py-2 border border-[#111111] bg-white font-bold uppercase cursor-pointer"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    type="submit"
+                    className="px-5 py-2 border-2 border-[#111111] bg-[#111111] hover:bg-[#E11D2E] text-white font-bold uppercase cursor-pointer"
+                  >
+                    Save Team
+                  </button>
+                </div>
+              </form>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* =======================================================================
+          MODAL 2: SIMPLE CHALLENGE CREATE / EDIT MODAL
+         ======================================================================= */}
+      <AnimatePresence>
+        {editingChallenge && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-50 bg-black/50 flex items-center justify-center p-4 overflow-y-auto"
+            onClick={() => setEditingChallenge(null)}
+          >
+            <motion.div
+              initial={{ scale: 0.96, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.96, opacity: 0 }}
+              onClick={(e) => e.stopPropagation()}
+              className="bg-white border-2 border-[#111111] shadow-[6px_6px_0px_#111111] max-w-xl w-full p-6 space-y-4 my-8"
+            >
+              <div className="flex items-center justify-between border-b border-neutral-200 pb-3">
+                <h3 className="font-display text-2xl uppercase text-[#111111]">
+                  {editingChallenge === 'NEW'
+                    ? 'Create Challenge'
+                    : `Edit ${challengeForm.challengeId}`}
+                </h3>
+                <button
+                  type="button"
+                  onClick={() => setEditingChallenge(null)}
+                  className="font-mono text-sm font-bold text-neutral-500 hover:text-[#111111] cursor-pointer"
+                >
+                  ✕
+                </button>
+              </div>
+
+              <form onSubmit={handleSaveChallenge} className="space-y-3.5 font-mono text-xs">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  <div>
+                    <label className="block font-bold uppercase text-neutral-700 mb-1">
+                      Title *
+                    </label>
+                    <input
+                      type="text"
+                      value={challengeForm.title}
+                      onChange={(e) =>
+                        setChallengeForm((p) => ({ ...p, title: e.target.value.toUpperCase() }))
+                      }
+                      className="w-full px-3 py-2 bg-[#FAF9F5] border-2 border-[#111111] font-bold"
+                      required
+                    />
+                  </div>
+                  <div>
+                    <label className="block font-bold uppercase text-neutral-700 mb-1">
+                      Game Type *
+                    </label>
+                    <select
+                      value={challengeForm.gameType}
+                      onChange={(e) =>
+                        setChallengeForm((p) => ({ ...p, gameType: e.target.value }))
+                      }
+                      className="w-full px-3 py-2 bg-[#FAF9F5] border-2 border-[#111111] font-bold"
+                    >
+                      {CANONICAL_GAME_TYPES.map((g) => (
+                        <option key={g.value} value={g.value}>
+                          {g.label}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                </div>
+
+                <div>
+                  <label className="block font-bold uppercase text-neutral-700 mb-1">
+                    Description
+                  </label>
+                  <input
+                    type="text"
+                    value={challengeForm.description}
+                    onChange={(e) =>
+                      setChallengeForm((p) => ({ ...p, description: e.target.value }))
+                    }
+                    className="w-full px-3 py-2 bg-[#FAF9F5] border border-neutral-300 focus:border-[#111111]"
+                  />
+                </div>
+
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
+                  <div>
+                    <label className="block font-bold uppercase text-neutral-700 mb-1">
+                      Cost (CR)
+                    </label>
+                    <input
+                      type="number"
+                      value={challengeForm.cost}
+                      onChange={(e) =>
+                        setChallengeForm((p) => ({ ...p, cost: Number(e.target.value) }))
+                      }
+                      className="w-full px-2.5 py-2 bg-[#FAF9F5] border border-neutral-300 font-bold"
+                    />
+                  </div>
+                  <div>
+                    <label className="block font-bold uppercase text-neutral-700 mb-1">
+                      Reward (CR)
+                    </label>
+                    <input
+                      type="number"
+                      value={challengeForm.reward}
+                      onChange={(e) =>
+                        setChallengeForm((p) => ({ ...p, reward: Number(e.target.value) }))
+                      }
+                      className="w-full px-2.5 py-2 bg-[#FAF9F5] border border-neutral-300 font-bold"
+                    />
+                  </div>
+                  <div>
+                    <label className="block font-bold uppercase text-neutral-700 mb-1">
+                      Penalty (CR)
+                    </label>
+                    <input
+                      type="number"
+                      value={challengeForm.penalty}
+                      onChange={(e) =>
+                        setChallengeForm((p) => ({ ...p, penalty: Number(e.target.value) }))
+                      }
+                      className="w-full px-2.5 py-2 bg-[#FAF9F5] border border-neutral-300 font-bold"
+                    />
+                  </div>
+                  <div>
+                    <label className="block font-bold uppercase text-neutral-700 mb-1">
+                      Time (Sec)
+                    </label>
+                    <input
+                      type="number"
+                      value={challengeForm.timeLimit}
+                      onChange={(e) =>
+                        setChallengeForm((p) => ({ ...p, timeLimit: Number(e.target.value) }))
+                      }
+                      className="w-full px-2.5 py-2 bg-[#FAF9F5] border border-neutral-300 font-bold"
+                    />
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-3 gap-2.5">
+                  <div>
+                    <label className="block font-bold uppercase text-neutral-700 mb-1">
+                      Category
+                    </label>
+                    <select
+                      value={challengeForm.category}
+                      onChange={(e) =>
+                        setChallengeForm((p) => ({ ...p, category: e.target.value }))
+                      }
+                      className="w-full px-2.5 py-2 bg-[#FAF9F5] border border-neutral-300"
+                    >
+                      {CANONICAL_CATEGORIES.map((c) => (
+                        <option key={c} value={c}>
+                          {c}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                  <div>
+                    <label className="block font-bold uppercase text-neutral-700 mb-1">
+                      Difficulty
+                    </label>
+                    <select
+                      value={challengeForm.difficulty}
+                      onChange={(e) =>
+                        setChallengeForm((p) => ({ ...p, difficulty: e.target.value }))
+                      }
+                      className="w-full px-2.5 py-2 bg-[#FAF9F5] border border-neutral-300"
+                    >
+                      {CANONICAL_DIFFICULTIES.map((d) => (
+                        <option key={d} value={d}>
+                          {d}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                  <div>
+                    <label className="block font-bold uppercase text-neutral-700 mb-1">
+                      Risk
+                    </label>
+                    <select
+                      value={challengeForm.risk}
+                      onChange={(e) =>
+                        setChallengeForm((p) => ({ ...p, risk: e.target.value }))
+                      }
+                      className="w-full px-2.5 py-2 bg-[#FAF9F5] border border-neutral-300"
+                    >
+                      {CANONICAL_RISKS.map((r) => (
+                        <option key={r} value={r}>
+                          {r}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                </div>
+
+                <div>
+                  <button
+                    type="button"
+                    onClick={() => setShowAdvancedJson((v) => !v)}
+                    className="text-[11px] text-neutral-500 hover:text-[#111111] underline cursor-pointer"
+                  >
+                    {showAdvancedJson
+                      ? 'Hide Advanced Game Config JSON'
+                      : 'Show Advanced Game Config JSON'}
+                  </button>
+                  {showAdvancedJson && (
+                    <textarea
+                      rows={5}
+                      value={challengeForm.gameConfigText}
+                      onChange={(e) =>
+                        setChallengeForm((p) => ({ ...p, gameConfigText: e.target.value }))
+                      }
+                      className="w-full mt-2 p-2.5 bg-[#FAF9F5] border border-neutral-300 font-mono text-[11px]"
+                    />
+                  )}
+                </div>
+
+                {challengeFormError && (
+                  <div className="p-2 bg-red-50 border border-[#E11D2E] text-[#E11D2E]">
+                    {challengeFormError}
+                  </div>
+                )}
+
+                <div className="flex justify-end gap-2 pt-2">
+                  <button
+                    type="button"
+                    onClick={() => setEditingChallenge(null)}
+                    className="px-4 py-2 border border-[#111111] bg-white font-bold uppercase cursor-pointer"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    type="submit"
+                    className="px-5 py-2 border-2 border-[#111111] bg-[#E11D2E] hover:bg-[#111111] text-white font-bold uppercase cursor-pointer"
+                  >
+                    Save Challenge
+                  </button>
+                </div>
+              </form>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 };

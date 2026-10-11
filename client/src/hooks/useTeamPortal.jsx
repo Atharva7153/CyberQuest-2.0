@@ -29,6 +29,12 @@ export const TeamPortalProvider = ({ children }) => {
   const [liveFeed, setLiveFeed] = useState([]);
   const [lastFeedEvent, setLastFeedEvent] = useState(null);
   const [sessionTimer, setSessionTimer] = useState(null);
+  const [globalTimer, setGlobalTimer] = useState({
+    status: 'PAUSED',
+    remainingSeconds: 2700,
+    totalDurationSeconds: 2700,
+    formatted: '00:45:00',
+  });
   const [serverClockOffsetMs, setServerClockOffsetMs] = useState(0);
   const [creditsConfig, setCreditsConfig] = useState({
     startingCredits: 1250,
@@ -55,6 +61,28 @@ export const TeamPortalProvider = ({ children }) => {
     if (!Number.isNaN(parsed)) {
       setServerClockOffsetMs(parsed - Date.now());
     }
+  }, []);
+
+  // Tick globalTimer locally every 1s when status === 'ACTIVE'
+  useEffect(() => {
+    const id = setInterval(() => {
+      setGlobalTimer((prev) => {
+        if (!prev || prev.status !== 'ACTIVE' || !prev.targetEndTimeMs) {
+          return prev;
+        }
+        const remaining = Math.max(0, Math.floor((prev.targetEndTimeMs - Date.now()) / 1000));
+        const hrs = String(Math.floor(remaining / 3600)).padStart(2, '0');
+        const mins = String(Math.floor((remaining % 3600) / 60)).padStart(2, '0');
+        const secs = String(remaining % 60).padStart(2, '0');
+        return {
+          ...prev,
+          remainingSeconds: remaining,
+          formatted: `${hrs}:${mins}:${secs}`,
+          status: remaining <= 0 ? 'ENDED' : 'ACTIVE',
+        };
+      });
+    }, 1000);
+    return () => clearInterval(id);
   }, []);
 
   const mergeIncomingFeedEvents = useCallback((incomingEvents = [], fullFeed = null) => {
@@ -134,6 +162,7 @@ export const TeamPortalProvider = ({ children }) => {
         if (res.progressSummary) setProgressSummary(res.progressSummary);
         if (res.liveFeed) setLiveFeed(res.liveFeed);
         if (res.timer) setSessionTimer(res.timer);
+        if (res.globalTimer) setGlobalTimer(res.globalTimer);
         if (res.serverTime) applyServerClock(res.serverTime);
         if (res.creditsConfig) setCreditsConfig(res.creditsConfig);
         if (res.catalog) setCatalog(res.catalog);
@@ -177,6 +206,7 @@ export const TeamPortalProvider = ({ children }) => {
             if (ack.progressSummary) setProgressSummary(ack.progressSummary);
             if (ack.liveFeed) setLiveFeed(ack.liveFeed);
             if (ack.timer) setSessionTimer(ack.timer);
+            if (ack.globalTimer) setGlobalTimer(ack.globalTimer);
             if (ack.serverTime) applyServerClock(ack.serverTime);
             if (ack.creditsConfig) setCreditsConfig(ack.creditsConfig);
             if (ack.catalog) setCatalog(ack.catalog);
@@ -224,6 +254,15 @@ export const TeamPortalProvider = ({ children }) => {
       }
       if (payload?.timer) {
         setSessionTimer(payload.timer);
+      }
+      if (payload?.globalTimer) {
+        setGlobalTimer(payload.globalTimer);
+      }
+    };
+
+    const handleGlobalTimerPayload = (payload) => {
+      if (payload?.globalTimer) {
+        setGlobalTimer(payload.globalTimer);
       }
     };
 
@@ -314,6 +353,9 @@ export const TeamPortalProvider = ({ children }) => {
       if (payload?.timer) {
         setSessionTimer(payload.timer);
       }
+      if (payload?.globalTimer) {
+        setGlobalTimer(payload.globalTimer);
+      }
       if (payload?.serverTime) {
         applyServerClock(payload.serverTime);
       }
@@ -371,6 +413,9 @@ export const TeamPortalProvider = ({ children }) => {
     socketClient.on(NEXUS_SOCKET_EVENTS.CORE.COMPLETED, handleCoreCompleted);
     socketClient.on(NEXUS_SOCKET_EVENTS.TEAM.STATE_UPDATE, handleStateUpdate);
     socketClient.on(NEXUS_SOCKET_EVENTS.TEAM.PRESENCE_UPDATE, handlePresenceUpdate);
+    socketClient.on(NEXUS_SOCKET_EVENTS.SYSTEM.TELEMETRY, handleGlobalTimerPayload);
+    socketClient.on(NEXUS_SOCKET_EVENTS.LEADERBOARD.UPDATE, handleGlobalTimerPayload);
+    socketClient.on(NEXUS_SOCKET_EVENTS.LEADERBOARD.SNAPSHOT, handleGlobalTimerPayload);
 
     if (!socketClient.connected) {
       socketClient.connect();
@@ -393,6 +438,9 @@ export const TeamPortalProvider = ({ children }) => {
       socketClient.off(NEXUS_SOCKET_EVENTS.CORE.COMPLETED, handleCoreCompleted);
       socketClient.off(NEXUS_SOCKET_EVENTS.TEAM.STATE_UPDATE, handleStateUpdate);
       socketClient.off(NEXUS_SOCKET_EVENTS.TEAM.PRESENCE_UPDATE, handlePresenceUpdate);
+      socketClient.off(NEXUS_SOCKET_EVENTS.SYSTEM.TELEMETRY, handleGlobalTimerPayload);
+      socketClient.off(NEXUS_SOCKET_EVENTS.LEADERBOARD.UPDATE, handleGlobalTimerPayload);
+      socketClient.off(NEXUS_SOCKET_EVENTS.LEADERBOARD.SNAPSHOT, handleGlobalTimerPayload);
     };
   }, [token, team?.teamId, pushNotification, applyServerClock, mergeIncomingFeedEvents]);
 
@@ -405,6 +453,7 @@ export const TeamPortalProvider = ({ children }) => {
         (ack) => {
           if (ack?.serverTime) applyServerClock(ack.serverTime);
           if (ack?.timer) setSessionTimer(ack.timer);
+          if (ack?.globalTimer) setGlobalTimer(ack.globalTimer);
           if (ack?.evaluationResult) setLastEvaluationResult(ack.evaluationResult);
           resolve(ack || null);
         }
@@ -425,6 +474,7 @@ export const TeamPortalProvider = ({ children }) => {
       if (res.progressSummary) setProgressSummary(res.progressSummary);
       if (res.liveFeed) setLiveFeed(res.liveFeed);
       if (res.timer) setSessionTimer(res.timer);
+      if (res.globalTimer) setGlobalTimer(res.globalTimer);
       if (res.serverTime) applyServerClock(res.serverTime);
       if (res.creditsConfig) setCreditsConfig(res.creditsConfig);
       if (res.catalog) setCatalog(res.catalog);
@@ -476,6 +526,7 @@ export const TeamPortalProvider = ({ children }) => {
                 if (ack?.ok) {
                   if (ack.serverTime) applyServerClock(ack.serverTime);
                   if (ack.timer) setSessionTimer(ack.timer);
+                  if (ack.globalTimer) setGlobalTimer(ack.globalTimer);
                   if (ack.nexusCore) setNexusCore(ack.nexusCore);
                   if (ack.attempts) setAttempts(ack.attempts);
                   if (ack.attemptHistory) setAttemptHistory(ack.attemptHistory);
@@ -522,6 +573,7 @@ export const TeamPortalProvider = ({ children }) => {
           mergeIncomingFeedEvents(res.liveFeedEvents || [], res.liveFeed || null);
         }
         if (res.timer) setSessionTimer(res.timer);
+        if (res.globalTimer) setGlobalTimer(res.globalTimer);
         if (res.serverTime) applyServerClock(res.serverTime);
         if (res.creditsConfig) setCreditsConfig(res.creditsConfig);
         if (res.catalog) setCatalog(res.catalog);
@@ -554,6 +606,9 @@ export const TeamPortalProvider = ({ children }) => {
     [token, team?.teamId, pushNotification, applyServerClock, mergeIncomingFeedEvents]
   );
 
+  const isRoundActive =
+    globalTimer?.status === 'ACTIVE' && Number(globalTimer?.remainingSeconds ?? 2700) > 0;
+
   return (
     <TeamPortalContext.Provider
       value={{
@@ -568,6 +623,8 @@ export const TeamPortalProvider = ({ children }) => {
         liveFeed,
         lastFeedEvent,
         sessionTimer,
+        globalTimer,
+        isRoundActive,
         serverClockOffsetMs,
         creditsConfig,
         lastCreditChange,

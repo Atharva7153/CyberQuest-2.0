@@ -15,7 +15,7 @@ import {
   buildCanonicalLiveFeed,
 } from '../services/progressHistoryService.js';
 import { NexusCoreService } from '../services/nexusCoreService.js';
-import { DisplayService } from '../services/displayService.js';
+import { DisplayService, computeGlobalArenaTimer } from '../services/displayService.js';
 import { AdminService } from '../services/adminService.js';
 import { enforceSocketActionRateLimit } from '../middleware/rateLimitMiddleware.js';
 
@@ -83,6 +83,7 @@ const hydrateTeamChannelSnapshot = (normalizedTeamId) => {
         progressSummary,
         liveFeed,
         timer,
+        globalTimer: computeGlobalArenaTimer(),
         catalog: resolvedCatalog,
         abilitiesCatalog: abilitiesCatalog || [],
         creditsConfig: CreditService.getConfig(),
@@ -248,6 +249,7 @@ export const registerSocketChannels = (io, socket) => {
         liveFeed: result.liveFeed || [],
         liveFeedEvents: result.liveFeedEvents || [],
         timer: result.timer,
+        globalTimer: result.globalTimer || computeGlobalArenaTimer(),
         serverTime: result.serverTime || new Date().toISOString(),
         transactions: result.transactions,
         event: result.event,
@@ -511,16 +513,23 @@ export const registerSocketChannels = (io, socket) => {
       // Fetch raw team to check if session expired on the server
       const { Team } = await import('../models/Team.js');
       const teamDoc = await Team.findOne({ teamId: normalizedTeamId });
+      const currentGlobalTimer = computeGlobalArenaTimer();
 
       if (
+        currentGlobalTimer.status === 'ACTIVE' &&
         teamDoc?.activeAttempt?.expiresAt &&
         new Date() >= new Date(teamDoc.activeAttempt.expiresAt)
       ) {
         // Server determines expiration -> execute authoritative TIMEOUT
-        const result = await executeTeamAction(normalizedTeamId, 'TIMEOUT_CHALLENGE', {
-          challengeId: teamDoc.activeAttempt.challengeId,
-          attemptId: teamDoc.activeAttempt.attemptId,
-        });
+        const result = await executeTeamAction(
+          normalizedTeamId,
+          'TIMEOUT_CHALLENGE',
+          {
+            challengeId: teamDoc.activeAttempt.challengeId,
+            attemptId: teamDoc.activeAttempt.attemptId,
+          },
+          { isTrustedAdmin: true }
+        );
         const onlineOperatives = getRoomClientCount(io, roomName);
 
         io.to(roomName).emit(SOCKET_EVENTS.TIMER.EXPIRED, {
@@ -554,6 +563,7 @@ export const registerSocketChannels = (io, socket) => {
           evaluationResult: result.evaluationResult,
           attempts: result.attempts || [],
           timer: result.timer,
+          globalTimer: currentGlobalTimer,
           serverTime: result.serverTime,
           transactions: result.transactions,
           event: result.event,
@@ -569,6 +579,7 @@ export const registerSocketChannels = (io, socket) => {
             expired: true,
             serverTime: new Date().toISOString(),
             timer: result.timer,
+            globalTimer: currentGlobalTimer,
             evaluationResult: result.evaluationResult,
           });
         }
@@ -581,6 +592,7 @@ export const registerSocketChannels = (io, socket) => {
         teamId: normalizedTeamId,
         serverTime: new Date().toISOString(),
         timer,
+        globalTimer: currentGlobalTimer,
         phase: 'PORTAL_ACTIVE',
       };
 
@@ -715,6 +727,7 @@ export const createSocketEmitters = (getIo) => ({
     const io = getIo();
     if (io) {
       io.to(SOCKET_ROOMS.LEADERBOARD).emit(SOCKET_EVENTS.LEADERBOARD.UPDATE, leaderboardPayload);
+      io.to(SOCKET_ROOMS.ARENA_GLOBAL).emit(SOCKET_EVENTS.LEADERBOARD.UPDATE, leaderboardPayload);
     }
   },
 

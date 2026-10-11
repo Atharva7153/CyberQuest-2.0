@@ -18,58 +18,52 @@ import { logger } from '../utils/logger.js';
 export const DEFAULT_CHALLENGE_CATALOG = [
   {
     challengeId: 'CHG-PUZ-05',
-    title: 'CIPHER MONOLITH',
+    title: 'WORD GUESS',
     category: 'PUZZLES',
     description:
-      'Transform the starting word into the target word by changing exactly 1 letter per step.',
+      'Unscramble the letter tiles using the clues to spell both 6-letter words.',
     difficulty: 'MODERATE',
     risk: 'BALANCED',
     cost: 350,
     reward: 750,
     penalty: 100,
     timeLimit: 1200, // 20 minutes
-    gameType: 'wend',
+    gameType: 'wordGuess',
     gameConfig: {
       sector: 'SECTOR-05 // CRYPT_SPIRE',
       artworkKey: 'PUZZLES',
       secondaryArtworkKey: 'CREDITS_SPIRE',
       maxHints: 2,
       clearanceCode: 'NX-PUZ-05',
-      startWord: 'CODE',
-      endWord: 'GATE',
-      targetWord: 'GATE',
-      wordLength: 4,
-      steps: [
+      rounds: [
         {
-          clue: 'Step 1 — Change 1 letter: Operating state or configuration (M _ _ E)',
-          hint: 'Replace C with M -> MODE',
-          length: 4,
+          id: 'R1',
+          word: 'CIPHER',
+          scrambled: 'H P E C I R',
+          clue: 'Cryptographic algorithm used for encoding and decoding classified payloads (6 letters).',
+          category: 'CRYPTOGRAPHY',
         },
         {
-          clue: 'Step 2 — Change 1 letter: Constructed or built (M _ D E)',
-          hint: 'Replace O with A -> MADE',
-          length: 4,
-        },
-        {
-          clue: 'Step 3 — Change 1 letter: Pair, partner, or chess victory (M A _ E)',
-          hint: 'Replace D with T -> MATE',
-          length: 4,
+          id: 'R2',
+          word: 'SOCKET',
+          scrambled: 'K T C E O S',
+          clue: 'Bidirectional network communication endpoint binding an IP address and port (6 letters).',
+          category: 'NETWORKING',
         },
       ],
-      solutionSteps: ['MODE', 'MADE', 'MATE'],
     },
     solutionConfig: {
-      expectedAnswer: 'WEND:CODE-MODE-MADE-MATE-GATE',
+      expectedAnswer: 'WORDGUESS:CIPHER-SOCKET',
       acceptedAnswers: [
-        'WEND:CODE-MODE-MADE-MATE-GATE',
-        'CODE-MODE-MADE-MATE-GATE',
-        'MODE-MADE-MATE',
+        'WORDGUESS:CIPHER-SOCKET',
+        'CIPHER-SOCKET',
+        'CIPHER',
         'PAYLOAD',
         'NEXUS{PAYLOAD}',
       ],
       hints: [
-        'HINT 01 // Step 1 is MODE (change C to M) and Step 2 is MADE (change O to A).',
-        'HINT 02 // Step 3 is MATE (change D to T), which becomes GATE.',
+        'HINT 01 // Word 1 starts with C-I-P and refers to an encryption algorithm (CIPHER).',
+        'HINT 02 // Word 2 starts with S-O-C and ends with K-E-T (SOCKET).',
       ],
     },
     enabled: true,
@@ -77,10 +71,10 @@ export const DEFAULT_CHALLENGE_CATALOG = [
   },
   {
     challengeId: 'CHG-LOG-04',
-    title: 'SIGNAL LABYRINTH',
+    title: 'SUDOKU (6×6)',
     category: 'LOGIC',
     description:
-      'Complete the 6×6 Sudoku grid so every row, column, and 2×3 block contains digits 1 through 6.',
+      'Fill the 6×6 Sudoku grid so every row, column, and 2×3 block has numbers 1 to 6.',
     difficulty: 'MODERATE',
     risk: 'BALANCED',
     cost: 350,
@@ -132,10 +126,10 @@ export const DEFAULT_CHALLENGE_CATALOG = [
   },
   {
     challengeId: 'CHG-PUZ-07',
-    title: 'TESSELLATION VAULT',
+    title: '4×4 TIC-TAC-TOE',
     category: 'PUZZLES',
     description:
-      'Defeat the NEXUS AI by aligning 4 X marks in a row horizontally, vertically, or diagonally on the 4×4 grid.',
+      'Beat the AI by getting 4 X marks in a row horizontally, vertically, or diagonally.',
     difficulty: 'LOW',
     risk: 'SAFE',
     cost: 220,
@@ -165,10 +159,10 @@ export const DEFAULT_CHALLENGE_CATALOG = [
   },
   {
     challengeId: 'CHG-FOR-02',
-    title: 'FORENSIC TRACE',
+    title: 'PATCHES (5×5)',
     category: 'OBSERVATION',
     description:
-      'Divide the 5×5 grid into non-overlapping rectangular patches so each patch contains one number equal to its cell area.',
+      'Divide the 5×5 grid into rectangles so each rectangle matches the number inside it.',
     difficulty: 'LOW',
     risk: 'SAFE',
     cost: 250,
@@ -214,10 +208,10 @@ export const DEFAULT_CHALLENGE_CATALOG = [
   },
   {
     challengeId: 'CHG-NET-01',
-    title: 'NETWORK BREACH',
+    title: 'ZIP (PATH PUZZLE)',
     category: 'TECHNICAL',
     description:
-      'Draw a single continuous path from 1 to 6 in order that visits every cell on the 5×5 grid exactly once.',
+      'Connect numbers 1 to 6 in order with a single line that visits every square on the board.',
     difficulty: 'HIGH',
     risk: 'AGGRESSIVE',
     cost: 500,
@@ -263,32 +257,34 @@ export const DEFAULT_CHALLENGE_CATALOG = [
   },
   {
     challengeId: 'CHG-LOG-06',
-    title: 'AXIOM PROTOCOL',
+    title: 'CONNECT 4',
     category: 'LOGIC',
     description:
-      'Outmaneuver the autonomous NEXUS AI in a 4×4 Tic-Tac-Toe tactical showdown.',
+      'Drop Red discs into the 7×6 board and connect 4 in a row before the AI.',
     difficulty: 'LOW',
     risk: 'SAFE',
     cost: 200,
     reward: 420,
     penalty: 60,
     timeLimit: 900, // 15 minutes
-    gameType: 'xo4x4',
+    gameType: 'connect4',
     gameConfig: {
       sector: 'SECTOR-01 // BULKHEAD',
       artworkKey: 'RISK_STAIRS',
       secondaryArtworkKey: 'LOGIC',
       maxHints: 2,
       clearanceCode: 'NX-LOG-06',
+      rows: 6,
+      cols: 7,
       aiSkill: 'STRATEGIC',
-      subtitle: 'Connect 4 X marks horizontally, vertically, or diagonally on the 4×4 board.',
+      subtitle: 'Drop Red discs into columns 1–7 to connect 4 horizontally, vertically, or diagonally.',
     },
     solutionConfig: {
-      expectedAnswer: 'XO4X4:WIN',
-      acceptedAnswers: ['XO4X4:WIN', 'COL-4', '4', 'COLUMN 4'],
+      expectedAnswer: 'CONNECT4:WIN',
+      acceptedAnswers: ['CONNECT4:WIN', 'XO4X4:WIN', 'COL-4', '4', 'COLUMN 4'],
       hints: [
-        'HINT 01 // Occupy interior intersections first to maximize offensive lines.',
-        'HINT 02 // Block any AI 3-in-a-row threat immediately while setting up a double threat.',
+        'HINT 01 // Control the center column (Column 4) early to maximize horizontal and diagonal threats.',
+        'HINT 02 // Build two simultaneous 3-disc threats so the AI cannot block both.',
       ],
     },
     enabled: true,
@@ -296,10 +292,10 @@ export const DEFAULT_CHALLENGE_CATALOG = [
   },
   {
     challengeId: 'CHG-KNW-09',
-    title: 'ARCHIVE CODEX',
+    title: 'WEND (WORD LADDER)',
     category: 'KNOWLEDGE',
     description:
-      'Bridge PORT to PING by transforming one letter at a time using the step clues.',
+      'Turn PORT into PING by changing one letter at a time using the clues.',
     difficulty: 'MODERATE',
     risk: 'BALANCED',
     cost: 300,
@@ -354,10 +350,10 @@ export const DEFAULT_CHALLENGE_CATALOG = [
   },
   {
     challengeId: 'CHG-OBS-08',
-    title: 'PANOPTICON FEED',
+    title: 'PATCHES (6×6)',
     category: 'OBSERVATION',
     description:
-      'Partition the 6×6 surveillance grid into rectangular patches matching each numbered area clue.',
+      'Divide the 6×6 grid into rectangles so each rectangle matches the number inside it.',
     difficulty: 'HIGH',
     risk: 'AGGRESSIVE',
     cost: 550,
@@ -403,10 +399,10 @@ export const DEFAULT_CHALLENGE_CATALOG = [
   },
   {
     challengeId: 'CHG-ZDY-03',
-    title: 'ZERO DAY HUNT',
+    title: 'SUDOKU (9×9)',
     category: 'KNOWLEDGE',
     description:
-      'Solve the 9×9 Sudoku matrix so every row, column, and 3×3 block contains digits 1 through 9.',
+      'Solve the 9×9 Sudoku grid so every row, column, and 3×3 block has numbers 1 to 9.',
     difficulty: 'EXTREME',
     risk: 'AGGRESSIVE',
     cost: 700,
@@ -459,10 +455,10 @@ export const DEFAULT_CHALLENGE_CATALOG = [
   },
   {
     challengeId: 'CHG-TEC-10',
-    title: 'OVERLORD KERNEL',
+    title: 'ZIP (LEVEL 2)',
     category: 'TECHNICAL',
     description:
-      'Connect waypoints 1 through 6 in order while visiting every cell on the 5×5 core grid.',
+      'Connect numbers 1 to 6 in order while visiting every square on the 5×5 grid.',
     difficulty: 'HIGH',
     risk: 'AGGRESSIVE',
     cost: 600,
@@ -508,10 +504,10 @@ export const DEFAULT_CHALLENGE_CATALOG = [
   },
   {
     challengeId: 'CHG-TEC-11',
-    title: 'BITWISE SENTINEL',
+    title: 'PATCHES (LEVEL 2)',
     category: 'TECHNICAL',
     description:
-      'Divide the 5×5 sentinel matrix into rectangular patches so each patch matches its numbered area clue.',
+      'Split the 5×5 grid into rectangles matching each numbered area clue.',
     difficulty: 'MODERATE',
     risk: 'BALANCED',
     cost: 400,
@@ -555,10 +551,10 @@ export const DEFAULT_CHALLENGE_CATALOG = [
   },
   {
     challengeId: 'CHG-TEC-12',
-    title: 'REACTOR DEADLOCK',
+    title: 'WEND (LEVEL 2)',
     category: 'TECHNICAL',
     description:
-      'Transform FAIL into PASS one letter at a time to clear the reactor consensus deadlock.',
+      'Turn FAIL into PASS one letter at a time using the step clues.',
     difficulty: 'EXTREME',
     risk: 'AGGRESSIVE',
     cost: 800,
@@ -847,7 +843,13 @@ export class ChallengeService {
   /**
    * Server-authoritative Challenge Acquisition & Session Initialization
    */
-  static async acquireChallengeForTeam({ teamDoc, teamId, challengeId, isReattemptRequested }) {
+  static async acquireChallengeForTeam({
+    teamDoc,
+    teamId,
+    challengeId,
+    isReattemptRequested,
+    buyOnly = false,
+  }) {
     const resolvedTeamId = String(teamDoc?.teamId || teamId || '')
       .trim()
       .toUpperCase();
@@ -905,20 +907,6 @@ export class ChallengeService {
         throw err;
       }
 
-      // Prevent duplicate purchase if this challenge is already actively in progress
-      if (
-        team.activeAttempt &&
-        team.activeAttempt.status === 'IN_PROGRESS' &&
-        String(team.activeAttempt.challengeId).toUpperCase() === challenge.challengeId
-      ) {
-        const err = new Error(
-          `Challenge [${challenge.title}] is already active in progress for your squad.`
-        );
-        err.statusCode = 409;
-        err.code = 'CHALLENGE_ALREADY_ACTIVE';
-        throw err;
-      }
-
       const alreadySolved = (team.completedChallenges || []).some(
         (c) => c.challengeId === challenge.challengeId
       );
@@ -931,182 +919,277 @@ export class ChallengeService {
         throw err;
       }
 
+      if (!Array.isArray(team.purchasedChallenges)) {
+        team.purchasedChallenges = [];
+      }
+
+      const existingPurchasedEntry = team.purchasedChallenges.find(
+        (c) => String(c.challengeId).toUpperCase() === challenge.challengeId
+      );
+      const isCurrentlyActive =
+        team.activeAttempt &&
+        team.activeAttempt.status === 'IN_PROGRESS' &&
+        String(team.activeAttempt.challengeId).toUpperCase() === challenge.challengeId;
+      const alreadyPurchased = Boolean(existingPurchasedEntry || isCurrentlyActive);
+
+      // If buyOnly was requested on a challenge already owned by the team, block duplicate purchase
+      if (buyOnly && alreadyPurchased) {
+        const err = new Error(
+          `Challenge [${challenge.title}] is already purchased by your team and ready to solve.`
+        );
+        err.statusCode = 409;
+        err.code = 'CHALLENGE_ALREADY_PURCHASED';
+        throw err;
+      }
+
+      // If starting/opening a challenge that is already the active attempt in progress, return it directly
+      if (!buyOnly && isCurrentlyActive) {
+        return {
+          team,
+          challenge,
+          creditResult: null,
+          activeAttempt: team.activeAttempt,
+        };
+      }
+
+      // If the team had another active challenge in progress, ensure it stays in purchasedChallenges so it isn't lost when switching
+      if (
+        !buyOnly &&
+        team.currentChallenge?.challengeId &&
+        String(team.currentChallenge.challengeId).toUpperCase() !== challenge.challengeId
+      ) {
+        const prevActiveId = String(team.currentChallenge.challengeId).toUpperCase();
+        const prevAlreadyListed = team.purchasedChallenges.some(
+          (c) => String(c.challengeId).toUpperCase() === prevActiveId
+        );
+        if (!prevAlreadyListed) {
+          team.purchasedChallenges.unshift({
+            ...team.currentChallenge,
+            timestamp: team.currentChallenge.timestamp || new Date(),
+          });
+        }
+      }
+
       const wasFailed = (team.failedChallenges || []).some(
         (c) => c.challengeId === challenge.challengeId
       );
 
-    let priorAttemptsCount = wasFailed ? 1 : 0;
-    if (mongoose.connection.readyState === 1) {
-      const dbPriorCount = await ChallengeAttempt.countDocuments({
-        teamId: team.teamId,
-        challengeId: challenge.challengeId,
-      }).catch(() => 0);
-      priorAttemptsCount = Math.max(priorAttemptsCount, dbPriorCount);
-    }
+      let priorAttemptsCount = wasFailed ? 1 : 0;
+      if (mongoose.connection.readyState === 1) {
+        const dbPriorCount = await ChallengeAttempt.countDocuments({
+          teamId: team.teamId,
+          challengeId: challenge.challengeId,
+        }).catch(() => 0);
+        priorAttemptsCount = Math.max(priorAttemptsCount, dbPriorCount);
+      }
 
-    const attemptNumber = priorAttemptsCount + 1;
-    const isReattempt = Boolean(priorAttemptsCount > 0 || wasFailed || isReattemptRequested);
+      const attemptNumber = alreadyPurchased
+        ? Number(existingPurchasedEntry?.attemptNumber || priorAttemptsCount || 1)
+        : priorAttemptsCount + 1;
+      const isReattempt = Boolean(priorAttemptsCount > 0 || wasFailed || isReattemptRequested);
 
-    // Server calculates increased reattempt cost — never accept price from client
-    const effectiveCost = isReattempt
-      ? creditsConfig.calculateReattemptCost(challenge.cost, Math.max(1, priorAttemptsCount))
-      : Number(challenge.cost || 0);
-    const txType = isReattempt
-      ? CREDIT_TRANSACTION_TYPES.REATTEMPT
-      : CREDIT_TRANSACTION_TYPES.CHALLENGE_PURCHASE;
+      const normalizedRisk = normalizeRiskTier(challenge.risk);
+      const now = new Date();
+      const timeLimitSeconds = Number(challenge.timeLimit) || 1200;
 
-    const creditResult = await CreditService.recordTransaction({
-      teamDoc: team,
-      type: txType,
-      amount: effectiveCost,
-      relatedChallenge: {
+      let effectiveCost = Number(existingPurchasedEntry?.cost ?? challenge.cost ?? 0);
+      let creditResult = null;
+
+      // Only deduct team credits if this challenge is not already purchased by the team
+      if (!alreadyPurchased) {
+        effectiveCost = isReattempt
+          ? creditsConfig.calculateReattemptCost(challenge.cost, Math.max(1, priorAttemptsCount))
+          : Number(challenge.cost || 0);
+        const txType = isReattempt
+          ? CREDIT_TRANSACTION_TYPES.REATTEMPT
+          : CREDIT_TRANSACTION_TYPES.CHALLENGE_PURCHASE;
+
+        creditResult = await CreditService.recordTransaction({
+          teamDoc: team,
+          type: txType,
+          amount: effectiveCost,
+          relatedChallenge: {
+            challengeId: challenge.challengeId,
+            title: challenge.title,
+            category: challenge.category,
+          },
+          summary: isReattempt
+            ? `REATTEMPT #${attemptNumber} PURCHASED: ${challenge.title} (-${effectiveCost} CR)`
+            : buyOnly
+              ? `CHALLENGE PURCHASED (SAVED FOR LATER): ${challenge.title} (-${effectiveCost} CR)`
+              : `CHALLENGE ACQUIRED: ${challenge.title} (-${effectiveCost} CR)`,
+          autoSaveTeam: false,
+        });
+
+        if (isReattempt) {
+          team.stats.reattemptsCount = Number(team.stats.reattemptsCount || 0) + 1;
+        }
+
+        applyTeamRiskTelemetry(team, {
+          risk: normalizedRisk,
+          attemptIncrement: 1,
+          creditsLost: effectiveCost,
+          setActiveRiskProfile: !buyOnly,
+        });
+
+        // Add to team's shared purchasedChallenges pool
+        team.purchasedChallenges.unshift({
+          challengeId: challenge.challengeId,
+          title: challenge.title,
+          category: challenge.category,
+          description: challenge.description,
+          difficulty: challenge.difficulty,
+          risk: normalizedRisk,
+          cost: effectiveCost,
+          reward: challenge.reward,
+          penalty: challenge.penalty || 100,
+          timeLimit: timeLimitSeconds,
+          gameType: challenge.gameType,
+          gameConfig: challenge.gameConfig || {},
+          enabled: challenge.enabled,
+          available: challenge.available,
+          attemptNumber,
+          timestamp: now,
+        });
+        team.markModified('purchasedChallenges');
+
+        await AuditService.record({
+          action: AUDIT_ACTION_TYPES.PURCHASE,
+          actorType: 'TEAM',
+          actorId: team.teamId,
+          teamId: team.teamId,
+          challengeId: challenge.challengeId,
+          attemptNumber,
+          creditsDelta: -effectiveCost,
+          balanceAfter: team.credits,
+          summary: `${team.teamId} purchased ${
+            isReattempt ? `reattempt #${attemptNumber}` : 'challenge'
+          } [${challenge.challengeId}] ${challenge.title} for ${effectiveCost} CR${
+            buyOnly ? ' (saved for later)' : ''
+          }`,
+          metadata: {
+            baseCost: challenge.cost,
+            effectiveCost,
+            isReattempt,
+            attemptNumber,
+            buyOnly,
+            risk: normalizedRisk,
+          },
+        });
+      }
+
+      // If buyOnly is true, save team without starting/overwriting activeAttempt
+      if (buyOnly) {
+        await team.save();
+        return {
+          team,
+          challenge,
+          creditResult,
+          activeAttempt: team.activeAttempt,
+        };
+      }
+
+      const expiresAt = new Date(now.getTime() + timeLimitSeconds * 1000);
+      const attemptId = `ATT-${Date.now().toString().slice(-5)}-${Math.random()
+        .toString(36)
+        .slice(2, 5)
+        .toUpperCase()}`;
+
+      team.currentChallenge = {
         challengeId: challenge.challengeId,
         title: challenge.title,
         category: challenge.category,
-      },
-      summary: isReattempt
-        ? `REATTEMPT #${attemptNumber} ACQUIRED: ${challenge.title} (-${effectiveCost} CR)`
-        : `CHALLENGE ACQUIRED: ${challenge.title} (-${effectiveCost} CR)`,
-      autoSaveTeam: false,
-    });
+        description: challenge.description,
+        difficulty: challenge.difficulty,
+        risk: normalizedRisk,
+        cost: effectiveCost,
+        reward: challenge.reward,
+        penalty: challenge.penalty || 100,
+        timeLimit: timeLimitSeconds,
+        gameType: challenge.gameType,
+        gameConfig: challenge.gameConfig || {},
+        enabled: challenge.enabled,
+        available: challenge.available,
+        timestamp: now,
+      };
 
-    if (isReattempt) {
-      team.stats.reattemptsCount = Number(team.stats.reattemptsCount || 0) + 1;
-    }
+      const maxHints = Number(challenge.gameConfig?.maxHints || 2);
 
-    const normalizedRisk = normalizeRiskTier(challenge.risk);
-    applyTeamRiskTelemetry(team, {
-      risk: normalizedRisk,
-      attemptIncrement: 1,
-      creditsLost: effectiveCost,
-      setActiveRiskProfile: true,
-    });
-
-    const now = new Date();
-    const timeLimitSeconds = Number(challenge.timeLimit) || 1200;
-    const expiresAt = new Date(now.getTime() + timeLimitSeconds * 1000);
-    const attemptId = `ATT-${Date.now().toString().slice(-5)}-${Math.random()
-      .toString(36)
-      .slice(2, 5)
-      .toUpperCase()}`;
-
-    team.currentChallenge = {
-      challengeId: challenge.challengeId,
-      title: challenge.title,
-      category: challenge.category,
-      description: challenge.description,
-      difficulty: challenge.difficulty,
-      risk: normalizedRisk,
-      cost: effectiveCost,
-      reward: challenge.reward,
-      penalty: challenge.penalty || 100,
-      timeLimit: timeLimitSeconds,
-      gameType: challenge.gameType,
-      gameConfig: challenge.gameConfig || {},
-      enabled: challenge.enabled,
-      available: challenge.available,
-      timestamp: now,
-    };
-
-    const maxHints = Number(challenge.gameConfig?.maxHints || 2);
-
-    team.activeAttempt = {
-      attemptId,
-      attemptNumber,
-      challengeId: challenge.challengeId,
-      title: challenge.title,
-      category: challenge.category,
-      difficulty: challenge.difficulty,
-      risk: normalizedRisk,
-      costPaid: effectiveCost,
-      potentialReward: challenge.reward,
-      penaltyOnFail: challenge.penalty || 100,
-      timeLimit: timeLimitSeconds,
-      gameType: challenge.gameType,
-      gameConfig: challenge.gameConfig || {},
-      maxHints,
-      hintsUnlocked: 0,
-      unlockedHints: [],
-      extraTimeMinutes: 0,
-      activeAbilities: [],
-      isReattempt,
-      startedAt: now,
-      expiresAt,
-      status: 'IN_PROGRESS',
-    };
-
-    await team.save();
-
-    if (mongoose.connection.readyState === 1) {
-      await ChallengeAttempt.create({
+      team.activeAttempt = {
         attemptId,
         attemptNumber,
-        teamId: team.teamId,
         challengeId: challenge.challengeId,
         title: challenge.title,
         category: challenge.category,
         difficulty: challenge.difficulty,
         risk: normalizedRisk,
-        gameType: challenge.gameType,
-        gameConfig: challenge.gameConfig || {},
         costPaid: effectiveCost,
         potentialReward: challenge.reward,
         penaltyOnFail: challenge.penalty || 100,
-        rewardPenaltyDelta: 0,
         timeLimit: timeLimitSeconds,
+        gameType: challenge.gameType,
+        gameConfig: challenge.gameConfig || {},
+        maxHints,
         hintsUnlocked: 0,
         unlockedHints: [],
         extraTimeMinutes: 0,
+        activeAbilities: [],
         isReattempt,
         startedAt: now,
         expiresAt,
-        result: 'IN_PROGRESS',
         status: 'IN_PROGRESS',
-        timestamp: now,
-      }).catch((err) => {
-        logger.warn('SESSION', `ChallengeAttempt record warning: ${err.message}`);
-      });
-    }
+      };
 
-    await AuditService.record({
-      action: AUDIT_ACTION_TYPES.PURCHASE,
-      actorType: 'TEAM',
-      actorId: team.teamId,
-      teamId: team.teamId,
-      challengeId: challenge.challengeId,
-      attemptId,
-      attemptNumber,
-      creditsDelta: -effectiveCost,
-      balanceAfter: team.credits,
-      summary: `${team.teamId} purchased ${
-        isReattempt ? `reattempt #${attemptNumber}` : 'challenge'
-      } [${challenge.challengeId}] ${challenge.title} for ${effectiveCost} CR`,
-      metadata: {
-        baseCost: challenge.cost,
-        effectiveCost,
-        isReattempt,
+      await team.save();
+
+      if (mongoose.connection.readyState === 1) {
+        await ChallengeAttempt.create({
+          attemptId,
+          attemptNumber,
+          teamId: team.teamId,
+          challengeId: challenge.challengeId,
+          title: challenge.title,
+          category: challenge.category,
+          difficulty: challenge.difficulty,
+          risk: normalizedRisk,
+          gameType: challenge.gameType,
+          gameConfig: challenge.gameConfig || {},
+          costPaid: effectiveCost,
+          potentialReward: challenge.reward,
+          penaltyOnFail: challenge.penalty || 100,
+          rewardPenaltyDelta: 0,
+          timeLimit: timeLimitSeconds,
+          hintsUnlocked: 0,
+          unlockedHints: [],
+          extraTimeMinutes: 0,
+          isReattempt,
+          startedAt: now,
+          expiresAt,
+          result: 'IN_PROGRESS',
+          status: 'IN_PROGRESS',
+          timestamp: now,
+        }).catch((err) => {
+          logger.warn('SESSION', `ChallengeAttempt record warning: ${err.message}`);
+        });
+      }
+
+      await AuditService.record({
+        action: AUDIT_ACTION_TYPES.START,
+        actorType: 'TEAM',
+        actorId: team.teamId,
+        teamId: team.teamId,
+        challengeId: challenge.challengeId,
+        attemptId,
         attemptNumber,
-        risk: normalizedRisk,
-      },
-    });
-
-    await AuditService.record({
-      action: AUDIT_ACTION_TYPES.START,
-      actorType: 'TEAM',
-      actorId: team.teamId,
-      teamId: team.teamId,
-      challengeId: challenge.challengeId,
-      attemptId,
-      attemptNumber,
-      creditsDelta: 0,
-      balanceAfter: team.credits,
-      summary: `${team.teamId} started session [${attemptId}] (Attempt #${attemptNumber}) on [${challenge.challengeId}]`,
-      metadata: {
-        startedAt: now.toISOString(),
-        expiresAt: expiresAt.toISOString(),
-        timeLimit: timeLimitSeconds,
-      },
-    });
+        creditsDelta: 0,
+        balanceAfter: team.credits,
+        summary: `${team.teamId} started session [${attemptId}] (Attempt #${attemptNumber}) on [${challenge.challengeId}]`,
+        metadata: {
+          startedAt: now.toISOString(),
+          expiresAt: expiresAt.toISOString(),
+          timeLimit: timeLimitSeconds,
+        },
+      });
 
       return {
         team,
@@ -1702,6 +1785,13 @@ export class ChallengeService {
             attemptNumber,
           },
         });
+      }
+
+      if (Array.isArray(team.purchasedChallenges)) {
+        team.purchasedChallenges = team.purchasedChallenges.filter(
+          (c) => String(c.challengeId).toUpperCase() !== fullChallenge.challengeId
+        );
+        team.markModified('purchasedChallenges');
       }
 
       team.currentChallenge = null;

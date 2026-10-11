@@ -8,6 +8,7 @@ import {
 
 export const SudokuGame = ({
   challenge,
+  session,
   gameConfig = {},
   actionPending = false,
   disabled = false,
@@ -28,7 +29,7 @@ export const SudokuGame = ({
     return { r: 0, c: 0 };
   });
 
-  // Reset board if challenge changes
+  // Reset board only when switching to a different challenge or attempt
   useEffect(() => {
     setGrid(initialGrid.map((row) => [...row]));
     for (let r = 0; r < size; r++) {
@@ -39,7 +40,8 @@ export const SudokuGame = ({
         }
       }
     }
-  }, [challenge?.challengeId, initialGrid, size]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [challenge?.challengeId, session?.attemptId]);
 
   const validation = useMemo(
     () => validateSudokuBoardClient(grid, config),

@@ -13,7 +13,7 @@ import {
   buildCanonicalLiveFeed,
 } from '../services/progressHistoryService.js';
 import { NexusCoreService } from '../services/nexusCoreService.js';
-import { DisplayService } from '../services/displayService.js';
+import { DisplayService, computeGlobalArenaTimer } from '../services/displayService.js';
 import { socketEmitters } from '../socket/index.js';
 
 let projectorBroadcastTimer = null;
@@ -46,6 +46,7 @@ export const loginTeam = async (req, res, next) => {
       progressSummary,
       liveFeed,
       timer,
+      globalTimer,
       creditsConfig,
       serverTime,
     } = await authenticateTeam(teamId, password);
@@ -62,6 +63,7 @@ export const loginTeam = async (req, res, next) => {
       progressSummary: progressSummary || null,
       liveFeed: liveFeed || [],
       timer,
+      globalTimer: globalTimer || computeGlobalArenaTimer(),
       serverTime: serverTime || new Date().toISOString(),
       creditsConfig,
       catalog: catalog || CHALLENGE_CATALOG,
@@ -104,6 +106,7 @@ export const getCurrentTeam = async (req, res, next) => {
       progressSummary,
       liveFeed,
       timer: ChallengeService.computeSessionTimerTelemetry(team?.activeAttempt),
+      globalTimer: computeGlobalArenaTimer(),
       serverTime: new Date().toISOString(),
       creditsConfig: CreditService.getConfig(),
       catalog: resolvedCatalog,
@@ -281,6 +284,7 @@ export const postTeamAction = async (req, res, next) => {
       liveFeed: result.liveFeed || [],
       liveFeedEvents: result.liveFeedEvents || [],
       timer: result.timer,
+      globalTimer: result.globalTimer || computeGlobalArenaTimer(),
       serverTime: result.serverTime,
       transactions: result.transactions,
       event: result.event,
@@ -307,6 +311,7 @@ export const postTeamAction = async (req, res, next) => {
       liveFeed: result.liveFeed || [],
       liveFeedEvents: result.liveFeedEvents || [],
       timer: result.timer,
+      globalTimer: result.globalTimer || computeGlobalArenaTimer(),
       serverTime: result.serverTime,
       transactions: result.transactions,
       event: result.event,

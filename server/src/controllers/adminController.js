@@ -99,6 +99,11 @@ const broadcastAdminAndArenaSync = async (adminState, extraBroadcast = {}) => {
       coreStatus: adminState.coreStatus,
       timestamp: new Date().toISOString(),
     });
+    io.emit(SOCKET_EVENTS.SYSTEM.TELEMETRY, {
+      globalTimer: adminState.globalTimer,
+      coreStatus: adminState.coreStatus,
+      timestamp: new Date().toISOString(),
+    });
   }
 };
 
@@ -176,8 +181,26 @@ export const getAdminAuditLogs = async (req, res, next) => {
 };
 
 /**
+ * POST /api/admin/teams/register
+ * Register a new Team (Solo=1, Duo=2, Trio=3, Squad=4 max) with initial credits
+ */
+export const registerAdminTeam = async (req, res, next) => {
+  try {
+    const actor = req.admin?.operatorId || 'ADMIN-NEXUS';
+    const state = await AdminService.registerTeam(req.body || {}, actor);
+
+    res.status(200).json(state);
+    broadcastAdminAndArenaSync(state, {
+      teamId: state.registeredTeam?.teamId,
+    }).catch(() => {});
+  } catch (error) {
+    next(error);
+  }
+};
+
+/**
  * POST /api/admin/teams/action
- * Execute team control action (ADJUST_CREDITS, ADJUDICATE_ATTEMPT, SET_TEAM_CORE_STATE, RESET_TEAM)
+ * Execute team control action (REGISTER_TEAM, ADJUST_CREDITS, SET_CREDITS, UPDATE_TEAM_MEMBERS, DELETE_TEAM, ADJUDICATE_ATTEMPT, SET_TEAM_CORE_STATE, RESET_TEAM)
  */
 export const executeAdminTeamAction = async (req, res, next) => {
   try {
@@ -185,9 +208,13 @@ export const executeAdminTeamAction = async (req, res, next) => {
     const actor = req.admin?.operatorId || 'ADMIN-NEXUS';
     const state = await AdminService.executeAdminTeamControl({ teamId, action, payload }, actor);
 
-    await broadcastAdminAndArenaSync(state, { teamId });
-
     res.status(200).json(state);
+    const targetTeamId = state.registeredTeam?.teamId || teamId;
+    if (targetTeamId && String(action).toUpperCase() !== 'DELETE_TEAM') {
+      broadcastAdminAndArenaSync(state, { teamId: targetTeamId }).catch(() => {});
+    } else {
+      broadcastAdminAndArenaSync(state).catch(() => {});
+    }
   } catch (error) {
     next(error);
   }
@@ -203,12 +230,11 @@ export const upsertAdminChallenge = async (req, res, next) => {
     const challenge = await AdminService.upsertChallenge(req.body || {}, actor);
     const state = await AdminService.getAdminControlState();
 
-    await broadcastAdminAndArenaSync(state, { broadcastChallenges: true });
-
     res.status(200).json({
       ...state,
       upsertedChallenge: challenge,
     });
+    broadcastAdminAndArenaSync(state, { broadcastChallenges: true }).catch(() => {});
   } catch (error) {
     next(error);
   }
@@ -233,9 +259,8 @@ export const patchAdminChallenge = async (req, res, next) => {
     }
 
     const state = await AdminService.getAdminControlState();
-    await broadcastAdminAndArenaSync(state, { broadcastChallenges: true });
-
     res.status(200).json(state);
+    broadcastAdminAndArenaSync(state, { broadcastChallenges: true }).catch(() => {});
   } catch (error) {
     next(error);
   }
@@ -251,13 +276,12 @@ export const executeAdminEventControl = async (req, res, next) => {
     const actor = req.admin?.operatorId || 'ADMIN-NEXUS';
     const state = await AdminService.executeEventControl({ command, payload }, actor);
 
-    await broadcastAdminAndArenaSync(state, {
+    res.status(200).json(state);
+    broadcastAdminAndArenaSync(state, {
       coreRevealTriggered: state.coreRevealTriggered,
       coreStateUpdated: state.coreStateUpdated,
       eventCommand: state.executedCommand,
-    });
-
-    res.status(200).json(state);
+    }).catch(() => {});
   } catch (error) {
     next(error);
   }
@@ -272,9 +296,8 @@ export const updateAdminSettings = async (req, res, next) => {
     const actor = req.admin?.operatorId || 'ADMIN-NEXUS';
     const state = await AdminService.updateSettings(req.body || {}, actor);
 
-    await broadcastAdminAndArenaSync(state, { broadcastChallenges: true });
-
     res.status(200).json(state);
+    broadcastAdminAndArenaSync(state, { broadcastChallenges: true }).catch(() => {});
   } catch (error) {
     next(error);
   }

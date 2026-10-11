@@ -17,6 +17,8 @@ import {
   ChallengeMarketModule,
   ClassifiedChallengeCard,
   formatTimeLimit,
+  getFriendlyChallengeTitle,
+  getFriendlyChallengeDescription,
 } from '../components/ChallengeMarketModule';
 import { useTeamPortal } from '../hooks/useTeamPortal';
 import { useReducedMotion } from '../hooks/useReducedMotion';
@@ -46,6 +48,7 @@ export const DashboardPage = ({ initialSection = 'HOME' }) => {
     onlineOperatives,
     notifications,
     actionPending,
+    isRoundActive,
     logoutTeam,
     performTeamAction,
     dismissNotification,
@@ -95,7 +98,7 @@ export const DashboardPage = ({ initialSection = 'HOME' }) => {
     for (const att of sortedAttempts) {
       if (items.length >= 3) break;
       const status = String(att.status || '').toUpperCase();
-      const title = att.title || 'Challenge';
+      const title = getFriendlyChallengeTitle(att);
       if (status === 'SUCCESS' || status === 'COMPLETED') {
         items.push({
           id: `att-${att.attemptId}`,
@@ -123,7 +126,7 @@ export const DashboardPage = ({ initialSection = 'HOME' }) => {
         let label = 'Credit update';
         if (type === 'CHALLENGE_REWARD') label = 'Challenge completed';
         else if (type === 'FAILURE_PENALTY') label = 'Challenge failed';
-        else if (type === 'CHALLENGE_PURCHASE') label = 'Challenge started';
+        else if (type === 'CHALLENGE_PURCHASE') label = 'Challenge purchased';
         else if (type === 'HINT') label = 'Hint unlocked';
         else if (type === 'EXTRA_TIME') label = 'Extra time added';
         else if (type === 'ABILITY') label = 'Ability activated';
@@ -143,7 +146,7 @@ export const DashboardPage = ({ initialSection = 'HOME' }) => {
       for (const comp of team.completedChallenges.slice(0, 3)) {
         items.push({
           id: `comp-${comp.challengeId}`,
-          label: `${comp.title || 'Challenge'} completed`,
+          label: `${getFriendlyChallengeTitle(comp)} completed`,
           delta: `+${comp.reward || 400} CR`,
           positive: true,
         });
@@ -178,6 +181,7 @@ export const DashboardPage = ({ initialSection = 'HOME' }) => {
   };
 
   const handleAcquireChallenge = async ({ challengeId, isReattempt = false }) => {
+    if (!isRoundActive) return null;
     const res = await performTeamAction('ACQUIRE_CHALLENGE', {
       challengeId,
       isReattempt,
@@ -188,7 +192,16 @@ export const DashboardPage = ({ initialSection = 'HOME' }) => {
     return res;
   };
 
+  const handleBuyChallengeForLater = async ({ challengeId, isReattempt = false }) => {
+    if (!isRoundActive) return null;
+    return performTeamAction('BUY_CHALLENGE', {
+      challengeId,
+      isReattempt,
+    });
+  };
+
   const handleConfirmPurchaseChallenge = async (challenge) => {
+    if (!isRoundActive) return;
     try {
       setSelectedChallengeModal(null);
       if (activeChallenge?.challengeId === challenge.challengeId) {
@@ -196,6 +209,19 @@ export const DashboardPage = ({ initialSection = 'HOME' }) => {
         return;
       }
       await handleAcquireChallenge({
+        challengeId: challenge.challengeId,
+        isReattempt: Boolean(challenge.isReattempt),
+      });
+    } catch {
+      // Handled by provider notification
+    }
+  };
+
+  const handleConfirmBuyForLater = async (challenge) => {
+    if (!isRoundActive) return;
+    try {
+      setSelectedChallengeModal(null);
+      await handleBuyChallengeForLater({
         challengeId: challenge.challengeId,
         isReattempt: Boolean(challenge.isReattempt),
       });
@@ -222,6 +248,8 @@ export const DashboardPage = ({ initialSection = 'HOME' }) => {
   // Preview 3 available challenges for HOME
   const completedIds = new Set((team.completedChallenges || []).map((c) => c.challengeId));
   const failedIds = new Set((team.failedChallenges || []).map((c) => c.challengeId));
+  const purchasedList = Array.isArray(team.purchasedChallenges) ? team.purchasedChallenges : [];
+  const purchasedIds = new Set(purchasedList.map((c) => c.challengeId));
   const previewChallenges = (catalog || [])
     .filter((c) => c.enabled !== false)
     .slice(0, 3);
@@ -244,7 +272,7 @@ export const DashboardPage = ({ initialSection = 'HOME' }) => {
             WELCOME, <span className="text-nexus-crimson">{team.teamName || team.teamId}</span>
           </h1>
           <p className="font-editorial text-sm sm:text-base text-nexus-charcoal font-medium">
-            Choose your next move.
+            Shared team credits ({Number(team.credits || 0).toLocaleString()} CR) — any teammate can buy challenges now and any teammate can solve them.
           </p>
         </div>
 
@@ -271,8 +299,8 @@ export const DashboardPage = ({ initialSection = 'HOME' }) => {
           2. CURRENT CHALLENGE + TEAM + RECENT ACTIVITY GRID
          ===================================================================== */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 items-stretch">
-        {/* LEFT 7 COLS: CURRENT CHALLENGE */}
-        <div className="lg:col-span-7 flex flex-col">
+        {/* LEFT 7 COLS: CURRENT CHALLENGE & TEAM PURCHASED CHALLENGES */}
+        <div className="lg:col-span-7 flex flex-col gap-4">
           {activeChallenge ? (
             <div className="nexus-editorial-box p-5 sm:p-6 border-2 border-nexus-crimson bg-nexus-ink text-nexus-paper flex-1 flex flex-col justify-between space-y-5 shadow-brutal-crimson">
               <div className="space-y-3">
@@ -286,12 +314,12 @@ export const DashboardPage = ({ initialSection = 'HOME' }) => {
                 </div>
 
                 <h2 className="font-display text-4xl sm:text-5xl uppercase tracking-wide text-white leading-none">
-                  {activeChallenge.title}
+                  {getFriendlyChallengeTitle(activeChallenge)}
                 </h2>
 
-                {activeChallenge.description && (
+                {getFriendlyChallengeDescription(activeChallenge) && (
                   <p className="font-editorial text-xs sm:text-sm text-nexus-paper/80 leading-relaxed">
-                    {activeChallenge.description}
+                    {getFriendlyChallengeDescription(activeChallenge)}
                   </p>
                 )}
 
@@ -301,7 +329,7 @@ export const DashboardPage = ({ initialSection = 'HOME' }) => {
                       TIME LEFT
                     </span>
                     <span className="font-display text-2xl sm:text-3xl text-nexus-crimson leading-none mt-1 block">
-                      {formatShortCountdown(activeRemainingSec)}
+                      {isRoundActive ? formatShortCountdown(activeRemainingSec) : 'PAUSED'}
                     </span>
                   </div>
 
@@ -327,10 +355,13 @@ export const DashboardPage = ({ initialSection = 'HOME' }) => {
 
               <button
                 type="button"
+                disabled={!isRoundActive}
                 onClick={() => navigate(`/challenge/${activeChallenge.challengeId}`)}
-                className="w-full py-3.5 px-5 bg-nexus-crimson hover:bg-white text-white hover:text-nexus-ink font-condensed text-lg font-extrabold uppercase tracking-[0.2em] border-2 border-white/30 transition-colors cursor-pointer flex items-center justify-center gap-2"
+                className="w-full py-3.5 px-5 bg-nexus-crimson hover:bg-white text-white hover:text-nexus-ink font-condensed text-lg font-extrabold uppercase tracking-[0.2em] border-2 border-white/30 transition-colors cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
               >
-                <span>[ CONTINUE CHALLENGE ]</span>
+                <span>
+                  {isRoundActive ? '[ CONTINUE CHALLENGE ]' : '[ LOCKED — TIMER STOPPED ]'}
+                </span>
                 <ArrowUpRight className="w-4 h-4" />
               </button>
             </div>
@@ -344,8 +375,9 @@ export const DashboardPage = ({ initialSection = 'HOME' }) => {
                   NONE
                 </h2>
                 <p className="font-editorial text-sm sm:text-base text-nexus-charcoal max-w-md pt-1">
-                  You do not have an active challenge running. Select a challenge from the market to
-                  begin earning Resistance Credits.
+                  {isRoundActive
+                    ? 'You do not have an active challenge running. Buy challenges from the market now or solve one your team has already purchased.'
+                    : 'Round timer is currently stopped (45:00 default). Challenges will unlock as soon as the Organizer starts the timer.'}
                 </p>
               </div>
 
@@ -358,6 +390,68 @@ export const DashboardPage = ({ initialSection = 'HOME' }) => {
                   <Crosshair className="w-4 h-4" />
                   <span>[ BROWSE CHALLENGES ]</span>
                 </button>
+              </div>
+            </div>
+          )}
+
+          {/* TEAM PURCHASED CHALLENGES (BUY NOW, SOLVE LATER) */}
+          {purchasedList.length > 0 && (
+            <div className="nexus-editorial-box p-4 sm:p-5 border-2 border-nexus-ink bg-nexus-paper space-y-3">
+              <div className="flex items-center justify-between border-b-2 border-nexus-ink pb-2">
+                <div>
+                  <span className="font-mono text-[10px] uppercase tracking-widest text-nexus-crimson font-bold block">
+                    TEAM PURCHASED QUEUE · SHARED ACCESS
+                  </span>
+                  <h3 className="font-condensed text-lg font-extrabold uppercase tracking-wider text-nexus-ink">
+                    BOUGHT FOR LATER ({purchasedList.length})
+                  </h3>
+                </div>
+                <span className="font-mono text-[10px] uppercase tracking-widest text-nexus-muted">
+                  ANY TEAMMATE CAN SOLVE
+                </span>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                {purchasedList.map((item) => {
+                  const isCurrentlyActive = activeChallenge?.challengeId === item.challengeId;
+                  return (
+                    <div
+                      key={item.challengeId}
+                      className="p-3 border border-nexus-ink bg-nexus-paper-elevated flex items-center justify-between gap-2"
+                    >
+                      <div className="min-w-0">
+                        <span className="block font-mono text-[9px] uppercase tracking-widest text-nexus-muted">
+                          {item.category || 'CHALLENGE'} · +{item.reward || 400} CR
+                        </span>
+                        <span className="block font-display text-xl uppercase text-nexus-ink truncate leading-none mt-0.5">
+                          {getFriendlyChallengeTitle(item)}
+                        </span>
+                      </div>
+
+                      <button
+                        type="button"
+                        disabled={!isRoundActive || actionPending}
+                        onClick={() => {
+                          if (isCurrentlyActive) {
+                            navigate(`/challenge/${item.challengeId}`);
+                          } else {
+                            handleAcquireChallenge({
+                              challengeId: item.challengeId,
+                              isReattempt: false,
+                            });
+                          }
+                        }}
+                        className="px-3 py-1.5 bg-nexus-crimson hover:bg-nexus-ink text-white font-mono text-[10px] font-bold uppercase tracking-widest transition-colors cursor-pointer disabled:opacity-45 shrink-0"
+                      >
+                        {!isRoundActive
+                          ? 'LOCKED'
+                          : isCurrentlyActive
+                            ? '[ CONTINUE ]'
+                            : '[ SOLVE NOW ]'}
+                      </button>
+                    </div>
+                  );
+                })}
               </div>
             </div>
           )}
@@ -479,6 +573,7 @@ export const DashboardPage = ({ initialSection = 'HOME' }) => {
             const isCurrent = activeChallenge?.challengeId === challenge.challengeId;
             const isSolved = completedIds.has(challenge.challengeId);
             const isFailed = failedIds.has(challenge.challengeId);
+            const isPurchased = purchasedIds.has(challenge.challengeId);
             const reattemptCost = Math.round(
               Number(challenge.cost || 0) * (Number(creditsConfig?.reattemptMultiplier) || 1.25)
             );
@@ -490,17 +585,21 @@ export const DashboardPage = ({ initialSection = 'HOME' }) => {
                 isCurrent={isCurrent}
                 isSolved={isSolved}
                 isFailed={isFailed}
+                isPurchased={isPurchased}
+                isRoundActive={isRoundActive}
                 reattemptMultiplier={creditsConfig?.reattemptMultiplier || 1.25}
                 isSelected={selectedChallengeModal?.challengeId === challenge.challengeId}
                 onSelectChallenge={(chg) => {
+                  if (!isRoundActive) return;
                   if (isCurrent) {
                     navigate(`/challenge/${chg.challengeId}`);
                     return;
                   }
                   setSelectedChallengeModal({
                     ...chg,
-                    isReattempt: isFailed,
-                    effectiveCost: isFailed ? reattemptCost : chg.cost,
+                    isPurchased,
+                    isReattempt: isFailed && !isPurchased,
+                    effectiveCost: isPurchased ? 0 : isFailed ? reattemptCost : chg.cost,
                   });
                 }}
                 prefersReducedMotion={prefersReducedMotion}
@@ -521,7 +620,9 @@ export const DashboardPage = ({ initialSection = 'HOME' }) => {
           team={team}
           creditsConfig={creditsConfig}
           actionPending={actionPending}
+          isRoundActive={isRoundActive}
           onAcquireChallenge={handleAcquireChallenge}
+          onBuyChallengeForLater={handleBuyChallengeForLater}
           onOpenExecutionPanel={() => {
             if (activeChallenge?.challengeId) {
               navigate(`/challenge/${activeChallenge.challengeId}`);
@@ -582,9 +683,11 @@ export const DashboardPage = ({ initialSection = 'HOME' }) => {
             >
               <div className="flex items-center justify-between border-b-2 border-nexus-ink pb-3">
                 <span className="bg-nexus-crimson text-white font-mono text-[10px] font-bold px-2.5 py-0.5 uppercase tracking-widest">
-                  {selectedChallengeModal.isReattempt
-                    ? 'REATTEMPT CHALLENGE'
-                    : 'START CHALLENGE'}
+                  {selectedChallengeModal.isPurchased
+                    ? 'SOLVE TEAM CHALLENGE'
+                    : selectedChallengeModal.isReattempt
+                      ? 'REATTEMPT CHALLENGE'
+                      : 'CHALLENGE OPTIONS'}
                 </span>
                 <button
                   type="button"
@@ -604,10 +707,10 @@ export const DashboardPage = ({ initialSection = 'HOME' }) => {
                   id="modal-challenge-title"
                   className="font-display text-3xl uppercase text-nexus-ink leading-none"
                 >
-                  {selectedChallengeModal.title}
+                  {getFriendlyChallengeTitle(selectedChallengeModal)}
                 </h2>
                 <p className="font-editorial text-sm text-nexus-charcoal">
-                  {selectedChallengeModal.description}
+                  {getFriendlyChallengeDescription(selectedChallengeModal)}
                 </p>
               </div>
 
@@ -615,7 +718,9 @@ export const DashboardPage = ({ initialSection = 'HOME' }) => {
                 <div>
                   <span className="text-nexus-muted block text-[10px]">COST</span>
                   <span className="font-bold text-nexus-crimson">
-                    {selectedChallengeModal.effectiveCost ?? selectedChallengeModal.cost} CR
+                    {selectedChallengeModal.isPurchased
+                      ? '0 CR (PAID)'
+                      : `${selectedChallengeModal.effectiveCost ?? selectedChallengeModal.cost} CR`}
                   </span>
                 </div>
                 <div>
@@ -640,21 +745,33 @@ export const DashboardPage = ({ initialSection = 'HOME' }) => {
                 </div>
               </div>
 
-              <div className="flex gap-3">
+              <div className="flex flex-col sm:flex-row gap-2.5">
                 <button
                   type="button"
                   onClick={() => setSelectedChallengeModal(null)}
-                  className="flex-1 py-2.5 border-2 border-nexus-ink bg-nexus-paper font-condensed text-base font-bold uppercase tracking-wider cursor-pointer"
+                  className="py-2.5 px-4 border-2 border-nexus-ink bg-nexus-paper font-condensed text-base font-bold uppercase tracking-wider cursor-pointer"
                 >
                   CANCEL
                 </button>
+                {!selectedChallengeModal.isPurchased && (
+                  <button
+                    type="button"
+                    disabled={actionPending || !isRoundActive}
+                    onClick={() => handleConfirmBuyForLater(selectedChallengeModal)}
+                    className="flex-1 py-2.5 px-3 border-2 border-nexus-ink bg-nexus-ink text-nexus-paper hover:bg-nexus-crimson font-condensed text-base font-extrabold uppercase tracking-wider cursor-pointer disabled:opacity-50"
+                  >
+                    [ BUY FOR LATER (-{selectedChallengeModal.effectiveCost ?? selectedChallengeModal.cost} CR) ]
+                  </button>
+                )}
                 <button
                   type="button"
-                  disabled={actionPending}
+                  disabled={actionPending || !isRoundActive}
                   onClick={() => handleConfirmPurchaseChallenge(selectedChallengeModal)}
-                  className="flex-1 py-2.5 border-2 border-nexus-ink bg-nexus-crimson text-white hover:bg-nexus-ink font-condensed text-base font-extrabold uppercase tracking-wider cursor-pointer disabled:opacity-50"
+                  className="flex-1 py-2.5 px-3 border-2 border-nexus-ink bg-nexus-crimson text-white hover:bg-nexus-ink font-condensed text-base font-extrabold uppercase tracking-wider cursor-pointer disabled:opacity-50"
                 >
-                  [ START ({selectedChallengeModal.effectiveCost ?? selectedChallengeModal.cost} CR) ]
+                  {selectedChallengeModal.isPurchased
+                    ? '[ SOLVE NOW (0 CR) ]'
+                    : `[ BUY & SOLVE (-${selectedChallengeModal.effectiveCost ?? selectedChallengeModal.cost} CR) ]`}
                 </button>
               </div>
             </motion.div>

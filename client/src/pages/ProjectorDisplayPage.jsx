@@ -79,7 +79,7 @@ export const ProjectorDisplayPage = () => {
   const [snapshot, setSnapshot] = useState(null);
   const [socketConnected, setSocketConnected] = useState(socketClient.connected);
   const [activeTerminals, setActiveTerminals] = useState(1);
-  const [remainingSeconds, setRemainingSeconds] = useState(6862);
+  const [remainingSeconds, setRemainingSeconds] = useState(2700);
   const [liveAlertBanner, setLiveAlertBanner] = useState(null);
   const [isFullscreen, setIsFullscreen] = useState(false);
 
@@ -137,11 +137,18 @@ export const ProjectorDisplayPage = () => {
 
   // 1-second local countdown interpolation between server sync pulses
   useEffect(() => {
+    const timerStatus = snapshot?.globalTimer?.status || 'ACTIVE';
+    if (timerStatus !== 'ACTIVE') {
+      if (timerStatus === 'ENDED') {
+        setRemainingSeconds(0);
+      }
+      return undefined;
+    }
     const interval = setInterval(() => {
       setRemainingSeconds((prev) => Math.max(0, prev - 1));
     }, 1000);
     return () => clearInterval(interval);
-  }, []);
+  }, [snapshot?.globalTimer?.status]);
 
   // Auto-clear live event alert banner after 6 seconds
   useEffect(() => {

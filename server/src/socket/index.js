@@ -160,6 +160,9 @@ export const initSocketServer = (httpServer) => {
     if (!ioInstance || ioInstance.engine.clientsCount === 0) return;
 
     try {
+      const { computeGlobalArenaTimer } = await import('../services/displayService.js');
+      if (computeGlobalArenaTimer().status !== 'ACTIVE') return;
+
       const { Team } = await import('../models/Team.js');
       const { executeTeamAction } = await import('../services/teamService.js');
       const { SOCKET_ROOMS } = await import('./socketEvents.js');
@@ -173,10 +176,15 @@ export const initSocketServer = (httpServer) => {
         const teamId = expiredTeam.teamId;
         const roomName = SOCKET_ROOMS.teamRoom(teamId);
 
-        const result = await executeTeamAction(teamId, 'TIMEOUT_CHALLENGE', {
-          challengeId: expiredTeam.activeAttempt?.challengeId,
-          attemptId: expiredTeam.activeAttempt?.attemptId,
-        });
+        const result = await executeTeamAction(
+          teamId,
+          'TIMEOUT_CHALLENGE',
+          {
+            challengeId: expiredTeam.activeAttempt?.challengeId,
+            attemptId: expiredTeam.activeAttempt?.attemptId,
+          },
+          { isTrustedAdmin: true }
+        );
 
         ioInstance.to(roomName).emit(SOCKET_EVENTS.TIMER.EXPIRED, {
           teamId,

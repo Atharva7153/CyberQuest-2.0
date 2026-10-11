@@ -5,15 +5,15 @@ export default {
     extend: {
       colors: {
         nexus: {
-          paper: 'var(--nexus-paper-base)',
-          'paper-elevated': 'var(--nexus-paper-elevated)',
-          'paper-aged': 'var(--nexus-paper-aged)',
-          ink: 'var(--nexus-ink-black)',
-          charcoal: 'var(--nexus-ink-charcoal)',
-          muted: 'var(--nexus-ink-muted)',
-          crimson: 'var(--nexus-crimson)',
-          'crimson-dark': 'var(--nexus-crimson-dark)',
-          border: 'var(--nexus-border-color)',
+          paper: 'rgb(var(--nexus-paper-rgb) / <alpha-value>)',
+          'paper-elevated': 'rgb(var(--nexus-paper-elevated-rgb) / <alpha-value>)',
+          'paper-aged': 'rgb(var(--nexus-paper-aged-rgb) / <alpha-value>)',
+          ink: 'rgb(var(--nexus-ink-rgb) / <alpha-value>)',
+          charcoal: 'rgb(var(--nexus-charcoal-rgb) / <alpha-value>)',
+          muted: 'rgb(var(--nexus-muted-rgb) / <alpha-value>)',
+          crimson: 'rgb(var(--nexus-crimson-rgb) / <alpha-value>)',
+          'crimson-dark': 'rgb(var(--nexus-crimson-dark-rgb) / <alpha-value>)',
+          border: 'rgb(var(--nexus-border-rgb) / <alpha-value>)',
         },
       },
       fontFamily: {
@@ -28,9 +28,9 @@ export default {
         terminal: '0.14em',
       },
       boxShadow: {
-        brutal: '4px 4px 0px 0px #111111',
-        'brutal-sm': '2px 2px 0px 0px #111111',
-        'brutal-crimson': '4px 4px 0px 0px #C8191E',
+        brutal: 'var(--nexus-shadow-hard)',
+        'brutal-sm': 'var(--nexus-shadow-hard-sm)',
+        'brutal-crimson': 'var(--nexus-shadow-crimson)',
       },
     },
   },

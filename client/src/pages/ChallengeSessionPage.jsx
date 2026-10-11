@@ -14,6 +14,11 @@ import {
 } from 'lucide-react';
 import { BrutalistPanel } from '../components/BrutalistPanel';
 import { SystemBadge } from '../components/SystemBadge';
+import { ThemeToggleButton } from '../components/ThemeToggleButton';
+import {
+  getFriendlyChallengeTitle,
+  getFriendlyChallengeDescription,
+} from '../components/ChallengeMarketModule';
 import { ChallengeRenderer } from '../engine/ChallengeRenderer';
 import { useTeamPortal } from '../hooks/useTeamPortal';
 import { fetchChallengeSessionHttp } from '../services/authService';
@@ -54,6 +59,8 @@ export const ChallengeSessionPage = () => {
     isInitializing,
     socketConnected,
     actionPending,
+    isRoundActive,
+    globalTimer,
     performTeamAction,
     syncSessionTimer,
     clearEvaluationResult,
@@ -121,10 +128,14 @@ export const ChallengeSessionPage = () => {
     Boolean(activeAttempt) &&
     String(activeAttempt.challengeId).toUpperCase() === normalizedRouteChallengeId;
 
+  const catalogChallenge = catalog.find(
+    (c) => String(c.challengeId).toUpperCase() === normalizedRouteChallengeId
+  );
+
   const targetChallenge =
-    (isThisChallengeActive ? team?.currentChallenge : null) ||
     sessionMeta?.challenge ||
-    catalog.find((c) => String(c.challengeId).toUpperCase() === normalizedRouteChallengeId) ||
+    catalogChallenge ||
+    (isThisChallengeActive ? team?.currentChallenge : null) ||
     team?.currentChallenge ||
     null;
 
@@ -147,18 +158,21 @@ export const ChallengeSessionPage = () => {
       ? Math.min(100, Math.max(0, (remainingSeconds / authoritativeTimeLimit) * 100))
       : 0;
 
-  const timerState = !isThisChallengeActive
-    ? 'STANDBY'
-    : remainingSeconds <= 0
-      ? 'EXPIRED'
-      : remainingSeconds <= 60
-        ? 'CRITICAL'
-        : remainingSeconds <= 180
-          ? 'WARNING'
-          : 'ACTIVE';
+  const timerState = !isRoundActive
+    ? 'PAUSED'
+    : !isThisChallengeActive
+      ? 'STANDBY'
+      : remainingSeconds <= 0
+        ? 'EXPIRED'
+        : remainingSeconds <= 60
+          ? 'CRITICAL'
+          : remainingSeconds <= 180
+            ? 'WARNING'
+            : 'ACTIVE';
 
   useEffect(() => {
     if (
+      !isRoundActive ||
       !isThisChallengeActive ||
       !activeAttempt?.attemptId ||
       remainingSeconds > 0 ||
@@ -181,6 +195,7 @@ export const ChallengeSessionPage = () => {
       }
     });
   }, [
+    isRoundActive,
     isThisChallengeActive,
     activeAttempt?.attemptId,
     activeAttempt?.challengeId,
@@ -248,6 +263,7 @@ export const ChallengeSessionPage = () => {
   const isAttemptAlreadySubmitted =
     Boolean(activeAttempt?.attemptId) && submittedAttemptIds.has(activeAttempt.attemptId);
   const isSubmissionLocked =
+    !isRoundActive ||
     !isThisChallengeActive ||
     localSubmitting ||
     actionPending ||
@@ -255,7 +271,7 @@ export const ChallengeSessionPage = () => {
     remainingSeconds <= 0;
 
   const handleAuthoritativeSubmit = async (overridePayload = null) => {
-    if (!isThisChallengeActive || !activeAttempt?.attemptId) return;
+    if (!isRoundActive || !isThisChallengeActive || !activeAttempt?.attemptId) return;
     if (duplicateSubmitLockRef.current || isAttemptAlreadySubmitted || localSubmitting) {
       return;
     }
@@ -295,7 +311,7 @@ export const ChallengeSessionPage = () => {
   };
 
   const handleAbandonSession = async () => {
-    if (!isThisChallengeActive || !activeAttempt?.attemptId) return;
+    if (!isRoundActive || !isThisChallengeActive || !activeAttempt?.attemptId) return;
     if (duplicateSubmitLockRef.current || localSubmitting || actionPending) return;
 
     duplicateSubmitLockRef.current = true;
@@ -313,8 +329,26 @@ export const ChallengeSessionPage = () => {
     }
   };
 
+  const handleSaveForLater = async () => {
+    if (!isRoundActive || !isThisChallengeActive || !activeAttempt?.attemptId) return;
+    if (duplicateSubmitLockRef.current || localSubmitting || actionPending) return;
+
+    setLocalSubmitting(true);
+    try {
+      await performTeamAction('SAVE_FOR_LATER', {
+        challengeId: targetChallenge?.challengeId || normalizedRouteChallengeId,
+        attemptId: activeAttempt.attemptId,
+      });
+      navigate('/challenges');
+    } catch {
+      // Handled by provider notification
+    } finally {
+      setLocalSubmitting(false);
+    }
+  };
+
   const handleTacticalSupport = async (itemType, cost) => {
-    if (!isThisChallengeActive || actionPending || localSubmitting) return;
+    if (!isRoundActive || !isThisChallengeActive || actionPending || localSubmitting) return;
     try {
       await performTeamAction(itemType, { itemType, cost });
       await refreshSessionFromServer();
@@ -324,10 +358,23 @@ export const ChallengeSessionPage = () => {
   };
 
   const handleAcquireOrReattemptThisChallenge = async (isReattempt = false) => {
-    if (!targetChallenge || actionPending || localSubmitting) return;
+    if (!isRoundActive || !targetChallenge || actionPending || localSubmitting) return;
     try {
       clearEvaluationResult();
       await performTeamAction(isReattempt ? 'REATTEMPT_CHALLENGE' : 'ACQUIRE_CHALLENGE', {
+        challengeId: targetChallenge.challengeId,
+        isReattempt,
+      });
+      await refreshSessionFromServer();
+    } catch {
+      // Handled by provider notification
+    }
+  };
+
+  const handleBuyThisChallengeForLater = async (isReattempt = false) => {
+    if (!isRoundActive || !targetChallenge || actionPending || localSubmitting) return;
+    try {
+      await performTeamAction('BUY_CHALLENGE', {
         challengeId: targetChallenge.challengeId,
         isReattempt,
       });
@@ -368,6 +415,9 @@ export const ChallengeSessionPage = () => {
   const isFailedByTeam = (team.failedChallenges || []).some(
     (c) => String(c.challengeId).toUpperCase() === normalizedRouteChallengeId
   );
+  const isPurchasedByTeam = (team.purchasedChallenges || []).some(
+    (c) => String(c.challengeId).toUpperCase() === normalizedRouteChallengeId
+  );
 
   return (
     <div className="min-h-screen nexus-paper-canvas text-nexus-ink relative flex flex-col">
@@ -395,7 +445,7 @@ export const ChallengeSessionPage = () => {
                 {targetChallenge?.category || 'CHALLENGE'} · +{targetChallenge?.reward || 400} CR
               </span>
               <h1 className="font-display text-2xl sm:text-3xl uppercase tracking-wide text-nexus-paper leading-none truncate">
-                {targetChallenge?.title || 'CHALLENGE'}
+                {getFriendlyChallengeTitle(targetChallenge)}
               </h1>
             </div>
           </div>
@@ -405,20 +455,26 @@ export const ChallengeSessionPage = () => {
             {/* TIMER */}
             <div
               className={`px-3 py-1.5 border flex items-center gap-2 ${
-                timerState === 'CRITICAL' || timerState === 'EXPIRED'
+                !isRoundActive
                   ? 'border-nexus-crimson bg-nexus-crimson text-white'
-                  : timerState === 'WARNING'
-                    ? 'border-nexus-crimson bg-black/60 text-nexus-crimson'
-                    : 'border-nexus-paper/25 bg-black/40 text-nexus-paper'
+                  : timerState === 'CRITICAL' || timerState === 'EXPIRED'
+                    ? 'border-nexus-crimson bg-nexus-crimson text-white'
+                    : timerState === 'WARNING'
+                      ? 'border-nexus-crimson bg-black/60 text-nexus-crimson'
+                      : 'border-nexus-paper/25 bg-black/40 text-nexus-paper'
               }`}
             >
               <Clock className="w-4 h-4 shrink-0" />
               <div>
                 <span className="block font-mono text-[8px] uppercase tracking-widest opacity-75">
-                  TIMER
+                  {!isRoundActive ? 'ROUND STOPPED' : 'TIMER'}
                 </span>
                 <span className="font-display text-2xl sm:text-3xl leading-none tracking-wider">
-                  {isThisChallengeActive ? formatCountdown(remainingSeconds) : '--:--'}
+                  {!isRoundActive
+                    ? 'LOCKED'
+                    : isThisChallengeActive
+                      ? formatCountdown(remainingSeconds)
+                      : '--:--'}
                 </span>
               </div>
             </div>
@@ -426,17 +482,19 @@ export const ChallengeSessionPage = () => {
             {/* CREDITS */}
             <div className="px-3 py-1.5 border border-nexus-crimson/60 bg-nexus-crimson/15">
               <span className="block font-mono text-[8px] uppercase tracking-widest text-nexus-paper/75">
-                CREDITS
+                TEAM CREDITS
               </span>
               <span className="font-display text-2xl sm:text-3xl leading-none tracking-wider text-nexus-crimson">
                 {Number(team.credits || 0).toLocaleString()} CR
               </span>
             </div>
+
+            <ThemeToggleButton />
           </div>
         </div>
 
         {/* Slim Timer Progress Bar */}
-        {isThisChallengeActive && (
+        {isThisChallengeActive && isRoundActive && (
           <div className="w-full h-1.5 bg-black overflow-hidden">
             <div
               ref={urgencyBarRef}
@@ -451,18 +509,53 @@ export const ChallengeSessionPage = () => {
           MAIN PLAYABLE GAME WORKSPACE
          ===================================================================== */}
       <main className="relative z-10 flex-1 max-w-4xl w-full mx-auto px-4 sm:px-6 py-6 space-y-6">
-        {!isThisChallengeActive ? (
+        {!isRoundActive ? (
+          <BrutalistPanel
+            codeTag="ROUND LOCKED"
+            title="ROUND TIMER IS STOPPED"
+            accentTitle
+            headerRight={<SystemBadge variant="crimson">CHALLENGE ACCESS LOCKED</SystemBadge>}
+          >
+            <div className="p-6 sm:p-8 border-2 border-nexus-crimson bg-nexus-ink text-nexus-paper space-y-5">
+              <div className="space-y-2">
+                <span className="font-mono text-xs uppercase tracking-[0.2em] text-nexus-crimson font-bold block">
+                  ROUND STATUS: {globalTimer?.status || 'PAUSED'} · DEFAULT 45:00
+                </span>
+                <h2 className="font-display text-4xl sm:text-5xl uppercase text-white leading-none">
+                  CHALLENGES ARE LOCKED WHILE TIMER IS STOPPED
+                </h2>
+                <p className="font-editorial text-sm sm:text-base text-nexus-paper/80 max-w-2xl">
+                  You cannot buy, open, play, or submit challenges while the round timer is stopped.
+                  Wait for the Organizer to start or resume the 45-minute round timer. Any active or
+                  purchased challenges for your team are safely preserved.
+                </p>
+              </div>
+
+              <div className="flex flex-wrap gap-3 pt-2">
+                <Link
+                  to="/challenges"
+                  className="px-6 py-3.5 bg-nexus-crimson text-white hover:bg-white hover:text-nexus-ink font-condensed text-lg font-extrabold uppercase tracking-[0.18em] border-2 border-white/30 transition-colors inline-flex items-center gap-2"
+                >
+                  <ArrowLeft className="w-4 h-4" />
+                  <span>BACK TO CHALLENGE MARKET</span>
+                </Link>
+              </div>
+            </div>
+          </BrutalistPanel>
+        ) : !isThisChallengeActive ? (
           <BrutalistPanel
             codeTag="CHALLENGE"
-            title={targetChallenge?.title || 'CHALLENGE'}
+            title={getFriendlyChallengeTitle(targetChallenge)}
             accentTitle
             headerRight={
-              <SystemBadge variant={isSolvedByTeam ? 'operational' : 'crimson'}>
+              <SystemBadge variant={isSolvedByTeam || isPurchasedByTeam ? 'operational' : 'crimson'}>
                 {isSolvedByTeam
                   ? 'SOLVED'
-                  : isFailedByTeam
-                    ? 'FAILED PREVIOUSLY'
-                    : 'READY TO START'}
+                  : isPurchasedByTeam
+                    ? 'BOUGHT BY TEAM (PAID)'
+                    : isFailedByTeam
+                      ? 'FAILED PREVIOUSLY'
+                      : 'READY TO BUY OR START'}
               </SystemBadge>
             }
           >
@@ -470,14 +563,15 @@ export const ChallengeSessionPage = () => {
               <div className="space-y-2">
                 <p className="font-mono text-xs uppercase tracking-[0.2em] text-nexus-crimson font-bold">
                   {targetChallenge?.category || 'CHALLENGE'} · DIFFICULTY:{' '}
-                  {targetChallenge?.difficulty || 'MODERATE'} · COST: {targetChallenge?.cost || 250} CR · REWARD: +{targetChallenge?.reward || 500} CR
+                  {targetChallenge?.difficulty || 'MODERATE'} · COST:{' '}
+                  {isPurchasedByTeam ? '0 CR (ALREADY BOUGHT)' : `${targetChallenge?.cost || 250} CR`} · REWARD: +{targetChallenge?.reward || 500} CR
                 </p>
                 <h2 className="font-display text-4xl uppercase text-nexus-ink leading-none">
-                  {targetChallenge?.title || 'CHALLENGE'}
+                  {getFriendlyChallengeTitle(targetChallenge)}
                 </h2>
                 <p className="font-editorial text-sm sm:text-base text-nexus-charcoal max-w-2xl">
-                  {targetChallenge?.description ||
-                    'Start this challenge to unlock the game board and begin your countdown timer.'}
+                  {getFriendlyChallengeDescription(targetChallenge) ||
+                    'Any teammate can buy this challenge now and any teammate can solve it later using shared team credits.'}
                 </p>
               </div>
 
@@ -488,7 +582,7 @@ export const ChallengeSessionPage = () => {
                     <span>
                       ACTIVE CHALLENGE IN PROGRESS:{' '}
                       <strong className="text-nexus-crimson">
-                        {team.currentChallenge.title}
+                        {getFriendlyChallengeTitle(team.currentChallenge)}
                       </strong>
                     </span>
                     <Link
@@ -502,18 +596,37 @@ export const ChallengeSessionPage = () => {
 
               <div className="flex flex-wrap gap-3 pt-2">
                 {!isSolvedByTeam && targetChallenge && (
-                  <button
-                    type="button"
-                    disabled={actionPending || localSubmitting}
-                    onClick={() => handleAcquireOrReattemptThisChallenge(isFailedByTeam)}
-                    className="px-6 py-3.5 bg-nexus-crimson text-white hover:bg-nexus-ink font-condensed text-lg font-extrabold uppercase tracking-[0.18em] border-2 border-nexus-ink transition-colors cursor-pointer disabled:opacity-50"
-                  >
-                    {isFailedByTeam
-                      ? `[ REATTEMPT CHALLENGE (-${Math.round(
-                          targetChallenge.cost * (creditsConfig?.reattemptMultiplier || 1.25)
-                        )} CR) ]`
-                      : `[ START CHALLENGE (-${targetChallenge.cost} CR) ]`}
-                  </button>
+                  <>
+                    <button
+                      type="button"
+                      disabled={actionPending || localSubmitting}
+                      onClick={() => handleAcquireOrReattemptThisChallenge(isFailedByTeam && !isPurchasedByTeam)}
+                      className="px-6 py-3.5 bg-nexus-crimson text-white hover:bg-nexus-ink font-condensed text-lg font-extrabold uppercase tracking-[0.18em] border-2 border-nexus-ink transition-colors cursor-pointer disabled:opacity-50"
+                    >
+                      {isPurchasedByTeam
+                        ? '[ SOLVE NOW (0 CR — PAID BY TEAM) ]'
+                        : isFailedByTeam
+                          ? `[ BUY & REATTEMPT (-${Math.round(
+                              targetChallenge.cost * (creditsConfig?.reattemptMultiplier || 1.25)
+                            )} CR) ]`
+                          : `[ BUY & SOLVE NOW (-${targetChallenge.cost} CR) ]`}
+                    </button>
+
+                    {!isPurchasedByTeam && (
+                      <button
+                        type="button"
+                        disabled={actionPending || localSubmitting}
+                        onClick={() => handleBuyThisChallengeForLater(isFailedByTeam)}
+                        className="px-6 py-3.5 bg-nexus-ink text-nexus-paper hover:bg-nexus-crimson font-condensed text-lg font-extrabold uppercase tracking-[0.18em] border-2 border-nexus-ink transition-colors cursor-pointer disabled:opacity-50"
+                      >
+                        {isFailedByTeam
+                          ? `[ BUY FOR LATER (-${Math.round(
+                              targetChallenge.cost * (creditsConfig?.reattemptMultiplier || 1.25)
+                            )} CR) ]`
+                          : `[ BUY FOR LATER (-${targetChallenge.cost} CR) ]`}
+                      </button>
+                    )}
+                  </>
                 )}
 
                 <Link
@@ -561,7 +674,7 @@ export const ChallengeSessionPage = () => {
               )}
             </AnimatePresence>
 
-            {/* 3. SUBMIT / COMPLETE & COMPACT SUPPORT BAR */}
+            {/* 3. SUBMIT / COMPLETE, SAVE FOR LATER & COMPACT SUPPORT BAR */}
             <div className="p-4 border-2 border-nexus-ink bg-nexus-paper space-y-3">
               <div className="flex flex-col sm:flex-row gap-3">
                 <button
@@ -583,6 +696,17 @@ export const ChallengeSessionPage = () => {
                 <button
                   type="button"
                   disabled={isSubmissionLocked}
+                  onClick={handleSaveForLater}
+                  title="Keep this challenge in your team's purchased queue to solve later without penalty"
+                  className="min-h-[52px] py-3.5 px-5 border-2 border-nexus-ink bg-nexus-ink text-nexus-paper hover:bg-nexus-crimson font-condensed text-base font-extrabold uppercase tracking-[0.16em] transition-colors cursor-pointer disabled:opacity-45 flex items-center justify-center gap-2"
+                >
+                  <Clock className="w-4 h-4 text-nexus-crimson" />
+                  <span>SAVE FOR LATER</span>
+                </button>
+
+                <button
+                  type="button"
+                  disabled={isSubmissionLocked}
                   onClick={handleAbandonSession}
                   className="min-h-[52px] py-3.5 px-5 border-2 border-nexus-ink bg-nexus-paper hover:bg-nexus-ink hover:text-nexus-paper font-condensed text-base font-extrabold uppercase tracking-[0.16em] transition-colors cursor-pointer disabled:opacity-45 flex items-center justify-center gap-2"
                 >
@@ -594,7 +718,7 @@ export const ChallengeSessionPage = () => {
               {/* Optional Hint & Extra Time Quick Actions */}
               <div className="pt-3 border-t border-dashed border-nexus-ink/20 flex flex-wrap items-center justify-between gap-2 font-mono text-xs">
                 <span className="text-[10px] uppercase tracking-widest text-nexus-muted">
-                  NEED HELP?
+                  SHARED TEAM SESSION — ANY TEAMMATE CAN SOLVE OR SAVE FOR LATER
                 </span>
                 <div className="flex flex-wrap items-center gap-2">
                   <button
@@ -698,7 +822,7 @@ export const ChallengeSessionPage = () => {
                     id="session-result-modal-title"
                     className="font-display text-4xl uppercase text-nexus-ink leading-none mt-1"
                   >
-                    {lastEvaluationResult.title}
+                    {getFriendlyChallengeTitle(lastEvaluationResult.title || targetChallenge)}
                   </h2>
                   <p className="font-editorial text-sm text-nexus-charcoal mt-2">
                     {lastEvaluationResult.message}

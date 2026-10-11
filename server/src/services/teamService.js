@@ -26,6 +26,7 @@ import {
   ensureNexusCoreSeeded,
 } from './nexusCoreService.js';
 import { AuditService, AUDIT_ACTION_TYPES } from './auditService.js';
+import { computeGlobalArenaTimer } from './displayService.js';
 import { CREDIT_TRANSACTION_TYPES, creditsConfig } from '../config/creditsConfig.js';
 import { hashPassword, verifyPassword } from '../utils/password.js';
 import { signTeamToken } from '../utils/jwt.js';
@@ -57,6 +58,14 @@ const buildSeedTeams = () => {
         ...initialChallenge,
         solutionConfig: undefined,
       },
+      purchasedChallenges: [
+        {
+          ...initialChallenge,
+          solutionConfig: undefined,
+          attemptNumber: 1,
+          timestamp: new Date(),
+        },
+      ],
       activeAttempt: {
         attemptId: 'ATT-901',
         challengeId: initialChallenge.challengeId,
@@ -81,7 +90,7 @@ const buildSeedTeams = () => {
       completedChallenges: [
         {
           challengeId: 'CHG-INIT-00',
-          title: 'PERIMETER HANDSHAKE',
+          title: 'WORD GUESS (WARMUP)',
           category: 'LOGIC',
           cost: 150,
           reward: 400,
@@ -146,12 +155,12 @@ const buildSeedTeams = () => {
           {
             eventId: 'EVT-INIT-0',
             type: CREDIT_TRANSACTION_TYPES.CHALLENGE_REWARD,
-            summary: 'CHALLENGE REWARD: PERIMETER HANDSHAKE (+400 CR)',
+            summary: 'CHALLENGE REWARD: WORD GUESS (WARMUP) (+400 CR)',
             creditsDelta: 400,
             balanceAfter: startingCredits + initialChallenge.cost,
             relatedChallenge: {
               challengeId: 'CHG-INIT-00',
-              title: 'PERIMETER HANDSHAKE',
+              title: 'WORD GUESS (WARMUP)',
               category: 'LOGIC',
             },
             timestamp: new Date(Date.now() - 1800 * 1000),
@@ -172,6 +181,7 @@ const buildSeedTeams = () => {
         { memberId: 'VG-04', name: 'OPERATIVE ECHO', role: 'ANALYST', online: false },
       ],
       currentChallenge: null,
+      purchasedChallenges: [],
       activeAttempt: null,
       completedChallenges: [],
       failedChallenges: [],
@@ -258,13 +268,14 @@ export const ensureDefaultTeamsSeeded = async () => {
         if (
           existing.currentChallenge &&
           (catalogMatch?.gameType !== existing.currentChallenge.gameType ||
+            catalogMatch?.title !== existing.currentChallenge.title ||
             (!existing.currentChallenge.gameConfig?.wordLength &&
               !existing.currentChallenge.gameConfig?.size &&
               !existing.currentChallenge.gameConfig?.rows &&
               !existing.currentChallenge.gameConfig?.aiSkill &&
               !existing.currentChallenge.gameConfig?.prompt))
         ) {
-          // Upgrade any legacy active challenge to the Phase 19 GameRegistry schema
+          // Upgrade any legacy active challenge to the Phase 19 GameRegistry schema & clear titles
           const match = catalogMatch || CHALLENGE_CATALOG[0];
           existing.currentChallenge = {
             ...match,
@@ -295,6 +306,25 @@ export const ensureDefaultTeamsSeeded = async () => {
             status: 'IN_PROGRESS',
           };
           needsSave = true;
+        }
+
+        // Ensure currentChallenge is also reflected in purchasedChallenges
+        if (existing.currentChallenge?.challengeId) {
+          if (!Array.isArray(existing.purchasedChallenges)) {
+            existing.purchasedChallenges = [];
+          }
+          const hasCurrentInPurchased = existing.purchasedChallenges.some(
+            (c) => c.challengeId === existing.currentChallenge.challengeId
+          );
+          if (!hasCurrentInPurchased) {
+            existing.purchasedChallenges.unshift({
+              ...existing.currentChallenge,
+              attemptNumber: existing.activeAttempt?.attemptNumber || 1,
+              timestamp: existing.currentChallenge.timestamp || new Date(),
+            });
+            existing.markModified('purchasedChallenges');
+            needsSave = true;
+          }
         }
 
         // Upgrade any pre-Phase-9 team stats to include risk telemetry
@@ -449,6 +479,7 @@ export const ensureDefaultTeamsSeeded = async () => {
 /**
  * Server-authoritative check: if the team's activeAttempt has expired (now >= expiresAt),
  * automatically evaluate it as TIMEOUT and record the penalty + attempt outcome.
+ * Note: Do NOT expire sessions while the global round timer is stopped/paused!
  */
 export const checkAndExpireTeamSessionIfNeeded = async (teamDocOrId) => {
   const team =
@@ -461,6 +492,11 @@ export const checkAndExpireTeamSessionIfNeeded = async (teamDocOrId) => {
         });
 
   if (!team || !team.activeAttempt || !team.activeAttempt.expiresAt) {
+    return { expired: false, team, evaluationResult: null, creditResult: null };
+  }
+
+  const globalTimer = computeGlobalArenaTimer();
+  if (globalTimer.status !== 'ACTIVE') {
     return { expired: false, team, evaluationResult: null, creditResult: null };
   }
 
@@ -489,6 +525,52 @@ export const checkAndExpireTeamSessionIfNeeded = async (teamDocOrId) => {
     logger.warn('SESSION', `Auto-expire check warning: ${err.message}`);
     return { expired: false, team, evaluationResult: null, creditResult: null };
   }
+};
+
+export const reconcileTeamActiveChallengeWithCatalog = (team) => {
+  if (!team || !team.currentChallenge?.challengeId) return false;
+  const catalogMatch = CHALLENGE_CATALOG.find(
+    (c) => c.challengeId === team.currentChallenge.challengeId
+  );
+  if (!catalogMatch) return false;
+
+  const currentType = team.currentChallenge.gameType;
+  const attemptType = team.activeAttempt?.gameType;
+  const needsSync =
+    currentType !== catalogMatch.gameType ||
+    attemptType !== catalogMatch.gameType ||
+    team.currentChallenge.description !== catalogMatch.description;
+
+  if (!needsSync) return false;
+
+  team.currentChallenge = {
+    ...team.currentChallenge,
+    title: catalogMatch.title,
+    category: catalogMatch.category,
+    description: catalogMatch.description,
+    difficulty: catalogMatch.difficulty,
+    risk: catalogMatch.risk,
+    gameType: catalogMatch.gameType,
+    gameConfig: catalogMatch.gameConfig,
+  };
+
+  if (team.activeAttempt && team.activeAttempt.challengeId === catalogMatch.challengeId) {
+    team.activeAttempt = {
+      ...team.activeAttempt,
+      title: catalogMatch.title,
+      category: catalogMatch.category,
+      difficulty: catalogMatch.difficulty,
+      risk: catalogMatch.risk,
+      gameType: catalogMatch.gameType,
+      gameConfig: catalogMatch.gameConfig,
+    };
+  }
+
+  if (typeof team.markModified === 'function') {
+    team.markModified('currentChallenge');
+    team.markModified('activeAttempt');
+  }
+  return true;
 };
 
 export const authenticateTeam = async (rawTeamId, plainPassword) => {
@@ -522,7 +604,9 @@ export const authenticateTeam = async (rawTeamId, plainPassword) => {
   }
 
   await checkAndExpireTeamSessionIfNeeded(team);
-  if (AbilityService.reconcileTeamAbilitiesState(team, DEFAULT_ABILITY_CATALOG)) {
+  const abilitiesUpdated = AbilityService.reconcileTeamAbilitiesState(team, DEFAULT_ABILITY_CATALOG);
+  const challengeUpdated = reconcileTeamActiveChallengeWithCatalog(team);
+  if (abilitiesUpdated || challengeUpdated) {
     await team.save();
   }
 
@@ -567,6 +651,7 @@ export const authenticateTeam = async (rawTeamId, plainPassword) => {
     progressSummary,
     liveFeed,
     timer: ChallengeService.computeSessionTimerTelemetry(team.activeAttempt),
+    globalTimer: computeGlobalArenaTimer(),
     creditsConfig: CreditService.getConfig(),
     serverTime: new Date().toISOString(),
   };
@@ -586,7 +671,9 @@ export const getTeamStateById = async (rawTeamId) => {
   }
 
   await checkAndExpireTeamSessionIfNeeded(team);
-  if (AbilityService.reconcileTeamAbilitiesState(team, DEFAULT_ABILITY_CATALOG)) {
+  const abilitiesUpdated = AbilityService.reconcileTeamAbilitiesState(team, DEFAULT_ABILITY_CATALOG);
+  const challengeUpdated = reconcileTeamActiveChallengeWithCatalog(team);
+  if (abilitiesUpdated || challengeUpdated) {
     await team.save();
   }
   return team.toPublicJSON();
@@ -686,6 +773,25 @@ export const executeTeamAction = async (rawTeamId, actionType, rawPayload = {}, 
 
   AbilityService.reconcileTeamAbilitiesState(team, DEFAULT_ABILITY_CATALOG);
 
+  const nonTimerBlockedActions = new Set([
+    'UPDATE_TEAM_ROSTER',
+    'UPDATE_TEAM_MEMBERS',
+    'RESET_DEMO_STATE',
+    'UPDATE_NEXUS_CORE_CONFIG',
+  ]);
+
+  if (!isTrustedAdmin && !nonTimerBlockedActions.has(actionType)) {
+    const globalTimer = computeGlobalArenaTimer();
+    if (globalTimer.status !== 'ACTIVE') {
+      const err = new Error(
+        'Round timer is currently stopped. Wait for the Organizer to start the round before accessing challenges.'
+      );
+      err.statusCode = 403;
+      err.code = 'ROUND_TIMER_STOPPED';
+      throw err;
+    }
+  }
+
   let creditResult = null;
   let evaluationResult = null;
   let abilityActivation = null;
@@ -695,17 +801,56 @@ export const executeTeamAction = async (rawTeamId, actionType, rawPayload = {}, 
   let coreStateChanged = false;
 
   switch (actionType) {
+    case 'BUY_CHALLENGE': {
+      const challengeId = payload.challengeId || 'CHG-PUZ-05';
+      const acquisition = await ChallengeService.acquireChallengeForTeam({
+        teamDoc: team,
+        challengeId,
+        isReattemptRequested: Boolean(payload.isReattempt),
+        buyOnly: true,
+      });
+      creditResult = acquisition.creditResult;
+      break;
+    }
+
     case 'ACQUIRE_CHALLENGE':
     case 'PURCHASE_CHALLENGE':
     case 'START_CHALLENGE':
+    case 'OPEN_CHALLENGE':
     case CREDIT_TRANSACTION_TYPES.CHALLENGE_PURCHASE: {
       const challengeId = payload.challengeId || 'CHG-PUZ-05';
       const acquisition = await ChallengeService.acquireChallengeForTeam({
         teamDoc: team,
         challengeId,
         isReattemptRequested: Boolean(payload.isReattempt),
+        buyOnly: Boolean(payload.buyOnly),
       });
       creditResult = acquisition.creditResult;
+      break;
+    }
+
+    case 'PAUSE_CHALLENGE':
+    case 'SAVE_FOR_LATER': {
+      if (team.currentChallenge?.challengeId) {
+        if (!Array.isArray(team.purchasedChallenges)) {
+          team.purchasedChallenges = [];
+        }
+        const activeId = String(team.currentChallenge.challengeId).toUpperCase();
+        const alreadyInPurchased = team.purchasedChallenges.some(
+          (c) => String(c.challengeId).toUpperCase() === activeId
+        );
+        if (!alreadyInPurchased) {
+          team.purchasedChallenges.unshift({
+            ...team.currentChallenge,
+            attemptNumber: team.activeAttempt?.attemptNumber || 1,
+            timestamp: team.currentChallenge.timestamp || new Date(),
+          });
+          team.markModified('purchasedChallenges');
+        }
+      }
+      team.currentChallenge = null;
+      team.activeAttempt = null;
+      await team.save();
       break;
     }
 
@@ -720,6 +865,7 @@ export const executeTeamAction = async (rawTeamId, actionType, rawPayload = {}, 
         teamDoc: team,
         challengeId,
         isReattemptRequested: true,
+        buyOnly: Boolean(payload.buyOnly),
       });
       creditResult = acquisition.creditResult;
       break;
@@ -968,6 +1114,35 @@ export const executeTeamAction = async (rawTeamId, actionType, rawPayload = {}, 
       break;
     }
 
+    case 'UPDATE_TEAM_ROSTER':
+    case 'UPDATE_TEAM_MEMBERS': {
+      const requestedSize = Number(
+        payload.teamSize ?? payload.size ?? payload.members?.length ?? team.members?.length ?? 1
+      );
+      const clampedSize = Math.min(4, Math.max(1, requestedSize));
+      const rawMembers = Array.isArray(payload.members) ? payload.members : team.members || [];
+      team.members = Array.from({ length: clampedSize }, (_, idx) => {
+        const item = rawMembers[idx];
+        const rawName =
+          typeof item === 'string'
+            ? item.trim()
+            : String(item?.name || '').trim();
+        const fallbackName = idx === 0 ? 'PLAYER 1 (LEAD)' : `PLAYER ${idx + 1}`;
+        return {
+          memberId: item?.memberId || `OP-0${idx + 1}`,
+          name: (rawName || fallbackName).toUpperCase(),
+          role: item?.role || (idx === 0 ? 'LEAD' : 'OPERATIVE'),
+          online: idx === 0 ? true : Boolean(item?.online),
+        };
+      });
+      if (payload.teamName && String(payload.teamName).trim()) {
+        team.teamName = String(payload.teamName).trim().toUpperCase();
+      }
+      team.markModified('members');
+      await team.save();
+      break;
+    }
+
     case 'RESET_DEMO_STATE': {
       const seed = buildSeedTeams().find((s) => s.teamId === normalizedTeamId);
       if (seed) {
@@ -978,6 +1153,53 @@ export const executeTeamAction = async (rawTeamId, actionType, rawPayload = {}, 
         await ChallengeAttempt.deleteMany({ teamId: normalizedTeamId });
         await NexusCoreService.resetNexusCoreDemoState();
         await ensureDefaultTeamsSeeded();
+        coreStateChanged = true;
+      } else {
+        const startingCredits = creditsConfig.getStartingCredits();
+        team.credits = startingCredits;
+        team.status = 'ACTIVE';
+        team.currentChallenge = null;
+        team.purchasedChallenges = [];
+        team.activeAttempt = null;
+        team.completedChallenges = [];
+        team.failedChallenges = [];
+        team.abilities = AbilityService.buildInitialTeamAbilitySlots(DEFAULT_ABILITY_CATALOG);
+        team.nexusCore = {
+          state: 'LOCKED',
+          unlockedAt: null,
+          activatedAt: null,
+          completedAt: null,
+          attemptsCount: 0,
+          completionRank: null,
+          proclamationCode: null,
+        };
+        team.stats = {
+          totalSolved: 0,
+          totalFailed: 0,
+          creditsEarned: startingCredits,
+          creditsSpent: 0,
+          penaltiesIncurred: 0,
+          reattemptsCount: 0,
+          hintsPurchased: 0,
+          extraTimePurchased: 0,
+          abilitiesUsed: 0,
+          riskProfile: 'SAFE',
+          safeAttempts: 0,
+          balancedAttempts: 0,
+          aggressiveAttempts: 0,
+          successByRisk: { SAFE: 0, BALANCED: 0, AGGRESSIVE: 0 },
+          creditsByRisk: {
+            SAFE: { gained: 0, lost: 0, net: 0 },
+            BALANCED: { gained: 0, lost: 0, net: 0 },
+            AGGRESSIVE: { gained: 0, lost: 0, net: 0 },
+          },
+          coreProgressPercent: 0,
+          lastActionAt: new Date(),
+          recentActivity: [],
+        };
+        await team.save();
+        await CreditTransaction.deleteMany({ teamId: normalizedTeamId });
+        await ChallengeAttempt.deleteMany({ teamId: normalizedTeamId });
         coreStateChanged = true;
       }
       break;
@@ -1028,6 +1250,7 @@ export const executeTeamAction = async (rawTeamId, actionType, rawPayload = {}, 
     liveFeed,
     liveFeedEvents,
     timer: ChallengeService.computeSessionTimerTelemetry(team.activeAttempt),
+    globalTimer: computeGlobalArenaTimer(),
     serverTime: new Date().toISOString(),
     event: {
       eventId: creditResult?.transaction?._id?.toString() || `EVT-${Date.now()}`,

@@ -6,6 +6,7 @@ import {
   getAdminOperatorsHint,
   getAdminControlState,
   getAdminAuditLogs,
+  registerAdminTeam,
   executeAdminTeamAction,
   upsertAdminChallenge,
   patchAdminChallenge,
@@ -22,6 +23,7 @@ adminRouter.get('/operators', getAdminOperatorsHint);
 // Protected Admin/Volunteer Control Endpoints
 adminRouter.get('/state', protectAdminRoute, getAdminControlState);
 adminRouter.get('/audit', protectAdminRoute, getAdminAuditLogs);
+adminRouter.post('/teams/register', protectAdminRoute, registerAdminTeam);
 adminRouter.post('/teams/action', protectAdminRoute, executeAdminTeamAction);
 adminRouter.post('/challenges', protectAdminRoute, upsertAdminChallenge);
 adminRouter.patch('/challenges/:challengeId', protectAdminRoute, patchAdminChallenge);

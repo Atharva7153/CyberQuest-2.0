@@ -17,8 +17,11 @@ export const ChallengeRenderer = ({
 }) => {
   const prefersReducedMotion = useReducedMotion();
 
-  const gameType = session?.gameType || challenge?.gameType || 'wordGuess';
-  const gameConfig = session?.gameConfig || challenge?.gameConfig || {};
+  const gameType = challenge?.gameType || session?.gameType || 'wordGuess';
+  const gameConfig =
+    challenge?.gameConfig && Object.keys(challenge.gameConfig).length > 0
+      ? challenge.gameConfig
+      : session?.gameConfig || {};
   const GameComponent = resolveGameComponent(gameType);
 
   return (

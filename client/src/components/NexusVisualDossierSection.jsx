@@ -47,7 +47,7 @@ const RISK_TIERS = [
 ];
 
 const FAIR_PLAY_RULES = [
-  'Teams consist of 4 participants (or team of 2).',
+  'Compete Solo (1), Duo (2), Trio (3), or Squad (max 4 participants).',
   'No copying or communication between competing teams.',
   'All attempts and submissions are recorded in real time.',
   'Failed challenges carry penalties.',
@@ -474,8 +474,8 @@ export const NexusVisualDossierSection = () => {
                   <p className="font-editorial text-xs font-bold uppercase mt-1">teams</p>
                 </div>
                 <div className="p-4 text-center">
-                  <p className="font-display text-3xl sm:text-4xl text-nexus-crimson">4</p>
-                  <p className="font-editorial text-xs font-bold uppercase mt-1">per team</p>
+                  <p className="font-display text-3xl sm:text-4xl text-nexus-crimson">1–4</p>
+                  <p className="font-editorial text-xs font-bold uppercase mt-1">solo to squad</p>
                 </div>
                 <div className="p-4 text-center">
                   <p className="font-display text-3xl sm:text-4xl text-nexus-crimson">16</p>

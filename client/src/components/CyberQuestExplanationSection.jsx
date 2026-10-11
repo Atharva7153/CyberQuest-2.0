@@ -29,8 +29,8 @@ const FIVE_PILLARS = [
   {
     index: '04',
     title: 'TEAMWORK',
-    tag: '4 OPERATIVES PER SQUAD',
-    detail: 'Four participants coordinate under continuous countdown pressure inside one portal.',
+    tag: 'SOLO · DUO · TRIO · MAX 4',
+    detail: 'Compete solo, as a duo, trio, or up to a 4-player squad inside one synchronized portal.',
   },
   {
     index: '05',

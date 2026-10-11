@@ -9,6 +9,7 @@ import {
 } from 'lucide-react';
 import { CrosshairMark } from './CrosshairMark';
 import { RiskBadge, getRiskMetadata } from './RiskBadge';
+import { GamePreviewThumbnail } from './GamePreviewThumbnail';
 import { useReducedMotion } from '../hooks/useReducedMotion';
 
 // Supplied NEXUS architectural imagery
@@ -72,11 +73,103 @@ export const formatTimeLimitDetailed = (seconds) => {
   return `${mins} MIN`;
 };
 
+const FRIENDLY_TITLE_BY_ID = {
+  'CHG-PUZ-05': 'WORD GUESS',
+  'CHG-LOG-04': 'SUDOKU (6×6)',
+  'CHG-PUZ-07': '4×4 TIC-TAC-TOE',
+  'CHG-FOR-02': 'PATCHES (5×5)',
+  'CHG-NET-01': 'ZIP (PATH PUZZLE)',
+  'CHG-LOG-06': 'CONNECT 4',
+  'CHG-KNW-09': 'WEND (WORD LADDER)',
+  'CHG-OBS-08': 'PATCHES (6×6)',
+  'CHG-ZDY-03': 'SUDOKU (9×9)',
+  'CHG-TEC-10': 'ZIP (LEVEL 2)',
+  'CHG-TEC-11': 'PATCHES (LEVEL 2)',
+  'CHG-TEC-12': 'WEND (LEVEL 2)',
+  'CHG-INIT-00': 'WORD GUESS (WARMUP)',
+};
+
+const FRIENDLY_TITLE_BY_LEGACY_CODENAME = {
+  'CIPHER MONOLITH': 'WORD GUESS',
+  'SIGNAL LABYRINTH': 'SUDOKU (6×6)',
+  'TESSELLATION VAULT': '4×4 TIC-TAC-TOE',
+  'FORENSIC TRACE': 'PATCHES (5×5)',
+  'NETWORK BREACH': 'ZIP (PATH PUZZLE)',
+  'AXIOM PROTOCOL': 'CONNECT 4',
+  'ARCHIVE CODEX': 'WEND (WORD LADDER)',
+  'PANOPTICON FEED': 'PATCHES (6×6)',
+  'ZERO DAY HUNT': 'SUDOKU (9×9)',
+  'OVERLORD KERNEL': 'ZIP (LEVEL 2)',
+  'BITWISE SENTINEL': 'PATCHES (LEVEL 2)',
+  'REACTOR DEADLOCK': 'WEND (LEVEL 2)',
+  'PERIMETER HANDSHAKE': 'WORD GUESS (WARMUP)',
+};
+
+const FRIENDLY_DESCRIPTION_BY_ID = {
+  'CHG-PUZ-05': 'Unscramble the letter tiles using the clues to spell both 6-letter words.',
+  'CHG-LOG-04': 'Fill the 6×6 Sudoku grid so every row, column, and 2×3 block has numbers 1 to 6.',
+  'CHG-PUZ-07': 'Beat the AI by getting 4 X marks in a row horizontally, vertically, or diagonally.',
+  'CHG-FOR-02': 'Divide the 5×5 grid into rectangles so each rectangle matches the number inside it.',
+  'CHG-NET-01': 'Connect numbers 1 to 6 in order with a single line that visits every square on the board.',
+  'CHG-LOG-06': 'Drop Red discs into the 7×6 board and connect 4 in a row before the AI.',
+  'CHG-KNW-09': 'Turn PORT into PING by changing one letter at a time using the clues.',
+  'CHG-OBS-08': 'Divide the 6×6 grid into rectangles so each rectangle matches the number inside it.',
+  'CHG-ZDY-03': 'Solve the 9×9 Sudoku grid so every row, column, and 3×3 block has numbers 1 to 9.',
+  'CHG-TEC-10': 'Connect numbers 1 to 6 in order while visiting every square on the 5×5 grid.',
+  'CHG-TEC-11': 'Split the 5×5 grid into rectangles matching each numbered area clue.',
+  'CHG-TEC-12': 'Turn FAIL into PASS one letter at a time using the step clues.',
+};
+
+export const getFriendlyChallengeTitle = (challengeOrTitle) => {
+  if (!challengeOrTitle) return 'CHALLENGE';
+  if (typeof challengeOrTitle === 'string') {
+    const upper = challengeOrTitle.trim().toUpperCase();
+    return FRIENDLY_TITLE_BY_LEGACY_CODENAME[upper] || FRIENDLY_TITLE_BY_ID[upper] || challengeOrTitle;
+  }
+
+  const rawTitle = String(challengeOrTitle.title || '').trim();
+  const upperTitle = rawTitle.toUpperCase();
+  if (FRIENDLY_TITLE_BY_LEGACY_CODENAME[upperTitle]) {
+    return FRIENDLY_TITLE_BY_LEGACY_CODENAME[upperTitle];
+  }
+
+  const idKey = String(challengeOrTitle.challengeId || '').trim().toUpperCase();
+  if (FRIENDLY_TITLE_BY_ID[idKey] && (!rawTitle || FRIENDLY_TITLE_BY_LEGACY_CODENAME[upperTitle])) {
+    return FRIENDLY_TITLE_BY_ID[idKey];
+  }
+  if (rawTitle) {
+    return rawTitle;
+  }
+  if (FRIENDLY_TITLE_BY_ID[idKey]) {
+    return FRIENDLY_TITLE_BY_ID[idKey];
+  }
+
+  const gt = String(challengeOrTitle.gameType || '').trim();
+  if (gt === 'connect4') return 'CONNECT 4';
+  if (gt === 'sudoku') return Number(challengeOrTitle?.gameConfig?.size) === 9 ? 'SUDOKU (9×9)' : 'SUDOKU (6×6)';
+  if (gt === 'xo4x4' || gt === 'xo') return '4×4 TIC-TAC-TOE';
+  if (gt === 'wordGuess') return 'WORD GUESS';
+  if (gt === 'patches') return Number(challengeOrTitle?.gameConfig?.rows) === 6 ? 'PATCHES (6×6)' : 'PATCHES (5×5)';
+  if (gt === 'zip') return 'ZIP (PATH PUZZLE)';
+  if (gt === 'wend') return 'WEND (WORD LADDER)';
+
+  return 'CHALLENGE';
+};
+
+export const getFriendlyChallengeDescription = (challenge) => {
+  if (!challenge) return '';
+  const idKey = String(challenge.challengeId || '').trim().toUpperCase();
+  if (FRIENDLY_DESCRIPTION_BY_ID[idKey]) {
+    return FRIENDLY_DESCRIPTION_BY_ID[idKey];
+  }
+  return challenge.description || '';
+};
+
 /**
  * Simplified Participant Challenge Card
  * Shows:
  * - Category
- * - Artwork
+ * - Game Board Visual Preview
  * - Challenge Title
  * - Cost
  * - Reward
@@ -87,8 +180,10 @@ export const formatTimeLimitDetailed = (seconds) => {
 export const ClassifiedChallengeCard = ({
   challenge,
   isCurrent,
+  isPurchased = false,
   isSolved,
   isFailed,
+  isRoundActive = true,
   reattemptMultiplier,
   isSelected,
   onSelectChallenge,
@@ -96,42 +191,30 @@ export const ClassifiedChallengeCard = ({
   compact = false,
 }) => {
   const cardArtContainerRef = useRef(null);
-  const imgRef = useRef(null);
 
-  const artworkSrc = resolveChallengeArtwork(challenge);
   const isAvailable = challenge.enabled !== false && challenge.available !== false;
   const reattemptCost = Math.round(
     Number(challenge.cost || 0) * (Number(reattemptMultiplier) || 1.25)
   );
-  const displayCost = isFailed ? reattemptCost : challenge.cost;
+  const displayCost = isPurchased
+    ? 'PAID (0 CR)'
+    : `${isFailed ? reattemptCost : challenge.cost} CR`;
+  const friendlyTitle = getFriendlyChallengeTitle(challenge);
+  const friendlyDescription = getFriendlyChallengeDescription(challenge);
 
-  useLayoutEffect(() => {
-    if (prefersReducedMotion || !imgRef.current) return undefined;
-
-    const ctx = gsap.context(() => {
-      gsap.fromTo(
-        imgRef.current,
-        { scale: 1.08 },
-        {
-          scale: 1,
-          duration: 0.75,
-          ease: 'power2.out',
-        }
-      );
-    }, cardArtContainerRef);
-
-    return () => ctx.revert();
-  }, [prefersReducedMotion, challenge.challengeId]);
-
-  const actionLabel = isCurrent
-    ? '[ CONTINUE ]'
-    : isSolved
-      ? '[ SOLVED ]'
-      : isFailed
-        ? '[ REATTEMPT ]'
-        : !isAvailable
-          ? '[ LOCKED ]'
-          : '[ START ]';
+  const actionLabel = !isRoundActive
+    ? '[ TIMER STOPPED ]'
+    : isCurrent
+      ? '[ CONTINUE ]'
+      : isSolved
+        ? '[ SOLVED ]'
+        : isPurchased
+          ? '[ SOLVE NOW ]'
+          : isFailed
+            ? '[ REATTEMPT ]'
+            : !isAvailable
+              ? '[ LOCKED ]'
+              : '[ BUY / SOLVE ]';
 
   return (
     <motion.article
@@ -150,14 +233,14 @@ export const ClassifiedChallengeCard = ({
           onSelectChallenge(challenge);
         }
       }}
-      aria-label={`Select challenge ${challenge.title} (${challenge.category})`}
+      aria-label={`Select challenge ${friendlyTitle} (${challenge.category})`}
       className={`group relative flex flex-col justify-between border-2 transition-colors cursor-pointer select-none overflow-hidden focus-visible:outline-2 focus-visible:outline-nexus-crimson ${
-        isCurrent || isSelected
+        isCurrent || isSelected || isPurchased
           ? 'border-nexus-crimson shadow-brutal-crimson bg-nexus-ink'
           : 'border-nexus-ink shadow-brutal-sm hover:border-nexus-crimson bg-nexus-ink'
       }`}
     >
-      {/* Top Dark Chamber: Category + Artwork + Title */}
+      {/* Top Dark Chamber: Category + Game Preview + Title */}
       <div className="flex flex-col flex-1 bg-nexus-ink text-nexus-paper">
         <div className="px-3.5 py-2.5 border-b border-nexus-paper/15 flex items-center justify-between gap-2 bg-black/50">
           <div className="flex items-center gap-2 min-w-0">
@@ -168,9 +251,19 @@ export const ClassifiedChallengeCard = ({
           </div>
 
           <div className="flex items-center gap-1.5 shrink-0">
+            {!isRoundActive && (
+              <span className="px-1.5 py-0.5 bg-white/15 text-nexus-paper font-mono text-[9px] font-bold uppercase tracking-wider">
+                LOCKED
+              </span>
+            )}
             {isCurrent && (
               <span className="px-1.5 py-0.5 bg-nexus-crimson text-white font-mono text-[9px] font-bold uppercase tracking-wider">
                 ACTIVE
+              </span>
+            )}
+            {isPurchased && !isCurrent && !isSolved && (
+              <span className="px-1.5 py-0.5 bg-white text-nexus-ink font-mono text-[9px] font-bold uppercase tracking-wider">
+                PURCHASED
               </span>
             )}
             {isSolved && !isCurrent && (
@@ -178,7 +271,7 @@ export const ClassifiedChallengeCard = ({
                 SOLVED
               </span>
             )}
-            {isFailed && !isCurrent && (
+            {isFailed && !isCurrent && !isPurchased && (
               <span className="px-1.5 py-0.5 bg-nexus-crimson/25 border border-nexus-crimson text-white font-mono text-[9px] font-bold uppercase tracking-wider">
                 REATTEMPT
               </span>
@@ -191,25 +284,14 @@ export const ClassifiedChallengeCard = ({
           </div>
         </div>
 
-        {/* Architectural Artwork */}
+        {/* Game Visual Preview (Instead of AI Images) */}
         <div
           ref={cardArtContainerRef}
           className={`relative w-full ${
             compact ? 'h-36' : 'h-44 sm:h-48'
           } overflow-hidden bg-black border-b border-nexus-paper/15`}
         >
-          <img
-            ref={imgRef}
-            src={artworkSrc}
-            alt={challenge.title}
-            loading="lazy"
-            className="w-full h-full object-cover object-center contrast-115 brightness-90 group-hover:scale-105 transition-transform duration-500"
-          />
-
-          <div
-            className="absolute inset-0 bg-gradient-to-t from-nexus-ink via-nexus-ink/20 to-transparent pointer-events-none"
-            aria-hidden="true"
-          />
+          <GamePreviewThumbnail challenge={challenge} />
 
           <div className="absolute top-2.5 right-2.5 z-10">
             <CrosshairMark variant="crimson" size={12} />
@@ -219,12 +301,12 @@ export const ClassifiedChallengeCard = ({
         {/* Title */}
         <div className="p-3.5 flex-1 flex flex-col justify-between space-y-2">
           <h3 className="font-display text-2xl sm:text-[26px] uppercase tracking-wide text-nexus-paper leading-none group-hover:text-nexus-crimson transition-colors">
-            {challenge.title}
+            {friendlyTitle}
           </h3>
 
-          {!compact && challenge.description && (
+          {!compact && friendlyDescription && (
             <p className="font-editorial text-xs text-nexus-paper/75 line-clamp-2 leading-relaxed">
-              {challenge.description}
+              {friendlyDescription}
             </p>
           )}
         </div>
@@ -237,7 +319,7 @@ export const ClassifiedChallengeCard = ({
             COST
           </span>
           <span className="font-bold text-sm tracking-wider">
-            {displayCost} CR
+            {displayCost}
           </span>
         </div>
 
@@ -282,7 +364,9 @@ export const ChallengeMarketModule = ({
   team,
   creditsConfig,
   actionPending = false,
+  isRoundActive = true,
   onAcquireChallenge,
+  onBuyChallengeForLater,
   onOpenExecutionPanel,
   initialRiskFilter = 'ALL',
   compact = false,
@@ -303,6 +387,14 @@ export const ChallengeMarketModule = ({
   const [modalError, setModalError] = useState('');
 
   const activeChallenge = team?.currentChallenge;
+  const purchasedChallenges = useMemo(
+    () => (Array.isArray(team?.purchasedChallenges) ? team.purchasedChallenges : []),
+    [team?.purchasedChallenges]
+  );
+  const purchasedIds = useMemo(
+    () => new Set(purchasedChallenges.map((c) => c.challengeId)),
+    [purchasedChallenges]
+  );
   const completedIds = useMemo(
     () => new Set((team?.completedChallenges || []).map((c) => c.challengeId)),
     [team?.completedChallenges]
@@ -355,6 +447,13 @@ export const ChallengeMarketModule = ({
     if (!inspectingChallenge || !onAcquireChallenge) return;
     setModalError('');
 
+    if (!isRoundActive) {
+      setModalError(
+        'Round timer is currently stopped. Wait for the Organizer to start the round before accessing challenges.'
+      );
+      return;
+    }
+
     const isCurrent = activeChallenge?.challengeId === inspectingChallenge.challengeId;
     if (isCurrent && onOpenExecutionPanel) {
       setInspectingChallenge(null);
@@ -368,10 +467,43 @@ export const ChallengeMarketModule = ({
       await onAcquireChallenge({
         challengeId: inspectingChallenge.challengeId,
         isReattempt: isFailed,
+        buyOnly: false,
       });
       setInspectingChallenge(null);
     } catch (err) {
       setModalError(err?.message || 'Unable to start this challenge.');
+    }
+  };
+
+  const handleConfirmBuyForLater = async () => {
+    if (!inspectingChallenge) return;
+    setModalError('');
+
+    if (!isRoundActive) {
+      setModalError(
+        'Round timer is currently stopped. Wait for the Organizer to start the round before buying challenges.'
+      );
+      return;
+    }
+
+    const isFailed = failedIds.has(inspectingChallenge.challengeId);
+
+    try {
+      if (onBuyChallengeForLater) {
+        await onBuyChallengeForLater({
+          challengeId: inspectingChallenge.challengeId,
+          isReattempt: isFailed,
+        });
+      } else if (onAcquireChallenge) {
+        await onAcquireChallenge({
+          challengeId: inspectingChallenge.challengeId,
+          isReattempt: isFailed,
+          buyOnly: true,
+        });
+      }
+      setInspectingChallenge(null);
+    } catch (err) {
+      setModalError(err?.message || 'Unable to purchase this challenge.');
     }
   };
 
@@ -381,13 +513,18 @@ export const ChallengeMarketModule = ({
   const inspectingIsCurrent = inspectingChallenge
     ? activeChallenge?.challengeId === inspectingChallenge.challengeId
     : false;
+  const inspectingIsPurchased = inspectingChallenge
+    ? purchasedIds.has(inspectingChallenge.challengeId) || inspectingIsCurrent
+    : false;
   const inspectingEffectiveCost = inspectingChallenge
-    ? inspectingIsFailed
-      ? Math.round(
-          Number(inspectingChallenge.cost || 0) *
-            (Number(creditsConfig?.reattemptMultiplier) || 1.25)
-        )
-      : inspectingChallenge.cost
+    ? inspectingIsPurchased
+      ? 0
+      : inspectingIsFailed
+        ? Math.round(
+            Number(inspectingChallenge.cost || 0) *
+              (Number(creditsConfig?.reattemptMultiplier) || 1.25)
+          )
+        : inspectingChallenge.cost
     : 0;
 
   return (
@@ -400,7 +537,7 @@ export const ChallengeMarketModule = ({
         <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-4 border-b-2 border-nexus-ink pb-4">
           <div>
             <span className="bg-nexus-ink text-nexus-paper font-mono text-[10px] font-bold uppercase tracking-[0.24em] px-2.5 py-1 inline-block mb-2">
-              CHALLENGES
+              CHALLENGES · TEAM SHARED CREDITS
             </span>
             <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
               <h2 className="font-display text-4xl sm:text-5xl uppercase tracking-tight text-nexus-ink leading-none">
@@ -413,47 +550,93 @@ export const ChallengeMarketModule = ({
           </div>
 
           <p className="font-editorial text-xs sm:text-sm text-nexus-charcoal max-w-md lg:text-right">
-            Pick the right challenges. Every choice carries a cost and a consequence.
+            Any teammate can buy challenges using shared team credits and solve them now or later.
           </p>
         </div>
 
-        {/* Active Challenge Banner */}
-        <AnimatePresence>
-          {activeChallenge && (
-            <motion.div
-              initial={{ opacity: 0, y: -6 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -6 }}
-              transition={{ duration: 0.2 }}
-              className="mt-4 bg-nexus-ink text-nexus-paper border-2 border-nexus-crimson p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-4"
-            >
-              <div className="space-y-1">
-                <span className="px-2 py-0.5 bg-nexus-crimson text-white font-mono text-[10px] font-bold uppercase tracking-widest inline-block">
-                  ACTIVE CHALLENGE
-                </span>
-                <p className="font-display text-2xl sm:text-3xl uppercase tracking-wide text-white leading-none pt-0.5">
-                  {activeChallenge.title}{' '}
-                  <span className="text-nexus-crimson">
-                    // {activeChallenge.category}
-                  </span>
+        {/* Round Timer Stopped Warning Banner */}
+        {!isRoundActive && (
+          <div className="mt-4 p-4 border-2 border-nexus-ink bg-nexus-crimson text-white font-mono text-xs flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+            <div className="flex items-center gap-2.5">
+              <AlertTriangle className="w-5 h-5 shrink-0" />
+              <div>
+                <p className="font-bold uppercase tracking-widest">
+                  ROUND TIMER STOPPED — CHALLENGES ARE CURRENTLY LOCKED
                 </p>
-                <p className="font-mono text-xs text-nexus-paper/75">
-                  REWARD: +{activeChallenge.reward || 0} CR · RISK: {activeChallenge.risk || 'BALANCED'}
+                <p className="text-[11px] text-white/90 mt-0.5">
+                  You cannot buy or solve challenges while the round timer is stopped. Wait for the Organizer to start the round.
                 </p>
               </div>
+            </div>
+            <span className="px-2.5 py-1 bg-black text-white font-bold uppercase tracking-widest text-[10px] shrink-0">
+              STANDBY
+            </span>
+          </div>
+        )}
 
-              {onOpenExecutionPanel && (
-                <button
-                  type="button"
-                  onClick={onOpenExecutionPanel}
-                  className="px-4 py-2.5 bg-nexus-crimson hover:bg-white text-white hover:text-nexus-ink font-condensed text-sm font-extrabold uppercase tracking-[0.18em] border border-white/30 transition-colors cursor-pointer shrink-0"
-                >
-                  [ CONTINUE CHALLENGE ]
-                </button>
-              )}
-            </motion.div>
-          )}
-        </AnimatePresence>
+        {/* Team Purchased Challenges Pool (Any Teammate Can Solve) */}
+        {purchasedChallenges.length > 0 && (
+          <div className="mt-4 bg-nexus-ink text-nexus-paper border-2 border-nexus-crimson p-4 space-y-3">
+            <div className="flex flex-wrap items-center justify-between gap-2 border-b border-nexus-paper/15 pb-2.5">
+              <div className="flex items-center gap-2">
+                <span className="px-2 py-0.5 bg-nexus-crimson text-white font-mono text-[10px] font-bold uppercase tracking-widest">
+                  TEAM PURCHASED ({purchasedChallenges.length})
+                </span>
+                <span className="font-mono text-xs text-nexus-paper/80 uppercase">
+                  PAID FROM TEAM CREDITS · ANY TEAMMATE CAN SOLVE
+                </span>
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
+              {purchasedChallenges.map((item) => {
+                const isItemActive = activeChallenge?.challengeId === item.challengeId;
+                return (
+                  <div
+                    key={item.challengeId}
+                    className={`p-3 border flex items-center justify-between gap-3 ${
+                      isItemActive
+                        ? 'border-nexus-crimson bg-black/70'
+                        : 'border-nexus-paper/20 bg-black/40'
+                    }`}
+                  >
+                    <div className="min-w-0">
+                      <span className="font-mono text-[9px] uppercase tracking-widest text-nexus-crimson font-bold block">
+                        {item.category} · +{item.reward || 400} CR
+                      </span>
+                      <p className="font-display text-xl uppercase tracking-wide text-white truncate">
+                        {getFriendlyChallengeTitle(item)}
+                      </p>
+                    </div>
+
+                    <button
+                      type="button"
+                      disabled={actionPending || !isRoundActive}
+                      onClick={() => {
+                        if (isItemActive && onOpenExecutionPanel) {
+                          onOpenExecutionPanel();
+                        } else if (onAcquireChallenge) {
+                          onAcquireChallenge({
+                            challengeId: item.challengeId,
+                            isReattempt: false,
+                            buyOnly: false,
+                          });
+                        }
+                      }}
+                      className="px-3 py-2 bg-nexus-crimson hover:bg-white text-white hover:text-nexus-ink font-condensed text-xs font-extrabold uppercase tracking-[0.16em] border border-white/30 transition-colors cursor-pointer disabled:opacity-50 shrink-0"
+                    >
+                      {!isRoundActive
+                        ? '[ LOCKED ]'
+                        : isItemActive
+                          ? '[ CONTINUE ]'
+                          : '[ SOLVE NOW ]'}
+                    </button>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        )}
 
         {/* Filters */}
         <div className="mt-4 space-y-3">
@@ -581,6 +764,7 @@ export const ChallengeMarketModule = ({
           <AnimatePresence mode="popLayout">
             {filteredChallenges.map((challenge) => {
               const isCurrent = activeChallenge?.challengeId === challenge.challengeId;
+              const isPurchased = purchasedIds.has(challenge.challengeId) || isCurrent;
               const isSolved = completedIds.has(challenge.challengeId);
               const isFailed = failedIds.has(challenge.challengeId);
               const isSelected =
@@ -591,8 +775,10 @@ export const ChallengeMarketModule = ({
                   key={challenge.challengeId}
                   challenge={challenge}
                   isCurrent={isCurrent}
+                  isPurchased={isPurchased}
                   isSolved={isSolved}
                   isFailed={isFailed}
+                  isRoundActive={isRoundActive}
                   reattemptMultiplier={creditsConfig?.reattemptMultiplier || 1.25}
                   isSelected={isSelected}
                   onSelectChallenge={handleOpenConfirmation}
@@ -605,7 +791,7 @@ export const ChallengeMarketModule = ({
         </motion.div>
       )}
 
-      {/* Start Challenge Confirmation Modal */}
+      {/* Buy / Solve Challenge Confirmation Modal */}
       <AnimatePresence>
         {inspectingChallenge && (
           <motion.div
@@ -632,9 +818,11 @@ export const ChallengeMarketModule = ({
                   <span className="px-2 py-0.5 bg-nexus-crimson text-white font-mono text-[10px] font-bold uppercase tracking-widest">
                     {inspectingIsCurrent
                       ? 'ACTIVE CHALLENGE'
-                      : inspectingIsFailed
-                        ? 'REATTEMPT CHALLENGE'
-                        : 'START CHALLENGE'}
+                      : inspectingIsPurchased
+                        ? 'PURCHASED BY TEAM'
+                        : inspectingIsFailed
+                          ? 'REATTEMPT CHALLENGE'
+                          : 'BUY OR SOLVE CHALLENGE'}
                   </span>
                   <span className="font-mono text-xs text-nexus-paper/75 uppercase">
                     {inspectingChallenge.category}
@@ -651,19 +839,15 @@ export const ChallengeMarketModule = ({
                 </button>
               </div>
 
-              <div className="relative h-40 bg-black border-b-2 border-nexus-ink overflow-hidden">
-                <img
-                  src={resolveChallengeArtwork(inspectingChallenge)}
-                  alt={inspectingChallenge.title}
-                  className="w-full h-full object-cover object-center contrast-115 brightness-90"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-nexus-ink via-nexus-ink/40 to-transparent" />
-                <div className="absolute bottom-3.5 left-5 right-5 flex items-end justify-between gap-3">
+              <div className="relative h-44 bg-black border-b-2 border-nexus-ink overflow-hidden">
+                <GamePreviewThumbnail challenge={inspectingChallenge} />
+                <div className="absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-nexus-ink via-nexus-ink/70 to-transparent pointer-events-none" />
+                <div className="absolute bottom-3 left-5 right-5 z-20 flex items-end justify-between gap-3 pointer-events-none">
                   <h2
                     id="acquire-challenge-modal-title"
-                    className="font-display text-4xl uppercase tracking-wide text-white leading-none"
+                    className="font-display text-3xl sm:text-4xl uppercase tracking-wide text-white leading-none"
                   >
-                    {inspectingChallenge.title}
+                    {getFriendlyChallengeTitle(inspectingChallenge)}
                   </h2>
                   <CrosshairMark variant="crimson" size={16} />
                 </div>
@@ -671,7 +855,7 @@ export const ChallengeMarketModule = ({
 
               <div className="p-5 sm:p-6 space-y-5 bg-nexus-paper">
                 <p className="font-editorial text-sm sm:text-base text-nexus-ink leading-relaxed">
-                  {inspectingChallenge.description}
+                  {getFriendlyChallengeDescription(inspectingChallenge)}
                 </p>
 
                 <div className="grid grid-cols-2 sm:grid-cols-5 border-2 border-nexus-ink bg-nexus-ink text-nexus-paper divide-y sm:divide-y-0 sm:divide-x divide-nexus-paper/15 font-mono">
@@ -680,7 +864,7 @@ export const ChallengeMarketModule = ({
                       COST
                     </span>
                     <span className="font-bold text-base text-nexus-crimson">
-                      {inspectingEffectiveCost} CR
+                      {inspectingIsPurchased ? 'PAID' : `${inspectingEffectiveCost} CR`}
                     </span>
                   </div>
 
@@ -723,13 +907,24 @@ export const ChallengeMarketModule = ({
                   <div className="flex items-center gap-2">
                     <RiskBadge risk={inspectingChallenge.risk} size="xs" />
                     <span className="font-bold text-nexus-ink uppercase">
-                      {getRiskMetadata(inspectingChallenge.risk).headline}
+                      {inspectingIsPurchased
+                        ? 'ALREADY BOUGHT BY TEAM — ANY TEAMMATE CAN SOLVE'
+                        : 'SHARED TEAM CREDITS — BUY NOW OR SOLVE LATER'}
                     </span>
                   </div>
                   <span className="text-[11px] text-nexus-crimson font-bold uppercase">
                     FAIL PENALTY: -{inspectingChallenge.penalty || 100} CR
                   </span>
                 </div>
+
+                {!isRoundActive && (
+                  <div className="p-3 bg-nexus-crimson text-white border-2 border-nexus-ink font-mono text-xs flex items-center gap-2.5">
+                    <AlertTriangle className="w-4 h-4 shrink-0" />
+                    <span>
+                      ROUND TIMER STOPPED — Wait for the Organizer to start the round before buying or solving challenges.
+                    </span>
+                  </div>
+                )}
 
                 <AnimatePresence>
                   {modalError && (
@@ -745,31 +940,46 @@ export const ChallengeMarketModule = ({
                   )}
                 </AnimatePresence>
 
-                <div className="flex flex-col sm:flex-row gap-3 pt-1">
+                <div className="flex flex-col sm:flex-row gap-2.5 pt-1">
                   <button
                     type="button"
                     onClick={handleCloseConfirmation}
-                    className="sm:w-1/3 py-3 px-4 border-2 border-nexus-ink bg-nexus-paper hover:bg-nexus-ink hover:text-nexus-paper font-condensed text-base font-bold uppercase tracking-[0.16em] transition-colors cursor-pointer"
+                    className="py-3 px-4 border-2 border-nexus-ink bg-nexus-paper hover:bg-nexus-ink hover:text-nexus-paper font-condensed text-base font-bold uppercase tracking-[0.16em] transition-colors cursor-pointer"
                   >
                     CANCEL
                   </button>
 
+                  {!inspectingIsPurchased && !inspectingIsCurrent && (
+                    <button
+                      type="button"
+                      disabled={actionPending || !isRoundActive}
+                      onClick={handleConfirmBuyForLater}
+                      className="flex-1 py-3 px-4 border-2 border-nexus-ink bg-nexus-ink text-nexus-paper hover:bg-nexus-crimson hover:text-white font-condensed text-base font-extrabold uppercase tracking-[0.16em] transition-colors cursor-pointer disabled:opacity-50 flex items-center justify-center gap-1.5"
+                    >
+                      <span>
+                        {actionPending
+                          ? 'BUYING...'
+                          : `[ BUY FOR LATER (${inspectingEffectiveCost} CR) ]`}
+                      </span>
+                    </button>
+                  )}
+
                   <button
                     type="button"
-                    disabled={actionPending}
+                    disabled={actionPending || !isRoundActive}
                     onClick={handleConfirmAcquire}
-                    className="flex-1 py-3 px-5 border-2 border-nexus-ink bg-nexus-crimson text-white hover:bg-nexus-ink font-condensed text-lg font-extrabold uppercase tracking-[0.2em] transition-colors cursor-pointer disabled:opacity-50 flex items-center justify-center gap-2"
+                    className="flex-1 py-3 px-4 border-2 border-nexus-ink bg-nexus-crimson text-white hover:bg-nexus-ink font-condensed text-base font-extrabold uppercase tracking-[0.16em] transition-colors cursor-pointer disabled:opacity-50 flex items-center justify-center gap-1.5"
                   >
                     <span>
                       {actionPending
-                        ? 'STARTING...'
+                        ? 'WORKING...'
                         : inspectingIsCurrent
                           ? '[ CONTINUE CHALLENGE ]'
-                          : inspectingIsFailed
-                            ? `[ REATTEMPT (${inspectingEffectiveCost} CR) ]`
-                            : `[ START CHALLENGE (${inspectingEffectiveCost} CR) ]`}
+                          : inspectingIsPurchased
+                            ? '[ SOLVE NOW (PAID) ]'
+                            : `[ BUY & SOLVE (${inspectingEffectiveCost} CR) ]`}
                     </span>
-                    <ArrowUpRight className="w-4 h-4" />
+                    <ArrowUpRight className="w-4 h-4 shrink-0" />
                   </button>
                 </div>
               </div>

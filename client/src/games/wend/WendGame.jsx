@@ -22,6 +22,7 @@ const KEYBOARD_ROWS = [
 
 export const WendGame = ({
   challenge,
+  session,
   gameConfig = {},
   actionPending = false,
   disabled = false,
@@ -46,7 +47,8 @@ export const WendGame = ({
     setWords(buildInitialWords());
     const firstEditable = steps.findIndex((s) => !s.isLocked);
     setActiveStepIdx(firstEditable >= 0 ? firstEditable : 0);
-  }, [challenge?.challengeId, buildInitialWords, steps]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [challenge?.challengeId, session?.attemptId]);
 
   const validation = useMemo(
     () => validateWendChainClient(words, config),

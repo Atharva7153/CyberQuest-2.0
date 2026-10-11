@@ -90,3 +90,338 @@
 ::-webkit-scrollbar-thumb:hover {
   background: var(--nexus-crimson);
 }
+
+/* ==========================================================================
+ * DARK THEME (DEFAULT): PURE BLACK BACKGROUND + IDENTICAL CRIMSON RED
+ * Matches Senior UI Reference:
+ * - Pure black #000000 canvas + sidebar + header
+ * - Subtle 64px architectural grid lines
+ * - Deep #070707 cards with 1px #1f1f1f borders & 2px red top accent
+ * - Light theme (html[data-theme='light']) remains 100% untouched above.
+ * ========================================================================== */
+
+html[data-theme='dark'] .nexus-paper-canvas {
+  background-color: #000000;
+  background-image:
+    linear-gradient(to right, rgba(255, 255, 255, 0.04) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
+  background-size: 64px 64px;
+}
+
+html[data-theme='dark'] .nexus-fine-grid {
+  background-image:
+    linear-gradient(to right, rgba(255, 255, 255, 0.035) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.035) 1px, transparent 1px);
+  background-size: 16px 16px;
+}
+
+html[data-theme='dark'] .nexus-halftone {
+  background-image: radial-gradient(rgba(255, 255, 255, 0.1) 1px, transparent 0);
+  background-size: 6px 6px;
+}
+
+html[data-theme='dark'] .nexus-editorial-box {
+  background-color: #070707;
+  border: 1px solid #1f1f1f;
+  border-top: 2px solid var(--nexus-crimson);
+  box-shadow: none;
+}
+
+/* Pure black for sidebar, navs, and dark chambers in Dark Theme */
+html[data-theme='dark'] .nexus-portal-sidebar {
+  background-color: #000000 !important;
+  border-right: 1px solid #1a1a1a !important;
+}
+
+html[data-theme='dark'] .nexus-portal-topbar {
+  background-color: rgba(0, 0, 0, 0.96) !important;
+  border-bottom: 1px solid #1a1a1a !important;
+}
+
+html[data-theme='dark'] .bg-nexus-ink,
+html[data-theme='dark'] .bg-nexus-ink\/85,
+html[data-theme='dark'] .bg-nexus-ink\/80,
+html[data-theme='dark'] .bg-nexus-ink\/60,
+html[data-theme='dark'] .bg-nexus-ink\/40 {
+  background-color: #050505;
+}
+
+html[data-theme='dark'] aside .bg-nexus-ink,
+html[data-theme='dark'] nav.bg-nexus-ink,
+html[data-theme='dark'] header.bg-nexus-ink {
+  background-color: #000000;
+}
+
+html[data-theme='dark'] .bg-nexus-ink\/30,
+html[data-theme='dark'] .bg-nexus-ink\/25,
+html[data-theme='dark'] .bg-nexus-ink\/20,
+html[data-theme='dark'] .bg-nexus-ink\/15,
+html[data-theme='dark'] .bg-nexus-ink\/10 {
+  background-color: #0d0d0d;
+}
+
+html[data-theme='dark'] .bg-nexus-ink:empty {
+  background-color: #1f1f1f;
+}
+
+/* Preserve crisp white/gray text & subtle borders inside dark chambers */
+html[data-theme='dark'] .text-nexus-paper {
+  color: #ffffff;
+}
+html[data-theme='dark'] .text-nexus-paper\/90 {
+  color: rgba(255, 255, 255, 0.9);
+}
+html[data-theme='dark'] .text-nexus-paper\/85 {
+  color: rgba(255, 255, 255, 0.85);
+}
+html[data-theme='dark'] .text-nexus-paper\/80 {
+  color: rgba(255, 255, 255, 0.8);
+}
+html[data-theme='dark'] .text-nexus-paper\/75 {
+  color: rgba(255, 255, 255, 0.72);
+}
+html[data-theme='dark'] .text-nexus-paper\/70 {
+  color: rgba(255, 255, 255, 0.68);
+}
+html[data-theme='dark'] .text-nexus-paper\/65 {
+  color: rgba(255, 255, 255, 0.62);
+}
+html[data-theme='dark'] .text-nexus-paper\/60 {
+  color: rgba(255, 255, 255, 0.56);
+}
+html[data-theme='dark'] .text-nexus-paper\/40 {
+  color: rgba(255, 255, 255, 0.4);
+}
+html[data-theme='dark'] .text-nexus-paper\/35 {
+  color: rgba(255, 255, 255, 0.35);
+}
+html[data-theme='dark'] .text-nexus-paper\/30 {
+  color: rgba(255, 255, 255, 0.3);
+}
+
+html[data-theme='dark'] .border-nexus-paper {
+  border-color: #2a2a2a;
+}
+html[data-theme='dark'] .border-nexus-paper\/90,
+html[data-theme='dark'] .border-nexus-paper\/60,
+html[data-theme='dark'] .border-nexus-paper\/40,
+html[data-theme='dark'] .border-nexus-paper\/35,
+html[data-theme='dark'] .border-nexus-paper\/30,
+html[data-theme='dark'] .border-nexus-paper\/25,
+html[data-theme='dark'] .border-nexus-paper\/20,
+html[data-theme='dark'] .border-nexus-paper\/15 {
+  border-color: #1c1c1c;
+}
+html[data-theme='dark'] .divide-nexus-paper\/15 > :not([hidden]) ~ :not([hidden]) {
+  border-color: #1c1c1c;
+}
+
+/* Hairline dark graphite borders instead of thick light borders */
+html[data-theme='dark'] .border-nexus-ink,
+html[data-theme='dark'] .border-nexus-ink\/50,
+html[data-theme='dark'] .border-nexus-ink\/40,
+html[data-theme='dark'] .border-nexus-ink\/35,
+html[data-theme='dark'] .border-nexus-ink\/30,
+html[data-theme='dark'] .border-nexus-ink\/25,
+html[data-theme='dark'] .border-nexus-ink\/20,
+html[data-theme='dark'] .border-nexus-ink\/15 {
+  border-color: #1f1f1f;
+}
+html[data-theme='dark'] .border-r-nexus-ink {
+  border-right-color: #262626;
+}
+html[data-theme='dark'] .border-b-nexus-ink {
+  border-bottom-color: #262626;
+}
+html[data-theme='dark'] .border-t-nexus-ink {
+  border-top-color: #262626;
+}
+html[data-theme='dark'] .border-l-nexus-ink {
+  border-left-color: #262626;
+}
+
+/* Hover states on dark theme */
+html[data-theme='dark'] .hover\:bg-nexus-ink:hover {
+  background-color: #141414;
+  color: #ffffff;
+  border-color: var(--nexus-crimson);
+}
+html[data-theme='dark'] .bg-nexus-crimson.hover\:bg-nexus-ink:hover {
+  background-color: #a31217;
+  color: #ffffff;
+  border-color: #ff3b42;
+}
+html[data-theme='dark'] .hover\:text-nexus-paper:hover {
+  color: #ffffff;
+}
+html[data-theme='dark'] .hover\:bg-white:hover,
+html[data-theme='dark'] .group:hover .group-hover\:bg-white {
+  background-color: #161616 !important;
+  color: #ffffff !important;
+}
+html[data-theme='dark'] .hover\:text-nexus-ink:hover,
+html[data-theme='dark'] .group:hover .group-hover\:text-nexus-ink {
+  color: #ffffff !important;
+}
+
+/* Adapt static white/neutral utility classes (Admin Panel, Modals, Inputs) in Dark Theme */
+html[data-theme='dark'] .bg-\[\#FAF9F5\] {
+  background-color: #000000;
+}
+html[data-theme='dark'] .bg-white:not(:empty) {
+  background-color: #070707;
+  color: #ffffff;
+}
+html[data-theme='dark'] .bg-neutral-50,
+html[data-theme='dark'] .bg-neutral-50\/60,
+html[data-theme='dark'] .bg-neutral-50\/80 {
+  background-color: #0a0a0a;
+}
+html[data-theme='dark'] .bg-neutral-100 {
+  background-color: #111111;
+}
+html[data-theme='dark'] .bg-neutral-200 {
+  background-color: #181818;
+  color: #ffffff;
+}
+html[data-theme='dark'] .hover\:bg-neutral-100:hover,
+html[data-theme='dark'] .hover\:bg-neutral-200:hover,
+html[data-theme='dark'] .hover\:bg-neutral-50\/60:hover,
+html[data-theme='dark'] .hover\:bg-\[\#FAF9F5\]:hover,
+html[data-theme='dark'] .hover\:bg-\[\#FAF9F5\]\/80:hover {
+  background-color: #141414 !important;
+  color: #ffffff;
+}
+
+html[data-theme='dark'] .text-\[\#111111\],
+html[data-theme='dark'] .text-neutral-900,
+html[data-theme='dark'] .text-neutral-800,
+html[data-theme='dark'] .text-neutral-700 {
+  color: #ffffff;
+}
+html[data-theme='dark'] .text-neutral-600,
+html[data-theme='dark'] .text-neutral-500,
+html[data-theme='dark'] .text-neutral-400 {
+  color: #888888;
+}
+
+html[data-theme='dark'] .border-\[\#111111\],
+html[data-theme='dark'] .border-neutral-200,
+html[data-theme='dark'] .border-neutral-300,
+html[data-theme='dark'] .border-neutral-400 {
+  border-color: #1f1f1f;
+}
+html[data-theme='dark'] .divide-neutral-200 > :not([hidden]) ~ :not([hidden]) {
+  border-color: #1a1a1a;
+}
+
+html[data-theme='dark'] .bg-\[\#111111\] {
+  background-color: #111111;
+  color: #ffffff;
+  border-color: #e11d2e;
+}
+html[data-theme='dark'] .hover\:bg-\[\#111111\]:hover {
+  background-color: #e11d2e !important;
+  color: #ffffff !important;
+}
+
+html[data-theme='dark'] .shadow-\[4px_4px_0px_\#111111\],
+html[data-theme='dark'] .shadow-\[3px_3px_0px_\#111111\],
+html[data-theme='dark'] .shadow-\[6px_6px_0px_\#111111\],
+html[data-theme='dark'] .shadow-\[2px_2px_0px_\#111111\] {
+  box-shadow: none;
+}
+
+/* Status pills on dark background */
+html[data-theme='dark'] .bg-emerald-50,
+html[data-theme='dark'] .bg-emerald-50\/40,
+html[data-theme='dark'] .bg-emerald-100,
+html[data-theme='dark'] .hover\:bg-emerald-100:hover {
+  background-color: rgba(16, 185, 129, 0.14);
+}
+html[data-theme='dark'] .text-emerald-700,
+html[data-theme='dark'] .text-emerald-800,
+html[data-theme='dark'] .text-emerald-950 {
+  color: #34d399;
+}
+html[data-theme='dark'] .border-emerald-200,
+html[data-theme='dark'] .border-emerald-300,
+html[data-theme='dark'] .border-emerald-400 {
+  border-color: rgba(52, 211, 153, 0.35);
+}
+
+html[data-theme='dark'] .bg-amber-50,
+html[data-theme='dark'] .bg-amber-100 {
+  background-color: rgba(245, 158, 11, 0.14);
+}
+html[data-theme='dark'] .text-amber-700,
+html[data-theme='dark'] .text-amber-800,
+html[data-theme='dark'] .text-amber-900 {
+  color: #fbbf24;
+}
+html[data-theme='dark'] .border-amber-200,
+html[data-theme='dark'] .border-amber-300 {
+  border-color: rgba(251, 191, 36, 0.35);
+}
+
+html[data-theme='dark'] .bg-red-50,
+html[data-theme='dark'] .bg-red-50\/30,
+html[data-theme='dark'] .bg-red-50\/40,
+html[data-theme='dark'] .bg-red-50\/60,
+html[data-theme='dark'] .bg-red-50\/70,
+html[data-theme='dark'] .bg-red-100,
+html[data-theme='dark'] .hover\:bg-red-50:hover {
+  background-color: rgba(225, 29, 46, 0.16);
+}
+html[data-theme='dark'] .text-red-700,
+html[data-theme='dark'] .text-red-800 {
+  color: #f87171;
+}
+html[data-theme='dark'] .border-red-200,
+html[data-theme='dark'] .border-red-300 {
+  border-color: rgba(225, 29, 46, 0.4);
+}
+
+html[data-theme='dark'] .bg-sky-50,
+html[data-theme='dark'] .bg-sky-100 {
+  background-color: rgba(14, 165, 233, 0.14);
+}
+html[data-theme='dark'] .text-sky-700,
+html[data-theme='dark'] .text-sky-800 {
+  color: #38bdf8;
+}
+html[data-theme='dark'] .border-sky-200 {
+  border-color: rgba(56, 189, 248, 0.35);
+}
+
+html[data-theme='dark'] .bg-indigo-50 {
+  background-color: rgba(99, 102, 241, 0.14);
+}
+html[data-theme='dark'] .text-indigo-700 {
+  color: #818cf8;
+}
+html[data-theme='dark'] .border-indigo-200 {
+  border-color: rgba(129, 140, 248, 0.35);
+}
+
+html[data-theme='dark'] .bg-purple-50 {
+  background-color: rgba(168, 85, 247, 0.14);
+}
+html[data-theme='dark'] .text-purple-700 {
+  color: #c084fc;
+}
+html[data-theme='dark'] .border-purple-200 {
+  border-color: rgba(192, 132, 252, 0.35);
+}
+
+/* Dark theme scrollbar */
+html[data-theme='dark'] ::-webkit-scrollbar-track {
+  background: #050505;
+  border-left: 1px solid #1a1a1a;
+}
+html[data-theme='dark'] ::-webkit-scrollbar-thumb {
+  background: #262626;
+}
+html[data-theme='dark'] ::-webkit-scrollbar-thumb:hover {
+  background: var(--nexus-crimson);
+}

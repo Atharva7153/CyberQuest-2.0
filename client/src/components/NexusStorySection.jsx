@@ -134,10 +134,10 @@ export const NexusStorySection = () => {
 
           {/* Proposal Summary */}
           <p className="story-reveal-line font-editorial text-base sm:text-lg text-nexus-charcoal leading-relaxed max-w-2xl">
-            Teams of 4 participants enter the centralized Cyber Quest Portal using a unique Team
-            ID and receive starting <strong className="text-nexus-ink">Resistance Credits</strong>.
-            Every challenge is a choice. Every choice has a cost. Every decision changes your
-            path.
+            Solo players, duos, trios, or squads of up to 4 participants enter the centralized Cyber
+            Quest Portal using a unique Team ID and receive starting{' '}
+            <strong className="text-nexus-ink">Resistance Credits</strong>. Every challenge is a
+            choice. Every choice has a cost. Every decision changes your path.
           </p>
         </div>
 

@@ -28,12 +28,24 @@ import {
   validateZipPathClient,
   serializeZipSubmission,
 } from './zip';
+import {
+  Connect4Game,
+  normalizeConnect4Config,
+  evaluateConnect4Board,
+  serializeConnect4Submission,
+} from './connect4';
+import {
+  WordGuessGame,
+  normalizeWordGuessConfig,
+} from './wordGuess';
 
 /**
  * PHASE 19 — CENTRALIZED CYBER QUEST GAME REGISTRY
  *
  * Canonical registered games:
  * - sudoku
+ * - connect4
+ * - wordGuess
  * - xo4x4
  * - wend
  * - patches
@@ -53,6 +65,27 @@ export const GameRegistry = {
     normalizeConfig: normalizeSudokuConfig,
     validateClient: validateSudokuBoardClient,
     serializeSubmission: serializeSudokuSubmission,
+  },
+  connect4: {
+    id: 'connect4',
+    label: 'CONNECT 4 VS AI',
+    defaultCategory: 'LOGIC',
+    component: Connect4Game,
+    normalizeConfig: normalizeConnect4Config,
+    validateClient: evaluateConnect4Board,
+    serializeSubmission: serializeConnect4Submission,
+  },
+  wordGuess: {
+    id: 'wordGuess',
+    label: 'WORD GUESSING',
+    defaultCategory: 'PUZZLES',
+    component: WordGuessGame,
+    normalizeConfig: normalizeWordGuessConfig,
+    validateClient: (word, cfg) => ({
+      isComplete: String(word || '').length === Number(cfg?.wordLength || 7),
+      isValid: String(word || '').length === Number(cfg?.wordLength || 7),
+    }),
+    serializeSubmission: (word) => String(word || '').trim().toUpperCase(),
   },
   xo4x4: {
     id: 'xo4x4',

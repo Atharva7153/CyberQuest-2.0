@@ -10,6 +10,7 @@ import {
 
 export const Xo4x4Game = ({
   challenge,
+  session,
   gameConfig = {},
   actionPending = false,
   disabled = false,
@@ -30,7 +31,8 @@ export const Xo4x4Game = ({
     setMoves([]);
     setIsAiThinking(false);
     setRoundNumber(1);
-  }, [challenge?.challengeId, blockedCells]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [challenge?.challengeId, session?.attemptId]);
 
   const outcome = useMemo(() => evaluateXo4x4Board(board), [board]);
   const isPlayerWin = outcome.winner === 'X';

@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { CrosshairMark } from '../components/CrosshairMark';
+import { ThemeToggleButton } from '../components/ThemeToggleButton';
 
 export const EditorialFrameLayout = ({ children, systemOnline = false }) => {
   const location = useLocation();
@@ -57,7 +58,7 @@ export const EditorialFrameLayout = ({ children, systemOnline = false }) => {
 
           <nav
             aria-label="Primary NEXUS Navigation"
-            className="flex items-center gap-3 sm:gap-5 font-mono text-[11px]"
+            className="flex items-center gap-3 sm:gap-4 font-mono text-[11px]"
           >
             {location.pathname === '/' ? (
               <a
@@ -85,6 +86,8 @@ export const EditorialFrameLayout = ({ children, systemOnline = false }) => {
             >
               ENTER THE SYSTEM
             </Link>
+
+            <ThemeToggleButton />
 
             <div className="hidden sm:flex items-center gap-1.5 pl-2 border-l border-nexus-ink/25">
               <span

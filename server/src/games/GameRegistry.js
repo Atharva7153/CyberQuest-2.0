@@ -520,12 +520,156 @@ export const validateZipServer = (submission, challenge) => {
 };
 
 /**
+ * 6. CONNECT 4 VS AI Server Validator
+ */
+export const validateConnect4Server = (submission) => {
+  const ROWS = 6;
+  const COLS = 7;
+
+  let board = null;
+  if (Array.isArray(submission?.board) && submission.board.length === ROWS) {
+    board = submission.board.map((row) =>
+      Array.isArray(row) ? row.map((c) => String(c || '').toUpperCase()) : []
+    );
+  } else {
+    const rawStr = String(submission?.answer ?? submission ?? '').trim();
+    if (rawStr.startsWith('CONNECT4|')) {
+      const parts = rawStr.split('|');
+      const rowStrings = (parts[1] || '').split('/');
+      if (rowStrings.length === ROWS) {
+        board = rowStrings.map((rStr) =>
+          rStr.split('').map((ch) => (ch === '.' ? '' : ch.toUpperCase()))
+        );
+      }
+    }
+  }
+
+  if (!board || board.length !== ROWS) {
+    return { valid: false, passed: false, reason: 'Invalid Connect 4 board state.' };
+  }
+
+  let xCount = 0;
+  let oCount = 0;
+
+  // Verify dimensions, token counts, and gravity (no floating tokens)
+  for (let c = 0; c < COLS; c++) {
+    let seenTokenInCol = false;
+    for (let r = 0; r < ROWS; r++) {
+      const token = board[r]?.[c] || '';
+      if (token === 'X') {
+        xCount++;
+        seenTokenInCol = true;
+      } else if (token === 'O') {
+        oCount++;
+        seenTokenInCol = true;
+      } else if (seenTokenInCol) {
+        return {
+          valid: false,
+          passed: false,
+          reason: 'Connect 4 gravity constraint violated (floating disc).',
+        };
+      }
+    }
+  }
+
+  if (xCount < 4 || xCount < oCount || xCount > oCount + 1) {
+    return {
+      valid: false,
+      passed: false,
+      reason: 'Invalid Connect 4 turn count.',
+    };
+  }
+
+  const directions = [
+    [0, 1],
+    [1, 0],
+    [1, 1],
+    [1, -1],
+  ];
+
+  let xWon = false;
+  let oWon = false;
+
+  for (let r = 0; r < ROWS; r++) {
+    for (let c = 0; c < COLS; c++) {
+      const token = board[r]?.[c];
+      if (!token) continue;
+
+      for (const [dr, dc] of directions) {
+        let count = 1;
+        for (let step = 1; step < 4; step++) {
+          const nr = r + dr * step;
+          const nc = c + dc * step;
+          if (nr < 0 || nr >= ROWS || nc < 0 || nc >= COLS || board[nr]?.[nc] !== token) {
+            break;
+          }
+          count++;
+        }
+        if (count === 4) {
+          if (token === 'X') xWon = true;
+          if (token === 'O') oWon = true;
+        }
+      }
+    }
+  }
+
+  if (!xWon || oWon) {
+    return {
+      valid: false,
+      passed: false,
+      reason: 'Connect 4 win condition (4-in-a-row) not satisfied.',
+    };
+  }
+
+  return { valid: true, passed: true };
+};
+
+/**
+ * 7. WORD GUESS Server Validator
+ */
+export const validateWordGuessServer = (submission, challenge) => {
+  const rawWord =
+    typeof submission === 'object' && submission !== null
+      ? String(submission.word ?? submission.answer ?? '').trim().toUpperCase()
+      : String(submission ?? '').trim().toUpperCase();
+
+  if (!rawWord) {
+    return { valid: false, passed: false, reason: 'Word guess cannot be empty.' };
+  }
+
+  const expected = String(challenge?.solutionConfig?.expectedAnswer || '')
+    .trim()
+    .toUpperCase();
+  const accepted = (challenge?.solutionConfig?.acceptedAnswers || []).map((a) =>
+    String(a).trim().toUpperCase()
+  );
+
+  if (
+    (expected && rawWord === expected) ||
+    (expected && rawWord === `NEXUS{${expected}}`) ||
+    accepted.includes(rawWord)
+  ) {
+    return { valid: true, passed: true };
+  }
+
+  return { valid: false, passed: false, reason: 'Incorrect codeword.' };
+};
+
+/**
  * Centralized Server GameRegistry
  */
 export const ServerGameRegistry = {
   sudoku: {
     id: 'sudoku',
     validate: validateSudokuServer,
+  },
+  connect4: {
+    id: 'connect4',
+    validate: validateConnect4Server,
+  },
+  wordGuess: {
+    id: 'wordGuess',
+    validate: validateWordGuessServer,
   },
   xo4x4: {
     id: 'xo4x4',

@@ -20,11 +20,15 @@ export const normalizePatchesConfig = (gameConfig = {}) => {
   const cols = Number(gameConfig.cols) || DEFAULT_PATCHES_CONFIG.cols;
   const clues =
     Array.isArray(gameConfig.clues) && gameConfig.clues.length > 0
-      ? gameConfig.clues.map((cl) => ({
-          r: Number(cl.r),
-          c: Number(cl.c),
-          size: Number(cl.size),
-        }))
+      ? gameConfig.clues.map((cl) => {
+          const val = Number(cl.size ?? cl.area ?? 4);
+          return {
+            r: Number(cl.r),
+            c: Number(cl.c),
+            size: val,
+            area: val,
+          };
+        })
       : DEFAULT_PATCHES_CONFIG.clues;
 
   return {

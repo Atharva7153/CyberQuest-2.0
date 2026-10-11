@@ -15,6 +15,7 @@ import {
 import { BrutalistPanel } from './BrutalistPanel';
 import { SystemBadge } from './SystemBadge';
 import { RiskBadge } from './RiskBadge';
+import { getFriendlyChallengeTitle } from './ChallengeMarketModule';
 import { useReducedMotion } from '../hooks/useReducedMotion';
 
 const RESULT_FILTERS = ['ALL', 'SUCCESS', 'FAILED', 'TIMEOUT', 'ABANDONED', 'IN_PROGRESS'];
@@ -70,7 +71,7 @@ export const buildClientAttemptHistory = (team, attempts = [], catalog = []) => 
     list.push({
       attemptId: att.attemptId || `ATT-${att.challengeId}`,
       challengeId: att.challengeId,
-      title: att.title || def.title || 'Challenge',
+      title: getFriendlyChallengeTitle(att.title || def.title || att),
       category: String(att.category || def.category || 'LOGIC').toUpperCase(),
       difficulty: String(att.difficulty || def.difficulty || 'MODERATE').toUpperCase(),
       risk: String(att.risk || def.risk || 'BALANCED').toUpperCase(),
@@ -101,7 +102,7 @@ export const buildClientAttemptHistory = (team, attempts = [], catalog = []) => 
     list.push({
       attemptId: `ATT-${comp.challengeId}`,
       challengeId: comp.challengeId,
-      title: comp.title || def.title || 'Challenge',
+      title: getFriendlyChallengeTitle(comp.title || def.title || comp),
       category: String(comp.category || def.category || 'LOGIC').toUpperCase(),
       difficulty: String(comp.difficulty || def.difficulty || 'LOW').toUpperCase(),
       risk: String(comp.risk || def.risk || 'SAFE').toUpperCase(),
@@ -164,7 +165,7 @@ export const AttemptHistoryModule = ({
 
       if (searchQuery.trim()) {
         const q = searchQuery.trim().toLowerCase();
-        const matchTitle = String(item.title || '')
+        const matchTitle = String(getFriendlyChallengeTitle(item))
           .toLowerCase()
           .includes(q);
         const matchCategory = String(item.category || '')
@@ -454,7 +455,7 @@ export const AttemptHistoryModule = ({
                         <td className="py-3.5 px-3.5">
                           <div className="flex flex-wrap items-center gap-2">
                             <span className="font-condensed text-base font-extrabold uppercase text-nexus-ink">
-                              {item.title}
+                              {getFriendlyChallengeTitle(item)}
                             </span>
                             {(item.isReattempt || Number(item.attemptNumber) > 1) && (
                               <span className="inline-flex items-center gap-0.5 px-1.5 py-0.2 bg-nexus-crimson/15 text-nexus-crimson text-[9px] font-bold uppercase">
