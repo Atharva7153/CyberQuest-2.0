@@ -788,96 +788,103 @@ export const ChallengeSessionPage = () => {
           Supports: SUCCESS | FAILED | TIMEOUT | ABANDONED
          ===================================================================== */}
       <AnimatePresence>
-        {lastEvaluationResult && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.2 }}
-            onClick={clearEvaluationResult}
-            className="fixed inset-0 z-50 bg-black/80 flex items-center justify-center p-4"
-          >
+        {lastEvaluationResult && (() => {
+          const isSuccess =
+            lastEvaluationResult.status === 'SUCCESS' || Boolean(lastEvaluationResult.passed);
+          const isTimeout = lastEvaluationResult.status === 'TIMEOUT';
+          const isAbandoned = lastEvaluationResult.status === 'ABANDONED';
+          const headlineText = isSuccess
+            ? 'CHALLENGE SOLVED!'
+            : isTimeout
+              ? 'TIME EXPIRED!'
+              : isAbandoned
+                ? 'CHALLENGE ABANDONED'
+                : 'CHALLENGE FAILED!';
+          const subHeadlineText = isSuccess
+            ? 'SUCCESS — CORRECT SOLUTION VERIFIED'
+            : isTimeout
+              ? 'SESSION TIMED OUT BEFORE COMPLETION'
+              : isAbandoned
+                ? 'SESSION ABORTED BY OPERATIVE'
+                : 'WRONG SOLUTION — PENALTY APPLIED';
+
+          return (
             <motion.div
-              initial={prefersReducedMotion ? false : { scale: 0.94, opacity: 0, y: 12 }}
-              animate={{ scale: 1, opacity: 1, y: 0 }}
-              exit={prefersReducedMotion ? undefined : { scale: 0.96, opacity: 0, y: 8 }}
-              transition={{ duration: 0.22, ease: [0.22, 1, 0.36, 1] }}
-              onClick={(e) => e.stopPropagation()}
-              role="dialog"
-              aria-modal="true"
-              aria-labelledby="session-result-modal-title"
-              className="nexus-editorial-box max-w-lg w-full overflow-hidden border-2 border-nexus-ink shadow-brutal"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.2 }}
+              onClick={clearEvaluationResult}
+              className="fixed inset-0 z-50 bg-black/85 backdrop-blur-xs flex items-center justify-center p-4"
             >
-              {/* Result Header */}
-              <div
-                className={`px-5 py-4 border-b-2 border-nexus-ink flex items-center justify-between ${
-                  lastEvaluationResult.status === 'SUCCESS' || lastEvaluationResult.passed
-                    ? 'bg-nexus-ink text-nexus-paper'
-                    : 'bg-nexus-crimson text-white'
+              <motion.div
+                initial={prefersReducedMotion ? false : { scale: 0.9, opacity: 0, y: 16 }}
+                animate={{ scale: 1, opacity: 1, y: 0 }}
+                exit={prefersReducedMotion ? undefined : { scale: 0.94, opacity: 0, y: 8 }}
+                transition={{ duration: 0.24, ease: [0.22, 1, 0.36, 1] }}
+                onClick={(e) => e.stopPropagation()}
+                role="dialog"
+                aria-modal="true"
+                aria-labelledby="session-result-modal-title"
+                className={`nexus-editorial-box max-w-xl w-full overflow-hidden border-4 ${
+                  isSuccess
+                    ? 'border-emerald-500 shadow-[0_0_55px_rgba(16,185,129,0.55)]'
+                    : 'border-red-600 shadow-[0_0_55px_rgba(220,38,38,0.6)]'
                 }`}
               >
-                <div className="flex items-center gap-2.5 font-mono text-xs font-bold uppercase tracking-widest">
-                  {lastEvaluationResult.status === 'SUCCESS' || lastEvaluationResult.passed ? (
-                    <CheckCircle2 className="w-4 h-4 text-nexus-crimson" />
-                  ) : (
-                    <ShieldAlert className="w-4 h-4 text-white" />
-                  )}
-                  <span>
-                    CHALLENGE {lastEvaluationResult.status}
-                  </span>
-                </div>
-
-                <button
-                  type="button"
-                  onClick={clearEvaluationResult}
-                  aria-label="Close result modal"
-                  className="opacity-80 hover:opacity-100 cursor-pointer"
+                {/* Colorful Hero Result Banner (GREEN for Success, RED for Failure) */}
+                <div
+                  className={`px-6 py-6 border-b-4 border-nexus-ink relative overflow-hidden ${
+                    isSuccess
+                      ? 'bg-gradient-to-br from-emerald-600 via-emerald-500 to-green-600 text-white'
+                      : 'bg-gradient-to-br from-red-600 via-rose-600 to-red-700 text-white'
+                  }`}
                 >
-                  <X className="w-5 h-5" />
-                </button>
-              </div>
-
-              {/* Result Body */}
-              <div className="p-6 space-y-5 bg-nexus-paper">
-                <div>
-                  <span className="font-mono text-[10px] uppercase tracking-widest text-nexus-muted block">
-                    {targetChallenge?.category || 'CHALLENGE'}
-                  </span>
-                  <h2
-                    id="session-result-modal-title"
-                    className="font-display text-4xl uppercase text-nexus-ink leading-none mt-1"
+                  <button
+                    type="button"
+                    onClick={clearEvaluationResult}
+                    aria-label="Close result modal"
+                    className="absolute top-4 right-4 w-9 h-9 border-2 border-white/40 bg-black/25 hover:bg-black/50 flex items-center justify-center text-white transition-colors cursor-pointer"
                   >
-                    {getFriendlyChallengeTitle(lastEvaluationResult.title || targetChallenge)}
-                  </h2>
-                  <p className="font-editorial text-sm text-nexus-charcoal mt-2">
-                    {lastEvaluationResult.message}
-                  </p>
-                </div>
+                    <X className="w-5 h-5" />
+                  </button>
 
-                {/* Outcome Summary Grid */}
-                <div className="grid grid-cols-3 border-2 border-nexus-ink bg-nexus-ink text-nexus-paper divide-x divide-nexus-paper/15 font-mono">
-                  <div className="p-3">
-                    <span className="block text-[9px] uppercase tracking-widest text-nexus-paper/60">
-                      RESULT
-                    </span>
-                    <span
-                      className={`font-bold text-sm uppercase ${
-                        lastEvaluationResult.passed ? 'text-white' : 'text-nexus-crimson'
+                  <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 pr-10">
+                    <div
+                      className={`w-16 h-16 shrink-0 border-2 border-white flex items-center justify-center shadow-lg ${
+                        isSuccess ? 'bg-emerald-900/50' : 'bg-red-950/60'
                       }`}
                     >
-                      {lastEvaluationResult.status}
-                    </span>
+                      {isSuccess ? (
+                        <CheckCircle2 className="w-10 h-10 text-white stroke-[2.5]" />
+                      ) : (
+                        <ShieldAlert className="w-10 h-10 text-white stroke-[2.5]" />
+                      )}
+                    </div>
+
+                    <div className="space-y-1">
+                      <span className="inline-block px-2.5 py-0.5 bg-black/35 border border-white/40 font-mono text-[11px] font-bold uppercase tracking-[0.22em] text-white">
+                        {subHeadlineText}
+                      </span>
+                      <h2
+                        id="session-result-modal-title"
+                        className="font-display text-4xl sm:text-5xl uppercase tracking-wide text-white leading-none drop-shadow-sm"
+                      >
+                        {headlineText}
+                      </h2>
+                    </div>
                   </div>
 
-                  <div className="p-3">
-                    <span className="block text-[9px] uppercase tracking-widest text-nexus-paper/60">
-                      CREDITS
+                  {/* Prominent Credit Delta Pill */}
+                  <div className="mt-5 pt-4 border-t border-white/25 flex flex-wrap items-center justify-between gap-3">
+                    <span className="font-mono text-xs font-bold uppercase tracking-widest text-white/90">
+                      {getFriendlyChallengeTitle(lastEvaluationResult.title || targetChallenge)}
                     </span>
                     <span
-                      className={`font-bold text-base ${
-                        lastEvaluationResult.creditsDelta >= 0
-                          ? 'text-white'
-                          : 'text-nexus-crimson'
+                      className={`px-4 py-1.5 border-2 border-white font-display text-2xl sm:text-3xl tracking-wider leading-none ${
+                        isSuccess
+                          ? 'bg-emerald-950/80 text-emerald-300'
+                          : 'bg-red-950/80 text-red-200'
                       }`}
                     >
                       {lastEvaluationResult.creditsDelta >= 0
@@ -885,48 +892,97 @@ export const ChallengeSessionPage = () => {
                         : `${lastEvaluationResult.creditsDelta} CR`}
                     </span>
                   </div>
-
-                  <div className="p-3">
-                    <span className="block text-[9px] uppercase tracking-widest text-nexus-paper/60">
-                      BALANCE
-                    </span>
-                    <span className="font-bold text-base text-nexus-crimson">
-                      {Number(
-                        lastEvaluationResult.balanceAfter ?? team?.credits ?? 0
-                      ).toLocaleString()}{' '}
-                      CR
-                    </span>
-                  </div>
                 </div>
 
-                {/* Modal Actions */}
-                <div className="flex flex-col sm:flex-row gap-3">
-                  {!lastEvaluationResult.passed && (
-                    <button
-                      type="button"
-                      disabled={actionPending || localSubmitting}
-                      onClick={() => handleAcquireOrReattemptThisChallenge(true)}
-                      className="flex-1 py-3 px-4 bg-nexus-crimson text-white hover:bg-nexus-ink font-condensed text-base font-extrabold uppercase tracking-[0.18em] border-2 border-nexus-ink transition-colors cursor-pointer"
-                    >
-                      REATTEMPT CHALLENGE
-                    </button>
+                {/* Result Body */}
+                <div className="p-6 space-y-5 bg-nexus-paper">
+                  {lastEvaluationResult.reason && !isSuccess && (
+                    <div className="p-3.5 border-2 border-red-600 bg-red-600/10 text-red-700 font-mono text-xs sm:text-sm font-bold uppercase tracking-wider flex items-center gap-2.5">
+                      <ShieldAlert className="w-5 h-5 text-red-600 shrink-0" />
+                      <span>{lastEvaluationResult.reason}</span>
+                    </div>
                   )}
 
-                  <button
-                    type="button"
-                    onClick={() => {
-                      clearEvaluationResult();
-                      navigate('/challenges');
-                    }}
-                    className="flex-1 py-3 px-4 border-2 border-nexus-ink bg-nexus-ink text-nexus-paper hover:bg-nexus-crimson font-condensed text-base font-extrabold uppercase tracking-[0.18em] transition-colors cursor-pointer"
-                  >
-                    BACK TO CHALLENGES
-                  </button>
+                  <p className="font-editorial text-sm sm:text-base text-nexus-charcoal leading-relaxed">
+                    {lastEvaluationResult.message}
+                  </p>
+
+                  {/* Outcome Summary Grid */}
+                  <div className="grid grid-cols-3 border-2 border-nexus-ink bg-nexus-ink text-nexus-paper divide-x divide-nexus-paper/15 font-mono">
+                    <div
+                      className={`p-3.5 ${
+                        isSuccess ? 'bg-emerald-600 text-white' : 'bg-red-600 text-white'
+                      }`}
+                    >
+                      <span className="block text-[9px] uppercase tracking-widest text-white/80 font-bold">
+                        OUTCOME
+                      </span>
+                      <span className="font-display text-xl sm:text-2xl uppercase tracking-wider leading-none mt-0.5 block">
+                        {isSuccess ? 'PASSED ✓' : `${lastEvaluationResult.status} ✕`}
+                      </span>
+                    </div>
+
+                    <div className="p-3.5">
+                      <span className="block text-[9px] uppercase tracking-widest text-nexus-paper/60">
+                        {isSuccess ? 'REWARD' : 'PENALTY'}
+                      </span>
+                      <span
+                        className={`font-display text-xl sm:text-2xl tracking-wider leading-none mt-0.5 block ${
+                          isSuccess ? 'text-emerald-400' : 'text-red-400'
+                        }`}
+                      >
+                        {lastEvaluationResult.creditsDelta >= 0
+                          ? `+${lastEvaluationResult.creditsDelta} CR`
+                          : `${lastEvaluationResult.creditsDelta} CR`}
+                      </span>
+                    </div>
+
+                    <div className="p-3.5">
+                      <span className="block text-[9px] uppercase tracking-widest text-nexus-paper/60">
+                        TEAM BALANCE
+                      </span>
+                      <span className="font-display text-xl sm:text-2xl tracking-wider leading-none mt-0.5 block text-white">
+                        {Number(
+                          lastEvaluationResult.balanceAfter ?? team?.credits ?? 0
+                        ).toLocaleString()}{' '}
+                        CR
+                      </span>
+                    </div>
+                  </div>
+
+                  {/* Modal Actions */}
+                  <div className="flex flex-col sm:flex-row gap-3 pt-1">
+                    {!isSuccess && (
+                      <button
+                        type="button"
+                        disabled={actionPending || localSubmitting}
+                        onClick={() => handleAcquireOrReattemptThisChallenge(true)}
+                        className="flex-1 py-3.5 px-4 bg-red-600 hover:bg-red-700 text-white font-condensed text-lg font-extrabold uppercase tracking-[0.18em] border-2 border-nexus-ink transition-colors cursor-pointer"
+                      >
+                        REATTEMPT CHALLENGE
+                      </button>
+                    )}
+
+                    <button
+                      type="button"
+                      onClick={() => {
+                        clearEvaluationResult();
+                        navigate('/challenges');
+                      }}
+                      className={`flex-1 py-3.5 px-4 border-2 border-nexus-ink font-condensed text-lg font-extrabold uppercase tracking-[0.18em] transition-colors cursor-pointer ${
+                        isSuccess
+                          ? 'bg-emerald-600 hover:bg-emerald-700 text-white'
+                          : 'bg-nexus-ink text-nexus-paper hover:bg-red-600 hover:text-white'
+                      }`}
+                    >
+                      {isSuccess ? 'CONTINUE TO CHALLENGES →' : 'BACK TO CHALLENGES'}
+                    </button>
+                  </div>
                 </div>
-              </div>
+              </motion.div>
             </motion.div>
-          </motion.div>
-        )}
+          );
+        })()}
       </AnimatePresence>
     </div>
   );

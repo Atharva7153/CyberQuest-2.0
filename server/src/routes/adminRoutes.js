@@ -12,6 +12,8 @@ import {
   patchAdminChallenge,
   executeAdminEventControl,
   updateAdminSettings,
+  controlAdminRecording,
+  getAdminRecordingReport,
 } from '../controllers/adminController.js';
 
 const adminRouter = Router();
@@ -29,5 +31,8 @@ adminRouter.post('/challenges', protectAdminRoute, upsertAdminChallenge);
 adminRouter.patch('/challenges/:challengeId', protectAdminRoute, patchAdminChallenge);
 adminRouter.post('/events/control', protectAdminRoute, executeAdminEventControl);
 adminRouter.post('/settings', protectAdminRoute, updateAdminSettings);
+adminRouter.post('/recording', protectAdminRoute, controlAdminRecording);
+adminRouter.get('/recording', protectAdminRoute, getAdminRecordingReport);
+adminRouter.get('/recording/:recordingId', protectAdminRoute, getAdminRecordingReport);
 
 export default adminRouter;

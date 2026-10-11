@@ -5,6 +5,7 @@ import gsap from 'gsap';
 import {
   LayoutGrid,
   Crosshair,
+  Trophy,
   Users,
   History,
   Cpu,
@@ -26,16 +27,18 @@ const API_BASE_URL =
     : 'http://localhost:5050');
 
 /**
- * Canonical 5-item participant navigation:
+ * Canonical 6-item participant navigation:
  * 1. HOME
  * 2. CHALLENGES
- * 3. MY TEAM
- * 4. HISTORY
- * 5. NEXUS CORE
+ * 3. LEADERBOARD
+ * 4. MY TEAM
+ * 5. HISTORY
+ * 6. NEXUS CORE
  */
 export const PORTAL_NAV_ITEMS = [
   { id: 'HOME', label: 'HOME', shortLabel: 'HOME', icon: LayoutGrid, route: '/dashboard' },
   { id: 'CHALLENGES', label: 'CHALLENGES', shortLabel: 'CHALLENGES', icon: Crosshair, route: '/challenges' },
+  { id: 'LEADERBOARD', label: 'LEADERBOARD', shortLabel: 'RANKS', icon: Trophy, route: '/leaderboard' },
   { id: 'MY_TEAM', label: 'MY TEAM', shortLabel: 'MY TEAM', icon: Users, route: '/progress' },
   { id: 'HISTORY', label: 'HISTORY', shortLabel: 'HISTORY', icon: History, route: '/history' },
   { id: 'NEXUS_CORE', label: 'NEXUS CORE', shortLabel: 'CORE', icon: Cpu, route: '/nexus-core' },
@@ -400,35 +403,56 @@ export const PortalShellLayout = ({
           className="fixed bottom-20 lg:bottom-5 right-4 z-50 flex flex-col gap-2 max-w-sm w-full pointer-events-none px-4 sm:px-0"
         >
           <AnimatePresence>
-            {notifications.map((notif) => (
-              <motion.div
-                key={notif.id}
-                initial={{ opacity: 0, y: 12 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: 8 }}
-                transition={{ duration: 0.18 }}
-                className={`pointer-events-auto border-2 border-nexus-ink shadow-brutal p-3 font-mono text-xs flex items-start justify-between gap-3 ${
-                  notif.variant === 'crimson'
-                    ? 'bg-nexus-crimson text-white'
-                    : 'bg-nexus-ink text-nexus-paper'
-                }`}
-              >
-                <div className="space-y-0.5">
-                  <span className="text-[10px] opacity-75 block uppercase">
-                    UPDATE · {notif.timestamp}
-                  </span>
-                  <p className="font-semibold">{notif.summary}</p>
-                </div>
-                <button
-                  type="button"
-                  onClick={() => onDismissNotification(notif.id)}
-                  className="opacity-75 hover:opacity-100 cursor-pointer"
-                  aria-label="Dismiss notification"
+            {notifications.map((notif) => {
+              const summaryUpper = String(notif.summary || '').toUpperCase();
+              const isSuccessNotif =
+                Number(notif.creditsDelta) > 0 ||
+                summaryUpper.includes('SOLVED') ||
+                summaryUpper.includes('CLAIMED') ||
+                summaryUpper.includes('SUCCESS');
+              const isFailNotif =
+                summaryUpper.includes('FAILED') ||
+                summaryUpper.includes('TIMEOUT') ||
+                summaryUpper.includes('ABANDONED') ||
+                notif.variant === 'crimson';
+
+              return (
+                <motion.div
+                  key={notif.id}
+                  initial={{ opacity: 0, y: 12 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: 8 }}
+                  transition={{ duration: 0.18 }}
+                  className={`pointer-events-auto border-2 border-nexus-ink shadow-brutal p-3.5 font-mono text-xs flex items-start justify-between gap-3 ${
+                    isSuccessNotif
+                      ? 'bg-emerald-600 text-white'
+                      : isFailNotif
+                        ? 'bg-red-600 text-white'
+                        : 'bg-nexus-ink text-nexus-paper'
+                  }`}
                 >
-                  <X className="w-3.5 h-3.5" />
-                </button>
-              </motion.div>
-            ))}
+                  <div className="space-y-0.5">
+                    <span className="text-[10px] opacity-85 font-bold block uppercase tracking-wider">
+                      {isSuccessNotif
+                        ? '✓ SUCCESS'
+                        : isFailNotif
+                          ? '✕ ALERT'
+                          : 'UPDATE'}{' '}
+                      · {notif.timestamp}
+                    </span>
+                    <p className="font-bold text-xs sm:text-sm leading-snug">{notif.summary}</p>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => onDismissNotification(notif.id)}
+                    className="opacity-80 hover:opacity-100 cursor-pointer"
+                    aria-label="Dismiss notification"
+                  >
+                    <X className="w-4 h-4" />
+                  </button>
+                </motion.div>
+              );
+            })}
           </AnimatePresence>
         </div>
 
@@ -443,7 +467,7 @@ export const PortalShellLayout = ({
          =================================================================== */}
       <nav
         aria-label="Mobile Primary Navigation"
-        className="lg:hidden fixed bottom-0 inset-x-0 z-40 bg-nexus-ink text-nexus-paper border-t-2 border-nexus-ink grid grid-cols-5"
+        className="lg:hidden fixed bottom-0 inset-x-0 z-40 bg-nexus-ink text-nexus-paper border-t-2 border-nexus-ink grid grid-cols-6"
       >
         {PORTAL_NAV_ITEMS.map((item) => {
           const Icon = item.icon;

@@ -19,9 +19,16 @@ export const ChallengeRenderer = ({
 
   const gameType = challenge?.gameType || session?.gameType || 'wordGuess';
   const gameConfig =
-    challenge?.gameConfig && Object.keys(challenge.gameConfig).length > 0
-      ? challenge.gameConfig
-      : session?.gameConfig || {};
+    session?.gameConfig && Object.keys(session.gameConfig).length > 0
+      ? { ...(challenge?.gameConfig || {}), ...session.gameConfig }
+      : challenge?.gameConfig || {};
+  const effectiveChallenge = challenge
+    ? {
+        ...challenge,
+        description: gameConfig.variantDescription || challenge.description,
+        gameConfig,
+      }
+    : session;
   const GameComponent = resolveGameComponent(gameType);
 
   return (
@@ -29,14 +36,14 @@ export const ChallengeRenderer = ({
       {/* Dynamically Resolved Game Component */}
       <AnimatePresence mode="wait">
         <motion.div
-          key={`${challenge?.challengeId || 'chg'}-${gameType}`}
+          key={`${challenge?.challengeId || 'chg'}-${session?.attemptId || gameConfig?.variantId || 'default'}-${gameType}`}
           initial={prefersReducedMotion ? false : { opacity: 0, y: 6 }}
           animate={{ opacity: 1, y: 0 }}
           exit={prefersReducedMotion ? undefined : { opacity: 0, y: -4 }}
           transition={{ duration: 0.18, ease: 'easeOut' }}
         >
           <GameComponent
-            challenge={challenge}
+            challenge={effectiveChallenge}
             session={session}
             gameType={gameType}
             gameConfig={gameConfig}

@@ -38,6 +38,30 @@ import {
   WordGuessGame,
   normalizeWordGuessConfig,
 } from './wordGuess';
+import {
+  QueensGame,
+  normalizeQueensConfig,
+  validateQueensBoardClient,
+  serializeQueensSubmission,
+} from './queens';
+import {
+  AptitudeGame,
+  normalizeAptitudeConfig,
+  validateAptitudeClient,
+  serializeAptitudeSubmission,
+} from './aptitude';
+import {
+  GkTrueFalseGame,
+  normalizeGkTrueFalseConfig,
+  validateGkTrueFalseClient,
+  serializeGkTrueFalseSubmission,
+} from './gkTrueFalse';
+import {
+  MemoryMatrixGame,
+  normalizeMemoryMatrixConfig,
+  validateMemoryMatrixClient,
+  serializeMemoryMatrixSubmission,
+} from './memoryMatrix';
 
 /**
  * PHASE 19 — CENTRALIZED CYBER QUEST GAME REGISTRY
@@ -50,6 +74,10 @@ import {
  * - wend
  * - patches
  * - zip
+ * - queens
+ * - aptitude
+ * - gkTrueFalse
+ * - memoryMatrix
  *
  * Adding a future game requires ONLY:
  * 1. Create game component & logic in /games/<gameType>
@@ -122,6 +150,42 @@ export const GameRegistry = {
     normalizeConfig: normalizeZipConfig,
     validateClient: validateZipPathClient,
     serializeSubmission: serializeZipSubmission,
+  },
+  queens: {
+    id: 'queens',
+    label: 'N-QUEENS',
+    defaultCategory: 'LOGIC',
+    component: QueensGame,
+    normalizeConfig: normalizeQueensConfig,
+    validateClient: validateQueensBoardClient,
+    serializeSubmission: serializeQueensSubmission,
+  },
+  aptitude: {
+    id: 'aptitude',
+    label: 'APTITUDE',
+    defaultCategory: 'LOGIC',
+    component: AptitudeGame,
+    normalizeConfig: normalizeAptitudeConfig,
+    validateClient: validateAptitudeClient,
+    serializeSubmission: serializeAptitudeSubmission,
+  },
+  gkTrueFalse: {
+    id: 'gkTrueFalse',
+    label: 'GK (TRUE OR FALSE)',
+    defaultCategory: 'KNOWLEDGE',
+    component: GkTrueFalseGame,
+    normalizeConfig: normalizeGkTrueFalseConfig,
+    validateClient: validateGkTrueFalseClient,
+    serializeSubmission: serializeGkTrueFalseSubmission,
+  },
+  memoryMatrix: {
+    id: 'memoryMatrix',
+    label: 'MEMORY MATRIX',
+    defaultCategory: 'OBSERVATION',
+    component: MemoryMatrixGame,
+    normalizeConfig: normalizeMemoryMatrixConfig,
+    validateClient: validateMemoryMatrixClient,
+    serializeSubmission: serializeMemoryMatrixSubmission,
   },
 };
 

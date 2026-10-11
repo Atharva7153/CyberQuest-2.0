@@ -9,6 +9,10 @@ const GAME_BADGE_LABELS = {
   wend: 'WEND // WORD LADDER',
   patches: 'PATCHES // AREA PARTITION',
   zip: 'ZIP // PATH PUZZLE',
+  queens: 'N-QUEENS // CROWN PLACEMENT',
+  aptitude: 'APTITUDE // QUANT & LOGIC',
+  gkTrueFalse: 'GK // 6× TRUE OR FALSE',
+  memoryMatrix: 'MEMORY MATRIX // VISUAL RECALL',
 };
 
 const renderSudokuPreview = (gameConfig = {}) => {
@@ -267,6 +271,130 @@ const renderZipPreview = () => {
   );
 };
 
+const renderQueensPreview = (gameConfig = {}) => {
+  const n = Number(gameConfig?.size) === 6 ? 6 : 5;
+  // Valid 5x5 N-Queens placements: (0,1), (1,3), (2,0), (3,2), (4,4)
+  const queenSet = new Set(['0-1', '1-3', '2-0', '3-2']);
+
+  return (
+    <div className="w-full h-full flex items-center justify-center p-3">
+      <div className="w-32 aspect-square p-1 border-2 border-nexus-paper/80 bg-black/80 shadow-[3px_3px_0_#C8191E] grid grid-cols-4 gap-0.5">
+        {Array.from({ length: 4 }).map((_, r) =>
+          Array.from({ length: 4 }).map((__, c) => {
+            const hasQueen = queenSet.has(`${r}-${c}`);
+            const isDark = (r + c) % 2 === 1;
+            return (
+              <div
+                key={`${r}-${c}`}
+                className={`flex items-center justify-center font-mono text-xs font-bold ${
+                  hasQueen
+                    ? 'bg-nexus-crimson text-white border border-white'
+                    : isDark
+                      ? 'bg-white/10 text-nexus-paper/30'
+                      : 'bg-nexus-paper/90 text-nexus-ink/30'
+                }`}
+              >
+                {hasQueen ? '♛' : ''}
+              </div>
+            );
+          })
+        )}
+      </div>
+      <span className="absolute bottom-2 right-2.5 px-1.5 py-0.5 bg-nexus-crimson text-white font-mono text-[9px] font-bold uppercase">
+        {n}×{n} QUEENS
+      </span>
+    </div>
+  );
+};
+
+const renderAptitudePreview = () => {
+  const opts = ['A: 127', 'B: 4 MIN', 'C: 72 KM/H', 'D: 25%'];
+  return (
+    <div className="w-full h-full flex items-center justify-center p-3">
+      <div className="w-44 p-2 border-2 border-nexus-paper/80 bg-black/80 shadow-[3px_3px_0_#C8191E] space-y-1.5">
+        <div className="px-1.5 py-0.5 bg-nexus-paper text-nexus-ink font-mono text-[9px] font-bold uppercase truncate">
+          3, 7, 15, 31, 63, [ ? ]
+        </div>
+        <div className="grid grid-cols-2 gap-1">
+          {opts.map((label, idx) => (
+            <div
+              key={label}
+              className={`px-1.5 py-1 font-mono text-[9px] font-bold border ${
+                idx === 0
+                  ? 'bg-nexus-crimson text-white border-white'
+                  : 'bg-white/10 text-nexus-paper border-white/20'
+              }`}
+            >
+              {label}
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+const renderGkTrueFalsePreview = () => {
+  const sample = ['T', 'F', 'T', 'T', 'F', 'T'];
+  return (
+    <div className="w-full h-full flex flex-col items-center justify-center gap-2 p-3">
+      <div className="grid grid-cols-6 gap-1">
+        {sample.map((ans, idx) => (
+          <div
+            key={idx}
+            className={`w-6 h-7 border flex flex-col items-center justify-center font-mono text-[10px] font-bold ${
+              ans === 'T'
+                ? 'bg-emerald-600 text-white border-white'
+                : 'bg-nexus-crimson text-white border-white'
+            }`}
+          >
+            <span className="text-[7px] opacity-75">Q{idx + 1}</span>
+            <span>{ans}</span>
+          </div>
+        ))}
+      </div>
+      <div className="flex items-center gap-1.5 font-mono text-[9px] font-bold uppercase">
+        <span className="px-2 py-0.5 bg-emerald-600 text-white border border-white/50">
+          ✓ TRUE
+        </span>
+        <span className="px-2 py-0.5 bg-nexus-crimson text-white border border-white/50">
+          ✕ FALSE
+        </span>
+      </div>
+    </div>
+  );
+};
+
+const renderMemoryMatrixPreview = (gameConfig = {}) => {
+  const n = Number(gameConfig?.size) === 5 ? 5 : 4;
+  const activeSet = new Set([1, 4, 6, 10, 13]);
+
+  return (
+    <div className="w-full h-full flex items-center justify-center p-3">
+      <div className="w-32 aspect-square p-1.5 border-2 border-nexus-paper/80 bg-black/80 shadow-[3px_3px_0_#C8191E] grid grid-cols-4 gap-1">
+        {Array.from({ length: 16 }).map((_, idx) => {
+          const isLit = activeSet.has(idx);
+          return (
+            <div
+              key={idx}
+              className={`flex items-center justify-center font-mono text-xs font-bold border ${
+                isLit
+                  ? 'bg-nexus-crimson text-white border-white shadow-[0_0_8px_rgba(200,25,30,0.85)]'
+                  : 'bg-white/5 text-nexus-paper/20 border-white/15'
+              }`}
+            >
+              {isLit ? '◆' : ''}
+            </div>
+          );
+        })}
+      </div>
+      <span className="absolute bottom-2 right-2.5 px-1.5 py-0.5 bg-nexus-crimson text-white font-mono text-[9px] font-bold uppercase">
+        {n}×{n} RECALL
+      </span>
+    </div>
+  );
+};
+
 export const GamePreviewThumbnail = ({ challenge, className = '' }) => {
   const gameType = challenge?.gameType || 'sudoku';
   const gameConfig = challenge?.gameConfig || {};
@@ -288,6 +416,14 @@ export const GamePreviewThumbnail = ({ challenge, className = '' }) => {
     previewContent = renderPatchesPreview(gameConfig);
   } else if (gameType === 'zip') {
     previewContent = renderZipPreview(gameConfig);
+  } else if (gameType === 'queens') {
+    previewContent = renderQueensPreview(gameConfig);
+  } else if (gameType === 'aptitude') {
+    previewContent = renderAptitudePreview(gameConfig);
+  } else if (gameType === 'gkTrueFalse' || gameType === 'quiz') {
+    previewContent = renderGkTrueFalsePreview(gameConfig);
+  } else if (gameType === 'memoryMatrix') {
+    previewContent = renderMemoryMatrixPreview(gameConfig);
   } else {
     previewContent = renderSudokuPreview(gameConfig);
   }

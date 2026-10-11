@@ -778,17 +778,17 @@ export const NexusCoreModule = ({
                 {/* Evaluation Feedback Banner */}
                 {feedbackBanner && (
                   <div
-                    className={`p-4 border-2 border-nexus-ink font-mono text-xs flex items-center justify-between ${
+                    className={`p-4 border-2 border-nexus-ink font-mono text-sm font-bold flex items-center justify-between shadow-brutal ${
                       feedbackBanner.passed
-                        ? 'bg-nexus-ink text-nexus-paper'
-                        : 'bg-nexus-crimson text-white'
+                        ? 'bg-emerald-600 text-white'
+                        : 'bg-red-600 text-white'
                     }`}
                   >
-                    <div className="flex items-center gap-2.5">
+                    <div className="flex items-center gap-3">
                       {feedbackBanner.passed ? (
-                        <CheckCircle2 className="w-4 h-4 text-nexus-crimson shrink-0" />
+                        <CheckCircle2 className="w-6 h-6 text-white shrink-0" />
                       ) : (
-                        <AlertTriangle className="w-4 h-4 text-white shrink-0" />
+                        <AlertTriangle className="w-6 h-6 text-white shrink-0" />
                       )}
                       <span>{feedbackBanner.message}</span>
                     </div>

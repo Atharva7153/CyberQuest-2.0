@@ -312,7 +312,7 @@ export const WendGame = ({
       </div>
 
       {/* Touch Keyboard & Controls */}
-      <div className="max-w-xl mx-auto p-3.5 border-2 border-nexus-ink bg-nexus-paper-elevated space-y-2.5">
+      <div className="max-w-xl mx-auto p-2.5 sm:p-3.5 border-2 border-nexus-ink bg-nexus-paper-elevated space-y-2.5">
         <div className="space-y-1.5">
           {KEYBOARD_ROWS.map((row, rIdx) => (
             <div key={rIdx} className="flex justify-center gap-1 sm:gap-1.5">
@@ -322,7 +322,7 @@ export const WendGame = ({
                   type="button"
                   disabled={isLocked}
                   onClick={() => handleAppendLetter(letter)}
-                  className="min-w-[28px] sm:min-w-[38px] h-10 sm:h-11 px-1.5 border border-nexus-ink bg-nexus-paper hover:bg-nexus-ink hover:text-nexus-paper active:bg-nexus-crimson active:text-white font-mono text-xs sm:text-sm font-bold uppercase transition-colors cursor-pointer"
+                  className="flex-1 max-w-[38px] h-10 sm:h-11 px-0.5 sm:px-1.5 border border-nexus-ink bg-nexus-paper hover:bg-nexus-ink hover:text-nexus-paper active:bg-nexus-crimson active:text-white font-mono text-xs sm:text-sm font-bold uppercase transition-colors cursor-pointer touch-manipulation"
                 >
                   {letter}
                 </button>
@@ -332,7 +332,7 @@ export const WendGame = ({
                   type="button"
                   disabled={isLocked}
                   onClick={handleBackspace}
-                  className="px-2.5 sm:px-3.5 h-10 sm:h-11 border border-nexus-ink bg-nexus-ink text-nexus-paper hover:bg-nexus-crimson font-mono text-xs font-bold uppercase flex items-center gap-1 cursor-pointer"
+                  className="px-2 sm:px-3.5 h-10 sm:h-11 border border-nexus-ink bg-nexus-ink text-nexus-paper hover:bg-nexus-crimson font-mono text-xs font-bold uppercase flex items-center gap-1 cursor-pointer touch-manipulation shrink-0"
                   title="Backspace"
                 >
                   <Delete className="w-3.5 h-3.5" />

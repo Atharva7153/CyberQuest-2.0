@@ -34,6 +34,7 @@ import {
 import { socketClient, NEXUS_SOCKET_EVENTS as SOCKET_EVENTS } from '../socket/socketClient';
 import { GamePreviewThumbnail } from '../components/GamePreviewThumbnail';
 import { ThemeToggleButton } from '../components/ThemeToggleButton';
+import { AdminRecordingModal } from '../components/AdminRecordingModal';
 import {
   getFriendlyChallengeTitle,
   getFriendlyChallengeDescription,
@@ -60,6 +61,10 @@ const CANONICAL_GAME_TYPES = [
   { value: 'wend', label: 'Wend (Word Ladder)' },
   { value: 'patches', label: 'Patches (Grid Partition)' },
   { value: 'zip', label: 'Zip (Circuit Path)' },
+  { value: 'queens', label: 'N-Queens (Crown Placement)' },
+  { value: 'aptitude', label: 'Aptitude (Quant & Logic MCQ)' },
+  { value: 'gkTrueFalse', label: 'GK (6× True or False)' },
+  { value: 'memoryMatrix', label: 'Memory Matrix (Visual Recall)' },
 ];
 
 const TEAM_SIZE_MODES = [
@@ -993,6 +998,48 @@ export const AdminControlPage = () => {
     );
   };
 
+  // Game Activity & Anomaly Recording Controls
+  const [showRecordingModal, setShowRecordingModal] = useState(false);
+
+  const handleStartRecording = async () => {
+    await executeAdminApi(
+      '/api/admin/recording',
+      'POST',
+      { action: 'START' },
+      {
+        key: 'recording-start',
+        successMessage: 'LIVE RECORDING STARTED — Capturing all game events & anomalies',
+      }
+    );
+  };
+
+  const handleStopRecording = async () => {
+    const res = await executeAdminApi(
+      '/api/admin/recording',
+      'POST',
+      { action: 'STOP' },
+      {
+        key: 'recording-stop',
+        successMessage: 'RECORDING STOPPED — Anomaly & Activity Report Generated',
+      }
+    );
+    if (res) {
+      setShowRecordingModal(true);
+    }
+  };
+
+  const handleClearRecordings = async () => {
+    await executeAdminApi(
+      '/api/admin/recording',
+      'POST',
+      { action: 'CLEAR' },
+      {
+        key: 'recording-clear',
+        successMessage: 'Cleared saved recording reports',
+      }
+    );
+  };
+
   // Toggle Challenge Enabled (Optimistic)
   const handleToggleChallengeEnabled = async (chg) => {
     const nextEnabled = !chg.enabled;
@@ -1442,6 +1489,72 @@ export const AdminControlPage = () => {
                   </>
                 )}
               </button>
+
+              {/* LIVE GAME RECORDING & ANOMALY REPORT CONTROLS */}
+              {adminState?.recording?.isRecording ? (
+                <div className="flex items-center gap-1.5 pl-2 border-l border-neutral-300">
+                  <button
+                    type="button"
+                    onClick={handleStopRecording}
+                    disabled={pendingKey === 'recording-stop'}
+                    className="px-3 py-1.5 bg-[#E11D2E] hover:bg-red-700 text-white font-bold uppercase text-[11px] inline-flex items-center gap-1.5 cursor-pointer shadow-[2px_2px_0px_#111111]"
+                    title="Stop Recording and Open Full Anomaly & Activity Report"
+                  >
+                    <span className="w-2 h-2 rounded-full bg-white animate-ping inline-block" />
+                    <span>
+                      Stop Rec ({adminState.recording.activeRecording?.summary?.totalEvents || 0})
+                    </span>
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setShowRecordingModal(true)}
+                    className={`px-2.5 py-1.5 font-bold uppercase text-[11px] inline-flex items-center gap-1 border border-[#111111] cursor-pointer ${
+                      (adminState.recording.activeRecording?.summary?.anomaliesCount || 0) > 0
+                        ? 'bg-amber-100 text-[#E11D2E] border-[#E11D2E]'
+                        : 'bg-white text-[#111111] hover:bg-neutral-100'
+                    }`}
+                    title="Open Live Recording & Anomaly Report"
+                  >
+                    <span>
+                      Live Report
+                      {(adminState.recording.activeRecording?.summary?.anomaliesCount || 0) > 0
+                        ? ` (⚠ ${adminState.recording.activeRecording.summary.anomaliesCount})`
+                        : ''}
+                    </span>
+                  </button>
+                </div>
+              ) : (
+                <div className="flex items-center gap-1.5 pl-2 border-l border-neutral-300">
+                  <button
+                    type="button"
+                    onClick={handleStartRecording}
+                    disabled={pendingKey === 'recording-start'}
+                    className="px-3 py-1.5 bg-[#111111] hover:bg-[#E11D2E] text-white font-bold uppercase text-[11px] inline-flex items-center gap-1.5 cursor-pointer shadow-[2px_2px_0px_#E11D2E] transition-colors"
+                    title="Start recording all game events to detect anomalies"
+                  >
+                    <span className="w-2 h-2 rounded-full bg-[#E11D2E] inline-block" />
+                    <span>Record</span>
+                  </button>
+                  {adminState?.recording?.latestReport && (
+                    <button
+                      type="button"
+                      onClick={() => setShowRecordingModal(true)}
+                      className={`px-2.5 py-1.5 font-bold uppercase text-[11px] inline-flex items-center gap-1 border border-[#111111] cursor-pointer ${
+                        (adminState.recording.latestReport?.summary?.anomaliesCount || 0) > 0
+                          ? 'bg-red-50 text-[#E11D2E]'
+                          : 'bg-white text-[#111111] hover:bg-neutral-100'
+                      }`}
+                    >
+                      <span>
+                        Report
+                        {(adminState.recording.latestReport?.summary?.anomaliesCount || 0) > 0
+                          ? ` (⚠ ${adminState.recording.latestReport.summary.anomaliesCount})`
+                          : ''}
+                      </span>
+                    </button>
+                  )}
+                </div>
+              )}
             </div>
           </div>
 
@@ -3297,6 +3410,22 @@ export const AdminControlPage = () => {
           </motion.div>
         )}
       </AnimatePresence>
+
+      {/* GAME RECORDING & ANOMALY DETECTION REPORT MODAL */}
+      <AdminRecordingModal
+        isOpen={showRecordingModal}
+        onClose={() => setShowRecordingModal(false)}
+        recordingState={adminState?.recording}
+        onStartRecording={handleStartRecording}
+        onStopRecording={handleStopRecording}
+        onClearRecordings={handleClearRecordings}
+        onRefresh={() => fetchAdminState(token)}
+        pending={
+          pendingKey === 'recording-start' ||
+          pendingKey === 'recording-stop' ||
+          loadingState
+        }
+      />
     </div>
   );
 };

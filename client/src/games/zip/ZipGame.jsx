@@ -35,8 +35,38 @@ export const ZipGame = ({
     return { r: wp1.r, c: wp1.c };
   }, [waypoints]);
 
+  const gridRef = React.useRef(null);
   const [path, setPath] = useState(() => [startCell]);
   const [isDrawing, setIsDrawing] = useState(false);
+
+  const handleGridPointerMove = useCallback(
+    (e) => {
+      if (!isDrawing || isLocked) return;
+      const gridEl = gridRef.current;
+      if (!gridEl) return;
+      const bounds = gridEl.getBoundingClientRect();
+      if (bounds.width <= 0 || bounds.height <= 0) return;
+      if (
+        e.clientX < bounds.left ||
+        e.clientX > bounds.right ||
+        e.clientY < bounds.top ||
+        e.clientY > bounds.bottom
+      ) {
+        return;
+      }
+      const c = Math.max(
+        0,
+        Math.min(cols - 1, Math.floor(((e.clientX - bounds.left) / bounds.width) * cols))
+      );
+      const r = Math.max(
+        0,
+        Math.min(rows - 1, Math.floor(((e.clientY - bounds.top) / bounds.height) * rows))
+      );
+      tryStepToCell(r, c);
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [isDrawing, isLocked, rows, cols]
+  );
 
   useEffect(() => {
     setPath([startCell]);
@@ -240,6 +270,8 @@ export const ZipGame = ({
       {/* ZIP Interactive Grid */}
       <div className="flex justify-center">
         <div
+          ref={gridRef}
+          onPointerMove={handleGridPointerMove}
           className="w-full max-w-[400px] aspect-square border-4 border-nexus-ink bg-nexus-ink p-1.5 shadow-brutal grid gap-1 touch-none"
           style={{
             gridTemplateColumns: `repeat(${cols}, minmax(0, 1fr))`,

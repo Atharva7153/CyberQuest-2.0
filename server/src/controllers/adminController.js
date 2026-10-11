@@ -1,5 +1,6 @@
 import { AdminService, SEEDED_ADMIN_OPERATORS } from '../services/adminService.js';
 import { AuditService, SUPPORTED_AUDIT_ACTIONS } from '../services/auditService.js';
+import { RecordingService } from '../services/recordingService.js';
 import { DisplayService } from '../services/displayService.js';
 import { getTeamStateById } from '../services/teamService.js';
 import { CreditService } from '../services/creditService.js';
@@ -302,3 +303,54 @@ export const updateAdminSettings = async (req, res, next) => {
     next(error);
   }
 };
+
+/**
+ * POST /api/admin/recording
+ * Start, Stop, or Clear game activity & anomaly recording
+ */
+export const controlAdminRecording = async (req, res, next) => {
+  try {
+    const actor = req.admin?.operatorId || 'ADMIN-NEXUS';
+    const { action, label } = req.body || {};
+    const cmd = String(action || 'START').trim().toUpperCase();
+
+    let recordingResult = null;
+    if (cmd === 'START') {
+      recordingResult = RecordingService.startRecording({ operatorId: actor, label });
+    } else if (cmd === 'STOP') {
+      recordingResult = RecordingService.stopRecording({ operatorId: actor });
+    } else if (cmd === 'CLEAR') {
+      recordingResult = RecordingService.clearRecordings();
+    } else {
+      recordingResult = RecordingService.getStatus();
+    }
+
+    const state = await AdminService.getAdminControlState();
+    res.status(200).json({
+      ...state,
+      recording: recordingResult,
+    });
+    broadcastAdminAndArenaSync(state).catch(() => {});
+  } catch (error) {
+    next(error);
+  }
+};
+
+/**
+ * GET /api/admin/recording/:recordingId?
+ * Retrieve full recording report & anomaly analysis
+ */
+export const getAdminRecordingReport = async (req, res, next) => {
+  try {
+    const { recordingId } = req.params || {};
+    const report = RecordingService.getReportById(recordingId);
+    res.status(200).json({
+      status: 'ok',
+      recordingStatus: RecordingService.getStatus(),
+      report,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+

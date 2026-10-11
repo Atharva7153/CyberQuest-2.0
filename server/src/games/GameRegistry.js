@@ -656,6 +656,339 @@ export const validateWordGuessServer = (submission, challenge) => {
 };
 
 /**
+ * 8. N-QUEENS Server Validator
+ */
+export const validateQueensServer = (submission, challenge) => {
+  const gameConfig = challenge?.gameConfig || {};
+  const size = Math.max(4, Math.min(9, Number(gameConfig.size) || 5));
+  const givenQueens = Array.isArray(gameConfig.givenQueens) ? gameConfig.givenQueens : [];
+  const regions =
+    Array.isArray(gameConfig.regions) && gameConfig.regions.length === size
+      ? gameConfig.regions
+      : null;
+
+  let queens = [];
+  if (Array.isArray(submission?.queens) && submission.queens.length > 0) {
+    queens = submission.queens.map((q) => ({ r: Number(q.r), c: Number(q.c) }));
+  } else {
+    const rawStr = String(submission?.answer ?? submission ?? '')
+      .trim()
+      .toUpperCase()
+      .replace(/^QUEENS:/, '');
+    if (rawStr) {
+      queens = rawStr
+        .split(';')
+        .filter(Boolean)
+        .map((pair) => {
+          const [r, c] = pair.split(',').map(Number);
+          return { r, c };
+        });
+    }
+  }
+
+  if (queens.length !== size) {
+    return {
+      valid: false,
+      passed: false,
+      reason: `Expected ${size} Queens on the ${size}×${size} board, received ${queens.length}.`,
+    };
+  }
+
+  for (const q of queens) {
+    if (
+      !Number.isInteger(q.r) ||
+      !Number.isInteger(q.c) ||
+      q.r < 0 ||
+      q.r >= size ||
+      q.c < 0 ||
+      q.c >= size
+    ) {
+      return {
+        valid: false,
+        passed: false,
+        reason: 'Queen coordinates out of board bounds.',
+      };
+    }
+  }
+
+  for (const gq of givenQueens) {
+    const found = queens.some(
+      (q) => q.r === Number(gq.r) && q.c === Number(gq.c)
+    );
+    if (!found) {
+      return {
+        valid: false,
+        passed: false,
+        reason: 'Locked starting Queen was removed or modified.',
+      };
+    }
+  }
+
+  for (let i = 0; i < queens.length; i++) {
+    for (let j = i + 1; j < queens.length; j++) {
+      const q1 = queens[i];
+      const q2 = queens[j];
+      if (q1.r === q2.r) {
+        return {
+          valid: false,
+          passed: false,
+          reason: `Two Queens share Row ${q1.r + 1}.`,
+        };
+      }
+      if (q1.c === q2.c) {
+        return {
+          valid: false,
+          passed: false,
+          reason: `Two Queens share Column ${q1.c + 1}.`,
+        };
+      }
+      if (Math.abs(q1.r - q2.r) === Math.abs(q1.c - q2.c)) {
+        return {
+          valid: false,
+          passed: false,
+          reason: 'Two Queens attack each other diagonally.',
+        };
+      }
+      if (regions && regions[q1.r]?.[q1.c] === regions[q2.r]?.[q2.c]) {
+        return {
+          valid: false,
+          passed: false,
+          reason: 'Two Queens share the same sector region.',
+        };
+      }
+    }
+  }
+
+  return { valid: true, passed: true };
+};
+
+/**
+ * 9. APTITUDE Server Validator
+ */
+export const validateAptitudeServer = (submission, challenge) => {
+  const solutionConfig = challenge?.solutionConfig || {};
+  const expectedAnswers = Array.isArray(solutionConfig.expectedAnswers)
+    ? solutionConfig.expectedAnswers.map((a) => String(a).trim().toUpperCase())
+    : [];
+
+  let submittedList = [];
+  if (Array.isArray(submission?.answers) && submission.answers.length > 0) {
+    submittedList = submission.answers.map((a) => String(a).trim().toUpperCase());
+  } else {
+    const rawStr = String(submission?.answer ?? submission ?? '')
+      .trim()
+      .toUpperCase()
+      .replace(/^APTITUDE:/, '');
+    if (rawStr) {
+      submittedList = rawStr.split('-').map((s) => s.trim());
+    }
+  }
+
+  if (expectedAnswers.length > 0) {
+    if (submittedList.length !== expectedAnswers.length) {
+      return {
+        valid: false,
+        passed: false,
+        reason: `Answer all ${expectedAnswers.length} aptitude questions.`,
+      };
+    }
+    let rightCount = 0;
+    let wrongCount = 0;
+    expectedAnswers.forEach((exp, idx) => {
+      if (exp === submittedList[idx]) {
+        rightCount++;
+      } else {
+        wrongCount++;
+      }
+    });
+    if (wrongCount > 0) {
+      return {
+        valid: false,
+        passed: false,
+        rightCount,
+        wrongCount,
+        reason: `${rightCount} RIGHT · ${wrongCount} WRONG — All ${expectedAnswers.length} answers must be correct.`,
+      };
+    }
+    return {
+      valid: true,
+      passed: true,
+      rightCount,
+      wrongCount: 0,
+    };
+  }
+
+  // Fallback to expectedAnswer / acceptedAnswers
+  const rawAnswer = String(submission?.answer ?? submission ?? '')
+    .trim()
+    .toUpperCase();
+  const expected = String(solutionConfig.expectedAnswer || '')
+    .trim()
+    .toUpperCase();
+  const accepted = (solutionConfig.acceptedAnswers || []).map((a) =>
+    String(a).trim().toUpperCase()
+  );
+
+  if (rawAnswer && ((expected && rawAnswer === expected) || accepted.includes(rawAnswer))) {
+    return { valid: true, passed: true };
+  }
+
+  return { valid: false, passed: false, reason: 'Incorrect aptitude solution.' };
+};
+
+/**
+ * 10. GK TRUE OR FALSE (1 Round of 6 Questions) Server Validator
+ */
+export const validateGkTrueFalseServer = (submission, challenge) => {
+  const solutionConfig = challenge?.solutionConfig || {};
+  const expectedAnswers = Array.isArray(solutionConfig.expectedAnswers)
+    ? solutionConfig.expectedAnswers.map((a) => {
+        const u = String(a).trim().toUpperCase();
+        return u === 'TRUE' || u === 'T' ? 'T' : 'F';
+      })
+    : [];
+
+  let submittedList = [];
+  if (Array.isArray(submission?.answers) && submission.answers.length > 0) {
+    submittedList = submission.answers.map((a) => {
+      const u = String(a).trim().toUpperCase();
+      return u === 'TRUE' || u === 'T' ? 'T' : u === 'FALSE' || u === 'F' ? 'F' : '';
+    });
+  } else {
+    const rawStr = String(submission?.answer ?? submission ?? '')
+      .trim()
+      .toUpperCase()
+      .replace(/^GKTF:/, '');
+    if (rawStr) {
+      submittedList = rawStr.split('-').map((s) => {
+        const u = s.trim();
+        return u === 'TRUE' || u === 'T' ? 'T' : u === 'FALSE' || u === 'F' ? 'F' : '';
+      });
+    }
+  }
+
+  if (expectedAnswers.length > 0) {
+    if (submittedList.length !== expectedAnswers.length || submittedList.some((v) => !v)) {
+      return {
+        valid: false,
+        passed: false,
+        reason: `Answer all ${expectedAnswers.length} True/False statements.`,
+      };
+    }
+    let rightCount = 0;
+    let wrongCount = 0;
+    expectedAnswers.forEach((exp, idx) => {
+      if (exp === submittedList[idx]) {
+        rightCount++;
+      } else {
+        wrongCount++;
+      }
+    });
+    if (wrongCount > 0) {
+      return {
+        valid: false,
+        passed: false,
+        rightCount,
+        wrongCount,
+        reason: `${rightCount} RIGHT · ${wrongCount} WRONG — All ${expectedAnswers.length} statements must be correct.`,
+      };
+    }
+    return {
+      valid: true,
+      passed: true,
+      rightCount,
+      wrongCount: 0,
+    };
+  }
+
+  const rawAnswer = String(submission?.answer ?? submission ?? '')
+    .trim()
+    .toUpperCase();
+  const expected = String(solutionConfig.expectedAnswer || '')
+    .trim()
+    .toUpperCase();
+  const accepted = (solutionConfig.acceptedAnswers || []).map((a) =>
+    String(a).trim().toUpperCase()
+  );
+
+  if (rawAnswer && ((expected && rawAnswer === expected) || accepted.includes(rawAnswer))) {
+    return { valid: true, passed: true };
+  }
+
+  return { valid: false, passed: false, reason: 'Incorrect True/False responses.' };
+};
+
+/**
+ * 11. MEMORY MATRIX (Multi-Round Visual Spatial Recall) Server Validator
+ */
+export const validateMemoryMatrixServer = (submission, challenge) => {
+  const gameConfig = challenge?.gameConfig || {};
+  const rounds = Array.isArray(gameConfig.rounds) ? gameConfig.rounds : [];
+
+  const expectedRounds = rounds.map((r) =>
+    Array.isArray(r.targets)
+      ? [...r.targets].map((n) => Number(n)).sort((a, b) => a - b)
+      : []
+  );
+
+  let submittedRounds = [];
+  if (Array.isArray(submission?.rounds) && submission.rounds.length > 0) {
+    submittedRounds = submission.rounds.map((arr) =>
+      Array.isArray(arr)
+        ? [...new Set(arr.map((n) => Number(n)).filter((n) => Number.isInteger(n)))].sort(
+            (a, b) => a - b
+          )
+        : []
+    );
+  } else {
+    const rawStr = String(submission?.answer ?? submission ?? '')
+      .trim()
+      .toUpperCase()
+      .replace(/^MEMORY_MATRIX:/, '');
+    if (rawStr) {
+      submittedRounds = rawStr.split('|').map((part) =>
+        [
+          ...new Set(
+            part
+              .split(',')
+              .map((s) => s.trim())
+              .filter(Boolean)
+              .map((n) => Number(n))
+              .filter((n) => Number.isInteger(n))
+          ),
+        ].sort((a, b) => a - b)
+      );
+    }
+  }
+
+  if (expectedRounds.length > 0) {
+    if (submittedRounds.length !== expectedRounds.length) {
+      return {
+        valid: false,
+        passed: false,
+        reason: `Complete all ${expectedRounds.length} Memory Matrix rounds before submitting.`,
+      };
+    }
+
+    for (let i = 0; i < expectedRounds.length; i++) {
+      const exp = expectedRounds[i];
+      const sub = submittedRounds[i] || [];
+      if (exp.length !== sub.length || !exp.every((val, idx) => val === sub[idx])) {
+        return {
+          valid: false,
+          passed: false,
+          reason: `Round ${i + 1} pattern recall is incomplete or inaccurate.`,
+        };
+      }
+    }
+
+    return { valid: true, passed: true };
+  }
+
+  return { valid: false, passed: false, reason: 'Memory Matrix pattern not verified.' };
+};
+
+/**
  * Centralized Server GameRegistry
  */
 export const ServerGameRegistry = {
@@ -686,6 +1019,22 @@ export const ServerGameRegistry = {
   zip: {
     id: 'zip',
     validate: validateZipServer,
+  },
+  queens: {
+    id: 'queens',
+    validate: validateQueensServer,
+  },
+  aptitude: {
+    id: 'aptitude',
+    validate: validateAptitudeServer,
+  },
+  gkTrueFalse: {
+    id: 'gkTrueFalse',
+    validate: validateGkTrueFalseServer,
+  },
+  memoryMatrix: {
+    id: 'memoryMatrix',
+    validate: validateMemoryMatrixServer,
   },
 };
 

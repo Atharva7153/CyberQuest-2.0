@@ -9,6 +9,7 @@ import { ChallengeSessionPage } from './pages/ChallengeSessionPage';
 import { ProgressPage } from './pages/ProgressPage';
 import { HistoryPage } from './pages/HistoryPage';
 import { NexusCorePage } from './pages/NexusCorePage';
+import { LeaderboardPage } from './pages/LeaderboardPage';
 import { ProjectorDisplayPage } from './pages/ProjectorDisplayPage';
 import { AdminControlPage } from './pages/AdminControlPage';
 import { SystemEntryPage } from './pages/SystemEntryPage';
@@ -25,6 +26,7 @@ export const App = () => {
               <Route path="/login" element={<LoginPage />} />
               <Route path="/dashboard" element={<DashboardPage />} />
               <Route path="/challenges" element={<DashboardPage initialSection="CHALLENGES" />} />
+              <Route path="/leaderboard" element={<LeaderboardPage />} />
               <Route path="/team" element={<ProgressPage />} />
               <Route path="/progress" element={<ProgressPage />} />
               <Route path="/history" element={<HistoryPage />} />

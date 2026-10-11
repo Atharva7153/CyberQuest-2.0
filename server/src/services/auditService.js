@@ -4,6 +4,7 @@ import {
   AUDIT_ACTION_TYPES,
   SUPPORTED_AUDIT_ACTIONS,
 } from '../models/AuditLog.js';
+import { RecordingService } from './recordingService.js';
 import { logger } from '../utils/logger.js';
 
 const inMemoryAuditBuffer = [
@@ -66,6 +67,13 @@ export class AuditService {
     inMemoryAuditBuffer.unshift(auditRecord);
     if (inMemoryAuditBuffer.length > 250) {
       inMemoryAuditBuffer.length = 250;
+    }
+
+    // Automatically feed active admin game recording session & anomaly detector
+    try {
+      RecordingService.captureAuditEvent(auditRecord);
+    } catch {
+      // Never block main flow
     }
 
     if (mongoose.connection.readyState === 1) {

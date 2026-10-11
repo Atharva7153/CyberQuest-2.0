@@ -13,6 +13,7 @@ import { CreditService } from './creditService.js';
 import { AuditService, AUDIT_ACTION_TYPES } from './auditService.js';
 import { CREDIT_TRANSACTION_TYPES, creditsConfig } from '../config/creditsConfig.js';
 import { evaluateGameSubmissionServer } from '../games/GameRegistry.js';
+import { assignVariantForTeamAttempt } from './challengeVariantService.js';
 import { logger } from '../utils/logger.js';
 
 export const DEFAULT_CHALLENGE_CATALOG = [
@@ -27,7 +28,7 @@ export const DEFAULT_CHALLENGE_CATALOG = [
     cost: 350,
     reward: 750,
     penalty: 100,
-    timeLimit: 1200, // 20 minutes
+    timeLimit: 150, // 2.5 minutes
     gameType: 'wordGuess',
     gameConfig: {
       sector: 'SECTOR-05 // CRYPT_SPIRE',
@@ -62,8 +63,8 @@ export const DEFAULT_CHALLENGE_CATALOG = [
         'NEXUS{PAYLOAD}',
       ],
       hints: [
-        'HINT 01 // Word 1 starts with C-I-P and refers to an encryption algorithm (CIPHER).',
-        'HINT 02 // Word 2 starts with S-O-C and ends with K-E-T (SOCKET).',
+        'HINT 01 // Round 1 is a 6-letter cryptography term for an algorithm that transforms plaintext into secret text.',
+        'HINT 02 // Round 2 is a 6-letter networking term for the software endpoint created when an IP address and port are bound.',
       ],
     },
     enabled: true,
@@ -80,7 +81,7 @@ export const DEFAULT_CHALLENGE_CATALOG = [
     cost: 350,
     reward: 700,
     penalty: 100,
-    timeLimit: 1200, // 20 minutes
+    timeLimit: 180, // 3 minutes
     gameType: 'sudoku',
     gameConfig: {
       sector: 'SECTOR-01 // LOGIC GRID',
@@ -117,8 +118,8 @@ export const DEFAULT_CHALLENGE_CATALOG = [
         'RELAY-2',
       ],
       hints: [
-        'HINT 01 // Every row, column, and 2×3 box must contain digits 1 to 6 exactly once.',
-        'HINT 02 // Row 1 completes as [1, 2, 3, 4, 5, 6] and Row 2 as [4, 5, 6, 1, 2, 3].',
+        'HINT 01 // Start with rows that already have four given numbers — only two digits from 1 to 6 are missing in each row.',
+        'HINT 02 // Cross-check each empty cell against its 2×3 box and column to eliminate one of the two remaining candidates.',
       ],
     },
     enabled: true,
@@ -135,7 +136,7 @@ export const DEFAULT_CHALLENGE_CATALOG = [
     cost: 220,
     reward: 460,
     penalty: 70,
-    timeLimit: 900, // 15 minutes
+    timeLimit: 120, // 2 minutes
     gameType: 'xo4x4',
     gameConfig: {
       sector: 'SECTOR-06 // VAULT',
@@ -168,7 +169,7 @@ export const DEFAULT_CHALLENGE_CATALOG = [
     cost: 250,
     reward: 500,
     penalty: 75,
-    timeLimit: 900, // 15 minutes
+    timeLimit: 180, // 3 minutes
     gameType: 'patches',
     gameConfig: {
       sector: 'SECTOR-02 // ARCHIVE',
@@ -199,8 +200,8 @@ export const DEFAULT_CHALLENGE_CATALOG = [
       expectedAnswer: 'PATCHES:5X5:SOLVED',
       acceptedAnswers: ['PATCHES:5X5:SOLVED', 'NODE-04', 'NODE04', '04'],
       hints: [
-        'HINT 01 // Top-left 4 is a 2×2 square (rows 1-2, cols 1-2); top-right 6 is a 2×3 rectangle (rows 1-2, cols 3-5).',
-        'HINT 02 // Bottom-left 3 is a 1×3 horizontal bar across row 5, cols 1-3.',
+        'HINT 01 // A clue of 4 in a corner can be a 2×2 square or a 1×4 strip — check how the adjacent 6 clue constrains the top rows.',
+        'HINT 02 // Clues of 3 must be 1×3 or 3×1 bars; use the bottom and right board edges to lock their orientation first.',
       ],
     },
     enabled: true,
@@ -217,7 +218,7 @@ export const DEFAULT_CHALLENGE_CATALOG = [
     cost: 500,
     reward: 950,
     penalty: 150,
-    timeLimit: 1500, // 25 minutes
+    timeLimit: 180, // 3 minutes
     gameType: 'zip',
     gameConfig: {
       sector: 'SECTOR-04 // RELAY',
@@ -248,8 +249,8 @@ export const DEFAULT_CHALLENGE_CATALOG = [
       expectedAnswer: 'ZIP:5X5:SOLVED',
       acceptedAnswers: ['ZIP:5X5:SOLVED', 'FIREWALL', 'NEXUS{FIREWALL}'],
       hints: [
-        'HINT 01 // Move right across Row 1 from 1 to 2, then step down and move left across Row 2 through 3.',
-        'HINT 02 // Continue weaving back and forth across each row down to 6 at bottom-right.',
+        'HINT 01 // Do not leave dead-end corner cells behind — every cell along the outer border must be visited on your way between waypoints.',
+        'HINT 02 // Notice that each row contains one waypoint; sweeping full rows before dropping to the next row prevents self-intersections.',
       ],
     },
     enabled: true,
@@ -266,7 +267,7 @@ export const DEFAULT_CHALLENGE_CATALOG = [
     cost: 200,
     reward: 420,
     penalty: 60,
-    timeLimit: 900, // 15 minutes
+    timeLimit: 120, // 2 minutes
     gameType: 'connect4',
     gameConfig: {
       sector: 'SECTOR-01 // BULKHEAD',
@@ -283,7 +284,7 @@ export const DEFAULT_CHALLENGE_CATALOG = [
       expectedAnswer: 'CONNECT4:WIN',
       acceptedAnswers: ['CONNECT4:WIN', 'XO4X4:WIN', 'COL-4', '4', 'COLUMN 4'],
       hints: [
-        'HINT 01 // Control the center column (Column 4) early to maximize horizontal and diagonal threats.',
+        'HINT 01 // Control the center column early to maximize horizontal and diagonal threats.',
         'HINT 02 // Build two simultaneous 3-disc threats so the AI cannot block both.',
       ],
     },
@@ -301,7 +302,7 @@ export const DEFAULT_CHALLENGE_CATALOG = [
     cost: 300,
     reward: 620,
     penalty: 85,
-    timeLimit: 1200, // 20 minutes
+    timeLimit: 150, // 2.5 minutes
     gameType: 'wend',
     gameConfig: {
       sector: 'SECTOR-07 // CODEX',
@@ -314,18 +315,18 @@ export const DEFAULT_CHALLENGE_CATALOG = [
       wordLength: 4,
       steps: [
         {
-          clue: 'Step 1 — Change 1 letter: Component, piece, or disk partition (P _ R T)',
-          hint: 'Replace O with A -> PART',
+          clue: 'Step 1 — Change 1 letter: Component, piece, or disk partition',
+          hint: 'Change the vowel in PORT to form a word for a piece or component.',
           length: 4,
         },
         {
-          clue: 'Step 2 — Change 1 letter: Breathe rapidly after exertion (P A _ T)',
-          hint: 'Replace R with N -> PANT',
+          clue: 'Step 2 — Change 1 letter: Breathe rapidly after exertion',
+          hint: 'Change the third letter to form a word for gasping or breathing hard.',
           length: 4,
         },
         {
-          clue: 'Step 3 — Change 1 letter: Unit of liquid measure (P _ N T)',
-          hint: 'Replace A with I -> PINT',
+          clue: 'Step 3 — Change 1 letter: Unit of liquid measure',
+          hint: 'Change the vowel to form a liquid volume unit that is one letter away from PING.',
           length: 4,
         },
       ],
@@ -341,8 +342,8 @@ export const DEFAULT_CHALLENGE_CATALOG = [
         '1,600',
       ],
       hints: [
-        'HINT 01 // Step 1 is PART and Step 2 is PANT.',
-        'HINT 02 // Step 3 is PINT, which changes T to G to reach PING.',
+        'HINT 01 // Keep the starting letter P fixed throughout the entire ladder; begin by changing the vowel in PORT.',
+        'HINT 02 // Step 3 is a 4-letter unit of liquid volume that shares P-I-N with the target word PING.',
       ],
     },
     enabled: true,
@@ -359,7 +360,7 @@ export const DEFAULT_CHALLENGE_CATALOG = [
     cost: 550,
     reward: 1050,
     penalty: 180,
-    timeLimit: 1500, // 25 minutes
+    timeLimit: 240, // 4 minutes
     gameType: 'patches',
     gameConfig: {
       sector: 'SECTOR-03 // OPTICS',
@@ -390,8 +391,8 @@ export const DEFAULT_CHALLENGE_CATALOG = [
       expectedAnswer: 'PATCHES:6X6:SOLVED',
       acceptedAnswers: ['PATCHES:6X6:SOLVED', '42'],
       hints: [
-        'HINT 01 // The 9 clue in the top-right forms a 3×3 square covering rows 1-3, cols 4-6.',
-        'HINT 02 // The left three columns split cleanly into three 2×3 rectangles of area 6.',
+        'HINT 01 // A clue of 9 on a 6×6 grid can only be factored as a 3×3 square because 1×9 exceeds the board dimensions.',
+        'HINT 02 // Once the 3×3 block is placed, partition the remaining 3-column corridors into rectangles matching the 6 and 3 clues.',
       ],
     },
     enabled: true,
@@ -408,7 +409,7 @@ export const DEFAULT_CHALLENGE_CATALOG = [
     cost: 700,
     reward: 1350,
     penalty: 250,
-    timeLimit: 1800, // 30 minutes
+    timeLimit: 300, // 5 minutes
     gameType: 'sudoku',
     gameConfig: {
       sector: 'SECTOR-09 // HYPERVISOR',
@@ -446,8 +447,8 @@ export const DEFAULT_CHALLENGE_CATALOG = [
       expectedAnswer: 'SUDOKU:9X9:SOLVED',
       acceptedAnswers: ['SUDOKU:9X9:SOLVED', 'RING 0', 'RING0', '0'],
       hints: [
-        'HINT 01 // Check which single digit from 1 to 9 is missing in each nearly-complete row.',
-        'HINT 02 // Row 1 Col 3 is 4; Row 4 Col 6 is 1; Center cell (Row 5 Col 5) is 5.',
+        'HINT 01 // Every incomplete row on this board is missing only a single digit from 1 to 9 — scan row by row.',
+        'HINT 02 // Double-check each placed digit against its 3×3 subgrid and column to confirm no duplicates exist.',
       ],
     },
     enabled: true,
@@ -464,7 +465,7 @@ export const DEFAULT_CHALLENGE_CATALOG = [
     cost: 600,
     reward: 1150,
     penalty: 200,
-    timeLimit: 1500, // 25 minutes
+    timeLimit: 180, // 3 minutes
     gameType: 'zip',
     gameConfig: {
       sector: 'SECTOR-00 // CORE_BRIDGE',
@@ -495,8 +496,8 @@ export const DEFAULT_CHALLENGE_CATALOG = [
       expectedAnswer: 'ZIP:5X5:SOLVED',
       acceptedAnswers: ['ZIP:5X5:SOLVED', '6'],
       hints: [
-        'HINT 01 // Go straight down Column 1 from 1 to 2, then straight up Column 2 through 3.',
-        'HINT 02 // Continue weaving vertically column-by-column to 6 at bottom-right.',
+        'HINT 01 // Observe that waypoints 1 and 2 sit at the top and bottom of the first column — complete that edge before moving inward.',
+        'HINT 02 // Each column contains one waypoint; traversing full columns avoids trapping unvisited squares.',
       ],
     },
     enabled: true,
@@ -513,7 +514,7 @@ export const DEFAULT_CHALLENGE_CATALOG = [
     cost: 400,
     reward: 800,
     penalty: 120,
-    timeLimit: 1200, // 20 minutes
+    timeLimit: 180, // 3 minutes
     gameType: 'patches',
     gameConfig: {
       sector: 'SECTOR-08 // REGISTER',
@@ -542,8 +543,8 @@ export const DEFAULT_CHALLENGE_CATALOG = [
       expectedAnswer: 'PATCHES:5X5:SOLVED',
       acceptedAnswers: ['PATCHES:5X5:SOLVED', '12', '0B1100'],
       hints: [
-        'HINT 01 // The 5 clue at the top spans the entire first row (1×5).',
-        'HINT 02 // Below row 1, the left side splits into two 2×2 squares (4) and the right side into two 2×3 rectangles (6).',
+        'HINT 01 // A clue of 5 on a 5×5 board must be a full 1×5 row or 5×1 column — check which orientation avoids overlapping other clues.',
+        'HINT 02 // Pair up the remaining 4 and 6 clues into symmetric 2-row horizontal bands.',
       ],
     },
     enabled: true,
@@ -560,7 +561,7 @@ export const DEFAULT_CHALLENGE_CATALOG = [
     cost: 800,
     reward: 1600,
     penalty: 300,
-    timeLimit: 1800, // 30 minutes
+    timeLimit: 180, // 3 minutes
     gameType: 'wend',
     gameConfig: {
       sector: 'SECTOR-00 // RAFT_CORE',
@@ -573,18 +574,18 @@ export const DEFAULT_CHALLENGE_CATALOG = [
       wordLength: 4,
       steps: [
         {
-          clue: 'Step 1 — Change 1 letter: Drop downward under gravity (F A _ L)',
-          hint: 'Replace I with L -> FALL',
+          clue: 'Step 1 — Change 1 letter: Drop downward under gravity',
+          hint: 'Change the third letter of FAIL to form a word meaning to drop downward.',
           length: 4,
         },
         {
-          clue: 'Step 2 — Change 1 letter: Tall or dark-featured covering/cloak (P A L L)',
-          hint: 'Replace F with P -> PALL',
+          clue: 'Step 2 — Change 1 letter: Dark covering or cloak',
+          hint: 'Change the starting letter to match the first letter of PASS.',
           length: 4,
         },
         {
-          clue: 'Step 3 — Change 1 letter: Trusted friends or comrades (P A L _)',
-          hint: 'Replace second L with S -> PALS',
+          clue: 'Step 3 — Change 1 letter: Trusted friends or comrades',
+          hint: 'Change the last letter to S to form a plural noun for close friends.',
           length: 4,
         },
       ],
@@ -600,8 +601,455 @@ export const DEFAULT_CHALLENGE_CATALOG = [
         '3 NODES',
       ],
       hints: [
-        'HINT 01 // Step 1 is FALL (I -> L) and Step 2 is PALL (F -> P).',
-        'HINT 02 // Step 3 is PALS (second L -> S), which becomes PASS.',
+        'HINT 01 // First turn FAIL into a word ending with double-L, then change the first letter to P.',
+        'HINT 02 // Step 3 is a 4-letter plural noun meaning friends, which is one letter away from PASS.',
+      ],
+    },
+    enabled: true,
+    available: true,
+  },
+  {
+    challengeId: 'CHG-LOG-13',
+    title: 'N-QUEENS (5×5)',
+    category: 'LOGIC',
+    description:
+      'Place 5 Queens on the 5×5 board so no two Queens share the same row, column, or diagonal.',
+    difficulty: 'MODERATE',
+    risk: 'BALANCED',
+    cost: 320,
+    reward: 680,
+    penalty: 90,
+    timeLimit: 180, // 3 minutes
+    gameType: 'queens',
+    gameConfig: {
+      sector: 'SECTOR-01 // CROWN MATRIX',
+      artworkKey: 'LOGIC',
+      secondaryArtworkKey: 'RISK_STAIRS',
+      maxHints: 2,
+      clearanceCode: 'NX-LOG-13',
+      size: 5,
+      givenQueens: [{ r: 0, c: 1 }],
+    },
+    solutionConfig: {
+      expectedAnswer: 'QUEENS:0,1;1,3;2,0;3,2;4,4',
+      acceptedAnswers: [
+        'QUEENS:0,1;1,3;2,0;3,2;4,4',
+        'QUEENS:0,1;1,4;2,2;3,0;4,3',
+      ],
+      hints: [
+        'HINT 01 // Place exactly one Queen in each row; check which columns in Row 2 are not attacked by the locked Queen in Row 1.',
+        'HINT 02 // Stepping Queens by a knight-move offset (2 columns over, 1 row down) avoids immediate diagonal conflicts.',
+      ],
+    },
+    enabled: true,
+    available: true,
+  },
+  {
+    challengeId: 'CHG-LOG-14',
+    title: 'N-QUEENS (6×6)',
+    category: 'LOGIC',
+    description:
+      'Place 6 Queens on the 6×6 board so no two Queens share the same row, column, or diagonal.',
+    difficulty: 'HIGH',
+    risk: 'AGGRESSIVE',
+    cost: 520,
+    reward: 1050,
+    penalty: 160,
+    timeLimit: 240, // 4 minutes
+    gameType: 'queens',
+    gameConfig: {
+      sector: 'SECTOR-01 // SOVEREIGN GRID',
+      artworkKey: 'RISK_STAIRS',
+      secondaryArtworkKey: 'LOGIC',
+      maxHints: 2,
+      clearanceCode: 'NX-LOG-14',
+      size: 6,
+      givenQueens: [{ r: 0, c: 1 }],
+    },
+    solutionConfig: {
+      expectedAnswer: 'QUEENS:0,1;1,3;2,5;3,0;4,2;5,4',
+      acceptedAnswers: ['QUEENS:0,1;1,3;2,5;3,0;4,2;5,4'],
+      hints: [
+        'HINT 01 // On a 6×6 board, none of the four corner squares are used when a knight-step pattern starts from Row 1 Col B.',
+        'HINT 02 // Group the board into the top 3 rows and bottom 3 rows, shifting Queens by 2 columns between consecutive rows in each half.',
+      ],
+    },
+    enabled: true,
+    available: true,
+  },
+  {
+    challengeId: 'CHG-LOG-15',
+    title: 'APTITUDE: QUANT & SERIES',
+    category: 'LOGIC',
+    description:
+      'Solve 4 rapid-fire quantitative aptitude problems covering number series, time & work, and ratios.',
+    difficulty: 'MODERATE',
+    risk: 'BALANCED',
+    cost: 300,
+    reward: 650,
+    penalty: 85,
+    timeLimit: 150, // 2.5 minutes
+    gameType: 'aptitude',
+    gameConfig: {
+      sector: 'SECTOR-02 // QUANT ENGINE',
+      artworkKey: 'LOGIC',
+      secondaryArtworkKey: 'CREDITS_SPIRE',
+      maxHints: 2,
+      clearanceCode: 'NX-LOG-15',
+      roundTitle: 'APTITUDE // QUANTITATIVE & NUMERICAL',
+      answerKey: ['C', 'B', 'A', 'C'],
+      questions: [
+        {
+          id: 'Q1',
+          topic: 'NUMBER SERIES',
+          question: 'Find the next number in the sequence: 3, 7, 15, 31, 63, ?',
+          options: ['95', '125', '127', '131'],
+        },
+        {
+          id: 'Q2',
+          topic: 'TIME & WORK',
+          question:
+            'Node A processes a batch in 12 minutes and Node B processes the same batch in 6 minutes. Working together, how long will they take?',
+          options: ['3 minutes', '4 minutes', '4.5 minutes', '5 minutes'],
+        },
+        {
+          id: 'Q3',
+          topic: 'PERCENTAGE CHANGE',
+          question:
+            'A server increases its clock speed by 25% and then reduces it by 20%. What is the net percentage change?',
+          options: ['0% (No change)', '+5% increase', '-5% decrease', '+2% increase'],
+        },
+        {
+          id: 'Q4',
+          topic: 'SPEED & DISTANCE',
+          question:
+            'A signal drone covers 120 meters in 6 seconds. What is its speed in km/h?',
+          options: ['54 km/h', '60 km/h', '72 km/h', '80 km/h'],
+        },
+      ],
+    },
+    solutionConfig: {
+      expectedAnswers: ['C', 'B', 'A', 'C'],
+      expectedAnswer: 'APTITUDE:C-B-A-C',
+      acceptedAnswers: ['APTITUDE:C-B-A-C', 'C-B-A-C'],
+      hints: [
+        'HINT 01 // For Q1, check how the gap between consecutive numbers grows each step. For Q2, add the two per-minute rates (1/A + 1/B).',
+        'HINT 02 // For Q3, multiply the two percentage multipliers together. For Q4, convert meters per second to km/h by multiplying by 3.6.',
+      ],
+    },
+    enabled: true,
+    available: true,
+  },
+  {
+    challengeId: 'CHG-PUZ-16',
+    title: 'APTITUDE: LOGIC & DEDUCTION',
+    category: 'PUZZLES',
+    description:
+      'Solve 4 logical reasoning, coding-decoding, and probability aptitude problems.',
+    difficulty: 'HIGH',
+    risk: 'BALANCED',
+    cost: 420,
+    reward: 880,
+    penalty: 120,
+    timeLimit: 150, // 2.5 minutes
+    gameType: 'aptitude',
+    gameConfig: {
+      sector: 'SECTOR-05 // DEDUCTION CORE',
+      artworkKey: 'PUZZLES',
+      secondaryArtworkKey: 'MONOLITH_GATE',
+      maxHints: 2,
+      clearanceCode: 'NX-PUZ-16',
+      roundTitle: 'APTITUDE // LOGICAL DEDUCTION',
+      answerKey: ['B', 'A', 'C', 'C'],
+      questions: [
+        {
+          id: 'Q1',
+          topic: 'CODING-DECODING',
+          question:
+            'If NEXUS is coded as OFYVT (each letter shifted +1 forward), how is LOGIC coded?',
+          options: ['MPHJF', 'MPHJD', 'LPHJD', 'NQIKE'],
+        },
+        {
+          id: 'Q2',
+          topic: 'DIRECTION SENSE',
+          question:
+            'An operative walks 8 km North, turns Right and walks 6 km. How far is the operative in a straight line from the starting point?',
+          options: ['10 km', '12 km', '14 km', '7 km'],
+        },
+        {
+          id: 'Q3',
+          topic: 'PROBABILITY',
+          question:
+            'Two fair coins are tossed simultaneously. What is the probability of getting at least one Head?',
+          options: ['1/4', '1/2', '3/4', '2/3'],
+        },
+        {
+          id: 'Q4',
+          topic: 'ODD ONE OUT',
+          question:
+            'Which number does NOT belong in the group: 16, 25, 36, 48, 64, 81?',
+          options: ['25', '36', '48', '64'],
+        },
+      ],
+    },
+    solutionConfig: {
+      expectedAnswers: ['B', 'A', 'C', 'C'],
+      expectedAnswer: 'APTITUDE:B-A-C-C',
+      acceptedAnswers: ['APTITUDE:B-A-C-C', 'B-A-C-C'],
+      hints: [
+        'HINT 01 // For Q1, pay close attention to the first and last letters when shifting forward by +1. For Q2, form a right triangle and use a² + b² = c².',
+        'HINT 02 // For Q3, only one of the four coin-toss outcomes has zero Heads. For Q4, test which numbers are exact squares of whole numbers.',
+      ],
+    },
+    enabled: true,
+    available: true,
+  },
+  {
+    challengeId: 'CHG-KNW-17',
+    title: 'GK: TECH & SCIENCE (6 T/F)',
+    category: 'KNOWLEDGE',
+    description:
+      '1 Round of 6 rapid-fire True or False statements on Technology, Space & Science.',
+    difficulty: 'LOW',
+    risk: 'SAFE',
+    cost: 240,
+    reward: 500,
+    penalty: 70,
+    timeLimit: 90, // 1.5 minutes
+    gameType: 'gkTrueFalse',
+    gameConfig: {
+      sector: 'SECTOR-07 // VERITAS',
+      artworkKey: 'KNOWLEDGE',
+      secondaryArtworkKey: 'CREDITS_SPIRE',
+      maxHints: 2,
+      clearanceCode: 'NX-KNW-17',
+      roundTitle: 'ROUND 01 // 6× TRUE OR FALSE (TECH & SCIENCE)',
+      answerKey: ['F', 'T', 'T', 'T', 'F', 'T'],
+      questions: [
+        {
+          id: 'Q1',
+          topic: 'WEB PROTOCOLS',
+          statement:
+            'HTTP Status Code 404 means the server crashed due to an internal error.',
+        },
+        {
+          id: 'Q2',
+          topic: 'ASTROPHYSICS',
+          statement:
+            'Sunlight takes approximately 8 minutes and 20 seconds to travel from the Sun to Earth.',
+        },
+        {
+          id: 'Q3',
+          topic: 'CHEMISTRY',
+          statement: 'Diamond and Graphite are both pure allotropes of the element Carbon.',
+        },
+        {
+          id: 'Q4',
+          topic: 'NETWORKING',
+          statement:
+            'An IPv4 address uses 32 bits, while an IPv6 address uses 128 bits.',
+        },
+        {
+          id: 'Q5',
+          topic: 'PHYSICS',
+          statement: 'Sound waves travel faster through air than they do through solid steel.',
+        },
+        {
+          id: 'Q6',
+          topic: 'COMPUTING',
+          statement: 'One Byte consists of exactly 8 bits.',
+        },
+      ],
+    },
+    solutionConfig: {
+      expectedAnswers: ['F', 'T', 'T', 'T', 'F', 'T'],
+      expectedAnswer: 'GKTF:F-T-T-T-F-T',
+      acceptedAnswers: ['GKTF:F-T-T-T-F-T', 'F-T-T-T-F-T'],
+      hints: [
+        'HINT 01 // Distinguish 4xx client status codes from 5xx server error codes, and recall how medium density affects the speed of sound.',
+        'HINT 02 // Exactly 4 of the 6 statements in this round are TRUE and 2 are FALSE.',
+      ],
+    },
+    enabled: true,
+    available: true,
+  },
+  {
+    challengeId: 'CHG-KNW-18',
+    title: 'GK: WORLD & CYBER (6 T/F)',
+    category: 'KNOWLEDGE',
+    description:
+      '1 Round of 6 rapid-fire True or False statements on World Facts, Computing & Cyber.',
+    difficulty: 'MODERATE',
+    risk: 'BALANCED',
+    cost: 340,
+    reward: 720,
+    penalty: 95,
+    timeLimit: 90, // 1.5 minutes
+    gameType: 'gkTrueFalse',
+    gameConfig: {
+      sector: 'SECTOR-07 // GLOBAL ARCHIVE',
+      artworkKey: 'RING_CITADEL',
+      secondaryArtworkKey: 'KNOWLEDGE',
+      maxHints: 2,
+      clearanceCode: 'NX-KNW-18',
+      roundTitle: 'ROUND 01 // 6× TRUE OR FALSE (WORLD & CYBER)',
+      answerKey: ['T', 'T', 'F', 'T', 'T', 'F'],
+      questions: [
+        {
+          id: 'Q1',
+          topic: 'CYBERSECURITY',
+          statement:
+            'HTTPS encrypts communication between a browser and a website using TLS/SSL.',
+        },
+        {
+          id: 'Q2',
+          topic: 'WORLD GEOGRAPHY',
+          statement: 'Australia is both a country and a continent.',
+        },
+        {
+          id: 'Q3',
+          topic: 'DATA STRUCTURES',
+          statement: 'A Stack data structure operates on a First-In, First-Out (FIFO) principle.',
+        },
+        {
+          id: 'Q4',
+          topic: 'TECH HISTORY',
+          statement: 'The Linux kernel was originally created by Linus Torvalds in 1991.',
+        },
+        {
+          id: 'Q5',
+          topic: 'HUMAN BIOLOGY',
+          statement: 'The femur (thigh bone) is the longest and strongest bone in the human body.',
+        },
+        {
+          id: 'Q6',
+          topic: 'NUMBER SYSTEMS',
+          statement: 'The binary representation of the decimal number 10 is 1100.',
+        },
+      ],
+    },
+    solutionConfig: {
+      expectedAnswers: ['T', 'T', 'F', 'T', 'T', 'F'],
+      expectedAnswer: 'GKTF:T-T-F-T-T-F',
+      acceptedAnswers: ['GKTF:T-T-F-T-T-F', 'T-T-F-T-T-F'],
+      hints: [
+        'HINT 01 // Compare Stack vs Queue ordering principles, and sum the 4-bit binary place values (8, 4, 2, 1) to check the binary statement.',
+        'HINT 02 // Exactly 4 of the 6 statements in this round are TRUE and 2 are FALSE.',
+      ],
+    },
+    enabled: true,
+    available: true,
+  },
+  {
+    challengeId: 'CHG-OBS-19',
+    title: 'MEMORY MATRIX (4×4)',
+    category: 'OBSERVATION',
+    description:
+      'Observe the flashing signal nodes on the 4×4 matrix and reconstruct all 3 progressive recall patterns from memory.',
+    difficulty: 'MODERATE',
+    risk: 'BALANCED',
+    cost: 350,
+    reward: 750,
+    penalty: 100,
+    timeLimit: 120, // 2 minutes
+    gameType: 'memoryMatrix',
+    gameConfig: {
+      sector: 'SECTOR-03 // VISUAL_CORE',
+      artworkKey: 'OBSERVATION',
+      secondaryArtworkKey: 'CYBER_CONSTRUCT',
+      maxHints: 2,
+      clearanceCode: 'NX-OBS-19',
+      size: 4,
+      maxReflashes: 2,
+      rounds: [
+        {
+          id: 'R1',
+          label: 'STAGE 01',
+          count: 5,
+          flashMs: 2200,
+          targets: [1, 4, 6, 11, 13],
+        },
+        {
+          id: 'R2',
+          label: 'STAGE 02',
+          count: 6,
+          flashMs: 2200,
+          targets: [0, 3, 5, 10, 12, 15],
+        },
+        {
+          id: 'R3',
+          label: 'STAGE 03',
+          count: 7,
+          flashMs: 2200,
+          targets: [1, 2, 4, 7, 9, 13, 14],
+        },
+      ],
+    },
+    solutionConfig: {
+      expectedAnswer: 'MEMORY_MATRIX:1,4,6,11,13|0,3,5,10,12,15|1,2,4,7,9,13,14',
+      acceptedAnswers: ['MEMORY_MATRIX:1,4,6,11,13|0,3,5,10,12,15|1,2,4,7,9,13,14'],
+      hints: [
+        'HINT 01 // Memorize the pattern by grouping illuminated tiles into rows or geometric shapes (corners, diagonals, or L-blocks) during the 2.2-second flash.',
+        'HINT 02 // You have 2 RE-FLASH pulses available if you need to view the current stage pattern again.',
+      ],
+    },
+    enabled: true,
+    available: true,
+  },
+  {
+    challengeId: 'CHG-OBS-20',
+    title: 'MEMORY MATRIX (5×5)',
+    category: 'OBSERVATION',
+    description:
+      'High-density 5×5 spatial recall test: memorize and reconstruct 6, 7, and 8 flashing neural nodes across 3 consecutive stages.',
+    difficulty: 'HIGH',
+    risk: 'AGGRESSIVE',
+    cost: 650,
+    reward: 1400,
+    penalty: 200,
+    timeLimit: 150, // 2.5 minutes
+    gameType: 'memoryMatrix',
+    gameConfig: {
+      sector: 'SECTOR-03 // NEURAL_LATTICE',
+      artworkKey: 'OBSERVATION',
+      secondaryArtworkKey: 'FINAL_THRESHOLD',
+      maxHints: 2,
+      clearanceCode: 'NX-OBS-20',
+      size: 5,
+      maxReflashes: 2,
+      rounds: [
+        {
+          id: 'R1',
+          label: 'STAGE 01',
+          count: 6,
+          flashMs: 2400,
+          targets: [1, 3, 7, 12, 17, 21],
+        },
+        {
+          id: 'R2',
+          label: 'STAGE 02',
+          count: 7,
+          flashMs: 2400,
+          targets: [0, 4, 6, 12, 18, 20, 24],
+        },
+        {
+          id: 'R3',
+          label: 'STAGE 03',
+          count: 8,
+          flashMs: 2400,
+          targets: [2, 5, 9, 11, 13, 15, 19, 22],
+        },
+      ],
+    },
+    solutionConfig: {
+      expectedAnswer:
+        'MEMORY_MATRIX:1,3,7,12,17,21|0,4,6,12,18,20,24|2,5,9,11,13,15,19,22',
+      acceptedAnswers: [
+        'MEMORY_MATRIX:1,3,7,12,17,21|0,4,6,12,18,20,24|2,5,9,11,13,15,19,22',
+      ],
+      hints: [
+        'HINT 01 // Split the 5×5 grid mentally into a 3×3 inner core and an outer border ring to track node positions faster.',
+        'HINT 02 // Each completed stage locks permanently — focus on one stage at a time and use RE-FLASH if a pattern slips.',
       ],
     },
     enabled: true,
@@ -1115,11 +1563,27 @@ export class ChallengeService {
         .slice(2, 5)
         .toUpperCase()}`;
 
+      // Method B: Assign a per-team randomized variant / question pool draw
+      const fullChallengeForVariant =
+        (await ChallengeService.getChallengeById(challenge.challengeId, {
+          includeSolution: true,
+        })) || challenge;
+      const assignedVariant = assignVariantForTeamAttempt(fullChallengeForVariant, {
+        teamId: team.teamId,
+        attemptNumber,
+      });
+
+      const sessionGameConfig = assignedVariant.gameConfig || challenge.gameConfig || {};
+      const sessionSolutionConfig =
+        assignedVariant.solutionConfig || fullChallengeForVariant?.solutionConfig || {};
+      const sessionDescription =
+        sessionGameConfig.variantDescription || challenge.description;
+
       team.currentChallenge = {
         challengeId: challenge.challengeId,
         title: challenge.title,
         category: challenge.category,
-        description: challenge.description,
+        description: sessionDescription,
         difficulty: challenge.difficulty,
         risk: normalizedRisk,
         cost: effectiveCost,
@@ -1127,17 +1591,20 @@ export class ChallengeService {
         penalty: challenge.penalty || 100,
         timeLimit: timeLimitSeconds,
         gameType: challenge.gameType,
-        gameConfig: challenge.gameConfig || {},
+        gameConfig: sessionGameConfig,
         enabled: challenge.enabled,
         available: challenge.available,
         timestamp: now,
       };
 
-      const maxHints = Number(challenge.gameConfig?.maxHints || 2);
+      const maxHints = Number(
+        sessionSolutionConfig?.hints?.length || sessionGameConfig?.maxHints || 2
+      );
 
       const newAttemptObj = {
         attemptId,
         attemptNumber,
+        variantId: assignedVariant.variantId || 'DEFAULT',
         challengeId: challenge.challengeId,
         title: challenge.title,
         category: challenge.category,
@@ -1148,7 +1615,8 @@ export class ChallengeService {
         penaltyOnFail: challenge.penalty || 100,
         timeLimit: timeLimitSeconds,
         gameType: challenge.gameType,
-        gameConfig: challenge.gameConfig || {},
+        gameConfig: sessionGameConfig,
+        solutionConfig: sessionSolutionConfig,
         maxHints,
         hintsUnlocked: 0,
         unlockedHints: [],
@@ -1184,7 +1652,7 @@ export class ChallengeService {
           difficulty: challenge.difficulty,
           risk: normalizedRisk,
           gameType: challenge.gameType,
-          gameConfig: challenge.gameConfig || {},
+          gameConfig: sessionGameConfig,
           costPaid: effectiveCost,
           potentialReward: challenge.reward,
           penaltyOnFail: challenge.penalty || 100,
@@ -1216,11 +1684,12 @@ export class ChallengeService {
         attemptNumber,
         creditsDelta: 0,
         balanceAfter: team.credits,
-        summary: `${team.teamId}${resolvedMemberName ? ` (${resolvedMemberName})` : ''} started session [${attemptId}] (Attempt #${attemptNumber}) on [${challenge.challengeId}]`,
+        summary: `${team.teamId}${resolvedMemberName ? ` (${resolvedMemberName})` : ''} started session [${attemptId}] (Attempt #${attemptNumber}, Variant: ${assignedVariant.variantId || 'DEFAULT'}) on [${challenge.challengeId}]`,
         metadata: {
           startedAt: now.toISOString(),
           expiresAt: expiresAt.toISOString(),
           timeLimit: timeLimitSeconds,
+          variantId: assignedVariant.variantId || 'DEFAULT',
           memberId: resolvedMemberId,
           memberName: resolvedMemberName,
         },
@@ -1228,7 +1697,11 @@ export class ChallengeService {
 
       return {
         team,
-        challenge,
+        challenge: {
+          ...challenge,
+          description: sessionDescription,
+          gameConfig: sessionGameConfig,
+        },
         creditResult,
         activeAttempt: newAttemptObj,
       };
@@ -1280,10 +1753,14 @@ export class ChallengeService {
     const fullChallenge = await ChallengeService.getChallengeById(activeId, {
       includeSolution: true,
     });
-    const hintsPool = fullChallenge?.solutionConfig?.hints || [
-      `HINT 01 // Verify the target syntax and constraints in ${targetAttempt.title || activeId}.`,
-      `HINT 02 // Cross-check the sector reference telemetry in the module header.`,
-    ];
+    const hintsPool =
+      (Array.isArray(targetAttempt.solutionConfig?.hints) &&
+      targetAttempt.solutionConfig.hints.length > 0
+        ? targetAttempt.solutionConfig.hints
+        : fullChallenge?.solutionConfig?.hints) || [
+        `HINT 01 // Verify the target syntax and constraints in ${targetAttempt.title || activeId}.`,
+        `HINT 02 // Cross-check the sector reference telemetry in the module header.`,
+      ];
 
     const currentUnlockedCount = Array.isArray(targetAttempt.unlockedHints)
       ? targetAttempt.unlockedHints.length
@@ -1334,10 +1811,14 @@ export class ChallengeService {
     const fullChallenge = await ChallengeService.getChallengeById(activeId, {
       includeSolution: true,
     });
-    const hintsPool = fullChallenge?.solutionConfig?.hints || [
-      `HINT 01 // Verify the target syntax and constraints in ${targetAttempt.title || activeId}.`,
-      `HINT 02 // Cross-check the sector reference telemetry in the module header.`,
-    ];
+    const hintsPool =
+      (Array.isArray(targetAttempt.solutionConfig?.hints) &&
+      targetAttempt.solutionConfig.hints.length > 0
+        ? targetAttempt.solutionConfig.hints
+        : fullChallenge?.solutionConfig?.hints) || [
+        `HINT 01 // Verify the target syntax and constraints in ${targetAttempt.title || activeId}.`,
+        `HINT 02 // Cross-check the sector reference telemetry in the module header.`,
+      ];
 
     const existingHints = Array.isArray(targetAttempt?.unlockedHints)
       ? targetAttempt.unlockedHints
@@ -1585,6 +2066,35 @@ export class ChallengeService {
         (await ChallengeService.getChallengeById(targetChallengeId, { includeSolution: true })) ||
         DEFAULT_CHALLENGE_CATALOG[0];
 
+      // Merge per-team assigned variant gameConfig & solutionConfig so validation checks the team's exact question pool draw
+      const attemptGameConfig =
+        activeAttemptSnapshot?.gameConfig && Object.keys(activeAttemptSnapshot.gameConfig).length > 0
+          ? { ...(fullChallenge.gameConfig || {}), ...activeAttemptSnapshot.gameConfig }
+          : fullChallenge.gameConfig || {};
+
+      const attemptSolutionConfig =
+        activeAttemptSnapshot?.solutionConfig &&
+        Object.keys(activeAttemptSnapshot.solutionConfig).length > 0
+          ? { ...(fullChallenge.solutionConfig || {}), ...activeAttemptSnapshot.solutionConfig }
+          : { ...(fullChallenge.solutionConfig || {}) };
+
+      if (
+        Array.isArray(attemptGameConfig.answerKey) &&
+        attemptGameConfig.answerKey.length > 0 &&
+        (!Array.isArray(attemptSolutionConfig.expectedAnswers) ||
+          attemptSolutionConfig.expectedAnswers.length === 0)
+      ) {
+        attemptSolutionConfig.expectedAnswers = attemptGameConfig.answerKey;
+      }
+
+      const effectiveChallenge = {
+        ...fullChallenge,
+        gameConfig: attemptGameConfig,
+        solutionConfig: attemptSolutionConfig,
+      };
+      const assignedVariantId =
+        activeAttemptSnapshot?.variantId || attemptGameConfig?.variantId || 'DEFAULT';
+
       const normalizedRisk = normalizeRiskTier(fullChallenge.risk);
 
       // Determine server-authoritative expiration
@@ -1598,6 +2108,10 @@ export class ChallengeService {
       const expiresAt = activeAttemptSnapshot?.expiresAt
         ? new Date(activeAttemptSnapshot.expiresAt)
         : new Date(startedAt.getTime() + timeLimit * 1000);
+      const solveDurationSeconds = Math.max(
+        0,
+        Math.round((now.getTime() - startedAt.getTime()) / 1000)
+      );
 
       const isTimeout = outcomeOverride === 'TIMEOUT' || now >= expiresAt;
       const isAbandoned = !isTimeout && outcomeOverride === 'ABANDONED';
@@ -1623,7 +2137,10 @@ export class ChallengeService {
             submission.words ||
             submission.steps ||
             submission.patches ||
-            submission.path
+            submission.path ||
+            submission.queens ||
+            submission.answers ||
+            submission.rounds
         );
 
       const isAdminForceSuccess = outcomeOverride === 'SUCCESS';
@@ -1654,11 +2171,11 @@ export class ChallengeService {
         ).trim() || null;
 
       const normalizedSubmitted = rawAnswer.toUpperCase().replace(/\s+/g, ' ').trim();
-      const expected = String(fullChallenge.solutionConfig?.expectedAnswer || '')
+      const expected = String(effectiveChallenge.solutionConfig?.expectedAnswer || '')
         .toUpperCase()
         .trim();
-      const acceptedList = (fullChallenge.solutionConfig?.acceptedAnswers || [expected]).map((a) =>
-        String(a).toUpperCase().trim()
+      const acceptedList = (effectiveChallenge.solutionConfig?.acceptedAnswers || [expected]).map(
+        (a) => String(a).toUpperCase().trim()
       );
 
       // Server-authoritative correctness check via GameRegistry + accepted answer tokens
@@ -1671,7 +2188,7 @@ export class ChallengeService {
           isAbandoned);
 
       const gameRegistryEvaluation = !isExplicitFail
-        ? evaluateGameSubmissionServer(submission, fullChallenge)
+        ? evaluateGameSubmissionServer(submission, effectiveChallenge)
         : { valid: false };
 
       const isAnswerMatch =
@@ -1700,10 +2217,16 @@ export class ChallengeService {
         attemptNumber,
         creditsDelta: 0,
         balanceAfter: team.credits,
-        summary: `${team.teamId}${resolvedMemberName ? ` (${resolvedMemberName})` : ''} submitted solution for [${fullChallenge.challengeId}] ${fullChallenge.title} (Attempt #${attemptNumber})`,
+        summary: `${team.teamId}${resolvedMemberName ? ` (${resolvedMemberName})` : ''} submitted solution for [${fullChallenge.challengeId}] ${fullChallenge.title} (Attempt #${attemptNumber}, ${solveDurationSeconds}s)`,
         metadata: {
           attemptId: resolvedAttemptId,
           attemptNumber,
+          variantId: assignedVariantId,
+          title: fullChallenge.title,
+          difficulty: fullChallenge.difficulty,
+          gameType: fullChallenge.gameType,
+          solveDurationSeconds,
+          timeLimit,
           cost: costPaid,
           isTimeout,
           isAbandoned,
@@ -1791,6 +2314,7 @@ export class ChallengeService {
           submittedAt: now.toISOString(),
           completedAt: now.toISOString(),
           timeLimit,
+          solveDurationSeconds,
           message: `VERIFIED BY NEXUS CORE // Solution accepted for ${fullChallenge.title}. +${reward} CR credited to squad ledger.`,
           timestamp: now.toISOString(),
         };
@@ -1805,11 +2329,17 @@ export class ChallengeService {
           attemptNumber,
           creditsDelta: reward,
           balanceAfter: team.credits,
-          summary: `${team.teamId}${resolvedMemberName ? ` (${resolvedMemberName})` : ''} succeeded on [${fullChallenge.challengeId}] ${fullChallenge.title} (Attempt #${attemptNumber}, +${reward} CR)`,
+          summary: `${team.teamId}${resolvedMemberName ? ` (${resolvedMemberName})` : ''} succeeded on [${fullChallenge.challengeId}] ${fullChallenge.title} in ${solveDurationSeconds}s (Attempt #${attemptNumber}, +${reward} CR)`,
           metadata: {
             cost: costPaid,
             reward,
             attemptNumber,
+            variantId: assignedVariantId,
+            title: fullChallenge.title,
+            difficulty: fullChallenge.difficulty,
+            gameType: fullChallenge.gameType,
+            solveDurationSeconds,
+            timeLimit,
             memberId: resolvedMemberId,
             memberName: resolvedMemberName,
           },
@@ -1866,12 +2396,17 @@ export class ChallengeService {
           });
         }
 
+        const validatorReasonDetail =
+          canonicalFailStatus === 'FAILED' && gameRegistryEvaluation?.reason
+            ? `${gameRegistryEvaluation.reason} `
+            : '';
+
         const statusMessage =
           canonicalFailStatus === 'TIMEOUT'
             ? `SESSION TIMEOUT // Server timer expired for ${fullChallenge.title}. -${penalty} CR penalty applied.`
             : canonicalFailStatus === 'ABANDONED'
               ? `SESSION ABANDONED // Operative aborted active session for ${fullChallenge.title}. -${penalty} CR penalty applied.`
-              : `VERIFICATION FAILED // Submitted payload rejected for ${fullChallenge.title}. -${penalty} CR penalty applied.`;
+              : `VERIFICATION FAILED // ${validatorReasonDetail}Submitted payload rejected for ${fullChallenge.title}. -${penalty} CR penalty applied.`;
 
         evaluationResult = {
           attemptId: resolvedAttemptId,
@@ -1899,6 +2434,8 @@ export class ChallengeService {
           submittedAt: now.toISOString(),
           completedAt: now.toISOString(),
           timeLimit,
+          solveDurationSeconds,
+          reason: gameRegistryEvaluation?.reason || null,
           message: statusMessage,
           timestamp: now.toISOString(),
         };
@@ -1919,6 +2456,13 @@ export class ChallengeService {
             penalty,
             status: canonicalFailStatus,
             attemptNumber,
+            variantId: assignedVariantId,
+            title: fullChallenge.title,
+            difficulty: fullChallenge.difficulty,
+            gameType: fullChallenge.gameType,
+            solveDurationSeconds,
+            timeLimit,
+            reason: gameRegistryEvaluation?.reason || null,
             memberId: resolvedMemberId,
             memberName: resolvedMemberName,
           },

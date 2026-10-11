@@ -4,6 +4,10 @@ export const GAME_TYPES = Object.freeze({
   WEND: 'wend',
   PATCHES: 'patches',
   ZIP: 'zip',
+  QUEENS: 'queens',
+  APTITUDE: 'aptitude',
+  GK_TRUE_FALSE: 'gkTrueFalse',
+  MEMORY_MATRIX: 'memoryMatrix',
   // Legacy / Extensible types
   WORD_GUESS: 'wordGuess',
   CONNECT_4: 'connect4',
@@ -11,7 +15,6 @@ export const GAME_TYPES = Object.freeze({
   PATTERN: 'pattern',
   IMAGE_OBSERVATION: 'imageObservation',
   QUIZ: 'quiz',
-  APTITUDE: 'aptitude',
   ALGORITHM: 'algorithm',
   PROGRAMMING_LOGIC: 'programmingLogic',
   SYSTEM_PROBLEM: 'systemProblem',
@@ -47,6 +50,12 @@ export const GAME_TYPE_METADATA = Object.freeze({
     label: 'ZIP',
     code: 'GM-ZIP',
     defaultCategory: 'PUZZLES',
+  },
+  queens: {
+    id: 'queens',
+    label: 'N-QUEENS',
+    code: 'GM-QNS',
+    defaultCategory: 'LOGIC',
   },
   wordGuess: {
     id: 'wordGuess',
@@ -88,7 +97,19 @@ export const GAME_TYPE_METADATA = Object.freeze({
     id: 'aptitude',
     label: 'APTITUDE',
     code: 'GM-APT',
+    defaultCategory: 'LOGIC',
+  },
+  gkTrueFalse: {
+    id: 'gkTrueFalse',
+    label: 'GK (TRUE OR FALSE)',
+    code: 'GM-GK6',
     defaultCategory: 'KNOWLEDGE',
+  },
+  memoryMatrix: {
+    id: 'memoryMatrix',
+    label: 'MEMORY MATRIX',
+    code: 'GM-MEM',
+    defaultCategory: 'OBSERVATION',
   },
   algorithm: {
     id: 'algorithm',

@@ -64,15 +64,17 @@ export const resolveChallengeArtwork = (challenge) => {
 };
 
 export const formatTimeLimit = (seconds) => {
-  const totalSec = Number(seconds) || 1200;
-  const mins = Math.round(totalSec / 60);
-  return `${mins} MIN`;
+  const totalSec = Number(seconds) || 180;
+  const mins = totalSec / 60;
+  const formatted = Number.isInteger(mins) ? String(mins) : mins.toFixed(1).replace(/\.0$/, '');
+  return `${formatted} MIN`;
 };
 
 export const formatTimeLimitDetailed = (seconds) => {
-  const totalSec = Number(seconds) || 1200;
-  const mins = Math.floor(totalSec / 60);
-  return `${mins} MIN`;
+  const totalSec = Number(seconds) || 180;
+  const mins = totalSec / 60;
+  const formatted = Number.isInteger(mins) ? String(mins) : mins.toFixed(1).replace(/\.0$/, '');
+  return `${formatted} MIN`;
 };
 
 const FRIENDLY_TITLE_BY_ID = {
@@ -88,6 +90,14 @@ const FRIENDLY_TITLE_BY_ID = {
   'CHG-TEC-10': 'ZIP (LEVEL 2)',
   'CHG-TEC-11': 'PATCHES (LEVEL 2)',
   'CHG-TEC-12': 'WEND (LEVEL 2)',
+  'CHG-LOG-13': 'N-QUEENS (5×5)',
+  'CHG-LOG-14': 'N-QUEENS (6×6)',
+  'CHG-LOG-15': 'APTITUDE: QUANT & SERIES',
+  'CHG-PUZ-16': 'APTITUDE: LOGIC & DEDUCTION',
+  'CHG-KNW-17': 'GK: TECH & SCIENCE (6 T/F)',
+  'CHG-KNW-18': 'GK: WORLD & CYBER (6 T/F)',
+  'CHG-OBS-19': 'MEMORY MATRIX (4×4)',
+  'CHG-OBS-20': 'MEMORY MATRIX (5×5)',
   'CHG-INIT-00': 'WORD GUESS (WARMUP)',
 };
 
@@ -120,6 +130,14 @@ const FRIENDLY_DESCRIPTION_BY_ID = {
   'CHG-TEC-10': 'Connect numbers 1 to 6 in order while visiting every square on the 5×5 grid.',
   'CHG-TEC-11': 'Split the 5×5 grid into rectangles matching each numbered area clue.',
   'CHG-TEC-12': 'Turn FAIL into PASS one letter at a time using the step clues.',
+  'CHG-LOG-13': 'Place 5 Queens on the 5×5 board so no two Queens share the same row, column, or diagonal.',
+  'CHG-LOG-14': 'Place 6 Queens on the 6×6 board so no two Queens share the same row, column, or diagonal.',
+  'CHG-LOG-15': 'Solve 4 rapid-fire quantitative aptitude problems covering number series, time & work, and ratios.',
+  'CHG-PUZ-16': 'Solve 4 logical reasoning & deduction aptitude problems.',
+  'CHG-KNW-17': '1 Round of 6 rapid-fire True or False statements on Technology, Space & Science.',
+  'CHG-KNW-18': '1 Round of 6 rapid-fire True or False statements on World Facts, Computing & Cyber.',
+  'CHG-OBS-19': 'Observe the flashing signal nodes on the 4×4 matrix and reconstruct all 3 progressive recall patterns from memory.',
+  'CHG-OBS-20': 'High-density 5×5 spatial recall test: memorize and reconstruct 6, 7, and 8 flashing neural nodes across 3 stages.',
 };
 
 export const getFriendlyChallengeTitle = (challengeOrTitle) => {
@@ -154,6 +172,10 @@ export const getFriendlyChallengeTitle = (challengeOrTitle) => {
   if (gt === 'patches') return Number(challengeOrTitle?.gameConfig?.rows) === 6 ? 'PATCHES (6×6)' : 'PATCHES (5×5)';
   if (gt === 'zip') return 'ZIP (PATH PUZZLE)';
   if (gt === 'wend') return 'WEND (WORD LADDER)';
+  if (gt === 'queens') return `N-QUEENS (${Number(challengeOrTitle?.gameConfig?.size) || 5}×${Number(challengeOrTitle?.gameConfig?.size) || 5})`;
+  if (gt === 'aptitude') return 'APTITUDE CHALLENGE';
+  if (gt === 'gkTrueFalse') return 'GK (6× TRUE OR FALSE)';
+  if (gt === 'memoryMatrix') return `MEMORY MATRIX (${Number(challengeOrTitle?.gameConfig?.size) || 4}×${Number(challengeOrTitle?.gameConfig?.size) || 4})`;
 
   return 'CHALLENGE';
 };
@@ -545,6 +567,56 @@ export const ChallengeMarketModule = ({
         : inspectingChallenge.cost
     : 0;
 
+  const squadActivitySlots = useMemo(() => {
+    const rawMembers =
+      Array.isArray(team?.members) && team.members.length > 0
+        ? team.members.slice(0, 4)
+        : [
+            { memberId: 'OP-01', name: 'OPERATIVE_01', role: 'CAPTAIN', online: true },
+            { memberId: 'OP-02', name: 'OPERATIVE_02', role: 'SPECIALIST', online: false },
+            { memberId: 'OP-03', name: 'OPERATIVE_03', role: 'ANALYST', online: false },
+            { memberId: 'OP-04', name: 'OPERATIVE_04', role: 'VANGUARD', online: false },
+          ];
+
+    const currentOpId = String(team?.currentOperative?.memberId || '').toUpperCase();
+    const usedAttemptIds = new Set();
+
+    return rawMembers.map((member, idx) => {
+      const mId = String(member.memberId || `OP-0${idx + 1}`).toUpperCase();
+      const mName = String(member.name || `OPERATIVE_0${idx + 1}`);
+      const isMe = Boolean(currentOpId && mId === currentOpId);
+      const isOnline = Boolean(member.online || isMe);
+
+      let matchedAttempt = activeAttemptsList.find(
+        (att) =>
+          !usedAttemptIds.has(att.attemptId || att.challengeId) &&
+          (String(att.assignedMemberId || '').toUpperCase() === mId ||
+            String(att.assignedMemberName || '').toUpperCase() === mName.toUpperCase())
+      );
+
+      if (!matchedAttempt && idx === 0 && activeAttemptsList.length > 0) {
+        const fallbackAtt = activeAttemptsList.find(
+          (att) =>
+            !att.assignedMemberId && !usedAttemptIds.has(att.attemptId || att.challengeId)
+        );
+        if (fallbackAtt) matchedAttempt = fallbackAtt;
+      }
+
+      if (matchedAttempt) {
+        usedAttemptIds.add(matchedAttempt.attemptId || matchedAttempt.challengeId);
+      }
+
+      return {
+        memberId: mId,
+        name: mName,
+        role: member.role || (idx === 0 ? 'CAPTAIN' : 'OPERATIVE'),
+        isMe,
+        isOnline,
+        activeAttempt: matchedAttempt || null,
+      };
+    });
+  }, [team?.members, team?.currentOperative?.memberId, activeAttemptsList]);
+
   const scrollTrackRef = useRef(null);
 
   const handleScrollHorizontal = (direction) => {
@@ -587,6 +659,90 @@ export const ChallengeMarketModule = ({
           <p className="font-editorial text-xs sm:text-sm text-nexus-charcoal max-w-md lg:text-right">
             Teammates can buy challenges for later or solve multiple challenges simultaneously across devices.
           </p>
+        </div>
+
+        {/* Squad Live Activity Indicator (4-Player Team Coordination Strip) */}
+        <div className="mt-3 p-3 bg-nexus-ink text-nexus-paper border-2 border-nexus-ink">
+          <div className="flex flex-wrap items-center justify-between gap-2 pb-2 mb-2.5 border-b border-nexus-paper/15">
+            <div className="flex items-center gap-2">
+              <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+              <span className="font-mono text-[10px] font-bold uppercase tracking-[0.22em] text-nexus-paper">
+                SQUAD LIVE ACTIVITY // 4-OPERATIVE COORDINATION
+              </span>
+            </div>
+            <span className="font-mono text-[10px] uppercase tracking-wider text-nexus-paper/70">
+              ACTIVE SOLVES: {activeAttemptsList.length} · ONLINE:{' '}
+              {squadActivitySlots.filter((s) => s.isOnline).length}/4
+            </span>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2">
+            {squadActivitySlots.map((slot) => {
+              const solvingTitle = slot.activeAttempt
+                ? getFriendlyChallengeTitle(slot.activeAttempt)
+                : null;
+              return (
+                <div
+                  key={slot.memberId}
+                  onClick={() => {
+                    if (slot.activeAttempt?.challengeId && onAcquireChallenge && isRoundActive) {
+                      onAcquireChallenge({
+                        challengeId: slot.activeAttempt.challengeId,
+                        isReattempt: false,
+                        buyOnly: false,
+                      });
+                    }
+                  }}
+                  className={`p-2.5 border transition-colors ${
+                    slot.activeAttempt
+                      ? 'border-nexus-crimson bg-nexus-crimson/15 cursor-pointer hover:bg-nexus-crimson/25'
+                      : slot.isOnline
+                        ? 'border-emerald-500/40 bg-black/50'
+                        : 'border-nexus-paper/15 bg-black/30 opacity-75'
+                  }`}
+                >
+                  <div className="flex items-center justify-between gap-1.5 mb-1">
+                    <span className="font-mono text-[10px] font-bold uppercase tracking-wider text-white truncate">
+                      [{slot.memberId}] {slot.name}
+                    </span>
+                    <div className="flex items-center gap-1 shrink-0">
+                      {slot.isMe && (
+                        <span className="px-1.5 py-0.2 bg-nexus-crimson text-white font-mono text-[8px] font-bold uppercase">
+                          YOU
+                        </span>
+                      )}
+                      <span
+                        className={`px-1.5 py-0.2 font-mono text-[8px] font-bold uppercase ${
+                          slot.isOnline
+                            ? 'bg-emerald-600/30 text-emerald-300 border border-emerald-500/40'
+                            : 'bg-white/10 text-nexus-paper/50'
+                        }`}
+                      >
+                        {slot.isOnline ? '● ONLINE' : 'STANDBY'}
+                      </span>
+                    </div>
+                  </div>
+
+                  {solvingTitle ? (
+                    <div className="flex items-center justify-between gap-1.5 pt-1 border-t border-white/10">
+                      <span className="font-mono text-[10px] font-bold uppercase text-amber-300 truncate">
+                        ⚡ SOLVING: {solvingTitle}
+                      </span>
+                      <span className="font-mono text-[9px] font-bold uppercase text-white underline shrink-0">
+                        OPEN →
+                      </span>
+                    </div>
+                  ) : (
+                    <div className="pt-1 border-t border-white/10">
+                      <span className="font-mono text-[10px] uppercase text-nexus-paper/55 block truncate">
+                        {slot.isOnline ? 'IN LOBBY // READY TO DEPLOY' : 'AWAITING UPLINK'}
+                      </span>
+                    </div>
+                  )}
+                </div>
+              );
+            })}
+          </div>
         </div>
 
         {/* Round Timer Stopped Warning Banner */}
@@ -822,13 +978,13 @@ export const ChallengeMarketModule = ({
             </div>
           </div>
 
-          {/* 2-Row Horizontal Side-Scroll Container */}
+          {/* Responsive Horizontal Side-Scroll Container (1 row on mobile, 2 rows on tablet/desktop) */}
           <div
             ref={scrollTrackRef}
             onWheel={handleWheelToHorizontal}
             className={`grid ${
-              filteredChallenges.length > 1 ? 'grid-rows-2' : 'grid-rows-1'
-            } grid-flow-col auto-cols-[275px] sm:auto-cols-[295px] lg:auto-cols-[305px] overflow-x-auto gap-4 pb-4 pt-1 snap-x snap-mandatory scroll-smooth`}
+              filteredChallenges.length > 1 ? 'grid-rows-1 sm:grid-rows-2' : 'grid-rows-1'
+            } grid-flow-col auto-cols-[265px] sm:auto-cols-[295px] lg:auto-cols-[305px] overflow-x-auto gap-3.5 sm:gap-4 pb-4 pt-1 snap-x snap-mandatory scroll-smooth`}
           >
             <AnimatePresence mode="popLayout">
               {filteredChallenges.map((challenge) => {

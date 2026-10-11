@@ -33,6 +33,7 @@ import {
 } from './displayService.js';
 import { normalizeAttemptHistory } from './progressHistoryService.js';
 import { AuditService, AUDIT_ACTION_TYPES } from './auditService.js';
+import { RecordingService } from './recordingService.js';
 import { resetRateLimitBuckets } from '../middleware/rateLimitMiddleware.js';
 import { CREDIT_TRANSACTION_TYPES, creditsConfig } from '../config/creditsConfig.js';
 import { hashPassword } from '../utils/password.js';
@@ -353,6 +354,7 @@ export class AdminService {
       recentSystemEvents: getAdminEventLogs().slice(0, 15),
       adminEventLogs: getAdminEventLogs(),
       auditLogs: auditLogs || [],
+      recording: RecordingService.getStatus(),
       settings: effectiveSettings,
     };
   }

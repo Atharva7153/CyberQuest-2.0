@@ -15,6 +15,12 @@ export const DEFAULT_WEND_CONFIG = {
   ],
 };
 
+const stripLetterMaskFromClue = (clueText = '') => {
+  return String(clueText || '')
+    .replace(/\s*\([A-Z_\s-]{3,}\)\s*/gi, '')
+    .trim();
+};
+
 export const normalizeWendConfig = (gameConfig = {}) => {
   const startWord = String(gameConfig.startWord || DEFAULT_WEND_CONFIG.startWord)
     .trim()
@@ -59,9 +65,11 @@ export const normalizeWendConfig = (gameConfig = {}) => {
           ? String(step.lockedWord).toUpperCase()
           : '';
 
+    const rawClue = step.clue || `Step ${idx}: Change 1 letter from the previous word`;
+
     return {
       index: idx,
-      clue: step.clue || `Step ${idx}: Change 1 letter from the previous word`,
+      clue: isFirst || isLast ? rawClue : stripLetterMaskFromClue(rawClue),
       hint: step.hint || '',
       lockedWord,
       isLocked: Boolean(lockedWord),

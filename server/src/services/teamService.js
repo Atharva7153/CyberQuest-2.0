@@ -563,6 +563,14 @@ export const reconcileTeamActiveChallengeWithCatalog = (team) => {
   );
   if (!catalogMatch) return modified;
 
+  const hasAssignedVariant = Boolean(
+    team.activeAttempt?.gameConfig?.variantId ||
+      team.currentChallenge?.gameConfig?.variantId
+  );
+  if (hasAssignedVariant && team.currentChallenge.gameType === catalogMatch.gameType) {
+    return modified;
+  }
+
   const currentType = team.currentChallenge.gameType;
   const attemptType = team.activeAttempt?.gameType;
   const needsSync =

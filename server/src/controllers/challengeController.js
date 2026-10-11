@@ -85,10 +85,22 @@ export const getChallengeSession = async (req, res, next) => {
       matchedAttempt || team?.activeAttempt
     );
 
+    const effectiveChallenge =
+      matchedAttempt?.gameConfig && Object.keys(matchedAttempt.gameConfig).length > 0
+        ? {
+            ...challenge,
+            description: matchedAttempt.gameConfig.variantDescription || challenge.description,
+            gameConfig: {
+              ...(challenge.gameConfig || {}),
+              ...matchedAttempt.gameConfig,
+            },
+          }
+        : challenge;
+
     res.status(200).json({
       status: 'ok',
       service: 'cyber-quest-server',
-      challenge,
+      challenge: effectiveChallenge,
       team,
       activeAttempt: matchedAttempt || team?.activeAttempt || null,
       isMatchingActiveSession: Boolean(matchedAttempt),
