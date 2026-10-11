@@ -3,7 +3,6 @@ import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { PortalShellLayout } from '../layouts/PortalShellLayout';
 import { AttemptHistoryModule } from '../components/AttemptHistoryModule';
-import { ResistanceCreditsModule } from '../components/ResistanceCreditsModule';
 import { useTeamPortal } from '../hooks/useTeamPortal';
 import { useReducedMotion } from '../hooks/useReducedMotion';
 
@@ -13,7 +12,6 @@ import { useReducedMotion } from '../hooks/useReducedMotion';
  *
  * Shows:
  * 1. Challenge Attempt History (Challenge, Category, Risk, Cost, Result, Reward / Penalty, Time)
- * 2. Credit Activity History
  */
 export const HistoryPage = () => {
   const navigate = useNavigate();
@@ -24,7 +22,6 @@ export const HistoryPage = () => {
     catalog,
     attempts,
     attemptHistory,
-    transactions,
     lastCreditChange,
     isAuthenticated,
     isInitializing,
@@ -85,20 +82,12 @@ export const HistoryPage = () => {
         transition={{ duration: 0.2, ease: 'easeOut' }}
         className="space-y-6"
       >
-        {/* 1. Challenge Attempt History */}
+        {/* Challenge Attempt History */}
         <AttemptHistoryModule
           team={team}
           attemptHistory={attemptHistory}
           attempts={attempts}
           catalog={catalog}
-        />
-
-        {/* 2. Credit Activity Log */}
-        <ResistanceCreditsModule
-          team={team}
-          transactions={transactions}
-          lastCreditChange={lastCreditChange}
-          showFullLedger
         />
       </motion.div>
     </PortalShellLayout>

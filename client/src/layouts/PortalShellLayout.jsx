@@ -293,14 +293,16 @@ export const PortalShellLayout = ({
   return (
     <div
       ref={shellRef}
-      className="min-h-screen nexus-paper-canvas flex flex-col lg:flex-row relative overflow-x-hidden"
+      className="min-h-screen nexus-paper-canvas flex flex-col lg:flex-row relative"
     >
       {/* ===================================================================
-          DESKTOP SIDEBAR
+          DESKTOP SIDEBAR (FIXED / STICKY FULL-HEIGHT VIEWPORT)
          =================================================================== */}
-      <aside className="hidden lg:block w-60 shrink-0 sticky top-0 h-screen z-30">
+      <aside className="hidden lg:block w-60 shrink-0 fixed inset-y-0 left-0 h-screen z-30">
         {renderDesktopSidebar()}
       </aside>
+      {/* Layout spacer matching fixed sidebar width on desktop */}
+      <div className="hidden lg:block w-60 shrink-0" aria-hidden="true" />
 
       {/* ===================================================================
           MAIN WORKSPACE: STICKY TOP BAR + PAGE CONTENT + MOBILE BOTTOM NAV

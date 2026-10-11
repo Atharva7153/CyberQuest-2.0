@@ -6,6 +6,8 @@ import {
   ArrowUpRight,
   X,
   AlertTriangle,
+  ChevronLeft,
+  ChevronRight,
 } from 'lucide-react';
 import { CrosshairMark } from './CrosshairMark';
 import { RiskBadge, getRiskMetadata } from './RiskBadge';
@@ -527,23 +529,40 @@ export const ChallengeMarketModule = ({
         : inspectingChallenge.cost
     : 0;
 
+  const scrollTrackRef = useRef(null);
+
+  const handleScrollHorizontal = (direction) => {
+    if (!scrollTrackRef.current) return;
+    scrollTrackRef.current.scrollBy({
+      left: direction * 340,
+      behavior: 'smooth',
+    });
+  };
+
+  const handleWheelToHorizontal = (e) => {
+    if (!scrollTrackRef.current) return;
+    if (Math.abs(e.deltaY) > Math.abs(e.deltaX)) {
+      scrollTrackRef.current.scrollLeft += e.deltaY;
+    }
+  };
+
   return (
     <section
       aria-label="Challenge Market"
-      className="space-y-6"
+      className="space-y-4"
     >
       {/* Header & Filters */}
-      <div className="nexus-editorial-box p-4 sm:p-6 relative overflow-hidden">
-        <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-4 border-b-2 border-nexus-ink pb-4">
+      <div className="nexus-editorial-box p-4 sm:p-5 relative overflow-hidden">
+        <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-3 border-b-2 border-nexus-ink pb-3">
           <div>
-            <span className="bg-nexus-ink text-nexus-paper font-mono text-[10px] font-bold uppercase tracking-[0.24em] px-2.5 py-1 inline-block mb-2">
+            <span className="bg-nexus-ink text-nexus-paper font-mono text-[10px] font-bold uppercase tracking-[0.24em] px-2.5 py-0.5 inline-block mb-1.5">
               CHALLENGES · TEAM SHARED CREDITS
             </span>
             <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
-              <h2 className="font-display text-4xl sm:text-5xl uppercase tracking-tight text-nexus-ink leading-none">
+              <h2 className="font-display text-3xl sm:text-4xl uppercase tracking-tight text-nexus-ink leading-none">
                 THE CHALLENGE
               </h2>
-              <span className="font-display text-4xl sm:text-5xl uppercase tracking-tight text-nexus-crimson leading-none">
+              <span className="font-display text-3xl sm:text-4xl uppercase tracking-tight text-nexus-crimson leading-none">
                 MARKET
               </span>
             </div>
@@ -556,15 +575,15 @@ export const ChallengeMarketModule = ({
 
         {/* Round Timer Stopped Warning Banner */}
         {!isRoundActive && (
-          <div className="mt-4 p-4 border-2 border-nexus-ink bg-nexus-crimson text-white font-mono text-xs flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+          <div className="mt-3 p-3 border-2 border-nexus-ink bg-nexus-crimson text-white font-mono text-xs flex flex-col sm:flex-row sm:items-center justify-between gap-2.5">
             <div className="flex items-center gap-2.5">
-              <AlertTriangle className="w-5 h-5 shrink-0" />
+              <AlertTriangle className="w-4 h-4 shrink-0" />
               <div>
                 <p className="font-bold uppercase tracking-widest">
                   ROUND TIMER STOPPED — CHALLENGES ARE CURRENTLY LOCKED
                 </p>
-                <p className="text-[11px] text-white/90 mt-0.5">
-                  You cannot buy or solve challenges while the round timer is stopped. Wait for the Organizer to start the round.
+                <p className="text-[11px] text-white/90">
+                  Wait for the Organizer to start the round before buying or solving challenges.
                 </p>
               </div>
             </div>
@@ -574,27 +593,27 @@ export const ChallengeMarketModule = ({
           </div>
         )}
 
-        {/* Team Purchased Challenges Pool (Any Teammate Can Solve) */}
+        {/* Team Purchased Challenges Pool (Horizontal Side-Scrolling Strip) */}
         {purchasedChallenges.length > 0 && (
-          <div className="mt-4 bg-nexus-ink text-nexus-paper border-2 border-nexus-crimson p-4 space-y-3">
-            <div className="flex flex-wrap items-center justify-between gap-2 border-b border-nexus-paper/15 pb-2.5">
+          <div className="mt-3 bg-nexus-ink text-nexus-paper border-2 border-nexus-crimson p-3 space-y-2.5">
+            <div className="flex flex-wrap items-center justify-between gap-2 border-b border-nexus-paper/15 pb-2">
               <div className="flex items-center gap-2">
                 <span className="px-2 py-0.5 bg-nexus-crimson text-white font-mono text-[10px] font-bold uppercase tracking-widest">
                   TEAM PURCHASED ({purchasedChallenges.length})
                 </span>
-                <span className="font-mono text-xs text-nexus-paper/80 uppercase">
+                <span className="font-mono text-[11px] text-nexus-paper/80 uppercase">
                   PAID FROM TEAM CREDITS · ANY TEAMMATE CAN SOLVE
                 </span>
               </div>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
+            <div className="flex flex-nowrap overflow-x-auto gap-3 pb-1 scroll-smooth">
               {purchasedChallenges.map((item) => {
                 const isItemActive = activeChallenge?.challengeId === item.challengeId;
                 return (
                   <div
                     key={item.challengeId}
-                    className={`p-3 border flex items-center justify-between gap-3 ${
+                    className={`w-[260px] sm:w-[280px] shrink-0 p-2.5 border flex items-center justify-between gap-2.5 ${
                       isItemActive
                         ? 'border-nexus-crimson bg-black/70'
                         : 'border-nexus-paper/20 bg-black/40'
@@ -604,7 +623,7 @@ export const ChallengeMarketModule = ({
                       <span className="font-mono text-[9px] uppercase tracking-widest text-nexus-crimson font-bold block">
                         {item.category} · +{item.reward || 400} CR
                       </span>
-                      <p className="font-display text-xl uppercase tracking-wide text-white truncate">
+                      <p className="font-display text-lg uppercase tracking-wide text-white truncate">
                         {getFriendlyChallengeTitle(item)}
                       </p>
                     </div>
@@ -623,7 +642,7 @@ export const ChallengeMarketModule = ({
                           });
                         }
                       }}
-                      className="px-3 py-2 bg-nexus-crimson hover:bg-white text-white hover:text-nexus-ink font-condensed text-xs font-extrabold uppercase tracking-[0.16em] border border-white/30 transition-colors cursor-pointer disabled:opacity-50 shrink-0"
+                      className="px-2.5 py-1.5 bg-nexus-crimson hover:bg-white text-white hover:text-nexus-ink font-condensed text-xs font-extrabold uppercase tracking-[0.14em] border border-white/30 transition-colors cursor-pointer disabled:opacity-50 shrink-0"
                     >
                       {!isRoundActive
                         ? '[ LOCKED ]'
@@ -639,8 +658,8 @@ export const ChallengeMarketModule = ({
         )}
 
         {/* Filters */}
-        <div className="mt-4 space-y-3">
-          <div className="flex flex-wrap items-center justify-between gap-3">
+        <div className="mt-3 space-y-2.5">
+          <div className="flex flex-wrap items-center justify-between gap-2">
             <div
               role="tablist"
               aria-label="Filter challenges by category"
@@ -655,7 +674,7 @@ export const ChallengeMarketModule = ({
                     role="tab"
                     aria-selected={isActive}
                     onClick={() => setSelectedCategory(category)}
-                    className={`px-3 py-1.5 font-condensed text-sm font-extrabold uppercase tracking-[0.14em] border-2 border-nexus-ink transition-colors cursor-pointer ${
+                    className={`px-3 py-1 font-condensed text-sm font-extrabold uppercase tracking-[0.14em] border-2 border-nexus-ink transition-colors cursor-pointer ${
                       isActive
                         ? 'text-white bg-nexus-crimson'
                         : 'bg-nexus-paper text-nexus-ink hover:bg-nexus-ink hover:text-nexus-paper'
@@ -680,14 +699,14 @@ export const ChallengeMarketModule = ({
               <button
                 type="button"
                 onClick={handleResetFilters}
-                className="px-3 py-1.5 border border-nexus-crimson bg-nexus-paper hover:bg-nexus-crimson hover:text-white font-mono text-[10px] font-bold uppercase tracking-widest text-nexus-crimson transition-colors cursor-pointer"
+                className="px-3 py-1 border border-nexus-crimson bg-nexus-paper hover:bg-nexus-crimson hover:text-white font-mono text-[10px] font-bold uppercase tracking-widest text-nexus-crimson transition-colors cursor-pointer"
               >
                 RESET FILTERS
               </button>
             )}
           </div>
 
-          <div className="pt-3 border-t border-dashed border-nexus-ink/25 flex flex-col md:flex-row md:items-center justify-between gap-3">
+          <div className="pt-2.5 border-t border-dashed border-nexus-ink/25 flex flex-col md:flex-row md:items-center justify-between gap-2.5">
             <div className="flex flex-wrap items-center gap-1.5">
               <span className="font-mono text-[10px] font-bold uppercase tracking-widest text-nexus-muted mr-1 flex items-center gap-1">
                 <Filter className="w-3 h-3 text-nexus-crimson" />
@@ -700,7 +719,7 @@ export const ChallengeMarketModule = ({
                     key={diff}
                     type="button"
                     onClick={() => setSelectedDifficulty(diff)}
-                    className={`px-2.5 py-1 font-mono text-[10px] font-bold uppercase tracking-wider border transition-colors cursor-pointer ${
+                    className={`px-2.5 py-0.5 font-mono text-[10px] font-bold uppercase tracking-wider border transition-colors cursor-pointer ${
                       active
                         ? 'bg-nexus-ink text-nexus-paper border-nexus-ink'
                         : 'bg-nexus-paper text-nexus-charcoal border-nexus-ink/30 hover:border-nexus-ink'
@@ -723,7 +742,7 @@ export const ChallengeMarketModule = ({
                     key={riskTier}
                     type="button"
                     onClick={() => setSelectedRisk(riskTier)}
-                    className={`px-2.5 py-1 font-mono text-[10px] font-bold uppercase tracking-wider border transition-colors cursor-pointer ${
+                    className={`px-2.5 py-0.5 font-mono text-[10px] font-bold uppercase tracking-wider border transition-colors cursor-pointer ${
                       active
                         ? 'bg-nexus-crimson text-white border-nexus-ink'
                         : 'bg-nexus-paper text-nexus-charcoal border-nexus-ink/30 hover:border-nexus-ink'
@@ -738,7 +757,7 @@ export const ChallengeMarketModule = ({
         </div>
       </div>
 
-      {/* Challenge Cards Grid */}
+      {/* Side-Scrolling Challenge Cards Track */}
       {filteredChallenges.length === 0 ? (
         <div className="nexus-editorial-box p-10 text-center space-y-3">
           <p className="font-mono text-xs uppercase tracking-widest text-nexus-crimson font-bold">
@@ -753,42 +772,78 @@ export const ChallengeMarketModule = ({
           </button>
         </div>
       ) : (
-        <motion.div
-          layout
-          className={`grid grid-cols-1 sm:grid-cols-2 ${
-            compact
-              ? 'lg:grid-cols-3 gap-4'
-              : 'lg:grid-cols-3 xl:grid-cols-5 gap-4'
-          }`}
-        >
-          <AnimatePresence mode="popLayout">
-            {filteredChallenges.map((challenge) => {
-              const isCurrent = activeChallenge?.challengeId === challenge.challengeId;
-              const isPurchased = purchasedIds.has(challenge.challengeId) || isCurrent;
-              const isSolved = completedIds.has(challenge.challengeId);
-              const isFailed = failedIds.has(challenge.challengeId);
-              const isSelected =
-                inspectingChallenge?.challengeId === challenge.challengeId;
+        <div className="space-y-2.5">
+          {/* Horizontal Scroll Controls Bar */}
+          <div className="flex items-center justify-between gap-3">
+            <span className="font-mono text-[10px] sm:text-xs font-bold uppercase tracking-[0.2em] text-nexus-muted">
+              SHOWING {filteredChallenges.length} CHALLENGES · SWIPE OR SCROLL SIDEWAYS →
+            </span>
 
-              return (
-                <ClassifiedChallengeCard
-                  key={challenge.challengeId}
-                  challenge={challenge}
-                  isCurrent={isCurrent}
-                  isPurchased={isPurchased}
-                  isSolved={isSolved}
-                  isFailed={isFailed}
-                  isRoundActive={isRoundActive}
-                  reattemptMultiplier={creditsConfig?.reattemptMultiplier || 1.25}
-                  isSelected={isSelected}
-                  onSelectChallenge={handleOpenConfirmation}
-                  prefersReducedMotion={prefersReducedMotion}
-                  compact={compact}
-                />
-              );
-            })}
-          </AnimatePresence>
-        </motion.div>
+            <div className="flex items-center gap-2 shrink-0">
+              <button
+                type="button"
+                onClick={() => handleScrollHorizontal(-1)}
+                aria-label="Scroll challenges left"
+                className="px-3 py-1.5 border-2 border-nexus-ink bg-nexus-paper hover:bg-nexus-crimson hover:text-white text-nexus-ink font-mono text-xs font-bold uppercase tracking-wider inline-flex items-center gap-1 transition-colors cursor-pointer"
+              >
+                <ChevronLeft className="w-4 h-4" />
+                <span className="hidden sm:inline">PREV</span>
+              </button>
+              <button
+                type="button"
+                onClick={() => handleScrollHorizontal(1)}
+                aria-label="Scroll challenges right"
+                className="px-3 py-1.5 border-2 border-nexus-ink bg-nexus-ink hover:bg-nexus-crimson text-nexus-paper hover:text-white font-mono text-xs font-bold uppercase tracking-wider inline-flex items-center gap-1 transition-colors cursor-pointer"
+              >
+                <span className="hidden sm:inline">NEXT</span>
+                <ChevronRight className="w-4 h-4" />
+              </button>
+            </div>
+          </div>
+
+          {/* 2-Row Horizontal Side-Scroll Container */}
+          <div
+            ref={scrollTrackRef}
+            onWheel={handleWheelToHorizontal}
+            className={`grid ${
+              filteredChallenges.length > 1 ? 'grid-rows-2' : 'grid-rows-1'
+            } grid-flow-col auto-cols-[275px] sm:auto-cols-[295px] lg:auto-cols-[305px] overflow-x-auto gap-4 pb-4 pt-1 snap-x snap-mandatory scroll-smooth`}
+          >
+            <AnimatePresence mode="popLayout">
+              {filteredChallenges.map((challenge) => {
+                const isCurrent = activeChallenge?.challengeId === challenge.challengeId;
+                const isPurchased = purchasedIds.has(challenge.challengeId) || isCurrent;
+                const isSolved = completedIds.has(challenge.challengeId);
+                const isFailed = failedIds.has(challenge.challengeId);
+                const isSelected =
+                  inspectingChallenge?.challengeId === challenge.challengeId;
+
+                return (
+                  <div
+                    key={challenge.challengeId}
+                    className="w-full h-full snap-start flex"
+                  >
+                    <div className="w-full flex flex-col">
+                      <ClassifiedChallengeCard
+                        challenge={challenge}
+                        isCurrent={isCurrent}
+                        isPurchased={isPurchased}
+                        isSolved={isSolved}
+                        isFailed={isFailed}
+                        isRoundActive={isRoundActive}
+                        reattemptMultiplier={creditsConfig?.reattemptMultiplier || 1.25}
+                        isSelected={isSelected}
+                        onSelectChallenge={handleOpenConfirmation}
+                        prefersReducedMotion={prefersReducedMotion}
+                        compact={true}
+                      />
+                    </div>
+                  </div>
+                );
+              })}
+            </AnimatePresence>
+          </div>
+        </div>
       )}
 
       {/* Buy / Solve Challenge Confirmation Modal */}
