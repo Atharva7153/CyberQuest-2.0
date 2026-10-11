@@ -15,6 +15,7 @@ import { CrosshairMark } from '../components/CrosshairMark';
 import { TopBarCreditsReadout } from '../components/ResistanceCreditsModule';
 import { ThemeToggleButton } from '../components/ThemeToggleButton';
 import { useReducedMotion } from '../hooks/useReducedMotion';
+import { getStoredOperative } from '../services/authService';
 import { socketClient, NEXUS_SOCKET_EVENTS } from '../socket/socketClient';
 
 const API_BASE_URL =
@@ -200,6 +201,10 @@ export const PortalShellLayout = ({
           : 'NORMAL';
 
   const teamMeta = getTeamSizeMeta(team, onlineOperatives);
+  const currentOperative = getStoredOperative();
+  const operativeDisplayName =
+    currentOperative?.memberName || currentOperative?.name || 'PLAYER 1';
+  const operativeSlotId = currentOperative?.memberId || 'OP-01';
 
   const renderDesktopSidebar = () => (
     <div className="nexus-portal-sidebar relative flex flex-col h-full justify-between bg-nexus-ink text-nexus-paper border-r border-nexus-ink select-none">
@@ -276,6 +281,9 @@ export const PortalShellLayout = ({
           <p className="font-condensed text-base font-extrabold uppercase tracking-wider text-white truncate">
             {team?.teamName || team?.teamId}
           </p>
+          <p className="text-[10px] text-emerald-400 font-bold uppercase truncate">
+            YOU: {operativeDisplayName} ({operativeSlotId})
+          </p>
         </div>
 
         <button
@@ -323,7 +331,7 @@ export const PortalShellLayout = ({
               </button>
               <div className="min-w-0">
                 <span className="hidden sm:block font-mono text-[10px] uppercase tracking-[0.2em] text-nexus-muted">
-                  CYBER QUEST // {teamMeta.formatLabel}
+                  {team?.teamName || team?.teamId} // YOU: {operativeDisplayName}
                 </span>
                 <p className="font-condensed text-base sm:text-xl font-extrabold uppercase tracking-wider text-nexus-ink truncate">
                   {team?.teamName || team?.teamId}

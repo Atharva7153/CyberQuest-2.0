@@ -182,6 +182,7 @@ export const getFriendlyChallengeDescription = (challenge) => {
 export const ClassifiedChallengeCard = ({
   challenge,
   isCurrent,
+  solvingOperativeName = null,
   isPurchased = false,
   isSolved,
   isFailed,
@@ -207,7 +208,9 @@ export const ClassifiedChallengeCard = ({
   const actionLabel = !isRoundActive
     ? '[ TIMER STOPPED ]'
     : isCurrent
-      ? '[ CONTINUE ]'
+      ? solvingOperativeName
+        ? `[ SOLVING: ${solvingOperativeName} ]`
+        : '[ CONTINUE ]'
       : isSolved
         ? '[ SOLVED ]'
         : isPurchased
@@ -259,8 +262,8 @@ export const ClassifiedChallengeCard = ({
               </span>
             )}
             {isCurrent && (
-              <span className="px-1.5 py-0.5 bg-nexus-crimson text-white font-mono text-[9px] font-bold uppercase tracking-wider">
-                ACTIVE
+              <span className="px-1.5 py-0.5 bg-nexus-crimson text-white font-mono text-[9px] font-bold uppercase tracking-wider truncate max-w-[130px]">
+                {solvingOperativeName ? `SOLVING: ${solvingOperativeName}` : 'ACTIVE'}
               </span>
             )}
             {isPurchased && !isCurrent && !isSolved && (
@@ -349,7 +352,7 @@ export const ClassifiedChallengeCard = ({
         </div>
 
         <div className="pt-1">
-          <span className="w-full py-1.5 px-3 bg-nexus-ink text-nexus-paper group-hover:bg-white group-hover:text-nexus-ink font-mono text-xs font-bold uppercase tracking-[0.2em] flex items-center justify-center transition-colors">
+          <span className="w-full py-1.5 px-3 bg-nexus-ink text-nexus-paper group-hover:bg-white group-hover:text-nexus-ink font-mono text-xs font-bold uppercase tracking-[0.2em] flex items-center justify-center transition-colors truncate">
             {actionLabel}
           </span>
         </div>
@@ -389,6 +392,23 @@ export const ChallengeMarketModule = ({
   const [modalError, setModalError] = useState('');
 
   const activeChallenge = team?.currentChallenge;
+  const activeAttemptsList = useMemo(() => {
+    if (Array.isArray(team?.activeAttempts) && team.activeAttempts.length > 0) {
+      return team.activeAttempts;
+    }
+    return team?.activeAttempt ? [team.activeAttempt] : [];
+  }, [team?.activeAttempts, team?.activeAttempt]);
+
+  const activeAttemptsByChallengeId = useMemo(() => {
+    const map = new Map();
+    for (const att of activeAttemptsList) {
+      if (att?.challengeId) {
+        map.set(String(att.challengeId).toUpperCase(), att);
+      }
+    }
+    return map;
+  }, [activeAttemptsList]);
+
   const purchasedChallenges = useMemo(
     () => (Array.isArray(team?.purchasedChallenges) ? team.purchasedChallenges : []),
     [team?.purchasedChallenges]
@@ -456,13 +476,6 @@ export const ChallengeMarketModule = ({
       return;
     }
 
-    const isCurrent = activeChallenge?.challengeId === inspectingChallenge.challengeId;
-    if (isCurrent && onOpenExecutionPanel) {
-      setInspectingChallenge(null);
-      onOpenExecutionPanel();
-      return;
-    }
-
     const isFailed = failedIds.has(inspectingChallenge.challengeId);
 
     try {
@@ -512,8 +525,11 @@ export const ChallengeMarketModule = ({
   const inspectingIsFailed = inspectingChallenge
     ? failedIds.has(inspectingChallenge.challengeId)
     : false;
+  const inspectingActiveAttempt = inspectingChallenge
+    ? activeAttemptsByChallengeId.get(String(inspectingChallenge.challengeId).toUpperCase())
+    : null;
   const inspectingIsCurrent = inspectingChallenge
-    ? activeChallenge?.challengeId === inspectingChallenge.challengeId
+    ? Boolean(inspectingActiveAttempt) || activeChallenge?.challengeId === inspectingChallenge.challengeId
     : false;
   const inspectingIsPurchased = inspectingChallenge
     ? purchasedIds.has(inspectingChallenge.challengeId) || inspectingIsCurrent
@@ -569,7 +585,7 @@ export const ChallengeMarketModule = ({
           </div>
 
           <p className="font-editorial text-xs sm:text-sm text-nexus-charcoal max-w-md lg:text-right">
-            Any teammate can buy challenges using shared team credits and solve them now or later.
+            Teammates can buy challenges for later or solve multiple challenges simultaneously across devices.
           </p>
         </div>
 
@@ -602,26 +618,33 @@ export const ChallengeMarketModule = ({
                   TEAM PURCHASED ({purchasedChallenges.length})
                 </span>
                 <span className="font-mono text-[11px] text-nexus-paper/80 uppercase">
-                  PAID FROM TEAM CREDITS · ANY TEAMMATE CAN SOLVE
+                  PAID FROM TEAM CREDITS · MULTIPLE TEAMMATES CAN SOLVE AT ONCE
                 </span>
               </div>
             </div>
 
             <div className="flex flex-nowrap overflow-x-auto gap-3 pb-1 scroll-smooth">
               {purchasedChallenges.map((item) => {
-                const isItemActive = activeChallenge?.challengeId === item.challengeId;
+                const matchedAttempt = activeAttemptsByChallengeId.get(
+                  String(item.challengeId).toUpperCase()
+                );
+                const isItemActive =
+                  Boolean(matchedAttempt) || activeChallenge?.challengeId === item.challengeId;
+                const solverName = matchedAttempt?.assignedMemberName || null;
                 return (
                   <div
                     key={item.challengeId}
-                    className={`w-[260px] sm:w-[280px] shrink-0 p-2.5 border flex items-center justify-between gap-2.5 ${
+                    className={`w-[270px] sm:w-[290px] shrink-0 p-2.5 border flex items-center justify-between gap-2.5 ${
                       isItemActive
                         ? 'border-nexus-crimson bg-black/70'
                         : 'border-nexus-paper/20 bg-black/40'
                     }`}
                   >
                     <div className="min-w-0">
-                      <span className="font-mono text-[9px] uppercase tracking-widest text-nexus-crimson font-bold block">
-                        {item.category} · +{item.reward || 400} CR
+                      <span className="font-mono text-[9px] uppercase tracking-widest text-nexus-crimson font-bold block truncate">
+                        {solverName
+                          ? `● SOLVING: ${solverName}`
+                          : `${item.category} · +${item.reward || 400} CR`}
                       </span>
                       <p className="font-display text-lg uppercase tracking-wide text-white truncate">
                         {getFriendlyChallengeTitle(item)}
@@ -632,9 +655,7 @@ export const ChallengeMarketModule = ({
                       type="button"
                       disabled={actionPending || !isRoundActive}
                       onClick={() => {
-                        if (isItemActive && onOpenExecutionPanel) {
-                          onOpenExecutionPanel();
-                        } else if (onAcquireChallenge) {
+                        if (onAcquireChallenge) {
                           onAcquireChallenge({
                             challengeId: item.challengeId,
                             isReattempt: false,
@@ -647,7 +668,7 @@ export const ChallengeMarketModule = ({
                       {!isRoundActive
                         ? '[ LOCKED ]'
                         : isItemActive
-                          ? '[ CONTINUE ]'
+                          ? '[ OPEN ]'
                           : '[ SOLVE NOW ]'}
                     </button>
                   </div>
@@ -811,7 +832,12 @@ export const ChallengeMarketModule = ({
           >
             <AnimatePresence mode="popLayout">
               {filteredChallenges.map((challenge) => {
-                const isCurrent = activeChallenge?.challengeId === challenge.challengeId;
+                const matchedAttempt = activeAttemptsByChallengeId.get(
+                  String(challenge.challengeId).toUpperCase()
+                );
+                const isCurrent =
+                  Boolean(matchedAttempt) || activeChallenge?.challengeId === challenge.challengeId;
+                const solvingOperativeName = matchedAttempt?.assignedMemberName || null;
                 const isPurchased = purchasedIds.has(challenge.challengeId) || isCurrent;
                 const isSolved = completedIds.has(challenge.challengeId);
                 const isFailed = failedIds.has(challenge.challengeId);
@@ -827,6 +853,7 @@ export const ChallengeMarketModule = ({
                       <ClassifiedChallengeCard
                         challenge={challenge}
                         isCurrent={isCurrent}
+                        solvingOperativeName={solvingOperativeName}
                         isPurchased={isPurchased}
                         isSolved={isSolved}
                         isFailed={isFailed}

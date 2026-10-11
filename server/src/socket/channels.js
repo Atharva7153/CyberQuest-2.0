@@ -107,10 +107,14 @@ export const registerSocketChannels = (io, socket) => {
     try {
       const providedToken = payload?.token || socket.handshake?.auth?.token;
       let verifiedTeamId = socket.data.authenticatedTeamId || null;
+      let decodedMemberId = socket.data.memberId || null;
+      let decodedMemberName = socket.data.memberName || null;
 
       if (providedToken) {
         const decoded = verifyTeamToken(providedToken);
         verifiedTeamId = String(decoded.teamId || '').trim().toUpperCase();
+        decodedMemberId = decoded.memberId || payload?.memberId || null;
+        decodedMemberName = decoded.memberName || payload?.memberName || null;
       }
 
       if (!verifiedTeamId) {
@@ -148,11 +152,13 @@ export const registerSocketChannels = (io, socket) => {
       socket.data.teamId = normalizedTeamId;
       socket.data.teamRoom = roomName;
       socket.data.authRole = 'TEAM';
+      if (decodedMemberId) socket.data.memberId = decodedMemberId;
+      if (decodedMemberName) socket.data.memberName = decodedMemberName;
 
       const onlineOperatives = getRoomClientCount(io, roomName);
       logger.info(
         'SOCKET',
-        `Terminal [${socket.id}] authenticated & joined [${roomName}] | Operatives online: ${onlineOperatives}`
+        `Terminal [${socket.id}] (${decodedMemberName || decodedMemberId || 'OPERATIVE'}) authenticated & joined [${roomName}] | Operatives online: ${onlineOperatives}`
       );
 
       const snapshot = await hydrateTeamChannelSnapshot(normalizedTeamId);
@@ -176,6 +182,8 @@ export const registerSocketChannels = (io, socket) => {
         teamId: normalizedTeamId,
         room: roomName,
         onlineOperatives: currentOnlineOperatives,
+        memberId: decodedMemberId,
+        memberName: decodedMemberName,
         timestamp: serverTime,
       });
 
@@ -201,6 +209,8 @@ export const registerSocketChannels = (io, socket) => {
         teamId = String(decoded.teamId || '').trim().toUpperCase();
         socket.data.authenticatedTeamId = teamId;
         socket.data.teamId = teamId;
+        if (decoded.memberId) socket.data.memberId = decoded.memberId;
+        if (decoded.memberName) socket.data.memberName = decoded.memberName;
       }
 
       if (!teamId) {
@@ -229,7 +239,14 @@ export const registerSocketChannels = (io, socket) => {
         payload: actionPayload,
       });
 
-      const result = await executeTeamAction(teamId, actionType, actionPayload);
+      const operative = socket.data.memberId
+        ? {
+            memberId: socket.data.memberId,
+            memberName: socket.data.memberName || 'PLAYER 1',
+          }
+        : null;
+
+      const result = await executeTeamAction(teamId, actionType, actionPayload, { operative });
       const roomName = SOCKET_ROOMS.teamRoom(teamId);
       const onlineOperatives = getRoomClientCount(io, roomName);
 

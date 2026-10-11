@@ -127,7 +127,7 @@ export const EnterSystemCtaSection = ({ onEnterSystem, onHowItWorks }) => {
             REACH THE CORE?
           </p>
 
-          {/* Primary & Secondary Buttons (GSAP outer reveal + Framer Motion button interactions) */}
+          {/* Primary Button */}
           <div
             ref={ctaGroupRef}
             className="pt-3 flex flex-col sm:flex-row items-stretch sm:items-center gap-4"
@@ -138,15 +138,6 @@ export const EnterSystemCtaSection = ({ onEnterSystem, onHowItWorks }) => {
               ariaLabel="Enter the NEXUS System"
             >
               ENTER THE SYSTEM
-            </NexusActionButton>
-
-            <NexusActionButton
-              variant="secondary"
-              icon="down"
-              onClick={onHowItWorks}
-              ariaLabel="Review How Cyber Quest Works"
-            >
-              HOW IT WORKS
             </NexusActionButton>
           </div>
         </div>

@@ -60,14 +60,7 @@ export const EditorialFrameLayout = ({ children, systemOnline = false }) => {
             aria-label="Primary NEXUS Navigation"
             className="flex items-center gap-3 sm:gap-4 font-mono text-[11px]"
           >
-            {location.pathname === '/' ? (
-              <a
-                href="#how-it-works"
-                className="uppercase tracking-wider font-bold text-nexus-ink hover:text-nexus-crimson transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-nexus-crimson"
-              >
-                HOW IT WORKS
-              </a>
-            ) : (
+            {location.pathname !== '/' && (
               <Link
                 to="/"
                 className="uppercase tracking-wider font-bold text-nexus-ink hover:text-nexus-crimson transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-nexus-crimson"

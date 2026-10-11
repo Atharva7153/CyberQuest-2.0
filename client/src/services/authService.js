@@ -7,28 +7,61 @@ const API_BASE_URL =
 
 const TOKEN_STORAGE_KEY = 'nexus_team_jwt';
 const TEAM_ID_STORAGE_KEY = 'nexus_team_id';
+const OPERATIVE_STORAGE_KEY = 'nexus_team_operative';
 
 export const getStoredToken = () => localStorage.getItem(TOKEN_STORAGE_KEY);
 export const getStoredTeamId = () => localStorage.getItem(TEAM_ID_STORAGE_KEY);
+export const getStoredOperative = () => {
+  try {
+    const raw = localStorage.getItem(OPERATIVE_STORAGE_KEY);
+    return raw ? JSON.parse(raw) : null;
+  } catch {
+    return null;
+  }
+};
 
-export const storeTeamSession = (token, teamId) => {
+export const storeTeamSession = (token, teamId, operative = null) => {
   if (token) localStorage.setItem(TOKEN_STORAGE_KEY, token);
   if (teamId) localStorage.setItem(TEAM_ID_STORAGE_KEY, teamId);
+  if (operative) {
+    localStorage.setItem(OPERATIVE_STORAGE_KEY, JSON.stringify(operative));
+  }
 };
 
 export const clearTeamSession = () => {
   localStorage.removeItem(TOKEN_STORAGE_KEY);
   localStorage.removeItem(TEAM_ID_STORAGE_KEY);
+  localStorage.removeItem(OPERATIVE_STORAGE_KEY);
 };
 
-export const loginTeamRequest = async (teamId, password) => {
+export const fetchTeamRosterPublic = async (teamId) => {
+  const normalized = String(teamId || '').trim().toUpperCase();
+  if (!normalized) return null;
+  const response = await fetch(
+    `${API_BASE_URL}/api/auth/team-roster/${encodeURIComponent(normalized)}`,
+    {
+      method: 'GET',
+      headers: { Accept: 'application/json' },
+    }
+  );
+  if (!response.ok) return null;
+  const data = await response.json().catch(() => ({}));
+  return data.roster || null;
+};
+
+export const loginTeamRequest = async (teamId, password, operative = {}) => {
   const response = await fetch(`${API_BASE_URL}/api/auth/login`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
       Accept: 'application/json',
     },
-    body: JSON.stringify({ teamId, password }),
+    body: JSON.stringify({
+      teamId,
+      password,
+      memberId: operative?.memberId || 'OP-01',
+      memberName: operative?.memberName || operative?.name || '',
+    }),
   });
 
   const data = await response.json().catch(() => ({}));

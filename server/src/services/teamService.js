@@ -491,7 +491,7 @@ export const checkAndExpireTeamSessionIfNeeded = async (teamDocOrId) => {
             .toUpperCase(),
         });
 
-  if (!team || !team.activeAttempt || !team.activeAttempt.expiresAt) {
+  if (!team) {
     return { expired: false, team, evaluationResult: null, creditResult: null };
   }
 
@@ -501,16 +501,25 @@ export const checkAndExpireTeamSessionIfNeeded = async (teamDocOrId) => {
   }
 
   const now = new Date();
-  const expiresAt = new Date(team.activeAttempt.expiresAt);
-  if (now < expiresAt) {
+  const activeList =
+    Array.isArray(team.activeAttempts) && team.activeAttempts.length > 0
+      ? [...team.activeAttempts]
+      : team.activeAttempt && team.activeAttempt.expiresAt
+        ? [team.activeAttempt]
+        : [];
+
+  const expiredAttempt = activeList.find(
+    (att) => att?.expiresAt && now >= new Date(att.expiresAt)
+  );
+  if (!expiredAttempt) {
     return { expired: false, team, evaluationResult: null, creditResult: null };
   }
 
   try {
     const evalResponse = await ChallengeService.evaluateAndCompleteSession({
       teamDoc: team,
-      challengeId: team.activeAttempt.challengeId,
-      attemptId: team.activeAttempt.attemptId,
+      challengeId: expiredAttempt.challengeId,
+      attemptId: expiredAttempt.attemptId,
       submission: { outcome: 'TIMEOUT' },
       outcomeOverride: 'TIMEOUT',
     });
@@ -528,11 +537,31 @@ export const checkAndExpireTeamSessionIfNeeded = async (teamDocOrId) => {
 };
 
 export const reconcileTeamActiveChallengeWithCatalog = (team) => {
-  if (!team || !team.currentChallenge?.challengeId) return false;
+  if (!team) return false;
+  let modified = false;
+
+  // Ensure legacy activeAttempt is mirrored into activeAttempts if activeAttempts is empty
+  if (
+    team.activeAttempt &&
+    team.activeAttempt.challengeId &&
+    (!Array.isArray(team.activeAttempts) || team.activeAttempts.length === 0)
+  ) {
+    team.activeAttempts = [
+      typeof team.activeAttempt.toObject === 'function'
+        ? team.activeAttempt.toObject()
+        : { ...team.activeAttempt },
+    ];
+    if (typeof team.markModified === 'function') {
+      team.markModified('activeAttempts');
+    }
+    modified = true;
+  }
+
+  if (!team.currentChallenge?.challengeId) return modified;
   const catalogMatch = CHALLENGE_CATALOG.find(
     (c) => c.challengeId === team.currentChallenge.challengeId
   );
-  if (!catalogMatch) return false;
+  if (!catalogMatch) return modified;
 
   const currentType = team.currentChallenge.gameType;
   const attemptType = team.activeAttempt?.gameType;
@@ -541,7 +570,7 @@ export const reconcileTeamActiveChallengeWithCatalog = (team) => {
     attemptType !== catalogMatch.gameType ||
     team.currentChallenge.description !== catalogMatch.description;
 
-  if (!needsSync) return false;
+  if (!needsSync) return modified;
 
   team.currentChallenge = {
     ...team.currentChallenge,
@@ -573,7 +602,49 @@ export const reconcileTeamActiveChallengeWithCatalog = (team) => {
   return true;
 };
 
-export const authenticateTeam = async (rawTeamId, plainPassword) => {
+/**
+ * Public lookup for `/login` so each teammate on their laptop/mobile can see the team's 4 player slots
+ * and pick their slot + enter/confirm their name.
+ */
+export const getPublicTeamRoster = async (rawTeamId) => {
+  const normalizedTeamId = String(rawTeamId || '')
+    .trim()
+    .toUpperCase();
+  if (!normalizedTeamId) {
+    return null;
+  }
+
+  await ensureDefaultTeamsSeeded();
+  const team = await Team.findOne({ teamId: normalizedTeamId }).lean();
+  if (!team) {
+    return null;
+  }
+
+  const existingMembers = Array.isArray(team.members) ? team.members : [];
+  const slots = Array.from({ length: 4 }, (_, idx) => {
+    const slotId = `OP-0${idx + 1}`;
+    const existing =
+      existingMembers[idx] ||
+      existingMembers.find((m) => String(m.memberId).toUpperCase() === slotId) ||
+      null;
+    return {
+      slotNumber: idx + 1,
+      memberId: existing?.memberId || slotId,
+      name: existing?.name || '',
+      role: existing?.role || (idx === 0 ? 'LEAD' : 'OPERATIVE'),
+      online: Boolean(existing?.online),
+    };
+  });
+
+  return {
+    teamId: team.teamId,
+    teamName: team.teamName,
+    teamSize: Math.max(1, existingMembers.length || 4),
+    slots,
+  };
+};
+
+export const authenticateTeam = async (rawTeamId, plainPassword, operativeInput = {}) => {
   const normalizedTeamId = String(rawTeamId || '')
     .trim()
     .toUpperCase();
@@ -603,14 +674,68 @@ export const authenticateTeam = async (rawTeamId, plainPassword) => {
     throw err;
   }
 
-  await checkAndExpireTeamSessionIfNeeded(team);
-  const abilitiesUpdated = AbilityService.reconcileTeamAbilitiesState(team, DEFAULT_ABILITY_CATALOG);
-  const challengeUpdated = reconcileTeamActiveChallengeWithCatalog(team);
-  if (abilitiesUpdated || challengeUpdated) {
-    await team.save();
+  // Handle individual teammate slot & name selection (up to 4 players per team across laptops/mobiles)
+  const rawMemberId = String(operativeInput?.memberId || 'OP-01')
+    .trim()
+    .toUpperCase();
+  const rawMemberName = String(operativeInput?.memberName || operativeInput?.name || '')
+    .trim()
+    .toUpperCase();
+
+  if (!Array.isArray(team.members) || team.members.length === 0) {
+    team.members = [
+      { memberId: 'OP-01', name: 'PLAYER 1 (LEAD)', role: 'LEAD', online: true },
+    ];
   }
 
-  const token = signTeamToken(team);
+  // Determine slot index (0..3) from OP-01..OP-04 or existing memberId
+  let targetIdx = team.members.findIndex(
+    (m) => String(m.memberId || '').toUpperCase() === rawMemberId
+  );
+  if (targetIdx === -1) {
+    const slotMatch = rawMemberId.match(/(\d+)$/);
+    const slotIndex = slotMatch ? Math.min(3, Math.max(0, Number(slotMatch[1]) - 1)) : 0;
+    while (team.members.length <= slotIndex) {
+      const nextNum = team.members.length + 1;
+      team.members.push({
+        memberId: `OP-0${nextNum}`,
+        name: `PLAYER ${nextNum}`,
+        role: nextNum === 1 ? 'LEAD' : 'OPERATIVE',
+        online: false,
+      });
+    }
+    targetIdx = slotIndex;
+  }
+
+  const slotMember = team.members[targetIdx];
+  const fallbackName = targetIdx === 0 ? 'PLAYER 1 (LEAD)' : `PLAYER ${targetIdx + 1}`;
+  const finalMemberName = rawMemberName || slotMember?.name || fallbackName;
+  const finalMemberId = slotMember?.memberId || `OP-0${targetIdx + 1}`;
+  const finalMemberRole = slotMember?.role || (targetIdx === 0 ? 'LEAD' : 'OPERATIVE');
+
+  team.members[targetIdx] = {
+    memberId: finalMemberId,
+    name: finalMemberName,
+    role: finalMemberRole,
+    online: true,
+    lastSeenAt: new Date(),
+  };
+  team.markModified('members');
+
+  const resolvedOperative = {
+    memberId: finalMemberId,
+    name: finalMemberName,
+    memberName: finalMemberName,
+    role: finalMemberRole,
+    slotNumber: targetIdx + 1,
+  };
+
+  await checkAndExpireTeamSessionIfNeeded(team);
+  const abilitiesUpdated = AbilityService.reconcileTeamAbilitiesState(team, DEFAULT_ABILITY_CATALOG);
+  reconcileTeamActiveChallengeWithCatalog(team);
+  await team.save();
+
+  const token = signTeamToken(team, resolvedOperative);
 
   await AuditService.record({
     action: AUDIT_ACTION_TYPES.LOGIN,
@@ -619,10 +744,12 @@ export const authenticateTeam = async (rawTeamId, plainPassword) => {
     teamId: normalizedTeamId,
     creditsDelta: 0,
     balanceAfter: team.credits,
-    summary: `Operative squad [${normalizedTeamId}] (${team.teamName}) authenticated into NEXUS Portal.`,
+    summary: `Operative [${finalMemberName}] (${finalMemberId}) of squad [${normalizedTeamId}] (${team.teamName}) authenticated into NEXUS Portal.`,
     metadata: {
       teamName: team.teamName,
       credits: team.credits,
+      memberId: finalMemberId,
+      memberName: finalMemberName,
     },
   });
 
@@ -641,6 +768,7 @@ export const authenticateTeam = async (rawTeamId, plainPassword) => {
 
   return {
     token,
+    operative: resolvedOperative,
     team: publicTeam,
     nexusCore,
     transactions,
@@ -731,16 +859,23 @@ const inFlightTeamActions = new Map();
 
 export const executeTeamAction = async (rawTeamId, actionType, rawPayload = {}, options = {}) => {
   const isTrustedAdmin = Boolean(options?.isTrustedAdmin);
+  const operative = options?.operative || rawPayload?.operative || null;
   const payload = sanitizeClientActionPayload(rawPayload, isTrustedAdmin);
 
   const normalizedTeamId = String(rawTeamId || '')
     .trim()
     .toUpperCase();
 
-  if (inFlightTeamActions.has(normalizedTeamId)) {
+  // Scope action lock by challengeId when present so teammates on different laptops can solve different challenges concurrently
+  const scopedChallengeKey = String(payload?.challengeId || payload?.attemptId || 'GLOBAL')
+    .trim()
+    .toUpperCase();
+  const actionLockKey = `${normalizedTeamId}:${scopedChallengeKey}`;
+
+  if (inFlightTeamActions.has(actionLockKey)) {
     const normalizedAction = String(actionType || '').toUpperCase();
     const err = new Error(
-      `Concurrent team action blocked: another operation [${inFlightTeamActions.get(normalizedTeamId)}] is currently in flight for [${normalizedTeamId}].`
+      `Concurrent team action blocked: another operation [${inFlightTeamActions.get(actionLockKey)}] is currently in flight for [${normalizedTeamId}].`
     );
     err.statusCode = 409;
     if (
@@ -760,7 +895,7 @@ export const executeTeamAction = async (rawTeamId, actionType, rawPayload = {}, 
     throw err;
   }
 
-  inFlightTeamActions.set(normalizedTeamId, actionType);
+  inFlightTeamActions.set(actionLockKey, actionType);
 
   try {
     const team = await Team.findOne({ teamId: normalizedTeamId });
@@ -772,6 +907,7 @@ export const executeTeamAction = async (rawTeamId, actionType, rawPayload = {}, 
     }
 
   AbilityService.reconcileTeamAbilitiesState(team, DEFAULT_ABILITY_CATALOG);
+  reconcileTeamActiveChallengeWithCatalog(team);
 
   const nonTimerBlockedActions = new Set([
     'UPDATE_TEAM_ROSTER',
@@ -808,6 +944,7 @@ export const executeTeamAction = async (rawTeamId, actionType, rawPayload = {}, 
         challengeId,
         isReattemptRequested: Boolean(payload.isReattempt),
         buyOnly: true,
+        operative,
       });
       creditResult = acquisition.creditResult;
       break;
@@ -824,6 +961,7 @@ export const executeTeamAction = async (rawTeamId, actionType, rawPayload = {}, 
         challengeId,
         isReattemptRequested: Boolean(payload.isReattempt),
         buyOnly: Boolean(payload.buyOnly),
+        operative,
       });
       creditResult = acquisition.creditResult;
       break;
@@ -831,25 +969,76 @@ export const executeTeamAction = async (rawTeamId, actionType, rawPayload = {}, 
 
     case 'PAUSE_CHALLENGE':
     case 'SAVE_FOR_LATER': {
-      if (team.currentChallenge?.challengeId) {
+      const targetSaveId = String(
+        payload.challengeId || team.currentChallenge?.challengeId || team.activeAttempt?.challengeId || ''
+      )
+        .trim()
+        .toUpperCase();
+
+      if (targetSaveId) {
         if (!Array.isArray(team.purchasedChallenges)) {
           team.purchasedChallenges = [];
         }
-        const activeId = String(team.currentChallenge.challengeId).toUpperCase();
+        const matchedActive =
+          (team.activeAttempts || []).find(
+            (a) => String(a.challengeId).toUpperCase() === targetSaveId
+          ) ||
+          (team.activeAttempt &&
+          String(team.activeAttempt.challengeId).toUpperCase() === targetSaveId
+            ? team.activeAttempt
+            : null);
+
         const alreadyInPurchased = team.purchasedChallenges.some(
-          (c) => String(c.challengeId).toUpperCase() === activeId
+          (c) => String(c.challengeId).toUpperCase() === targetSaveId
         );
-        if (!alreadyInPurchased) {
+        if (!alreadyInPurchased && matchedActive) {
           team.purchasedChallenges.unshift({
-            ...team.currentChallenge,
-            attemptNumber: team.activeAttempt?.attemptNumber || 1,
-            timestamp: team.currentChallenge.timestamp || new Date(),
+            challengeId: matchedActive.challengeId,
+            title: matchedActive.title,
+            category: matchedActive.category,
+            difficulty: matchedActive.difficulty,
+            risk: matchedActive.risk,
+            cost: matchedActive.costPaid,
+            reward: matchedActive.potentialReward,
+            penalty: matchedActive.penaltyOnFail,
+            timeLimit: matchedActive.timeLimit,
+            gameType: matchedActive.gameType,
+            gameConfig: matchedActive.gameConfig || {},
+            attemptNumber: matchedActive.attemptNumber || 1,
+            timestamp: matchedActive.startedAt || new Date(),
           });
           team.markModified('purchasedChallenges');
         }
+
+        if (Array.isArray(team.activeAttempts)) {
+          team.activeAttempts = team.activeAttempts.filter(
+            (a) => String(a.challengeId).toUpperCase() !== targetSaveId
+          );
+          team.markModified('activeAttempts');
+        }
       }
-      team.currentChallenge = null;
-      team.activeAttempt = null;
+
+      const nextActive = team.activeAttempts?.[0] || null;
+      if (nextActive) {
+        team.activeAttempt = nextActive;
+        team.currentChallenge = {
+          challengeId: nextActive.challengeId,
+          title: nextActive.title,
+          category: nextActive.category,
+          difficulty: nextActive.difficulty,
+          risk: nextActive.risk,
+          cost: nextActive.costPaid,
+          reward: nextActive.potentialReward,
+          penalty: nextActive.penaltyOnFail,
+          timeLimit: nextActive.timeLimit,
+          gameType: nextActive.gameType,
+          gameConfig: nextActive.gameConfig || {},
+          timestamp: nextActive.startedAt || new Date(),
+        };
+      } else {
+        team.currentChallenge = null;
+        team.activeAttempt = null;
+      }
       await team.save();
       break;
     }
@@ -866,6 +1055,7 @@ export const executeTeamAction = async (rawTeamId, actionType, rawPayload = {}, 
         challengeId,
         isReattemptRequested: true,
         buyOnly: Boolean(payload.buyOnly),
+        operative,
       });
       creditResult = acquisition.creditResult;
       break;
@@ -884,6 +1074,8 @@ export const executeTeamAction = async (rawTeamId, actionType, rawPayload = {}, 
         ? CREDIT_TRANSACTION_TYPES.EXTRA_TIME
         : CREDIT_TRANSACTION_TYPES.HINT;
 
+      const requestedChallengeId = payload.challengeId || null;
+
       // Server-authoritative cost only — never trust client cost
       const cost = isExtraTime
         ? creditsConfig.getExtraTimeCost()
@@ -891,18 +1083,25 @@ export const executeTeamAction = async (rawTeamId, actionType, rawPayload = {}, 
 
       // Server-controlled validation BEFORE charging Resistance Credits
       if (isExtraTime) {
-        ChallengeService.validateExtraTimeEligibility(team);
+        ChallengeService.validateExtraTimeEligibility(team, requestedChallengeId);
       } else {
-        await ChallengeService.validateHintPurchaseEligibility(team);
+        await ChallengeService.validateHintPurchaseEligibility(team, requestedChallengeId);
       }
 
-      const relatedChallenge = team.currentChallenge
+      const targetAttempt = ChallengeService.findTargetActiveAttempt(team, requestedChallengeId);
+      const relatedChallenge = targetAttempt
         ? {
-            challengeId: team.currentChallenge.challengeId,
-            title: team.currentChallenge.title,
-            category: team.currentChallenge.category,
+            challengeId: targetAttempt.challengeId,
+            title: targetAttempt.title,
+            category: targetAttempt.category,
           }
-        : null;
+        : team.currentChallenge
+          ? {
+              challengeId: team.currentChallenge.challengeId,
+              title: team.currentChallenge.title,
+              category: team.currentChallenge.category,
+            }
+          : null;
 
       creditResult = await CreditService.recordTransaction({
         teamDoc: team,
@@ -910,7 +1109,9 @@ export const executeTeamAction = async (rawTeamId, actionType, rawPayload = {}, 
         amount: cost,
         relatedChallenge,
         summary: isExtraTime
-          ? `EXTRA TIME: +${creditsConfig.getExtraTimeMinutes()}m allocated (-${cost} CR)`
+          ? `EXTRA TIME: +${creditsConfig.getExtraTimeMinutes()}m allocated${
+              relatedChallenge ? ` for ${relatedChallenge.title}` : ''
+            } (-${cost} CR)`
           : `HINT DECRYPTED${
               relatedChallenge ? ` for ${relatedChallenge.title}` : ''
             } (-${cost} CR)`,
@@ -921,14 +1122,16 @@ export const executeTeamAction = async (rawTeamId, actionType, rawPayload = {}, 
         team.stats.extraTimePurchased += 1;
         await ChallengeService.extendSessionTimerForTeam(
           team,
-          creditsConfig.getExtraTimeMinutes()
+          creditsConfig.getExtraTimeMinutes(),
+          requestedChallengeId
         );
       } else {
         team.stats.hintsPurchased += 1;
-        await ChallengeService.unlockNextHintForTeam(team);
+        await ChallengeService.unlockNextHintForTeam(team, requestedChallengeId);
       }
       applyTeamRiskTelemetry(team, {
         risk:
+          targetAttempt?.risk ||
           team.currentChallenge?.risk ||
           team.activeAttempt?.risk ||
           team.stats?.riskProfile ||
@@ -943,17 +1146,17 @@ export const executeTeamAction = async (rawTeamId, actionType, rawPayload = {}, 
         actorId: normalizedTeamId,
         teamId: normalizedTeamId,
         challengeId: relatedChallenge?.challengeId || team.activeAttempt?.challengeId || null,
-        attemptId: team.activeAttempt?.attemptId || null,
-        attemptNumber: team.activeAttempt?.attemptNumber || 1,
+        attemptId: targetAttempt?.attemptId || team.activeAttempt?.attemptId || null,
+        attemptNumber: targetAttempt?.attemptNumber || team.activeAttempt?.attemptNumber || 1,
         creditsDelta: -cost,
         balanceAfter: team.credits,
         summary: isExtraTime
           ? `${normalizedTeamId} purchased +${creditsConfig.getExtraTimeMinutes()}m Extra Time (-${cost} CR)`
-          : `${normalizedTeamId} decrypted Hint #${team.activeAttempt?.hintsUnlocked || 1} (-${cost} CR)`,
+          : `${normalizedTeamId} decrypted Hint #${targetAttempt?.hintsUnlocked || 1} (-${cost} CR)`,
         metadata: {
           cost,
-          expiresAt: team.activeAttempt?.expiresAt || null,
-          hintsUnlocked: team.activeAttempt?.hintsUnlocked || 0,
+          expiresAt: targetAttempt?.expiresAt || team.activeAttempt?.expiresAt || null,
+          hintsUnlocked: targetAttempt?.hintsUnlocked || team.activeAttempt?.hintsUnlocked || 0,
         },
       });
       break;
@@ -1011,6 +1214,7 @@ export const executeTeamAction = async (rawTeamId, actionType, rawPayload = {}, 
         attemptId: payload.attemptId,
         submission: { outcome: 'ABANDONED' },
         outcomeOverride: 'ABANDONED',
+        operative,
       });
       creditResult = evalResponse.creditResult;
       evaluationResult = evalResponse.evaluationResult;
@@ -1024,6 +1228,7 @@ export const executeTeamAction = async (rawTeamId, actionType, rawPayload = {}, 
         attemptId: payload.attemptId,
         submission: { outcome: 'TIMEOUT' },
         outcomeOverride: 'TIMEOUT',
+        operative,
       });
       creditResult = evalResponse.creditResult;
       evaluationResult = evalResponse.evaluationResult;
@@ -1042,6 +1247,7 @@ export const executeTeamAction = async (rawTeamId, actionType, rawPayload = {}, 
           actionType === CREDIT_TRANSACTION_TYPES.FAILURE_PENALTY ||
           Boolean(payload.simulateFailure),
         outcomeOverride: isTrustedAdmin ? payload.outcomeOverride || null : null,
+        operative,
       });
       creditResult = evalResponse.creditResult;
       evaluationResult = evalResponse.evaluationResult;
@@ -1148,6 +1354,7 @@ export const executeTeamAction = async (rawTeamId, actionType, rawPayload = {}, 
       if (seed) {
         const { plainPassword, ...seedFields } = seed;
         Object.assign(team, seedFields);
+        team.activeAttempts = seed.activeAttempt ? [{ ...seed.activeAttempt }] : [];
         await team.save();
         await CreditTransaction.deleteMany({ teamId: normalizedTeamId });
         await ChallengeAttempt.deleteMany({ teamId: normalizedTeamId });
@@ -1161,6 +1368,7 @@ export const executeTeamAction = async (rawTeamId, actionType, rawPayload = {}, 
         team.currentChallenge = null;
         team.purchasedChallenges = [];
         team.activeAttempt = null;
+        team.activeAttempts = [];
         team.completedChallenges = [];
         team.failedChallenges = [];
         team.abilities = AbilityService.buildInitialTeamAbilitySlots(DEFAULT_ABILITY_CATALOG);
@@ -1233,6 +1441,11 @@ export const executeTeamAction = async (rawTeamId, actionType, rawPayload = {}, 
     abilityActivation,
   });
 
+  const targetTimerAttempt = ChallengeService.findTargetActiveAttempt(
+    team,
+    payload?.challengeId || null
+  );
+
   return {
     team: publicTeam,
     nexusCore,
@@ -1249,7 +1462,7 @@ export const executeTeamAction = async (rawTeamId, actionType, rawPayload = {}, 
     progressSummary,
     liveFeed,
     liveFeedEvents,
-    timer: ChallengeService.computeSessionTimerTelemetry(team.activeAttempt),
+    timer: ChallengeService.computeSessionTimerTelemetry(targetTimerAttempt),
     globalTimer: computeGlobalArenaTimer(),
     serverTime: new Date().toISOString(),
     event: {
@@ -1268,7 +1481,7 @@ export const executeTeamAction = async (rawTeamId, actionType, rawPayload = {}, 
     creditsConfig: CreditService.getConfig(),
   };
   } finally {
-    inFlightTeamActions.delete(normalizedTeamId);
+    inFlightTeamActions.delete(actionLockKey);
   }
 };
 

@@ -456,101 +456,33 @@ export const NexusVisualDossierSection = () => {
             </div>
           </div>
 
-          {/* Part C: EVENT AT A GLANCE & RULES OF FAIR PLAY */}
-          <div className="pt-8 border-t-2 border-nexus-ink grid grid-cols-1 lg:grid-cols-12 gap-8 gsap-editorial-reveal">
-            <div className="lg:col-span-7 space-y-5">
-              <h3 className="font-display text-4xl sm:text-5xl uppercase tracking-wide text-nexus-ink">
-                EVENT AT A <span className="text-nexus-crimson">GLANCE</span>
-              </h3>
+          {/* Part C: RULES OF FAIR PLAY */}
+          <div className="pt-8 border-t-2 border-nexus-ink gsap-editorial-reveal">
+            <div className="nexus-editorial-box p-5 sm:p-6 flex flex-col justify-between">
+              <div>
+                <div className="flex items-center justify-between pb-3 mb-4 border-b border-nexus-ink/20">
+                  <h4 className="font-condensed text-xl font-extrabold uppercase tracking-wider text-nexus-crimson flex items-center gap-2">
+                    <ShieldAlert className="w-5 h-5" />
+                    RULES &amp; FAIR PLAY
+                  </h4>
+                  <span className="font-mono text-[10px] bg-nexus-ink text-nexus-paper px-2 py-0.5 uppercase">
+                    ENFORCED
+                  </span>
+                </div>
 
-              {/* 4-Box Stat Strip from Slide 9 */}
-              <div className="grid grid-cols-2 sm:grid-cols-4 border-2 border-nexus-crimson bg-nexus-paper-elevated divide-y sm:divide-y-0 sm:divide-x divide-nexus-crimson">
-                <div className="p-4 text-center">
-                  <p className="font-display text-3xl sm:text-4xl text-nexus-crimson">~250</p>
-                  <p className="font-editorial text-xs font-bold uppercase mt-1">participants</p>
-                </div>
-                <div className="p-4 text-center">
-                  <p className="font-display text-3xl sm:text-4xl text-nexus-crimson">~60</p>
-                  <p className="font-editorial text-xs font-bold uppercase mt-1">teams</p>
-                </div>
-                <div className="p-4 text-center">
-                  <p className="font-display text-3xl sm:text-4xl text-nexus-crimson">1–4</p>
-                  <p className="font-editorial text-xs font-bold uppercase mt-1">solo to squad</p>
-                </div>
-                <div className="p-4 text-center">
-                  <p className="font-display text-3xl sm:text-4xl text-nexus-crimson">16</p>
-                  <p className="font-editorial text-xs font-bold uppercase mt-1">volunteers</p>
-                </div>
+                <ul className="grid grid-cols-1 md:grid-cols-2 gap-2.5 font-editorial text-sm sm:text-base font-medium text-nexus-ink">
+                  {FAIR_PLAY_RULES.map((rule) => (
+                    <li key={rule} className="flex items-start gap-2.5">
+                      <span className="w-1.5 h-1.5 bg-nexus-crimson mt-2 shrink-0" />
+                      <span>{rule}</span>
+                    </li>
+                  ))}
+                </ul>
               </div>
 
-              {/* Poster Logistics Strip */}
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-                <div className="nexus-editorial-box p-3.5 flex items-center gap-3">
-                  <Clock className="w-5 h-5 text-nexus-crimson shrink-0" />
-                  <div>
-                    <span className="block font-mono text-[10px] uppercase text-nexus-muted">
-                      DURATION
-                    </span>
-                    <span className="font-condensed text-base font-extrabold uppercase">
-                      ~ 2 – 2.5 HOURS
-                    </span>
-                  </div>
-                </div>
-
-                <div className="nexus-editorial-box p-3.5 flex items-center gap-3">
-                  <MapPin className="w-5 h-5 text-nexus-crimson shrink-0" />
-                  <div>
-                    <span className="block font-mono text-[10px] uppercase text-nexus-muted">
-                      VENUE
-                    </span>
-                    <span className="font-condensed text-base font-extrabold uppercase">
-                      CSE SEMINAR HALL
-                    </span>
-                  </div>
-                </div>
-
-                <div className="nexus-editorial-box p-3.5 flex items-center gap-3">
-                  <Coins className="w-5 h-5 text-nexus-crimson shrink-0" />
-                  <div>
-                    <span className="block font-mono text-[10px] uppercase text-nexus-muted">
-                      REGISTRATION FEE
-                    </span>
-                    <span className="font-condensed text-base font-extrabold uppercase">
-                      ₹150 / PARTICIPANT
-                    </span>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* Rules & Fair Play Box */}
-            <div className="lg:col-span-5">
-              <div className="nexus-editorial-box p-5 sm:p-6 h-full flex flex-col justify-between">
-                <div>
-                  <div className="flex items-center justify-between pb-3 mb-4 border-b border-nexus-ink/20">
-                    <h4 className="font-condensed text-xl font-extrabold uppercase tracking-wider text-nexus-crimson flex items-center gap-2">
-                      <ShieldAlert className="w-5 h-5" />
-                      RULES &amp; FAIR PLAY
-                    </h4>
-                    <span className="font-mono text-[10px] bg-nexus-ink text-nexus-paper px-2 py-0.5 uppercase">
-                      ENFORCED
-                    </span>
-                  </div>
-
-                  <ul className="space-y-2.5 font-editorial text-sm sm:text-base font-medium text-nexus-ink">
-                    {FAIR_PLAY_RULES.map((rule) => (
-                      <li key={rule} className="flex items-start gap-2.5">
-                        <span className="w-1.5 h-1.5 bg-nexus-crimson mt-2 shrink-0" />
-                        <span>{rule}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-
-                <div className="mt-5 pt-3 border-t border-dashed border-nexus-ink/25 font-mono text-[10px] uppercase tracking-widest text-nexus-muted flex justify-between">
-                  <span>MODE: COMPUTER LAB / SEMINAR HALL</span>
-                  <span>PROJECTOR TIMER</span>
-                </div>
+              <div className="mt-5 pt-3 border-t border-dashed border-nexus-ink/25 font-mono text-[10px] uppercase tracking-widest text-nexus-muted flex justify-between">
+                <span>MODE: COMPUTER LAB / SEMINAR HALL</span>
+                <span>PROJECTOR TIMER</span>
               </div>
             </div>
           </div>

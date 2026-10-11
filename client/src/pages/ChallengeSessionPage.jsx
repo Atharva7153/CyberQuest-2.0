@@ -123,10 +123,31 @@ export const ChallengeSessionPage = () => {
     return () => clearInterval(tick);
   }, []);
 
-  const activeAttempt = team?.activeAttempt || sessionMeta?.activeAttempt || null;
-  const isThisChallengeActive =
-    Boolean(activeAttempt) &&
-    String(activeAttempt.challengeId).toUpperCase() === normalizedRouteChallengeId;
+  const matchedFromActiveAttempts = (team?.activeAttempts || []).find(
+    (a) => String(a.challengeId || '').toUpperCase() === normalizedRouteChallengeId
+  );
+  const matchedFromSessionMeta =
+    sessionMeta?.activeAttempt &&
+    String(sessionMeta.activeAttempt.challengeId || '').toUpperCase() === normalizedRouteChallengeId
+      ? sessionMeta.activeAttempt
+      : null;
+  const matchedFromLegacy =
+    team?.activeAttempt &&
+    String(team.activeAttempt.challengeId || '').toUpperCase() === normalizedRouteChallengeId
+      ? team.activeAttempt
+      : null;
+
+  const activeAttempt =
+    matchedFromActiveAttempts ||
+    matchedFromSessionMeta ||
+    matchedFromLegacy ||
+    sessionMeta?.activeAttempt ||
+    team?.activeAttempt ||
+    null;
+
+  const isThisChallengeActive = Boolean(
+    matchedFromActiveAttempts || matchedFromSessionMeta || matchedFromLegacy
+  );
 
   const catalogChallenge = catalog.find(
     (c) => String(c.challengeId).toUpperCase() === normalizedRouteChallengeId
@@ -350,7 +371,11 @@ export const ChallengeSessionPage = () => {
   const handleTacticalSupport = async (itemType, cost) => {
     if (!isRoundActive || !isThisChallengeActive || actionPending || localSubmitting) return;
     try {
-      await performTeamAction(itemType, { itemType, cost });
+      await performTeamAction(itemType, {
+        itemType,
+        cost,
+        challengeId: targetChallenge?.challengeId || normalizedRouteChallengeId,
+      });
       await refreshSessionFromServer();
     } catch {
       // Handled by provider notification

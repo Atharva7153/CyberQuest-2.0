@@ -1,5 +1,6 @@
 import {
   authenticateTeam,
+  getPublicTeamRoster,
   getTeamStateById,
   executeTeamAction,
   CHALLENGE_CATALOG,
@@ -31,11 +32,32 @@ const scheduleProjectorLeaderboardBroadcast = () => {
   }, 250);
 };
 
+export const getTeamRosterPublic = async (req, res, next) => {
+  try {
+    const { teamId } = req.params || {};
+    const roster = await getPublicTeamRoster(teamId);
+    if (!roster) {
+      return res.status(404).json({
+        status: 'error',
+        code: 'TEAM_NOT_FOUND',
+        message: 'Team not found.',
+      });
+    }
+    res.status(200).json({
+      status: 'ok',
+      roster,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
 export const loginTeam = async (req, res, next) => {
   try {
-    const { teamId, password } = req.body || {};
+    const { teamId, password, memberId, memberName } = req.body || {};
     const {
       token,
+      operative,
       team,
       nexusCore,
       transactions,
@@ -49,12 +71,30 @@ export const loginTeam = async (req, res, next) => {
       globalTimer,
       creditsConfig,
       serverTime,
-    } = await authenticateTeam(teamId, password);
+    } = await authenticateTeam(teamId, password, { memberId, memberName });
+
+    // Broadcast updated roster/presence to any teammates already connected
+    socketEmitters.emitTeamStateUpdate(team.teamId, {
+      teamId: team.teamId,
+      team,
+      nexusCore: nexusCore || null,
+      transactions,
+      attempts: attempts || [],
+      attemptHistory: attemptHistory || [],
+      progressSummary: progressSummary || null,
+      liveFeed: liveFeed || [],
+      timer,
+      globalTimer: globalTimer || computeGlobalArenaTimer(),
+      serverTime: serverTime || new Date().toISOString(),
+      catalog: catalog || CHALLENGE_CATALOG,
+      creditsConfig,
+    });
 
     res.status(200).json({
       status: 'ok',
       service: 'cyber-quest-server',
       token,
+      operative,
       team,
       nexusCore: nexusCore || null,
       transactions,
@@ -95,9 +135,19 @@ export const getCurrentTeam = async (req, res, next) => {
     );
     const liveFeed = buildCanonicalLiveFeed(team, attempts, transactions, resolvedCatalog);
 
+    const operative = req.auth?.memberId
+      ? {
+          memberId: req.auth.memberId,
+          name: req.auth.memberName || 'PLAYER 1',
+          memberName: req.auth.memberName || 'PLAYER 1',
+          role: req.auth.memberRole || 'OPERATIVE',
+        }
+      : null;
+
     res.status(200).json({
       status: 'ok',
       service: 'cyber-quest-server',
+      operative,
       team,
       nexusCore,
       transactions,
@@ -202,7 +252,14 @@ export const getTeamNexusCore = async (req, res, next) => {
 export const postTeamAction = async (req, res, next) => {
   try {
     const { actionType, payload } = req.body || {};
-    const result = await executeTeamAction(req.team.teamId, actionType, payload);
+    const operative = req.auth?.memberId
+      ? {
+          memberId: req.auth.memberId,
+          memberName: req.auth.memberName || 'PLAYER 1',
+          role: req.auth.memberRole || 'OPERATIVE',
+        }
+      : null;
+    const result = await executeTeamAction(req.team.teamId, actionType, payload, { operative });
 
     // Broadcast credits:update to team:<teamId>
     socketEmitters.emitCreditsUpdate(req.team.teamId, {

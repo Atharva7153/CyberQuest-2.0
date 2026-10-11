@@ -372,35 +372,7 @@ export const CinematicHeroSection = ({ onEnterSystem, onHowItWorks }) => {
             <div className="hero-system-line h-[1.5px] w-full max-w-md bg-nexus-crimson/50" />
           </div>
 
-          {/* Crimson Brutalist Counter Bar (~250 Participants | ~60 Teams | 4 Members Per Team) */}
-          <div className="hero-system-meta bg-nexus-crimson text-white border-2 border-nexus-ink shadow-brutal max-w-lg">
-            <div className="grid grid-cols-3 divide-x divide-white/25 text-center py-3 px-2">
-              <div>
-                <p className="font-display text-2xl sm:text-4xl leading-none tracking-wider">
-                  ~250
-                </p>
-                <p className="font-mono text-[10px] sm:text-[11px] uppercase tracking-widest mt-1 text-white/90">
-                  PARTICIPANTS
-                </p>
-              </div>
-              <div>
-                <p className="font-display text-2xl sm:text-4xl leading-none tracking-wider">
-                  ~60
-                </p>
-                <p className="font-mono text-[10px] sm:text-[11px] uppercase tracking-widest mt-1 text-white/90">
-                  TEAMS
-                </p>
-              </div>
-              <div>
-                <p className="font-display text-2xl sm:text-4xl leading-none tracking-wider">1–4</p>
-                <p className="font-mono text-[10px] sm:text-[11px] uppercase tracking-widest mt-1 text-white/90">
-                  SOLO · DUO · TRIO · MAX 4
-                </p>
-              </div>
-            </div>
-          </div>
-
-          {/* Primary & Secondary CTAs (GSAP outer reveal + Framer Motion inner interaction) */}
+          {/* Primary CTA (GSAP outer reveal + Framer Motion inner interaction) */}
           <div
             ref={ctaRevealRef}
             className="pt-2 flex flex-col sm:flex-row items-stretch sm:items-center gap-4"
@@ -411,15 +383,6 @@ export const CinematicHeroSection = ({ onEnterSystem, onHowItWorks }) => {
               ariaLabel="Enter the NEXUS System"
             >
               ENTER THE SYSTEM
-            </NexusActionButton>
-
-            <NexusActionButton
-              variant="secondary"
-              icon="down"
-              onClick={onHowItWorks}
-              ariaLabel="Scroll to How Cyber Quest Works"
-            >
-              HOW IT WORKS
             </NexusActionButton>
           </div>
         </div>

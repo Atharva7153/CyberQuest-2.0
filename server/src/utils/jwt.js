@@ -1,12 +1,15 @@
 import jwt from 'jsonwebtoken';
 import { env } from '../config/env.js';
 
-export const signTeamToken = (team) => {
+export const signTeamToken = (team, operative = null) => {
   return jwt.sign(
     {
       sub: team._id?.toString(),
       teamId: team.teamId,
       teamName: team.teamName,
+      memberId: operative?.memberId || 'OP-01',
+      memberName: operative?.name || operative?.memberName || null,
+      memberRole: operative?.role || 'OPERATIVE',
       tokenScope: 'TEAM_OPERATIVE',
     },
     env.jwtSecret,

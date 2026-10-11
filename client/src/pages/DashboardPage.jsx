@@ -232,6 +232,15 @@ export const DashboardPage = ({ initialSection = 'HOME' }) => {
 
   const activeChallenge = team.currentChallenge;
   const activeAttempt = team.activeAttempt;
+  const activeAttemptsList =
+    Array.isArray(team.activeAttempts) && team.activeAttempts.length > 0
+      ? team.activeAttempts
+      : activeAttempt
+        ? [activeAttempt]
+        : [];
+  const activeAttemptsByChallengeId = new Map(
+    activeAttemptsList.map((a) => [String(a.challengeId || '').toUpperCase(), a])
+  );
 
   // Compute active challenge remaining time
   const expiresAtMs = activeAttempt?.expiresAt
@@ -272,7 +281,7 @@ export const DashboardPage = ({ initialSection = 'HOME' }) => {
             WELCOME, <span className="text-nexus-crimson">{team.teamName || team.teamId}</span>
           </h1>
           <p className="font-editorial text-sm sm:text-base text-nexus-charcoal font-medium">
-            Shared team credits ({Number(team.credits || 0).toLocaleString()} CR) — any teammate can buy challenges now and any teammate can solve them.
+            Shared team credits ({Number(team.credits || 0).toLocaleString()} CR) — teammates across laptops and mobiles can buy challenges and solve multiple challenges simultaneously!
           </p>
         </div>
 
@@ -299,71 +308,64 @@ export const DashboardPage = ({ initialSection = 'HOME' }) => {
           2. CURRENT CHALLENGE + TEAM + RECENT ACTIVITY GRID
          ===================================================================== */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 items-stretch">
-        {/* LEFT 7 COLS: CURRENT CHALLENGE & TEAM PURCHASED CHALLENGES */}
+        {/* LEFT 7 COLS: CURRENT CHALLENGES IN PROGRESS & TEAM PURCHASED CHALLENGES */}
         <div className="lg:col-span-7 flex flex-col gap-4">
-          {activeChallenge ? (
-            <div className="nexus-editorial-box p-5 sm:p-6 border-2 border-nexus-crimson bg-nexus-ink text-nexus-paper flex-1 flex flex-col justify-between space-y-5 shadow-brutal-crimson">
+          {activeAttemptsList.length > 0 ? (
+            <div className="nexus-editorial-box p-5 sm:p-6 border-2 border-nexus-crimson bg-nexus-ink text-nexus-paper flex-1 flex flex-col justify-between space-y-4 shadow-brutal-crimson">
               <div className="space-y-3">
                 <div className="flex items-center justify-between gap-2 border-b border-nexus-paper/15 pb-3">
                   <span className="px-2.5 py-0.5 bg-nexus-crimson text-white font-mono text-[10px] font-bold uppercase tracking-widest">
-                    ACTIVE CHALLENGE
+                    ACTIVE TEAM CHALLENGES ({activeAttemptsList.length})
                   </span>
                   <span className="font-mono text-xs text-nexus-paper/75 uppercase">
-                    {activeChallenge.category}
+                    LIVE COLLABORATION
                   </span>
                 </div>
 
-                <h2 className="font-display text-4xl sm:text-5xl uppercase tracking-wide text-white leading-none">
-                  {getFriendlyChallengeTitle(activeChallenge)}
-                </h2>
+                <div className="space-y-3">
+                  {activeAttemptsList.map((att) => {
+                    const attExpiresMs = att.expiresAt ? new Date(att.expiresAt).getTime() : null;
+                    const attRemSec = attExpiresMs
+                      ? Math.max(0, Math.ceil((attExpiresMs - estimatedServerNow) / 1000))
+                      : Number(att.timeLimit || 900);
+                    return (
+                      <div
+                        key={att.attemptId || att.challengeId}
+                        className="p-3.5 border border-nexus-paper/25 bg-black/50 space-y-3"
+                      >
+                        <div className="flex flex-wrap items-center justify-between gap-2">
+                          <div>
+                            <span className="font-mono text-[10px] uppercase tracking-widest text-nexus-crimson font-bold block">
+                              {att.category} · +{att.potentialReward || 400} CR
+                              {att.assignedMemberName
+                                ? ` · SOLVING: ${att.assignedMemberName}`
+                                : ''}
+                            </span>
+                            <h2 className="font-display text-3xl uppercase tracking-wide text-white leading-none mt-0.5">
+                              {getFriendlyChallengeTitle(att)}
+                            </h2>
+                          </div>
 
-                {getFriendlyChallengeDescription(activeChallenge) && (
-                  <p className="font-editorial text-xs sm:text-sm text-nexus-paper/80 leading-relaxed">
-                    {getFriendlyChallengeDescription(activeChallenge)}
-                  </p>
-                )}
-
-                <div className="grid grid-cols-3 gap-3 pt-2 font-mono text-xs">
-                  <div className="p-3 border border-nexus-paper/20 bg-black/40">
-                    <span className="block text-[10px] uppercase tracking-widest text-nexus-paper/60">
-                      TIME LEFT
-                    </span>
-                    <span className="font-display text-2xl sm:text-3xl text-nexus-crimson leading-none mt-1 block">
-                      {isRoundActive ? formatShortCountdown(activeRemainingSec) : 'PAUSED'}
-                    </span>
-                  </div>
-
-                  <div className="p-3 border border-nexus-paper/20 bg-black/40">
-                    <span className="block text-[10px] uppercase tracking-widest text-nexus-paper/60">
-                      REWARD
-                    </span>
-                    <span className="font-display text-2xl sm:text-3xl text-white leading-none mt-1 block">
-                      +{activeChallenge.reward} CR
-                    </span>
-                  </div>
-
-                  <div className="p-3 border border-nexus-paper/20 bg-black/40 flex flex-col justify-between">
-                    <span className="block text-[10px] uppercase tracking-widest text-nexus-paper/60">
-                      RISK
-                    </span>
-                    <div className="mt-1">
-                      <RiskBadge risk={activeChallenge.risk} size="xs" variant="onDark" />
-                    </div>
-                  </div>
+                          <div className="flex items-center gap-3 font-mono text-xs">
+                            <span className="px-2.5 py-1 border border-nexus-paper/20 bg-black text-nexus-crimson font-bold">
+                              {isRoundActive ? formatShortCountdown(attRemSec) : 'PAUSED'}
+                            </span>
+                            <button
+                              type="button"
+                              disabled={!isRoundActive}
+                              onClick={() => navigate(`/challenge/${att.challengeId}`)}
+                              className="px-3.5 py-2 bg-nexus-crimson hover:bg-white text-white hover:text-nexus-ink font-condensed text-sm font-extrabold uppercase tracking-[0.16em] border border-white/30 transition-colors cursor-pointer disabled:opacity-50 inline-flex items-center gap-1"
+                            >
+                              <span>{isRoundActive ? '[ OPEN ]' : '[ LOCKED ]'}</span>
+                              <ArrowUpRight className="w-3.5 h-3.5" />
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    );
+                  })}
                 </div>
               </div>
-
-              <button
-                type="button"
-                disabled={!isRoundActive}
-                onClick={() => navigate(`/challenge/${activeChallenge.challengeId}`)}
-                className="w-full py-3.5 px-5 bg-nexus-crimson hover:bg-white text-white hover:text-nexus-ink font-condensed text-lg font-extrabold uppercase tracking-[0.2em] border-2 border-white/30 transition-colors cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
-              >
-                <span>
-                  {isRoundActive ? '[ CONTINUE CHALLENGE ]' : '[ LOCKED — TIMER STOPPED ]'}
-                </span>
-                <ArrowUpRight className="w-4 h-4" />
-              </button>
             </div>
           ) : (
             <div className="nexus-editorial-box p-6 sm:p-8 border-2 border-nexus-ink bg-nexus-paper flex-1 flex flex-col justify-between space-y-6">
@@ -413,15 +415,21 @@ export const DashboardPage = ({ initialSection = 'HOME' }) => {
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
                 {purchasedList.map((item) => {
-                  const isCurrentlyActive = activeChallenge?.challengeId === item.challengeId;
+                  const matchedAttempt = activeAttemptsByChallengeId.get(
+                    String(item.challengeId).toUpperCase()
+                  );
+                  const isCurrentlyActive = Boolean(matchedAttempt);
+                  const solverName = matchedAttempt?.assignedMemberName || null;
                   return (
                     <div
                       key={item.challengeId}
                       className="p-3 border border-nexus-ink bg-nexus-paper-elevated flex items-center justify-between gap-2"
                     >
                       <div className="min-w-0">
-                        <span className="block font-mono text-[9px] uppercase tracking-widest text-nexus-muted">
-                          {item.category || 'CHALLENGE'} · +{item.reward || 400} CR
+                        <span className="block font-mono text-[9px] uppercase tracking-widest text-nexus-muted truncate">
+                          {solverName
+                            ? `● SOLVING: ${solverName}`
+                            : `${item.category || 'CHALLENGE'} · +${item.reward || 400} CR`}
                         </span>
                         <span className="block font-display text-xl uppercase text-nexus-ink truncate leading-none mt-0.5">
                           {getFriendlyChallengeTitle(item)}
@@ -446,7 +454,7 @@ export const DashboardPage = ({ initialSection = 'HOME' }) => {
                         {!isRoundActive
                           ? 'LOCKED'
                           : isCurrentlyActive
-                            ? '[ CONTINUE ]'
+                            ? '[ OPEN ]'
                             : '[ SOLVE NOW ]'}
                       </button>
                     </div>
@@ -477,25 +485,37 @@ export const DashboardPage = ({ initialSection = 'HOME' }) => {
 
             <ul className="grid grid-cols-1 sm:grid-cols-2 gap-2 font-mono text-xs">
               {teamMeta.members.map((member, index) => {
-                const isOnline = index < teamMeta.onlineCount;
+                const isOnline = Boolean(member.online) || index < teamMeta.onlineCount;
+                const activeTask = activeAttemptsList.find(
+                  (a) =>
+                    (a.assignedMemberId && a.assignedMemberId === member.memberId) ||
+                    (a.assignedMemberName && a.assignedMemberName === member.name)
+                );
                 return (
                   <li
                     key={member.memberId || member.name || index}
-                    className="px-3 py-2 border border-nexus-ink/30 bg-nexus-paper-elevated flex items-center justify-between gap-2"
+                    className="px-3 py-2 border border-nexus-ink/30 bg-nexus-paper-elevated flex flex-col justify-between gap-1"
                   >
-                    <span className="font-bold uppercase text-nexus-ink truncate flex items-center gap-2">
-                      <span
-                        className={`text-xs leading-none ${
-                          isOnline ? 'text-nexus-crimson' : 'text-nexus-muted'
-                        }`}
-                      >
-                        {isOnline ? '●' : '○'}
+                    <div className="flex items-center justify-between gap-2">
+                      <span className="font-bold uppercase text-nexus-ink truncate flex items-center gap-2">
+                        <span
+                          className={`text-xs leading-none ${
+                            isOnline ? 'text-nexus-crimson' : 'text-nexus-muted'
+                          }`}
+                        >
+                          {isOnline ? '●' : '○'}
+                        </span>
+                        <span className="truncate">{member.name}</span>
                       </span>
-                      <span>{member.name}</span>
-                    </span>
-                    <span className="text-[10px] text-nexus-muted uppercase">
-                      {isOnline ? 'ONLINE' : 'OFFLINE'}
-                    </span>
+                      <span className="text-[10px] text-nexus-muted uppercase shrink-0">
+                        {isOnline ? 'ONLINE' : 'OFFLINE'}
+                      </span>
+                    </div>
+                    {activeTask && (
+                      <span className="text-[10px] text-nexus-crimson font-bold uppercase truncate">
+                        SOLVING: {getFriendlyChallengeTitle(activeTask)}
+                      </span>
+                    )}
                   </li>
                 );
               })}

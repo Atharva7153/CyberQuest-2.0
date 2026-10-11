@@ -72,17 +72,26 @@ export const getChallengeSession = async (req, res, next) => {
       throw err;
     }
 
-    const timer = ChallengeService.computeSessionTimerTelemetry(team?.activeAttempt);
+    const matchedAttempt =
+      (team?.activeAttempts || []).find(
+        (a) => String(a.challengeId || '').toUpperCase() === requestedChallengeId
+      ) ||
+      (team?.activeAttempt &&
+      String(team.activeAttempt.challengeId || '').toUpperCase() === requestedChallengeId
+        ? team.activeAttempt
+        : null);
+
+    const timer = ChallengeService.computeSessionTimerTelemetry(
+      matchedAttempt || team?.activeAttempt
+    );
 
     res.status(200).json({
       status: 'ok',
       service: 'cyber-quest-server',
       challenge,
       team,
-      activeAttempt: team?.activeAttempt || null,
-      isMatchingActiveSession:
-        Boolean(team?.activeAttempt) &&
-        String(team.activeAttempt.challengeId).toUpperCase() === requestedChallengeId,
+      activeAttempt: matchedAttempt || team?.activeAttempt || null,
+      isMatchingActiveSession: Boolean(matchedAttempt),
       timer,
       attempts: attempts || [],
       serverTime: new Date().toISOString(),
@@ -96,11 +105,23 @@ export const acquireChallenge = async (req, res, next) => {
   try {
     const challengeId = req.params.challengeId || req.body?.challengeId;
     const isReattempt = Boolean(req.body?.isReattempt);
+    const operative = req.auth?.memberId
+      ? {
+          memberId: req.auth.memberId,
+          memberName: req.auth.memberName || 'PLAYER 1',
+          role: req.auth.memberRole || 'OPERATIVE',
+        }
+      : null;
 
-    const result = await executeTeamAction(req.team.teamId, 'ACQUIRE_CHALLENGE', {
-      challengeId,
-      isReattempt,
-    });
+    const result = await executeTeamAction(
+      req.team.teamId,
+      'ACQUIRE_CHALLENGE',
+      {
+        challengeId,
+        isReattempt,
+      },
+      { operative }
+    );
 
     socketEmitters.emitCreditsUpdate(req.team.teamId, {
       teamId: req.team.teamId,
@@ -129,6 +150,7 @@ export const acquireChallenge = async (req, res, next) => {
         teamId: req.team.teamId,
         challenge: result.team.currentChallenge,
         activeAttempt: result.team.activeAttempt,
+        activeAttempts: result.team.activeAttempts || [],
         timer: result.timer,
         timestamp: new Date().toISOString(),
       },
@@ -140,6 +162,7 @@ export const acquireChallenge = async (req, res, next) => {
       service: 'cyber-quest-server',
       team: result.team,
       activeAttempt: result.team.activeAttempt,
+      activeAttempts: result.team.activeAttempts || [],
       currentChallenge: result.team.currentChallenge,
       attempts: result.attempts || [],
       timer: result.timer,
@@ -165,13 +188,25 @@ export const submitChallengeSession = async (req, res, next) => {
       solution,
       simulateFailure,
     } = req.body || {};
+    const operative = req.auth?.memberId
+      ? {
+          memberId: req.auth.memberId,
+          memberName: req.auth.memberName || 'PLAYER 1',
+          role: req.auth.memberRole || 'OPERATIVE',
+        }
+      : null;
 
-    const result = await executeTeamAction(req.team.teamId, 'SUBMIT_CHALLENGE', {
-      challengeId: req.params.challengeId || challengeId,
-      attemptId,
-      submission: submission ?? answer ?? solution,
-      simulateFailure: Boolean(simulateFailure),
-    });
+    const result = await executeTeamAction(
+      req.team.teamId,
+      'SUBMIT_CHALLENGE',
+      {
+        challengeId: req.params.challengeId || challengeId,
+        attemptId,
+        submission: submission ?? answer ?? solution,
+        simulateFailure: Boolean(simulateFailure),
+      },
+      { operative }
+    );
 
     socketEmitters.emitCreditsUpdate(req.team.teamId, {
       teamId: req.team.teamId,
@@ -222,11 +257,23 @@ export const submitChallengeSession = async (req, res, next) => {
 export const abandonChallengeSession = async (req, res, next) => {
   try {
     const { challengeId, attemptId } = req.body || {};
+    const operative = req.auth?.memberId
+      ? {
+          memberId: req.auth.memberId,
+          memberName: req.auth.memberName || 'PLAYER 1',
+          role: req.auth.memberRole || 'OPERATIVE',
+        }
+      : null;
 
-    const result = await executeTeamAction(req.team.teamId, 'ABANDON_CHALLENGE', {
-      challengeId: req.params.challengeId || challengeId,
-      attemptId,
-    });
+    const result = await executeTeamAction(
+      req.team.teamId,
+      'ABANDON_CHALLENGE',
+      {
+        challengeId: req.params.challengeId || challengeId,
+        attemptId,
+      },
+      { operative }
+    );
 
     socketEmitters.emitCreditsUpdate(req.team.teamId, {
       teamId: req.team.teamId,

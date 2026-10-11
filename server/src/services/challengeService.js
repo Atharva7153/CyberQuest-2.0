@@ -849,6 +849,7 @@ export class ChallengeService {
     challengeId,
     isReattemptRequested,
     buyOnly = false,
+    operative = null,
   }) {
     const resolvedTeamId = String(teamDoc?.teamId || teamId || '')
       .trim()
@@ -922,15 +923,41 @@ export class ChallengeService {
       if (!Array.isArray(team.purchasedChallenges)) {
         team.purchasedChallenges = [];
       }
+      if (!Array.isArray(team.activeAttempts)) {
+        team.activeAttempts = [];
+      }
+
+      // Ensure legacy activeAttempt is reflected in activeAttempts
+      if (
+        team.activeAttempt &&
+        team.activeAttempt.status === 'IN_PROGRESS' &&
+        team.activeAttempt.challengeId &&
+        !team.activeAttempts.some(
+          (a) =>
+            String(a.challengeId).toUpperCase() ===
+            String(team.activeAttempt.challengeId).toUpperCase()
+        )
+      ) {
+        team.activeAttempts.unshift(
+          typeof team.activeAttempt.toObject === 'function'
+            ? team.activeAttempt.toObject()
+            : { ...team.activeAttempt }
+        );
+      }
 
       const existingPurchasedEntry = team.purchasedChallenges.find(
         (c) => String(c.challengeId).toUpperCase() === challenge.challengeId
       );
-      const isCurrentlyActive =
-        team.activeAttempt &&
-        team.activeAttempt.status === 'IN_PROGRESS' &&
-        String(team.activeAttempt.challengeId).toUpperCase() === challenge.challengeId;
+      const existingActiveIndex = team.activeAttempts.findIndex(
+        (a) =>
+          a.status === 'IN_PROGRESS' &&
+          String(a.challengeId).toUpperCase() === challenge.challengeId
+      );
+      const isCurrentlyActive = existingActiveIndex !== -1;
       const alreadyPurchased = Boolean(existingPurchasedEntry || isCurrentlyActive);
+
+      const resolvedMemberId = String(operative?.memberId || '').trim() || null;
+      const resolvedMemberName = String(operative?.memberName || operative?.name || '').trim() || null;
 
       // If buyOnly was requested on a challenge already owned by the team, block duplicate purchase
       if (buyOnly && alreadyPurchased) {
@@ -942,32 +969,21 @@ export class ChallengeService {
         throw err;
       }
 
-      // If starting/opening a challenge that is already the active attempt in progress, return it directly
+      // If starting/opening a challenge that is already in activeAttempts, return it directly (updating operative if needed)
       if (!buyOnly && isCurrentlyActive) {
+        const matchedAttempt = team.activeAttempts[existingActiveIndex];
+        if (resolvedMemberId && !matchedAttempt.assignedMemberId) {
+          matchedAttempt.assignedMemberId = resolvedMemberId;
+          matchedAttempt.assignedMemberName = resolvedMemberName;
+          team.markModified('activeAttempts');
+          await team.save();
+        }
         return {
           team,
           challenge,
           creditResult: null,
-          activeAttempt: team.activeAttempt,
+          activeAttempt: matchedAttempt,
         };
-      }
-
-      // If the team had another active challenge in progress, ensure it stays in purchasedChallenges so it isn't lost when switching
-      if (
-        !buyOnly &&
-        team.currentChallenge?.challengeId &&
-        String(team.currentChallenge.challengeId).toUpperCase() !== challenge.challengeId
-      ) {
-        const prevActiveId = String(team.currentChallenge.challengeId).toUpperCase();
-        const prevAlreadyListed = team.purchasedChallenges.some(
-          (c) => String(c.challengeId).toUpperCase() === prevActiveId
-        );
-        if (!prevAlreadyListed) {
-          team.purchasedChallenges.unshift({
-            ...team.currentChallenge,
-            timestamp: team.currentChallenge.timestamp || new Date(),
-          });
-        }
       }
 
       const wasFailed = (team.failedChallenges || []).some(
@@ -1049,6 +1065,8 @@ export class ChallengeService {
           enabled: challenge.enabled,
           available: challenge.available,
           attemptNumber,
+          purchasedByMemberId: resolvedMemberId,
+          purchasedByMemberName: resolvedMemberName,
           timestamp: now,
         });
         team.markModified('purchasedChallenges');
@@ -1062,7 +1080,7 @@ export class ChallengeService {
           attemptNumber,
           creditsDelta: -effectiveCost,
           balanceAfter: team.credits,
-          summary: `${team.teamId} purchased ${
+          summary: `${team.teamId}${resolvedMemberName ? ` (${resolvedMemberName})` : ''} purchased ${
             isReattempt ? `reattempt #${attemptNumber}` : 'challenge'
           } [${challenge.challengeId}] ${challenge.title} for ${effectiveCost} CR${
             buyOnly ? ' (saved for later)' : ''
@@ -1074,6 +1092,8 @@ export class ChallengeService {
             attemptNumber,
             buyOnly,
             risk: normalizedRisk,
+            memberId: resolvedMemberId,
+            memberName: resolvedMemberName,
           },
         });
       }
@@ -1115,7 +1135,7 @@ export class ChallengeService {
 
       const maxHints = Number(challenge.gameConfig?.maxHints || 2);
 
-      team.activeAttempt = {
+      const newAttemptObj = {
         attemptId,
         attemptNumber,
         challengeId: challenge.challengeId,
@@ -1135,10 +1155,21 @@ export class ChallengeService {
         extraTimeMinutes: 0,
         activeAbilities: [],
         isReattempt,
+        assignedMemberId: resolvedMemberId,
+        assignedMemberName: resolvedMemberName,
         startedAt: now,
         expiresAt,
         status: 'IN_PROGRESS',
       };
+
+      team.activeAttempt = newAttemptObj;
+
+      // Keep other teammates' concurrent attempts in activeAttempts while adding/replacing this challenge
+      team.activeAttempts = (team.activeAttempts || []).filter(
+        (a) => String(a.challengeId).toUpperCase() !== challenge.challengeId
+      );
+      team.activeAttempts.unshift(newAttemptObj);
+      team.markModified('activeAttempts');
 
       await team.save();
 
@@ -1163,6 +1194,8 @@ export class ChallengeService {
           unlockedHints: [],
           extraTimeMinutes: 0,
           isReattempt,
+          assignedMemberId: resolvedMemberId,
+          assignedMemberName: resolvedMemberName,
           startedAt: now,
           expiresAt,
           result: 'IN_PROGRESS',
@@ -1183,11 +1216,13 @@ export class ChallengeService {
         attemptNumber,
         creditsDelta: 0,
         balanceAfter: team.credits,
-        summary: `${team.teamId} started session [${attemptId}] (Attempt #${attemptNumber}) on [${challenge.challengeId}]`,
+        summary: `${team.teamId}${resolvedMemberName ? ` (${resolvedMemberName})` : ''} started session [${attemptId}] (Attempt #${attemptNumber}) on [${challenge.challengeId}]`,
         metadata: {
           startedAt: now.toISOString(),
           expiresAt: expiresAt.toISOString(),
           timeLimit: timeLimitSeconds,
+          memberId: resolvedMemberId,
+          memberName: resolvedMemberName,
         },
       });
 
@@ -1195,11 +1230,33 @@ export class ChallengeService {
         team,
         challenge,
         creditResult,
-        activeAttempt: team.activeAttempt,
+        activeAttempt: newAttemptObj,
       };
     } finally {
       ChallengeService._acquisitionLocks.delete(acqLockKey);
     }
+  }
+
+  /**
+   * Helper to resolve a specific active attempt from team.activeAttempts or team.activeAttempt
+   */
+  static findTargetActiveAttempt(team, requestedChallengeId = null) {
+    if (!team) return null;
+    const normalizedId = String(requestedChallengeId || '').trim().toUpperCase();
+    if (normalizedId && Array.isArray(team.activeAttempts)) {
+      const match = team.activeAttempts.find(
+        (a) => String(a.challengeId || '').toUpperCase() === normalizedId
+      );
+      if (match) return match;
+    }
+    if (
+      normalizedId &&
+      team.activeAttempt &&
+      String(team.activeAttempt.challengeId || '').toUpperCase() === normalizedId
+    ) {
+      return team.activeAttempt;
+    }
+    return team.activeAttempt || team.activeAttempts?.[0] || null;
   }
 
   /**
@@ -1208,9 +1265,10 @@ export class ChallengeService {
    * - Ensures locked hint strings are NEVER exposed before purchase
    * - Prevents charging credits if all available hints are already unlocked
    */
-  static async validateHintPurchaseEligibility(team) {
-    const activeId = team?.currentChallenge?.challengeId || team?.activeAttempt?.challengeId;
-    if (!activeId || !team?.activeAttempt) {
+  static async validateHintPurchaseEligibility(team, requestedChallengeId = null) {
+    const targetAttempt = ChallengeService.findTargetActiveAttempt(team, requestedChallengeId);
+    const activeId = targetAttempt?.challengeId || team?.currentChallenge?.challengeId;
+    if (!activeId || !targetAttempt) {
       const err = new Error(
         'Cannot purchase a hint: no active challenge session is currently in progress.'
       );
@@ -1223,17 +1281,17 @@ export class ChallengeService {
       includeSolution: true,
     });
     const hintsPool = fullChallenge?.solutionConfig?.hints || [
-      `HINT 01 // Verify the target syntax and constraints in ${team.currentChallenge?.title || activeId}.`,
+      `HINT 01 // Verify the target syntax and constraints in ${targetAttempt.title || activeId}.`,
       `HINT 02 // Cross-check the sector reference telemetry in the module header.`,
     ];
 
-    const currentUnlockedCount = Array.isArray(team.activeAttempt.unlockedHints)
-      ? team.activeAttempt.unlockedHints.length
-      : Number(team.activeAttempt.hintsUnlocked || 0);
+    const currentUnlockedCount = Array.isArray(targetAttempt.unlockedHints)
+      ? targetAttempt.unlockedHints.length
+      : Number(targetAttempt.hintsUnlocked || 0);
 
     if (currentUnlockedCount >= hintsPool.length) {
       const err = new Error(
-        `All ${hintsPool.length} intelligence hints for ${team.currentChallenge?.title || activeId} have already been decrypted.`
+        `All ${hintsPool.length} intelligence hints for ${targetAttempt.title || activeId} have already been decrypted.`
       );
       err.statusCode = 409;
       err.code = 'ALL_HINTS_ALREADY_UNLOCKED';
@@ -1251,8 +1309,9 @@ export class ChallengeService {
   /**
    * Server-controlled validation before charging credits for Extra Time
    */
-  static validateExtraTimeEligibility(team) {
-    if (!team?.activeAttempt || !team?.currentChallenge) {
+  static validateExtraTimeEligibility(team, requestedChallengeId = null) {
+    const targetAttempt = ChallengeService.findTargetActiveAttempt(team, requestedChallengeId);
+    if (!targetAttempt) {
       const err = new Error(
         'Cannot purchase Extra Time: no active challenge session is currently in progress.'
       );
@@ -1267,41 +1326,51 @@ export class ChallengeService {
    * Server-authoritative Hint Decryption for the Active Challenge Session.
    * Only reveals the single purchased hint string after credits are deducted.
    */
-  static async unlockNextHintForTeam(team) {
-    const activeId = team.currentChallenge?.challengeId || team.activeAttempt?.challengeId;
-    if (!activeId) return null;
+  static async unlockNextHintForTeam(team, requestedChallengeId = null) {
+    const targetAttempt = ChallengeService.findTargetActiveAttempt(team, requestedChallengeId);
+    const activeId = targetAttempt?.challengeId || team.currentChallenge?.challengeId;
+    if (!activeId || !targetAttempt) return null;
 
     const fullChallenge = await ChallengeService.getChallengeById(activeId, {
       includeSolution: true,
     });
     const hintsPool = fullChallenge?.solutionConfig?.hints || [
-      `HINT 01 // Verify the target syntax and constraints in ${team.currentChallenge?.title || activeId}.`,
+      `HINT 01 // Verify the target syntax and constraints in ${targetAttempt.title || activeId}.`,
       `HINT 02 // Cross-check the sector reference telemetry in the module header.`,
     ];
 
-    const existingHints = Array.isArray(team.activeAttempt?.unlockedHints)
-      ? team.activeAttempt.unlockedHints
+    const existingHints = Array.isArray(targetAttempt?.unlockedHints)
+      ? targetAttempt.unlockedHints
       : [];
     const currentCount = existingHints.length;
     const nextHint =
       hintsPool[Math.min(currentCount, hintsPool.length - 1)] ||
       `HINT // All available intelligence layers decrypted for ${activeId}.`;
 
-    if (team.activeAttempt) {
-      team.activeAttempt.maxHints = hintsPool.length;
-      if (!existingHints.includes(nextHint)) {
-        team.activeAttempt.unlockedHints = [...existingHints, nextHint];
-      }
-      team.activeAttempt.hintsUnlocked = team.activeAttempt.unlockedHints.length;
+    targetAttempt.maxHints = hintsPool.length;
+    if (!existingHints.includes(nextHint)) {
+      targetAttempt.unlockedHints = [...existingHints, nextHint];
     }
+    targetAttempt.hintsUnlocked = targetAttempt.unlockedHints.length;
 
-    if (mongoose.connection.readyState === 1 && team.activeAttempt?.attemptId) {
+    if (
+      team.activeAttempt &&
+      String(team.activeAttempt.challengeId).toUpperCase() === String(activeId).toUpperCase()
+    ) {
+      team.activeAttempt.maxHints = targetAttempt.maxHints;
+      team.activeAttempt.unlockedHints = targetAttempt.unlockedHints;
+      team.activeAttempt.hintsUnlocked = targetAttempt.hintsUnlocked;
+      team.markModified('activeAttempt');
+    }
+    team.markModified('activeAttempts');
+
+    if (mongoose.connection.readyState === 1 && targetAttempt?.attemptId) {
       await ChallengeAttempt.findOneAndUpdate(
-        { attemptId: team.activeAttempt.attemptId },
+        { attemptId: targetAttempt.attemptId },
         {
           $set: {
-            hintsUnlocked: team.activeAttempt.hintsUnlocked,
-            unlockedHints: team.activeAttempt.unlockedHints,
+            hintsUnlocked: targetAttempt.hintsUnlocked,
+            unlockedHints: targetAttempt.unlockedHints,
           },
         }
       ).catch(() => {});
@@ -1314,35 +1383,52 @@ export class ChallengeService {
    * Server-authoritative Timer Extension (+Extra Time).
    * Client must NEVER be trusted to extend the timer directly.
    */
-  static async extendSessionTimerForTeam(team, extraMinutes = 5) {
-    if (!team?.activeAttempt) return null;
+  static async extendSessionTimerForTeam(team, extraMinutes = 5, requestedChallengeId = null) {
+    const targetAttempt = ChallengeService.findTargetActiveAttempt(team, requestedChallengeId);
+    if (!targetAttempt) return null;
 
     const addMs = Number(extraMinutes || 5) * 60 * 1000;
     const now = new Date();
-    const currentExpires = team.activeAttempt.expiresAt
-      ? new Date(team.activeAttempt.expiresAt)
-      : new Date(now.getTime() + Number(team.activeAttempt.timeLimit || 1200) * 1000);
+    const currentExpires = targetAttempt.expiresAt
+      ? new Date(targetAttempt.expiresAt)
+      : new Date(now.getTime() + Number(targetAttempt.timeLimit || 1200) * 1000);
 
     const baseTime = currentExpires > now ? currentExpires : now;
     const nextExpiresAt = new Date(baseTime.getTime() + addMs);
 
-    team.activeAttempt.extraTimeMinutes =
-      Number(team.activeAttempt.extraTimeMinutes || 0) + Number(extraMinutes || 5);
-    team.activeAttempt.timeLimit =
-      Number(team.activeAttempt.timeLimit || 1200) + Number(extraMinutes || 5) * 60;
-    team.activeAttempt.expiresAt = nextExpiresAt;
+    targetAttempt.extraTimeMinutes =
+      Number(targetAttempt.extraTimeMinutes || 0) + Number(extraMinutes || 5);
+    targetAttempt.timeLimit =
+      Number(targetAttempt.timeLimit || 1200) + Number(extraMinutes || 5) * 60;
+    targetAttempt.expiresAt = nextExpiresAt;
 
-    if (team.currentChallenge) {
-      team.currentChallenge.timeLimit = team.activeAttempt.timeLimit;
+    if (
+      team.activeAttempt &&
+      String(team.activeAttempt.challengeId).toUpperCase() ===
+        String(targetAttempt.challengeId).toUpperCase()
+    ) {
+      team.activeAttempt.extraTimeMinutes = targetAttempt.extraTimeMinutes;
+      team.activeAttempt.timeLimit = targetAttempt.timeLimit;
+      team.activeAttempt.expiresAt = nextExpiresAt;
+      team.markModified('activeAttempt');
     }
+    if (
+      team.currentChallenge &&
+      String(team.currentChallenge.challengeId).toUpperCase() ===
+        String(targetAttempt.challengeId).toUpperCase()
+    ) {
+      team.currentChallenge.timeLimit = targetAttempt.timeLimit;
+      team.markModified('currentChallenge');
+    }
+    team.markModified('activeAttempts');
 
-    if (mongoose.connection.readyState === 1 && team.activeAttempt.attemptId) {
+    if (mongoose.connection.readyState === 1 && targetAttempt.attemptId) {
       await ChallengeAttempt.findOneAndUpdate(
-        { attemptId: team.activeAttempt.attemptId },
+        { attemptId: targetAttempt.attemptId },
         {
           $set: {
-            extraTimeMinutes: team.activeAttempt.extraTimeMinutes,
-            timeLimit: team.activeAttempt.timeLimit,
+            extraTimeMinutes: targetAttempt.extraTimeMinutes,
+            timeLimit: targetAttempt.timeLimit,
             expiresAt: nextExpiresAt,
           },
         }
@@ -1350,10 +1436,10 @@ export class ChallengeService {
     }
 
     return {
-      startedAt: team.activeAttempt.startedAt,
+      startedAt: targetAttempt.startedAt,
       expiresAt: nextExpiresAt,
-      timeLimit: team.activeAttempt.timeLimit,
-      extraTimeMinutes: team.activeAttempt.extraTimeMinutes,
+      timeLimit: targetAttempt.timeLimit,
+      extraTimeMinutes: targetAttempt.extraTimeMinutes,
     };
   }
 
@@ -1374,11 +1460,15 @@ export class ChallengeService {
     submission,
     simulateFailure = false,
     outcomeOverride = null, // 'TIMEOUT' | 'ABANDONED' | null
+    operative = null,
   }) {
     const resolvedTeamId = String(teamDoc?.teamId || teamId || '')
       .trim()
       .toUpperCase();
-    const teamLockKey = `${resolvedTeamId}:SUBMIT`;
+    const lockChallengeSuffix = String(challengeId || attemptId || 'ACTIVE')
+      .trim()
+      .toUpperCase();
+    const teamLockKey = `${resolvedTeamId}:${lockChallengeSuffix}:SUBMIT`;
 
     if (ChallengeService._submissionLocks.has(teamLockKey)) {
       const err = new Error(
@@ -1404,8 +1494,37 @@ export class ChallengeService {
         throw err;
       }
 
+      // Resolve the specific active attempt from activeAttempts or activeAttempt
+      const requestedIdUpper = String(challengeId || '').trim().toUpperCase();
+      const requestedAttemptId = String(attemptId || '').trim();
+
+      let matchedAttemptDoc = null;
+      if (Array.isArray(team.activeAttempts) && team.activeAttempts.length > 0) {
+        if (requestedAttemptId) {
+          matchedAttemptDoc = team.activeAttempts.find(
+            (a) => String(a.attemptId || '').trim() === requestedAttemptId
+          );
+        }
+        if (!matchedAttemptDoc && requestedIdUpper) {
+          matchedAttemptDoc = team.activeAttempts.find(
+            (a) => String(a.challengeId || '').toUpperCase() === requestedIdUpper
+          );
+        }
+      }
+      if (!matchedAttemptDoc && team.activeAttempt) {
+        if (
+          !requestedIdUpper ||
+          String(team.activeAttempt.challengeId || '').toUpperCase() === requestedIdUpper
+        ) {
+          matchedAttemptDoc = team.activeAttempt;
+        }
+      }
+      if (!matchedAttemptDoc && Array.isArray(team.activeAttempts) && team.activeAttempts.length > 0) {
+        matchedAttemptDoc = team.activeAttempts[0];
+      }
+
       // Prevent duplicate submission if no active session exists
-      if (!team.activeAttempt && !team.currentChallenge) {
+      if (!matchedAttemptDoc && !team.activeAttempt && !team.currentChallenge) {
         const err = new Error(
           'Duplicate or stale submission blocked: no active challenge session is in progress.'
         );
@@ -1414,18 +1533,18 @@ export class ChallengeService {
         throw err;
       }
 
-      const activeAttemptSnapshot = team.activeAttempt
-        ? typeof team.activeAttempt.toObject === 'function'
-          ? team.activeAttempt.toObject()
-          : { ...team.activeAttempt }
+      const activeAttemptSnapshot = matchedAttemptDoc
+        ? typeof matchedAttemptDoc.toObject === 'function'
+          ? matchedAttemptDoc.toObject()
+          : { ...matchedAttemptDoc }
         : null;
 
       const resolvedAttemptId =
         activeAttemptSnapshot?.attemptId || attemptId || `ATT-${Date.now().toString().slice(-5)}`;
       const targetChallengeId =
         activeAttemptSnapshot?.challengeId ||
-        team.currentChallenge?.challengeId ||
         challengeId ||
+        team.currentChallenge?.challengeId ||
         'CHG-PUZ-05';
 
       // Check if client tried to submit for a different attemptId that already closed
@@ -1524,6 +1643,15 @@ export class ChallengeService {
 
       const attemptNumber = Math.max(1, Number(activeAttemptSnapshot?.attemptNumber || 1));
       const costPaid = Number(activeAttemptSnapshot?.costPaid ?? fullChallenge.cost ?? 0);
+      const resolvedMemberId =
+        String(operative?.memberId || activeAttemptSnapshot?.assignedMemberId || '').trim() || null;
+      const resolvedMemberName =
+        String(
+          operative?.memberName ||
+            operative?.name ||
+            activeAttemptSnapshot?.assignedMemberName ||
+            ''
+        ).trim() || null;
 
       const normalizedSubmitted = rawAnswer.toUpperCase().replace(/\s+/g, ' ').trim();
       const expected = String(fullChallenge.solutionConfig?.expectedAnswer || '')
@@ -1572,13 +1700,15 @@ export class ChallengeService {
         attemptNumber,
         creditsDelta: 0,
         balanceAfter: team.credits,
-        summary: `${team.teamId} submitted solution for [${fullChallenge.challengeId}] ${fullChallenge.title} (Attempt #${attemptNumber})`,
+        summary: `${team.teamId}${resolvedMemberName ? ` (${resolvedMemberName})` : ''} submitted solution for [${fullChallenge.challengeId}] ${fullChallenge.title} (Attempt #${attemptNumber})`,
         metadata: {
           attemptId: resolvedAttemptId,
           attemptNumber,
           cost: costPaid,
           isTimeout,
           isAbandoned,
+          memberId: resolvedMemberId,
+          memberName: resolvedMemberName,
         },
       });
 
@@ -1598,7 +1728,7 @@ export class ChallengeService {
           type: CREDIT_TRANSACTION_TYPES.CHALLENGE_REWARD,
           amount: reward,
           relatedChallenge,
-          summary: `CHALLENGE SOLVED: ${fullChallenge.title} (+${reward} CR)`,
+          summary: `CHALLENGE SOLVED${resolvedMemberName ? ` (${resolvedMemberName})` : ''}: ${fullChallenge.title} (+${reward} CR)`,
           autoSaveTeam: false,
         });
 
@@ -1624,6 +1754,8 @@ export class ChallengeService {
           timeLimit: fullChallenge.timeLimit,
           gameType: fullChallenge.gameType,
           attemptNumber,
+          solvedByMemberId: resolvedMemberId,
+          solvedByMemberName: resolvedMemberName,
           timestamp: now,
         });
 
@@ -1652,6 +1784,8 @@ export class ChallengeService {
           balanceAfter: team.credits,
           coreProgressDelta: progressDelta,
           coreProgressAfter: nextProgress,
+          solvedByMemberId: resolvedMemberId,
+          solvedByMemberName: resolvedMemberName,
           startedAt: startedAt.toISOString(),
           expiresAt: expiresAt.toISOString(),
           submittedAt: now.toISOString(),
@@ -1671,11 +1805,13 @@ export class ChallengeService {
           attemptNumber,
           creditsDelta: reward,
           balanceAfter: team.credits,
-          summary: `${team.teamId} succeeded on [${fullChallenge.challengeId}] ${fullChallenge.title} (Attempt #${attemptNumber}, +${reward} CR)`,
+          summary: `${team.teamId}${resolvedMemberName ? ` (${resolvedMemberName})` : ''} succeeded on [${fullChallenge.challengeId}] ${fullChallenge.title} (Attempt #${attemptNumber}, +${reward} CR)`,
           metadata: {
             cost: costPaid,
             reward,
             attemptNumber,
+            memberId: resolvedMemberId,
+            memberName: resolvedMemberName,
           },
         });
       } else {
@@ -1777,12 +1913,14 @@ export class ChallengeService {
           attemptNumber,
           creditsDelta: -penalty,
           balanceAfter: team.credits,
-          summary: `${team.teamId} failed [${fullChallenge.challengeId}] ${fullChallenge.title} with [${canonicalFailStatus}] (Attempt #${attemptNumber}, -${penalty} CR)`,
+          summary: `${team.teamId}${resolvedMemberName ? ` (${resolvedMemberName})` : ''} failed [${fullChallenge.challengeId}] ${fullChallenge.title} with [${canonicalFailStatus}] (Attempt #${attemptNumber}, -${penalty} CR)`,
           metadata: {
             cost: costPaid,
             penalty,
             status: canonicalFailStatus,
             attemptNumber,
+            memberId: resolvedMemberId,
+            memberName: resolvedMemberName,
           },
         });
       }
@@ -1794,8 +1932,35 @@ export class ChallengeService {
         team.markModified('purchasedChallenges');
       }
 
-      team.currentChallenge = null;
-      team.activeAttempt = null;
+      if (Array.isArray(team.activeAttempts)) {
+        team.activeAttempts = team.activeAttempts.filter(
+          (a) => String(a.challengeId).toUpperCase() !== fullChallenge.challengeId
+        );
+        team.markModified('activeAttempts');
+      }
+
+      // Sync primary activeAttempt / currentChallenge to next remaining active attempt (if any)
+      const nextRemainingAttempt = team.activeAttempts?.[0] || null;
+      if (nextRemainingAttempt) {
+        team.activeAttempt = nextRemainingAttempt;
+        team.currentChallenge = {
+          challengeId: nextRemainingAttempt.challengeId,
+          title: nextRemainingAttempt.title,
+          category: nextRemainingAttempt.category,
+          difficulty: nextRemainingAttempt.difficulty,
+          risk: nextRemainingAttempt.risk,
+          cost: nextRemainingAttempt.costPaid,
+          reward: nextRemainingAttempt.potentialReward,
+          penalty: nextRemainingAttempt.penaltyOnFail,
+          timeLimit: nextRemainingAttempt.timeLimit,
+          gameType: nextRemainingAttempt.gameType,
+          gameConfig: nextRemainingAttempt.gameConfig || {},
+          timestamp: nextRemainingAttempt.startedAt || now,
+        };
+      } else {
+        team.currentChallenge = null;
+        team.activeAttempt = null;
+      }
       await team.save();
 
       // Always record the attempt server-side in MongoDB (upsert ensures seed attempts are also saved)
@@ -1823,6 +1988,8 @@ export class ChallengeService {
               unlockedHints: activeAttemptSnapshot?.unlockedHints || [],
               extraTimeMinutes: activeAttemptSnapshot?.extraTimeMinutes || 0,
               isReattempt: Boolean(activeAttemptSnapshot?.isReattempt),
+              assignedMemberId: resolvedMemberId,
+              assignedMemberName: resolvedMemberName,
               startedAt,
               expiresAt,
               submittedAt: now,

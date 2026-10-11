@@ -7,6 +7,7 @@ import React, {
 } from 'react';
 import {
   getStoredToken,
+  getStoredOperative,
   storeTeamSession,
   clearTeamSession,
   loginTeamRequest,
@@ -19,6 +20,7 @@ const TeamPortalContext = createContext(null);
 
 export const TeamPortalProvider = ({ children }) => {
   const [token, setToken] = useState(() => getStoredToken());
+  const [operative, setOperative] = useState(() => getStoredOperative());
   const [team, setTeam] = useState(null);
   const [nexusCore, setNexusCore] = useState(null);
   const [coreDiscoveryEvent, setCoreDiscoveryEvent] = useState(null);
@@ -155,6 +157,10 @@ export const TeamPortalProvider = ({ children }) => {
       .then((res) => {
         if (!active) return;
         setTeam(res.team);
+        if (res.operative) {
+          setOperative(res.operative);
+          storeTeamSession(token, res.team?.teamId, res.operative);
+        }
         if (res.nexusCore) setNexusCore(res.nexusCore);
         if (res.transactions) setTransactions(res.transactions);
         if (res.attempts) setAttempts(res.attempts);
@@ -172,6 +178,7 @@ export const TeamPortalProvider = ({ children }) => {
         if (!active) return;
         clearTeamSession();
         setToken(null);
+        setOperative(null);
         setTeam(null);
         setNexusCore(null);
       })
@@ -193,7 +200,12 @@ export const TeamPortalProvider = ({ children }) => {
     const joinTeamRoom = () => {
       socketClient.emit(
         NEXUS_SOCKET_EVENTS.TEAM.JOIN,
-        { teamId: team.teamId, token },
+        {
+          teamId: team.teamId,
+          token,
+          memberId: operative?.memberId,
+          memberName: operative?.memberName || operative?.name,
+        },
         (ack) => {
           if (ack?.ok) {
             setJoinedRoom(ack.room);
@@ -442,7 +454,7 @@ export const TeamPortalProvider = ({ children }) => {
       socketClient.off(NEXUS_SOCKET_EVENTS.LEADERBOARD.UPDATE, handleGlobalTimerPayload);
       socketClient.off(NEXUS_SOCKET_EVENTS.LEADERBOARD.SNAPSHOT, handleGlobalTimerPayload);
     };
-  }, [token, team?.teamId, pushNotification, applyServerClock, mergeIncomingFeedEvents]);
+  }, [token, team?.teamId, operative?.memberId, operative?.memberName, operative?.name, pushNotification, applyServerClock, mergeIncomingFeedEvents]);
 
   const syncSessionTimer = useCallback(() => {
     if (!socketClient.connected || !team?.teamId) return Promise.resolve(null);
@@ -462,10 +474,11 @@ export const TeamPortalProvider = ({ children }) => {
   }, [team?.teamId, applyServerClock]);
 
   const loginTeam = useCallback(
-    async (teamId, password) => {
-      const res = await loginTeamRequest(teamId, password);
-      storeTeamSession(res.token, res.team.teamId);
+    async (teamId, password, operativeDetails = {}) => {
+      const res = await loginTeamRequest(teamId, password, operativeDetails);
+      storeTeamSession(res.token, res.team.teamId, res.operative);
       setToken(res.token);
+      if (res.operative) setOperative(res.operative);
       setTeam(res.team);
       if (res.nexusCore) setNexusCore(res.nexusCore);
       if (res.transactions) setTransactions(res.transactions);
@@ -490,6 +503,7 @@ export const TeamPortalProvider = ({ children }) => {
     }
     clearTeamSession();
     setToken(null);
+    setOperative(null);
     setTeam(null);
     setNexusCore(null);
     setCoreDiscoveryEvent(null);
@@ -519,6 +533,7 @@ export const TeamPortalProvider = ({ children }) => {
               NEXUS_SOCKET_EVENTS.TEAM.ACTION,
               {
                 teamId: team.teamId,
+                token,
                 actionType,
                 actionPayload,
               },
@@ -613,6 +628,7 @@ export const TeamPortalProvider = ({ children }) => {
     <TeamPortalContext.Provider
       value={{
         token,
+        operative,
         team,
         nexusCore,
         coreDiscoveryEvent,

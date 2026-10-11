@@ -7,6 +7,7 @@ const teamMemberSchema = new mongoose.Schema(
     name: { type: String, required: true, trim: true },
     role: { type: String, default: 'OPERATIVE' },
     online: { type: Boolean, default: false },
+    lastSeenAt: { type: Date, default: null },
   },
   { _id: false }
 );
@@ -39,6 +40,10 @@ const challengeRefSchema = new mongoose.Schema(
     gameConfig: { type: mongoose.Schema.Types.Mixed, default: () => ({}) },
     enabled: { type: Boolean, default: true },
     available: { type: Boolean, default: true },
+    purchasedByMemberId: { type: String, default: null },
+    purchasedByMemberName: { type: String, default: null },
+    solvedByMemberId: { type: String, default: null },
+    solvedByMemberName: { type: String, default: null },
     timestamp: { type: Date, default: Date.now },
   },
   { _id: false }
@@ -65,6 +70,8 @@ const activeAttemptSchema = new mongoose.Schema(
     activeAbilities: { type: [mongoose.Schema.Types.Mixed], default: [] },
     attemptNumber: { type: Number, default: 1, min: 1 },
     isReattempt: { type: Boolean, default: false },
+    assignedMemberId: { type: String, default: null },
+    assignedMemberName: { type: String, default: null },
     startedAt: { type: Date, default: Date.now },
     expiresAt: { type: Date, default: null },
     status: {
@@ -214,6 +221,10 @@ const teamSchema = new mongoose.Schema(
     activeAttempt: {
       type: activeAttemptSchema,
       default: null,
+    },
+    activeAttempts: {
+      type: [activeAttemptSchema],
+      default: [],
     },
     purchasedChallenges: {
       type: [challengeRefSchema],

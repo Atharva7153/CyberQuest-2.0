@@ -92,6 +92,14 @@ const challengeAttemptSchema = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
+    assignedMemberId: {
+      type: String,
+      default: null,
+    },
+    assignedMemberName: {
+      type: String,
+      default: null,
+    },
     startedAt: {
       type: Date,
       default: Date.now,
