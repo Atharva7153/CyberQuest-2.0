@@ -23,6 +23,7 @@ import { socketClient, NEXUS_SOCKET_EVENTS } from '../socket/socketClient';
 import { CrosshairMark } from '../components/CrosshairMark';
 import { RiskBadge } from '../components/RiskBadge';
 import { SystemBadge } from '../components/SystemBadge';
+import { CinematicArenaOverlay } from '../components/CinematicArenaOverlay';
 import { useReducedMotion } from '../hooks/useReducedMotion';
 
 // Supplied NEXUS Architectural Imagery
@@ -118,20 +119,25 @@ export const ProjectorDisplayPage = () => {
     }
   }, []);
 
-  // Initial HTTP fetch of sanitized /api/display snapshot
+  // Initial HTTP fetch & continuous 2s fallback sync of sanitized /api/display snapshot
   useEffect(() => {
     let active = true;
-    fetch(`${API_BASE_URL}/api/display`)
-      .then((r) => r.json())
-      .then((data) => {
-        if (active && data?.status === 'ok') {
-          applyIncomingSnapshot(data, false);
-        }
-      })
-      .catch(() => {});
+    const syncDisplay = () => {
+      fetch(`${API_BASE_URL}/api/display`)
+        .then((r) => r.json())
+        .then((data) => {
+          if (active && data?.status === 'ok') {
+            applyIncomingSnapshot(data, false);
+          }
+        })
+        .catch(() => {});
+    };
+    syncDisplay();
+    const interval = setInterval(syncDisplay, 2000);
 
     return () => {
       active = false;
+      clearInterval(interval);
     };
   }, [applyIncomingSnapshot]);
 
@@ -935,6 +941,12 @@ export const ProjectorDisplayPage = () => {
           </div>
         </div>
       </footer>
+
+      {/* CINEMATIC LAUNCH COUNTDOWN, BLAST-OFF & CHAMPION PROCLAMATION OVERLAY */}
+      <CinematicArenaOverlay
+        globalTimer={snapshot?.globalTimer}
+        coreStatus={snapshot?.coreStatus}
+      />
     </div>
   );
 };

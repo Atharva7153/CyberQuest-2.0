@@ -19,10 +19,20 @@ const broadcastAdminAndArenaSync = async (adminState, extraBroadcast = {}) => {
     timestamp: new Date().toISOString(),
   });
 
-  // 2. Broadcast sanitized projector snapshot to /display and arena:global
+  // 2. Broadcast sanitized projector snapshot to /display and ALL connected arena terminals
   const projectorSnapshot = await DisplayService.getProjectorDisplaySnapshot();
-  io.to(SOCKET_ROOMS.LEADERBOARD).emit(SOCKET_EVENTS.LEADERBOARD.UPDATE, projectorSnapshot);
-  io.to(SOCKET_ROOMS.ARENA_GLOBAL).emit(SOCKET_EVENTS.LEADERBOARD.UPDATE, projectorSnapshot);
+  io.emit(SOCKET_EVENTS.LEADERBOARD.UPDATE, projectorSnapshot);
+  io.emit(SOCKET_EVENTS.TIMER.UPDATE, {
+    globalTimer: projectorSnapshot.globalTimer,
+    coreStatus: projectorSnapshot.coreStatus,
+    serverTime: new Date().toISOString(),
+  });
+  io.emit(SOCKET_EVENTS.SYSTEM.TELEMETRY, {
+    globalTimer: projectorSnapshot.globalTimer,
+    coreStatus: projectorSnapshot.coreStatus,
+    serverTime: new Date().toISOString(),
+    timestamp: new Date().toISOString(),
+  });
 
   // 3. Optional targeted team sync
   if (extraBroadcast.teamId) {
@@ -96,13 +106,8 @@ const broadcastAdminAndArenaSync = async (adminState, extraBroadcast = {}) => {
   if (extraBroadcast.eventCommand) {
     io.to(SOCKET_ROOMS.ADMIN_CONTROL).emit(SOCKET_EVENTS.ADMIN.EVENT_ACTION, {
       command: extraBroadcast.eventCommand,
-      globalTimer: adminState.globalTimer,
-      coreStatus: adminState.coreStatus,
-      timestamp: new Date().toISOString(),
-    });
-    io.emit(SOCKET_EVENTS.SYSTEM.TELEMETRY, {
-      globalTimer: adminState.globalTimer,
-      coreStatus: adminState.coreStatus,
+      globalTimer: projectorSnapshot.globalTimer,
+      coreStatus: projectorSnapshot.coreStatus,
       timestamp: new Date().toISOString(),
     });
   }
@@ -267,9 +272,11 @@ export const patchAdminChallenge = async (req, res, next) => {
   }
 };
 
+let activeCountdownBroadcastTimeout = null;
+
 /**
  * POST /api/admin/events/control
- * Execute Global Event (START, PAUSE, RESUME, END), Global Timer, or Core (LOCK, UNLOCK, REVEAL) control
+ * Execute Global Event (START, START_COUNTDOWN, PAUSE, RESUME, END, DECLARE_WINNER), Global Timer, or Core (LOCK, UNLOCK, REVEAL) control
  */
 export const executeAdminEventControl = async (req, res, next) => {
   try {
@@ -283,6 +290,25 @@ export const executeAdminEventControl = async (req, res, next) => {
       coreStateUpdated: state.coreStateUpdated,
       eventCommand: state.executedCommand,
     }).catch(() => {});
+
+    // If a launch countdown was started, schedule an authoritative broadcast when countdown hits 0
+    if (activeCountdownBroadcastTimeout) {
+      clearTimeout(activeCountdownBroadcastTimeout);
+      activeCountdownBroadcastTimeout = null;
+    }
+    const cdSec = Number(state?.globalTimer?.countdownRemainingSeconds || 0);
+    if (state?.globalTimer?.status === 'COUNTDOWN' && cdSec > 0) {
+      activeCountdownBroadcastTimeout = setTimeout(async () => {
+        try {
+          const postCountdownState = await AdminService.getAdminControlState();
+          await broadcastAdminAndArenaSync(postCountdownState, {
+            eventCommand: 'START',
+          });
+        } catch {
+          // ignore
+        }
+      }, cdSec * 1000 + 80);
+    }
   } catch (error) {
     next(error);
   }

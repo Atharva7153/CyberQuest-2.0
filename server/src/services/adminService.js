@@ -30,6 +30,9 @@ import {
   controlGlobalArenaEvent,
   getAdminEventLogs,
   recordAdminEventLog,
+  buildPublicTopTeams,
+  setGlobalDeclaredWinner,
+  getGlobalDeclaredWinner,
 } from './displayService.js';
 import { normalizeAttemptHistory } from './progressHistoryService.js';
 import { AuditService, AUDIT_ACTION_TYPES } from './auditService.js';
@@ -345,6 +348,7 @@ export class AdminService {
         gameType: coreDoc?.gameType || 'systemProblem',
         gameConfig: coreDoc?.gameConfig || {},
         expectedAnswer: coreDoc?.solutionConfig?.expectedAnswer || 'NEXUS-OMEGA',
+        declaredWinner: getGlobalDeclaredWinner(),
       },
       teams: enrichedTeams,
       challenges,
@@ -984,9 +988,155 @@ export class AdminService {
     let coreStateUpdated = false;
     let auditSummary = `GLOBAL EVENT COMMAND [${normalizedCmd}] EXECUTED`;
 
-    if (['START', 'PAUSE', 'RESUME', 'END', 'SET_TIMER', 'ADJUST_TIMER'].includes(normalizedCmd)) {
+    if (
+      [
+        'START',
+        'START_COUNTDOWN',
+        'PAUSE',
+        'RESUME',
+        'END',
+        'SET_TIMER',
+        'ADJUST_TIMER',
+      ].includes(normalizedCmd)
+    ) {
       const updatedTimer = controlGlobalArenaEvent(normalizedCmd, payload, actor);
       auditSummary = `GLOBAL EVENT [${normalizedCmd}] -> TIMER: ${updatedTimer.formatted} (${updatedTimer.status})`;
+
+      if (normalizedCmd === 'END') {
+        const allTeams = await Team.find({ teamId: { $not: /^SIM-TEAM-/ } }).lean();
+        const membersByTeamId = new Map(
+          allTeams.map((t) => [String(t.teamId).toUpperCase(), t.members || []])
+        );
+        const rankedRaw = await buildPublicTopTeams(allTeams);
+        const ranked = rankedRaw.map((r) => ({
+          ...r,
+          members: membersByTeamId.get(String(r.teamId).toUpperCase()) || [],
+        }));
+        if (ranked.length > 0) {
+          const top = ranked[0];
+          const second = ranked[1] || null;
+          setGlobalDeclaredWinner(
+            {
+              teamId: top.teamId,
+              teamName: top.teamName,
+              credits: top.credits,
+              totalSolved: top.totalSolved,
+              coreState: top.coreState,
+              members: top.members,
+              rank: 1,
+              runnerUp: second
+                ? {
+                    teamId: second.teamId,
+                    teamName: second.teamName,
+                    credits: second.credits,
+                    totalSolved: second.totalSolved,
+                    coreState: second.coreState,
+                    members: second.members,
+                    rank: 2,
+                  }
+                : null,
+              topTwo: [top, second].filter(Boolean),
+              podium: ranked.slice(0, 3),
+              reason: 'FINAL ARENA STANDINGS // TOP 2 SOVEREIGN SQUADS',
+            },
+            actor
+          );
+        }
+      }
+    } else if (normalizedCmd === 'DECLARE_WINNER') {
+      const allTeams = await Team.find({ teamId: { $not: /^SIM-TEAM-/ } }).lean();
+      const membersByTeamId = new Map(
+        allTeams.map((t) => [String(t.teamId).toUpperCase(), t.members || []])
+      );
+      const rankedRaw = await buildPublicTopTeams(allTeams);
+      const ranked = rankedRaw.map((r) => ({
+        ...r,
+        members: membersByTeamId.get(String(r.teamId).toUpperCase()) || [],
+      }));
+
+      const requestedFirstId = String(payload.teamId || '')
+        .trim()
+        .toUpperCase();
+      const requestedSecondId = String(payload.secondTeamId || '')
+        .trim()
+        .toUpperCase();
+
+      const chosenFirst =
+        (requestedFirstId &&
+          requestedFirstId !== 'AUTO_LEADER' &&
+          ranked.find((t) => String(t.teamId).toUpperCase() === requestedFirstId)) ||
+        ranked[0] ||
+        null;
+
+      if (!chosenFirst) {
+        const err = new Error('No registered teams available to declare a winner.');
+        err.statusCode = 400;
+        throw err;
+      }
+
+      const remainingAfterFirst = ranked.filter(
+        (t) => String(t.teamId).toUpperCase() !== String(chosenFirst.teamId).toUpperCase()
+      );
+      const chosenSecond =
+        (requestedSecondId &&
+          requestedSecondId !== 'AUTO_SECOND' &&
+          remainingAfterFirst.find((t) => String(t.teamId).toUpperCase() === requestedSecondId)) ||
+        remainingAfterFirst[0] ||
+        null;
+
+      if (payload.endRound !== false) {
+        controlGlobalArenaEvent('END', {}, actor);
+      }
+
+      const firstObj = {
+        teamId: chosenFirst.teamId,
+        teamName: chosenFirst.teamName,
+        credits: chosenFirst.credits,
+        totalSolved: chosenFirst.totalSolved,
+        coreState: chosenFirst.coreState,
+        members: chosenFirst.members,
+        rank: 1,
+      };
+      const secondObj = chosenSecond
+        ? {
+            teamId: chosenSecond.teamId,
+            teamName: chosenSecond.teamName,
+            credits: chosenSecond.credits,
+            totalSolved: chosenSecond.totalSolved,
+            coreState: chosenSecond.coreState,
+            members: chosenSecond.members,
+            rank: 2,
+          }
+        : null;
+
+      const winnerObj = setGlobalDeclaredWinner(
+        {
+          ...firstObj,
+          runnerUp: secondObj,
+          topTwo: [firstObj, secondObj].filter(Boolean),
+          podium: [firstObj, secondObj, ...remainingAfterFirst.filter((t) => t.teamId !== secondObj?.teamId)].filter(Boolean).slice(0, 3),
+          reason: payload.reason || 'OFFICIAL TOP 2 WINNERS PROCLAMATION // NEXUS COMMAND',
+        },
+        actor
+      );
+      auditSummary = `TOP 2 WINNERS DECLARED: #1 [${winnerObj.teamId}] ${winnerObj.teamName}${
+        secondObj ? ` & #2 [${secondObj.teamId}] ${secondObj.teamName}` : ''
+      }`;
+      recordAdminEventLog({
+        action: 'DECLARE_WINNER',
+        category: 'EVENT_CONTROL',
+        actor,
+        summary: auditSummary,
+      });
+    } else if (normalizedCmd === 'CLEAR_WINNER') {
+      setGlobalDeclaredWinner(null, actor);
+      auditSummary = 'CLEARED CHAMPION PROCLAMATION BANNER';
+      recordAdminEventLog({
+        action: 'CLEAR_WINNER',
+        category: 'EVENT_CONTROL',
+        actor,
+        summary: auditSummary,
+      });
     } else if (normalizedCmd === 'CORE_LOCK' || normalizedCmd === 'LOCK') {
       await NexusCoreService.updateCoreConfig({ globalOverrideState: 'LOCKED' });
       await Team.updateMany(

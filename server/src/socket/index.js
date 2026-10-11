@@ -139,7 +139,7 @@ export const initSocketServer = (httpServer) => {
     });
   });
 
-  // Periodic system pulse broadcast every 5 seconds
+  // Periodic system pulse broadcast every 2 seconds for instant countdown & timer sync
   setInterval(async () => {
     if (ioInstance && ioInstance.engine.clientsCount > 0) {
       const { computeGlobalArenaTimer } = await import('../services/displayService.js');
@@ -153,7 +153,7 @@ export const initSocketServer = (httpServer) => {
         globalTimer: computeGlobalArenaTimer(),
       });
     }
-  }, 5000);
+  }, 2000);
 
   // Server-authoritative session expiration watchdog every 2 seconds
   setInterval(async () => {

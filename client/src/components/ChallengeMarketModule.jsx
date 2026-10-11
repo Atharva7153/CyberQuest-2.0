@@ -1036,20 +1036,20 @@ export const ChallengeMarketModule = ({
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 0.18 }}
+            transition={{ duration: 0.2 }}
             onClick={handleCloseConfirmation}
-            className="fixed inset-0 z-50 bg-black/75 flex items-center justify-center p-4 overflow-y-auto"
+            className="fixed inset-0 z-50 bg-black/85 backdrop-blur-md flex items-center justify-center p-4 overflow-y-auto"
           >
             <motion.div
-              initial={prefersReducedMotion ? false : { scale: 0.96, opacity: 0, y: 10 }}
+              initial={prefersReducedMotion ? false : { scale: 0.9, opacity: 0, y: 18 }}
               animate={{ scale: 1, opacity: 1, y: 0 }}
-              exit={prefersReducedMotion ? undefined : { scale: 0.96, opacity: 0, y: 8 }}
-              transition={{ duration: 0.2, ease: [0.22, 1, 0.36, 1] }}
+              exit={prefersReducedMotion ? undefined : { scale: 0.94, opacity: 0, y: 10 }}
+              transition={{ type: 'spring', stiffness: 320, damping: 24 }}
               onClick={(e) => e.stopPropagation()}
               role="dialog"
               aria-modal="true"
               aria-labelledby="acquire-challenge-modal-title"
-              className="nexus-editorial-box max-w-lg w-full overflow-hidden border-2 border-nexus-ink shadow-brutal"
+              className="nexus-editorial-box max-w-lg w-full overflow-hidden border-4 border-nexus-crimson shadow-[0_0_65px_rgba(225,29,46,0.45),8px_8px_0px_#111111]"
             >
               <div className="bg-nexus-ink text-nexus-paper px-5 py-3.5 border-b-2 border-nexus-ink flex items-center justify-between">
                 <div className="flex items-center gap-2.5">

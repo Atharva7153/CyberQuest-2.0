@@ -9,12 +9,20 @@ import {
   Users,
   History,
   Cpu,
+  Lock,
   LogOut,
   X,
+  CheckCircle2,
+  AlertTriangle,
+  Sparkles,
 } from 'lucide-react';
 import { CrosshairMark } from '../components/CrosshairMark';
 import { TopBarCreditsReadout } from '../components/ResistanceCreditsModule';
 import { ThemeToggleButton } from '../components/ThemeToggleButton';
+import {
+  CinematicArenaOverlay,
+  NexusPreStartLoreChamber,
+} from '../components/CinematicArenaOverlay';
 import { useReducedMotion } from '../hooks/useReducedMotion';
 import { getStoredOperative } from '../services/authService';
 import { socketClient, NEXUS_SOCKET_EVENTS } from '../socket/socketClient';
@@ -96,68 +104,66 @@ export const PortalShellLayout = ({
   const location = useLocation();
   const prefersReducedMotion = useReducedMotion();
 
-  const normalizedActiveSection =
-    activeSection === 'DASHBOARD' || activeSection === 'PROGRESS'
-      ? activeSection === 'PROGRESS'
-        ? 'MY_TEAM'
-        : 'HOME'
-      : activeSection || 'HOME';
-
-  const handleNavClick = (item) => {
-    if (location.pathname === '/dashboard' && onSelectSection) {
-      if (item.id === 'HOME') {
-        navigate('/dashboard');
-        onSelectSection('HOME');
-        return;
-      }
-      if (item.id === 'CHALLENGES') {
-        navigate('/dashboard?section=CHALLENGES');
-        onSelectSection('CHALLENGES');
-        return;
-      }
-    }
-    if (item.route) {
-      navigate(item.route);
-    }
-  };
-
   // Global Round Countdown Timer synced with Server Global Timer + any extra time
   const extraSeconds = (team?.activeAttempt?.extraTimeMinutes || 0) * 60;
   const [serverGlobalTimer, setServerGlobalTimer] = useState(null);
+  const [serverCoreStatus, setServerCoreStatus] = useState(null);
   const [nowMs, setNowMs] = useState(() => Date.now());
   const shellRef = useRef(null);
 
   useEffect(() => {
     let active = true;
-    fetch(`${API_BASE_URL}/api/display`)
-      .then((r) => r.json())
-      .then((data) => {
-        if (active && data?.globalTimer) {
-          setServerGlobalTimer(data.globalTimer);
-        }
-      })
-      .catch(() => {});
+
+    const fetchDisplaySync = () => {
+      fetch(`${API_BASE_URL}/api/display`)
+        .then((r) => r.json())
+        .then((data) => {
+          if (!active) return;
+          if (data?.globalTimer) {
+            setServerGlobalTimer(data.globalTimer);
+          }
+          if (data?.coreStatus) {
+            setServerCoreStatus(data.coreStatus);
+          }
+        })
+        .catch(() => {});
+    };
+
+    fetchDisplaySync();
+    const pollInterval = setInterval(fetchDisplaySync, 1500);
 
     const handleGlobalUpdate = (payload) => {
       if (payload?.globalTimer) {
         setServerGlobalTimer(payload.globalTimer);
       }
+      if (payload?.coreStatus) {
+        setServerCoreStatus(payload.coreStatus);
+      }
     };
+
+    if (!socketClient.connected) {
+      socketClient.connect();
+    }
 
     socketClient.on(NEXUS_SOCKET_EVENTS.LEADERBOARD.UPDATE, handleGlobalUpdate);
     socketClient.on(NEXUS_SOCKET_EVENTS.SYSTEM.TELEMETRY, handleGlobalUpdate);
+    socketClient.on(NEXUS_SOCKET_EVENTS.TIMER.UPDATE, handleGlobalUpdate);
+    socketClient.on(NEXUS_SOCKET_EVENTS.ADMIN.EVENT_ACTION, handleGlobalUpdate);
 
     return () => {
       active = false;
+      clearInterval(pollInterval);
       socketClient.off(NEXUS_SOCKET_EVENTS.LEADERBOARD.UPDATE, handleGlobalUpdate);
       socketClient.off(NEXUS_SOCKET_EVENTS.SYSTEM.TELEMETRY, handleGlobalUpdate);
+      socketClient.off(NEXUS_SOCKET_EVENTS.TIMER.UPDATE, handleGlobalUpdate);
+      socketClient.off(NEXUS_SOCKET_EVENTS.ADMIN.EVENT_ACTION, handleGlobalUpdate);
     };
   }, []);
 
   useEffect(() => {
     const interval = setInterval(() => {
       setNowMs(Date.now());
-    }, 1000);
+    }, 500);
     return () => clearInterval(interval);
   }, []);
 
@@ -180,6 +186,13 @@ export const PortalShellLayout = ({
   let roundStatus = 'PAUSED';
   if (serverGlobalTimer) {
     roundStatus = serverGlobalTimer.status || 'PAUSED';
+    // Automatically transition COUNTDOWN -> ACTIVE locally when countdownTargetTimestamp passes
+    if (roundStatus === 'COUNTDOWN' && serverGlobalTimer.countdownTargetTimestamp) {
+      const cdTargetMs = new Date(serverGlobalTimer.countdownTargetTimestamp).getTime();
+      if (nowMs >= cdTargetMs) {
+        roundStatus = 'ACTIVE';
+      }
+    }
     if (roundStatus === 'ENDED') {
       baseRemainingSeconds = 0;
     } else if (roundStatus === 'ACTIVE' && serverGlobalTimer.targetTimestamp) {
@@ -202,6 +215,42 @@ export const PortalShellLayout = ({
         : remainingSeconds <= 600
           ? 'WARNING'
           : 'NORMAL';
+
+  const normalizedActiveSection =
+    activeSection === 'DASHBOARD' || activeSection === 'PROGRESS'
+      ? activeSection === 'PROGRESS'
+        ? 'MY_TEAM'
+        : 'HOME'
+      : activeSection || 'HOME';
+
+  const isNavItemLocked = (item) => {
+    if (item.id === 'HOME') return false;
+    if (roundStatus === 'ENDED' && item.id === 'LEADERBOARD') return false;
+    return roundStatus !== 'ACTIVE';
+  };
+
+  const handleNavClick = (item) => {
+    if (isNavItemLocked(item)) {
+      navigate('/dashboard');
+      if (onSelectSection) onSelectSection('HOME');
+      return;
+    }
+    if (location.pathname === '/dashboard' && onSelectSection) {
+      if (item.id === 'HOME') {
+        navigate('/dashboard');
+        onSelectSection('HOME');
+        return;
+      }
+      if (item.id === 'CHALLENGES') {
+        navigate('/dashboard?section=CHALLENGES');
+        onSelectSection('CHALLENGES');
+        return;
+      }
+    }
+    if (item.route) {
+      navigate(item.route);
+    }
+  };
 
   const teamMeta = getTeamSizeMeta(team, onlineOperatives);
   const currentOperative = getStoredOperative();
@@ -231,21 +280,25 @@ export const PortalShellLayout = ({
           </p>
         </div>
 
-        {/* 5 Primary Navigation Items */}
+        {/* 6 Primary Navigation Items (Locked except HOME before round starts) */}
         <nav aria-label="Cyber Quest Navigation" className="p-3 space-y-1.5">
           {PORTAL_NAV_ITEMS.map((item) => {
             const Icon = item.icon;
-            const isActive = normalizedActiveSection === item.id;
+            const locked = isNavItemLocked(item);
+            const isActive = !locked && normalizedActiveSection === item.id;
 
             return (
               <button
                 key={item.id}
                 type="button"
                 onClick={() => handleNavClick(item)}
-                className={`relative w-full flex items-center justify-between px-4 py-3 font-condensed text-base font-bold uppercase tracking-[0.14em] text-left transition-colors cursor-pointer focus-visible:outline-2 focus-visible:outline-nexus-crimson ${
-                  isActive
-                    ? 'text-white'
-                    : 'text-nexus-paper/70 hover:text-white hover:bg-white/5'
+                title={locked ? 'Locked until the Organizer starts the game' : item.label}
+                className={`relative w-full flex items-center justify-between px-4 py-3 font-condensed text-base font-bold uppercase tracking-[0.14em] text-left transition-colors focus-visible:outline-2 focus-visible:outline-nexus-crimson ${
+                  locked
+                    ? 'text-nexus-paper/35 cursor-not-allowed bg-black/25'
+                    : isActive
+                      ? 'text-white cursor-pointer'
+                      : 'text-nexus-paper/70 hover:text-white hover:bg-white/5 cursor-pointer'
                 }`}
               >
                 {isActive && (
@@ -264,6 +317,13 @@ export const PortalShellLayout = ({
                   <Icon className="w-4 h-4 shrink-0" />
                   <span>{item.label}</span>
                 </span>
+
+                {locked && (
+                  <span className="relative z-10 inline-flex items-center gap-1 px-1.5 py-0.5 bg-white/10 text-nexus-paper/50 font-mono text-[9px] font-bold">
+                    <Lock className="w-3 h-3" />
+                    LOCKED
+                  </span>
+                )}
               </button>
             );
           })}
@@ -386,21 +446,12 @@ export const PortalShellLayout = ({
               </button>
             </div>
           </div>
-          {roundStatus !== 'ACTIVE' && (
-            <div className="bg-nexus-crimson text-white px-4 py-1.5 text-center font-mono text-[11px] font-bold uppercase tracking-widest border-t border-black/20">
-              {roundStatus === 'ENDED'
-                ? 'ROUND ENDED — CHALLENGE ACCESS & SUBMISSIONS ARE CLOSED'
-                : `ROUND TIMER STOPPED (${formatCountdown(
-                    remainingSeconds
-                  )}) — CHALLENGES ARE LOCKED UNTIL THE ORGANIZER STARTS THE ROUND`}
-            </div>
-          )}
         </header>
 
-        {/* GAME NOTIFICATIONS (Clean human-readable toast) */}
+        {/* GAME NOTIFICATIONS (High-Impact Colorful Tactical Popups) */}
         <div
           aria-live="polite"
-          className="fixed bottom-20 lg:bottom-5 right-4 z-50 flex flex-col gap-2 max-w-sm w-full pointer-events-none px-4 sm:px-0"
+          className="fixed bottom-20 lg:bottom-6 inset-x-3 sm:inset-x-auto sm:right-4 z-50 flex flex-col gap-2.5 sm:gap-3 sm:max-w-md sm:w-full pointer-events-none"
         >
           <AnimatePresence>
             {notifications.map((notif) => {
@@ -419,33 +470,55 @@ export const PortalShellLayout = ({
               return (
                 <motion.div
                   key={notif.id}
-                  initial={{ opacity: 0, y: 12 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: 8 }}
-                  transition={{ duration: 0.18 }}
-                  className={`pointer-events-auto border-2 border-nexus-ink shadow-brutal p-3.5 font-mono text-xs flex items-start justify-between gap-3 ${
+                  initial={{ opacity: 0, y: 18, scale: 0.92 }}
+                  animate={{ opacity: 1, y: 0, scale: 1 }}
+                  exit={{ opacity: 0, y: 10, scale: 0.95 }}
+                  transition={{ duration: 0.22, ease: [0.22, 1, 0.36, 1] }}
+                  className={`pointer-events-auto border-3 sm:border-4 border-nexus-ink p-3 sm:p-4 font-mono text-xs flex items-start justify-between gap-2.5 sm:gap-3 ${
                     isSuccessNotif
-                      ? 'bg-emerald-600 text-white'
+                      ? 'bg-gradient-to-r from-emerald-600 to-green-600 text-white shadow-[0_0_30px_rgba(16,185,129,0.5)]'
                       : isFailNotif
-                        ? 'bg-red-600 text-white'
-                        : 'bg-nexus-ink text-nexus-paper'
+                        ? 'bg-gradient-to-r from-red-600 to-rose-700 text-white shadow-[0_0_30px_rgba(220,38,38,0.5)]'
+                        : 'bg-nexus-ink text-nexus-paper shadow-brutal-crimson'
                   }`}
                 >
-                  <div className="space-y-0.5">
-                    <span className="text-[10px] opacity-85 font-bold block uppercase tracking-wider">
-                      {isSuccessNotif
-                        ? '✓ SUCCESS'
-                        : isFailNotif
-                          ? '✕ ALERT'
-                          : 'UPDATE'}{' '}
-                      · {notif.timestamp}
-                    </span>
-                    <p className="font-bold text-xs sm:text-sm leading-snug">{notif.summary}</p>
+                  <div className="flex items-start gap-2.5 sm:gap-3 min-w-0">
+                    <div className="w-8 h-8 sm:w-9 sm:h-9 border-2 border-white/60 bg-black/25 flex items-center justify-center shrink-0 mt-0.5">
+                      {isSuccessNotif ? (
+                        <CheckCircle2 className="w-4 h-4 sm:w-5 sm:h-5 text-white" />
+                      ) : isFailNotif ? (
+                        <AlertTriangle className="w-4 h-4 sm:w-5 sm:h-5 text-white" />
+                      ) : (
+                        <Sparkles className="w-4 h-4 sm:w-5 sm:h-5 text-nexus-crimson" />
+                      )}
+                    </div>
+                    <div className="space-y-1 min-w-0">
+                      <div className="flex flex-wrap items-center gap-1.5 sm:gap-2">
+                        <span className="px-1.5 sm:px-2 py-0.5 bg-black/35 border border-white/30 text-[9px] sm:text-[10px] font-extrabold uppercase tracking-wider sm:tracking-widest">
+                          {isSuccessNotif
+                            ? '✓ MISSION SUCCESS'
+                            : isFailNotif
+                              ? '✕ CONTAINMENT ALERT'
+                              : 'SQUAD TELEMETRY'}
+                        </span>
+                        <span className="text-[10px] opacity-80">{notif.timestamp}</span>
+                      </div>
+                      <p className="font-bold text-xs sm:text-sm leading-snug break-words">
+                        {notif.summary}
+                      </p>
+                      {Number(notif.creditsDelta) !== 0 && (
+                        <span className="inline-block px-2 py-0.5 bg-black/40 border border-white/40 font-display text-base sm:text-lg tracking-wider">
+                          {Number(notif.creditsDelta) > 0
+                            ? `+${notif.creditsDelta} CR`
+                            : `${notif.creditsDelta} CR`}
+                        </span>
+                      )}
+                    </div>
                   </div>
                   <button
                     type="button"
                     onClick={() => onDismissNotification(notif.id)}
-                    className="opacity-80 hover:opacity-100 cursor-pointer"
+                    className="p-1 border border-white/30 bg-black/20 hover:bg-black/50 opacity-90 hover:opacity-100 cursor-pointer shrink-0"
                     aria-label="Dismiss notification"
                   >
                     <X className="w-4 h-4" />
@@ -456,14 +529,23 @@ export const PortalShellLayout = ({
           </AnimatePresence>
         </div>
 
-        {/* MAIN PAGE CONTENT */}
-        <main className="flex-1 p-3.5 sm:p-6 lg:p-8 max-w-7xl w-full mx-auto">
-          {children}
+        {/* MAIN PAGE CONTENT (Locked to Lore Standby Chamber when game hasn't started yet) */}
+        <main className="flex-1 p-3 sm:p-6 lg:p-8 max-w-7xl w-full mx-auto">
+          {roundStatus !== 'ACTIVE' &&
+          !(roundStatus === 'ENDED' && normalizedActiveSection === 'LEADERBOARD') ? (
+            <NexusPreStartLoreChamber
+              team={team}
+              onlineOperatives={onlineOperatives}
+              globalTimer={serverGlobalTimer}
+            />
+          ) : (
+            children
+          )}
         </main>
       </div>
 
       {/* ===================================================================
-          MOBILE BOTTOM NAVIGATION BAR (5 ITEMS: HOME, CHALLENGES, MY TEAM, HISTORY, CORE)
+          MOBILE BOTTOM NAVIGATION BAR (6 ITEMS: LOCKED EXCEPT HOME BEFORE START)
          =================================================================== */}
       <nav
         aria-label="Mobile Primary Navigation"
@@ -471,24 +553,41 @@ export const PortalShellLayout = ({
       >
         {PORTAL_NAV_ITEMS.map((item) => {
           const Icon = item.icon;
-          const isActive = normalizedActiveSection === item.id;
+          const locked = isNavItemLocked(item);
+          const isActive = !locked && normalizedActiveSection === item.id;
           return (
             <button
               key={item.id}
               type="button"
               onClick={() => handleNavClick(item)}
-              className={`py-2.5 px-1 flex flex-col items-center justify-center gap-1 font-mono text-[10px] font-bold uppercase tracking-wider transition-colors cursor-pointer ${
-                isActive
-                  ? 'bg-nexus-crimson text-white'
-                  : 'text-nexus-paper/70 hover:text-white'
+              className={`py-2 px-0.5 flex flex-col items-center justify-center gap-0.5 font-mono text-[9px] sm:text-[10px] font-bold uppercase tracking-tight sm:tracking-wider transition-colors ${
+                locked
+                  ? 'text-nexus-paper/30 cursor-not-allowed bg-black/30'
+                  : isActive
+                    ? 'bg-nexus-crimson text-white cursor-pointer'
+                    : 'text-nexus-paper/70 hover:text-white cursor-pointer'
               }`}
             >
-              <Icon className="w-4 h-4 shrink-0" />
+              {locked ? (
+                <Lock className="w-3.5 h-3.5 shrink-0 opacity-60" />
+              ) : (
+                <Icon className="w-4 h-4 shrink-0" />
+              )}
               <span className="truncate max-w-full">{item.shortLabel}</span>
             </button>
           );
         })}
       </nav>
+
+      {/* ===================================================================
+          CINEMATIC LAUNCH COUNTDOWN, "BOOM" REVEAL & WINNER PROCLAMATION
+         =================================================================== */}
+      <CinematicArenaOverlay
+        globalTimer={serverGlobalTimer}
+        coreStatus={serverCoreStatus}
+        team={team}
+        onlineOperatives={onlineOperatives}
+      />
     </div>
   );
 };

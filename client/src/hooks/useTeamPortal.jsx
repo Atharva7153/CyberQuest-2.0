@@ -65,11 +65,38 @@ export const TeamPortalProvider = ({ children }) => {
     }
   }, []);
 
-  // Tick globalTimer locally every 1s when status === 'ACTIVE'
+  // Tick globalTimer locally every 1s when status === 'ACTIVE' or 'COUNTDOWN'
   useEffect(() => {
     const id = setInterval(() => {
       setGlobalTimer((prev) => {
-        if (!prev || prev.status !== 'ACTIVE' || !prev.targetEndTimeMs) {
+        if (!prev) return prev;
+        if (prev.status === 'COUNTDOWN' && prev.countdownTargetTimestamp) {
+          const cdTargetMs = new Date(prev.countdownTargetTimestamp).getTime();
+          const cdRem = Math.max(0, Math.ceil((cdTargetMs - Date.now()) / 1000));
+          if (cdRem <= 0) {
+            const totalSec = Number(prev.totalDurationSeconds || prev.remainingSeconds || 2700);
+            const targetEndTimeMs = prev.targetTimestamp
+              ? new Date(prev.targetTimestamp).getTime()
+              : Date.now() + totalSec * 1000;
+            const remaining = Math.max(0, Math.floor((targetEndTimeMs - Date.now()) / 1000));
+            const hrs = String(Math.floor(remaining / 3600)).padStart(2, '0');
+            const mins = String(Math.floor((remaining % 3600) / 60)).padStart(2, '0');
+            const secs = String(remaining % 60).padStart(2, '0');
+            return {
+              ...prev,
+              status: 'ACTIVE',
+              countdownRemainingSeconds: 0,
+              remainingSeconds: remaining,
+              formatted: `${hrs}:${mins}:${secs}`,
+              targetEndTimeMs,
+            };
+          }
+          return {
+            ...prev,
+            countdownRemainingSeconds: cdRem,
+          };
+        }
+        if (prev.status !== 'ACTIVE' || !prev.targetEndTimeMs) {
           return prev;
         }
         const remaining = Math.max(0, Math.floor((prev.targetEndTimeMs - Date.now()) / 1000));
@@ -85,6 +112,34 @@ export const TeamPortalProvider = ({ children }) => {
       });
     }, 1000);
     return () => clearInterval(id);
+  }, []);
+
+  // Keep globalTimer continuously synced with /api/display even if socket reconnects
+  useEffect(() => {
+    let active = true;
+    const apiBase =
+      import.meta.env.VITE_API_BASE_URL ||
+      import.meta.env.VITE_API_URL ||
+      (typeof window !== 'undefined' && window.location.port !== '5173'
+        ? window.location.origin
+        : 'http://localhost:5050');
+
+    const syncGlobalTimerHttp = () => {
+      fetch(`${apiBase}/api/display`)
+        .then((r) => r.json())
+        .then((data) => {
+          if (active && data?.globalTimer) {
+            setGlobalTimer(data.globalTimer);
+          }
+        })
+        .catch(() => {});
+    };
+
+    const pollId = setInterval(syncGlobalTimerHttp, 2000);
+    return () => {
+      active = false;
+      clearInterval(pollId);
+    };
   }, []);
 
   const mergeIncomingFeedEvents = useCallback((incomingEvents = [], fullFeed = null) => {

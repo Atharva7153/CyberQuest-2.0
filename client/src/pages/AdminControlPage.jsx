@@ -30,6 +30,8 @@ import {
   Filter,
   ChevronDown,
   ChevronUp,
+  Trophy,
+  Flame,
 } from 'lucide-react';
 import { socketClient, NEXUS_SOCKET_EVENTS as SOCKET_EVENTS } from '../socket/socketClient';
 import { GamePreviewThumbnail } from '../components/GamePreviewThumbnail';
@@ -77,10 +79,10 @@ const TEAM_SIZE_MODES = [
 const ROUND_TIME_PRESETS = [30, 45, 60, 90, 120, 135];
 
 const NAV_TABS = [
+  { path: '/admin/events', id: 'events', label: 'Round Control', icon: Flame },
   { path: '/admin/teams', id: 'teams', label: 'Teams', icon: Users },
   { path: '/admin/attempts', id: 'attempts', label: 'Live Events', icon: Activity },
   { path: '/admin/challenges', id: 'challenges', label: 'Challenges', icon: Gamepad2 },
-  { path: '/admin/events', id: 'events', label: 'Round & Settings', icon: Sliders },
 ];
 
 const formatDurationClock = (seconds, forceHours = false) => {
@@ -196,6 +198,9 @@ export const AdminControlPage = () => {
 
   // Round Timer & Settings state
   const [customTimerMinutes, setCustomTimerMinutes] = useState(45);
+  const [countdownSeconds, setCountdownSeconds] = useState(10);
+  const [selectedWinnerTeamId, setSelectedWinnerTeamId] = useState('AUTO_LEADER');
+  const [selectedSecondWinnerTeamId, setSelectedSecondWinnerTeamId] = useState('AUTO_SECOND');
   const lastSyncedTotalSecRef = useRef(null);
   const [settingsForm, setSettingsForm] = useState({
     startingCredits: 1500,
@@ -366,8 +371,20 @@ export const AdminControlPage = () => {
 
     let remSec = Math.max(0, Number(gt.remainingSeconds ?? 0));
     let status = gt.status || 'PAUSED';
+    let countdownRemainingSeconds = Number(gt.countdownRemainingSeconds || 0);
 
-    if (status === 'ACTIVE' && gt.targetTimestamp) {
+    if (status === 'COUNTDOWN' && gt.countdownTargetTimestamp) {
+      const cdTargetMs = new Date(gt.countdownTargetTimestamp).getTime();
+      const currentServerMs = nowMs + serverOffsetMs;
+      countdownRemainingSeconds = Math.max(0, Math.ceil((cdTargetMs - currentServerMs) / 1000));
+      if (countdownRemainingSeconds <= 0) {
+        status = 'ACTIVE';
+        if (gt.targetTimestamp) {
+          const targetMs = new Date(gt.targetTimestamp).getTime();
+          remSec = Math.max(0, Math.floor((targetMs - currentServerMs) / 1000));
+        }
+      }
+    } else if (status === 'ACTIVE' && gt.targetTimestamp) {
       const targetMs = new Date(gt.targetTimestamp).getTime();
       const currentServerMs = nowMs + serverOffsetMs;
       remSec = Math.max(0, Math.floor((targetMs - currentServerMs) / 1000));
@@ -388,6 +405,7 @@ export const AdminControlPage = () => {
     return {
       formatted: formatDurationClock(remSec, true),
       status,
+      countdownRemainingSeconds,
       remainingSeconds: remSec,
       totalDurationSeconds: effectiveTotalSec,
       totalDurationMinutes: totalMins,
@@ -420,8 +438,8 @@ export const AdminControlPage = () => {
     const p = location.pathname.replace(/\/+$/, '');
     if (p === '/admin/challenges') return 'challenges';
     if (p === '/admin/attempts') return 'attempts';
-    if (p === '/admin/events' || p === '/admin/settings') return 'events';
-    return 'teams';
+    if (p === '/admin/teams') return 'teams';
+    return 'events';
   }, [location.pathname]);
 
   // Filtered teams for Teams tab
@@ -947,6 +965,38 @@ export const AdminControlPage = () => {
                   ? new Date(nowServer + remSec * 1000).toISOString()
                   : null,
             };
+          } else if (cmd === 'START_COUNTDOWN' || cmd === 'COUNTDOWN') {
+            const cdSec = Math.max(1, Math.min(300, Number(payload.countdownSeconds || 10)));
+            const durSec = Math.max(
+              1,
+              Number(
+                payload.durationSeconds ??
+                  (payload.minutes ? Number(payload.minutes) * 60 : null) ??
+                  (Number(customTimerMinutes) || 45) * 60
+              )
+            );
+            lastSyncedTotalSecRef.current = durSec;
+            next.globalTimer = {
+              ...currentGt,
+              status: 'COUNTDOWN',
+              countdownTotalSeconds: cdSec,
+              countdownRemainingSeconds: cdSec,
+              countdownTargetTimestamp: new Date(nowServer + cdSec * 1000).toISOString(),
+              remainingSeconds: durSec,
+              totalDurationSeconds: durSec,
+              totalDurationMinutes: Math.max(1, Math.round(durSec / 60)),
+              formatted: formatDurationClock(durSec, true),
+              totalFormatted: formatDurationClock(durSec, true),
+              targetTimestamp: new Date(nowServer + (cdSec + durSec) * 1000).toISOString(),
+              roundStartedAt: new Date(nowServer + cdSec * 1000).toISOString(),
+              roundEndedAt: null,
+            };
+          } else if (cmd === 'CLEAR_WINNER') {
+            next.coreStatus = {
+              ...(prev.coreStatus || {}),
+              declaredWinner: null,
+              winner: null,
+            };
           } else if (cmd === 'LOCK' || cmd === 'CORE_LOCK') {
             next.coreStatus = { ...(prev.coreStatus || {}), state: 'LOCKED' };
           } else if (
@@ -963,15 +1013,43 @@ export const AdminControlPage = () => {
     );
   };
 
-  // Dedicated helpers for Round Start, Pause/Resume, End, and Total Time
+  // Dedicated helpers for Round Start, Countdown Launch, Pause/Resume, End, Total Time, and Winner Declaration
   const handleStartRound = () => {
     const mins = Math.max(1, Number(customTimerMinutes) || 135);
     const durSec = mins * 60;
     handleEventCommand(
       'START',
       { durationSeconds: durSec, minutes: mins },
-      `Round Started (${mins} mins total)`
+      `Round Started Immediately (${mins} mins total)`
     );
+  };
+
+  const handleStartCountdownRound = (overrideCountdownSec) => {
+    const cdSec = Math.max(1, Math.min(300, Number(overrideCountdownSec ?? countdownSeconds) || 10));
+    const mins = Math.max(1, Number(customTimerMinutes) || 135);
+    const durSec = mins * 60;
+    setCountdownSeconds(cdSec);
+    handleEventCommand(
+      'START_COUNTDOWN',
+      { countdownSeconds: cdSec, durationSeconds: durSec, minutes: mins },
+      `Cinematic ${cdSec}s Launch Countdown Initiated!`
+    );
+  };
+
+  const handleDeclareWinner = (overrideFirstId, overrideSecondId) => {
+    const chosenFirst = overrideFirstId ?? selectedWinnerTeamId;
+    const chosenSecond = overrideSecondId ?? selectedSecondWinnerTeamId;
+    const teamId = chosenFirst === 'AUTO_LEADER' ? null : chosenFirst;
+    const secondTeamId = chosenSecond === 'AUTO_SECOND' ? null : chosenSecond;
+    handleEventCommand(
+      'DECLARE_WINNER',
+      { teamId, secondTeamId },
+      'Proclaimed Top 2 CyberQuest Champions across all screens!'
+    );
+  };
+
+  const handleClearWinner = () => {
+    handleEventCommand('CLEAR_WINNER', {}, 'Cleared Winner Proclamation Overlay');
   };
 
   const handlePauseOrResumeRound = () => {
@@ -985,7 +1063,7 @@ export const AdminControlPage = () => {
   };
 
   const handleEndRound = () => {
-    handleEventCommand('END', {}, 'Round Ended (00:00:00)');
+    handleEventCommand('END', {}, 'Round Ended & #1 Winner Declared!');
   };
 
   const handleApplyTotalTime = (overrideMins) => {
@@ -1291,48 +1369,125 @@ export const AdminControlPage = () => {
   // ============================================================================
   return (
     <div className="min-h-screen bg-[#FAF9F5] text-[#111111] flex flex-col">
-      {/* 1. CLEAN TOP BAR + ALWAYS-VISIBLE ROUND TIMER & TOTAL TIME CONTROLLER */}
+      {/* 1. SLEEK TOP NAVBAR (ROUND CONTROLS MOVED TO DEDICATED 'ROUND CONTROL' PAGE) */}
       <header
         ref={globalEventBannerRef}
         className="sticky top-0 z-30 bg-white border-b-2 border-[#111111] shadow-sm"
       >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-3 space-y-3">
-          {/* Top Row: Brand + Quick Stats + Links */}
-          <div className="flex flex-wrap items-center justify-between gap-3">
-            <div className="flex items-center gap-3">
-              <div className="w-3 h-3 bg-[#E11D2E]" />
-              <div>
-                <div className="flex items-center gap-2">
-                  <span className="font-display text-xl tracking-wide uppercase text-[#111111]">
-                    CYBER QUEST ADMIN
-                  </span>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 pt-3 pb-0 space-y-2.5">
+          {/* Top Row: Brand + Live Round Status Pill + Quick Actions */}
+          <div className="flex flex-wrap items-center justify-between gap-2.5 sm:gap-3">
+            <div className="flex flex-wrap items-center gap-2 sm:gap-3">
+              <div className="w-3 h-3 bg-[#E11D2E] shrink-0" />
+              <div className="flex items-center gap-2">
+                <span className="font-display text-lg sm:text-xl tracking-wide uppercase text-[#111111]">
+                  CYBER QUEST ADMIN
+                </span>
+                <span
+                  className={`inline-flex items-center gap-1 px-2 py-0.5 text-[10px] font-mono font-bold uppercase border ${
+                    socketConnected
+                      ? 'bg-emerald-50 text-emerald-700 border-emerald-300'
+                      : 'bg-amber-50 text-amber-700 border-amber-300'
+                  }`}
+                >
                   <span
-                    className={`inline-flex items-center gap-1 px-2 py-0.5 text-[10px] font-mono font-bold uppercase border ${
-                      socketConnected
-                        ? 'bg-emerald-50 text-emerald-700 border-emerald-300'
-                        : 'bg-amber-50 text-amber-700 border-amber-300'
+                    className={`w-1.5 h-1.5 rounded-full ${
+                      socketConnected ? 'bg-emerald-600' : 'bg-amber-500'
                     }`}
-                  >
-                    <span
-                      className={`w-1.5 h-1.5 rounded-full ${
-                        socketConnected ? 'bg-emerald-600' : 'bg-amber-500'
-                      }`}
-                    />
-                    {socketConnected ? 'LIVE' : 'SYNCING'}
-                  </span>
-                </div>
+                  />
+                  {socketConnected ? 'LIVE' : 'SYNCING'}
+                </span>
               </div>
-              <div className="hidden md:flex items-center gap-2 ml-3 pl-3 border-l border-neutral-200 font-mono text-xs">
+
+              {/* Compact Round Status Pill -> Click to open Round Control */}
+              <Link
+                to="/admin/events"
+                className="inline-flex items-center gap-1.5 sm:gap-2 sm:ml-2 px-2.5 sm:px-3 py-1 bg-[#0B0C10] text-white border border-[#111111] hover:border-[#E11D2E] font-mono text-[11px] sm:text-xs transition-colors"
+                title="Open Round Control Deck"
+              >
+                <Clock className="w-3.5 h-3.5 text-[#E11D2E] shrink-0" />
+                <span className="font-bold tracking-wider">
+                  {liveGlobalTimer.status === 'COUNTDOWN'
+                    ? `T-${liveGlobalTimer.countdownRemainingSeconds}s`
+                    : liveGlobalTimer.formatted}
+                </span>
+                <span
+                  className={`px-1.5 py-0.5 text-[9px] font-bold uppercase ${
+                    liveGlobalTimer.status === 'ACTIVE'
+                      ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/40'
+                      : liveGlobalTimer.status === 'COUNTDOWN'
+                        ? 'bg-[#E11D2E] text-white animate-pulse'
+                        : liveGlobalTimer.status === 'ENDED'
+                          ? 'bg-red-500/20 text-red-300 border border-red-500/40'
+                          : 'bg-amber-500/20 text-amber-300 border border-amber-500/40'
+                  }`}
+                >
+                  {liveGlobalTimer.status === 'ACTIVE'
+                    ? 'RUNNING'
+                    : liveGlobalTimer.status === 'COUNTDOWN'
+                      ? 'COUNTDOWN'
+                      : liveGlobalTimer.status}
+                </span>
+              </Link>
+
+              <div className="hidden lg:flex items-center gap-2 pl-2 border-l border-neutral-200 font-mono text-xs">
                 <span className="px-2 py-0.5 bg-neutral-100 border border-neutral-300 font-bold">
                   {totalTeams} Teams ({onlineTeamsCount} Online)
                 </span>
                 <span className="px-2 py-0.5 bg-red-50 text-[#E11D2E] border border-red-200 font-bold">
-                  {activeAttemptsCount} Playing Now
+                  {activeAttemptsCount} Playing
                 </span>
               </div>
             </div>
 
-            <div className="flex items-center gap-2 font-mono text-xs">
+            <div className="flex flex-wrap items-center gap-1.5 sm:gap-2 font-mono text-xs">
+              {/* Compact Recording & Anomaly Report Controls */}
+              {adminState?.recording?.isRecording ? (
+                <div className="flex items-center gap-1.5">
+                  <button
+                    type="button"
+                    onClick={handleStopRecording}
+                    disabled={pendingKey === 'recording-stop'}
+                    className="px-2 sm:px-2.5 py-1.5 bg-[#E11D2E] hover:bg-red-700 text-white font-bold uppercase text-[10px] sm:text-[11px] inline-flex items-center gap-1.5 cursor-pointer"
+                    title="Stop Recording and Open Full Anomaly & Activity Report"
+                  >
+                    <span className="w-2 h-2 rounded-full bg-white animate-ping inline-block" />
+                    <span>
+                      Stop Rec ({adminState.recording.activeRecording?.summary?.totalEvents || 0})
+                    </span>
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setShowRecordingModal(true)}
+                    className="px-2 py-1.5 bg-white text-[#111111] hover:bg-neutral-100 font-bold uppercase text-[10px] sm:text-[11px] border border-[#111111] cursor-pointer"
+                  >
+                    Live Report
+                  </button>
+                </div>
+              ) : (
+                <div className="flex items-center gap-1.5">
+                  <button
+                    type="button"
+                    onClick={handleStartRecording}
+                    disabled={pendingKey === 'recording-start'}
+                    className="px-2 sm:px-2.5 py-1.5 bg-[#111111] hover:bg-[#E11D2E] text-white font-bold uppercase text-[10px] sm:text-[11px] inline-flex items-center gap-1.5 cursor-pointer transition-colors"
+                    title="Start recording all game events to detect anomalies"
+                  >
+                    <span className="w-2 h-2 rounded-full bg-[#E11D2E] inline-block" />
+                    <span>Record</span>
+                  </button>
+                  {adminState?.recording?.latestReport && (
+                    <button
+                      type="button"
+                      onClick={() => setShowRecordingModal(true)}
+                      className="px-2 py-1.5 bg-white text-[#111111] hover:bg-neutral-100 font-bold uppercase text-[10px] sm:text-[11px] border border-[#111111] cursor-pointer"
+                    >
+                      Report
+                    </button>
+                  )}
+                </div>
+              )}
+
               <ThemeToggleButton compact />
               <button
                 type="button"
@@ -1344,20 +1499,20 @@ export const AdminControlPage = () => {
               </button>
               <Link
                 to="/display"
-                className="px-2.5 py-1.5 bg-white border border-neutral-300 hover:border-[#111111] font-bold text-[#111111]"
+                className="px-2 sm:px-2.5 py-1.5 bg-white border border-neutral-300 hover:border-[#111111] font-bold text-[#111111]"
               >
                 Projector
               </Link>
               <Link
                 to="/dashboard"
-                className="px-2.5 py-1.5 bg-white border border-neutral-300 hover:border-[#111111] font-bold text-[#111111]"
+                className="px-2 sm:px-2.5 py-1.5 bg-white border border-neutral-300 hover:border-[#111111] font-bold text-[#111111]"
               >
                 Portal
               </Link>
               <button
                 type="button"
                 onClick={handleAdminLogout}
-                className="px-2.5 py-1.5 bg-neutral-100 hover:bg-[#111111] hover:text-white border border-neutral-300 font-bold cursor-pointer transition-colors inline-flex items-center gap-1"
+                className="px-2 sm:px-2.5 py-1.5 bg-neutral-100 hover:bg-[#111111] hover:text-white border border-neutral-300 font-bold cursor-pointer transition-colors inline-flex items-center gap-1"
               >
                 <LogOut className="w-3.5 h-3.5" />
                 Exit
@@ -1365,201 +1520,8 @@ export const AdminControlPage = () => {
             </div>
           </div>
 
-          {/* Second Row: Round Start / Pause / End + Total Time Bar */}
-          <div className="flex flex-wrap items-center justify-between gap-3 bg-[#FAF9F5] border-2 border-[#111111] px-3.5 py-2.5 font-mono text-xs">
-            {/* Time Remaining + Total Time Readout */}
-            <div className="flex flex-wrap items-center gap-4">
-              <div className="flex items-center gap-2">
-                <Clock className="w-4 h-4 text-[#E11D2E]" />
-                <div>
-                  <div className="text-[10px] font-bold uppercase text-neutral-500">
-                    Time Remaining
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <span className="font-bold text-lg tracking-wider text-[#111111]">
-                      {liveGlobalTimer.formatted}
-                    </span>
-                    <span
-                      className={`px-1.5 py-0.5 text-[10px] font-bold uppercase ${
-                        liveGlobalTimer.status === 'ACTIVE'
-                          ? 'bg-emerald-100 text-emerald-800'
-                          : liveGlobalTimer.status === 'ENDED'
-                            ? 'bg-red-100 text-[#E11D2E]'
-                            : 'bg-amber-100 text-amber-800'
-                      }`}
-                    >
-                      {liveGlobalTimer.status === 'ACTIVE'
-                        ? 'RUNNING'
-                        : liveGlobalTimer.status}
-                    </span>
-                  </div>
-                </div>
-              </div>
-
-              <div className="pl-4 border-l border-neutral-300">
-                <div className="text-[10px] font-bold uppercase text-neutral-500">
-                  Total Round Time
-                </div>
-                <div className="font-bold text-sm text-[#111111]">
-                  {liveGlobalTimer.totalDurationMinutes}m ({liveGlobalTimer.totalFormatted})
-                </div>
-              </div>
-
-              {/* Inline Total Time Setter */}
-              <div className="flex items-center gap-1.5 pl-4 border-l border-neutral-300">
-                <label className="text-[10px] font-bold uppercase text-neutral-600">
-                  Total (Min):
-                </label>
-                <input
-                  type="number"
-                  min={1}
-                  max={600}
-                  value={customTimerMinutes}
-                  onChange={(e) => setCustomTimerMinutes(e.target.value)}
-                  className="w-16 px-2 py-1 bg-white border border-[#111111] font-bold text-xs text-[#111111]"
-                />
-                <button
-                  type="button"
-                  onClick={() => handleApplyTotalTime(customTimerMinutes)}
-                  className="px-2.5 py-1 bg-white hover:bg-[#111111] hover:text-white border border-[#111111] font-bold uppercase text-[11px] cursor-pointer transition-colors"
-                >
-                  Set Total
-                </button>
-              </div>
-            </div>
-
-            {/* Round Start / Pause / End + Core Lock/Unlock Buttons */}
-            <div className="flex flex-wrap items-center gap-2">
-              <button
-                type="button"
-                onClick={handleStartRound}
-                className="px-3 py-1.5 bg-emerald-600 hover:bg-emerald-700 text-white font-bold uppercase text-[11px] inline-flex items-center gap-1.5 cursor-pointer shadow-[2px_2px_0px_#111111]"
-                title="Start or Restart Round with the configured Total Time"
-              >
-                <Play className="w-3.5 h-3.5" />
-                Start Round
-              </button>
-
-              <button
-                type="button"
-                onClick={handlePauseOrResumeRound}
-                className={`px-3 py-1.5 font-bold uppercase text-[11px] inline-flex items-center gap-1.5 cursor-pointer border border-[#111111] ${
-                  liveGlobalTimer.status === 'ACTIVE'
-                    ? 'bg-amber-500 hover:bg-amber-600 text-white'
-                    : 'bg-white hover:bg-neutral-100 text-[#111111]'
-                }`}
-              >
-                {liveGlobalTimer.status === 'ACTIVE' ? (
-                  <>
-                    <Pause className="w-3.5 h-3.5" /> Pause
-                  </>
-                ) : (
-                  <>
-                    <Play className="w-3.5 h-3.5" /> Resume
-                  </>
-                )}
-              </button>
-
-              <button
-                type="button"
-                onClick={handleEndRound}
-                disabled={liveGlobalTimer.status === 'ENDED'}
-                className="px-3 py-1.5 bg-[#E11D2E] hover:bg-red-700 disabled:opacity-40 text-white font-bold uppercase text-[11px] inline-flex items-center gap-1.5 cursor-pointer shadow-[2px_2px_0px_#111111]"
-              >
-                <Square className="w-3.5 h-3.5" />
-                End Round
-              </button>
-
-              <button
-                type="button"
-                onClick={() => handleEventCommand(coreUnlocked ? 'LOCK' : 'UNLOCK')}
-                className={`px-3 py-1.5 font-bold uppercase text-[11px] inline-flex items-center gap-1.5 border border-[#111111] cursor-pointer transition-colors ${
-                  coreUnlocked
-                    ? 'bg-emerald-50 text-emerald-800 hover:bg-emerald-100'
-                    : 'bg-white text-neutral-800 hover:bg-neutral-100'
-                }`}
-              >
-                {coreUnlocked ? (
-                  <>
-                    <Unlock className="w-3.5 h-3.5 text-emerald-600" /> Core Open
-                  </>
-                ) : (
-                  <>
-                    <Lock className="w-3.5 h-3.5 text-neutral-500" /> Core Locked
-                  </>
-                )}
-              </button>
-
-              {/* LIVE GAME RECORDING & ANOMALY REPORT CONTROLS */}
-              {adminState?.recording?.isRecording ? (
-                <div className="flex items-center gap-1.5 pl-2 border-l border-neutral-300">
-                  <button
-                    type="button"
-                    onClick={handleStopRecording}
-                    disabled={pendingKey === 'recording-stop'}
-                    className="px-3 py-1.5 bg-[#E11D2E] hover:bg-red-700 text-white font-bold uppercase text-[11px] inline-flex items-center gap-1.5 cursor-pointer shadow-[2px_2px_0px_#111111]"
-                    title="Stop Recording and Open Full Anomaly & Activity Report"
-                  >
-                    <span className="w-2 h-2 rounded-full bg-white animate-ping inline-block" />
-                    <span>
-                      Stop Rec ({adminState.recording.activeRecording?.summary?.totalEvents || 0})
-                    </span>
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => setShowRecordingModal(true)}
-                    className={`px-2.5 py-1.5 font-bold uppercase text-[11px] inline-flex items-center gap-1 border border-[#111111] cursor-pointer ${
-                      (adminState.recording.activeRecording?.summary?.anomaliesCount || 0) > 0
-                        ? 'bg-amber-100 text-[#E11D2E] border-[#E11D2E]'
-                        : 'bg-white text-[#111111] hover:bg-neutral-100'
-                    }`}
-                    title="Open Live Recording & Anomaly Report"
-                  >
-                    <span>
-                      Live Report
-                      {(adminState.recording.activeRecording?.summary?.anomaliesCount || 0) > 0
-                        ? ` (⚠ ${adminState.recording.activeRecording.summary.anomaliesCount})`
-                        : ''}
-                    </span>
-                  </button>
-                </div>
-              ) : (
-                <div className="flex items-center gap-1.5 pl-2 border-l border-neutral-300">
-                  <button
-                    type="button"
-                    onClick={handleStartRecording}
-                    disabled={pendingKey === 'recording-start'}
-                    className="px-3 py-1.5 bg-[#111111] hover:bg-[#E11D2E] text-white font-bold uppercase text-[11px] inline-flex items-center gap-1.5 cursor-pointer shadow-[2px_2px_0px_#E11D2E] transition-colors"
-                    title="Start recording all game events to detect anomalies"
-                  >
-                    <span className="w-2 h-2 rounded-full bg-[#E11D2E] inline-block" />
-                    <span>Record</span>
-                  </button>
-                  {adminState?.recording?.latestReport && (
-                    <button
-                      type="button"
-                      onClick={() => setShowRecordingModal(true)}
-                      className={`px-2.5 py-1.5 font-bold uppercase text-[11px] inline-flex items-center gap-1 border border-[#111111] cursor-pointer ${
-                        (adminState.recording.latestReport?.summary?.anomaliesCount || 0) > 0
-                          ? 'bg-red-50 text-[#E11D2E]'
-                          : 'bg-white text-[#111111] hover:bg-neutral-100'
-                      }`}
-                    >
-                      <span>
-                        Report
-                        {(adminState.recording.latestReport?.summary?.anomaliesCount || 0) > 0
-                          ? ` (⚠ ${adminState.recording.latestReport.summary.anomaliesCount})`
-                          : ''}
-                      </span>
-                    </button>
-                  )}
-                </div>
-              )}
-            </div>
-          </div>
-
           {/* Navigation Tabs */}
-          <div className="flex items-center gap-1 pt-1 overflow-x-auto">
+          <div className="flex items-center gap-1 overflow-x-auto">
             {NAV_TABS.map((tab) => {
               const Icon = tab.icon;
               const isActive = activeTabId === tab.id;
@@ -1567,7 +1529,7 @@ export const AdminControlPage = () => {
                 <Link
                   key={tab.id}
                   to={tab.path}
-                  className={`inline-flex items-center gap-2 px-4 py-2 font-mono text-xs font-bold uppercase transition-colors border-b-2 whitespace-nowrap ${
+                  className={`inline-flex items-center gap-2 px-4 py-2.5 font-mono text-xs font-bold uppercase transition-colors border-b-2 whitespace-nowrap ${
                     isActive
                       ? 'border-[#E11D2E] text-[#E11D2E] bg-red-50/60'
                       : 'border-transparent text-neutral-600 hover:text-[#111111] hover:bg-neutral-100'
@@ -1575,6 +1537,19 @@ export const AdminControlPage = () => {
                 >
                   <Icon className="w-4 h-4" />
                   {tab.label}
+                  {tab.id === 'events' && (
+                    <span
+                      className={`px-1.5 py-0.2 text-[9px] font-bold uppercase ${
+                        liveGlobalTimer.status === 'ACTIVE'
+                          ? 'bg-emerald-100 text-emerald-800'
+                          : liveGlobalTimer.status === 'COUNTDOWN'
+                            ? 'bg-[#E11D2E] text-white'
+                            : 'bg-neutral-200 text-neutral-700'
+                      }`}
+                    >
+                      {liveGlobalTimer.status === 'ACTIVE' ? 'LIVE' : liveGlobalTimer.status}
+                    </span>
+                  )}
                   {tab.id === 'teams' && (
                     <span className="px-1.5 py-0.2 bg-neutral-200 text-[#111111] text-[10px]">
                       {totalTeams}
@@ -2668,332 +2643,605 @@ export const AdminControlPage = () => {
         )}
 
         {/* =======================================================================
-            TAB 4: ROUND & SETTINGS (/admin/events)
+            TAB 1: DEDICATED ROUND CONTROL & CHAMPIONSHIP DECK (/admin/events)
            ======================================================================= */}
         {activeTabId === 'events' && (
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            {/* Round Timer & Total Time Control Card */}
-            <div className="bg-white border-2 border-[#111111] shadow-[4px_4px_0px_#111111] p-6 space-y-5">
-              <div className="border-b border-neutral-200 pb-3">
-                <span className="font-mono text-[10px] font-bold uppercase text-[#E11D2E]">
-                  ROUND CLOCK & TOTAL TIME
-                </span>
-                <h2 className="font-display text-2xl uppercase text-[#111111] mt-0.5">
-                  Round Start, End & Total Time
-                </h2>
-              </div>
+          <div className="space-y-5 sm:space-y-6">
+            {/* 1. HERO DARK MISSION CONTROL CONSOLE: ROUND LAUNCH, COUNTDOWN & LIVE CLOCK */}
+            <section className="relative overflow-hidden bg-[#0B0C10] text-white border-2 border-[#111111] shadow-[4px_4px_0px_#E11D2E] sm:shadow-[6px_6px_0px_#E11D2E]">
+              {/* Subtle Tactical Grid Backdrop */}
+              <div
+                className="pointer-events-none absolute inset-0 opacity-[0.07]"
+                style={{
+                  backgroundImage:
+                    'linear-gradient(to right, rgba(255,255,255,0.22) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,0.22) 1px, transparent 1px)',
+                  backgroundSize: '40px 40px',
+                }}
+              />
+              <div
+                className="pointer-events-none absolute inset-0"
+                style={{
+                  background:
+                    'radial-gradient(circle at 18% 20%, rgba(225,29,46,0.18) 0%, transparent 55%), radial-gradient(circle at 85% 80%, rgba(245,158,11,0.12) 0%, transparent 55%)',
+                }}
+              />
 
-              {/* Live Readout Box */}
-              <div className="p-4 bg-[#FAF9F5] border-2 border-[#111111] space-y-3">
-                <div className="grid grid-cols-3 gap-3 text-center font-mono">
-                  <div className="bg-white p-3 border border-neutral-300">
-                    <div className="text-[10px] font-bold uppercase text-neutral-500">
-                      Time Remaining
-                    </div>
-                    <div className="font-display text-3xl text-[#111111] mt-0.5">
-                      {liveGlobalTimer.formatted}
-                    </div>
-                  </div>
-                  <div className="bg-white p-3 border border-neutral-300">
-                    <div className="text-[10px] font-bold uppercase text-neutral-500">
-                      Total Round Time
-                    </div>
-                    <div className="font-display text-3xl text-[#111111] mt-0.5">
-                      {liveGlobalTimer.totalFormatted}
-                    </div>
-                    <div className="text-[10px] text-neutral-500">
-                      ({liveGlobalTimer.totalDurationMinutes} mins)
-                    </div>
-                  </div>
-                  <div className="bg-white p-3 border border-neutral-300">
-                    <div className="text-[10px] font-bold uppercase text-neutral-500">
-                      Elapsed Time
-                    </div>
-                    <div className="font-display text-3xl text-neutral-700 mt-0.5">
-                      {liveGlobalTimer.elapsedFormatted}
-                    </div>
-                    <div className="text-[10px] text-neutral-500">
-                      ({liveGlobalTimer.progressPercent}%)
-                    </div>
-                  </div>
-                </div>
-
-                {/* Progress Bar */}
-                <div className="w-full h-2.5 bg-neutral-200 border border-[#111111] overflow-hidden">
-                  <div
-                    className="h-full bg-[#E11D2E] transition-all duration-500"
-                    style={{ width: `${liveGlobalTimer.progressPercent}%` }}
+              {/* Top Telemetry Strip */}
+              <div className="relative z-10 px-4 sm:px-6 py-2.5 sm:py-3 bg-black/50 border-b border-white/10 flex flex-wrap items-center justify-between gap-2 sm:gap-3 font-mono text-[10px] sm:text-[11px]">
+                <div className="flex items-center gap-2">
+                  <span
+                    className={`w-2.5 h-2.5 rounded-full shrink-0 ${
+                      liveGlobalTimer.status === 'ACTIVE'
+                        ? 'bg-emerald-400 shadow-[0_0_10px_#34d399]'
+                        : liveGlobalTimer.status === 'COUNTDOWN'
+                          ? 'bg-[#E11D2E] animate-ping'
+                          : 'bg-amber-400'
+                    }`}
                   />
+                  <span className="font-bold uppercase tracking-[0.14em] sm:tracking-[0.22em] text-white/90">
+                    NEXUS MISSION CONTROL // ROUND EXECUTION DECK
+                  </span>
+                </div>
+                <div className="flex flex-wrap items-center gap-2 sm:gap-3 text-white/60">
+                  <span>
+                    CITADEL:{' '}
+                    <strong
+                      className={
+                        liveGlobalTimer.status === 'ACTIVE' ? 'text-emerald-400' : 'text-amber-300'
+                      }
+                    >
+                      {liveGlobalTimer.status === 'ACTIVE'
+                        ? 'UNLOCKED (ARENA LIVE)'
+                        : 'SEALED (HOME STANDBY)'}
+                    </strong>
+                  </span>
+                  <span className="hidden sm:inline">•</span>
+                  <span className="hidden sm:inline">
+                    REAL-TIME SYNC: <strong className="text-emerald-400">ZERO-REFRESH WS</strong>
+                  </span>
                 </div>
               </div>
 
-              {/* Start / Pause / End Primary Buttons */}
-              <div className="grid grid-cols-3 gap-2.5 font-mono text-xs">
-                <button
-                  type="button"
-                  onClick={handleStartRound}
-                  className="py-3 bg-emerald-600 hover:bg-emerald-700 text-white font-bold uppercase cursor-pointer shadow-[2px_2px_0px_#111111] inline-flex items-center justify-center gap-1.5"
-                >
-                  <Play className="w-4 h-4" /> Start Round
-                </button>
-                <button
-                  type="button"
-                  onClick={handlePauseOrResumeRound}
-                  className="py-3 bg-amber-500 hover:bg-amber-600 text-white font-bold uppercase cursor-pointer shadow-[2px_2px_0px_#111111] inline-flex items-center justify-center gap-1.5"
-                >
-                  {liveGlobalTimer.status === 'ACTIVE' ? (
-                    <>
-                      <Pause className="w-4 h-4" /> Pause Round
-                    </>
-                  ) : (
-                    <>
-                      <Play className="w-4 h-4" /> Resume Round
-                    </>
-                  )}
-                </button>
-                <button
-                  type="button"
-                  onClick={handleEndRound}
-                  className="py-3 bg-[#E11D2E] hover:bg-red-700 text-white font-bold uppercase cursor-pointer shadow-[2px_2px_0px_#111111] inline-flex items-center justify-center gap-1.5"
-                >
-                  <Square className="w-4 h-4" /> End Round
-                </button>
-              </div>
+              {/* Main 2-Column Console Body */}
+              <div className="relative z-10 p-4 sm:p-8 grid grid-cols-1 lg:grid-cols-12 gap-5 sm:gap-8 items-center">
+                {/* Left 5 Cols: Giant Live Arena Clock & Telemetry */}
+                <div className="lg:col-span-5 space-y-4 sm:space-y-5">
+                  <div className="inline-flex items-center gap-2 px-2.5 sm:px-3 py-1 border border-white/15 bg-white/[0.04] font-mono text-[9px] sm:text-[10px] font-bold uppercase tracking-[0.14em] sm:tracking-[0.2em]">
+                    <Clock className="w-3.5 h-3.5 text-[#E11D2E] shrink-0" />
+                    <span>
+                      {liveGlobalTimer.status === 'COUNTDOWN'
+                        ? 'CINEMATIC LAUNCH SEQUENCE ACTIVE'
+                        : liveGlobalTimer.status === 'ACTIVE'
+                          ? 'ROUND IN PROGRESS — ALL TERMINALS UNLOCKED'
+                          : liveGlobalTimer.status === 'ENDED'
+                            ? 'ROUND CONCLUDED — CEREMONY MODE'
+                            : 'STANDBY — PLAYERS IN HOME LORE CHAMBER'}
+                    </span>
+                  </div>
 
-              {/* Total Time Configuration (Presets + Custom Input + +/-5m) */}
-              <div className="space-y-3 pt-2 border-t border-neutral-200 font-mono text-xs">
-                <div className="font-bold uppercase text-neutral-700">
-                  Configure Total Round Time (Minutes)
-                </div>
-
-                <div className="flex flex-wrap items-center gap-1.5">
-                  {ROUND_TIME_PRESETS.map((mins) => (
-                    <button
-                      key={mins}
-                      type="button"
-                      onClick={() => handleApplyTotalTime(mins)}
-                      className={`px-3 py-1.5 border font-bold uppercase cursor-pointer ${
-                        Number(customTimerMinutes) === mins
-                          ? 'bg-[#111111] text-white border-[#111111]'
-                          : 'bg-[#FAF9F5] text-[#111111] border-neutral-300 hover:border-[#111111]'
+                  {/* Giant Digital Timer Box */}
+                  <div className="p-4 sm:p-6 bg-black/60 border-2 border-white/15 relative overflow-hidden">
+                    <div className="font-mono text-[10px] uppercase tracking-[0.18em] sm:tracking-[0.25em] text-white/45">
+                      {liveGlobalTimer.status === 'COUNTDOWN'
+                        ? 'PRE-GAME COUNTDOWN CLOCK'
+                        : 'GLOBAL ARENA ROUND CLOCK'}
+                    </div>
+                    <div
+                      className={`font-display text-5xl sm:text-7xl tracking-wider leading-none mt-2 ${
+                        liveGlobalTimer.status === 'COUNTDOWN'
+                          ? 'text-[#E11D2E]'
+                          : liveGlobalTimer.status === 'ACTIVE'
+                            ? 'text-white'
+                            : 'text-amber-300'
                       }`}
                     >
-                      {mins}m
+                      {liveGlobalTimer.status === 'COUNTDOWN'
+                        ? `T-${liveGlobalTimer.countdownRemainingSeconds}s`
+                        : liveGlobalTimer.formatted}
+                    </div>
+
+                    {/* Progress Bar */}
+                    <div className="w-full h-2 bg-white/10 mt-4 sm:mt-5 overflow-hidden">
+                      <div
+                        className="h-full bg-gradient-to-r from-[#E11D2E] via-amber-400 to-emerald-400 transition-all duration-500"
+                        style={{ width: `${liveGlobalTimer.progressPercent}%` }}
+                      />
+                    </div>
+
+                    {/* Sub-metrics */}
+                    <div className="grid grid-cols-2 gap-3 mt-4 pt-4 border-t border-white/10 font-mono text-xs">
+                      <div>
+                        <div className="text-[10px] uppercase text-white/40">Total Round Time</div>
+                        <div className="font-bold text-white mt-0.5">
+                          {liveGlobalTimer.totalFormatted} ({liveGlobalTimer.totalDurationMinutes}m)
+                        </div>
+                      </div>
+                      <div>
+                        <div className="text-[10px] uppercase text-white/40">Elapsed Progress</div>
+                        <div className="font-bold text-white/80 mt-0.5">
+                          {liveGlobalTimer.elapsedFormatted} ({liveGlobalTimer.progressPercent}%)
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Right 7 Cols: Cinematic Countdown Launcher & Round Execution Controls */}
+                <div className="lg:col-span-7 space-y-4 sm:space-y-5 font-mono">
+                  <div className="p-4 sm:p-6 bg-white/[0.03] border border-white/15 space-y-4">
+                    <div className="flex flex-wrap items-center justify-between gap-2">
+                      <div>
+                        <div className="text-[10px] font-bold uppercase tracking-[0.16em] sm:tracking-[0.22em] text-[#E11D2E]">
+                          STEP 1 // SYNCHRONIZED PRE-START COUNTDOWN
+                        </div>
+                        <h3 className="font-display text-xl sm:text-2xl uppercase tracking-wide text-white mt-0.5">
+                          Start Round With Cinematic Countdown
+                        </h3>
+                      </div>
+                      <span className="px-2.5 py-1 bg-[#E11D2E]/20 border border-[#E11D2E]/50 text-[#E11D2E] text-[10px] font-bold uppercase">
+                        No Page Refresh Needed
+                      </span>
+                    </div>
+
+                    <p className="text-xs text-white/65 leading-relaxed">
+                      Choose your countdown seconds below and press{' '}
+                      <strong className="text-white">Start Round With Countdown</strong>. Every
+                      player screen and the projector will immediately enter the widescreen GSAP +
+                      Framer Motion countdown and unlock the arena automatically at zero.
+                    </p>
+
+                    {/* Countdown Presets + Custom Seconds */}
+                    <div className="flex flex-wrap items-center gap-2 pt-1">
+                      <span className="text-[10px] font-bold uppercase tracking-wider text-white/50 mr-1">
+                        Countdown:
+                      </span>
+                      {[5, 10, 15, 30, 60].map((sec) => (
+                        <button
+                          key={sec}
+                          type="button"
+                          onClick={() => setCountdownSeconds(sec)}
+                          className={`px-3 sm:px-3.5 py-1.5 sm:py-2 border text-xs font-bold uppercase cursor-pointer transition-all ${
+                            Number(countdownSeconds) === sec
+                              ? 'bg-[#E11D2E] text-white border-[#E11D2E] shadow-[0_0_15px_rgba(225,29,46,0.4)]'
+                              : 'bg-black/50 text-white/75 border-white/20 hover:border-white/50'
+                          }`}
+                        >
+                          {sec}s
+                        </button>
+                      ))}
+                      <div className="flex items-center gap-1.5 sm:ml-auto">
+                        <span className="text-[10px] font-bold uppercase text-white/50">
+                          Custom (s):
+                        </span>
+                        <input
+                          type="number"
+                          min={1}
+                          max={300}
+                          value={countdownSeconds}
+                          onChange={(e) => setCountdownSeconds(e.target.value)}
+                          className="w-20 px-2.5 py-1.5 bg-black/70 border border-white/30 text-white font-bold text-xs text-center focus:outline-none focus:border-[#E11D2E]"
+                        />
+                      </div>
+                    </div>
+
+                    {/* Primary Hero Launch Button */}
+                    <button
+                      type="button"
+                      onClick={() => handleStartCountdownRound(countdownSeconds)}
+                      className="w-full py-3.5 sm:py-4 px-3 sm:px-5 bg-[#E11D2E] hover:bg-red-600 text-white font-bold text-xs sm:text-sm uppercase tracking-[0.12em] sm:tracking-[0.2em] cursor-pointer shadow-[3px_3px_0px_#ffffff] sm:shadow-[4px_4px_0px_#ffffff] transition-all inline-flex items-center justify-center gap-2 text-center"
+                    >
+                      <Flame className="w-4 h-4 sm:w-5 sm:h-5 shrink-0" />
+                      <span>Start Round With {countdownSeconds || 10}s Cinematic Countdown →</span>
                     </button>
-                  ))}
-                </div>
+                  </div>
 
-                <div className="flex flex-wrap items-center gap-2">
-                  <input
-                    type="number"
-                    min={1}
-                    max={600}
-                    value={customTimerMinutes}
-                    onChange={(e) => setCustomTimerMinutes(e.target.value)}
-                    className="w-28 px-3 py-2 bg-[#FAF9F5] border-2 border-[#111111] font-bold"
-                  />
-                  <button
-                    type="button"
-                    onClick={() => handleApplyTotalTime(customTimerMinutes)}
-                    className="px-4 py-2 bg-[#111111] hover:bg-[#E11D2E] text-white font-bold uppercase cursor-pointer transition-colors"
-                  >
-                    Apply Total Time ({customTimerMinutes}m)
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() =>
-                      handleEventCommand('ADJUST_TIMER', { deltaSeconds: 300 }, '+5m added to clock')
-                    }
-                    className="px-3 py-2 bg-emerald-50 hover:bg-emerald-600 hover:text-white text-emerald-800 border border-emerald-300 font-bold uppercase cursor-pointer"
-                  >
-                    +5 Min
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() =>
-                      handleEventCommand(
-                        'ADJUST_TIMER',
-                        { deltaSeconds: -300 },
-                        '-5m removed from clock'
-                      )
-                    }
-                    className="px-3 py-2 bg-red-50 hover:bg-[#E11D2E] hover:text-white text-[#E11D2E] border border-red-200 font-bold uppercase cursor-pointer"
-                  >
-                    -5 Min
-                  </button>
-                </div>
-              </div>
+                  {/* Secondary Execution Controls: Instant Start / Pause-Resume / End Round */}
+                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5 sm:gap-3 text-xs">
+                    <button
+                      type="button"
+                      onClick={handleStartRound}
+                      className="py-3 sm:py-3.5 px-4 bg-emerald-600 hover:bg-emerald-500 text-white font-bold uppercase tracking-wider cursor-pointer border border-emerald-400/40 inline-flex items-center justify-center gap-2 transition-colors"
+                      title="Start Round immediately with 0s countdown"
+                    >
+                      <Play className="w-4 h-4" />
+                      Instant Start (0s)
+                    </button>
 
-              {/* NEXUS Core Lock / Unlock */}
-              <div className="pt-4 border-t border-neutral-200 space-y-2.5 font-mono text-xs">
-                <div className="flex items-center justify-between">
-                  <span className="font-bold uppercase text-neutral-700">
-                    NEXUS Final Core Status
-                  </span>
-                  <span
-                    className={`px-2 py-0.5 font-bold uppercase ${
-                      coreUnlocked
-                        ? 'bg-emerald-100 text-emerald-800'
-                        : 'bg-neutral-200 text-neutral-700'
-                    }`}
-                  >
-                    {adminState?.coreStatus?.state || 'LOCKED'}
-                  </span>
-                </div>
-                <div className="grid grid-cols-3 gap-2">
-                  <button
-                    type="button"
-                    onClick={() => handleEventCommand('LOCK', {}, 'NEXUS Core Locked')}
-                    className="py-2.5 border-2 border-[#111111] bg-white hover:bg-[#111111] hover:text-white font-bold uppercase cursor-pointer"
-                  >
-                    Lock Core
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => handleEventCommand('UNLOCK', {}, 'NEXUS Core Unlocked')}
-                    className="py-2.5 border-2 border-[#111111] bg-emerald-600 hover:bg-emerald-700 text-white font-bold uppercase cursor-pointer"
-                  >
-                    Unlock Core
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => handleEventCommand('REVEAL', {}, 'NEXUS Core Revealed')}
-                    className="py-2.5 border-2 border-[#111111] bg-[#E11D2E] hover:bg-red-700 text-white font-bold uppercase cursor-pointer"
-                  >
-                    Reveal Core
-                  </button>
+                    <button
+                      type="button"
+                      onClick={handlePauseOrResumeRound}
+                      className={`py-3 sm:py-3.5 px-4 font-bold uppercase tracking-wider cursor-pointer border inline-flex items-center justify-center gap-2 transition-colors ${
+                        liveGlobalTimer.status === 'ACTIVE'
+                          ? 'bg-amber-500 hover:bg-amber-400 text-[#111111] border-amber-300'
+                          : 'bg-white/10 hover:bg-white/20 text-white border-white/25'
+                      }`}
+                    >
+                      {liveGlobalTimer.status === 'ACTIVE' ? (
+                        <>
+                          <Pause className="w-4 h-4" /> Pause Round
+                        </>
+                      ) : (
+                        <>
+                          <Play className="w-4 h-4" /> Resume Round
+                        </>
+                      )}
+                    </button>
+
+                    <button
+                      type="button"
+                      onClick={handleEndRound}
+                      disabled={liveGlobalTimer.status === 'ENDED'}
+                      className="py-3 sm:py-3.5 px-4 bg-white hover:bg-[#E11D2E] hover:text-white disabled:opacity-40 text-[#111111] font-bold uppercase tracking-wider cursor-pointer border border-white inline-flex items-center justify-center gap-2 transition-colors"
+                      title="End Round and automatically crown Top 2 Leaderboard Teams"
+                    >
+                      <Square className="w-4 h-4" />
+                      End & Crown Top 2
+                    </button>
+                  </div>
                 </div>
               </div>
-            </div>
+            </section>
 
-            {/* Economy Settings & Demo Reset Card */}
-            <div className="bg-white border-2 border-[#111111] shadow-[4px_4px_0px_#111111] p-6 space-y-5">
-              <div className="border-b border-neutral-200 pb-3">
-                <span className="font-mono text-[10px] font-bold uppercase text-[#E11D2E]">
-                  ARENA CONFIGURATION
-                </span>
-                <h2 className="font-display text-2xl uppercase text-[#111111] mt-0.5">
-                  Economy & Arena Settings
-                </h2>
-              </div>
-
-              <form
-                onSubmit={(e) => {
-                  e.preventDefault();
-                  executeAdminApi('/api/admin/settings', 'POST', settingsForm, {
-                    key: 'save-settings',
-                    successMessage: 'Saved global arena settings',
-                  });
+            {/* 2. CINEMATIC TOP 2 WINNERS PROCLAMATION CEREMONY DECK (#1 CHAMPION & #2 RUNNER-UP) */}
+            <section className="bg-[#0B0C10] text-white border-2 border-amber-400 shadow-[4px_4px_0px_#111111] sm:shadow-[6px_6px_0px_#111111] p-4 sm:p-8 space-y-5 sm:space-y-6 relative overflow-hidden">
+              <div
+                className="pointer-events-none absolute inset-0"
+                style={{
+                  background:
+                    'radial-gradient(circle at 50% 0%, rgba(251,191,36,0.16) 0%, transparent 65%)',
                 }}
-                className="space-y-4 font-mono text-xs"
-              >
-                <div className="grid grid-cols-2 gap-3">
-                  <div>
-                    <label className="block font-bold uppercase text-neutral-700 mb-1">
-                      Default Starting Credits
-                    </label>
-                    <input
-                      type="number"
-                      value={settingsForm.startingCredits}
-                      onChange={(e) =>
-                        setSettingsForm((p) => ({
-                          ...p,
-                          startingCredits: Number(e.target.value),
-                        }))
-                      }
-                      className="w-full px-3 py-2 bg-[#FAF9F5] border border-neutral-300 font-bold"
-                    />
-                  </div>
-                  <div>
-                    <label className="block font-bold uppercase text-neutral-700 mb-1">
-                      Hint Cost (CR)
-                    </label>
-                    <input
-                      type="number"
-                      value={settingsForm.hintCost}
-                      onChange={(e) =>
-                        setSettingsForm((p) => ({ ...p, hintCost: Number(e.target.value) }))
-                      }
-                      className="w-full px-3 py-2 bg-[#FAF9F5] border border-neutral-300 font-bold"
-                    />
-                  </div>
-                  <div>
-                    <label className="block font-bold uppercase text-neutral-700 mb-1">
-                      Extra Time Cost (CR)
-                    </label>
-                    <input
-                      type="number"
-                      value={settingsForm.extraTimeCost}
-                      onChange={(e) =>
-                        setSettingsForm((p) => ({
-                          ...p,
-                          extraTimeCost: Number(e.target.value),
-                        }))
-                      }
-                      className="w-full px-3 py-2 bg-[#FAF9F5] border border-neutral-300 font-bold"
-                    />
-                  </div>
-                  <div>
-                    <label className="block font-bold uppercase text-neutral-700 mb-1">
-                      Extra Time (+Minutes)
-                    </label>
-                    <input
-                      type="number"
-                      value={settingsForm.extraTimeMinutes}
-                      onChange={(e) =>
-                        setSettingsForm((p) => ({
-                          ...p,
-                          extraTimeMinutes: Number(e.target.value),
-                        }))
-                      }
-                      className="w-full px-3 py-2 bg-[#FAF9F5] border border-neutral-300 font-bold"
-                    />
-                  </div>
-                </div>
+              />
 
+              <div className="relative z-10 flex flex-wrap items-center justify-between gap-3 sm:gap-4 border-b border-white/10 pb-4">
                 <div>
-                  <label className="block font-bold uppercase text-neutral-700 mb-1">
-                    Projector / Arena Announcement Banner
-                  </label>
-                  <input
-                    type="text"
-                    value={settingsForm.arenaAnnouncement || ''}
-                    onChange={(e) =>
-                      setSettingsForm((p) => ({ ...p, arenaAnnouncement: e.target.value }))
-                    }
-                    className="w-full px-3 py-2 bg-[#FAF9F5] border border-neutral-300 font-bold"
-                  />
+                  <div className="inline-flex items-center gap-2 font-mono text-[10px] font-bold uppercase tracking-[0.18em] sm:tracking-[0.25em] text-amber-400">
+                    <Trophy className="w-3.5 h-3.5 shrink-0" />
+                    <span>GRAND FINALE // TOP 2 CHAMPIONSHIP PROCLAMATION</span>
+                  </div>
+                  <h2 className="font-display text-xl sm:text-3xl uppercase tracking-wide text-white mt-1">
+                    Declare Top 2 Winning Teams (#1 Champion & #2 Runner-Up)
+                  </h2>
                 </div>
 
-                <div className="flex flex-wrap items-center justify-between gap-3 pt-3 border-t border-neutral-200">
-                  <button
-                    type="submit"
-                    className="px-5 py-2.5 bg-[#111111] hover:bg-[#E11D2E] text-white font-bold uppercase cursor-pointer transition-colors"
-                  >
-                    Save Settings
-                  </button>
+                {(adminState?.coreStatus?.declaredWinner || adminState?.coreStatus?.winner) ? (
+                  <div className="flex flex-wrap items-center gap-2 font-mono text-xs">
+                    <span className="px-2.5 sm:px-3 py-1.5 bg-amber-400 text-[#111111] font-bold uppercase">
+                      🏆 CROWNED:{' '}
+                      {(adminState?.coreStatus?.declaredWinner || adminState?.coreStatus?.winner)
+                        ?.teamName || 'CHAMPION'}
+                      {(adminState?.coreStatus?.declaredWinner || adminState?.coreStatus?.winner)
+                        ?.runnerUp?.teamName
+                        ? ` & #2 ${(adminState?.coreStatus?.declaredWinner || adminState?.coreStatus?.winner).runnerUp.teamName}`
+                        : ''}
+                    </span>
+                    <button
+                      type="button"
+                      onClick={handleClearWinner}
+                      className="px-3 py-1.5 bg-white/10 hover:bg-[#E11D2E] text-white border border-white/25 font-bold uppercase cursor-pointer transition-colors"
+                    >
+                      Dismiss Ceremony Overlay
+                    </button>
+                  </div>
+                ) : (
+                  <span className="px-3 py-1 bg-white/10 border border-white/20 font-mono text-[10px] sm:text-[11px] font-bold uppercase text-white/70">
+                    CEREMONY STANDBY
+                  </span>
+                )}
+              </div>
 
+              {/* Dual Selectors for #1 Grand Champion and #2 Runner-Up */}
+              <div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-4 items-end font-mono text-xs">
+                <div className="lg:col-span-4 space-y-1.5">
+                  <label className="block text-[10px] font-bold uppercase tracking-[0.18em] text-amber-300">
+                    🥇 Rank #1 — Grand Champion
+                  </label>
+                  <select
+                    value={selectedWinnerTeamId}
+                    onChange={(e) => setSelectedWinnerTeamId(e.target.value)}
+                    className="w-full px-3 sm:px-3.5 py-3 bg-black/80 border-2 border-amber-400/70 text-white font-bold text-xs focus:outline-none focus:border-amber-300"
+                  >
+                    <option value="AUTO_LEADER">
+                      🏆 Auto-Crown #1 Highest-Scoring Team on Leaderboard
+                    </option>
+                    {(adminState?.teams || []).map((t) => (
+                      <option key={t.teamId} value={t.teamId}>
+                        {t.teamName} ({t.teamId}) — {Number(t.credits || 0).toLocaleString()} CR (
+                        {t.totalSolved || 0} Solved)
+                      </option>
+                    ))}
+                  </select>
+                </div>
+
+                <div className="lg:col-span-4 space-y-1.5">
+                  <label className="block text-[10px] font-bold uppercase tracking-[0.18em] text-slate-300">
+                    🥈 Rank #2 — Runner-Up Vanguard
+                  </label>
+                  <select
+                    value={selectedSecondWinnerTeamId}
+                    onChange={(e) => setSelectedSecondWinnerTeamId(e.target.value)}
+                    className="w-full px-3 sm:px-3.5 py-3 bg-black/80 border-2 border-slate-400/60 text-white font-bold text-xs focus:outline-none focus:border-slate-200"
+                  >
+                    <option value="AUTO_SECOND">
+                      🥈 Auto-Crown #2 Second-Highest Team on Leaderboard
+                    </option>
+                    {(adminState?.teams || []).map((t) => (
+                      <option key={t.teamId} value={t.teamId}>
+                        {t.teamName} ({t.teamId}) — {Number(t.credits || 0).toLocaleString()} CR (
+                        {t.totalSolved || 0} Solved)
+                      </option>
+                    ))}
+                  </select>
+                </div>
+
+                <div className="lg:col-span-4 flex items-center gap-2.5">
                   <button
                     type="button"
-                    onClick={() => {
-                      if (window.confirm('Reset all demo teams and sessions to initial state?')) {
-                        executeAdminApi(
-                          '/api/admin/settings',
-                          'POST',
-                          { resetAllDemoState: true },
-                          {
-                            key: 'reset-all',
-                            successMessage: 'Reset all demo teams to initial state',
-                          }
-                        );
-                      }
-                    }}
-                    className="px-4 py-2.5 bg-red-50 hover:bg-[#E11D2E] hover:text-white text-[#E11D2E] border border-[#E11D2E] font-bold uppercase cursor-pointer transition-colors"
+                    onClick={() =>
+                      handleDeclareWinner(selectedWinnerTeamId, selectedSecondWinnerTeamId)
+                    }
+                    className="w-full py-3.5 px-4 sm:px-5 bg-gradient-to-r from-amber-400 via-yellow-300 to-amber-500 hover:brightness-110 text-[#111111] font-bold uppercase tracking-[0.14em] sm:tracking-[0.16em] cursor-pointer shadow-[3px_3px_0px_#ffffff] inline-flex items-center justify-center gap-2 transition-all"
                   >
-                    Reset All Demo State
+                    <Trophy className="w-4 h-4 shrink-0" />
+                    <span>Proclaim Top 2 Winners</span>
                   </button>
                 </div>
-              </form>
+              </div>
+            </section>
+
+            {/* 3. LOWER CONFIGURATION DECK: TOTAL ROUND TIME, NEXUS CORE & ARENA ECONOMY */}
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 sm:gap-6">
+              {/* Left Card: Total Round Time Configuration & NEXUS Core Controls */}
+              <div className="bg-white border-2 border-[#111111] shadow-[4px_4px_0px_#111111] p-4 sm:p-6 space-y-5 sm:space-y-6">
+                <div className="border-b border-neutral-200 pb-3">
+                  <span className="font-mono text-[10px] font-bold uppercase text-[#E11D2E]">
+                    ROUND DURATION & NEXUS CORE
+                  </span>
+                  <h2 className="font-display text-2xl uppercase text-[#111111] mt-0.5">
+                    Total Time & Core Vault Lock
+                  </h2>
+                </div>
+
+                {/* Total Time Configuration (Presets + Custom Input + +/-5m) */}
+                <div className="space-y-3 font-mono text-xs">
+                  <div className="font-bold uppercase text-neutral-700">
+                    Configure Total Round Time (Minutes)
+                  </div>
+
+                  <div className="flex flex-wrap items-center gap-1.5">
+                    {ROUND_TIME_PRESETS.map((mins) => (
+                      <button
+                        key={mins}
+                        type="button"
+                        onClick={() => handleApplyTotalTime(mins)}
+                        className={`px-3 py-1.5 border font-bold uppercase cursor-pointer ${
+                          Number(customTimerMinutes) === mins
+                            ? 'bg-[#111111] text-white border-[#111111]'
+                            : 'bg-[#FAF9F5] text-[#111111] border-neutral-300 hover:border-[#111111]'
+                        }`}
+                      >
+                        {mins}m
+                      </button>
+                    ))}
+                  </div>
+
+                  <div className="flex flex-wrap items-center gap-2">
+                    <input
+                      type="number"
+                      min={1}
+                      max={600}
+                      value={customTimerMinutes}
+                      onChange={(e) => setCustomTimerMinutes(e.target.value)}
+                      className="w-24 sm:w-28 px-3 py-2 bg-[#FAF9F5] border-2 border-[#111111] font-bold"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => handleApplyTotalTime(customTimerMinutes)}
+                      className="px-3.5 sm:px-4 py-2 bg-[#111111] hover:bg-[#E11D2E] text-white font-bold uppercase cursor-pointer transition-colors"
+                    >
+                      Apply Total Time ({customTimerMinutes}m)
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() =>
+                        handleEventCommand(
+                          'ADJUST_TIMER',
+                          { deltaSeconds: 300 },
+                          '+5m added to clock'
+                        )
+                      }
+                      className="px-3 py-2 bg-emerald-50 hover:bg-emerald-600 hover:text-white text-emerald-800 border border-emerald-300 font-bold uppercase cursor-pointer"
+                    >
+                      +5 Min
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() =>
+                        handleEventCommand(
+                          'ADJUST_TIMER',
+                          { deltaSeconds: -300 },
+                          '-5m removed from clock'
+                        )
+                      }
+                      className="px-3 py-2 bg-red-50 hover:bg-[#E11D2E] hover:text-white text-[#E11D2E] border border-red-200 font-bold uppercase cursor-pointer"
+                    >
+                      -5 Min
+                    </button>
+                  </div>
+                </div>
+
+                {/* NEXUS Core Lock / Unlock */}
+                <div className="pt-4 border-t border-neutral-200 space-y-2.5 font-mono text-xs">
+                  <div className="flex items-center justify-between">
+                    <span className="font-bold uppercase text-neutral-700">
+                      NEXUS Final Core Status
+                    </span>
+                    <span
+                      className={`px-2 py-0.5 font-bold uppercase ${
+                        coreUnlocked
+                          ? 'bg-emerald-100 text-emerald-800'
+                          : 'bg-neutral-200 text-neutral-700'
+                      }`}
+                    >
+                      {adminState?.coreStatus?.state || 'LOCKED'}
+                    </span>
+                  </div>
+                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
+                    <button
+                      type="button"
+                      onClick={() => handleEventCommand('LOCK', {}, 'NEXUS Core Locked')}
+                      className="py-2.5 border-2 border-[#111111] bg-white hover:bg-[#111111] hover:text-white font-bold uppercase cursor-pointer"
+                    >
+                      Lock Core
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => handleEventCommand('UNLOCK', {}, 'NEXUS Core Unlocked')}
+                      className="py-2.5 border-2 border-[#111111] bg-emerald-600 hover:bg-emerald-700 text-white font-bold uppercase cursor-pointer"
+                    >
+                      Unlock Core
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => handleEventCommand('REVEAL', {}, 'NEXUS Core Revealed')}
+                      className="py-2.5 border-2 border-[#111111] bg-[#E11D2E] hover:bg-red-700 text-white font-bold uppercase cursor-pointer"
+                    >
+                      Reveal Core
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              {/* Right Card: Economy Settings & Demo Reset Card */}
+              <div className="bg-white border-2 border-[#111111] shadow-[4px_4px_0px_#111111] p-4 sm:p-6 space-y-5">
+                <div className="border-b border-neutral-200 pb-3">
+                  <span className="font-mono text-[10px] font-bold uppercase text-[#E11D2E]">
+                    ARENA CONFIGURATION
+                  </span>
+                  <h2 className="font-display text-2xl uppercase text-[#111111] mt-0.5">
+                    Economy & Arena Settings
+                  </h2>
+                </div>
+
+                <form
+                  onSubmit={(e) => {
+                    e.preventDefault();
+                    executeAdminApi('/api/admin/settings', 'POST', settingsForm, {
+                      key: 'save-settings',
+                      successMessage: 'Saved global arena settings',
+                    });
+                  }}
+                  className="space-y-4 font-mono text-xs"
+                >
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <div>
+                      <label className="block font-bold uppercase text-neutral-700 mb-1">
+                        Default Starting Credits
+                      </label>
+                      <input
+                        type="number"
+                        value={settingsForm.startingCredits}
+                        onChange={(e) =>
+                          setSettingsForm((p) => ({
+                            ...p,
+                            startingCredits: Number(e.target.value),
+                          }))
+                        }
+                        className="w-full px-3 py-2 bg-[#FAF9F5] border border-neutral-300 font-bold"
+                      />
+                    </div>
+                    <div>
+                      <label className="block font-bold uppercase text-neutral-700 mb-1">
+                        Hint Cost (CR)
+                      </label>
+                      <input
+                        type="number"
+                        value={settingsForm.hintCost}
+                        onChange={(e) =>
+                          setSettingsForm((p) => ({ ...p, hintCost: Number(e.target.value) }))
+                        }
+                        className="w-full px-3 py-2 bg-[#FAF9F5] border border-neutral-300 font-bold"
+                      />
+                    </div>
+                    <div>
+                      <label className="block font-bold uppercase text-neutral-700 mb-1">
+                        Extra Time Cost (CR)
+                      </label>
+                      <input
+                        type="number"
+                        value={settingsForm.extraTimeCost}
+                        onChange={(e) =>
+                          setSettingsForm((p) => ({
+                            ...p,
+                            extraTimeCost: Number(e.target.value),
+                          }))
+                        }
+                        className="w-full px-3 py-2 bg-[#FAF9F5] border border-neutral-300 font-bold"
+                      />
+                    </div>
+                    <div>
+                      <label className="block font-bold uppercase text-neutral-700 mb-1">
+                        Extra Time (+Minutes)
+                      </label>
+                      <input
+                        type="number"
+                        value={settingsForm.extraTimeMinutes}
+                        onChange={(e) =>
+                          setSettingsForm((p) => ({
+                            ...p,
+                            extraTimeMinutes: Number(e.target.value),
+                          }))
+                        }
+                        className="w-full px-3 py-2 bg-[#FAF9F5] border border-neutral-300 font-bold"
+                      />
+                    </div>
+                  </div>
+
+                  <div>
+                    <label className="block font-bold uppercase text-neutral-700 mb-1">
+                      Projector / Arena Announcement Banner
+                    </label>
+                    <input
+                      type="text"
+                      value={settingsForm.arenaAnnouncement || ''}
+                      onChange={(e) =>
+                        setSettingsForm((p) => ({ ...p, arenaAnnouncement: e.target.value }))
+                      }
+                      className="w-full px-3 py-2 bg-[#FAF9F5] border border-neutral-300 font-bold"
+                    />
+                  </div>
+
+                  <div className="flex flex-wrap items-center justify-between gap-3 pt-3 border-t border-neutral-200">
+                    <button
+                      type="submit"
+                      className="px-5 py-2.5 bg-[#111111] hover:bg-[#E11D2E] text-white font-bold uppercase cursor-pointer transition-colors"
+                    >
+                      Save Settings
+                    </button>
+
+                    <button
+                      type="button"
+                      onClick={() => {
+                        if (
+                          window.confirm('Reset all demo teams and sessions to initial state?')
+                        ) {
+                          executeAdminApi(
+                            '/api/admin/settings',
+                            'POST',
+                            { resetAllDemoState: true },
+                            {
+                              key: 'reset-all',
+                              successMessage: 'Reset all demo teams to initial state',
+                            }
+                          );
+                        }
+                      }}
+                      className="px-4 py-2.5 bg-red-50 hover:bg-[#E11D2E] hover:text-white text-[#E11D2E] border border-[#E11D2E] font-bold uppercase cursor-pointer transition-colors"
+                    >
+                      Reset All Demo State
+                    </button>
+                  </div>
+                </form>
+              </div>
             </div>
           </div>
         )}

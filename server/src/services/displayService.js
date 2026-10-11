@@ -28,10 +28,13 @@ const formatClockHMS = (totalSec) => {
 };
 
 const globalArenaState = {
-  eventStatus: 'PAUSED', // RUNNING | PAUSED | ENDED — stopped by default until Admin starts round
+  eventStatus: 'PAUSED', // RUNNING | COUNTDOWN | PAUSED | ENDED — stopped by default until Admin starts round
   totalDurationSeconds: DEFAULT_ARENA_DURATION_SECONDS,
   targetExpiresAtMs: Date.now() + DEFAULT_ARENA_DURATION_SECONDS * 1000,
   pausedRemainingSeconds: DEFAULT_ARENA_DURATION_SECONDS,
+  countdownTotalSeconds: 0,
+  countdownEndsAtMs: null,
+  declaredWinner: null,
   roundStartedAt: null,
   roundEndedAt: null,
   lastTransitionAt: new Date().toISOString(),
@@ -47,6 +50,20 @@ const globalArenaState = {
     },
   ],
 };
+
+export const setGlobalDeclaredWinner = (winnerPayload = null, actor = 'ADMIN-NEXUS') => {
+  globalArenaState.declaredWinner = winnerPayload
+    ? {
+        ...winnerPayload,
+        declaredAt: winnerPayload.declaredAt || new Date().toISOString(),
+        declaredBy: actor,
+      }
+    : null;
+  globalArenaState.lastTransitionAt = new Date().toISOString();
+  return globalArenaState.declaredWinner;
+};
+
+export const getGlobalDeclaredWinner = () => globalArenaState.declaredWinner;
 
 export const recordAdminEventLog = ({ action, category = 'EVENT_CONTROL', actor = 'ADMIN-NEXUS', summary }) => {
   const entry = {
@@ -72,10 +89,33 @@ export const getAdminEventLogs = () => [...globalArenaState.adminEventLog];
 export const computeGlobalArenaTimer = () => {
   const nowMs = Date.now();
   let remainingSeconds = 0;
+  let countdownRemainingSeconds = 0;
+
+  // Transition COUNTDOWN -> RUNNING automatically when countdown finishes
+  if (globalArenaState.eventStatus === 'COUNTDOWN') {
+    const cdEnd = Number(globalArenaState.countdownEndsAtMs || 0);
+    if (cdEnd > nowMs) {
+      countdownRemainingSeconds = Math.max(0, Math.ceil((cdEnd - nowMs) / 1000));
+    } else {
+      globalArenaState.eventStatus = 'RUNNING';
+      const durationSec = Math.max(
+        60,
+        Number(
+          globalArenaState.pausedRemainingSeconds ||
+            globalArenaState.totalDurationSeconds ||
+            DEFAULT_ARENA_DURATION_SECONDS
+        )
+      );
+      globalArenaState.targetExpiresAtMs = (cdEnd || nowMs) + durationSec * 1000;
+      globalArenaState.roundStartedAt = new Date(cdEnd || nowMs).toISOString();
+      globalArenaState.countdownEndsAtMs = null;
+      countdownRemainingSeconds = 0;
+    }
+  }
 
   if (globalArenaState.eventStatus === 'ENDED') {
     remainingSeconds = 0;
-  } else if (globalArenaState.eventStatus === 'PAUSED') {
+  } else if (globalArenaState.eventStatus === 'PAUSED' || globalArenaState.eventStatus === 'COUNTDOWN') {
     remainingSeconds = Math.max(0, Math.floor(globalArenaState.pausedRemainingSeconds));
   } else {
     remainingSeconds = Math.max(0, Math.round((globalArenaState.targetExpiresAtMs - nowMs) / 1000));
@@ -97,7 +137,9 @@ export const computeGlobalArenaTimer = () => {
   const expiresAt = new Date(nowMs + remainingSeconds * 1000).toISOString();
 
   let phase = 'ARENA_LIVE';
-  if (globalArenaState.eventStatus === 'PAUSED') {
+  if (globalArenaState.eventStatus === 'COUNTDOWN') {
+    phase = 'LAUNCH_COUNTDOWN';
+  } else if (globalArenaState.eventStatus === 'PAUSED') {
     phase = 'EVENT_PAUSED';
   } else if (globalArenaState.eventStatus === 'ENDED') {
     phase = 'EVENT_ENDED';
@@ -106,7 +148,10 @@ export const computeGlobalArenaTimer = () => {
   }
 
   return {
-    status: globalArenaState.eventStatus === 'RUNNING' ? 'ACTIVE' : globalArenaState.eventStatus,
+    status:
+      globalArenaState.eventStatus === 'RUNNING'
+        ? 'ACTIVE'
+        : globalArenaState.eventStatus, // ACTIVE | COUNTDOWN | PAUSED | ENDED
     eventStatus: globalArenaState.eventStatus,
     totalDurationSeconds,
     totalDurationMinutes,
@@ -114,6 +159,12 @@ export const computeGlobalArenaTimer = () => {
     elapsedSeconds,
     elapsedFormatted: formatClockHMS(elapsedSeconds),
     remainingSeconds,
+    countdownRemainingSeconds,
+    countdownTotalSeconds: Number(globalArenaState.countdownTotalSeconds || 0),
+    countdownTargetTimestamp: globalArenaState.countdownEndsAtMs
+      ? new Date(globalArenaState.countdownEndsAtMs).toISOString()
+      : null,
+    declaredWinner: globalArenaState.declaredWinner || null,
     expiresAt,
     targetTimestamp: expiresAt,
     roundStartedAt: globalArenaState.roundStartedAt,
@@ -127,7 +178,7 @@ export const computeGlobalArenaTimer = () => {
 };
 
 /**
- * Control the Global Arena Event lifecycle & Global Timer (START | PAUSE | RESUME | END | SET_TIMER | ADJUST_TIMER)
+ * Control the Global Arena Event lifecycle & Global Timer (START | START_COUNTDOWN | PAUSE | RESUME | END | SET_TIMER | ADJUST_TIMER)
  */
 export const controlGlobalArenaEvent = (command, payload = {}, actor = 'ADMIN-NEXUS') => {
   const normalizedCmd = String(command || '').trim().toUpperCase();
@@ -135,6 +186,7 @@ export const controlGlobalArenaEvent = (command, payload = {}, actor = 'ADMIN-NE
   const currentTimer = computeGlobalArenaTimer();
 
   switch (normalizedCmd) {
+    case 'START_COUNTDOWN':
     case 'START': {
       const requestedSec =
         Number(payload.durationSeconds) > 0
@@ -146,28 +198,61 @@ export const controlGlobalArenaEvent = (command, payload = {}, actor = 'ADMIN-NE
         requestedSec > 0
           ? requestedSec
           : globalArenaState.totalDurationSeconds || DEFAULT_ARENA_DURATION_SECONDS;
+
+      const countdownSec = Math.max(
+        0,
+        Math.min(
+          300,
+          Number(
+            payload.countdownSeconds ??
+              (normalizedCmd === 'START_COUNTDOWN' ? 10 : 0)
+          ) || 0
+        )
+      );
+
       globalArenaState.totalDurationSeconds = durationSec;
-      globalArenaState.eventStatus = 'RUNNING';
-      globalArenaState.targetExpiresAtMs = nowMs + durationSec * 1000;
       globalArenaState.pausedRemainingSeconds = durationSec;
-      globalArenaState.roundStartedAt = new Date(nowMs).toISOString();
+      globalArenaState.declaredWinner = null;
       globalArenaState.roundEndedAt = null;
       globalArenaState.lastTransitionAt = new Date(nowMs).toISOString();
       globalArenaState.lastCommandBy = actor;
-      recordAdminEventLog({
-        action: 'START',
-        category: 'EVENT_CONTROL',
-        actor,
-        summary: `ROUND STARTED // TOTAL TIME: ${Math.round(durationSec / 60)} MIN (${formatClockHMS(
-          durationSec
-        )})`,
-      });
+
+      if (countdownSec > 0) {
+        globalArenaState.eventStatus = 'COUNTDOWN';
+        globalArenaState.countdownTotalSeconds = countdownSec;
+        globalArenaState.countdownEndsAtMs = nowMs + countdownSec * 1000;
+        globalArenaState.targetExpiresAtMs = nowMs + (countdownSec + durationSec) * 1000;
+        globalArenaState.roundStartedAt = new Date(nowMs + countdownSec * 1000).toISOString();
+        recordAdminEventLog({
+          action: 'START_COUNTDOWN',
+          category: 'EVENT_CONTROL',
+          actor,
+          summary: `LAUNCH COUNTDOWN INITIATED (${countdownSec}s) -> ROUND TIME: ${Math.round(
+            durationSec / 60
+          )} MIN`,
+        });
+      } else {
+        globalArenaState.eventStatus = 'RUNNING';
+        globalArenaState.countdownTotalSeconds = 0;
+        globalArenaState.countdownEndsAtMs = null;
+        globalArenaState.targetExpiresAtMs = nowMs + durationSec * 1000;
+        globalArenaState.roundStartedAt = new Date(nowMs).toISOString();
+        recordAdminEventLog({
+          action: 'START',
+          category: 'EVENT_CONTROL',
+          actor,
+          summary: `ROUND STARTED // TOTAL TIME: ${Math.round(durationSec / 60)} MIN (${formatClockHMS(
+            durationSec
+          )})`,
+        });
+      }
       break;
     }
 
     case 'PAUSE': {
       globalArenaState.pausedRemainingSeconds = currentTimer.remainingSeconds;
       globalArenaState.eventStatus = 'PAUSED';
+      globalArenaState.countdownEndsAtMs = null;
       globalArenaState.lastTransitionAt = new Date(nowMs).toISOString();
       globalArenaState.lastCommandBy = actor;
       recordAdminEventLog({
@@ -184,27 +269,45 @@ export const controlGlobalArenaEvent = (command, payload = {}, actor = 'ADMIN-NE
         globalArenaState.pausedRemainingSeconds > 0
           ? globalArenaState.pausedRemainingSeconds
           : globalArenaState.totalDurationSeconds || DEFAULT_ARENA_DURATION_SECONDS;
-      globalArenaState.eventStatus = 'RUNNING';
-      globalArenaState.targetExpiresAtMs = nowMs + resumeSec * 1000;
+      const countdownSec = Math.max(0, Math.min(300, Number(payload.countdownSeconds || 0)));
+
       globalArenaState.pausedRemainingSeconds = resumeSec;
-      if (!globalArenaState.roundStartedAt || globalArenaState.roundEndedAt) {
-        globalArenaState.roundStartedAt = new Date(nowMs).toISOString();
-      }
       globalArenaState.roundEndedAt = null;
       globalArenaState.lastTransitionAt = new Date(nowMs).toISOString();
       globalArenaState.lastCommandBy = actor;
-      recordAdminEventLog({
-        action: 'RESUME',
-        category: 'EVENT_CONTROL',
-        actor,
-        summary: `ROUND RESUMED WITH ${formatClockHMS(resumeSec)} REMAINING`,
-      });
+
+      if (countdownSec > 0) {
+        globalArenaState.eventStatus = 'COUNTDOWN';
+        globalArenaState.countdownTotalSeconds = countdownSec;
+        globalArenaState.countdownEndsAtMs = nowMs + countdownSec * 1000;
+        globalArenaState.targetExpiresAtMs = nowMs + (countdownSec + resumeSec) * 1000;
+        recordAdminEventLog({
+          action: 'START_COUNTDOWN',
+          category: 'EVENT_CONTROL',
+          actor,
+          summary: `COUNTDOWN (${countdownSec}s) TO RESUME ROUND (${formatClockHMS(resumeSec)})`,
+        });
+      } else {
+        globalArenaState.eventStatus = 'RUNNING';
+        globalArenaState.countdownEndsAtMs = null;
+        globalArenaState.targetExpiresAtMs = nowMs + resumeSec * 1000;
+        if (!globalArenaState.roundStartedAt || globalArenaState.roundEndedAt) {
+          globalArenaState.roundStartedAt = new Date(nowMs).toISOString();
+        }
+        recordAdminEventLog({
+          action: 'RESUME',
+          category: 'EVENT_CONTROL',
+          actor,
+          summary: `ROUND RESUMED WITH ${formatClockHMS(resumeSec)} REMAINING`,
+        });
+      }
       break;
     }
 
     case 'END': {
       globalArenaState.pausedRemainingSeconds = 0;
       globalArenaState.targetExpiresAtMs = nowMs;
+      globalArenaState.countdownEndsAtMs = null;
       globalArenaState.eventStatus = 'ENDED';
       globalArenaState.roundEndedAt = new Date(nowMs).toISOString();
       globalArenaState.lastTransitionAt = new Date(nowMs).toISOString();
@@ -238,6 +341,7 @@ export const controlGlobalArenaEvent = (command, payload = {}, actor = 'ADMIN-NE
       if (globalArenaState.eventStatus === 'ENDED' && nextRemaining > 0) {
         globalArenaState.eventStatus = 'PAUSED';
         globalArenaState.roundEndedAt = null;
+        globalArenaState.declaredWinner = null;
       }
       globalArenaState.lastTransitionAt = new Date(nowMs).toISOString();
       globalArenaState.lastCommandBy = actor;
@@ -262,6 +366,7 @@ export const controlGlobalArenaEvent = (command, payload = {}, actor = 'ADMIN-NE
       if (nextRemaining > 0 && globalArenaState.eventStatus === 'ENDED') {
         globalArenaState.eventStatus = 'RUNNING';
         globalArenaState.roundEndedAt = null;
+        globalArenaState.declaredWinner = null;
       }
       globalArenaState.lastTransitionAt = new Date(nowMs).toISOString();
       globalArenaState.lastCommandBy = actor;

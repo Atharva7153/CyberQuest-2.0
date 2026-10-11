@@ -83,6 +83,45 @@ export const ChallengeSessionPage = () => {
   const urgencyFrameRef = useRef(null);
   const urgencyBarRef = useRef(null);
   const urgencyTweenRef = useRef(null);
+  const resultModalCardRef = useRef(null);
+  const resultModalBadgeRef = useRef(null);
+  const resultModalRingRef = useRef(null);
+
+  useEffect(() => {
+    if (!lastEvaluationResult || prefersReducedMotion) return undefined;
+    const isSuccess =
+      lastEvaluationResult.status === 'SUCCESS' || Boolean(lastEvaluationResult.passed);
+
+    const ctx = gsap.context(() => {
+      if (resultModalRingRef.current) {
+        gsap.fromTo(
+          resultModalRingRef.current,
+          { scale: 0.5, opacity: 0.85 },
+          { scale: 2.2, opacity: 0, duration: 0.9, ease: 'power2.out' }
+        );
+      }
+      if (resultModalBadgeRef.current) {
+        gsap.fromTo(
+          resultModalBadgeRef.current,
+          { scale: 0.4, rotate: isSuccess ? -8 : 8 },
+          { scale: 1, rotate: 0, duration: 0.65, ease: 'back.out(2.2)', delay: 0.08 }
+        );
+      }
+      if (!isSuccess && resultModalCardRef.current) {
+        gsap.fromTo(
+          resultModalCardRef.current,
+          { x: -12 },
+          {
+            x: 0,
+            duration: 0.45,
+            ease: 'elastic.out(1.2, 0.25)',
+          }
+        );
+      }
+    });
+
+    return () => ctx.revert();
+  }, [lastEvaluationResult, prefersReducedMotion]);
 
   useEffect(() => {
     if (!isInitializing && !isAuthenticated) {
@@ -815,21 +854,30 @@ export const ChallengeSessionPage = () => {
               exit={{ opacity: 0 }}
               transition={{ duration: 0.2 }}
               onClick={clearEvaluationResult}
-              className="fixed inset-0 z-50 bg-black/85 backdrop-blur-xs flex items-center justify-center p-4"
+              className="fixed inset-0 z-50 bg-black/88 backdrop-blur-md flex items-center justify-center p-4 overflow-hidden"
             >
+              {/* GSAP Shockwave Ring Burst Behind Modal */}
+              <div
+                ref={resultModalRingRef}
+                className={`pointer-events-none absolute w-[360px] h-[360px] rounded-full border-4 ${
+                  isSuccess ? 'border-emerald-400' : 'border-red-500'
+                }`}
+              />
+
               <motion.div
-                initial={prefersReducedMotion ? false : { scale: 0.9, opacity: 0, y: 16 }}
+                ref={resultModalCardRef}
+                initial={prefersReducedMotion ? false : { scale: 0.88, opacity: 0, y: 20 }}
                 animate={{ scale: 1, opacity: 1, y: 0 }}
                 exit={prefersReducedMotion ? undefined : { scale: 0.94, opacity: 0, y: 8 }}
-                transition={{ duration: 0.24, ease: [0.22, 1, 0.36, 1] }}
+                transition={{ duration: 0.28, ease: [0.22, 1, 0.36, 1] }}
                 onClick={(e) => e.stopPropagation()}
                 role="dialog"
                 aria-modal="true"
                 aria-labelledby="session-result-modal-title"
-                className={`nexus-editorial-box max-w-xl w-full overflow-hidden border-4 ${
+                className={`nexus-editorial-box relative z-10 max-w-xl w-full overflow-hidden border-4 ${
                   isSuccess
-                    ? 'border-emerald-500 shadow-[0_0_55px_rgba(16,185,129,0.55)]'
-                    : 'border-red-600 shadow-[0_0_55px_rgba(220,38,38,0.6)]'
+                    ? 'border-emerald-400 shadow-[0_0_85px_rgba(16,185,129,0.75)]'
+                    : 'border-red-500 shadow-[0_0_85px_rgba(239,68,68,0.75)]'
                 }`}
               >
                 {/* Colorful Hero Result Banner (GREEN for Success, RED for Failure) */}
@@ -881,10 +929,11 @@ export const ChallengeSessionPage = () => {
                       {getFriendlyChallengeTitle(lastEvaluationResult.title || targetChallenge)}
                     </span>
                     <span
-                      className={`px-4 py-1.5 border-2 border-white font-display text-2xl sm:text-3xl tracking-wider leading-none ${
+                      ref={resultModalBadgeRef}
+                      className={`px-5 py-2 border-2 border-white font-display text-3xl sm:text-4xl tracking-wider leading-none shadow-lg ${
                         isSuccess
-                          ? 'bg-emerald-950/80 text-emerald-300'
-                          : 'bg-red-950/80 text-red-200'
+                          ? 'bg-emerald-950/90 text-emerald-300'
+                          : 'bg-red-950/90 text-red-200'
                       }`}
                     >
                       {lastEvaluationResult.creditsDelta >= 0
