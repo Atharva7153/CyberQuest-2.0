@@ -50,6 +50,8 @@ export const Xo4x4Game = ({
         board,
         moves,
         winner: outcome.winner,
+        isComplete: isPlayerWin,
+        isValid: isPlayerWin,
       });
     }
   }, [board, moves, isPlayerWin, outcome.winner, onDraftChange]);

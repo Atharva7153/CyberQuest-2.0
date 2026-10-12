@@ -1127,16 +1127,30 @@ export const assignVariantForTeamAttempt = (
   // 3. WORD GUESS (Multi-round challenges preserve rounds; single-word challenges draw from pool)
   if (gameType === 'wordGuess') {
     if (Array.isArray(baseGameConfig.rounds) && baseGameConfig.rounds.length > 0) {
-      const rounds = baseGameConfig.rounds.map((r) => ({
-        ...r,
-        scrambledLetters: Array.isArray(r.scrambledLetters)
-          ? shuffleWithRng(r.scrambledLetters, rng)
-          : r.scrambledLetters,
-      }));
+      const rounds = baseGameConfig.rounds.map((r, idx) => {
+        const rawTiles = Array.isArray(r.scrambledLetters)
+          ? r.scrambledLetters
+          : typeof r.scrambled === 'string' && r.scrambled.trim()
+            ? r.scrambled.trim().split(/\s+/)
+            : String(r.word || '')
+                .trim()
+                .toUpperCase()
+                .split('');
+        return {
+          ...r,
+          id: r.id || `R${idx + 1}`,
+          wordLength: Number(r.wordLength) || String(r.word || '').trim().length || 6,
+          scrambledLetters: shuffleWithRng(
+            rawTiles.map((ch) => String(ch).trim().toUpperCase()).filter(Boolean),
+            rng
+          ),
+        };
+      });
       return {
         variantId: `${challengeId}-ROUNDS`,
         gameConfig: {
           ...baseGameConfig,
+          variantId: `${challengeId}-ROUNDS`,
           rounds,
         },
         solutionConfig: {

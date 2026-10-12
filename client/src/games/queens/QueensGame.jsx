@@ -8,7 +8,7 @@ import {
   AlertTriangle,
   Send,
   Lock,
-  Eye,
+  Eraser,
 } from 'lucide-react';
 import {
   normalizeQueensConfig,
@@ -46,11 +46,15 @@ export const QueensGame = ({
     [givenQueens]
   );
 
+  const givensSignature = useMemo(
+    () => `${size}:${givenQueens.map((q) => `${q.r},${q.c}`).join(';')}`,
+    [size, givenQueens]
+  );
+
   const [queens, setQueens] = useState(() => [...givenQueens]);
   const [markedCells, setMarkedCells] = useState(() => new Set());
   const [history, setHistory] = useState([]);
   const [toolMode, setToolMode] = useState('QUEEN'); // 'QUEEN' | 'MARK'
-  const [showAttackedLines, setShowAttackedLines] = useState(true);
 
   useEffect(() => {
     setQueens([...givenQueens]);
@@ -58,7 +62,7 @@ export const QueensGame = ({
     setHistory([]);
     setToolMode('QUEEN');
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [challenge?.challengeId, session?.attemptId]);
+  }, [challenge?.challengeId, session?.attemptId, givensSignature]);
 
   const validation = useMemo(
     () => validateQueensBoardClient(queens, config),
@@ -88,6 +92,21 @@ export const QueensGame = ({
     ]);
   }, []);
 
+  const toggleManualMark = (r, c) => {
+    if (isLocked) return;
+    const key = `${r}-${c}`;
+    if (givenKeySet.has(key)) return;
+    if (queens.some((q) => q.r === r && q.c === c)) return;
+
+    pushHistory(queens, markedCells);
+    setMarkedCells((prev) => {
+      const next = new Set(prev);
+      if (next.has(key)) next.delete(key);
+      else next.add(key);
+      return next;
+    });
+  };
+
   const handleCellTap = (r, c) => {
     if (isLocked) return;
     const key = `${r}-${c}`;
@@ -95,7 +114,7 @@ export const QueensGame = ({
 
     const existingQueenIdx = queens.findIndex((q) => q.r === r && q.c === c);
 
-    // If cell already has a Queen, tapping it always removes the Queen
+    // If cell already has a Queen, tapping it removes the Queen
     if (existingQueenIdx >= 0) {
       pushHistory(queens, markedCells);
       setQueens((prev) => prev.filter((_, idx) => idx !== existingQueenIdx));
@@ -103,17 +122,11 @@ export const QueensGame = ({
     }
 
     if (toolMode === 'MARK') {
-      pushHistory(queens, markedCells);
-      setMarkedCells((prev) => {
-        const next = new Set(prev);
-        if (next.has(key)) next.delete(key);
-        else next.add(key);
-        return next;
-      });
+      toggleManualMark(r, c);
       return;
     }
 
-    // QUEEN mode: place Queen (replacing any X mark on that cell)
+    // QUEEN mode: place Queen (replacing any manual X mark on that cell)
     if (queens.length >= size) {
       // Allow replacing if user taps a cell in the same row as a non-given queen
       const sameRowIdx = queens.findIndex(
@@ -144,6 +157,12 @@ export const QueensGame = ({
       next.delete(key);
       return next;
     });
+  };
+
+  const handleClearMarks = () => {
+    if (isLocked || markedCells.size === 0) return;
+    pushHistory(queens, markedCells);
+    setMarkedCells(new Set());
   };
 
   const handleUndo = () => {
@@ -179,7 +198,7 @@ export const QueensGame = ({
             {instructions}
           </p>
           <p className="font-mono text-[10px] sm:text-[11px] text-nexus-muted">
-            RULE: 1 Queen per Row, 1 per Column, and no two Queens on the same Diagonal.
+            RULE: 1 Queen per Row, 1 per Column, and no two Queens on the same Diagonal. Switch to ADD MARKING (X) to manually mark blocked squares.
           </p>
         </div>
 
@@ -201,7 +220,7 @@ export const QueensGame = ({
         </div>
       </div>
 
-      {/* Mode Switcher Bar (Mobile-Friendly) */}
+      {/* Mode Switcher Bar: PLACE QUEEN vs ADD MARKING (X) */}
       <div className="max-w-[420px] mx-auto flex flex-wrap items-center justify-between gap-2">
         <div className="inline-flex border-2 border-nexus-ink bg-nexus-paper">
           <button
@@ -228,25 +247,22 @@ export const QueensGame = ({
             }`}
           >
             <X className="w-3.5 h-3.5" />
-            <span>MARK X</span>
+            <span>ADD MARKING (X)</span>
           </button>
         </div>
 
         <button
           type="button"
-          onClick={() => setShowAttackedLines((prev) => !prev)}
-          className={`px-2.5 py-1.5 border-2 border-nexus-ink font-mono text-[10px] font-bold uppercase tracking-wider inline-flex items-center gap-1.5 cursor-pointer touch-manipulation ${
-            showAttackedLines
-              ? 'bg-nexus-ink text-nexus-paper'
-              : 'bg-nexus-paper text-nexus-muted'
-          }`}
+          disabled={isLocked || markedCells.size === 0}
+          onClick={handleClearMarks}
+          className="px-2.5 py-1.5 border-2 border-nexus-ink bg-nexus-paper hover:bg-nexus-ink hover:text-nexus-paper font-mono text-[10px] font-bold uppercase tracking-wider inline-flex items-center gap-1.5 cursor-pointer disabled:opacity-40 touch-manipulation"
         >
-          <Eye className="w-3.5 h-3.5 text-nexus-crimson" />
-          <span>{showAttackedLines ? 'ATTACK LINES: ON' : 'ATTACK LINES: OFF'}</span>
+          <Eraser className="w-3.5 h-3.5 text-nexus-crimson" />
+          <span>CLEAR MARKS ({markedCells.size})</span>
         </button>
       </div>
 
-      {/* N-QUEENS Interactive Board */}
+      {/* N-QUEENS Interactive Board (No automatic markings when placing a Queen) */}
       <div className="flex justify-center">
         <div
           className="w-full max-w-[420px] aspect-square border-4 border-nexus-ink bg-nexus-ink shadow-brutal grid gap-0.5 p-0.5 touch-manipulation"
@@ -263,7 +279,6 @@ export const QueensGame = ({
               const isGiven = givenKeySet.has(key);
               const hasQueen = queens.some((q) => q.r === r && q.c === c);
               const isConflict = validation.conflictKeys.has(key);
-              const isAttacked = validation.attackedKeys.has(key);
               const isMarked = markedCells.has(key);
               const isDarkSquare = (r + c) % 2 === 1;
               const regionId = regions?.[r]?.[c];
@@ -281,8 +296,12 @@ export const QueensGame = ({
                   type="button"
                   disabled={isLocked}
                   onClick={() => handleCellTap(r, c)}
+                  onContextMenu={(e) => {
+                    e.preventDefault();
+                    toggleManualMark(r, c);
+                  }}
                   aria-label={`Row ${r + 1} Column ${c + 1}${
-                    hasQueen ? ', Queen placed' : ''
+                    hasQueen ? ', Queen placed' : isMarked ? ', Marked X' : ''
                   }`}
                   className={`relative flex items-center justify-center transition-colors cursor-pointer touch-manipulation ${
                     hasQueen
@@ -291,9 +310,7 @@ export const QueensGame = ({
                         : isGiven
                           ? 'bg-nexus-ink text-nexus-paper'
                           : 'bg-nexus-ink text-white border border-nexus-crimson'
-                      : showAttackedLines && isAttacked
-                        ? `${baseBg} text-nexus-ink/60`
-                        : `${baseBg} hover:bg-nexus-crimson/15 text-nexus-ink`
+                      : `${baseBg} hover:bg-nexus-crimson/15 text-nexus-ink`
                   }`}
                 >
                   {/* Coordinate label on top/left edge */}
@@ -327,8 +344,6 @@ export const QueensGame = ({
                     </div>
                   ) : isMarked ? (
                     <X className="w-5 h-5 text-nexus-crimson font-bold" />
-                  ) : showAttackedLines && isAttacked ? (
-                    <span className="w-2 h-2 rounded-full bg-nexus-crimson/35 pointer-events-none" />
                   ) : null}
                 </button>
               );

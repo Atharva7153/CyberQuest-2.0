@@ -37,7 +37,7 @@ export const ChallengeRenderer = ({
       {/* Dynamically Resolved Game Component */}
       <AnimatePresence mode="wait">
         <motion.div
-          key={`${challenge?.challengeId || 'chg'}-${session?.attemptId || gameConfig?.variantId || 'default'}-${gameType}`}
+          key={`${challenge?.challengeId || 'chg'}-${session?.attemptId || 'no-att'}-${gameConfig?.variantId || 'default'}-${gameType}`}
           initial={prefersReducedMotion ? false : { opacity: 0, y: 6 }}
           animate={{ opacity: 1, y: 0 }}
           exit={prefersReducedMotion ? undefined : { opacity: 0, y: -4 }}

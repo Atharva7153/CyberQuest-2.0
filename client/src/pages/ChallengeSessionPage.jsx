@@ -171,7 +171,6 @@ export const ChallengeSessionPage = () => {
       ? team.activeAttempt
       : null;
   const matchedFromSessionMeta =
-    !team &&
     sessionMeta?.activeAttempt &&
     String(sessionMeta.activeAttempt.challengeId || '').toUpperCase() === normalizedRouteChallengeId
       ? sessionMeta.activeAttempt

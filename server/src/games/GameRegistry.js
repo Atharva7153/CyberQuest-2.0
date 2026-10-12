@@ -628,26 +628,76 @@ export const validateConnect4Server = (submission) => {
  * 7. WORD GUESS Server Validator
  */
 export const validateWordGuessServer = (submission, challenge) => {
+  const submittedWords = Array.isArray(submission?.words)
+    ? submission.words
+        .map((w) => String(w || '').trim().toUpperCase())
+        .filter(Boolean)
+    : [];
+
   const rawWord =
     typeof submission === 'object' && submission !== null
-      ? String(submission.word ?? submission.answer ?? '').trim().toUpperCase()
+      ? String(
+          submission.word ??
+            submission.answer ??
+            (submittedWords.length > 0 ? submittedWords.join('-') : '')
+        )
+          .trim()
+          .toUpperCase()
       : String(submission ?? '').trim().toUpperCase();
 
-  if (!rawWord) {
+  if (!rawWord && submittedWords.length === 0) {
     return { valid: false, passed: false, reason: 'Word guess cannot be empty.' };
   }
 
+  const stripPrefix = (str) =>
+    String(str || '')
+      .trim()
+      .toUpperCase()
+      .replace(/^WORDGUESS:/, '')
+      .replace(/^NEXUS\{/, '')
+      .replace(/\}$/, '')
+      .replace(/[\s_]+/g, '-')
+      .trim();
+
+  const normalizedCandidate = stripPrefix(rawWord);
+  const candidateFromArray = submittedWords.join('-');
+
+  // 1. Check multi-round words in gameConfig.rounds if present
+  const configRounds = Array.isArray(challenge?.gameConfig?.rounds)
+    ? challenge.gameConfig.rounds
+    : [];
+  const expectedRoundWords = configRounds
+    .map((r) => String(r?.word || '').trim().toUpperCase())
+    .filter(Boolean);
+
+  if (expectedRoundWords.length > 0) {
+    const joinedExpectedRounds = expectedRoundWords.join('-');
+    if (
+      normalizedCandidate === joinedExpectedRounds ||
+      candidateFromArray === joinedExpectedRounds
+    ) {
+      return { valid: true, passed: true };
+    }
+  }
+
+  // 2. Check solutionConfig expectedAnswer & acceptedAnswers
   const expected = String(challenge?.solutionConfig?.expectedAnswer || '')
     .trim()
     .toUpperCase();
+  const strippedExpected = stripPrefix(expected);
   const accepted = (challenge?.solutionConfig?.acceptedAnswers || []).map((a) =>
     String(a).trim().toUpperCase()
   );
+  const strippedAccepted = accepted.map(stripPrefix);
 
   if (
-    (expected && rawWord === expected) ||
+    (expected && (rawWord === expected || normalizedCandidate === strippedExpected)) ||
     (expected && rawWord === `NEXUS{${expected}}`) ||
-    accepted.includes(rawWord)
+    accepted.includes(rawWord) ||
+    strippedAccepted.includes(normalizedCandidate) ||
+    (candidateFromArray &&
+      (candidateFromArray === strippedExpected ||
+        strippedAccepted.includes(candidateFromArray)))
   ) {
     return { valid: true, passed: true };
   }

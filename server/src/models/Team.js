@@ -52,6 +52,7 @@ const challengeRefSchema = new mongoose.Schema(
 const activeAttemptSchema = new mongoose.Schema(
   {
     attemptId: { type: String, required: true },
+    variantId: { type: String, default: 'DEFAULT' },
     challengeId: { type: String, required: true },
     title: { type: String, required: true },
     category: { type: String, default: 'TECHNICAL' },
@@ -63,6 +64,7 @@ const activeAttemptSchema = new mongoose.Schema(
     timeLimit: { type: Number, default: 1200 },
     gameType: { type: String, default: 'wordGuess' },
     gameConfig: { type: mongoose.Schema.Types.Mixed, default: () => ({}) },
+    solutionConfig: { type: mongoose.Schema.Types.Mixed, default: () => ({}) },
     maxHints: { type: Number, default: 2 },
     hintsUnlocked: { type: Number, default: 0 },
     unlockedHints: { type: [String], default: [] },
@@ -275,6 +277,18 @@ teamSchema.methods.toPublicJSON = function () {
   const obj = this.toObject({ versionKey: false });
   delete obj.passwordHash;
   delete obj.accessPassword;
+  if (obj.activeAttempt && typeof obj.activeAttempt === 'object') {
+    delete obj.activeAttempt.solutionConfig;
+  }
+  if (Array.isArray(obj.activeAttempts)) {
+    obj.activeAttempts = obj.activeAttempts.map((att) => {
+      if (att && typeof att === 'object') {
+        const { solutionConfig: _sc, ...rest } = att;
+        return rest;
+      }
+      return att;
+    });
+  }
   return obj;
 };
 

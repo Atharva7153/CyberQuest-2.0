@@ -48,7 +48,7 @@ export const WendGame = ({
     const firstEditable = steps.findIndex((s) => !s.isLocked);
     setActiveStepIdx(firstEditable >= 0 ? firstEditable : 0);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [challenge?.challengeId, session?.attemptId]);
+  }, [challenge?.challengeId, session?.attemptId, gameConfig?.variantId, buildInitialWords]);
 
   const validation = useMemo(
     () => validateWendChainClient(words, config),

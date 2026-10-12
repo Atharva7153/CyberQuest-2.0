@@ -624,6 +624,7 @@ export const TeamPortalProvider = ({ children }) => {
               },
               (ack) => {
                 if (ack?.ok) {
+                  if (ack.team) setTeam(ack.team);
                   if (ack.serverTime) applyServerClock(ack.serverTime);
                   if (ack.timer) setSessionTimer(ack.timer);
                   if (ack.globalTimer) setGlobalTimer(ack.globalTimer);

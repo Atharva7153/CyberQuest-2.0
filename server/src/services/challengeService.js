@@ -4435,6 +4435,9 @@ export class ChallengeService {
       const timeLimit = Number(
         activeAttemptSnapshot?.timeLimit || fullChallenge.timeLimit || 1200
       );
+      const expiresAt = activeAttemptSnapshot?.expiresAt
+        ? new Date(activeAttemptSnapshot.expiresAt)
+        : new Date(startedAt.getTime() + timeLimit * 1000);
       const solveDurationSeconds = Math.max(
         0,
         Math.round((now.getTime() - startedAt.getTime()) / 1000)

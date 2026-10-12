@@ -31,7 +31,7 @@ export const normalizeXo4x4Config = (gameConfig = {}) => {
     aiDifficulty: gameConfig.aiDifficulty || 'TACTICAL',
     instructions:
       gameConfig.instructions ||
-      'Align 4 X marks in a row (horizontally, vertically, or diagonally) to defeat the AI opponent. Create a double-threat fork to break through its defense.',
+      'Align 4 X marks in a row (horizontally, vertically, or diagonally) to defeat the AI opponent.',
   };
 };
 
@@ -75,52 +75,56 @@ export const evaluateXo4x4Board = (board) => {
 };
 
 /**
- * Tactical AI move selector for 4x4 Tic-Tac-Toe.
- * 1. Plays immediate winning move for 'O' if available.
- * 2. Blocks immediate 3-in-a-row threat from 'X'.
- * 3. Scores open lines so the AI plays competitively while allowing a player who
- *    sets up a 2-way fork (two simultaneous 3-in-a-row lines) to win.
+ * Balanced, beatable AI move selector for 4x4 Tic-Tac-Toe.
+ * - Never pre-spoils X's developing 1-in-a-row or 2-in-a-row lines so the player can set up winning lines.
+ * - Blocks X's very first 3-in-a-row threat (when O has <= 2 marks on the board),
+ *   but once the game progresses (O has >= 3 marks) or X creates a secondary threat,
+ *   the AI focuses on its own position so a human player can reliably win.
  */
 export const chooseAiMove4x4 = (board, moveCount = 0) => {
   const emptyIndices = [];
+  let totalOCount = 0;
   for (let i = 0; i < 16; i++) {
     if (board[i] === '') emptyIndices.push(i);
+    else if (board[i] === 'O') totalOCount++;
   }
   if (emptyIndices.length === 0) return -1;
 
-  // 1. Check if AI ('O') can win immediately
-  for (const idx of emptyIndices) {
-    const copy = [...board];
-    copy[idx] = 'O';
-    if (evaluateXo4x4Board(copy).winner === 'O') {
-      return idx;
+  // 1. Only block X's immediate 3-in-a-row threat early in the match (when O has < 3 marks).
+  // Once O has 3+ marks, let X's follow-up threat break through so the game is reliably winnable.
+  if (totalOCount < 3) {
+    for (const idx of emptyIndices) {
+      const copy = [...board];
+      copy[idx] = 'X';
+      if (evaluateXo4x4Board(copy).winner === 'X') {
+        return idx;
+      }
     }
   }
 
-  // 2. Check if Player ('X') can win on their next move and block
-  for (const idx of emptyIndices) {
+  // 2. Check if AI ('O') can win immediately, but avoid stealing the win if X already has a 3-in-a-row ready
+  const xHasImmediateWin = emptyIndices.some((idx) => {
     const copy = [...board];
     copy[idx] = 'X';
-    if (evaluateXo4x4Board(copy).winner === 'X') {
-      return idx;
+    return evaluateXo4x4Board(copy).winner === 'X';
+  });
+
+  if (!xHasImmediateWin) {
+    for (const idx of emptyIndices) {
+      const copy = [...board];
+      copy[idx] = 'O';
+      if (evaluateXo4x4Board(copy).winner === 'O') {
+        return idx;
+      }
     }
   }
 
-  // 3. Heuristic line evaluation
+  // 3. Pick a move that develops O's own lines while avoiding spoiling X's active 2-in-a-row / 3-in-a-row lines
   let bestScore = -Infinity;
   let bestIdx = emptyIndices[0];
 
   for (const idx of emptyIndices) {
     let score = 0;
-
-    // Slight preference for outer/edge tactical cells so center forks remain playable
-    const r = Math.floor(idx / 4);
-    const c = idx % 4;
-    if ((r === 1 || r === 2) && (c === 1 || c === 2)) {
-      score += 2;
-    } else {
-      score += 3;
-    }
 
     for (const line of XO4X4_WIN_LINES) {
       if (!line.includes(idx)) continue;
@@ -137,16 +141,25 @@ export const chooseAiMove4x4 = (board, moveCount = 0) => {
       if (blocked) continue;
 
       if (xCount === 0) {
-        // Line is open for O
-        score += (oCount + 1) * 6;
+        // Line is completely open for O
+        score += (oCount + 1) * 5;
       } else if (oCount === 0) {
-        // Contesting X's developing line (blocks single 2-in-a-row, but a double fork beats it)
-        if (xCount === 2) score += 14;
-        else if (xCount === 1) score += 4;
+        // Avoid poisoning X's developing 2-in-a-row or 3-in-a-row lines so the player can complete a 4-in-a-row
+        if (xCount >= 2) {
+          score -= 12;
+        } else if (xCount === 1) {
+          score -= 2;
+        }
       }
     }
 
-    // Deterministic tie-breaker offset by moveCount
+    // Slight preference for outer border squares so center lines stay open for the player
+    const r = Math.floor(idx / 4);
+    const c = idx % 4;
+    if (r === 0 || r === 3 || c === 0 || c === 3) {
+      score += 3;
+    }
+
     score += ((idx + moveCount) % 3) * 0.1;
 
     if (score > bestScore) {

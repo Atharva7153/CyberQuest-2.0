@@ -72,7 +72,7 @@ export const ZipGame = ({
     setPath([startCell]);
     setIsDrawing(false);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [challenge?.challengeId, session?.attemptId]);
+  }, [challenge?.challengeId, session?.attemptId, gameConfig?.variantId, startCell.r, startCell.c]);
 
   const waypointMap = useMemo(() => {
     const map = new Map();
