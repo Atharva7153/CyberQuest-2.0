@@ -17,8 +17,11 @@ export const Xo4x4Game = ({
   onDraftChange,
   onSubmitAnswer,
 }) => {
-  const config = useMemo(() => normalizeXo4x4Config(gameConfig), [gameConfig]);
-  const { blockedCells, instructions } = config;
+  const config = useMemo(
+    () => normalizeXo4x4Config(gameConfig, challenge?.difficulty),
+    [gameConfig, challenge?.difficulty]
+  );
+  const { blockedCells, instructions, aiTier } = config;
   const isLocked = Boolean(actionPending || disabled);
 
   const [board, setBoard] = useState(() => createInitialXo4x4Board(blockedCells));
@@ -75,7 +78,7 @@ export const Xo4x4Game = ({
     // AI Turn
     setIsAiThinking(true);
     setTimeout(() => {
-      const aiIndex = chooseAiMove4x4(nextBoard, nextMoves.length);
+      const aiIndex = chooseAiMove4x4(nextBoard, nextMoves.length, aiTier?.id || challenge?.difficulty);
       if (aiIndex >= 0) {
         const afterAiBoard = [...nextBoard];
         afterAiBoard[aiIndex] = 'O';
@@ -132,7 +135,7 @@ export const Xo4x4Game = ({
           ) : (
             <span className="px-2.5 py-1 bg-nexus-ink text-nexus-paper inline-flex items-center gap-1">
               <Cpu className="w-3.5 h-3.5 text-nexus-crimson" />
-              {isAiThinking ? 'AI THINKING...' : 'YOUR TURN (X)'}
+              {isAiThinking ? `${aiTier?.label || 'AI'} THINKING...` : 'YOUR TURN (X)'}
             </span>
           )}
         </div>
@@ -145,7 +148,9 @@ export const Xo4x4Game = ({
           <span className="font-display text-xl text-nexus-crimson">MARK [ X ]</span>
         </div>
         <div className="p-2.5 border-2 border-nexus-ink bg-nexus-paper-elevated text-nexus-ink flex items-center justify-between">
-          <span className="text-[10px] uppercase tracking-widest text-nexus-muted">AI OPPONENT</span>
+          <span className="text-[10px] uppercase tracking-widest text-nexus-crimson font-bold">
+            {aiTier?.badge || 'NOOB AI (EASY)'}
+          </span>
           <span className="font-display text-xl text-nexus-ink">MARK [ O ]</span>
         </div>
       </div>

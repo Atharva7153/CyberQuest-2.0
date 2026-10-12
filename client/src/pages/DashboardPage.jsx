@@ -19,6 +19,10 @@ import {
   formatTimeLimit,
   getFriendlyChallengeTitle,
   getFriendlyChallengeDescription,
+  getGameNameLabel,
+  getFriendlyDifficultyLabel,
+  isAiCompetitorGame,
+  sortChallengesByGameDifficulty,
 } from '../components/ChallengeMarketModule';
 import { useTeamPortal } from '../hooks/useTeamPortal';
 import { useReducedMotion } from '../hooks/useReducedMotion';
@@ -259,9 +263,10 @@ export const DashboardPage = ({ initialSection = 'HOME' }) => {
   const failedIds = new Set((team.failedChallenges || []).map((c) => c.challengeId));
   const purchasedList = Array.isArray(team.purchasedChallenges) ? team.purchasedChallenges : [];
   const purchasedIds = new Set(purchasedList.map((c) => c.challengeId));
-  const previewChallenges = (catalog || [])
-    .filter((c) => c.enabled !== false)
-    .slice(0, 3);
+  const previewChallenges = sortChallengesByGameDifficulty(
+    (catalog || []).filter((c) => c.enabled !== false),
+    'ASC'
+  ).slice(0, 3);
 
   const coreState = nexusCore?.state || 'LOCKED';
 
@@ -336,7 +341,7 @@ export const DashboardPage = ({ initialSection = 'HOME' }) => {
                         <div className="flex flex-wrap items-center justify-between gap-2">
                           <div>
                             <span className="font-mono text-[10px] uppercase tracking-widest text-nexus-crimson font-bold block">
-                              {att.category} · +{att.potentialReward || 400} CR
+                              {getGameNameLabel(att)} · +{att.potentialReward || 400} CR
                               {att.assignedMemberName
                                 ? ` · SOLVING: ${att.assignedMemberName}`
                                 : ''}
@@ -429,7 +434,7 @@ export const DashboardPage = ({ initialSection = 'HOME' }) => {
                         <span className="block font-mono text-[9px] uppercase tracking-widest text-nexus-muted truncate">
                           {solverName
                             ? `● SOLVING: ${solverName}`
-                            : `${item.category || 'CHALLENGE'} · +${item.reward || 400} CR`}
+                            : `${getGameNameLabel(item)} · +${item.reward || 400} CR`}
                         </span>
                         <span className="block font-display text-xl uppercase text-nexus-ink truncate leading-none mt-0.5">
                           {getFriendlyChallengeTitle(item)}
@@ -721,7 +726,7 @@ export const DashboardPage = ({ initialSection = 'HOME' }) => {
 
               <div className="space-y-2">
                 <span className="font-mono text-[10px] uppercase tracking-widest text-nexus-muted block">
-                  {selectedChallengeModal.category}
+                  {getGameNameLabel(selectedChallengeModal)}
                 </span>
                 <h2
                   id="modal-challenge-title"
@@ -750,8 +755,10 @@ export const DashboardPage = ({ initialSection = 'HOME' }) => {
                   </span>
                 </div>
                 <div>
-                  <span className="text-nexus-muted block text-[10px]">DIFFICULTY</span>
-                  <span className="font-bold">{selectedChallengeModal.difficulty}</span>
+                  <span className="text-nexus-muted block text-[10px]">
+                    {isAiCompetitorGame(selectedChallengeModal) ? 'AI SKILL' : 'DIFFICULTY'}
+                  </span>
+                  <span className="font-bold">{getFriendlyDifficultyLabel(selectedChallengeModal)}</span>
                 </div>
                 <div>
                   <span className="text-nexus-muted block text-[10px] mb-0.5">RISK</span>

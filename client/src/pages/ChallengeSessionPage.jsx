@@ -18,6 +18,9 @@ import { ThemeToggleButton } from '../components/ThemeToggleButton';
 import {
   getFriendlyChallengeTitle,
   getFriendlyChallengeDescription,
+  getGameNameLabel,
+  getFriendlyDifficultyLabel,
+  isAiCompetitorGame,
 } from '../components/ChallengeMarketModule';
 import { ChallengeRenderer } from '../engine/ChallengeRenderer';
 import { useTeamPortal } from '../hooks/useTeamPortal';
@@ -547,7 +550,7 @@ export const ChallengeSessionPage = () => {
 
             <div className="min-w-0">
               <span className="block font-mono text-[9px] uppercase tracking-[0.2em] text-nexus-crimson font-bold">
-                {targetChallenge?.category || 'CHALLENGE'} · +{targetChallenge?.reward || 400} CR
+                {getGameNameLabel(targetChallenge)} · {getFriendlyDifficultyLabel(targetChallenge)} · +{targetChallenge?.reward || 400} CR
               </span>
               <h1 className="font-display text-2xl sm:text-3xl uppercase tracking-wide text-nexus-paper leading-none truncate">
                 {getFriendlyChallengeTitle(targetChallenge)}
@@ -667,8 +670,8 @@ export const ChallengeSessionPage = () => {
             <div className="p-6 border-2 border-nexus-ink bg-nexus-paper space-y-5">
               <div className="space-y-2">
                 <p className="font-mono text-xs uppercase tracking-[0.2em] text-nexus-crimson font-bold">
-                  {targetChallenge?.category || 'CHALLENGE'} · DIFFICULTY:{' '}
-                  {targetChallenge?.difficulty || 'MODERATE'} · COST:{' '}
+                  {getGameNameLabel(targetChallenge)} · {isAiCompetitorGame(targetChallenge) ? 'AI SKILL' : 'DIFFICULTY'}:{' '}
+                  {getFriendlyDifficultyLabel(targetChallenge)} · COST:{' '}
                   {isPurchasedByTeam ? '0 CR (ALREADY BOUGHT)' : `${targetChallenge?.cost || 250} CR`} · REWARD: +{targetChallenge?.reward || 500} CR
                 </p>
                 <h2 className="font-display text-4xl uppercase text-nexus-ink leading-none">

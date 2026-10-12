@@ -5,21 +5,21 @@
 # ==============================================================================
 
 # Stage 1: Build React (Vite) Frontend
-FROM node:20-alpine AS client-builder
+FROM node:22-alpine AS client-builder
 WORKDIR /app/client
 COPY client/package*.json ./
-RUN npm ci
+RUN npm ci || npm install
 COPY client/ ./
 RUN npm run build
 
 # Stage 2: Install Backend Production Dependencies
-FROM node:20-alpine AS server-deps
+FROM node:22-alpine AS server-deps
 WORKDIR /app/server
 COPY server/package*.json ./
-RUN npm ci --omit=dev && npm cache clean --force
+RUN (npm ci --omit=dev || npm install --omit=dev) && npm cache clean --force
 
 # Stage 3: Unified Production Runtime (Express serves API + Socket.IO + React SPA)
-FROM node:20-alpine AS production
+FROM node:22-alpine AS production
 WORKDIR /app/server
 
 ENV NODE_ENV=production
@@ -35,5 +35,8 @@ COPY server/server.js ./
 COPY server/src ./src
 
 EXPOSE 5050
+
+HEALTHCHECK --interval=10s --timeout=5s --start-period=10s --retries=5 \
+  CMD wget -qO- http://127.0.0.1:${PORT:-5050}/api/health > /dev/null || exit 1
 
 CMD ["node", "server.js"]

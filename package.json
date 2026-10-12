@@ -15,7 +15,8 @@
     "docker:up:detached": "docker compose up --build -d",
     "docker:down": "docker compose down",
     "docker:reset": "docker compose down -v",
-    "docker:logs": "docker compose logs -f"
+    "docker:logs": "docker compose logs -f",
+    "migrate:mongo": "node server/src/scripts/migrateMongo.js"
   },
   "devDependencies": {
     "concurrently": "^9.1.2"

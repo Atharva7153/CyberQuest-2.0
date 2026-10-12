@@ -16,9 +16,10 @@ import {
 import { BrutalistPanel } from './BrutalistPanel';
 import { RiskBadge } from './RiskBadge';
 import { CrosshairMark } from './CrosshairMark';
+import { MARKET_GAMES, resolveChallengeGameType } from './ChallengeMarketModule';
 import { useReducedMotion } from '../hooks/useReducedMotion';
 
-const CANONICAL_CATEGORIES = ['LOGIC', 'PUZZLES', 'OBSERVATION', 'KNOWLEDGE', 'TECHNICAL'];
+const GAME_PROGRESS_LIST = MARKET_GAMES.filter((g) => g.id !== 'ALL');
 
 const GsapAnimatedStatNumber = ({
   value = 0,
@@ -130,40 +131,41 @@ export const TeamProgressModule = ({
     const completionRate =
       challengesAttempted > 0 ? Math.round((completed / challengesAttempted) * 100) : 0;
 
-    const categoryBreakdown =
-      Array.isArray(progressSummary?.categoryBreakdown) &&
-      progressSummary.categoryBreakdown.length > 0
-        ? progressSummary.categoryBreakdown
-        : CANONICAL_CATEGORIES.map((cat) => {
-            const totalInCatalog = Math.max(
-              1,
-              (catalog || []).filter((c) => String(c.category).toUpperCase() === cat).length
-            );
-            const completedInCat = (team?.completedChallenges || []).filter(
-              (c) => String(c.category).toUpperCase() === cat
-            ).length;
-            const failedInCat = (team?.failedChallenges || []).filter(
-              (c) => String(c.category).toUpperCase() === cat
-            ).length;
-            const activeInCat =
-              team?.activeAttempt &&
-              String(team.activeAttempt.category).toUpperCase() === cat
-                ? 1
-                : 0;
-            const attemptedInCat = completedInCat + failedInCat + activeInCat;
+    const catalogById = new Map((catalog || []).map((c) => [c.challengeId, c]));
+    const resolveItemGame = (item) => {
+      if (!item) return '';
+      const def = catalogById.get(item.challengeId) || {};
+      return resolveChallengeGameType({ ...def, ...item });
+    };
 
-            return {
-              category: cat,
-              totalInCatalog,
-              attempted: attemptedInCat,
-              completed: completedInCat,
-              failed: failedInCat,
-              completionPercent: Math.min(
-                100,
-                Math.round((completedInCat / totalInCatalog) * 100)
-              ),
-            };
-          });
+    const categoryBreakdown = GAME_PROGRESS_LIST.map((gameMeta) => {
+      const totalInCatalog = Math.max(
+        1,
+        (catalog || []).filter((c) => resolveChallengeGameType(c) === gameMeta.id).length
+      );
+      const completedInCat = (team?.completedChallenges || []).filter(
+        (c) => resolveItemGame(c) === gameMeta.id
+      ).length;
+      const failedInCat = (team?.failedChallenges || []).filter(
+        (c) => resolveItemGame(c) === gameMeta.id
+      ).length;
+      const activeInCat =
+        team?.activeAttempt && resolveItemGame(team.activeAttempt) === gameMeta.id ? 1 : 0;
+      const attemptedInCat = completedInCat + failedInCat + activeInCat;
+
+      return {
+        category: gameMeta.id,
+        label: gameMeta.label,
+        totalInCatalog,
+        attempted: attemptedInCat,
+        completed: completedInCat,
+        failed: failedInCat,
+        completionPercent: Math.min(
+          100,
+          Math.round((completedInCat / totalInCatalog) * 100)
+        ),
+      };
+    });
 
     return {
       challengesAttempted,
@@ -412,39 +414,39 @@ export const TeamProgressModule = ({
             })}
           </div>
 
-          {/* Category Breakdown */}
+          {/* Game Breakdown */}
           <div className="border-2 border-nexus-ink bg-nexus-paper p-5 space-y-4">
             <div className="flex flex-wrap items-center justify-between gap-3 border-b-2 border-nexus-ink pb-3">
               <div className="flex items-center gap-2">
                 <Cpu className="w-4 h-4 text-nexus-crimson" />
                 <span className="font-condensed text-lg font-extrabold uppercase tracking-wider text-nexus-ink">
-                  CATEGORY PROGRESS
+                  GAME PROGRESS
                 </span>
               </div>
 
               <div className="flex flex-wrap gap-1.5">
-                {['ALL', ...CANONICAL_CATEGORIES].map((cat) => {
-                  const isActive = selectedCategoryFilter === cat;
+                {MARKET_GAMES.map((gameMeta) => {
+                  const isActive = selectedCategoryFilter === gameMeta.id;
                   return (
                     <motion.button
-                      key={cat}
+                      key={gameMeta.id}
                       type="button"
                       whileTap={prefersReducedMotion ? undefined : { scale: 0.97 }}
-                      onClick={() => setSelectedCategoryFilter(cat)}
+                      onClick={() => setSelectedCategoryFilter(gameMeta.id)}
                       className={`px-2.5 py-1 border font-mono text-[10px] font-bold uppercase tracking-widest transition-colors cursor-pointer ${
                         isActive
                           ? 'bg-nexus-ink text-nexus-paper border-nexus-ink'
                           : 'bg-nexus-paper-elevated text-nexus-ink border-nexus-ink/30 hover:border-nexus-ink'
                       }`}
                     >
-                      {cat}
+                      {gameMeta.label}
                     </motion.button>
                   );
                 })}
               </div>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3.5">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3.5">
               {visibleCategories.map((catItem) => (
                 <motion.div
                   layout
@@ -455,7 +457,7 @@ export const TeamProgressModule = ({
                   className="p-3.5 border border-nexus-ink bg-nexus-paper-elevated space-y-2.5"
                 >
                   <div className="flex items-center justify-between font-mono text-xs font-bold">
-                    <span className="text-nexus-ink">{catItem.category}</span>
+                    <span className="text-nexus-ink">{catItem.label || catItem.category}</span>
                     <span className="text-nexus-crimson">{catItem.completionPercent}%</span>
                   </div>
 

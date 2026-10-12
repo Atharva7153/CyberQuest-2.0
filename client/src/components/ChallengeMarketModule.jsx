@@ -27,18 +27,123 @@ import artCoreBridge from '../assets/artwork/nexus-core-bridge.jpg';
 import artRiskStairs from '../assets/artwork/nexus-risk-stairs.jpg';
 import artCreditsSpire from '../assets/artwork/nexus-credits-spire.jpg';
 
-export const MARKET_CATEGORIES = [
-  'ALL',
-  'LOGIC',
-  'PUZZLES',
-  'OBSERVATION',
-  'KNOWLEDGE',
-  'TECHNICAL',
+export const MARKET_GAMES = [
+  { id: 'ALL', label: 'ALL GAMES' },
+  { id: 'sudoku', label: 'SUDOKU' },
+  { id: 'wend', label: 'WEND' },
+  { id: 'patches', label: 'PATCHES' },
+  { id: 'queens', label: 'N-QUEENS' },
+  { id: 'zip', label: 'ZIP' },
+  { id: 'wordGuess', label: 'WORD GUESS' },
+  { id: 'xo4x4', label: '4×4 XO' },
+  { id: 'connect4', label: 'CONNECT 4' },
+  { id: 'memoryMatrix', label: 'MEMORY MATRIX' },
+  { id: 'aptitude', label: 'APTITUDE' },
+  { id: 'gkTrueFalse', label: 'TRUE / FALSE' },
 ];
+
+export const MARKET_CATEGORIES = MARKET_GAMES.map((g) => g.id);
 
 export const MARKET_DIFFICULTIES = ['ALL', 'LOW', 'MODERATE', 'HIGH', 'EXTREME'];
 
 export const MARKET_RISKS = ['ALL', 'SAFE', 'BALANCED', 'AGGRESSIVE'];
+
+const GAME_LABEL_MAP = {
+  sudoku: 'SUDOKU',
+  wend: 'WEND',
+  patches: 'PATCHES',
+  queens: 'N-QUEENS',
+  zip: 'ZIP',
+  wordGuess: 'WORD GUESS',
+  xo4x4: '4×4 XO',
+  xo: '4×4 XO',
+  connect4: 'CONNECT 4',
+  memoryMatrix: 'MEMORY MATRIX',
+  aptitude: 'APTITUDE',
+  gkTrueFalse: 'TRUE / FALSE',
+  quiz: 'TRUE / FALSE',
+};
+
+export const resolveChallengeGameType = (challengeOrGameType) => {
+  if (!challengeOrGameType) return 'wordGuess';
+  if (typeof challengeOrGameType === 'string') {
+    const trimmed = challengeOrGameType.trim();
+    if (GAME_LABEL_MAP[trimmed]) return trimmed === 'xo' ? 'xo4x4' : trimmed === 'quiz' ? 'gkTrueFalse' : trimmed;
+    const upper = trimmed.toUpperCase();
+    const matched = MARKET_GAMES.find((g) => g.label.toUpperCase() === upper || g.id.toUpperCase() === upper);
+    if (matched) return matched.id;
+    return trimmed;
+  }
+
+  const rawGt = String(challengeOrGameType.gameType || '').trim();
+  if (rawGt && GAME_LABEL_MAP[rawGt]) {
+    if (rawGt === 'xo') return 'xo4x4';
+    if (rawGt === 'quiz') return 'gkTrueFalse';
+    return rawGt;
+  }
+
+  const idUpper = String(challengeOrGameType.challengeId || '').toUpperCase();
+  const titleUpper = String(challengeOrGameType.title || '').toUpperCase();
+  if (idUpper.includes('-SU-') || idUpper === 'CHG-LOG-04' || idUpper === 'CHG-ZDY-03' || titleUpper.includes('SUDOKU')) return 'sudoku';
+  if (idUpper.includes('-WD-') || idUpper === 'CHG-KNW-09' || idUpper === 'CHG-TEC-12' || titleUpper.includes('WEND')) return 'wend';
+  if (idUpper.includes('-PT-') || idUpper === 'CHG-FOR-02' || idUpper === 'CHG-OBS-08' || idUpper === 'CHG-TEC-11' || titleUpper.includes('PATCHES')) return 'patches';
+  if (idUpper.includes('-QN-') || idUpper === 'CHG-LOG-13' || idUpper === 'CHG-LOG-14' || titleUpper.includes('QUEEN')) return 'queens';
+  if (idUpper.includes('-ZP-') || idUpper === 'CHG-NET-01' || idUpper === 'CHG-TEC-10' || titleUpper.includes('ZIP')) return 'zip';
+  if (idUpper.includes('-WG-') || idUpper === 'CHG-PUZ-05' || titleUpper.includes('WORD GUESS')) return 'wordGuess';
+  if (idUpper.includes('-XO-') || idUpper === 'CHG-PUZ-07' || titleUpper.includes('TIC-TAC-TOE') || titleUpper.includes('4×4')) return 'xo4x4';
+  if (idUpper.includes('-C4-') || idUpper === 'CHG-LOG-06' || titleUpper.includes('CONNECT 4')) return 'connect4';
+  if (idUpper.includes('-MM-') || idUpper === 'CHG-OBS-19' || idUpper === 'CHG-OBS-20' || titleUpper.includes('MEMORY MATRIX')) return 'memoryMatrix';
+  if (idUpper.includes('-AP-') || idUpper === 'CHG-LOG-15' || idUpper === 'CHG-PUZ-16' || titleUpper.includes('APTITUDE')) return 'aptitude';
+  if (idUpper.includes('-GK-') || idUpper === 'CHG-KNW-17' || idUpper === 'CHG-KNW-18' || titleUpper.includes('T/F') || titleUpper.includes('TRUE OR FALSE')) return 'gkTrueFalse';
+
+  return rawGt || 'wordGuess';
+};
+
+export const getGameNameLabel = (challengeOrGameType) => {
+  const gt = resolveChallengeGameType(challengeOrGameType);
+  return GAME_LABEL_MAP[gt] || String(gt || 'CHALLENGE').toUpperCase();
+};
+
+export const isAiCompetitorGame = (challengeOrGameType) => {
+  const gt = resolveChallengeGameType(challengeOrGameType);
+  return gt === 'xo4x4' || gt === 'connect4';
+};
+
+const DIFFICULTY_RANK = {
+  LOW: 1,
+  MODERATE: 2,
+  HIGH: 3,
+  EXTREME: 4,
+};
+
+export const getDifficultyRank = (difficulty) => {
+  return DIFFICULTY_RANK[String(difficulty || 'MODERATE').toUpperCase()] || 2;
+};
+
+export const getFriendlyDifficultyLabel = (challenge, { includeTier = false } = {}) => {
+  if (!challenge) return 'MODERATE';
+  const rawDiff = String(challenge.difficulty || 'MODERATE').toUpperCase();
+  if (isAiCompetitorGame(challenge)) {
+    if (rawDiff === 'LOW') return includeTier ? 'NOOB AI (LOW)' : 'NOOB AI';
+    if (rawDiff === 'MODERATE') return includeTier ? 'ROOKIE AI (MODERATE)' : 'ROOKIE AI';
+    if (rawDiff === 'HIGH') return includeTier ? 'SMART AI (HIGH)' : 'SMART AI';
+    if (rawDiff === 'EXTREME') return includeTier ? 'PRO AI (EXTREME)' : 'PRO AI';
+  }
+  return rawDiff;
+};
+
+export const sortChallengesByGameDifficulty = (challenges = [], direction = 'ASC') => {
+  const mult = direction === 'DESC' ? -1 : 1;
+  return [...challenges].sort((a, b) => {
+    const rankDiff = (getDifficultyRank(a.difficulty) - getDifficultyRank(b.difficulty)) * mult;
+    if (rankDiff !== 0) return rankDiff;
+    const costDiff = (Number(a.cost || 0) - Number(b.cost || 0)) * mult;
+    if (costDiff !== 0) return costDiff;
+    const rewardDiff = (Number(a.reward || 0) - Number(b.reward || 0)) * mult;
+    if (rewardDiff !== 0) return rewardDiff;
+    return String(a.challengeId || '').localeCompare(String(b.challengeId || ''));
+  });
+};
 
 const ARTWORK_MAP = {
   LOGIC: artLogic,
@@ -80,10 +185,17 @@ export const formatTimeLimitDetailed = (seconds) => {
 const FRIENDLY_TITLE_BY_ID = {
   'CHG-PUZ-05': 'WORD GUESS',
   'CHG-LOG-04': 'SUDOKU (6×6)',
-  'CHG-PUZ-07': '4×4 TIC-TAC-TOE',
+  'CHG-PUZ-07': '4×4 TIC-TAC-TOE — NOOB AI',
+  'CHG-PUZ-XO-01': '4×4 TIC-TAC-TOE — ROOKIE AI',
+  'CHG-PUZ-XO-02': '4×4 TIC-TAC-TOE — SMART AI',
+  'CHG-LOG-XO-03': '4×4 TIC-TAC-TOE — PRO AI',
   'CHG-FOR-02': 'PATCHES (5×5)',
   'CHG-NET-01': 'ZIP (PATH PUZZLE)',
-  'CHG-LOG-06': 'CONNECT 4',
+  'CHG-LOG-06': 'CONNECT 4 — CASUAL NOOB AI',
+  'CHG-LOG-C4-03': 'CONNECT 4 — NOOB AI',
+  'CHG-LOG-C4-01': 'CONNECT 4 — ROOKIE AI',
+  'CHG-LOG-C4-02': 'CONNECT 4 — SMART AI',
+  'CHG-LOG-C4-04': 'CONNECT 4 — PRO AI',
   'CHG-KNW-09': 'WEND (WORD LADDER)',
   'CHG-OBS-08': 'PATCHES (6×6)',
   'CHG-ZDY-03': 'SUDOKU (9×9)',
@@ -104,10 +216,10 @@ const FRIENDLY_TITLE_BY_ID = {
 const FRIENDLY_TITLE_BY_LEGACY_CODENAME = {
   'CIPHER MONOLITH': 'WORD GUESS',
   'SIGNAL LABYRINTH': 'SUDOKU (6×6)',
-  'TESSELLATION VAULT': '4×4 TIC-TAC-TOE',
+  'TESSELLATION VAULT': '4×4 TIC-TAC-TOE — NOOB AI',
   'FORENSIC TRACE': 'PATCHES (5×5)',
   'NETWORK BREACH': 'ZIP (PATH PUZZLE)',
-  'AXIOM PROTOCOL': 'CONNECT 4',
+  'AXIOM PROTOCOL': 'CONNECT 4 — CASUAL NOOB AI',
   'ARCHIVE CODEX': 'WEND (WORD LADDER)',
   'PANOPTICON FEED': 'PATCHES (6×6)',
   'ZERO DAY HUNT': 'SUDOKU (9×9)',
@@ -120,10 +232,17 @@ const FRIENDLY_TITLE_BY_LEGACY_CODENAME = {
 const FRIENDLY_DESCRIPTION_BY_ID = {
   'CHG-PUZ-05': 'Unscramble the letter tiles using the clues to spell both 6-letter words.',
   'CHG-LOG-04': 'Fill the 6×6 Sudoku grid so every row, column, and 2×3 block has numbers 1 to 6.',
-  'CHG-PUZ-07': 'Beat the AI by getting 4 X marks in a row horizontally, vertically, or diagonally.',
+  'CHG-PUZ-07': 'Compete against a Noob AI that barely blocks — get 4 X marks in a row horizontally, vertically, or diagonally.',
+  'CHG-PUZ-XO-01': 'Compete against a Rookie AI — it blocks your first threat, but falls for simple second lines.',
+  'CHG-PUZ-XO-02': 'Compete against a Smart AI — build two threats or outmaneuver its defenses on the 4×4 board.',
+  'CHG-LOG-XO-03': 'Compete against the Pro AI — set up a double-threat fork to break through its defenses.',
   'CHG-FOR-02': 'Divide the 5×5 grid into rectangles so each rectangle matches the number inside it.',
   'CHG-NET-01': 'Connect numbers 1 to 6 in order with a single line that visits every square on the board.',
-  'CHG-LOG-06': 'Drop Red discs into the 7×6 board and connect 4 in a row before the AI.',
+  'CHG-LOG-06': 'Drop Red discs into the 7×6 board and connect 4 in a row against a Casual Noob AI.',
+  'CHG-LOG-C4-03': 'Compete against a total Noob AI that drops discs carelessly — connect 4 in any direction to win.',
+  'CHG-LOG-C4-01': 'Compete against a Rookie AI — it blocks obvious first lines but misses multi-column traps.',
+  'CHG-LOG-C4-02': 'Compete against a Smart AI within 90 seconds — build open-ended rows or diagonals to win.',
+  'CHG-LOG-C4-04': 'Compete against the Pro AI on a 7×6 board — build a double-threat fork to defeat it.',
   'CHG-KNW-09': 'Turn PORT into PING by changing one letter at a time using the clues.',
   'CHG-OBS-08': 'Divide the 6×6 grid into rectangles so each rectangle matches the number inside it.',
   'CHG-ZDY-03': 'Solve the 9×9 Sudoku grid so every row, column, and 3×3 block has numbers 1 to 9.',
@@ -147,21 +266,18 @@ export const getFriendlyChallengeTitle = (challengeOrTitle) => {
     return FRIENDLY_TITLE_BY_LEGACY_CODENAME[upper] || FRIENDLY_TITLE_BY_ID[upper] || challengeOrTitle;
   }
 
+  const idKey = String(challengeOrTitle.challengeId || '').trim().toUpperCase();
+  if (FRIENDLY_TITLE_BY_ID[idKey]) {
+    return FRIENDLY_TITLE_BY_ID[idKey];
+  }
+
   const rawTitle = String(challengeOrTitle.title || '').trim();
   const upperTitle = rawTitle.toUpperCase();
   if (FRIENDLY_TITLE_BY_LEGACY_CODENAME[upperTitle]) {
     return FRIENDLY_TITLE_BY_LEGACY_CODENAME[upperTitle];
   }
-
-  const idKey = String(challengeOrTitle.challengeId || '').trim().toUpperCase();
-  if (FRIENDLY_TITLE_BY_ID[idKey] && (!rawTitle || FRIENDLY_TITLE_BY_LEGACY_CODENAME[upperTitle])) {
-    return FRIENDLY_TITLE_BY_ID[idKey];
-  }
   if (rawTitle) {
     return rawTitle;
-  }
-  if (FRIENDLY_TITLE_BY_ID[idKey]) {
-    return FRIENDLY_TITLE_BY_ID[idKey];
   }
 
   const gt = String(challengeOrTitle.gameType || '').trim();
@@ -260,20 +376,20 @@ export const ClassifiedChallengeCard = ({
           onSelectChallenge(challenge);
         }
       }}
-      aria-label={`Select challenge ${friendlyTitle} (${challenge.category})`}
+      aria-label={`Select challenge ${friendlyTitle} (${getGameNameLabel(challenge)})`}
       className={`group relative flex flex-col justify-between border-2 transition-colors cursor-pointer select-none overflow-hidden focus-visible:outline-2 focus-visible:outline-nexus-crimson ${
         isCurrent || isSelected || isPurchased
           ? 'border-nexus-crimson shadow-brutal-crimson bg-nexus-ink'
           : 'border-nexus-ink shadow-brutal-sm hover:border-nexus-crimson bg-nexus-ink'
       }`}
     >
-      {/* Top Dark Chamber: Category + Game Preview + Title */}
+      {/* Top Dark Chamber: Game Name + Game Preview + Title */}
       <div className="flex flex-col flex-1 bg-nexus-ink text-nexus-paper">
         <div className="px-3.5 py-2.5 border-b border-nexus-paper/15 flex items-center justify-between gap-2 bg-black/50">
           <div className="flex items-center gap-2 min-w-0">
             <span className="w-1.5 h-1.5 bg-nexus-crimson shrink-0" />
             <span className="font-condensed text-sm sm:text-base font-extrabold uppercase tracking-[0.2em] text-nexus-paper truncate">
-              {challenge.category}
+              {getGameNameLabel(challenge)}
             </span>
           </div>
 
@@ -359,10 +475,10 @@ export const ClassifiedChallengeCard = ({
 
         <div className="flex items-center justify-between border-b border-white/20 pb-1">
           <span className="text-[10px] uppercase tracking-[0.18em] text-white/85 font-semibold">
-            DIFFICULTY
+            {isAiCompetitorGame(challenge) ? 'AI SKILL' : 'DIFFICULTY'}
           </span>
           <span className="font-bold text-[10px] sm:text-[11px] uppercase tracking-widest">
-            {challenge.difficulty}
+            {getFriendlyDifficultyLabel(challenge)}
           </span>
         </div>
 
@@ -400,9 +516,10 @@ export const ChallengeMarketModule = ({
 }) => {
   const prefersReducedMotion = useReducedMotion();
 
-  const [selectedCategory, setSelectedCategory] = useState('ALL');
+  const [selectedGame, setSelectedGame] = useState('ALL');
   const [selectedDifficulty, setSelectedDifficulty] = useState('ALL');
   const [selectedRisk, setSelectedRisk] = useState(initialRiskFilter || 'ALL');
+  const [difficultySort, setDifficultySort] = useState('ASC');
 
   React.useEffect(() => {
     if (initialRiskFilter && MARKET_RISKS.includes(initialRiskFilter)) {
@@ -449,32 +566,38 @@ export const ChallengeMarketModule = ({
   );
 
   const filteredChallenges = useMemo(() => {
-    return (catalog || []).filter((item) => {
+    const matching = (catalog || []).filter((item) => {
       if (item.enabled === false) return false;
-      if (selectedCategory !== 'ALL' && item.category !== selectedCategory) return false;
+      if (selectedGame !== 'ALL' && resolveChallengeGameType(item) !== selectedGame) return false;
       if (selectedDifficulty !== 'ALL' && item.difficulty !== selectedDifficulty) return false;
       if (selectedRisk !== 'ALL' && item.risk !== selectedRisk) return false;
       return true;
     });
-  }, [catalog, selectedCategory, selectedDifficulty, selectedRisk]);
+    return sortChallengesByGameDifficulty(matching, difficultySort);
+  }, [catalog, selectedGame, selectedDifficulty, selectedRisk, difficultySort]);
 
-  const categoryCounts = useMemo(() => {
-    const counts = { ALL: (catalog || []).filter((c) => c.enabled !== false).length };
-    MARKET_CATEGORIES.slice(1).forEach((cat) => {
-      counts[cat] = (catalog || []).filter(
-        (c) => c.enabled !== false && c.category === cat
+  const gameCounts = useMemo(() => {
+    const enabledList = (catalog || []).filter((c) => c.enabled !== false);
+    const counts = { ALL: enabledList.length };
+    MARKET_GAMES.slice(1).forEach((gameSpec) => {
+      counts[gameSpec.id] = enabledList.filter(
+        (c) => resolveChallengeGameType(c) === gameSpec.id
       ).length;
     });
     return counts;
   }, [catalog]);
 
   const hasActiveFilters =
-    selectedCategory !== 'ALL' || selectedDifficulty !== 'ALL' || selectedRisk !== 'ALL';
+    selectedGame !== 'ALL' ||
+    selectedDifficulty !== 'ALL' ||
+    selectedRisk !== 'ALL' ||
+    difficultySort !== 'ASC';
 
   const handleResetFilters = () => {
-    setSelectedCategory('ALL');
+    setSelectedGame('ALL');
     setSelectedDifficulty('ALL');
     setSelectedRisk('ALL');
+    setDifficultySort('ASC');
   };
 
   const handleOpenConfirmation = (challenge) => {
@@ -634,6 +757,18 @@ export const ChallengeMarketModule = ({
     }
   };
 
+  const isFilteringAiGame = selectedGame === 'xo4x4' || selectedGame === 'connect4';
+  const getDifficultyFilterButtonLabel = (diff) => {
+    if (diff === 'ALL') return 'ALL';
+    if (isFilteringAiGame) {
+      if (diff === 'LOW') return 'NOOB AI';
+      if (diff === 'MODERATE') return 'ROOKIE AI';
+      if (diff === 'HIGH') return 'SMART AI';
+      if (diff === 'EXTREME') return 'PRO AI';
+    }
+    return diff;
+  };
+
   return (
     <section
       aria-label="Challenge Market"
@@ -657,7 +792,7 @@ export const ChallengeMarketModule = ({
           </div>
 
           <p className="font-editorial text-xs sm:text-sm text-nexus-charcoal max-w-md lg:text-right">
-            Teammates can buy challenges for later or solve multiple challenges simultaneously across devices.
+            Filter by game name and sort by difficulty. Teammates can buy challenges for later or solve simultaneously.
           </p>
         </div>
 
@@ -681,23 +816,23 @@ export const ChallengeMarketModule = ({
           </div>
         )}
 
-        {/* Filters */}
+        {/* Game Name Filters + Difficulty Sort */}
         <div className="mt-3 space-y-2.5">
           <div className="flex flex-wrap items-center justify-between gap-2">
             <div
               role="tablist"
-              aria-label="Filter challenges by category"
+              aria-label="Filter challenges by game name"
               className="flex flex-wrap gap-1.5"
             >
-              {MARKET_CATEGORIES.map((category) => {
-                const isActive = selectedCategory === category;
+              {MARKET_GAMES.map((gameSpec) => {
+                const isActive = selectedGame === gameSpec.id;
                 return (
                   <button
-                    key={category}
+                    key={gameSpec.id}
                     type="button"
                     role="tab"
                     aria-selected={isActive}
-                    onClick={() => setSelectedCategory(category)}
+                    onClick={() => setSelectedGame(gameSpec.id)}
                     className={`px-2.5 sm:px-3 py-1 font-condensed text-xs sm:text-sm font-extrabold uppercase tracking-[0.14em] border-2 border-nexus-ink transition-colors cursor-pointer ${
                       isActive
                         ? 'text-white bg-nexus-crimson'
@@ -705,13 +840,13 @@ export const ChallengeMarketModule = ({
                     }`}
                   >
                     <span className="flex items-center gap-1.5">
-                      <span>{category}</span>
+                      <span>{gameSpec.label}</span>
                       <span
                         className={`font-mono text-[10px] px-1 ${
                           isActive ? 'bg-nexus-ink text-white' : 'bg-nexus-ink/10 text-nexus-ink'
                         }`}
                       >
-                        {categoryCounts[category] ?? 0}
+                        {gameCounts[gameSpec.id] ?? 0}
                       </span>
                     </span>
                   </button>
@@ -730,11 +865,11 @@ export const ChallengeMarketModule = ({
             )}
           </div>
 
-          <div className="pt-2.5 border-t border-dashed border-nexus-ink/25 flex flex-col md:flex-row md:items-center justify-between gap-2">
+          <div className="pt-2.5 border-t border-dashed border-nexus-ink/25 flex flex-col xl:flex-row xl:items-center justify-between gap-2">
             <div className="flex flex-wrap items-center gap-1.5">
               <span className="font-mono text-[10px] font-bold uppercase tracking-widest text-nexus-muted mr-1 flex items-center gap-1">
                 <Filter className="w-3 h-3 text-nexus-crimson" />
-                DIFFICULTY:
+                {isFilteringAiGame ? 'AI SKILL:' : 'DIFFICULTY:'}
               </span>
               {MARKET_DIFFICULTIES.map((diff) => {
                 const active = selectedDifficulty === diff;
@@ -749,10 +884,21 @@ export const ChallengeMarketModule = ({
                         : 'bg-nexus-paper text-nexus-charcoal border-nexus-ink/30 hover:border-nexus-ink'
                     }`}
                   >
-                    {diff}
+                    {getDifficultyFilterButtonLabel(diff)}
                   </button>
                 );
               })}
+
+              <span className="font-mono text-[10px] font-bold uppercase tracking-widest text-nexus-muted ml-2 mr-1">
+                SORT:
+              </span>
+              <button
+                type="button"
+                onClick={() => setDifficultySort((prev) => (prev === 'ASC' ? 'DESC' : 'ASC'))}
+                className="px-2.5 py-0.5 font-mono text-[10px] font-bold uppercase tracking-wider border border-nexus-ink bg-nexus-paper-elevated hover:bg-nexus-crimson hover:text-white text-nexus-ink transition-colors cursor-pointer"
+              >
+                {difficultySort === 'ASC' ? 'EASY → HARD' : 'HARD → EASY'}
+              </button>
             </div>
 
             <div className="flex flex-wrap items-center gap-1.5">
@@ -801,7 +947,7 @@ export const ChallengeMarketModule = ({
             {/* Horizontal Scroll Controls Bar */}
             <div className="flex items-center justify-between gap-3">
               <span className="font-mono text-[10px] sm:text-xs font-bold uppercase tracking-[0.2em] text-nexus-muted">
-                SHOWING {filteredChallenges.length} CHALLENGES (2 ROWS) · SWIPE SIDEWAYS →
+                SHOWING {filteredChallenges.length} CHALLENGES · SORTED BY DIFFICULTY ({difficultySort === 'ASC' ? 'EASY → HARD' : 'HARD → EASY'}) · SWIPE SIDEWAYS →
               </span>
 
               <div className="flex items-center gap-2 shrink-0">
@@ -999,7 +1145,7 @@ export const ChallengeMarketModule = ({
                       <span className="font-mono text-[9px] uppercase tracking-widest text-nexus-crimson font-bold block truncate">
                         {solverName
                           ? `● SOLVING: ${solverName}`
-                          : `${item.category} · +${item.reward || 400} CR`}
+                          : `${getGameNameLabel(item)} · +${item.reward || 400} CR`}
                       </span>
                       <p className="font-display text-lg uppercase tracking-wide text-white truncate">
                         {getFriendlyChallengeTitle(item)}
@@ -1068,7 +1214,7 @@ export const ChallengeMarketModule = ({
                           : 'BUY OR SOLVE CHALLENGE'}
                   </span>
                   <span className="font-mono text-xs text-nexus-paper/75 uppercase">
-                    {inspectingChallenge.category}
+                    {getGameNameLabel(inspectingChallenge)}
                   </span>
                 </div>
 
@@ -1122,10 +1268,10 @@ export const ChallengeMarketModule = ({
 
                   <div className="p-3">
                     <span className="block text-[9px] uppercase tracking-widest text-nexus-paper/60">
-                      DIFFICULTY
+                      {isAiCompetitorGame(inspectingChallenge) ? 'AI SKILL' : 'DIFFICULTY'}
                     </span>
                     <span className="font-bold text-xs uppercase text-nexus-paper">
-                      {inspectingChallenge.difficulty}
+                      {getFriendlyDifficultyLabel(inspectingChallenge)}
                     </span>
                   </div>
 

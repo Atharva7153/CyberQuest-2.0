@@ -15,11 +15,15 @@ import {
 import { BrutalistPanel } from './BrutalistPanel';
 import { SystemBadge } from './SystemBadge';
 import { RiskBadge } from './RiskBadge';
-import { getFriendlyChallengeTitle } from './ChallengeMarketModule';
+import {
+  getFriendlyChallengeTitle,
+  MARKET_GAMES,
+  resolveChallengeGameType,
+  getGameNameLabel,
+} from './ChallengeMarketModule';
 import { useReducedMotion } from '../hooks/useReducedMotion';
 
 const RESULT_FILTERS = ['ALL', 'SUCCESS', 'FAILED', 'TIMEOUT', 'ABANDONED', 'IN_PROGRESS'];
-const CATEGORY_FILTERS = ['ALL', 'LOGIC', 'PUZZLES', 'OBSERVATION', 'KNOWLEDGE', 'TECHNICAL'];
 const RISK_FILTERS = ['ALL', 'SAFE', 'BALANCED', 'AGGRESSIVE'];
 
 const formatFullTimestamp = (isoStr) => {
@@ -157,10 +161,17 @@ export const AttemptHistoryModule = ({
     return buildClientAttemptHistory(team, attempts, catalog);
   }, [attemptHistory, team, attempts, catalog]);
 
+  const catalogById = useMemo(
+    () => new Map((catalog || []).map((c) => [c.challengeId, c])),
+    [catalog]
+  );
+
   const filteredAttempts = useMemo(() => {
     return resolvedHistory.filter((item) => {
       if (resultFilter !== 'ALL' && item.result !== resultFilter) return false;
-      if (categoryFilter !== 'ALL' && item.category !== categoryFilter) return false;
+      const def = catalogById.get(item.challengeId) || {};
+      const itemGameType = resolveChallengeGameType({ ...def, ...item });
+      if (categoryFilter !== 'ALL' && itemGameType !== categoryFilter) return false;
       if (riskFilter !== 'ALL' && item.risk !== riskFilter) return false;
 
       if (searchQuery.trim()) {
@@ -168,15 +179,15 @@ export const AttemptHistoryModule = ({
         const matchTitle = String(getFriendlyChallengeTitle(item))
           .toLowerCase()
           .includes(q);
-        const matchCategory = String(item.category || '')
+        const matchGame = String(getGameNameLabel({ ...def, ...item }))
           .toLowerCase()
           .includes(q);
-        if (!matchTitle && !matchCategory) return false;
+        if (!matchTitle && !matchGame) return false;
       }
 
       return true;
     });
-  }, [resolvedHistory, resultFilter, categoryFilter, riskFilter, searchQuery]);
+  }, [resolvedHistory, catalogById, resultFilter, categoryFilter, riskFilter, searchQuery]);
 
   const summaryMetrics = useMemo(() => {
     const totalAttempts = resolvedHistory.length;
@@ -356,25 +367,25 @@ export const AttemptHistoryModule = ({
               </div>
             </div>
 
-            {/* Category Filter */}
+            {/* Game Filter */}
             <div className="space-y-1.5">
               <span className="font-mono text-[9px] uppercase tracking-widest text-nexus-muted block">
-                CATEGORY
+                GAME
               </span>
               <div className="flex flex-wrap gap-1">
-                {CATEGORY_FILTERS.map((catKey) => (
+                {MARKET_GAMES.map((gameMeta) => (
                   <motion.button
-                    key={catKey}
+                    key={gameMeta.id}
                     type="button"
                     whileTap={prefersReducedMotion ? undefined : { scale: 0.97 }}
-                    onClick={() => setCategoryFilter(catKey)}
+                    onClick={() => setCategoryFilter(gameMeta.id)}
                     className={`px-2 py-1 border font-mono text-[9px] font-bold uppercase tracking-wider cursor-pointer transition-colors ${
-                      categoryFilter === catKey
+                      categoryFilter === gameMeta.id
                         ? 'bg-nexus-ink text-nexus-paper border-nexus-ink'
                         : 'bg-nexus-paper text-nexus-ink border-nexus-ink/30 hover:border-nexus-ink'
                     }`}
                   >
-                    {catKey}
+                    {gameMeta.label}
                   </motion.button>
                 ))}
               </div>
@@ -408,14 +419,14 @@ export const AttemptHistoryModule = ({
 
         {/* ===================================================================
             ATTEMPT HISTORY TABLE
-            Columns: CHALLENGE | CATEGORY | RISK | COST | RESULT | REWARD/PENALTY | TIME
+            Columns: CHALLENGE | GAME | RISK | COST | RESULT | REWARD/PENALTY | TIME
            =================================================================== */}
         <div className="border-2 border-nexus-ink bg-nexus-paper overflow-x-auto">
           <table className="w-full text-left border-collapse">
             <thead>
               <tr className="bg-nexus-ink text-nexus-paper font-mono text-[10px] uppercase tracking-widest border-b-2 border-nexus-ink">
                 <th className="py-3 px-3.5">CHALLENGE</th>
-                <th className="py-3 px-3">CATEGORY</th>
+                <th className="py-3 px-3">GAME</th>
                 <th className="py-3 px-3">RISK</th>
                 <th className="py-3 px-3">COST</th>
                 <th className="py-3 px-3">RESULT</th>
@@ -440,6 +451,8 @@ export const AttemptHistoryModule = ({
                   filteredAttempts.map((item, idx) => {
                     const isSuccess = item.result === 'SUCCESS';
                     const isInProgress = item.result === 'IN_PROGRESS';
+                    const def = catalogById.get(item.challengeId) || {};
+                    const gameLabel = getGameNameLabel({ ...def, ...item });
 
                     return (
                       <motion.tr
@@ -466,10 +479,10 @@ export const AttemptHistoryModule = ({
                           </div>
                         </td>
 
-                        {/* 2. CATEGORY */}
+                        {/* 2. GAME */}
                         <td className="py-3.5 px-3">
                           <span className="px-2 py-0.5 border border-nexus-ink/40 bg-nexus-paper-elevated text-[10px] font-bold uppercase text-nexus-ink">
-                            {item.category}
+                            {gameLabel}
                           </span>
                         </td>
 

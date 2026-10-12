@@ -73,25 +73,58 @@ const LOCAL_CLIENT_URL = sanitizeUrl(
   import.meta.env.VITE_CLIENT_URL || import.meta.env.CLIENT_URL
 );
 
+const isLocalhostUrl = (urlStr) => {
+  return /^https?:\/\/(localhost|127\.0\.0\.1)(:\d+)?(\/|$)/i.test(String(urlStr || '').trim());
+};
+
 const getBrowserOriginFallback = () => {
   if (typeof window === 'undefined') return 'http://localhost:5050';
-  const { hostname, port, origin } = window.location;
+  const { protocol, hostname, port, origin } = window.location;
   const isLocalHost = hostname === 'localhost' || hostname === '127.0.0.1';
-  if (!isLocalHost || port !== '5173') {
+  if (!isLocalHost) {
+    // If accessed via LAN IP on port 5173, Vite proxies /api and /socket.io, or port 5050 is on the same LAN host
+    if (port === '5173') {
+      return `${protocol}//${hostname}:5050`;
+    }
     return origin;
   }
   return 'http://localhost:5050';
 };
 
-export const API_BASE_URL = IS_TESTING
-  ? CLOUDFLARE_API_URL || getBrowserOriginFallback()
-  : LOCAL_API_URL || getBrowserOriginFallback();
+const resolveEffectiveApiUrl = () => {
+  const fallback = getBrowserOriginFallback();
+  const candidate = IS_TESTING ? CLOUDFLARE_API_URL : LOCAL_API_URL;
+  if (!candidate) return fallback;
+  // If browser is on a remote device (LAN IP or tunnel) don't let a localhost env var point to the phone's own localhost
+  if (
+    typeof window !== 'undefined' &&
+    window.location.hostname !== 'localhost' &&
+    window.location.hostname !== '127.0.0.1' &&
+    isLocalhostUrl(candidate)
+  ) {
+    return fallback;
+  }
+  return candidate;
+};
 
-export const SOCKET_URL = IS_TESTING
-  ? CLOUDFLARE_SOCKET_URL || API_BASE_URL
-  : LOCAL_SOCKET_URL || getBrowserOriginFallback();
+export const API_BASE_URL = resolveEffectiveApiUrl();
+
+export const SOCKET_URL = (() => {
+  const candidate = IS_TESTING ? CLOUDFLARE_SOCKET_URL : LOCAL_SOCKET_URL;
+  if (!candidate) return API_BASE_URL;
+  if (
+    typeof window !== 'undefined' &&
+    window.location.hostname !== 'localhost' &&
+    window.location.hostname !== '127.0.0.1' &&
+    isLocalhostUrl(candidate)
+  ) {
+    return API_BASE_URL;
+  }
+  return candidate;
+})();
 
 export const CLIENT_URL = IS_TESTING
   ? CLOUDFLARE_CLIENT_URL ||
     (typeof window !== 'undefined' ? window.location.origin : 'http://localhost:5173')
-  : LOCAL_CLIENT_URL || 'http://localhost:5173';
+  : LOCAL_CLIENT_URL ||
+    (typeof window !== 'undefined' ? window.location.origin : 'http://localhost:5173');

@@ -20,8 +20,11 @@ export const Connect4Game = ({
   onDraftChange,
   onSubmitAnswer,
 }) => {
-  const config = useMemo(() => normalizeConnect4Config(gameConfig), [gameConfig]);
-  const { instructions } = config;
+  const config = useMemo(
+    () => normalizeConnect4Config(gameConfig, challenge?.difficulty),
+    [gameConfig, challenge?.difficulty]
+  );
+  const { instructions, aiTier } = config;
   const isLocked = Boolean(actionPending || disabled);
 
   const [board, setBoard] = useState(() => createEmptyConnect4Board());
@@ -85,7 +88,11 @@ export const Connect4Game = ({
     // AI Turn
     setIsAiThinking(true);
     setTimeout(() => {
-      const aiCol = chooseConnect4AiColumn(nextBoard);
+      const aiCol = chooseConnect4AiColumn(
+        nextBoard,
+        aiTier?.id || challenge?.difficulty,
+        nextMoves.length
+      );
       const aiRow = getDropRow(nextBoard, aiCol);
       if (aiCol >= 0 && aiRow >= 0) {
         const afterAi = nextBoard.map((row) => [...row]);
@@ -144,7 +151,7 @@ export const Connect4Game = ({
           ) : (
             <span className="px-2.5 py-1 bg-nexus-ink text-nexus-paper inline-flex items-center gap-1">
               <Cpu className="w-3.5 h-3.5 text-nexus-crimson" />
-              {isAiThinking ? 'AI THINKING...' : 'YOUR TURN (DROP DISC)'}
+              {isAiThinking ? `${aiTier?.label || 'AI'} THINKING...` : 'YOUR TURN (DROP DISC)'}
             </span>
           )}
         </div>
@@ -160,7 +167,9 @@ export const Connect4Game = ({
           </span>
         </div>
         <div className="p-2.5 border-2 border-nexus-ink bg-nexus-paper-elevated text-nexus-ink flex items-center justify-between">
-          <span className="text-[10px] uppercase tracking-widest text-nexus-muted">AI OPPONENT</span>
+          <span className="text-[10px] uppercase tracking-widest text-nexus-crimson font-bold">
+            {aiTier?.badge || 'NOOB AI (EASY)'}
+          </span>
           <span className="flex items-center gap-1.5 font-bold text-nexus-ink">
             <span className="w-3.5 h-3.5 rounded-full bg-[#f4f0e8] border-2 border-nexus-ink inline-block" />
             IVORY AI

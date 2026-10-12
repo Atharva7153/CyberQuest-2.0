@@ -46,8 +46,13 @@ services:
       NODE_ENV: ${NODE_ENV:-production}
       PORT: ${PORT:-5050}
       MONGO_URI: ${DOCKER_MONGO_URI:-mongodb://mongodb:27017/nexus}
+      TESTING: ${TESTING:-false}
       CLIENT_URL: ${CLIENT_URL:-http://localhost:5173}
       SOCKET_URL: ${SOCKET_URL:-http://localhost:5050}
+      CLOUDFLARE_URL: ${CLOUDFLARE_URL:-}
+      CLOUDFLARE_CLIENT_URL: ${CLOUDFLARE_CLIENT_URL:-}
+      CLOUDFLARE_API_URL: ${CLOUDFLARE_API_URL:-}
+      CLOUDFLARE_SOCKET_URL: ${CLOUDFLARE_SOCKET_URL:-}
       JWT_SECRET: ${JWT_SECRET:-nexus_core_authoritative_secret_key_2026}
       JWT_EXPIRES_IN: ${JWT_EXPIRES_IN:-8h}
       STARTING_CREDITS: ${STARTING_CREDITS:-1250}
@@ -56,6 +61,8 @@ services:
       CREDIT_REATTEMPT_MULTIPLIER: ${CREDIT_REATTEMPT_MULTIPLIER:-1.25}
       SYSTEM_DESIGNATION: ${SYSTEM_DESIGNATION:-NEXUS-CORE-01}
       SYSTEM_VERSION: ${SYSTEM_VERSION:-1.0.0-NEXUS-FINAL}
+    volumes:
+      - ./server/logs:/app/logs
     depends_on:
       mongodb:
         condition: service_healthy
@@ -77,19 +84,31 @@ services:
       dockerfile: Dockerfile
       target: ${DOCKER_BUILD_TARGET:-production}
       args:
+        TESTING: ${TESTING:-false}
         CLIENT_URL: ${CLIENT_URL:-http://localhost:5173}
         SOCKET_URL: ${SOCKET_URL:-http://localhost:5050}
         VITE_API_BASE_URL: ${VITE_API_BASE_URL:-http://localhost:5050}
         VITE_SOCKET_URL: ${VITE_SOCKET_URL:-http://localhost:5050}
+        CLOUDFLARE_URL: ${CLOUDFLARE_URL:-}
+        CLOUDFLARE_CLIENT_URL: ${CLOUDFLARE_CLIENT_URL:-}
+        CLOUDFLARE_API_URL: ${CLOUDFLARE_API_URL:-}
+        CLOUDFLARE_SOCKET_URL: ${CLOUDFLARE_SOCKET_URL:-}
+        VITE_CLOUDFLARE_URL: ${VITE_CLOUDFLARE_URL:-}
     container_name: nexus-client
     restart: unless-stopped
     ports:
       - "${CLIENT_PORT:-5173}:5173"
     environment:
+      TESTING: ${TESTING:-false}
       CLIENT_URL: ${CLIENT_URL:-http://localhost:5173}
       SOCKET_URL: ${SOCKET_URL:-http://localhost:5050}
       VITE_API_BASE_URL: ${VITE_API_BASE_URL:-http://localhost:5050}
       VITE_SOCKET_URL: ${VITE_SOCKET_URL:-http://localhost:5050}
+      CLOUDFLARE_URL: ${CLOUDFLARE_URL:-}
+      CLOUDFLARE_CLIENT_URL: ${CLOUDFLARE_CLIENT_URL:-}
+      CLOUDFLARE_API_URL: ${CLOUDFLARE_API_URL:-}
+      CLOUDFLARE_SOCKET_URL: ${CLOUDFLARE_SOCKET_URL:-}
+      VITE_CLOUDFLARE_URL: ${VITE_CLOUDFLARE_URL:-}
       DOCKER_API_TARGET: http://server:${PORT:-5050}
     depends_on:
       server:

@@ -7,13 +7,10 @@ server/node_modules/
 client/dist/
 dist/
 
-# Environment variables
-.env
+# Environment variables (keep .env, client/.env, server/.env tracked for portable setup)
 .env.local
 .env.*.local
-client/.env
 client/.env.local
-server/.env
 server/.env.local
 
 # Logs & OS

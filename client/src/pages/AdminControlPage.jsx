@@ -40,6 +40,11 @@ import { AdminRecordingModal } from '../components/AdminRecordingModal';
 import {
   getFriendlyChallengeTitle,
   getFriendlyChallengeDescription,
+  MARKET_GAMES,
+  resolveChallengeGameType,
+  getGameNameLabel,
+  getFriendlyDifficultyLabel,
+  sortChallengesByGameDifficulty,
 } from '../components/ChallengeMarketModule';
 import { API_BASE_URL } from '../config/runtimeConfig';
 
@@ -517,15 +522,20 @@ export const AdminControlPage = () => {
     });
   }, [adminState?.teams, teamFilter, teamSearch]);
 
-  // Filtered challenges
+  // Filtered & sorted challenges (by Game Name + Difficulty)
   const filteredChallenges = useMemo(() => {
     const list = adminState?.challenges || [];
-    return list.filter((chg) => {
-      if (challengeCategoryFilter !== 'ALL' && chg.category !== challengeCategoryFilter)
+    const matching = list.filter((chg) => {
+      if (
+        challengeCategoryFilter !== 'ALL' &&
+        resolveChallengeGameType(chg) !== challengeCategoryFilter
+      ) {
         return false;
+      }
       if (!challengeSearch.trim()) return true;
       const q = challengeSearch.trim().toLowerCase();
       const friendlyTitle = getFriendlyChallengeTitle(chg).toLowerCase();
+      const gameLabel = getGameNameLabel(chg).toLowerCase();
       return (
         String(chg.challengeId || '')
           .toLowerCase()
@@ -534,11 +544,13 @@ export const AdminControlPage = () => {
           .toLowerCase()
           .includes(q) ||
         friendlyTitle.includes(q) ||
+        gameLabel.includes(q) ||
         String(chg.gameType || '')
           .toLowerCase()
           .includes(q)
       );
     });
+    return sortChallengesByGameDifficulty(matching, 'ASC');
   }, [adminState?.challenges, challengeCategoryFilter, challengeSearch]);
 
   // Team lookup map for Live Events
@@ -3116,33 +3128,55 @@ export const AdminControlPage = () => {
            ======================================================================= */}
         {activeTabId === 'challenges' && (
           <div className="space-y-5">
-            <div className="bg-white border-2 border-[#111111] p-4 flex flex-wrap items-center justify-between gap-3">
-              <div>
-                <h2 className="font-display text-2xl uppercase text-[#111111]">
-                  Challenge Market Catalog
-                </h2>
-                <p className="text-xs font-mono text-neutral-600">
-                  Enable or disable games and edit entry cost, reward, or time limit.
-                </p>
-              </div>
-              <div className="flex flex-wrap items-center gap-2 font-mono text-xs">
-                <div className="relative">
-                  <Search className="w-3.5 h-3.5 text-neutral-400 absolute left-2.5 top-1/2 -translate-y-1/2" />
-                  <input
-                    type="text"
-                    value={challengeSearch}
-                    onChange={(e) => setChallengeSearch(e.target.value)}
-                    placeholder="Search challenge..."
-                    className="pl-8 pr-3 py-1.5 bg-[#FAF9F5] border border-neutral-300 focus:border-[#111111] text-xs"
-                  />
+            <div className="bg-white border-2 border-[#111111] p-4 space-y-3">
+              <div className="flex flex-wrap items-center justify-between gap-3">
+                <div>
+                  <h2 className="font-display text-2xl uppercase text-[#111111]">
+                    Challenge Market Catalog
+                  </h2>
+                  <p className="text-xs font-mono text-neutral-600">
+                    Filter by game name, sorted by difficulty (and AI noobness for AI games).
+                  </p>
                 </div>
-                <button
-                  type="button"
-                  onClick={openCreateChallenge}
-                  className="px-3.5 py-2 bg-[#E11D2E] hover:bg-[#111111] text-white font-bold uppercase inline-flex items-center gap-1.5 cursor-pointer"
-                >
-                  <Plus className="w-3.5 h-3.5" /> Add Challenge
-                </button>
+                <div className="flex flex-wrap items-center gap-2 font-mono text-xs">
+                  <div className="relative">
+                    <Search className="w-3.5 h-3.5 text-neutral-400 absolute left-2.5 top-1/2 -translate-y-1/2" />
+                    <input
+                      type="text"
+                      value={challengeSearch}
+                      onChange={(e) => setChallengeSearch(e.target.value)}
+                      placeholder="Search challenge..."
+                      className="pl-8 pr-3 py-1.5 bg-[#FAF9F5] border border-neutral-300 focus:border-[#111111] text-xs"
+                    />
+                  </div>
+                  <button
+                    type="button"
+                    onClick={openCreateChallenge}
+                    className="px-3.5 py-2 bg-[#E11D2E] hover:bg-[#111111] text-white font-bold uppercase inline-flex items-center gap-1.5 cursor-pointer"
+                  >
+                    <Plus className="w-3.5 h-3.5" /> Add Challenge
+                  </button>
+                </div>
+              </div>
+
+              <div className="flex flex-wrap items-center gap-1.5 pt-2 border-t border-neutral-200 font-mono text-xs">
+                {MARKET_GAMES.map((gameMeta) => {
+                  const isActive = challengeCategoryFilter === gameMeta.id;
+                  return (
+                    <button
+                      key={gameMeta.id}
+                      type="button"
+                      onClick={() => setChallengeCategoryFilter(gameMeta.id)}
+                      className={`px-2.5 py-1 border font-bold uppercase cursor-pointer transition-colors ${
+                        isActive
+                          ? 'bg-[#111111] text-white border-[#111111]'
+                          : 'bg-[#FAF9F5] text-neutral-700 border-neutral-300 hover:border-[#111111]'
+                      }`}
+                    >
+                      {gameMeta.label}
+                    </button>
+                  );
+                })}
               </div>
             </div>
 
@@ -3164,7 +3198,7 @@ export const AdminControlPage = () => {
                       <div className="flex items-start justify-between gap-2">
                         <div>
                           <span className="font-mono text-[10px] font-bold uppercase px-2 py-0.5 bg-neutral-100 border border-neutral-300 text-neutral-700">
-                            {chg.category} · {chg.difficulty}
+                            {getGameNameLabel(chg)} · {getFriendlyDifficultyLabel(chg)}
                           </span>
                           <h3 className="font-display text-2xl uppercase text-[#111111] mt-1">
                             {friendlyTitle}

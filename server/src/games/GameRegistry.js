@@ -32,7 +32,7 @@ export const validateSudokuServer = (submission, challenge) => {
   const initialGrid = Array.isArray(gameConfig.initialGrid) ? gameConfig.initialGrid : [];
   const size = Number(gameConfig.size) || initialGrid.length || 6;
   const boxRows = Number(gameConfig.boxRows) || (size === 9 ? 3 : 2);
-  const boxCols = Number(gameConfig.boxCols) || (size === 9 ? 3 : 3);
+  const boxCols = Number(gameConfig.boxCols) || (size === 9 ? 3 : size === 4 ? 2 : 3);
 
   let grid = null;
   if (Array.isArray(submission?.grid) && submission.grid.length === size) {
