@@ -1,5 +1,6 @@
 import {
   authenticateTeam,
+  verifyTeamCredentials,
   getPublicTeamRoster,
   getTeamStateById,
   executeTeamAction,
@@ -43,6 +44,19 @@ export const getTeamRosterPublic = async (req, res, next) => {
         message: 'Team not found.',
       });
     }
+    res.status(200).json({
+      status: 'ok',
+      roster,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const verifyTeamLoginStep = async (req, res, next) => {
+  try {
+    const { teamId, password } = req.body || {};
+    const roster = await verifyTeamCredentials(teamId, password);
     res.status(200).json({
       status: 'ok',
       roster,

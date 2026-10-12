@@ -41,13 +41,7 @@ import {
   getFriendlyChallengeTitle,
   getFriendlyChallengeDescription,
 } from '../components/ChallengeMarketModule';
-
-const API_BASE_URL =
-  import.meta.env.VITE_API_BASE_URL ||
-  import.meta.env.VITE_API_URL ||
-  (typeof window !== 'undefined' && window.location.port !== '5173'
-    ? window.location.origin
-    : 'http://localhost:5050');
+import { API_BASE_URL } from '../config/runtimeConfig';
 
 const ADMIN_TOKEN_KEY = 'nexus_admin_token';
 const ADMIN_OPERATOR_KEY = 'nexus_admin_operator';
@@ -76,13 +70,20 @@ const TEAM_SIZE_MODES = [
   { size: 4, tag: 'SQUAD', label: 'Squad (Max 4)' },
 ];
 
-const ROUND_TIME_PRESETS = [30, 45, 60, 90, 120, 135];
+const ROUND_TIME_PRESETS = [5, 15, 30, 45, 60, 90, 120, 135];
 
-const NAV_TABS = [
+const ADMIN_NAV_TABS = [
   { path: '/admin/events', id: 'events', label: 'Round Control', icon: Flame },
-  { path: '/admin/teams', id: 'teams', label: 'Teams', icon: Users },
+  { path: '/admin/teams', id: 'teams', label: 'Teams & Passwords', icon: Users },
+  { path: '/admin/leaderboard', id: 'leaderboard', label: 'Leaderboard', icon: Trophy },
+  { path: '/admin/volunteers', id: 'volunteers', label: 'Floor Volunteers', icon: UserPlus },
   { path: '/admin/attempts', id: 'attempts', label: 'Live Events', icon: Activity },
   { path: '/admin/challenges', id: 'challenges', label: 'Challenges', icon: Gamepad2 },
+];
+
+const VOLUNTEER_NAV_TABS = [
+  { path: '/admin/teams', id: 'teams', label: 'Teams & Passwords', icon: Users },
+  { path: '/admin/leaderboard', id: 'leaderboard', label: 'Leaderboard', icon: Trophy },
 ];
 
 const formatDurationClock = (seconds, forceHours = false) => {
@@ -155,6 +156,9 @@ export const AdminControlPage = () => {
   const [authError, setAuthError] = useState('');
   const [authLoading, setAuthLoading] = useState(false);
 
+  const isVolunteer = operator?.role === 'VOLUNTEER';
+  const visibleNavTabs = isVolunteer ? VOLUNTEER_NAV_TABS : ADMIN_NAV_TABS;
+
   // Control System State
   const [adminState, setAdminState] = useState(null);
   const [socketConnected, setSocketConnected] = useState(false);
@@ -176,6 +180,13 @@ export const AdminControlPage = () => {
   const [regMembers, setRegMembers] = useState(['', '', '', '']);
   const [lastCreatedTeam, setLastCreatedTeam] = useState(null);
   const [copiedTeamId, setCopiedTeamId] = useState(false);
+  const [copiedCredentialKey, setCopiedCredentialKey] = useState(null);
+
+  // Floor Volunteer Management state (Admin only)
+  const [volName, setVolName] = useState('');
+  const [volOperatorId, setVolOperatorId] = useState('');
+  const [volPassword, setVolPassword] = useState('NEXUS-VOL-2026');
+  const [volSector, setVolSector] = useState('FLOOR-1');
 
   // Team Search, Filter & Quick Edit state
   const [teamSearch, setTeamSearch] = useState('');
@@ -433,14 +444,47 @@ export const AdminControlPage = () => {
     [nowMs, serverOffsetMs]
   );
 
-  // Determine active route section
+  // Determine active route section (Floor Volunteers only see 'teams' or 'leaderboard')
   const activeTabId = useMemo(() => {
     const p = location.pathname.replace(/\/+$/, '');
+    if (isVolunteer) {
+      if (p === '/admin/leaderboard') return 'leaderboard';
+      return 'teams';
+    }
+    if (p === '/admin/leaderboard') return 'leaderboard';
+    if (p === '/admin/volunteers') return 'volunteers';
     if (p === '/admin/challenges') return 'challenges';
     if (p === '/admin/attempts') return 'attempts';
     if (p === '/admin/teams') return 'teams';
     return 'events';
-  }, [location.pathname]);
+  }, [location.pathname, isVolunteer]);
+
+  // Live Leaderboard sorted by credits descending, then solved descending
+  const liveLeaderboard = useMemo(() => {
+    if (Array.isArray(adminState?.leaderboard) && adminState.leaderboard.length > 0) {
+      return adminState.leaderboard;
+    }
+    const list = [...(adminState?.teams || [])];
+    list.sort((a, b) => {
+      const crDiff = Number(b.credits || 0) - Number(a.credits || 0);
+      if (crDiff !== 0) return crDiff;
+      const solvedDiff =
+        Number(b.completedChallenges?.length || 0) - Number(a.completedChallenges?.length || 0);
+      if (solvedDiff !== 0) return solvedDiff;
+      return String(a.teamId || '').localeCompare(String(b.teamId || ''));
+    });
+    return list.map((team, idx) => ({
+      rank: idx + 1,
+      teamId: team.teamId,
+      teamName: team.teamName || team.teamId,
+      credits: Number(team.credits || 0),
+      totalSolved: Number(team.completedChallenges?.length || 0),
+      totalFailed: Number(team.failedChallenges?.length || 0),
+      coreState: team.coreState || 'LOCKED',
+      online: Boolean(team.connectionState?.connected),
+      members: Array.isArray(team.members) ? team.members : [],
+    }));
+  }, [adminState?.leaderboard, adminState?.teams]);
 
   // Filtered teams for Teams tab
   const filteredTeams = useMemo(() => {
@@ -661,6 +705,9 @@ export const AdminControlPage = () => {
       setOperator(data.operator);
       applyServerState(data.state);
       showToast(`Signed in as ${data.operator.operatorId}`, 'success');
+      if (data.operator?.role === 'VOLUNTEER') {
+        navigate('/admin/teams');
+      }
     } catch (err) {
       setAuthError(err.message);
     } finally {
@@ -698,7 +745,7 @@ export const AdminControlPage = () => {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify(body),
+        body: method === 'DELETE' && !body ? undefined : JSON.stringify(body || {}),
       });
       const data = await res.json();
       if (!res.ok) {
@@ -716,6 +763,55 @@ export const AdminControlPage = () => {
     } finally {
       setPendingKey(null);
     }
+  };
+
+  // Create Floor Volunteer handler (Admin only)
+  const handleCreateVolunteer = async (e) => {
+    e.preventDefault();
+    const cleanName = volName.trim().toUpperCase();
+    const cleanId = volOperatorId.trim().toUpperCase();
+    const cleanPassword = volPassword.trim() || 'NEXUS-VOL-2026';
+    const cleanSector = volSector.trim().toUpperCase() || 'FLOOR-1';
+
+    if (!cleanName && !cleanId) {
+      showToast('Please enter a Volunteer Name or Operator ID.', 'error');
+      return;
+    }
+
+    const res = await executeAdminApi(
+      '/api/admin/volunteers',
+      'POST',
+      {
+        name: cleanName || cleanId,
+        operatorId: cleanId || undefined,
+        password: cleanPassword,
+        sector: cleanSector,
+      },
+      {
+        key: 'create-volunteer',
+        successMessage: `Created Floor Volunteer ${cleanName || cleanId}`,
+      }
+    );
+
+    if (res) {
+      setVolName('');
+      setVolOperatorId('');
+      setVolPassword('NEXUS-VOL-2026');
+    }
+  };
+
+  // Delete Floor Volunteer handler (Admin only)
+  const handleDeleteVolunteer = async (operatorIdToDelete) => {
+    if (!window.confirm(`Delete Floor Volunteer ${operatorIdToDelete}?`)) return;
+    await executeAdminApi(
+      `/api/admin/volunteers/${encodeURIComponent(operatorIdToDelete)}`,
+      'DELETE',
+      null,
+      {
+        key: `del-vol-${operatorIdToDelete}`,
+        successMessage: `Removed Floor Volunteer ${operatorIdToDelete}`,
+      }
+    );
   };
 
   // Register New Team handler
@@ -992,6 +1088,10 @@ export const AdminControlPage = () => {
               roundEndedAt: null,
             };
           } else if (cmd === 'CLEAR_WINNER') {
+            next.globalTimer = {
+              ...currentGt,
+              declaredWinner: null,
+            };
             next.coreStatus = {
               ...(prev.coreStatus || {}),
               declaredWinner: null,
@@ -1006,6 +1106,43 @@ export const AdminControlPage = () => {
             cmd === 'CORE_REVEAL'
           ) {
             next.coreStatus = { ...(prev.coreStatus || {}), state: 'AVAILABLE' };
+          } else if (cmd === 'RESET_ALL' || cmd === 'RESET') {
+            const durSec =
+              Number(currentGt.totalDurationSeconds) || (Number(customTimerMinutes) || 45) * 60;
+            const startingCr = Number(prev.settings?.startingCredits ?? 1250);
+            next.globalTimer = {
+              ...currentGt,
+              status: 'PAUSED',
+              remainingSeconds: durSec,
+              totalDurationSeconds: durSec,
+              countdownRemainingSeconds: 0,
+              countdownTargetTimestamp: null,
+              formatted: formatDurationClock(durSec, true),
+              targetTimestamp: null,
+              roundStartedAt: null,
+              roundEndedAt: null,
+            };
+            next.coreStatus = {
+              ...(prev.coreStatus || {}),
+              state: 'LOCKED',
+              declaredWinner: null,
+              winner: null,
+            };
+            if (Array.isArray(prev.teams)) {
+              next.teams = prev.teams.map((t) => ({
+                ...t,
+                credits: startingCr,
+                totalSolved: 0,
+                completedChallenges: [],
+                failedChallenges: [],
+                purchasedChallenges: [],
+                activeAttempt: null,
+                activeTimer: null,
+                attemptHistory: [],
+                recentTransactions: [],
+              }));
+            }
+            next.attempts = [];
           }
           return next;
         },
@@ -1013,7 +1150,7 @@ export const AdminControlPage = () => {
     );
   };
 
-  // Dedicated helpers for Round Start, Countdown Launch, Pause/Resume, End, Total Time, and Winner Declaration
+  // Dedicated helpers for Round Start, Countdown Launch, Pause/Resume, End, Total Time, Reset, and Winner Declaration
   const handleStartRound = () => {
     const mins = Math.max(1, Number(customTimerMinutes) || 135);
     const durSec = mins * 60;
@@ -1064,6 +1201,57 @@ export const AdminControlPage = () => {
 
   const handleEndRound = () => {
     handleEventCommand('END', {}, 'Round Ended & #1 Winner Declared!');
+  };
+
+  // Password-protected Global Reset Modal state
+  const [showResetModal, setShowResetModal] = useState(false);
+  const [resetPasswordInput, setResetPasswordInput] = useState('');
+  const [resetPasswordError, setResetPasswordError] = useState('');
+  const [resetSubmitting, setResetSubmitting] = useState(false);
+
+  const handleResetEverythingToZero = () => {
+    setResetPasswordInput('');
+    setResetPasswordError('');
+    setShowResetModal(true);
+  };
+
+  const handleConfirmGlobalReset = async (e) => {
+    if (e?.preventDefault) e.preventDefault();
+    const trimmedPass = String(resetPasswordInput || '').trim();
+    if (!trimmedPass) {
+      setResetPasswordError('Admin Reset Password is required to reset the arena.');
+      return;
+    }
+    setResetPasswordError('');
+    setResetSubmitting(true);
+    try {
+      const res = await fetch(`${API_BASE_URL}/api/admin/events/control`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          command: 'RESET_ALL',
+          payload: { resetPassword: trimmedPass },
+        }),
+      });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) {
+        setResetPasswordError(
+          data.message || data.error || 'Invalid Admin Reset Password. Global reset denied.'
+        );
+        return;
+      }
+      applyServerState(data);
+      setShowResetModal(false);
+      setResetPasswordInput('');
+      showToast('Global Reset complete — all teams & challenges restored to 0!', 'success');
+    } catch (err) {
+      setResetPasswordError(err.message || 'Network error while executing global reset.');
+    } finally {
+      setResetSubmitting(false);
+    }
   };
 
   const handleApplyTotalTime = (overrideMins) => {
@@ -1381,8 +1569,13 @@ export const AdminControlPage = () => {
               <div className="w-3 h-3 bg-[#E11D2E] shrink-0" />
               <div className="flex items-center gap-2">
                 <span className="font-display text-lg sm:text-xl tracking-wide uppercase text-[#111111]">
-                  CYBER QUEST ADMIN
+                  {isVolunteer ? 'CYBER QUEST VOLUNTEER' : 'CYBER QUEST ADMIN'}
                 </span>
+                {isVolunteer && (
+                  <span className="px-2 py-0.5 bg-amber-100 text-amber-900 border border-amber-400 font-mono text-[10px] font-bold uppercase">
+                    FLOOR VOLUNTEER · VIEW ONLY
+                  </span>
+                )}
                 <span
                   className={`inline-flex items-center gap-1 px-2 py-0.5 text-[10px] font-mono font-bold uppercase border ${
                     socketConnected
@@ -1399,36 +1592,50 @@ export const AdminControlPage = () => {
                 </span>
               </div>
 
-              {/* Compact Round Status Pill -> Click to open Round Control */}
-              <Link
-                to="/admin/events"
-                className="inline-flex items-center gap-1.5 sm:gap-2 sm:ml-2 px-2.5 sm:px-3 py-1 bg-[#0B0C10] text-white border border-[#111111] hover:border-[#E11D2E] font-mono text-[11px] sm:text-xs transition-colors"
-                title="Open Round Control Deck"
-              >
-                <Clock className="w-3.5 h-3.5 text-[#E11D2E] shrink-0" />
-                <span className="font-bold tracking-wider">
-                  {liveGlobalTimer.status === 'COUNTDOWN'
-                    ? `T-${liveGlobalTimer.countdownRemainingSeconds}s`
-                    : liveGlobalTimer.formatted}
-                </span>
-                <span
-                  className={`px-1.5 py-0.5 text-[9px] font-bold uppercase ${
-                    liveGlobalTimer.status === 'ACTIVE'
-                      ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/40'
-                      : liveGlobalTimer.status === 'COUNTDOWN'
-                        ? 'bg-[#E11D2E] text-white animate-pulse'
-                        : liveGlobalTimer.status === 'ENDED'
-                          ? 'bg-red-500/20 text-red-300 border border-red-500/40'
-                          : 'bg-amber-500/20 text-amber-300 border border-amber-500/40'
-                  }`}
+              {/* Compact Round Status Pill (Link to Round Control for Admin, Read-only badge for Volunteer) */}
+              {isVolunteer ? (
+                <div className="inline-flex items-center gap-1.5 sm:gap-2 sm:ml-2 px-2.5 sm:px-3 py-1 bg-[#0B0C10] text-white border border-[#111111] font-mono text-[11px] sm:text-xs">
+                  <Clock className="w-3.5 h-3.5 text-[#E11D2E] shrink-0" />
+                  <span className="font-bold tracking-wider">
+                    {liveGlobalTimer.status === 'COUNTDOWN'
+                      ? `T-${liveGlobalTimer.countdownRemainingSeconds}s`
+                      : liveGlobalTimer.formatted}
+                  </span>
+                  <span className="px-1.5 py-0.5 text-[9px] font-bold uppercase bg-white/15 text-white">
+                    {liveGlobalTimer.status === 'ACTIVE' ? 'RUNNING' : liveGlobalTimer.status}
+                  </span>
+                </div>
+              ) : (
+                <Link
+                  to="/admin/events"
+                  className="inline-flex items-center gap-1.5 sm:gap-2 sm:ml-2 px-2.5 sm:px-3 py-1 bg-[#0B0C10] text-white border border-[#111111] hover:border-[#E11D2E] font-mono text-[11px] sm:text-xs transition-colors"
+                  title="Open Round Control Deck"
                 >
-                  {liveGlobalTimer.status === 'ACTIVE'
-                    ? 'RUNNING'
-                    : liveGlobalTimer.status === 'COUNTDOWN'
-                      ? 'COUNTDOWN'
-                      : liveGlobalTimer.status}
-                </span>
-              </Link>
+                  <Clock className="w-3.5 h-3.5 text-[#E11D2E] shrink-0" />
+                  <span className="font-bold tracking-wider">
+                    {liveGlobalTimer.status === 'COUNTDOWN'
+                      ? `T-${liveGlobalTimer.countdownRemainingSeconds}s`
+                      : liveGlobalTimer.formatted}
+                  </span>
+                  <span
+                    className={`px-1.5 py-0.5 text-[9px] font-bold uppercase ${
+                      liveGlobalTimer.status === 'ACTIVE'
+                        ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/40'
+                        : liveGlobalTimer.status === 'COUNTDOWN'
+                          ? 'bg-[#E11D2E] text-white animate-pulse'
+                          : liveGlobalTimer.status === 'ENDED'
+                            ? 'bg-red-500/20 text-red-300 border border-red-500/40'
+                            : 'bg-amber-500/20 text-amber-300 border border-amber-500/40'
+                    }`}
+                  >
+                    {liveGlobalTimer.status === 'ACTIVE'
+                      ? 'RUNNING'
+                      : liveGlobalTimer.status === 'COUNTDOWN'
+                        ? 'COUNTDOWN'
+                        : liveGlobalTimer.status}
+                  </span>
+                </Link>
+              )}
 
               <div className="hidden lg:flex items-center gap-2 pl-2 border-l border-neutral-200 font-mono text-xs">
                 <span className="px-2 py-0.5 bg-neutral-100 border border-neutral-300 font-bold">
@@ -1441,51 +1648,55 @@ export const AdminControlPage = () => {
             </div>
 
             <div className="flex flex-wrap items-center gap-1.5 sm:gap-2 font-mono text-xs">
-              {/* Compact Recording & Anomaly Report Controls */}
-              {adminState?.recording?.isRecording ? (
-                <div className="flex items-center gap-1.5">
-                  <button
-                    type="button"
-                    onClick={handleStopRecording}
-                    disabled={pendingKey === 'recording-stop'}
-                    className="px-2 sm:px-2.5 py-1.5 bg-[#E11D2E] hover:bg-red-700 text-white font-bold uppercase text-[10px] sm:text-[11px] inline-flex items-center gap-1.5 cursor-pointer"
-                    title="Stop Recording and Open Full Anomaly & Activity Report"
-                  >
-                    <span className="w-2 h-2 rounded-full bg-white animate-ping inline-block" />
-                    <span>
-                      Stop Rec ({adminState.recording.activeRecording?.summary?.totalEvents || 0})
-                    </span>
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => setShowRecordingModal(true)}
-                    className="px-2 py-1.5 bg-white text-[#111111] hover:bg-neutral-100 font-bold uppercase text-[10px] sm:text-[11px] border border-[#111111] cursor-pointer"
-                  >
-                    Live Report
-                  </button>
-                </div>
-              ) : (
-                <div className="flex items-center gap-1.5">
-                  <button
-                    type="button"
-                    onClick={handleStartRecording}
-                    disabled={pendingKey === 'recording-start'}
-                    className="px-2 sm:px-2.5 py-1.5 bg-[#111111] hover:bg-[#E11D2E] text-white font-bold uppercase text-[10px] sm:text-[11px] inline-flex items-center gap-1.5 cursor-pointer transition-colors"
-                    title="Start recording all game events to detect anomalies"
-                  >
-                    <span className="w-2 h-2 rounded-full bg-[#E11D2E] inline-block" />
-                    <span>Record</span>
-                  </button>
-                  {adminState?.recording?.latestReport && (
-                    <button
-                      type="button"
-                      onClick={() => setShowRecordingModal(true)}
-                      className="px-2 py-1.5 bg-white text-[#111111] hover:bg-neutral-100 font-bold uppercase text-[10px] sm:text-[11px] border border-[#111111] cursor-pointer"
-                    >
-                      Report
-                    </button>
+              {/* Compact Recording & Anomaly Report Controls (Admin Only) */}
+              {!isVolunteer && (
+                <>
+                  {adminState?.recording?.isRecording ? (
+                    <div className="flex items-center gap-1.5">
+                      <button
+                        type="button"
+                        onClick={handleStopRecording}
+                        disabled={pendingKey === 'recording-stop'}
+                        className="px-2 sm:px-2.5 py-1.5 bg-[#E11D2E] hover:bg-red-700 text-white font-bold uppercase text-[10px] sm:text-[11px] inline-flex items-center gap-1.5 cursor-pointer"
+                        title="Stop Recording and Open Full Anomaly & Activity Report"
+                      >
+                        <span className="w-2 h-2 rounded-full bg-white animate-ping inline-block" />
+                        <span>
+                          Stop Rec ({adminState.recording.activeRecording?.summary?.totalEvents || 0})
+                        </span>
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => setShowRecordingModal(true)}
+                        className="px-2 py-1.5 bg-white text-[#111111] hover:bg-neutral-100 font-bold uppercase text-[10px] sm:text-[11px] border border-[#111111] cursor-pointer"
+                      >
+                        Live Report
+                      </button>
+                    </div>
+                  ) : (
+                    <div className="flex items-center gap-1.5">
+                      <button
+                        type="button"
+                        onClick={handleStartRecording}
+                        disabled={pendingKey === 'recording-start'}
+                        className="px-2 sm:px-2.5 py-1.5 bg-[#111111] hover:bg-[#E11D2E] text-white font-bold uppercase text-[10px] sm:text-[11px] inline-flex items-center gap-1.5 cursor-pointer transition-colors"
+                        title="Start recording all game events to detect anomalies"
+                      >
+                        <span className="w-2 h-2 rounded-full bg-[#E11D2E] inline-block" />
+                        <span>Record</span>
+                      </button>
+                      {adminState?.recording?.latestReport && (
+                        <button
+                          type="button"
+                          onClick={() => setShowRecordingModal(true)}
+                          className="px-2 py-1.5 bg-white text-[#111111] hover:bg-neutral-100 font-bold uppercase text-[10px] sm:text-[11px] border border-[#111111] cursor-pointer"
+                        >
+                          Report
+                        </button>
+                      )}
+                    </div>
                   )}
-                </div>
+                </>
               )}
 
               <ThemeToggleButton compact />
@@ -1522,14 +1733,14 @@ export const AdminControlPage = () => {
 
           {/* Navigation Tabs */}
           <div className="flex items-center gap-1 overflow-x-auto">
-            {NAV_TABS.map((tab) => {
+            {visibleNavTabs.map((tab) => {
               const Icon = tab.icon;
               const isActive = activeTabId === tab.id;
               return (
                 <Link
                   key={tab.id}
                   to={tab.path}
-                  className={`inline-flex items-center gap-2 px-4 py-2.5 font-mono text-xs font-bold uppercase transition-colors border-b-2 whitespace-nowrap ${
+                  className={`inline-flex items-center gap-2 px-3.5 sm:px-4 py-2.5 font-mono text-xs font-bold uppercase transition-colors border-b-2 whitespace-nowrap ${
                     isActive
                       ? 'border-[#E11D2E] text-[#E11D2E] bg-red-50/60'
                       : 'border-transparent text-neutral-600 hover:text-[#111111] hover:bg-neutral-100'
@@ -1553,6 +1764,11 @@ export const AdminControlPage = () => {
                   {tab.id === 'teams' && (
                     <span className="px-1.5 py-0.2 bg-neutral-200 text-[#111111] text-[10px]">
                       {totalTeams}
+                    </span>
+                  )}
+                  {tab.id === 'volunteers' && (
+                    <span className="px-1.5 py-0.2 bg-neutral-200 text-[#111111] text-[10px]">
+                      {adminState?.volunteers?.length || 1}
                     </span>
                   )}
                   {tab.id === 'attempts' && activeAttemptsCount > 0 && (
@@ -1589,216 +1805,218 @@ export const AdminControlPage = () => {
            ======================================================================= */}
         {activeTabId === 'teams' && (
           <div className="space-y-5">
-            {/* Collapsible Register New Team Card */}
-            <section className="bg-white border-2 border-[#111111] shadow-[4px_4px_0px_#111111]">
-              <div
-                onClick={() => setShowRegisterForm((v) => !v)}
-                className="px-5 py-3.5 bg-[#FAF9F5] flex items-center justify-between cursor-pointer select-none"
-              >
-                <div className="flex items-center gap-2.5">
-                  <UserPlus className="w-4 h-4 text-[#E11D2E]" />
-                  <h2 className="font-display text-lg uppercase tracking-wide text-[#111111]">
-                    Register New Team & Give Initial Credits
-                  </h2>
-                  <span className="hidden sm:inline-block px-2 py-0.5 bg-neutral-200 text-neutral-700 font-mono text-[10px] font-bold uppercase">
-                    Solo · Duo · Trio · Max 4
-                  </span>
+            {/* Collapsible Register New Team Card (Admin Only) */}
+            {!isVolunteer && (
+              <section className="bg-white border-2 border-[#111111] shadow-[4px_4px_0px_#111111]">
+                <div
+                  onClick={() => setShowRegisterForm((v) => !v)}
+                  className="px-4 sm:px-5 py-3.5 bg-[#FAF9F5] flex items-center justify-between cursor-pointer select-none"
+                >
+                  <div className="flex items-center gap-2.5">
+                    <UserPlus className="w-4 h-4 text-[#E11D2E]" />
+                    <h2 className="font-display text-lg uppercase tracking-wide text-[#111111]">
+                      Register New Team & Give Initial Credits
+                    </h2>
+                    <span className="hidden sm:inline-block px-2 py-0.5 bg-neutral-200 text-neutral-700 font-mono text-[10px] font-bold uppercase">
+                      Solo · Duo · Trio · Max 4
+                    </span>
+                  </div>
+                  <button
+                    type="button"
+                    className="px-3 py-1 bg-[#111111] text-white font-mono text-xs font-bold uppercase inline-flex items-center gap-1 cursor-pointer"
+                  >
+                    {showRegisterForm ? (
+                      <>
+                        Hide Form <ChevronUp className="w-3.5 h-3.5" />
+                      </>
+                    ) : (
+                      <>
+                        + New Team <ChevronDown className="w-3.5 h-3.5" />
+                      </>
+                    )}
+                  </button>
                 </div>
-                <button
-                  type="button"
-                  className="px-3 py-1 bg-[#111111] text-white font-mono text-xs font-bold uppercase inline-flex items-center gap-1 cursor-pointer"
-                >
-                  {showRegisterForm ? (
-                    <>
-                      Hide Form <ChevronUp className="w-3.5 h-3.5" />
-                    </>
-                  ) : (
-                    <>
-                      + New Team <ChevronDown className="w-3.5 h-3.5" />
-                    </>
-                  )}
-                </button>
-              </div>
 
-              {showRegisterForm && (
-                <form
-                  onSubmit={handleRegisterTeam}
-                  className="p-5 border-t-2 border-[#111111] space-y-4 font-mono text-xs"
-                >
-                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3.5">
-                    <div>
-                      <label className="block font-bold uppercase text-neutral-700 mb-1">
-                        Team Name *
-                      </label>
-                      <input
-                        type="text"
-                        value={regTeamName}
-                        onChange={(e) => setRegTeamName(e.target.value)}
-                        placeholder="e.g. ALPHA SQUAD"
-                        className="w-full px-3 py-2 bg-[#FAF9F5] border-2 border-[#111111] text-sm font-bold uppercase focus:outline-none focus:border-[#E11D2E]"
-                        required
-                      />
-                    </div>
-
-                    <div>
-                      <label className="block font-bold uppercase text-neutral-700 mb-1">
-                        Team ID (Auto if blank)
-                      </label>
-                      <input
-                        type="text"
-                        value={regTeamId}
-                        onChange={(e) => setRegTeamId(e.target.value)}
-                        placeholder={
-                          regTeamName.trim()
-                            ? `TEAM-${regTeamName
-                                .trim()
-                                .toUpperCase()
-                                .replace(/^TEAM[-_\s]*/i, '')
-                                .replace(/[^A-Z0-9]+/g, '-')}`
-                            : 'TEAM-ALPHA'
-                        }
-                        className="w-full px-3 py-2 bg-[#FAF9F5] border border-neutral-300 focus:border-[#111111] text-sm uppercase focus:outline-none"
-                      />
-                    </div>
-
-                    <div>
-                      <label className="block font-bold uppercase text-neutral-700 mb-1">
-                        Login Password *
-                      </label>
-                      <input
-                        type="text"
-                        value={regPassword}
-                        onChange={(e) => setRegPassword(e.target.value)}
-                        placeholder="NEXUS-2026"
-                        className="w-full px-3 py-2 bg-[#FAF9F5] border-2 border-[#111111] text-sm font-bold focus:outline-none focus:border-[#E11D2E]"
-                        required
-                      />
-                    </div>
-
-                    <div>
-                      <label className="block font-bold uppercase text-neutral-700 mb-1">
-                        Initial Credits (CR) *
-                      </label>
-                      <div className="flex items-center gap-1.5">
+                {showRegisterForm && (
+                  <form
+                    onSubmit={handleRegisterTeam}
+                    className="p-4 sm:p-5 border-t-2 border-[#111111] space-y-4 font-mono text-xs"
+                  >
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3.5">
+                      <div>
+                        <label className="block font-bold uppercase text-neutral-700 mb-1">
+                          Team Name *
+                        </label>
                         <input
-                          type="number"
-                          min={0}
-                          step={50}
-                          value={regCredits}
-                          onChange={(e) => setRegCredits(e.target.value)}
-                          className="w-full px-3 py-2 bg-[#FAF9F5] border-2 border-[#111111] text-sm font-bold text-[#E11D2E] focus:outline-none"
+                          type="text"
+                          value={regTeamName}
+                          onChange={(e) => setRegTeamName(e.target.value)}
+                          placeholder="e.g. ALPHA SQUAD"
+                          className="w-full px-3 py-2 bg-[#FAF9F5] border-2 border-[#111111] text-sm font-bold uppercase focus:outline-none focus:border-[#E11D2E]"
                           required
                         />
-                        {[1000, 1500, 2500].map((preset) => (
-                          <button
-                            key={preset}
-                            type="button"
-                            onClick={() => setRegCredits(preset)}
-                            className={`px-2 py-2 border text-[10px] font-bold cursor-pointer ${
-                              Number(regCredits) === preset
-                                ? 'bg-[#111111] text-white border-[#111111]'
-                                : 'bg-neutral-100 text-neutral-700 border-neutral-300 hover:border-[#111111]'
-                            }`}
-                          >
-                            {preset}
-                          </button>
-                        ))}
                       </div>
-                    </div>
-                  </div>
 
-                  {/* Team Size Mode Selector: Solo (1), Duo (2), Trio (3), Squad (4) */}
-                  <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 items-end pt-1">
-                    <div className="lg:col-span-5">
-                      <label className="block font-bold uppercase text-neutral-700 mb-1.5">
-                        Team Size Format
-                      </label>
-                      <div className="grid grid-cols-4 gap-2">
-                        {TEAM_SIZE_MODES.map((mode) => {
-                          const active = regTeamSize === mode.size;
-                          return (
+                      <div>
+                        <label className="block font-bold uppercase text-neutral-700 mb-1">
+                          Team ID (Auto if blank)
+                        </label>
+                        <input
+                          type="text"
+                          value={regTeamId}
+                          onChange={(e) => setRegTeamId(e.target.value)}
+                          placeholder={
+                            regTeamName.trim()
+                              ? `TEAM-${regTeamName
+                                  .trim()
+                                  .toUpperCase()
+                                  .replace(/^TEAM[-_\s]*/i, '')
+                                  .replace(/[^A-Z0-9]+/g, '-')}`
+                              : 'TEAM-ALPHA'
+                          }
+                          className="w-full px-3 py-2 bg-[#FAF9F5] border border-neutral-300 focus:border-[#111111] text-sm uppercase focus:outline-none"
+                        />
+                      </div>
+
+                      <div>
+                        <label className="block font-bold uppercase text-neutral-700 mb-1">
+                          Login Password *
+                        </label>
+                        <input
+                          type="text"
+                          value={regPassword}
+                          onChange={(e) => setRegPassword(e.target.value)}
+                          placeholder="NEXUS-2026"
+                          className="w-full px-3 py-2 bg-[#FAF9F5] border-2 border-[#111111] text-sm font-bold focus:outline-none focus:border-[#E11D2E]"
+                          required
+                        />
+                      </div>
+
+                      <div>
+                        <label className="block font-bold uppercase text-neutral-700 mb-1">
+                          Initial Credits (CR) *
+                        </label>
+                        <div className="flex items-center gap-1.5">
+                          <input
+                            type="number"
+                            min={0}
+                            step={50}
+                            value={regCredits}
+                            onChange={(e) => setRegCredits(e.target.value)}
+                            className="w-full px-3 py-2 bg-[#FAF9F5] border-2 border-[#111111] text-sm font-bold text-[#E11D2E] focus:outline-none"
+                            required
+                          />
+                          {[1000, 1500, 2500].map((preset) => (
                             <button
-                              key={mode.size}
+                              key={preset}
                               type="button"
-                              onClick={() => setRegTeamSize(mode.size)}
-                              className={`p-2 border-2 text-center transition-colors cursor-pointer ${
-                                active
-                                  ? 'border-[#111111] bg-[#E11D2E] text-white font-bold'
-                                  : 'border-neutral-300 bg-[#FAF9F5] text-neutral-700 hover:border-[#111111]'
+                              onClick={() => setRegCredits(preset)}
+                              className={`px-2 py-2 border text-[10px] font-bold cursor-pointer ${
+                                Number(regCredits) === preset
+                                  ? 'bg-[#111111] text-white border-[#111111]'
+                                  : 'bg-neutral-100 text-neutral-700 border-neutral-300 hover:border-[#111111]'
                               }`}
                             >
-                              <div className="text-xs font-bold">{mode.tag}</div>
-                              <div className="text-[10px] opacity-85">{mode.size}P</div>
+                              {preset}
                             </button>
-                          );
-                        })}
+                          ))}
+                        </div>
                       </div>
                     </div>
 
-                    <div className="lg:col-span-5">
-                      <label className="block font-bold uppercase text-neutral-700 mb-1.5">
-                        Player Names (Optional — {regTeamSize} Slots)
-                      </label>
-                      <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
-                        {Array.from({ length: regTeamSize }, (_, idx) => (
-                          <input
-                            key={idx}
-                            type="text"
-                            value={regMembers[idx] || ''}
-                            onChange={(e) => {
-                              const next = [...regMembers];
-                              next[idx] = e.target.value;
-                              setRegMembers(next);
-                            }}
-                            placeholder={`P${idx + 1}`}
-                            className="w-full px-2.5 py-2 bg-[#FAF9F5] border border-neutral-300 focus:border-[#111111] text-xs uppercase focus:outline-none"
-                          />
-                        ))}
+                    {/* Team Size Mode Selector: Solo (1), Duo (2), Trio (3), Squad (4) */}
+                    <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 items-end pt-1">
+                      <div className="lg:col-span-5">
+                        <label className="block font-bold uppercase text-neutral-700 mb-1.5">
+                          Team Size Format
+                        </label>
+                        <div className="grid grid-cols-4 gap-2">
+                          {TEAM_SIZE_MODES.map((mode) => {
+                            const active = regTeamSize === mode.size;
+                            return (
+                              <button
+                                key={mode.size}
+                                type="button"
+                                onClick={() => setRegTeamSize(mode.size)}
+                                className={`p-2 border-2 text-center transition-colors cursor-pointer ${
+                                  active
+                                    ? 'border-[#111111] bg-[#E11D2E] text-white font-bold'
+                                    : 'border-neutral-300 bg-[#FAF9F5] text-neutral-700 hover:border-[#111111]'
+                                }`}
+                              >
+                                <div className="text-xs font-bold">{mode.tag}</div>
+                                <div className="text-[10px] opacity-85">{mode.size}P</div>
+                              </button>
+                            );
+                          })}
+                        </div>
+                      </div>
+
+                      <div className="lg:col-span-5">
+                        <label className="block font-bold uppercase text-neutral-700 mb-1.5">
+                          Player Names (Optional — {regTeamSize} Slots)
+                        </label>
+                        <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
+                          {Array.from({ length: regTeamSize }, (_, idx) => (
+                            <input
+                              key={idx}
+                              type="text"
+                              value={regMembers[idx] || ''}
+                              onChange={(e) => {
+                                const next = [...regMembers];
+                                next[idx] = e.target.value;
+                                setRegMembers(next);
+                              }}
+                              placeholder={`P${idx + 1}`}
+                              className="w-full px-2.5 py-2 bg-[#FAF9F5] border border-neutral-300 focus:border-[#111111] text-xs uppercase focus:outline-none"
+                            />
+                          ))}
+                        </div>
+                      </div>
+
+                      <div className="lg:col-span-2">
+                        <button
+                          type="submit"
+                          disabled={pendingKey === 'register-team'}
+                          className="w-full py-2.5 px-4 bg-[#E11D2E] hover:bg-[#111111] text-white font-bold uppercase tracking-wider transition-colors cursor-pointer shadow-[2px_2px_0px_#111111] disabled:opacity-50"
+                        >
+                          {pendingKey === 'register-team' ? 'Creating...' : '+ Register'}
+                        </button>
                       </div>
                     </div>
 
-                    <div className="lg:col-span-2">
-                      <button
-                        type="submit"
-                        disabled={pendingKey === 'register-team'}
-                        className="w-full py-2.5 px-4 bg-[#E11D2E] hover:bg-[#111111] text-white font-bold uppercase tracking-wider transition-colors cursor-pointer shadow-[2px_2px_0px_#111111] disabled:opacity-50"
-                      >
-                        {pendingKey === 'register-team' ? 'Creating...' : '+ Register'}
-                      </button>
-                    </div>
-                  </div>
-
-                  {lastCreatedTeam && (
-                    <div className="p-3 bg-emerald-50 border border-emerald-400 flex flex-wrap items-center justify-between gap-2 text-emerald-950">
-                      <div>
-                        Registered{' '}
-                        <span className="font-bold">{lastCreatedTeam.teamId}</span> · Password:{' '}
-                        <span className="font-bold">{lastCreatedTeam.password}</span> · Credits:{' '}
-                        <span className="font-bold">{lastCreatedTeam.credits} CR</span>
+                    {lastCreatedTeam && (
+                      <div className="p-3 bg-emerald-50 border border-emerald-400 flex flex-wrap items-center justify-between gap-2 text-emerald-950">
+                        <div>
+                          Registered{' '}
+                          <span className="font-bold">{lastCreatedTeam.teamId}</span> · Password:{' '}
+                          <span className="font-bold">{lastCreatedTeam.password}</span> · Credits:{' '}
+                          <span className="font-bold">{lastCreatedTeam.credits} CR</span>
+                        </div>
+                        <button
+                          type="button"
+                          onClick={() => {
+                            navigator.clipboard?.writeText(
+                              `Team ID: ${lastCreatedTeam.teamId} | Password: ${lastCreatedTeam.password}`
+                            );
+                            setCopiedTeamId(true);
+                            setTimeout(() => setCopiedTeamId(false), 2000);
+                          }}
+                          className="px-2.5 py-1 bg-white border border-emerald-600 text-[11px] font-bold inline-flex items-center gap-1 cursor-pointer"
+                        >
+                          {copiedTeamId ? (
+                            <Check className="w-3 h-3" />
+                          ) : (
+                            <Copy className="w-3 h-3" />
+                          )}
+                          {copiedTeamId ? 'Copied' : 'Copy Login'}
+                        </button>
                       </div>
-                      <button
-                        type="button"
-                        onClick={() => {
-                          navigator.clipboard?.writeText(
-                            `Team ID: ${lastCreatedTeam.teamId} | Password: ${lastCreatedTeam.password}`
-                          );
-                          setCopiedTeamId(true);
-                          setTimeout(() => setCopiedTeamId(false), 2000);
-                        }}
-                        className="px-2.5 py-1 bg-white border border-emerald-600 text-[11px] font-bold inline-flex items-center gap-1 cursor-pointer"
-                      >
-                        {copiedTeamId ? (
-                          <Check className="w-3 h-3" />
-                        ) : (
-                          <Copy className="w-3 h-3" />
-                        )}
-                        {copiedTeamId ? 'Copied' : 'Copy Login'}
-                      </button>
-                    </div>
-                  )}
-                </form>
-              )}
-            </section>
+                    )}
+                  </form>
+                )}
+              </section>
+            )}
 
             {/* Filter & Search Bar */}
             <section className="bg-white border-2 border-[#111111] p-3.5 flex flex-wrap items-center justify-between gap-3">
@@ -1843,11 +2061,16 @@ export const AdminControlPage = () => {
             <section className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 font-mono text-xs">
               {filteredTeams.map((team) => {
                 const formatInfo = getTeamFormatInfo(team);
-                const isOnline = Boolean(team.connectionState?.connected);
+                const rosterList = (team.members || []).slice(0, formatInfo.size);
+                const onlinePlayersCount = rosterList.filter((m) => m.online).length;
+                const isOnline =
+                  Boolean(team.connectionState?.connected) || onlinePlayersCount > 0;
                 const activeAttempt =
                   team.activeAttempt?.status === 'IN_PROGRESS' ? team.activeAttempt : null;
                 const attemptClock = getLiveAttemptClock(activeAttempt);
                 const customVal = customCreditInputs[team.teamId] ?? '';
+                const teamPass = team.accessPassword || team.password || 'NEXUS-2026';
+                const copyKey = `team-cred-${team.teamId}`;
 
                 return (
                   <div
@@ -1858,13 +2081,13 @@ export const AdminControlPage = () => {
                         : 'border-[#111111] shadow-[4px_4px_0px_#111111]'
                     }`}
                   >
-                    {/* Card Header: Team Name, ID, Format Badge, Actions */}
+                    {/* Card Header: Team Name, ID, Format Badge, Online Status, Actions */}
                     <div className="flex items-start justify-between gap-2 border-b border-neutral-200 pb-3">
                       <div className="min-w-0">
                         <div className="flex items-center gap-2 flex-wrap">
                           <span
                             className={`w-2.5 h-2.5 rounded-full shrink-0 ${
-                              isOnline ? 'bg-emerald-500' : 'bg-neutral-400'
+                              isOnline ? 'bg-emerald-500 animate-pulse' : 'bg-neutral-400'
                             }`}
                             title={isOnline ? 'Online' : 'Offline'}
                           />
@@ -1877,62 +2100,104 @@ export const AdminControlPage = () => {
                             {formatInfo.label}
                           </span>
                         </div>
-                        <div className="text-[11px] text-neutral-500 mt-0.5 flex items-center gap-2">
-                          <span>{team.teamId}</span>
+                        <div className="text-[11px] text-neutral-600 mt-1 flex flex-wrap items-center gap-2">
+                          <span className="font-bold text-[#111111]">{team.teamId}</span>
                           <span>·</span>
-                          <span>{isOnline ? 'ONLINE' : 'OFFLINE'}</span>
+                          <span
+                            className={`px-1.5 py-0.5 text-[10px] font-bold uppercase border ${
+                              isOnline
+                                ? 'bg-emerald-50 text-emerald-700 border-emerald-300'
+                                : 'bg-neutral-100 text-neutral-500 border-neutral-300'
+                            }`}
+                          >
+                            {isOnline
+                              ? `● TEAM ONLINE (${onlinePlayersCount}/${formatInfo.size} PLAYERS)`
+                              : '○ TEAM OFFLINE'}
+                          </span>
                         </div>
                       </div>
 
-                      <div className="flex items-center gap-1 shrink-0">
-                        <button
-                          type="button"
-                          onClick={() => jumpToTeamLiveEvents(team.teamId)}
-                          className="px-2 py-1 bg-[#FAF9F5] hover:bg-[#111111] hover:text-white border border-neutral-300 font-bold text-[10px] uppercase cursor-pointer transition-colors"
-                          title="View Live Events for this team"
-                        >
-                          Events
-                        </button>
-                        <button
-                          type="button"
-                          onClick={() =>
-                            setEditingTeamModal({
-                              teamId: team.teamId,
-                              teamName: team.teamName || team.teamId,
-                              password: '',
-                              teamSize: formatInfo.size,
-                              members: Array.from(
-                                { length: 4 },
-                                (_, i) => team.members?.[i]?.name || ''
-                              ),
-                            })
-                          }
-                          className="p-1.5 bg-[#FAF9F5] hover:bg-[#111111] hover:text-white border border-neutral-300 text-neutral-700 cursor-pointer transition-colors"
-                          title="Edit Team & Roster"
-                        >
-                          <Edit3 className="w-3.5 h-3.5" />
-                        </button>
-                        <button
-                          type="button"
-                          onClick={() => {
-                            if (window.confirm(`Delete team ${team.teamId}?`)) {
-                              handleTeamAction(
-                                team.teamId,
-                                'DELETE_TEAM',
-                                {},
-                                `Deleted ${team.teamId}`
-                              );
+                      {!isVolunteer && (
+                        <div className="flex items-center gap-1 shrink-0">
+                          <button
+                            type="button"
+                            onClick={() => jumpToTeamLiveEvents(team.teamId)}
+                            className="px-2 py-1 bg-[#FAF9F5] hover:bg-[#111111] hover:text-white border border-neutral-300 font-bold text-[10px] uppercase cursor-pointer transition-colors"
+                            title="View Live Events for this team"
+                          >
+                            Events
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() =>
+                              setEditingTeamModal({
+                                teamId: team.teamId,
+                                teamName: team.teamName || team.teamId,
+                                password: '',
+                                teamSize: formatInfo.size,
+                                members: Array.from(
+                                  { length: 4 },
+                                  (_, i) => team.members?.[i]?.name || ''
+                                ),
+                              })
                             }
-                          }}
-                          className="p-1.5 bg-[#FAF9F5] hover:bg-[#E11D2E] hover:text-white border border-neutral-300 text-neutral-500 cursor-pointer transition-colors"
-                          title="Delete Team"
-                        >
-                          <Trash2 className="w-3.5 h-3.5" />
-                        </button>
-                      </div>
+                            className="p-1.5 bg-[#FAF9F5] hover:bg-[#111111] hover:text-white border border-neutral-300 text-neutral-700 cursor-pointer transition-colors"
+                            title="Edit Team & Roster"
+                          >
+                            <Edit3 className="w-3.5 h-3.5" />
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() => {
+                              if (window.confirm(`Delete team ${team.teamId}?`)) {
+                                handleTeamAction(
+                                  team.teamId,
+                                  'DELETE_TEAM',
+                                  {},
+                                  `Deleted ${team.teamId}`
+                                );
+                              }
+                            }}
+                            className="p-1.5 bg-[#FAF9F5] hover:bg-[#E11D2E] hover:text-white border border-neutral-300 text-neutral-500 cursor-pointer transition-colors"
+                            title="Delete Team"
+                          >
+                            <Trash2 className="w-3.5 h-3.5" />
+                          </button>
+                        </div>
+                      )}
                     </div>
 
-                    {/* Credits Balance + Solved/Failed + Player Roster */}
+                    {/* Team Password Box (Visible to Floor Volunteers & Admin) */}
+                    <div className="p-2.5 bg-amber-50/80 border border-amber-300 flex items-center justify-between gap-2">
+                      <div className="min-w-0">
+                        <span className="block text-[9px] font-bold uppercase tracking-wider text-amber-800">
+                          TEAM LOGIN PASSWORD
+                        </span>
+                        <span className="font-mono text-sm font-bold text-[#111111] select-all break-all">
+                          {teamPass}
+                        </span>
+                      </div>
+                      <button
+                        type="button"
+                        onClick={() => {
+                          navigator.clipboard?.writeText(
+                            `Team ID: ${team.teamId} | Password: ${teamPass}`
+                          );
+                          setCopiedCredentialKey(copyKey);
+                          setTimeout(() => setCopiedCredentialKey(null), 1800);
+                        }}
+                        className="px-2.5 py-1.5 bg-white hover:bg-[#111111] text-[#111111] hover:text-white border border-amber-500 font-bold text-[10px] uppercase inline-flex items-center gap-1 cursor-pointer transition-colors shrink-0"
+                      >
+                        {copiedCredentialKey === copyKey ? (
+                          <Check className="w-3 h-3 text-emerald-600" />
+                        ) : (
+                          <Copy className="w-3 h-3" />
+                        )}
+                        <span>{copiedCredentialKey === copyKey ? 'Copied' : 'Copy'}</span>
+                      </button>
+                    </div>
+
+                    {/* Credits Balance + Solved/Failed + Player Roster with Online/Offline Status */}
                     <div className="space-y-2.5">
                       <div className="flex items-baseline justify-between bg-[#FAF9F5] border border-neutral-200 px-3 py-2.5">
                         <div>
@@ -1954,137 +2219,165 @@ export const AdminControlPage = () => {
                         </div>
                       </div>
 
-                      {/* Players List */}
-                      <div className="flex flex-wrap gap-1.5">
-                        {(team.members || []).slice(0, formatInfo.size).map((m, idx) => (
-                          <span
-                            key={m.memberId || idx}
-                            className="px-2 py-0.5 bg-[#FAF9F5] border border-neutral-300 text-[10px] font-bold uppercase text-neutral-700"
-                          >
-                            P{idx + 1}: {m.name}
+                      {/* Players List with Per-Player Online/Offline Status */}
+                      <div className="space-y-1.5">
+                        <div className="flex items-center justify-between text-[10px] font-bold uppercase text-neutral-500">
+                          <span>PLAYERS & ONLINE STATUS</span>
+                          <span>
+                            {onlinePlayersCount}/{formatInfo.size} ONLINE
                           </span>
-                        ))}
+                        </div>
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-1.5">
+                          {rosterList.map((m, idx) => {
+                            const playerOnline = Boolean(m.online);
+                            return (
+                              <div
+                                key={m.memberId || idx}
+                                className={`px-2.5 py-1.5 border flex items-center justify-between gap-1.5 ${
+                                  playerOnline
+                                    ? 'bg-emerald-50/70 border-emerald-400 text-[#111111]'
+                                    : 'bg-[#FAF9F5] border-neutral-300 text-neutral-600'
+                                }`}
+                              >
+                                <span className="text-[10px] font-bold uppercase truncate">
+                                  P{idx + 1}: {m.name}
+                                </span>
+                                <span
+                                  className={`px-1.5 py-0.2 text-[9px] font-bold uppercase shrink-0 ${
+                                    playerOnline
+                                      ? 'bg-emerald-600 text-white'
+                                      : 'bg-neutral-200 text-neutral-600'
+                                  }`}
+                                >
+                                  {playerOnline ? '● ONLINE' : 'OFFLINE'}
+                                </span>
+                              </div>
+                            );
+                          })}
+                        </div>
                       </div>
                     </div>
 
-                    {/* Quick Credit Presets + Custom CR Input (+ Add / - Deduct / Set) */}
-                    <div className="space-y-2 pt-2 border-t border-neutral-200">
-                      <div className="text-[10px] font-bold uppercase text-neutral-500">
-                        Quick Credit Adjust & Custom CR
-                      </div>
+                    {/* Quick Credit Presets + Custom CR Input (Admin Only) */}
+                    {!isVolunteer && (
+                      <div className="space-y-2 pt-2 border-t border-neutral-200">
+                        <div className="text-[10px] font-bold uppercase text-neutral-500">
+                          Quick Credit Adjust & Custom CR
+                        </div>
 
-                      {/* Row 1: Quick Presets */}
-                      <div className="grid grid-cols-5 gap-1">
-                        {[
-                          { label: '+100', amount: 100, pos: true },
-                          { label: '+250', amount: 250, pos: true },
-                          { label: '+500', amount: 500, pos: true },
-                          { label: '-100', amount: -100, pos: false },
-                          { label: '-250', amount: -250, pos: false },
-                        ].map((btn) => (
+                        {/* Row 1: Quick Presets */}
+                        <div className="grid grid-cols-5 gap-1">
+                          {[
+                            { label: '+100', amount: 100, pos: true },
+                            { label: '+250', amount: 250, pos: true },
+                            { label: '+500', amount: 500, pos: true },
+                            { label: '-100', amount: -100, pos: false },
+                            { label: '-250', amount: -250, pos: false },
+                          ].map((btn) => (
+                            <button
+                              key={btn.label}
+                              type="button"
+                              onClick={() =>
+                                handleTeamAction(
+                                  team.teamId,
+                                  'ADJUST_CREDITS',
+                                  { amount: btn.amount, reason: `Admin ${btn.label} CR` },
+                                  `${btn.label} CR (${team.teamId})`
+                                )
+                              }
+                              className={`py-1.5 border font-bold text-[11px] cursor-pointer transition-colors ${
+                                btn.pos
+                                  ? 'bg-emerald-50 hover:bg-emerald-600 hover:text-white text-emerald-800 border-emerald-300'
+                                  : 'bg-red-50 hover:bg-[#E11D2E] hover:text-white text-[#E11D2E] border-red-200'
+                              }`}
+                            >
+                              {btn.label}
+                            </button>
+                          ))}
+                        </div>
+
+                        {/* Row 2: Custom CR Input with + Add, - Deduct, and Set Exact */}
+                        <div className="flex items-center gap-1.5">
+                          <input
+                            type="number"
+                            min={0}
+                            step={10}
+                            value={customVal}
+                            onChange={(e) =>
+                              setCustomCreditInputs((p) => ({
+                                ...p,
+                                [team.teamId]: e.target.value,
+                              }))
+                            }
+                            placeholder="Custom CR..."
+                            className="flex-1 min-w-0 px-2.5 py-1.5 bg-[#FAF9F5] border border-neutral-300 focus:border-[#111111] font-bold text-xs text-[#111111] focus:outline-none"
+                          />
                           <button
-                            key={btn.label}
                             type="button"
-                            onClick={() =>
+                            onClick={() => {
+                              const num = Math.abs(Number(customVal));
+                              if (!customVal || Number.isNaN(num) || num <= 0) {
+                                showToast('Enter a positive custom CR amount first', 'error');
+                                return;
+                              }
                               handleTeamAction(
                                 team.teamId,
                                 'ADJUST_CREDITS',
-                                { amount: btn.amount, reason: `Admin ${btn.label} CR` },
-                                `${btn.label} CR (${team.teamId})`
-                              )
-                            }
-                            className={`py-1.5 border font-bold text-[11px] cursor-pointer transition-colors ${
-                              btn.pos
-                                ? 'bg-emerald-50 hover:bg-emerald-600 hover:text-white text-emerald-800 border-emerald-300'
-                                : 'bg-red-50 hover:bg-[#E11D2E] hover:text-white text-[#E11D2E] border-red-200'
-                            }`}
+                                { amount: num, reason: `Custom +${num} CR` },
+                                `Added +${num} CR to ${team.teamId}`
+                              );
+                              setCustomCreditInputs((p) => ({ ...p, [team.teamId]: '' }));
+                            }}
+                            className="px-2.5 py-1.5 bg-emerald-600 hover:bg-emerald-700 text-white font-bold uppercase text-[10px] cursor-pointer whitespace-nowrap"
+                            title="Add custom CR to team balance"
                           >
-                            {btn.label}
+                            + Add
                           </button>
-                        ))}
+                          <button
+                            type="button"
+                            onClick={() => {
+                              const num = Math.abs(Number(customVal));
+                              if (!customVal || Number.isNaN(num) || num <= 0) {
+                                showToast('Enter a positive custom CR amount first', 'error');
+                                return;
+                              }
+                              handleTeamAction(
+                                team.teamId,
+                                'ADJUST_CREDITS',
+                                { amount: -num, reason: `Custom -${num} CR` },
+                                `Deducted -${num} CR from ${team.teamId}`
+                              );
+                              setCustomCreditInputs((p) => ({ ...p, [team.teamId]: '' }));
+                            }}
+                            className="px-2.5 py-1.5 bg-[#E11D2E] hover:bg-red-700 text-white font-bold uppercase text-[10px] cursor-pointer whitespace-nowrap"
+                            title="Deduct custom CR from team balance"
+                          >
+                            - Sub
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() => {
+                              const num = Number(customVal);
+                              if (customVal === '' || Number.isNaN(num) || num < 0) {
+                                showToast('Enter a valid CR balance to set', 'error');
+                                return;
+                              }
+                              handleTeamAction(
+                                team.teamId,
+                                'SET_CREDITS',
+                                { credits: Math.max(0, num) },
+                                `Set ${team.teamId} balance to ${num} CR`
+                              );
+                              setCustomCreditInputs((p) => ({ ...p, [team.teamId]: '' }));
+                            }}
+                            className="px-2.5 py-1.5 bg-[#111111] hover:bg-[#E11D2E] text-white font-bold uppercase text-[10px] cursor-pointer whitespace-nowrap"
+                            title="Set exact credit balance"
+                          >
+                            Set
+                          </button>
+                        </div>
                       </div>
-
-                      {/* Row 2: Custom CR Input with + Add, - Deduct, and Set Exact */}
-                      <div className="flex items-center gap-1.5">
-                        <input
-                          type="number"
-                          min={0}
-                          step={10}
-                          value={customVal}
-                          onChange={(e) =>
-                            setCustomCreditInputs((p) => ({
-                              ...p,
-                              [team.teamId]: e.target.value,
-                            }))
-                          }
-                          placeholder="Custom CR..."
-                          className="flex-1 min-w-0 px-2.5 py-1.5 bg-[#FAF9F5] border border-neutral-300 focus:border-[#111111] font-bold text-xs text-[#111111] focus:outline-none"
-                        />
-                        <button
-                          type="button"
-                          onClick={() => {
-                            const num = Math.abs(Number(customVal));
-                            if (!customVal || Number.isNaN(num) || num <= 0) {
-                              showToast('Enter a positive custom CR amount first', 'error');
-                              return;
-                            }
-                            handleTeamAction(
-                              team.teamId,
-                              'ADJUST_CREDITS',
-                              { amount: num, reason: `Custom +${num} CR` },
-                              `Added +${num} CR to ${team.teamId}`
-                            );
-                            setCustomCreditInputs((p) => ({ ...p, [team.teamId]: '' }));
-                          }}
-                          className="px-2.5 py-1.5 bg-emerald-600 hover:bg-emerald-700 text-white font-bold uppercase text-[10px] cursor-pointer whitespace-nowrap"
-                          title="Add custom CR to team balance"
-                        >
-                          + Add
-                        </button>
-                        <button
-                          type="button"
-                          onClick={() => {
-                            const num = Math.abs(Number(customVal));
-                            if (!customVal || Number.isNaN(num) || num <= 0) {
-                              showToast('Enter a positive custom CR amount first', 'error');
-                              return;
-                            }
-                            handleTeamAction(
-                              team.teamId,
-                              'ADJUST_CREDITS',
-                              { amount: -num, reason: `Custom -${num} CR` },
-                              `Deducted -${num} CR from ${team.teamId}`
-                            );
-                            setCustomCreditInputs((p) => ({ ...p, [team.teamId]: '' }));
-                          }}
-                          className="px-2.5 py-1.5 bg-[#E11D2E] hover:bg-red-700 text-white font-bold uppercase text-[10px] cursor-pointer whitespace-nowrap"
-                          title="Deduct custom CR from team balance"
-                        >
-                          - Sub
-                        </button>
-                        <button
-                          type="button"
-                          onClick={() => {
-                            const num = Number(customVal);
-                            if (customVal === '' || Number.isNaN(num) || num < 0) {
-                              showToast('Enter a valid CR balance to set', 'error');
-                              return;
-                            }
-                            handleTeamAction(
-                              team.teamId,
-                              'SET_CREDITS',
-                              { credits: Math.max(0, num) },
-                              `Set ${team.teamId} balance to ${num} CR`
-                            );
-                            setCustomCreditInputs((p) => ({ ...p, [team.teamId]: '' }));
-                          }}
-                          className="px-2.5 py-1.5 bg-[#111111] hover:bg-[#E11D2E] text-white font-bold uppercase text-[10px] cursor-pointer whitespace-nowrap"
-                          title="Set exact credit balance"
-                        >
-                          Set
-                        </button>
-                      </div>
-                    </div>
+                    )}
 
                     {/* Active Challenge Status Footer */}
                     <div className="pt-2.5 border-t border-neutral-200">
@@ -2109,36 +2402,38 @@ export const AdminControlPage = () => {
                               </div>
                             )}
                           </div>
-                          <div className="flex items-center gap-1 shrink-0">
-                            <button
-                              type="button"
-                              onClick={() =>
-                                handleTeamAction(
-                                  team.teamId,
-                                  'FORCE_COMPLETE',
-                                  { challengeId: activeAttempt.challengeId },
-                                  `Passed ${team.teamId}`
-                                )
-                              }
-                              className="px-2.5 py-1 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-[10px] uppercase cursor-pointer"
-                            >
-                              Pass
-                            </button>
-                            <button
-                              type="button"
-                              onClick={() =>
-                                handleTeamAction(
-                                  team.teamId,
-                                  'FORCE_FAIL',
-                                  { challengeId: activeAttempt.challengeId },
-                                  `Failed ${team.teamId}`
-                                )
-                              }
-                              className="px-2.5 py-1 bg-[#E11D2E] hover:bg-red-700 text-white font-bold text-[10px] uppercase cursor-pointer"
-                            >
-                              Fail
-                            </button>
-                          </div>
+                          {!isVolunteer && (
+                            <div className="flex items-center gap-1 shrink-0">
+                              <button
+                                type="button"
+                                onClick={() =>
+                                  handleTeamAction(
+                                    team.teamId,
+                                    'FORCE_COMPLETE',
+                                    { challengeId: activeAttempt.challengeId },
+                                    `Passed ${team.teamId}`
+                                  )
+                                }
+                                className="px-2.5 py-1 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-[10px] uppercase cursor-pointer"
+                              >
+                                Pass
+                              </button>
+                              <button
+                                type="button"
+                                onClick={() =>
+                                  handleTeamAction(
+                                    team.teamId,
+                                    'FORCE_FAIL',
+                                    { challengeId: activeAttempt.challengeId },
+                                    `Failed ${team.teamId}`
+                                  )
+                                }
+                                className="px-2.5 py-1 bg-[#E11D2E] hover:bg-red-700 text-white font-bold text-[10px] uppercase cursor-pointer"
+                              >
+                                Fail
+                              </button>
+                            </div>
+                          )}
                         </div>
                       ) : (
                         <div className="flex items-center justify-between text-[11px] text-neutral-500">
@@ -2158,6 +2453,293 @@ export const AdminControlPage = () => {
                   No teams match the current search or filter.
                 </div>
               )}
+            </section>
+          </div>
+        )}
+
+        {/* =======================================================================
+            TAB 1B: LIVE LEADERBOARD (/admin/leaderboard — Volunteers & Admin)
+           ======================================================================= */}
+        {activeTabId === 'leaderboard' && (
+          <div className="space-y-5 font-mono text-xs">
+            <section className="bg-white border-2 border-[#111111] shadow-[4px_4px_0px_#111111] p-4 sm:p-5 flex flex-wrap items-center justify-between gap-3">
+              <div>
+                <span className="inline-block px-2.5 py-0.5 bg-[#E11D2E] text-white text-[10px] font-bold uppercase tracking-widest mb-1">
+                  LIVE STANDINGS · REAL-TIME SYNC
+                </span>
+                <h2 className="font-display text-2xl sm:text-3xl uppercase text-[#111111]">
+                  TEAM LEADERBOARD ({liveLeaderboard.length} TEAMS)
+                </h2>
+              </div>
+
+              <div className="flex flex-wrap items-center gap-2">
+                <span className="px-3 py-1.5 bg-emerald-50 text-emerald-800 border border-emerald-300 font-bold uppercase">
+                  Online Teams: {onlineTeamsCount}/{totalTeams}
+                </span>
+                <span className="px-3 py-1.5 bg-neutral-100 text-[#111111] border border-neutral-300 font-bold uppercase">
+                  Active Solves: {activeAttemptsCount}
+                </span>
+              </div>
+            </section>
+
+            <section className="bg-white border-2 border-[#111111] shadow-[4px_4px_0px_#111111] divide-y divide-neutral-200">
+              {liveLeaderboard.map((row, idx) => {
+                const rank = Number(row.rank || idx + 1);
+                const roster = Array.isArray(row.members) ? row.members : [];
+                const onlineCount = roster.filter((m) => m.online).length;
+                const isTeamOnline = Boolean(row.online) || onlineCount > 0;
+
+                return (
+                  <div
+                    key={row.teamId || idx}
+                    className={`p-3.5 sm:p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3 ${
+                      rank === 1
+                        ? 'bg-amber-50/70'
+                        : rank === 2
+                          ? 'bg-neutral-50'
+                          : 'bg-white'
+                    }`}
+                  >
+                    <div className="flex items-start sm:items-center gap-3 min-w-0">
+                      <span
+                        className={`w-9 h-9 sm:w-10 sm:h-10 flex items-center justify-center font-display text-xl shrink-0 border-2 ${
+                          rank === 1
+                            ? 'bg-amber-400 text-[#111111] border-[#111111]'
+                            : rank === 2
+                              ? 'bg-neutral-200 text-[#111111] border-[#111111]'
+                              : rank === 3
+                                ? 'bg-amber-700 text-white border-[#111111]'
+                                : 'bg-[#FAF9F5] text-neutral-700 border-neutral-300'
+                        }`}
+                      >
+                        #{rank}
+                      </span>
+
+                      <div className="min-w-0 space-y-1">
+                        <div className="flex flex-wrap items-center gap-2">
+                          <span className="font-display text-xl sm:text-2xl uppercase text-[#111111] truncate">
+                            {row.teamName || row.teamId}
+                          </span>
+                          <span className="text-[11px] font-bold text-neutral-500">
+                            [{row.teamId}]
+                          </span>
+                          <span
+                            className={`px-2 py-0.5 text-[9px] font-bold uppercase border ${
+                              isTeamOnline
+                                ? 'bg-emerald-50 text-emerald-700 border-emerald-300'
+                                : 'bg-neutral-100 text-neutral-500 border-neutral-300'
+                            }`}
+                          >
+                            {isTeamOnline ? `● ONLINE (${onlineCount})` : '○ OFFLINE'}
+                          </span>
+                        </div>
+
+                        {/* Player Online Pills */}
+                        {roster.length > 0 && (
+                          <div className="flex flex-wrap gap-1.5">
+                            {roster.map((m, mIdx) => (
+                              <span
+                                key={m.memberId || mIdx}
+                                className={`px-1.5 py-0.5 text-[9px] font-bold uppercase border ${
+                                  m.online
+                                    ? 'bg-emerald-600 text-white border-emerald-700'
+                                    : 'bg-neutral-100 text-neutral-500 border-neutral-300'
+                                }`}
+                              >
+                                {m.name}: {m.online ? 'ONLINE' : 'OFFLINE'}
+                              </span>
+                            ))}
+                          </div>
+                        )}
+                      </div>
+                    </div>
+
+                    <div className="flex items-center justify-between sm:justify-end gap-4 pt-2 sm:pt-0 border-t sm:border-t-0 border-neutral-200 shrink-0">
+                      <div className="text-left sm:text-right text-[11px]">
+                        <div className="font-bold text-emerald-700">
+                          Solved: {row.totalSolved ?? 0}
+                        </div>
+                        <div className="text-neutral-500">
+                          Failed: {row.totalFailed ?? 0} · Core: {row.coreState || 'LOCKED'}
+                        </div>
+                      </div>
+
+                      <div className="text-right min-w-[95px]">
+                        <span className="font-display text-2xl sm:text-3xl text-[#111111] leading-none block">
+                          {Number(row.credits || 0).toLocaleString()}{' '}
+                          <span className="font-mono text-xs text-[#E11D2E]">CR</span>
+                        </span>
+                        <span className="text-[9px] uppercase text-neutral-500">TOTAL POINTS</span>
+                      </div>
+                    </div>
+                  </div>
+                );
+              })}
+
+              {liveLeaderboard.length === 0 && (
+                <div className="p-10 text-center text-neutral-500">No teams registered yet.</div>
+              )}
+            </section>
+          </div>
+        )}
+
+        {/* =======================================================================
+            TAB 1C: FLOOR VOLUNTEERS MANAGEMENT (/admin/volunteers — Admin Only)
+           ======================================================================= */}
+        {activeTabId === 'volunteers' && !isVolunteer && (
+          <div className="space-y-5 font-mono text-xs">
+            {/* Create Floor Volunteer Card */}
+            <section className="bg-white border-2 border-[#111111] shadow-[4px_4px_0px_#111111] p-4 sm:p-5 space-y-4">
+              <div className="border-b border-neutral-200 pb-3 flex flex-wrap items-center justify-between gap-2">
+                <div>
+                  <span className="inline-block px-2 py-0.5 bg-[#E11D2E] text-white text-[10px] font-bold uppercase tracking-widest mb-1">
+                    ADMIN VOLUNTEER ACCESS CONTROL
+                  </span>
+                  <h2 className="font-display text-2xl uppercase text-[#111111]">
+                    Create Floor Volunteer Account
+                  </h2>
+                  <p className="text-neutral-600 text-[11px]">
+                    Floor Volunteers can only view Team Details (including Passwords), Team/Player Online Status, and the Live Leaderboard.
+                  </p>
+                </div>
+              </div>
+
+              <form onSubmit={handleCreateVolunteer} className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3.5 items-end">
+                <div>
+                  <label className="block font-bold uppercase text-neutral-700 mb-1">
+                    Volunteer Name *
+                  </label>
+                  <input
+                    type="text"
+                    value={volName}
+                    onChange={(e) => setVolName(e.target.value)}
+                    placeholder="e.g. ROHAN VERMA"
+                    className="w-full px-3 py-2 bg-[#FAF9F5] border-2 border-[#111111] text-sm font-bold uppercase focus:outline-none focus:border-[#E11D2E]"
+                    required
+                  />
+                </div>
+
+                <div>
+                  <label className="block font-bold uppercase text-neutral-700 mb-1">
+                    Operator ID (Auto if blank)
+                  </label>
+                  <input
+                    type="text"
+                    value={volOperatorId}
+                    onChange={(e) => setVolOperatorId(e.target.value.toUpperCase())}
+                    placeholder={
+                      volName.trim()
+                        ? `VOL-${volName
+                            .trim()
+                            .toUpperCase()
+                            .replace(/[^A-Z0-9]+/g, '-')}`
+                        : 'VOLUNTEER-02'
+                    }
+                    className="w-full px-3 py-2 bg-[#FAF9F5] border border-neutral-300 focus:border-[#111111] text-sm uppercase focus:outline-none"
+                  />
+                </div>
+
+                <div>
+                  <label className="block font-bold uppercase text-neutral-700 mb-1">
+                    Login Password *
+                  </label>
+                  <input
+                    type="text"
+                    value={volPassword}
+                    onChange={(e) => setVolPassword(e.target.value)}
+                    placeholder="NEXUS-VOL-2026"
+                    className="w-full px-3 py-2 bg-[#FAF9F5] border-2 border-[#111111] text-sm font-bold focus:outline-none focus:border-[#E11D2E]"
+                    required
+                  />
+                </div>
+
+                <div>
+                  <label className="block font-bold uppercase text-neutral-700 mb-1">
+                    Floor / Sector
+                  </label>
+                  <input
+                    type="text"
+                    value={volSector}
+                    onChange={(e) => setVolSector(e.target.value.toUpperCase())}
+                    placeholder="FLOOR-1"
+                    className="w-full px-3 py-2 bg-[#FAF9F5] border border-neutral-300 focus:border-[#111111] text-sm uppercase focus:outline-none"
+                  />
+                </div>
+
+                <div>
+                  <button
+                    type="submit"
+                    disabled={pendingKey === 'create-volunteer'}
+                    className="w-full py-2.5 px-4 bg-[#E11D2E] hover:bg-[#111111] text-white font-bold uppercase tracking-wider transition-colors cursor-pointer shadow-[2px_2px_0px_#111111] disabled:opacity-50"
+                  >
+                    {pendingKey === 'create-volunteer' ? 'Creating...' : '+ Add Volunteer'}
+                  </button>
+                </div>
+              </form>
+            </section>
+
+            {/* Existing Floor Volunteers List */}
+            <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+              {(adminState?.volunteers || []).map((vol) => {
+                const volCopyKey = `vol-${vol.operatorId}`;
+                return (
+                  <div
+                    key={vol.operatorId}
+                    className="bg-white border-2 border-[#111111] shadow-[4px_4px_0px_#111111] p-4 flex flex-col justify-between gap-3"
+                  >
+                    <div className="flex items-start justify-between gap-2 border-b border-neutral-200 pb-2.5">
+                      <div>
+                        <span className="px-2 py-0.5 bg-amber-100 text-amber-900 border border-amber-300 text-[10px] font-bold uppercase">
+                          FLOOR VOLUNTEER · {vol.sector || 'FLOOR-1'}
+                        </span>
+                        <h3 className="font-display text-2xl uppercase text-[#111111] mt-1">
+                          {vol.name || vol.operatorId}
+                        </h3>
+                        <p className="text-[11px] font-bold text-neutral-600">{vol.operatorId}</p>
+                      </div>
+
+                      <button
+                        type="button"
+                        onClick={() => handleDeleteVolunteer(vol.operatorId)}
+                        className="p-1.5 bg-[#FAF9F5] hover:bg-[#E11D2E] hover:text-white border border-neutral-300 text-neutral-500 cursor-pointer transition-colors"
+                        title="Delete Floor Volunteer"
+                      >
+                        <Trash2 className="w-3.5 h-3.5" />
+                      </button>
+                    </div>
+
+                    <div className="p-2.5 bg-amber-50/80 border border-amber-300 flex items-center justify-between gap-2">
+                      <div>
+                        <span className="block text-[9px] font-bold uppercase text-amber-800">
+                          VOLUNTEER LOGIN PASSWORD
+                        </span>
+                        <span className="font-mono text-sm font-bold text-[#111111] select-all">
+                          {vol.password || 'NEXUS-VOL-2026'}
+                        </span>
+                      </div>
+
+                      <button
+                        type="button"
+                        onClick={() => {
+                          navigator.clipboard?.writeText(
+                            `Operator ID: ${vol.operatorId} | Password: ${vol.password || 'NEXUS-VOL-2026'}`
+                          );
+                          setCopiedCredentialKey(volCopyKey);
+                          setTimeout(() => setCopiedCredentialKey(null), 1800);
+                        }}
+                        className="px-2.5 py-1.5 bg-white hover:bg-[#111111] text-[#111111] hover:text-white border border-amber-500 font-bold text-[10px] uppercase inline-flex items-center gap-1 cursor-pointer transition-colors"
+                      >
+                        {copiedCredentialKey === volCopyKey ? (
+                          <Check className="w-3 h-3 text-emerald-600" />
+                        ) : (
+                          <Copy className="w-3 h-3" />
+                        )}
+                        <span>{copiedCredentialKey === volCopyKey ? 'Copied' : 'Copy Login'}</span>
+                      </button>
+                    </div>
+                  </div>
+                );
+              })}
             </section>
           </div>
         )}
@@ -2784,11 +3366,61 @@ export const AdminControlPage = () => {
                     </div>
 
                     <p className="text-xs text-white/65 leading-relaxed">
-                      Choose your countdown seconds below and press{' '}
-                      <strong className="text-white">Start Round With Countdown</strong>. Every
-                      player screen and the projector will immediately enter the widescreen GSAP +
-                      Framer Motion countdown and unlock the arena automatically at zero.
+                      Configure your <strong className="text-white">Round Duration (Mins)</strong> and{' '}
+                      <strong className="text-white">Pre-Start Countdown (Secs)</strong> below, then
+                      press <strong className="text-white">Start Round With Countdown</strong>. Every
+                      player screen and the projector will immediately sync without refreshing.
                     </p>
+
+                    {/* Round Duration Presets + Custom Minutes Input */}
+                    <div className="p-3 bg-black/45 border border-white/15 space-y-2.5">
+                      <div className="flex flex-wrap items-center justify-between gap-2">
+                        <span className="text-[10px] font-bold uppercase tracking-wider text-amber-300">
+                          Round Duration (Minutes):
+                        </span>
+                        <span className="text-[10px] font-bold uppercase text-white/60">
+                          Active Clock Target: {customTimerMinutes || 45} Mins
+                        </span>
+                      </div>
+
+                      <div className="flex flex-wrap items-center gap-1.5">
+                        {ROUND_TIME_PRESETS.map((mins) => (
+                          <button
+                            key={mins}
+                            type="button"
+                            onClick={() => handleApplyTotalTime(mins)}
+                            className={`px-2.5 sm:px-3 py-1.5 border text-xs font-bold uppercase cursor-pointer transition-all ${
+                              Number(customTimerMinutes) === mins
+                                ? 'bg-amber-400 text-[#111111] border-amber-300 shadow-[0_0_12px_rgba(251,191,36,0.35)]'
+                                : 'bg-black/60 text-white/75 border-white/20 hover:border-white/50'
+                            }`}
+                          >
+                            {mins}m
+                          </button>
+                        ))}
+
+                        <div className="flex items-center gap-1.5 sm:ml-auto">
+                          <span className="text-[10px] font-bold uppercase text-white/50">
+                            Custom (m):
+                          </span>
+                          <input
+                            type="number"
+                            min={1}
+                            max={600}
+                            value={customTimerMinutes}
+                            onChange={(e) => setCustomTimerMinutes(e.target.value)}
+                            className="w-16 sm:w-20 px-2 py-1.5 bg-black/80 border border-amber-400/60 text-amber-300 font-bold text-xs text-center focus:outline-none focus:border-amber-300"
+                          />
+                          <button
+                            type="button"
+                            onClick={() => handleApplyTotalTime(customTimerMinutes)}
+                            className="px-2.5 sm:px-3 py-1.5 bg-amber-400 hover:bg-amber-300 text-[#111111] font-bold text-[11px] uppercase cursor-pointer transition-colors"
+                          >
+                            Set {customTimerMinutes || 45}m
+                          </button>
+                        </div>
+                      </div>
+                    </div>
 
                     {/* Countdown Presets + Custom Seconds */}
                     <div className="flex flex-wrap items-center gap-2 pt-1">
@@ -2835,16 +3467,16 @@ export const AdminControlPage = () => {
                     </button>
                   </div>
 
-                  {/* Secondary Execution Controls: Instant Start / Pause-Resume / End Round */}
-                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5 sm:gap-3 text-xs">
+                  {/* Secondary Execution Controls: Instant Start / Pause-Resume / End Round / Reset Everything */}
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2.5 sm:gap-3 text-xs">
                     <button
                       type="button"
                       onClick={handleStartRound}
                       className="py-3 sm:py-3.5 px-4 bg-emerald-600 hover:bg-emerald-500 text-white font-bold uppercase tracking-wider cursor-pointer border border-emerald-400/40 inline-flex items-center justify-center gap-2 transition-colors"
                       title="Start Round immediately with 0s countdown"
                     >
-                      <Play className="w-4 h-4" />
-                      Instant Start (0s)
+                      <Play className="w-4 h-4 shrink-0" />
+                      <span>Instant Start (0s)</span>
                     </button>
 
                     <button
@@ -2858,11 +3490,11 @@ export const AdminControlPage = () => {
                     >
                       {liveGlobalTimer.status === 'ACTIVE' ? (
                         <>
-                          <Pause className="w-4 h-4" /> Pause Round
+                          <Pause className="w-4 h-4 shrink-0" /> <span>Pause Round</span>
                         </>
                       ) : (
                         <>
-                          <Play className="w-4 h-4" /> Resume Round
+                          <Play className="w-4 h-4 shrink-0" /> <span>Resume Round</span>
                         </>
                       )}
                     </button>
@@ -2874,8 +3506,18 @@ export const AdminControlPage = () => {
                       className="py-3 sm:py-3.5 px-4 bg-white hover:bg-[#E11D2E] hover:text-white disabled:opacity-40 text-[#111111] font-bold uppercase tracking-wider cursor-pointer border border-white inline-flex items-center justify-center gap-2 transition-colors"
                       title="End Round and automatically crown Top 2 Leaderboard Teams"
                     >
-                      <Square className="w-4 h-4" />
-                      End & Crown Top 2
+                      <Square className="w-4 h-4 shrink-0" />
+                      <span>End & Crown Top 2</span>
+                    </button>
+
+                    <button
+                      type="button"
+                      onClick={handleResetEverythingToZero}
+                      className="py-3 sm:py-3.5 px-4 bg-red-950/80 hover:bg-[#E11D2E] text-red-200 hover:text-white font-bold uppercase tracking-wider cursor-pointer border border-[#E11D2E] inline-flex items-center justify-center gap-2 transition-colors"
+                      title="Reset every team to 0 solved, clear all attempts, and make every challenge solvable again"
+                    >
+                      <RotateCcw className="w-4 h-4 shrink-0" />
+                      <span>Reset All to Zero</span>
                     </button>
                   </div>
                 </div>
@@ -3216,28 +3858,6 @@ export const AdminControlPage = () => {
                       className="px-5 py-2.5 bg-[#111111] hover:bg-[#E11D2E] text-white font-bold uppercase cursor-pointer transition-colors"
                     >
                       Save Settings
-                    </button>
-
-                    <button
-                      type="button"
-                      onClick={() => {
-                        if (
-                          window.confirm('Reset all demo teams and sessions to initial state?')
-                        ) {
-                          executeAdminApi(
-                            '/api/admin/settings',
-                            'POST',
-                            { resetAllDemoState: true },
-                            {
-                              key: 'reset-all',
-                              successMessage: 'Reset all demo teams to initial state',
-                            }
-                          );
-                        }
-                      }}
-                      className="px-4 py-2.5 bg-red-50 hover:bg-[#E11D2E] hover:text-white text-[#E11D2E] border border-[#E11D2E] font-bold uppercase cursor-pointer transition-colors"
-                    >
-                      Reset All Demo State
                     </button>
                   </div>
                 </form>
@@ -3651,6 +4271,97 @@ export const AdminControlPage = () => {
                     className="px-5 py-2 border-2 border-[#111111] bg-[#E11D2E] hover:bg-[#111111] text-white font-bold uppercase cursor-pointer"
                   >
                     Save Challenge
+                  </button>
+                </div>
+              </form>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* =======================================================================
+          MODAL 3: PASSWORD-PROTECTED GLOBAL RESET TO ZERO
+         ======================================================================= */}
+      <AnimatePresence>
+        {showResetModal && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-50 bg-black/75 backdrop-blur-sm flex items-center justify-center p-4"
+            onClick={() => !resetSubmitting && setShowResetModal(false)}
+          >
+            <motion.div
+              initial={{ scale: 0.95, y: 12 }}
+              animate={{ scale: 1, y: 0 }}
+              exit={{ scale: 0.95, y: 12 }}
+              onClick={(e) => e.stopPropagation()}
+              className="w-full max-w-md bg-[#0B0C10] text-white border-2 border-[#E11D2E] shadow-[6px_6px_0px_#E11D2E] p-6 font-mono space-y-4"
+            >
+              <div className="flex items-start justify-between gap-3 border-b border-white/15 pb-3">
+                <div>
+                  <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#E11D2E]">
+                    SECURITY AUTHORIZATION REQUIRED
+                  </span>
+                  <h3 className="font-display text-2xl uppercase text-white mt-0.5">
+                    Global Arena Reset to Zero
+                  </h3>
+                </div>
+                <Lock className="w-5 h-5 text-[#E11D2E] shrink-0 mt-1" />
+              </div>
+
+              <div className="p-3 bg-red-950/40 border border-[#E11D2E]/50 text-xs text-white/85 space-y-1.5 leading-relaxed">
+                <p className="font-bold text-red-300 uppercase">
+                  Warning — This action resets the entire arena:
+                </p>
+                <ul className="list-disc list-inside text-[11px] text-white/75 space-y-0.5">
+                  <li>Every team restores to 0 solved, 0 failed & starting credits</li>
+                  <li>Every solved/failed problem becomes solvable again</li>
+                  <li>All active attempts & transaction history are wiped</li>
+                  <li>Round timer resets to standby & winner banner clears</li>
+                </ul>
+              </div>
+
+              <form onSubmit={handleConfirmGlobalReset} className="space-y-4">
+                <div>
+                  <label className="block text-[11px] font-bold uppercase tracking-wider text-white/80 mb-1.5">
+                    Enter Admin Password to Confirm Reset *
+                  </label>
+                  <input
+                    type="password"
+                    autoFocus
+                    value={resetPasswordInput}
+                    onChange={(e) => {
+                      setResetPasswordInput(e.target.value);
+                      if (resetPasswordError) setResetPasswordError('');
+                    }}
+                    placeholder="Enter Admin Access Key (e.g. NEXUS-ADMIN-2026)..."
+                    className="w-full px-3.5 py-2.5 bg-black border-2 border-white/30 focus:border-[#E11D2E] text-white font-bold text-xs focus:outline-none"
+                  />
+                </div>
+
+                {resetPasswordError && (
+                  <div className="p-2.5 bg-red-950/90 border border-[#E11D2E] text-red-200 text-xs font-bold">
+                    {resetPasswordError}
+                  </div>
+                )}
+
+                <div className="flex items-center justify-end gap-2.5 pt-2">
+                  <button
+                    type="button"
+                    disabled={resetSubmitting}
+                    onClick={() => setShowResetModal(false)}
+                    className="px-4 py-2.5 bg-white/10 hover:bg-white/20 text-white border border-white/25 text-xs font-bold uppercase cursor-pointer transition-colors"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    type="submit"
+                    disabled={resetSubmitting}
+                    className="px-5 py-2.5 bg-[#E11D2E] hover:bg-red-600 disabled:opacity-50 text-white border border-[#E11D2E] text-xs font-bold uppercase inline-flex items-center gap-1.5 cursor-pointer shadow-[3px_3px_0px_#ffffff] transition-all"
+                  >
+                    <RotateCcw className="w-3.5 h-3.5" />
+                    <span>{resetSubmitting ? 'Resetting...' : 'Confirm Reset All to 0'}</span>
                   </button>
                 </div>
               </form>

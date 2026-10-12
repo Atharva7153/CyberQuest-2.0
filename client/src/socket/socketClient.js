@@ -1,11 +1,5 @@
 import { io } from 'socket.io-client';
-
-const SOCKET_URL =
-  import.meta.env.SOCKET_URL ||
-  import.meta.env.VITE_SOCKET_URL ||
-  (typeof window !== 'undefined' && window.location.port !== '5173'
-    ? window.location.origin
-    : 'http://localhost:5050');
+import { SOCKET_URL } from '../config/runtimeConfig';
 
 export const NEXUS_SOCKET_EVENTS = {
   SYSTEM: {

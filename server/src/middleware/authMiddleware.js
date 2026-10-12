@@ -50,6 +50,7 @@ export const protectAdminRoute = async (req, res, next) => {
     const token = authHeader.slice(7).trim();
     const decoded = verifyAdminToken(token);
     req.adminOperator = decoded;
+    req.admin = decoded;
     next();
   } catch (error) {
     return res.status(401).json({
@@ -58,5 +59,17 @@ export const protectAdminRoute = async (req, res, next) => {
       message: 'Invalid or expired Admin/Volunteer session token.',
     });
   }
+};
+
+export const requireAdminOnly = (req, res, next) => {
+  const role = String(req.adminOperator?.role || req.admin?.role || '').toUpperCase();
+  if (role !== 'ADMIN') {
+    return res.status(403).json({
+      status: 'error',
+      code: 'VOLUNTEER_READ_ONLY',
+      message: 'Floor Volunteers have read-only access to Teams and Leaderboard.',
+    });
+  }
+  next();
 };
 

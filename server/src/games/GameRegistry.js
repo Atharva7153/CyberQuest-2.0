@@ -877,7 +877,11 @@ export const validateGkTrueFalseServer = (submission, challenge) => {
     }
     let rightCount = 0;
     let wrongCount = 0;
+    let trueCount = 0;
+    let falseCount = 0;
     expectedAnswers.forEach((exp, idx) => {
+      if (exp === 'T') trueCount++;
+      else falseCount++;
       if (exp === submittedList[idx]) {
         rightCount++;
       } else {
@@ -890,7 +894,9 @@ export const validateGkTrueFalseServer = (submission, challenge) => {
         passed: false,
         rightCount,
         wrongCount,
-        reason: `${rightCount} RIGHT · ${wrongCount} WRONG — All ${expectedAnswers.length} statements must be correct.`,
+        trueCount,
+        falseCount,
+        reason: `${rightCount} RIGHT · ${wrongCount} WRONG (Round breakdown: ${trueCount} TRUE · ${falseCount} FALSE) — All ${expectedAnswers.length} statements must be correct.`,
       };
     }
     return {
@@ -898,6 +904,8 @@ export const validateGkTrueFalseServer = (submission, challenge) => {
       passed: true,
       rightCount,
       wrongCount: 0,
+      trueCount,
+      falseCount,
     };
   }
 

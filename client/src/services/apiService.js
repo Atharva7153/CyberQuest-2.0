@@ -1,9 +1,4 @@
-const API_BASE_URL =
-  import.meta.env.VITE_API_BASE_URL ||
-  import.meta.env.VITE_API_URL ||
-  (typeof window !== 'undefined' && window.location.port !== '5173'
-    ? window.location.origin
-    : 'http://localhost:5050');
+import { API_BASE_URL } from '../config/runtimeConfig';
 
 /**
  * Fetches the system health report from GET /api/health

@@ -10,6 +10,7 @@ import { useReducedMotion } from '../hooks/useReducedMotion';
 export const ChallengeRenderer = ({
   challenge,
   session,
+  evaluationResult = null,
   actionPending = false,
   disabled = false,
   onDraftChange,
@@ -47,6 +48,7 @@ export const ChallengeRenderer = ({
             session={session}
             gameType={gameType}
             gameConfig={gameConfig}
+            evaluationResult={evaluationResult}
             actionPending={actionPending || disabled}
             disabled={disabled}
             onDraftChange={onDraftChange}

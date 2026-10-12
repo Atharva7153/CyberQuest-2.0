@@ -16,7 +16,9 @@ const startServer = async () => {
   httpServer.listen(env.port, '0.0.0.0', () => {
     logger.info(
       'BOOT',
-      `[${env.serviceName}] Online -> http://localhost:${env.port} | Health: http://localhost:${env.port}/api/health`
+      `[${env.serviceName}] Online -> ${env.socketUrl} (Local port ${env.port}) | Mode: ${
+        env.isTesting ? 'CLOUDFLARE_TUNNEL (TESTING=true)' : 'LOCALHOST (TESTING=false)'
+      } | Client: ${env.clientUrl}`
     );
   });
 };

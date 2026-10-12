@@ -16,15 +16,17 @@ const proxyConfig = {
 
 export default defineConfig({
   plugins: [react()],
-  envPrefix: ['VITE_', 'SOCKET_', 'CLIENT_'],
+  envPrefix: ['VITE_', 'SOCKET_', 'CLIENT_', 'API_', 'TESTING', 'CLOUDFLARE_'],
   server: {
     host: true,
     port: 5173,
+    allowedHosts: true,
     proxy: proxyConfig,
   },
   preview: {
     host: true,
     port: 5173,
+    allowedHosts: true,
     proxy: proxyConfig,
   },
 });

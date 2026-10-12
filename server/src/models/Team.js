@@ -199,6 +199,11 @@ const teamSchema = new mongoose.Schema(
       required: true,
       select: false,
     },
+    accessPassword: {
+      type: String,
+      default: 'NEXUS-2026',
+      trim: true,
+    },
     members: {
       type: [teamMemberSchema],
       default: [],
@@ -269,6 +274,7 @@ const teamSchema = new mongoose.Schema(
 teamSchema.methods.toPublicJSON = function () {
   const obj = this.toObject({ versionKey: false });
   delete obj.passwordHash;
+  delete obj.accessPassword;
   return obj;
 };
 

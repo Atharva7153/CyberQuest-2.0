@@ -73,38 +73,37 @@ export const normalizeGkTrueFalseConfig = (gameConfig = {}) => {
     totalQuestions: questions.length,
     instructions:
       gameConfig.instructions ||
-      `Answer all ${questions.length} statements one by one. You will see how many total answers are RIGHT and WRONG, but not which ones!`,
+      `Answer all ${questions.length} statements one by one, then submit your choices for verification.`,
   };
 };
 
 export const validateGkTrueFalseClient = (answers = [], config) => {
   const totalQuestions = config?.questions?.length || 6;
-  const answerKey = Array.isArray(config?.answerKey) ? config.answerKey : [];
   let answeredCount = 0;
-  let rightCount = 0;
+  let trueSelectedCount = 0;
+  let falseSelectedCount = 0;
 
   for (let i = 0; i < totalQuestions; i++) {
     const raw = String(answers[i] || '').toUpperCase();
     const val = raw === 'T' || raw === 'TRUE' ? 'T' : raw === 'F' || raw === 'FALSE' ? 'F' : '';
     if (val) {
       answeredCount += 1;
-      if (answerKey[i] && val === answerKey[i]) {
-        rightCount += 1;
-      }
+      if (val === 'T') trueSelectedCount += 1;
+      if (val === 'F') falseSelectedCount += 1;
     }
   }
 
   const isComplete = answeredCount === totalQuestions;
-  const wrongCount = isComplete ? Math.max(0, totalQuestions - rightCount) : 0;
-  const isAllCorrect = isComplete && rightCount === totalQuestions;
 
   return {
     answeredCount,
     totalQuestions,
+    trueSelectedCount,
+    falseSelectedCount,
     isComplete,
-    rightCount: isComplete ? rightCount : null,
-    wrongCount: isComplete ? wrongCount : null,
-    isValid: isAllCorrect,
+    rightCount: null,
+    wrongCount: null,
+    isValid: isComplete,
   };
 };
 

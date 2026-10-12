@@ -34,8 +34,40 @@ const broadcastAdminAndArenaSync = async (adminState, extraBroadcast = {}) => {
     timestamp: new Date().toISOString(),
   });
 
-  // 3. Optional targeted team sync
-  if (extraBroadcast.teamId) {
+  // 3. Optional targeted team sync or full all-teams sync (on global reset)
+  if (extraBroadcast.broadcastAllTeams && Array.isArray(adminState?.teams)) {
+    const publicCatalog = await ChallengeService.listChallenges();
+    await Promise.all(
+      adminState.teams.map(async (t) => {
+        const normalizedTeamId = String(t.teamId || '').trim().toUpperCase();
+        if (!normalizedTeamId) return;
+        const roomName = SOCKET_ROOMS.teamRoom(normalizedTeamId);
+        const team = await getTeamStateById(normalizedTeamId);
+        const nexusCore = await NexusCoreService.getNexusCoreStatusForTeam(team);
+        io.to(roomName).emit(SOCKET_EVENTS.TEAM.STATE_UPDATE, {
+          teamId: normalizedTeamId,
+          room: roomName,
+          team,
+          nexusCore,
+          transactions: [],
+          attempts: [],
+          timer: null,
+          catalog: publicCatalog,
+          serverTime: new Date().toISOString(),
+          timestamp: new Date().toISOString(),
+        });
+        if (team) {
+          io.to(roomName).emit(SOCKET_EVENTS.CREDITS.UPDATE, {
+            teamId: normalizedTeamId,
+            room: roomName,
+            balanceAfter: team.credits,
+            transactions: [],
+            timestamp: new Date().toISOString(),
+          });
+        }
+      })
+    );
+  } else if (extraBroadcast.teamId) {
     const normalizedTeamId = String(extraBroadcast.teamId).trim().toUpperCase();
     const roomName = SOCKET_ROOMS.teamRoom(normalizedTeamId);
     const [team, transactions, catalog, attempts] = await Promise.all([
@@ -74,7 +106,7 @@ const broadcastAdminAndArenaSync = async (adminState, extraBroadcast = {}) => {
   // 4. Optional challenge catalog broadcast
   if (extraBroadcast.broadcastChallenges) {
     const publicCatalog = await ChallengeService.listChallenges();
-    io.to(SOCKET_ROOMS.ARENA_GLOBAL).emit(SOCKET_EVENTS.CHALLENGE.UPDATE, {
+    io.emit(SOCKET_EVENTS.CHALLENGE.UPDATE, {
       catalog: publicCatalog,
       timestamp: new Date().toISOString(),
     });
@@ -120,7 +152,7 @@ const broadcastAdminAndArenaSync = async (adminState, extraBroadcast = {}) => {
 export const loginAdminOperator = async (req, res, next) => {
   try {
     const { operatorId, password } = req.body || {};
-    const { token, operator } = AdminService.authenticateOperator(operatorId, password);
+    const { token, operator } = await AdminService.authenticateOperator(operatorId, password);
     const state = await AdminService.getAdminControlState();
 
     res.status(200).json({
@@ -135,19 +167,35 @@ export const loginAdminOperator = async (req, res, next) => {
 };
 
 /**
- * GET /api/admin/operators-hint
- * Returns seeded demo operator IDs for quick evaluation login
+ * GET /api/admin/operators
+ * Returns seeded demo operator IDs and floor volunteers for quick login
  */
-export const getAdminOperatorsHint = (_req, res) => {
-  res.status(200).json({
-    status: 'ok',
-    operators: SEEDED_ADMIN_OPERATORS.map((op) => ({
-      operatorId: op.operatorId,
-      name: op.name,
-      role: op.role,
-      clearance: op.clearance,
-    })),
-  });
+export const getAdminOperatorsHint = async (_req, res) => {
+  try {
+    const volunteers = await AdminService.listVolunteers();
+    const adminOps = SEEDED_ADMIN_OPERATORS.filter((op) => op.role === 'ADMIN');
+    const combined = [...adminOps, ...volunteers];
+    res.status(200).json({
+      status: 'ok',
+      operators: combined.map((op) => ({
+        operatorId: op.operatorId,
+        name: op.name,
+        role: op.role,
+        clearance: op.clearance,
+        sector: op.sector || 'FLOOR OPS',
+      })),
+    });
+  } catch {
+    res.status(200).json({
+      status: 'ok',
+      operators: SEEDED_ADMIN_OPERATORS.map((op) => ({
+        operatorId: op.operatorId,
+        name: op.name,
+        role: op.role,
+        clearance: op.clearance,
+      })),
+    });
+  }
 };
 
 /**
@@ -158,6 +206,37 @@ export const getAdminControlState = async (_req, res, next) => {
   try {
     const state = await AdminService.getAdminControlState();
     res.status(200).json(state);
+  } catch (error) {
+    next(error);
+  }
+};
+
+/**
+ * POST /api/admin/volunteers
+ * Create or update a Floor Volunteer (Admin only)
+ */
+export const createAdminVolunteer = async (req, res, next) => {
+  try {
+    const actor = req.admin?.operatorId || 'ADMIN-NEXUS';
+    const state = await AdminService.createVolunteer(req.body || {}, actor);
+    res.status(200).json(state);
+    broadcastAdminAndArenaSync(state).catch(() => {});
+  } catch (error) {
+    next(error);
+  }
+};
+
+/**
+ * DELETE /api/admin/volunteers/:operatorId
+ * Delete a Floor Volunteer (Admin only)
+ */
+export const deleteAdminVolunteer = async (req, res, next) => {
+  try {
+    const { operatorId } = req.params || {};
+    const actor = req.admin?.operatorId || 'ADMIN-NEXUS';
+    const state = await AdminService.deleteVolunteer(operatorId, actor);
+    res.status(200).json(state);
+    broadcastAdminAndArenaSync(state).catch(() => {});
   } catch (error) {
     next(error);
   }
@@ -284,11 +363,14 @@ export const executeAdminEventControl = async (req, res, next) => {
     const actor = req.admin?.operatorId || 'ADMIN-NEXUS';
     const state = await AdminService.executeEventControl({ command, payload }, actor);
 
+    const isResetAll = state.executedCommand === 'RESET_ALL';
     res.status(200).json(state);
     broadcastAdminAndArenaSync(state, {
       coreRevealTriggered: state.coreRevealTriggered,
       coreStateUpdated: state.coreStateUpdated,
       eventCommand: state.executedCommand,
+      broadcastAllTeams: isResetAll,
+      broadcastChallenges: isResetAll,
     }).catch(() => {});
 
     // If a launch countdown was started, schedule an authoritative broadcast when countdown hits 0
@@ -324,7 +406,10 @@ export const updateAdminSettings = async (req, res, next) => {
     const state = await AdminService.updateSettings(req.body || {}, actor);
 
     res.status(200).json(state);
-    broadcastAdminAndArenaSync(state, { broadcastChallenges: true }).catch(() => {});
+    broadcastAdminAndArenaSync(state, {
+      broadcastChallenges: true,
+      broadcastAllTeams: state.executedCommand === 'RESET_ALL',
+    }).catch(() => {});
   } catch (error) {
     next(error);
   }

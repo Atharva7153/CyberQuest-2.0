@@ -26,13 +26,7 @@ import {
 import { useReducedMotion } from '../hooks/useReducedMotion';
 import { getStoredOperative } from '../services/authService';
 import { socketClient, NEXUS_SOCKET_EVENTS } from '../socket/socketClient';
-
-const API_BASE_URL =
-  import.meta.env.VITE_API_BASE_URL ||
-  import.meta.env.VITE_API_URL ||
-  (typeof window !== 'undefined' && window.location.port !== '5173'
-    ? window.location.origin
-    : 'http://localhost:5050');
+import { API_BASE_URL } from '../config/runtimeConfig';
 
 /**
  * Canonical 6-item participant navigation:
@@ -108,6 +102,7 @@ export const PortalShellLayout = ({
   const extraSeconds = (team?.activeAttempt?.extraTimeMinutes || 0) * 60;
   const [serverGlobalTimer, setServerGlobalTimer] = useState(null);
   const [serverCoreStatus, setServerCoreStatus] = useState(null);
+  const [serverTopTeams, setServerTopTeams] = useState([]);
   const [nowMs, setNowMs] = useState(() => Date.now());
   const shellRef = useRef(null);
 
@@ -125,6 +120,9 @@ export const PortalShellLayout = ({
           if (data?.coreStatus) {
             setServerCoreStatus(data.coreStatus);
           }
+          if (Array.isArray(data?.topTeams)) {
+            setServerTopTeams(data.topTeams);
+          }
         })
         .catch(() => {});
     };
@@ -138,6 +136,9 @@ export const PortalShellLayout = ({
       }
       if (payload?.coreStatus) {
         setServerCoreStatus(payload.coreStatus);
+      }
+      if (Array.isArray(payload?.topTeams)) {
+        setServerTopTeams(payload.topTeams);
       }
     };
 
@@ -585,6 +586,7 @@ export const PortalShellLayout = ({
       <CinematicArenaOverlay
         globalTimer={serverGlobalTimer}
         coreStatus={serverCoreStatus}
+        leaderboard={serverTopTeams}
         team={team}
         onlineOperatives={onlineOperatives}
       />

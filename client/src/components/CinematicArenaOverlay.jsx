@@ -19,11 +19,11 @@ import {
 export const CinematicArenaOverlay = ({
   globalTimer,
   coreStatus,
+  leaderboard = [],
   team,
 }) => {
   const [nowMs, setNowMs] = useState(() => Date.now());
   const [blastOffActive, setBlastOffActive] = useState(false);
-  const [dismissedWinnerKey, setDismissedWinnerKey] = useState(null);
 
   const prevStatusRef = useRef(globalTimer?.status || 'PAUSED');
   const prevCountRef = useRef(null);
@@ -171,16 +171,7 @@ export const CinematicArenaOverlay = ({
   const declaredWinner =
     globalTimer?.declaredWinner ||
     coreStatus?.declaredWinner ||
-    (globalTimer?.status === 'ENDED' && coreStatus?.winner
-      ? {
-          teamId: coreStatus.winner.teamId,
-          teamName: coreStatus.winner.teamName,
-          credits: coreStatus.winner.finalCredits,
-          totalSolved: coreStatus.winner.totalSolved,
-          rank: 1,
-          reason: 'NEXUS CORE OVERTHROWN // TOP 2 SOVEREIGN SQUADS',
-        }
-      : null);
+    null;
 
   const runnerUp =
     declaredWinner?.runnerUp ||
@@ -188,15 +179,24 @@ export const CinematicArenaOverlay = ({
     (Array.isArray(declaredWinner?.podium) && declaredWinner.podium[1]) ||
     null;
 
+  const allTeamRankings =
+    Array.isArray(declaredWinner?.allTeamsRanking) && declaredWinner.allTeamsRanking.length > 0
+      ? declaredWinner.allTeamsRanking
+      : Array.isArray(leaderboard) && leaderboard.length > 0
+        ? leaderboard
+        : Array.isArray(declaredWinner?.podium)
+          ? declaredWinner.podium
+          : [];
+
   const winnerKey = declaredWinner
     ? `${declaredWinner.teamId}-${runnerUp?.teamId || 'NONE'}-${declaredWinner.declaredAt || declaredWinner.credits}`
     : null;
 
+  // Strictly Admin-controlled: remains open until Admin clears/dismisses or resets
   const showWinnerModal =
     Boolean(declaredWinner) &&
     !isCountingDown &&
-    !blastOffActive &&
-    dismissedWinnerKey !== winnerKey;
+    !blastOffActive;
 
   // Cinematic GSAP timeline for the Top 2 Winners Ceremony
   useEffect(() => {
@@ -443,26 +443,22 @@ export const CinematicArenaOverlay = ({
               }}
             />
 
-            {/* Top Widescreen Cinema Letterbox Bar */}
+            {/* Top Widescreen Cinema Letterbox Bar (Admin Controlled — No Close Button) */}
             <div className="sticky top-0 z-30 w-full bg-black/95 backdrop-blur-md border-b-2 border-amber-400/60 px-3 sm:px-6 py-2.5 sm:py-3 flex items-center justify-between gap-2 font-mono text-[9px] sm:text-xs uppercase tracking-[0.12em] sm:tracking-[0.26em] text-amber-300">
               <span className="flex items-center gap-1.5 sm:gap-2 font-bold truncate">
                 <Sparkles className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-amber-400 shrink-0" />
                 <span className="truncate">CYBER QUEST: NEXUS // VICTORY PROCLAMATION</span>
               </span>
-              <button
-                type="button"
-                onClick={() => setDismissedWinnerKey(winnerKey)}
-                className="px-2.5 sm:px-3 py-1 border border-white/30 bg-white/10 hover:bg-nexus-crimson hover:border-white text-white font-bold uppercase tracking-widest cursor-pointer inline-flex items-center gap-1 sm:gap-1.5 shrink-0 transition-colors"
-              >
-                <span>CLOSE</span>
-                <X className="w-3.5 h-3.5" />
-              </button>
+              <span className="px-2 sm:px-3 py-1 border border-amber-400/50 bg-amber-400/15 text-amber-300 font-bold uppercase tracking-widest inline-flex items-center gap-1.5 shrink-0">
+                <Lock className="w-3 h-3" />
+                <span>OFFICIAL STANDINGS</span>
+              </span>
             </div>
 
             {/* Center Ceremony Stage */}
-            <div className="relative z-10 max-w-6xl w-full mx-auto px-3 sm:px-8 py-5 sm:py-8 my-auto space-y-5 sm:space-y-8">
+            <div className="relative z-10 max-w-6xl w-full mx-auto px-3 sm:px-8 py-4 sm:py-8 my-auto space-y-5 sm:space-y-7">
               {/* Ceremony Header */}
-              <div className="winner-cinema-header text-center space-y-2.5 sm:space-y-3">
+              <div className="winner-cinema-header text-center space-y-2 sm:space-y-3">
                 <div className="inline-flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-1 bg-amber-400 text-nexus-ink font-mono text-[10px] sm:text-xs font-black uppercase tracking-[0.14em] sm:tracking-[0.28em] border-2 border-white shadow-[0_0_30px_rgba(245,158,11,0.6)] max-w-full">
                   <Crown className="w-3.5 h-3.5 sm:w-4 sm:h-4 shrink-0" />
                   <span className="truncate">
@@ -497,10 +493,10 @@ export const CinematicArenaOverlay = ({
                 <div
                   className={`winner-rank-1-card ${
                     runnerUp ? 'lg:col-span-7' : ''
-                  } border-3 sm:border-4 border-amber-400 bg-gradient-to-b from-amber-500/20 via-[#121110] to-[#0B0B0D] text-white p-4 sm:p-8 relative overflow-hidden shadow-[0_0_70px_rgba(245,158,11,0.45)] flex flex-col justify-between`}
+                  } border-3 sm:border-4 border-amber-400 bg-gradient-to-b from-amber-500/20 via-[#121110] to-[#0B0B0D] text-white p-4 sm:p-7 relative overflow-hidden shadow-[0_0_70px_rgba(245,158,11,0.45)] flex flex-col justify-between`}
                 >
-                  <div className="space-y-4 sm:space-y-5">
-                    <div className="flex flex-wrap items-center justify-between gap-2 border-b border-amber-400/30 pb-3 sm:pb-4">
+                  <div className="space-y-3.5 sm:space-y-4">
+                    <div className="flex flex-wrap items-center justify-between gap-2 border-b border-amber-400/30 pb-2.5 sm:pb-3">
                       <span className="px-2.5 sm:px-3.5 py-1 bg-amber-400 text-nexus-ink font-mono text-[10px] sm:text-xs font-black uppercase tracking-[0.16em] sm:tracking-[0.24em] inline-flex items-center gap-1.5">
                         <Trophy className="w-3.5 h-3.5 sm:w-4 sm:h-4 shrink-0" />
                         <span>RANK #1 // GRAND CHAMPION</span>
@@ -511,15 +507,15 @@ export const CinematicArenaOverlay = ({
                     </div>
 
                     <div className="flex items-center gap-3.5 sm:gap-5">
-                      <div className="winner-trophy-glow w-16 h-16 sm:w-24 sm:h-24 bg-gradient-to-br from-amber-300 via-amber-400 to-amber-600 text-nexus-ink border-3 sm:border-4 border-white flex items-center justify-center shrink-0 shadow-[0_0_40px_rgba(245,158,11,0.8)]">
-                        <Trophy className="w-8 h-8 sm:w-13 sm:h-13 stroke-[2.3]" />
+                      <div className="winner-trophy-glow w-14 h-14 sm:w-20 sm:h-20 bg-gradient-to-br from-amber-300 via-amber-400 to-amber-600 text-nexus-ink border-3 sm:border-4 border-white flex items-center justify-center shrink-0 shadow-[0_0_40px_rgba(245,158,11,0.8)]">
+                        <Trophy className="w-7 h-7 sm:w-11 sm:h-11 stroke-[2.3]" />
                       </div>
 
                       <div className="min-w-0 flex-1">
                         <span className="font-mono text-[10px] sm:text-[11px] uppercase tracking-[0.18em] sm:tracking-[0.25em] text-amber-300 font-bold block">
                           1ST PLACE SOVEREIGN SQUAD
                         </span>
-                        <h2 className="font-display text-3xl sm:text-6xl uppercase tracking-wide text-white leading-tight sm:leading-none break-words mt-1">
+                        <h2 className="font-display text-3xl sm:text-5xl uppercase tracking-wide text-white leading-tight sm:leading-none break-words mt-1">
                           {declaredWinner.teamName || declaredWinner.teamId}
                         </h2>
                       </div>
@@ -527,15 +523,15 @@ export const CinematicArenaOverlay = ({
 
                     {/* Squad Members Pills */}
                     {Array.isArray(declaredWinner.members) && declaredWinner.members.length > 0 && (
-                      <div className="pt-1 sm:pt-2">
-                        <span className="font-mono text-[10px] uppercase tracking-widest text-amber-300/80 block mb-2">
+                      <div className="pt-1">
+                        <span className="font-mono text-[10px] uppercase tracking-widest text-amber-300/80 block mb-1.5">
                           CHAMPION OPERATIVES
                         </span>
-                        <div className="flex flex-wrap gap-1.5 sm:gap-2">
+                        <div className="flex flex-wrap gap-1.5">
                           {declaredWinner.members.map((m, i) => (
                             <span
                               key={m.memberId || i}
-                              className="px-2 sm:px-2.5 py-1 bg-black/60 border border-amber-400/50 font-mono text-[11px] sm:text-xs font-bold uppercase text-amber-200"
+                              className="px-2 py-0.5 bg-black/60 border border-amber-400/50 font-mono text-[11px] font-bold uppercase text-amber-200"
                             >
                               {m.name || `OPERATIVE ${i + 1}`}
                             </span>
@@ -546,8 +542,8 @@ export const CinematicArenaOverlay = ({
                   </div>
 
                   {/* #1 Telemetry Footer */}
-                  <div className="mt-5 sm:mt-6 pt-4 border-t border-amber-400/30 grid grid-cols-2 gap-2.5 sm:gap-4 font-mono">
-                    <div className="p-2.5 sm:p-3 bg-black/60 border border-amber-400/40">
+                  <div className="mt-4 sm:mt-5 pt-3.5 border-t border-amber-400/30 grid grid-cols-2 gap-2.5 sm:gap-4 font-mono">
+                    <div className="p-2.5 bg-black/60 border border-amber-400/40">
                       <span className="block text-[9px] sm:text-[10px] uppercase tracking-wider sm:tracking-widest text-amber-300/80">
                         FINAL CREDITS
                       </span>
@@ -555,7 +551,7 @@ export const CinematicArenaOverlay = ({
                         {Number(declaredWinner.credits || 0).toLocaleString()} CR
                       </span>
                     </div>
-                    <div className="p-2.5 sm:p-3 bg-black/60 border border-amber-400/40">
+                    <div className="p-2.5 bg-black/60 border border-amber-400/40">
                       <span className="block text-[9px] sm:text-[10px] uppercase tracking-wider sm:tracking-widest text-amber-300/80">
                         CHALLENGES SOLVED
                       </span>
@@ -568,9 +564,9 @@ export const CinematicArenaOverlay = ({
 
                 {/* #2 FIRST RUNNER-UP CARD (5 cols) */}
                 {runnerUp && (
-                  <div className="winner-rank-2-card lg:col-span-5 border-3 sm:border-4 border-zinc-300 bg-gradient-to-b from-zinc-400/15 via-[#121316] to-[#0B0B0D] text-white p-4 sm:p-8 relative overflow-hidden shadow-[0_0_50px_rgba(212,212,216,0.28)] flex flex-col justify-between">
-                    <div className="space-y-4 sm:space-y-5">
-                      <div className="flex flex-wrap items-center justify-between gap-2 border-b border-zinc-300/25 pb-3 sm:pb-4">
+                  <div className="winner-rank-2-card lg:col-span-5 border-3 sm:border-4 border-zinc-300 bg-gradient-to-b from-zinc-400/15 via-[#121316] to-[#0B0B0D] text-white p-4 sm:p-7 relative overflow-hidden shadow-[0_0_50px_rgba(212,212,216,0.28)] flex flex-col justify-between">
+                    <div className="space-y-3.5 sm:space-y-4">
+                      <div className="flex flex-wrap items-center justify-between gap-2 border-b border-zinc-300/25 pb-2.5 sm:pb-3">
                         <span className="px-2.5 sm:px-3 py-1 bg-zinc-200 text-nexus-ink font-mono text-[10px] sm:text-xs font-black uppercase tracking-[0.16em] sm:tracking-[0.22em] inline-flex items-center gap-1.5">
                           <Award className="w-3.5 h-3.5 sm:w-4 sm:h-4 shrink-0" />
                           <span>RANK #2 // RUNNER-UP</span>
@@ -581,15 +577,15 @@ export const CinematicArenaOverlay = ({
                       </div>
 
                       <div className="flex items-center gap-3.5 sm:gap-4">
-                        <div className="w-14 h-14 sm:w-20 sm:h-20 bg-gradient-to-br from-zinc-100 via-zinc-300 to-zinc-500 text-nexus-ink border-3 sm:border-4 border-white flex items-center justify-center shrink-0 shadow-[0_0_30px_rgba(212,212,216,0.6)]">
-                          <Award className="w-7 h-7 sm:w-11 sm:h-11 stroke-[2.2]" />
+                        <div className="w-14 h-14 sm:w-18 sm:h-18 bg-gradient-to-br from-zinc-100 via-zinc-300 to-zinc-500 text-nexus-ink border-3 sm:border-4 border-white flex items-center justify-center shrink-0 shadow-[0_0_30px_rgba(212,212,216,0.6)]">
+                          <Award className="w-7 h-7 sm:w-10 sm:h-10 stroke-[2.2]" />
                         </div>
 
                         <div className="min-w-0 flex-1">
                           <span className="font-mono text-[10px] uppercase tracking-[0.16em] sm:tracking-[0.22em] text-zinc-300 font-bold block">
                             2ND PLACE VANGUARD SQUAD
                           </span>
-                          <h3 className="font-display text-2xl sm:text-5xl uppercase tracking-wide text-white leading-tight sm:leading-none break-words mt-1">
+                          <h3 className="font-display text-2xl sm:text-4xl uppercase tracking-wide text-white leading-tight sm:leading-none break-words mt-1">
                             {runnerUp.teamName || runnerUp.teamId}
                           </h3>
                         </div>
@@ -598,7 +594,7 @@ export const CinematicArenaOverlay = ({
                       {/* Runner-up Members Pills */}
                       {Array.isArray(runnerUp.members) && runnerUp.members.length > 0 && (
                         <div className="pt-1">
-                          <span className="font-mono text-[10px] uppercase tracking-widest text-zinc-400 block mb-2">
+                          <span className="font-mono text-[10px] uppercase tracking-widest text-zinc-400 block mb-1.5">
                             VANGUARD OPERATIVES
                           </span>
                           <div className="flex flex-wrap gap-1.5">
@@ -616,8 +612,8 @@ export const CinematicArenaOverlay = ({
                     </div>
 
                     {/* #2 Telemetry Footer */}
-                    <div className="mt-5 sm:mt-6 pt-4 border-t border-zinc-300/25 grid grid-cols-2 gap-2.5 sm:gap-3 font-mono">
-                      <div className="p-2.5 sm:p-3 bg-black/60 border border-zinc-400/35">
+                    <div className="mt-4 sm:mt-5 pt-3.5 border-t border-zinc-300/25 grid grid-cols-2 gap-2.5 sm:gap-3 font-mono">
+                      <div className="p-2.5 bg-black/60 border border-zinc-400/35">
                         <span className="block text-[9px] sm:text-[10px] uppercase tracking-wider sm:tracking-widest text-zinc-400">
                           FINAL CREDITS
                         </span>
@@ -625,7 +621,7 @@ export const CinematicArenaOverlay = ({
                           {Number(runnerUp.credits || 0).toLocaleString()} CR
                         </span>
                       </div>
-                      <div className="p-2.5 sm:p-3 bg-black/60 border border-zinc-400/35">
+                      <div className="p-2.5 bg-black/60 border border-zinc-400/35">
                         <span className="block text-[9px] sm:text-[10px] uppercase tracking-wider sm:tracking-widest text-zinc-400">
                           CHALLENGES SOLVED
                         </span>
@@ -638,22 +634,114 @@ export const CinematicArenaOverlay = ({
                 )}
               </div>
 
-              {/* Action Bar */}
-              <div className="winner-footer-bar flex flex-wrap items-center justify-center gap-4 pt-1 sm:pt-2">
-                <button
-                  type="button"
-                  onClick={() => setDismissedWinnerKey(winnerKey)}
-                  className="w-full sm:w-auto px-6 sm:px-8 py-3 sm:py-3.5 bg-amber-400 hover:bg-white text-nexus-ink font-condensed text-base sm:text-lg font-extrabold uppercase tracking-[0.18em] sm:tracking-[0.22em] border-2 border-white shadow-[0_0_30px_rgba(245,158,11,0.5)] transition-colors cursor-pointer"
-                >
-                  [ ENTER FINAL STANDINGS ]
-                </button>
-              </div>
+              {/* SCROLLABLE ALL TEAM RANKINGS SECTION */}
+              {allTeamRankings.length > 0 && (
+                <div className="winner-footer-bar border-2 border-amber-400/50 bg-[#0B0B0F]/95 shadow-[0_0_40px_rgba(0,0,0,0.75)] overflow-hidden">
+                  <div className="px-4 sm:px-6 py-3 bg-black border-b border-amber-400/40 flex flex-wrap items-center justify-between gap-2">
+                    <div className="flex items-center gap-2">
+                      <Trophy className="w-4 h-4 text-amber-400" />
+                      <span className="font-condensed text-base sm:text-lg font-extrabold uppercase tracking-[0.18em] text-white">
+                        ALL TEAM RANKINGS ({allTeamRankings.length} SQUADS)
+                      </span>
+                    </div>
+                    <span className="font-mono text-[10px] uppercase tracking-widest text-amber-300">
+                      SCROLL TO VIEW FULL STANDINGS ↓
+                    </span>
+                  </div>
+
+                  <div className="max-h-[38vh] sm:max-h-[320px] overflow-y-auto divide-y divide-white/10">
+                    {allTeamRankings.map((row, idx) => {
+                      const rankNum = Number(row.rank || idx + 1);
+                      const rowTeamId = String(row.teamId || '').toUpperCase();
+                      const isMySquad = myTeamIdUpper && rowTeamId === myTeamIdUpper;
+                      const solvedCount = Number(
+                        row.totalSolved ?? row.challengesSolved ?? 0
+                      );
+                      const creditsVal = Number(row.credits ?? 0);
+
+                      return (
+                        <div
+                          key={row.teamId || idx}
+                          className={`px-3.5 sm:px-6 py-3 flex items-center justify-between gap-3 font-mono transition-colors ${
+                            isMySquad
+                              ? 'bg-nexus-crimson/25 border-l-4 border-nexus-crimson'
+                              : rankNum === 1
+                                ? 'bg-amber-400/15 border-l-4 border-amber-400'
+                                : rankNum === 2
+                                  ? 'bg-zinc-300/10 border-l-4 border-zinc-300'
+                                  : 'hover:bg-white/5'
+                          }`}
+                        >
+                          <div className="flex items-center gap-3 min-w-0">
+                            <span
+                              className={`w-8 h-8 sm:w-9 sm:h-9 flex items-center justify-center font-display text-lg sm:text-xl shrink-0 border ${
+                                rankNum === 1
+                                  ? 'bg-amber-400 text-nexus-ink border-white font-bold'
+                                  : rankNum === 2
+                                    ? 'bg-zinc-200 text-nexus-ink border-white font-bold'
+                                    : rankNum === 3
+                                      ? 'bg-amber-700 text-white border-amber-400/50'
+                                      : 'bg-black/60 text-white/80 border-white/20'
+                              }`}
+                            >
+                              #{rankNum}
+                            </span>
+
+                            <div className="min-w-0">
+                              <div className="flex flex-wrap items-center gap-1.5">
+                                <span className="font-display text-lg sm:text-2xl uppercase tracking-wide text-white truncate">
+                                  {row.teamName || row.teamId}
+                                </span>
+                                {isMySquad && (
+                                  <span className="px-1.5 py-0.5 bg-nexus-crimson text-white text-[9px] font-bold uppercase tracking-wider">
+                                    YOUR TEAM
+                                  </span>
+                                )}
+                                {rankNum === 1 && (
+                                  <span className="px-1.5 py-0.5 bg-amber-400 text-nexus-ink text-[9px] font-bold uppercase tracking-wider">
+                                    CHAMPION
+                                  </span>
+                                )}
+                                {rankNum === 2 && (
+                                  <span className="px-1.5 py-0.5 bg-zinc-200 text-nexus-ink text-[9px] font-bold uppercase tracking-wider">
+                                    RUNNER-UP
+                                  </span>
+                                )}
+                              </div>
+                              <p className="text-[10px] text-white/60 uppercase tracking-wider truncate">
+                                [{row.teamId}] · {solvedCount} CHALLENGES SOLVED
+                              </p>
+                            </div>
+                          </div>
+
+                          <div className="text-right shrink-0">
+                            <span
+                              className={`font-display text-xl sm:text-2xl leading-none block ${
+                                rankNum === 1
+                                  ? 'text-amber-400'
+                                  : rankNum === 2
+                                    ? 'text-zinc-200'
+                                    : 'text-white'
+                              }`}
+                            >
+                              {creditsVal.toLocaleString()} CR
+                            </span>
+                            <span className="text-[9px] text-white/50 uppercase tracking-widest">
+                              TOTAL POINTS
+                            </span>
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+              )}
             </div>
 
             {/* Bottom Widescreen Cinema Letterbox Bar */}
             <div className="relative z-20 w-full bg-black border-t-2 border-amber-400/60 px-3 sm:px-6 py-2.5 sm:py-3 flex flex-col sm:flex-row items-center justify-between gap-1 font-mono text-[9px] sm:text-xs uppercase tracking-[0.14em] sm:tracking-[0.24em] text-nexus-paper/60 text-center">
               <span>PROCLAMATION ISSUED BY CENTRAL COMMAND</span>
-              <span>TOP 2 SOVEREIGN SQUADS ARCHIVED</span>
+              <span>CONTROLLED BY ORGANIZER // FINAL STANDINGS</span>
             </div>
           </motion.div>
         )}

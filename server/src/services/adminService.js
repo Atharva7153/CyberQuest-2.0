@@ -1,5 +1,6 @@
 import mongoose from 'mongoose';
 import { Team } from '../models/Team.js';
+import { Volunteer } from '../models/Volunteer.js';
 import {
   Challenge,
   CHALLENGE_CATEGORIES,
@@ -51,6 +52,7 @@ export const SEEDED_ADMIN_OPERATORS = [
     name: 'DIRECTOR VANCE // NEXUS COMMAND',
     role: 'ADMIN',
     clearance: 'OMEGA-ADMIN',
+    sector: 'CENTRAL COMMAND',
   },
   {
     operatorId: 'VOLUNTEER-01',
@@ -58,6 +60,21 @@ export const SEEDED_ADMIN_OPERATORS = [
     name: 'SECTOR MARSHAL 01 // FLOOR OPS',
     role: 'VOLUNTEER',
     clearance: 'SECTOR-VOLUNTEER',
+    sector: 'FLOOR OPS',
+  },
+];
+
+// In-memory fallback store for Floor Volunteers
+const inMemoryVolunteers = [
+  {
+    operatorId: 'VOLUNTEER-01',
+    plainPassword: 'NEXUS-VOL-2026',
+    name: 'SECTOR MARSHAL 01 // FLOOR OPS',
+    role: 'VOLUNTEER',
+    clearance: 'SECTOR-VOLUNTEER',
+    sector: 'FLOOR OPS',
+    createdBy: 'SYSTEM_SEED',
+    createdAt: new Date().toISOString(),
   },
 ];
 
@@ -80,6 +97,22 @@ const getRoomConnectionCount = (teamId) => {
   const roomName = SOCKET_ROOMS.teamRoom(teamId);
   const room = io.sockets.adapter.rooms.get(roomName);
   return room ? room.size : 0;
+};
+
+const getRoomConnectedMemberIds = (teamId) => {
+  const memberIds = new Set();
+  const io = getSocketServer();
+  if (!io) return memberIds;
+  const roomName = SOCKET_ROOMS.teamRoom(teamId);
+  const room = io.sockets.adapter.rooms.get(roomName);
+  if (!room) return memberIds;
+  for (const socketId of room) {
+    const s = io.sockets.sockets.get(socketId);
+    if (s?.data?.memberId) {
+      memberIds.add(String(s.data.memberId).trim().toUpperCase());
+    }
+  }
+  return memberIds;
 };
 
 /**
@@ -118,9 +151,173 @@ export class AdminService {
   }
 
   /**
+   * Ensure default Floor Volunteer is seeded in MongoDB
+   */
+  static async ensureDefaultVolunteersSeeded() {
+    if (mongoose.connection.readyState !== 1) return;
+    try {
+      const count = await Volunteer.countDocuments();
+      if (count === 0) {
+        const seedVol = SEEDED_ADMIN_OPERATORS.find((op) => op.role === 'VOLUNTEER');
+        if (seedVol) {
+          await Volunteer.findOneAndUpdate(
+            { operatorId: seedVol.operatorId },
+            {
+              $setOnInsert: {
+                operatorId: seedVol.operatorId,
+                name: seedVol.name,
+                plainPassword: seedVol.plainPassword,
+                role: 'VOLUNTEER',
+                clearance: 'SECTOR-VOLUNTEER',
+                sector: seedVol.sector || 'FLOOR OPS',
+                createdBy: 'SYSTEM_SEED',
+              },
+            },
+            { upsert: true }
+          );
+        }
+      }
+    } catch {
+      // Ignore transient seed error
+    }
+  }
+
+  /**
+   * List all Floor Volunteers
+   */
+  static async listVolunteers() {
+    await this.ensureDefaultVolunteersSeeded();
+    if (mongoose.connection.readyState === 1) {
+      const docs = await Volunteer.find({}).sort({ createdAt: 1 }).lean();
+      if (docs.length > 0) {
+        return docs.map((d) => ({
+          operatorId: d.operatorId,
+          name: d.name,
+          plainPassword: d.plainPassword,
+          role: 'VOLUNTEER',
+          clearance: d.clearance || 'SECTOR-VOLUNTEER',
+          sector: d.sector || 'FLOOR OPS',
+          createdBy: d.createdBy || 'ADMIN-NEXUS',
+          createdAt: d.createdAt,
+        }));
+      }
+    }
+    return [...inMemoryVolunteers];
+  }
+
+  /**
+   * Create or update a Floor Volunteer (Admin only)
+   */
+  static async createVolunteer(payload = {}, actor = 'ADMIN-NEXUS') {
+    await this.ensureDefaultVolunteersSeeded();
+
+    const rawName = String(payload.name || '').trim().toUpperCase();
+    const rawId = String(payload.operatorId || '').trim().toUpperCase();
+    const plainPassword = String(payload.password || payload.plainPassword || 'NEXUS-VOL-2026').trim();
+    const sector = String(payload.sector || 'FLOOR OPS').trim().toUpperCase() || 'FLOOR OPS';
+
+    if (!rawName && !rawId) {
+      const err = new Error('Volunteer Name or Operator ID is required.');
+      err.statusCode = 400;
+      throw err;
+    }
+    if (!plainPassword) {
+      const err = new Error('Volunteer password is required.');
+      err.statusCode = 400;
+      throw err;
+    }
+
+    const existingList = await this.listVolunteers();
+    const nextNum = existingList.length + 1;
+    const operatorId = rawId
+      ? rawId.replace(/[^A-Z0-9-_]+/g, '-')
+      : `VOLUNTEER-${String(nextNum).padStart(2, '0')}`;
+
+    if (operatorId === 'ADMIN-NEXUS') {
+      const err = new Error('Cannot overwrite primary ADMIN-NEXUS operator.');
+      err.statusCode = 409;
+      throw err;
+    }
+
+    const name = rawName || operatorId;
+    const volunteerRecord = {
+      operatorId,
+      name,
+      plainPassword,
+      role: 'VOLUNTEER',
+      clearance: 'SECTOR-VOLUNTEER',
+      sector,
+      createdBy: actor,
+    };
+
+    if (mongoose.connection.readyState === 1) {
+      await Volunteer.findOneAndUpdate(
+        { operatorId },
+        { $set: volunteerRecord },
+        { upsert: true, new: true }
+      );
+    }
+
+    const memIdx = inMemoryVolunteers.findIndex((v) => v.operatorId === operatorId);
+    if (memIdx >= 0) {
+      inMemoryVolunteers[memIdx] = { ...inMemoryVolunteers[memIdx], ...volunteerRecord };
+    } else {
+      inMemoryVolunteers.push({ ...volunteerRecord, createdAt: new Date().toISOString() });
+    }
+
+    const summaryMsg = `CREATED FLOOR VOLUNTEER [${operatorId}] (${name} · ${sector})`;
+    recordAdminEventLog({
+      action: 'CREATE_VOLUNTEER',
+      category: 'VOLUNTEER_CONTROL',
+      actor,
+      summary: summaryMsg,
+    });
+
+    const state = await this.getAdminControlState();
+    return {
+      ...state,
+      createdVolunteer: volunteerRecord,
+    };
+  }
+
+  /**
+   * Delete a Floor Volunteer (Admin only)
+   */
+  static async deleteVolunteer(rawOperatorId, actor = 'ADMIN-NEXUS') {
+    const operatorId = String(rawOperatorId || '').trim().toUpperCase();
+    if (!operatorId) {
+      const err = new Error('Volunteer Operator ID is required.');
+      err.statusCode = 400;
+      throw err;
+    }
+    if (operatorId === 'ADMIN-NEXUS') {
+      const err = new Error('Cannot delete primary ADMIN-NEXUS account.');
+      err.statusCode = 403;
+      throw err;
+    }
+
+    if (mongoose.connection.readyState === 1) {
+      await Volunteer.deleteOne({ operatorId });
+    }
+    const memIdx = inMemoryVolunteers.findIndex((v) => v.operatorId === operatorId);
+    if (memIdx >= 0) {
+      inMemoryVolunteers.splice(memIdx, 1);
+    }
+
+    recordAdminEventLog({
+      action: 'DELETE_VOLUNTEER',
+      category: 'VOLUNTEER_CONTROL',
+      actor,
+      summary: `REMOVED FLOOR VOLUNTEER [${operatorId}]`,
+    });
+
+    return this.getAdminControlState();
+  }
+
+  /**
    * Authenticate an Admin or Volunteer operator
    */
-  static authenticateOperator(rawOperatorId, plainPassword) {
+  static async authenticateOperator(rawOperatorId, plainPassword) {
     const normalizedId = String(rawOperatorId || '')
       .trim()
       .toUpperCase();
@@ -132,8 +329,15 @@ export class AdminService {
       throw err;
     }
 
-    const match = SEEDED_ADMIN_OPERATORS.find(
-      (op) => op.operatorId === normalizedId && op.plainPassword === pass
+    const volunteers = await this.listVolunteers();
+    const allOperators = [
+      ...SEEDED_ADMIN_OPERATORS.filter((op) => op.role === 'ADMIN'),
+      ...volunteers,
+      ...SEEDED_ADMIN_OPERATORS,
+    ];
+
+    const match = allOperators.find(
+      (op) => String(op.operatorId).toUpperCase() === normalizedId && op.plainPassword === pass
     );
 
     if (!match) {
@@ -146,7 +350,8 @@ export class AdminService {
       operatorId: match.operatorId,
       name: match.name,
       role: match.role,
-      clearance: match.clearance,
+      clearance: match.clearance || (match.role === 'ADMIN' ? 'OMEGA-ADMIN' : 'SECTOR-VOLUNTEER'),
+      sector: match.sector || 'FLOOR OPS',
     };
 
     const token = signAdminToken(operator);
@@ -198,6 +403,7 @@ export class AdminService {
       abilities,
       coreDoc,
       auditLogs,
+      volunteers,
     ] = await Promise.all([
       Team.find({ teamId: { $not: /^SIM-TEAM-/ } }).sort({ credits: -1 }).lean(),
       this.listAllChallengesForAdmin(),
@@ -212,6 +418,7 @@ export class AdminService {
       AbilityService.listAbilities(),
       NexusCoreService.getCoreConfigDoc({ includeSolution: true }),
       AuditService.listLogs({ limit: 40 }),
+      this.listVolunteers(),
     ]);
 
     const io = getSocketServer();
@@ -236,9 +443,10 @@ export class AdminService {
     let activeTeamsCount = 0;
     let completedTeamsCount = 0;
 
-    // Enrich each team with connection state, active timer, attempt history, and credit ledger
+    // Enrich each team with connection state, per-player online status, accessPassword, active timer, attempt history, and credit ledger
     const enrichedTeams = teams.map((team) => {
       const onlineOperatives = getRoomConnectionCount(team.teamId);
+      const connectedMemberIds = getRoomConnectedMemberIds(team.teamId);
       const roomName = SOCKET_ROOMS.teamRoom(team.teamId);
       const teamAttempts = attemptsByTeam.get(team.teamId) || [];
       const teamTransactions = txByTeam.get(team.teamId) || [];
@@ -255,7 +463,27 @@ export class AdminService {
         completedTeamsCount += 1;
       }
 
-      const memberCount = Math.min(4, Math.max(1, (team.members || []).length || 1));
+      const rawMembers = Array.isArray(team.members) ? team.members : [];
+      const memberCount = Math.min(4, Math.max(1, rawMembers.length || 1));
+      const enrichedMembers = rawMembers.map((m, idx) => {
+        const mId = String(m.memberId || `OP-0${idx + 1}`).trim().toUpperCase();
+        const isSocketOnline =
+          connectedMemberIds.has(mId) ||
+          (connectedMemberIds.size === 0 && onlineOperatives > 0 && idx === 0);
+        const isRecentLogin =
+          Boolean(m.online) &&
+          m.lastSeenAt &&
+          Date.now() - new Date(m.lastSeenAt).getTime() < 60 * 1000;
+        return {
+          ...m,
+          memberId: mId,
+          online: Boolean(isSocketOnline || isRecentLogin || (onlineOperatives > 0 && m.online)),
+        };
+      });
+
+      const onlinePlayersCount = enrichedMembers.filter((m) => m.online).length;
+      const isTeamOnline = onlineOperatives > 0 || onlinePlayersCount > 0;
+
       const teamFormat =
         memberCount === 1
           ? 'SOLO'
@@ -265,22 +493,30 @@ export class AdminService {
               ? 'TRIO'
               : 'SQUAD';
 
+      const plainPassword = team.accessPassword || 'NEXUS-2026';
+
       return {
         ...team,
+        accessPassword: plainPassword,
+        password: plainPassword,
+        members: enrichedMembers,
         teamSize: memberCount,
         teamFormat,
         coreState,
         activeTimer,
         connectionState: {
-          connected: onlineOperatives > 0,
-          status: onlineOperatives > 0 ? 'ONLINE' : 'OFFLINE',
-          onlineOperatives,
+          connected: isTeamOnline,
+          status: isTeamOnline ? 'ONLINE' : 'OFFLINE',
+          onlineOperatives: Math.max(onlineOperatives, onlinePlayersCount),
+          onlinePlayersCount,
           room: roomName,
         },
         attemptHistory: history,
         recentTransactions: teamTransactions.slice(0, 15),
       };
     });
+
+    const leaderboard = await buildPublicTopTeams(enrichedTeams);
 
     // Enrich attempts with teamName and canonical fields
     const teamNameMap = new Map(teams.map((t) => [t.teamId, t.teamName || t.teamId]));
@@ -351,6 +587,8 @@ export class AdminService {
         declaredWinner: getGlobalDeclaredWinner(),
       },
       teams: enrichedTeams,
+      leaderboard,
+      volunteers,
       challenges,
       attempts: enrichedAttempts,
       transactions: transactions.slice(0, 50),
@@ -609,6 +847,7 @@ export class AdminService {
       teamId: normalizedTeamId,
       teamName: normalizedTeamName,
       passwordHash,
+      accessPassword: plainPassword,
       credits: initialCredits,
       status: 'ACTIVE',
       members,
@@ -822,7 +1061,9 @@ export class AdminService {
           team.teamName = String(payload.teamName).trim().toUpperCase();
         }
         if (payload.password && String(payload.password).trim()) {
-          team.passwordHash = await hashPassword(String(payload.password).trim());
+          const cleanPass = String(payload.password).trim();
+          team.passwordHash = await hashPassword(cleanPass);
+          team.accessPassword = cleanPass;
         }
         team.markModified('members');
         await team.save();
@@ -938,13 +1179,15 @@ export class AdminService {
       }
 
       case 'RESET_TEAM': {
+        const effectiveStarting =
+          runtimeSettingsOverride.startingCredits ?? creditsConfig.getStartingCredits();
         await executeTeamAction(
           normalizedTeamId,
           'RESET_DEMO_STATE',
-          {},
+          { credits: effectiveStarting },
           { isTrustedAdmin: true }
         );
-        const summaryMsg = `RESET TEAM [${normalizedTeamId}] TO INITIAL SEED STATE`;
+        const summaryMsg = `RESET TEAM [${normalizedTeamId}] TO ZERO PROGRESS (${effectiveStarting} CR)`;
         recordAdminEventLog({
           action: 'RESET_TEAM',
           category: 'TEAM_CONTROL',
@@ -974,8 +1217,121 @@ export class AdminService {
   }
 
   /**
+   * Reset all teams to zero progress, clear all challenge attempts & transactions so every
+   * problem solved is solvable again, lock NEXUS Core, and reset round timer to standby.
+   * Requires Admin Reset Password verification.
+   */
+  static async resetEverythingToZero(actor = 'ADMIN-NEXUS', payload = {}) {
+    const providedPass = String(payload.resetPassword ?? payload.password ?? '').trim();
+    const envResetPass = String(process.env.ADMIN_RESET_PASSWORD || '').trim();
+    const validAdminPasswords = SEEDED_ADMIN_OPERATORS.filter((op) => op.role === 'ADMIN').map(
+      (op) => op.plainPassword
+    );
+    if (envResetPass) {
+      validAdminPasswords.push(envResetPass);
+    }
+
+    if (!providedPass || !validAdminPasswords.includes(providedPass)) {
+      const err = new Error('Invalid Admin Reset Password. Global reset denied.');
+      err.statusCode = 403;
+      throw err;
+    }
+
+    resetRateLimitBuckets();
+    const effectiveStarting =
+      runtimeSettingsOverride.startingCredits ?? creditsConfig.getStartingCredits();
+    const initialAbilities = AbilityService.buildInitialTeamAbilitySlots(DEFAULT_ABILITY_CATALOG);
+    const now = new Date();
+
+    await Promise.all([
+      Team.deleteMany({ teamId: /^SIM-TEAM-/ }),
+      ChallengeAttempt.deleteMany({}),
+      CreditTransaction.deleteMany({}),
+      Challenge.updateMany({}, { $set: { available: true } }),
+      NexusCoreService.resetNexusCoreDemoState(),
+    ]);
+
+    await Team.updateMany(
+      {},
+      {
+        $set: {
+          credits: effectiveStarting,
+          status: 'ACTIVE',
+          currentChallenge: null,
+          purchasedChallenges: [],
+          activeAttempt: null,
+          activeAttempts: [],
+          completedChallenges: [],
+          failedChallenges: [],
+          abilities: initialAbilities,
+          nexusCore: {
+            state: 'LOCKED',
+            unlockedAt: null,
+            activatedAt: null,
+            completedAt: null,
+            attemptsCount: 0,
+            completionRank: null,
+            proclamationCode: null,
+          },
+          stats: {
+            totalSolved: 0,
+            totalFailed: 0,
+            creditsEarned: effectiveStarting,
+            creditsSpent: 0,
+            penaltiesIncurred: 0,
+            reattemptsCount: 0,
+            hintsPurchased: 0,
+            extraTimePurchased: 0,
+            abilitiesUsed: 0,
+            riskProfile: 'SAFE',
+            safeAttempts: 0,
+            balancedAttempts: 0,
+            aggressiveAttempts: 0,
+            successByRisk: { SAFE: 0, BALANCED: 0, AGGRESSIVE: 0 },
+            creditsByRisk: {
+              SAFE: { gained: 0, lost: 0, net: 0 },
+              BALANCED: { gained: 0, lost: 0, net: 0 },
+              AGGRESSIVE: { gained: 0, lost: 0, net: 0 },
+            },
+            coreProgressPercent: 0,
+            lastActionAt: now,
+            recentActivity: [],
+          },
+        },
+      }
+    );
+
+    ChallengeService.invalidateCatalogCache();
+    this.invalidateAdminChallengeCache();
+    controlGlobalArenaEvent('RESET', {}, actor);
+
+    const summaryMsg =
+      'FULL ARENA RESET TO ZERO // ALL TEAMS RESTORED TO 0 SOLVED & ALL CHALLENGES SOLVABLE AGAIN';
+    recordAdminEventLog({
+      action: 'RESET_ALL',
+      category: 'EVENT_CONTROL',
+      actor,
+      summary: summaryMsg,
+    });
+    AuditService.record({
+      action: AUDIT_ACTION_TYPES.ADMIN_ACTION,
+      actorType: 'ADMIN',
+      actorId: actor,
+      summary: summaryMsg,
+      metadata: { subAction: 'RESET_ALL', startingCredits: effectiveStarting },
+    }).catch(() => {});
+
+    const state = await this.getAdminControlState();
+    return {
+      ...state,
+      coreStateUpdated: true,
+      executedCommand: 'RESET_ALL',
+    };
+  }
+
+  /**
    * Execute Global Event & Core Control:
-   * - Event: START | PAUSE | RESUME | END
+   * - Event: START | PAUSE | RESUME | END | RESET_ALL
    * - Global Timer: SET_TIMER | ADJUST_TIMER
    * - Core: CORE_LOCK (LOCK) | CORE_UNLOCK (UNLOCK) | CORE_REVEAL (REVEAL)
    */
@@ -983,6 +1339,10 @@ export class AdminService {
     const normalizedCmd = String(command || '')
       .trim()
       .toUpperCase();
+
+    if (normalizedCmd === 'RESET_ALL' || normalizedCmd === 'RESET') {
+      return this.resetEverythingToZero(actor, payload);
+    }
 
     let coreRevealTriggered = false;
     let coreStateUpdated = false;
@@ -1037,6 +1397,7 @@ export class AdminService {
                 : null,
               topTwo: [top, second].filter(Boolean),
               podium: ranked.slice(0, 3),
+              allTeamsRanking: ranked,
               reason: 'FINAL ARENA STANDINGS // TOP 2 SOVEREIGN SQUADS',
             },
             actor
@@ -1109,12 +1470,22 @@ export class AdminService {
           }
         : null;
 
+      const orderedAllRankings = [
+        firstObj,
+        ...(secondObj ? [secondObj] : []),
+        ...remainingAfterFirst.filter((t) => t.teamId !== secondObj?.teamId),
+      ].map((item, idx) => ({
+        ...item,
+        rank: idx + 1,
+      }));
+
       const winnerObj = setGlobalDeclaredWinner(
         {
           ...firstObj,
           runnerUp: secondObj,
           topTwo: [firstObj, secondObj].filter(Boolean),
-          podium: [firstObj, secondObj, ...remainingAfterFirst.filter((t) => t.teamId !== secondObj?.teamId)].filter(Boolean).slice(0, 3),
+          podium: orderedAllRankings.slice(0, 3),
+          allTeamsRanking: orderedAllRankings,
           reason: payload.reason || 'OFFICIAL TOP 2 WINNERS PROCLAMATION // NEXUS COMMAND',
         },
         actor
@@ -1227,34 +1598,8 @@ export class AdminService {
    * Update system settings or reset full arena state
    */
   static async updateSettings(payload = {}, actor = 'ADMIN-NEXUS') {
-    if (payload.resetAllDemoState) {
-      resetRateLimitBuckets();
-      await Team.deleteMany({ teamId: /^SIM-TEAM-/ });
-      const teams = await Team.find({}).select('teamId').lean();
-      await Promise.all(
-        teams.map((t) =>
-          executeTeamAction(t.teamId, 'RESET_DEMO_STATE', {}, { isTrustedAdmin: true }).catch(
-            () => {}
-          )
-        )
-      );
-      await NexusCoreService.resetNexusCoreDemoState();
-      controlGlobalArenaEvent('START', { durationSeconds: 8100 }, actor);
-      const summaryMsg = 'FULL ARENA DEMO STATE RESET EXECUTED ACROSS ALL TEAMS';
-      recordAdminEventLog({
-        action: 'RESET_ALL',
-        category: 'SETTINGS',
-        actor,
-        summary: summaryMsg,
-      });
-      AuditService.record({
-        action: AUDIT_ACTION_TYPES.ADMIN_ACTION,
-        actorType: 'ADMIN',
-        actorId: actor,
-        summary: summaryMsg,
-        metadata: { subAction: 'RESET_ALL' },
-      }).catch(() => {});
-      return this.getAdminControlState();
+    if (payload.resetAllDemoState || payload.resetAllToZero) {
+      return this.resetEverythingToZero(actor, payload);
     }
 
     if (payload.startingCredits !== undefined) {

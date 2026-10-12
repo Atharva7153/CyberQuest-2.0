@@ -495,8 +495,8 @@ export const WORD_GUESS_VARIANTS = [
       'Cryptographic algorithm used for encoding and decoding classified payloads (6 letters).',
     scrambledLetters: ['C', 'I', 'P', 'H', 'E', 'R', 'X', 'T', 'K'],
     hints: [
-      'HINT 01 // A 6-letter cryptography term for an algorithm that transforms plaintext into secret text.',
-      'HINT 02 // Starts with C and ends with R (e.g., Caesar or Block ______).',
+      'HINT 01 // Think of classic encryption methods named after historical figures or block/stream algorithms.',
+      'HINT 02 // Look for a common two-letter consonant blend (PH) in the middle of the word.',
     ],
   },
   {
@@ -508,8 +508,8 @@ export const WORD_GUESS_VARIANTS = [
       'Bidirectional network communication endpoint binding an IP address and port number (6 letters).',
     scrambledLetters: ['S', 'O', 'C', 'K', 'E', 'T', 'N', 'R', 'L'],
     hints: [
-      'HINT 01 // A 6-letter networking term for the software endpoint created when an IP and port are bound.',
-      'HINT 02 // Starts with S and ends with T (think Web______ or TCP ______).',
+      'HINT 01 // Real-time web apps often use a persistent protocol named after this endpoint.',
+      'HINT 02 // Contains a hard "CK" consonant pair in the middle of the 6-letter word.',
     ],
   },
   {
@@ -522,7 +522,7 @@ export const WORD_GUESS_VARIANTS = [
     scrambledLetters: ['K', 'E', 'R', 'N', 'E', 'L', 'S', 'P', 'M'],
     hints: [
       'HINT 01 // Linux is technically this core part of the operating system that bridges software and hardware.',
-      'HINT 02 // A 6-letter word starting with K and ending with L.',
+      'HINT 02 // Notice that the vowel E appears twice in this 6-letter word.',
     ],
   },
   {
@@ -534,8 +534,8 @@ export const WORD_GUESS_VARIANTS = [
       'Formatted unit of data carried across a network containing a header and payload (6 letters).',
     scrambledLetters: ['P', 'A', 'C', 'K', 'E', 'T', 'D', 'B', 'W'],
     hints: [
-      'HINT 01 // Routers inspect and forward this fundamental 6-letter unit of network traffic.',
-      'HINT 02 // Starts with P and ends with T (e.g., ______ switching or ______ loss).',
+      'HINT 01 // Routers and firewalls inspect and forward this fundamental unit of network traffic.',
+      'HINT 02 // Contains the "CK" consonant pair and rhymes with JACKET.',
     ],
   },
   {
@@ -547,8 +547,8 @@ export const WORD_GUESS_VARIANTS = [
       'Networking device that forwards data packets between different computer networks (6 letters).',
     scrambledLetters: ['R', 'O', 'U', 'T', 'E', 'R', 'G', 'S', 'N'],
     hints: [
-      'HINT 01 // Operates at Layer 3 (Network Layer) to determine the best path for traffic across subnets.',
-      'HINT 02 // A 6-letter word that both starts and ends with the letter R.',
+      'HINT 01 // Operates at Layer 3 (Network Layer) to determine the optimal path for traffic across subnets.',
+      'HINT 02 // Built from a 5-letter root word meaning a path or course, plus an "-ER" suffix.',
     ],
   },
   {
@@ -560,8 +560,8 @@ export const WORD_GUESS_VARIANTS = [
       'Background computer process in Unix/Linux that runs unattended without direct user control (6 letters).',
     scrambledLetters: ['D', 'A', 'E', 'M', 'O', 'N', 'S', 'H', 'C'],
     hints: [
-      'HINT 01 // Explain why services like sshd, httpd, and crond end with the letter "d".',
-      'HINT 02 // A 6-letter system process term starting with D and ending with N.',
+      'HINT 01 // Explains why background services like sshd, httpd, and crond end with a specific letter.',
+      'HINT 02 // Uses an archaic Greek/Latin spelling with an "AE" vowel pair near the start.',
     ],
   },
 ];
@@ -580,17 +580,17 @@ export const WEND_VARIANTS_BY_CHALLENGE = {
       steps: [
         {
           clue: 'Step 1 — Change 1 letter: Component, piece, or disk partition',
-          hint: 'Change the vowel in PORT to form a word for a piece or component.',
+          hint: 'Swap the vowel in the starting word to form a word meaning a piece or fraction.',
           length: 4,
         },
         {
           clue: 'Step 2 — Change 1 letter: Breathe rapidly after exertion',
-          hint: 'Change the third letter to form a word for gasping or breathing hard.',
+          hint: 'Change one consonant to form a verb meaning to gasp for air.',
           length: 4,
         },
         {
           clue: 'Step 3 — Change 1 letter: Unit of liquid measure',
-          hint: 'Change the vowel to form a liquid volume unit that is one letter away from PING.',
+          hint: 'Change the vowel to match the vowel of the target word.',
           length: 4,
         },
       ],
@@ -599,8 +599,8 @@ export const WEND_VARIANTS_BY_CHALLENGE = {
       expectedAnswer: 'WEND:PORT-PART-PANT-PINT-PING',
       acceptedAnswers: ['WEND:PORT-PART-PANT-PINT-PING', 'PORT-PART-PANT-PINT-PING', 'PART-PANT-PINT'],
       hints: [
-        'HINT 01 // Keep the starting letter P fixed throughout the entire ladder; begin by changing the vowel in PORT.',
-        'HINT 02 // Step 3 is a 4-letter unit of liquid volume that shares P-I-N with the target word PING.',
+        'HINT 01 // Keep the first letter unchanged across all steps; start by changing the vowel in the first step.',
+        'HINT 02 // The third intermediate word is a common imperial measurement for liquids.',
       ],
     },
     {
@@ -612,17 +612,17 @@ export const WEND_VARIANTS_BY_CHALLENGE = {
       steps: [
         {
           clue: 'Step 1 — Change 1 letter: A thick insulated cable or rope',
-          hint: 'Change the third letter of COLD to R.',
+          hint: 'Modify one interior consonant to form a word for a power cable.',
           length: 4,
         },
         {
           clue: 'Step 2 — Change 1 letter: Printed circuit board or access pass',
-          hint: 'Change the vowel in CORD to A.',
+          hint: 'Swap the vowel to match the vowel in the target word.',
           length: 4,
         },
         {
           clue: 'Step 3 — Change 1 letter: Protected hospital wing or city district',
-          hint: 'Change the first letter of CARD to match the starting letter of WARM.',
+          hint: 'Update the first letter to match the beginning of the target word.',
           length: 4,
         },
       ],
@@ -631,8 +631,8 @@ export const WEND_VARIANTS_BY_CHALLENGE = {
       expectedAnswer: 'WEND:COLD-CORD-CARD-WARD-WARM',
       acceptedAnswers: ['WEND:COLD-CORD-CARD-WARD-WARM', 'COLD-CORD-CARD-WARD-WARM', 'CORD-CARD-WARD'],
       hints: [
-        'HINT 01 // Keep the ending letter D fixed for the first three steps while transforming C-O-L into W-A-R.',
-        'HINT 02 // Step 2 is a 4-letter word for a hardware expansion board or ID pass.',
+        'HINT 01 // Keep the final letter fixed until the very last transition into the target word.',
+        'HINT 02 // Step 2 is a 4-letter noun used for both hardware expansion boards and ID badges.',
       ],
     },
     {
@@ -644,17 +644,17 @@ export const WEND_VARIANTS_BY_CHALLENGE = {
       steps: [
         {
           clue: 'Step 1 — Change 1 letter: Flash of lightning or metal fastener',
-          hint: 'Change the third letter of BOOT to L.',
+          hint: 'Replace the second vowel with a consonant found at the end of the target word.',
           length: 4,
         },
         {
           clue: 'Step 2 — Change 1 letter: Loop of material that drives pulleys or gears',
-          hint: 'Change the vowel in BOLT to E.',
+          hint: 'Change the remaining vowel to match the vowel in the target word.',
           length: 4,
         },
         {
           clue: 'Step 3 — Change 1 letter: Chime or acoustic alarm ringer',
-          hint: 'Change the last letter of BELT to L.',
+          hint: 'Change the final letter so the word ends with a double consonant.',
           length: 4,
         },
       ],
@@ -663,8 +663,8 @@ export const WEND_VARIANTS_BY_CHALLENGE = {
       expectedAnswer: 'WEND:BOOT-BOLT-BELT-BELL-CELL',
       acceptedAnswers: ['WEND:BOOT-BOLT-BELT-BELL-CELL', 'BOOT-BOLT-BELT-BELL-CELL', 'BOLT-BELT-BELL'],
       hints: [
-        'HINT 01 // Keep the starting letter B for the first three steps while turning O-O-T into E-L-L.',
-        'HINT 02 // Step 3 is a 4-letter word ending in double-L that rings.',
+        'HINT 01 // Keep the starting letter unchanged for the first three steps while transforming the last three letters.',
+        'HINT 02 // Step 3 is an acoustic signaling device that rhymes with the final target word.',
       ],
     },
   ],
@@ -678,17 +678,17 @@ export const WEND_VARIANTS_BY_CHALLENGE = {
       steps: [
         {
           clue: 'Step 1 — Change 1 letter: Drop downward under gravity',
-          hint: 'Change the third letter of FAIL to form a word meaning to drop downward.',
+          hint: 'Change the second vowel so the word ends with a double consonant.',
           length: 4,
         },
         {
           clue: 'Step 2 — Change 1 letter: Dark covering or cloak',
-          hint: 'Change the starting letter to match the first letter of PASS.',
+          hint: 'Change the starting letter to match the first letter of the target word.',
           length: 4,
         },
         {
           clue: 'Step 3 — Change 1 letter: Trusted friends or comrades',
-          hint: 'Change the last letter to S to form a plural noun for close friends.',
+          hint: 'Make the word plural by changing the final letter.',
           length: 4,
         },
       ],
@@ -697,8 +697,8 @@ export const WEND_VARIANTS_BY_CHALLENGE = {
       expectedAnswer: 'WEND:FAIL-FALL-PALL-PALS-PASS',
       acceptedAnswers: ['WEND:FAIL-FALL-PALL-PALS-PASS', 'FAIL-FALL-PALL-PALS-PASS', 'FALL-PALL-PALS'],
       hints: [
-        'HINT 01 // First turn FAIL into a word ending with double-L, then change the first letter to P.',
-        'HINT 02 // Step 3 is a 4-letter plural noun meaning friends, which is one letter away from PASS.',
+        'HINT 01 // First create a double-consonant ending in Step 1 before changing the initial letter in Step 2.',
+        'HINT 02 // Step 3 is a plural noun for friends that is one letter away from the target word.',
       ],
     },
     {
@@ -710,17 +710,17 @@ export const WEND_VARIANTS_BY_CHALLENGE = {
       steps: [
         {
           clue: 'Step 1 — Change 1 letter: Shortage or absence of something needed',
-          hint: 'Change the first letter of HACK to L.',
+          hint: 'Change the first letter to form a word meaning a scarcity or deficiency.',
           length: 4,
         },
         {
           clue: 'Step 2 — Change 1 letter: Security mechanism opened with a key or cipher',
-          hint: 'Change the vowel in LACK to O.',
+          hint: 'Change the vowel to match the vowel sound of the target word.',
           length: 4,
         },
         {
           clue: 'Step 3 — Change 1 letter: Direct your eyes to observe or inspect',
-          hint: 'Change the third letter of LOCK to O.',
+          hint: 'Change the third letter to create a double-vowel word that rhymes with the target.',
           length: 4,
         },
       ],
@@ -729,8 +729,8 @@ export const WEND_VARIANTS_BY_CHALLENGE = {
       expectedAnswer: 'WEND:HACK-LACK-LOCK-LOOK-BOOK',
       acceptedAnswers: ['WEND:HACK-LACK-LOCK-LOOK-BOOK', 'HACK-LACK-LOCK-LOOK-BOOK', 'LACK-LOCK-LOOK'],
       hints: [
-        'HINT 01 // Keep the final letter K fixed across the entire ladder; start by changing H to L.',
-        'HINT 02 // Step 2 is a 4-letter security fastener that rhymes with ROCK.',
+        'HINT 01 // Keep the final letter fixed across the entire ladder while shifting the vowel and middle consonant.',
+        'HINT 02 // Step 2 is a physical or digital security mechanism that rhymes with ROCK.',
       ],
     },
     {
@@ -742,17 +742,17 @@ export const WEND_VARIANTS_BY_CHALLENGE = {
       steps: [
         {
           clue: 'Step 1 — Change 1 letter: Extremely urgent or serious',
-          hint: 'Change the first letter of WIRE to D.',
+          hint: 'Change the first letter to form an adjective meaning grave or critical.',
           length: 4,
         },
         {
           clue: 'Step 2 — Change 1 letter: Have the courage to challenge',
-          hint: 'Change the first vowel to A.',
+          hint: 'Change the first vowel to match the first vowel of the target word.',
           length: 4,
         },
         {
           clue: 'Step 3 — Change 1 letter: Calendar day or timestamp',
-          hint: 'Change the third letter to T so it rhymes with GATE.',
+          hint: 'Change the third letter so the word rhymes with the target word.',
           length: 4,
         },
       ],
@@ -761,8 +761,8 @@ export const WEND_VARIANTS_BY_CHALLENGE = {
       expectedAnswer: 'WEND:WIRE-DIRE-DARE-DATE-GATE',
       acceptedAnswers: ['WEND:WIRE-DIRE-DARE-DATE-GATE', 'WIRE-DIRE-DARE-DATE-GATE', 'DIRE-DARE-DATE'],
       hints: [
-        'HINT 01 // Keep the final letter E fixed throughout the entire ladder; change W to D in Step 1.',
-        'HINT 02 // Step 3 is a 4-letter calendar term that is one letter away from GATE.',
+        'HINT 01 // Keep the silent final vowel fixed throughout the entire ladder.',
+        'HINT 02 // Step 3 is a 4-letter calendar term that rhymes with the target word.',
       ],
     },
   ],
@@ -846,10 +846,20 @@ const buildPatchesVariant = (baseConfig, baseSolution, variantIndex) => {
 
 const buildZipVariant = (baseConfig, baseSolution, variantIndex) => {
   const mode = variantIndex % 4;
+  const rawBlocked = Array.isArray(baseConfig.blocked)
+    ? baseConfig.blocked
+    : Array.isArray(baseConfig.blockedCells)
+    ? baseConfig.blockedCells
+    : [];
   if (mode === 0) {
     return {
       variantId: 'ZIP-V1',
-      gameConfig: { ...baseConfig, variantId: 'ZIP-V1' },
+      gameConfig: {
+        ...baseConfig,
+        blocked: rawBlocked,
+        blockedCells: rawBlocked,
+        variantId: 'ZIP-V1',
+      },
       solutionConfig: { ...baseSolution },
     };
   }
@@ -862,6 +872,10 @@ const buildZipVariant = (baseConfig, baseSolution, variantIndex) => {
   const solutionPath = (baseConfig.solutionPath || []).map((pt) => {
     return transformCoord(Number(pt.r), Number(pt.c), rows, cols, mode);
   });
+  const blocked = rawBlocked.map((b) => {
+    const pos = transformCoord(Number(b.r), Number(b.c), rows, cols, mode);
+    return { r: pos.r, c: pos.c };
+  });
   const variantId = `ZIP-V${mode + 1}`;
   return {
     variantId,
@@ -869,6 +883,8 @@ const buildZipVariant = (baseConfig, baseSolution, variantIndex) => {
       ...baseConfig,
       waypoints,
       solutionPath,
+      blocked,
+      blockedCells: blocked,
       variantId,
     },
     solutionConfig: { ...baseSolution },
@@ -947,14 +963,30 @@ export const assignVariantForTeamAttempt = (
   }
   const variantIdx = (teamHash + Math.max(0, Number(attemptNumber || 1) - 1)) >>> 0;
 
-  // 1. APTITUDE (4 randomized questions drawn from 16-question pool)
+  // 1. APTITUDE (4 randomized questions drawn from 16-question pool, or topic-specific challenge questions)
   if (gameType === 'aptitude') {
-    const customPool =
-      Array.isArray(baseGameConfig.questionPool) && baseGameConfig.questionPool.length >= 4
-        ? baseGameConfig.questionPool
-        : challengeId === 'CHG-PUZ-16'
-          ? LOGIC_APTITUDE_POOL
-          : QUANT_APTITUDE_POOL;
+    const hasCustomPool =
+      Array.isArray(baseGameConfig.questionPool) && baseGameConfig.questionPool.length >= 4;
+    const isPoolChallenge =
+      hasCustomPool || challengeId === 'CHG-LOG-15' || challengeId === 'CHG-PUZ-16';
+
+    if (!isPoolChallenge && Array.isArray(baseGameConfig.questions) && baseGameConfig.questions.length > 0) {
+      return {
+        variantId: `${challengeId}-DEFAULT`,
+        gameConfig: {
+          ...baseGameConfig,
+        },
+        solutionConfig: {
+          ...baseSolutionConfig,
+        },
+      };
+    }
+
+    const customPool = hasCustomPool
+      ? baseGameConfig.questionPool
+      : challengeId === 'CHG-PUZ-16'
+        ? LOGIC_APTITUDE_POOL
+        : QUANT_APTITUDE_POOL;
 
     const countToDraw = Math.min(4, customPool.length);
     const selected = shuffleWithRng(customPool, rng).slice(0, countToDraw);
@@ -1000,14 +1032,56 @@ export const assignVariantForTeamAttempt = (
     };
   }
 
-  // 2. GK TRUE OR FALSE (6 randomized statements drawn from 18-statement pool)
+  // 2. GK TRUE OR FALSE (6 randomized statements drawn from 18-statement pool, or topic-specific statements)
   if (gameType === 'gkTrueFalse') {
-    const customPool =
-      Array.isArray(baseGameConfig.questionPool) && baseGameConfig.questionPool.length >= 6
-        ? baseGameConfig.questionPool
-        : challengeId === 'CHG-KNW-18'
-          ? GK_WORLD_CYBER_POOL
-          : GK_TECH_SCIENCE_POOL;
+    const hasCustomPool =
+      Array.isArray(baseGameConfig.questionPool) && baseGameConfig.questionPool.length >= 6;
+    const isPoolChallenge =
+      hasCustomPool || challengeId === 'CHG-KNW-17' || challengeId === 'CHG-KNW-18';
+
+    if (!isPoolChallenge && Array.isArray(baseGameConfig.questions) && baseGameConfig.questions.length > 0) {
+      const baseExpected = Array.isArray(baseSolutionConfig.expectedAnswers)
+        ? baseSolutionConfig.expectedAnswers
+        : Array.isArray(baseGameConfig.answerKey)
+          ? baseGameConfig.answerKey
+          : [];
+      const paired = baseGameConfig.questions.map((q, idx) => ({
+        topic: q.topic || 'GENERAL KNOWLEDGE',
+        statement: q.statement || q.question,
+        answer: String(baseExpected[idx] || q.answer || 'T').trim().toUpperCase() === 'F' ? 'F' : 'T',
+      }));
+      const shuffledPairs = shuffleWithRng(paired, rng);
+      const questions = shuffledPairs.map((item, idx) => ({
+        id: `Q${idx + 1}`,
+        topic: item.topic,
+        statement: item.statement,
+      }));
+      const answerKey = shuffledPairs.map((item) => item.answer);
+      const expectedAnswer = `GKTF:${answerKey.join('-')}`;
+      const variantId = `${challengeId}-${Math.floor(rng() * 900 + 100)}`;
+
+      return {
+        variantId,
+        gameConfig: {
+          ...baseGameConfig,
+          variantId,
+          questions,
+          answerKey,
+        },
+        solutionConfig: {
+          ...baseSolutionConfig,
+          expectedAnswers: answerKey,
+          expectedAnswer,
+          acceptedAnswers: [expectedAnswer, answerKey.join('-')],
+        },
+      };
+    }
+
+    const customPool = hasCustomPool
+      ? baseGameConfig.questionPool
+      : challengeId === 'CHG-KNW-18'
+        ? GK_WORLD_CYBER_POOL
+        : GK_TECH_SCIENCE_POOL;
 
     const countToDraw = Math.min(6, customPool.length);
     const selected = shuffleWithRng(customPool, rng).slice(0, countToDraw);
@@ -1020,8 +1094,6 @@ export const assignVariantForTeamAttempt = (
     const answerKey = selected.map((item) =>
       String(item.answer || 'T').trim().toUpperCase() === 'T' ? 'T' : 'F'
     );
-    const trueCount = answerKey.filter((a) => a === 'T').length;
-    const falseCount = answerKey.length - trueCount;
     const expectedAnswer = `GKTF:${answerKey.join('-')}`;
     const variantId = `GKTF-POOL-${Math.floor(rng() * 900 + 100)}`;
 
@@ -1043,14 +1115,36 @@ export const assignVariantForTeamAttempt = (
             .slice(0, 3)
             .map((s) => s.topic)
             .join(', ')}.`,
-          `HINT 02 // In your squad's assigned 6-statement set, exactly ${trueCount} statements are TRUE and ${falseCount} are FALSE.`,
+          `HINT 02 // Watch out for reversed definitions or absolute claims ("always", "never", "only") in topics: ${selected
+            .slice(3, 6)
+            .map((s) => s.topic)
+            .join(', ')}.`,
         ],
       },
     };
   }
 
-  // 3. WORD GUESS (Assigned from pool of 6 codeword variants)
+  // 3. WORD GUESS (Multi-round challenges preserve rounds; single-word challenges draw from pool)
   if (gameType === 'wordGuess') {
+    if (Array.isArray(baseGameConfig.rounds) && baseGameConfig.rounds.length > 0) {
+      const rounds = baseGameConfig.rounds.map((r) => ({
+        ...r,
+        scrambledLetters: Array.isArray(r.scrambledLetters)
+          ? shuffleWithRng(r.scrambledLetters, rng)
+          : r.scrambledLetters,
+      }));
+      return {
+        variantId: `${challengeId}-ROUNDS`,
+        gameConfig: {
+          ...baseGameConfig,
+          rounds,
+        },
+        solutionConfig: {
+          ...baseSolutionConfig,
+        },
+      };
+    }
+
     const picked = WORD_GUESS_VARIANTS[variantIdx % WORD_GUESS_VARIANTS.length];
     const scrambled = shuffleWithRng(picked.scrambledLetters, rng);
     return {
@@ -1077,9 +1171,20 @@ export const assignVariantForTeamAttempt = (
     };
   }
 
-  // 4. WEND / WORD LADDER (Assigned from verified ladder variants)
+  // 4. WEND / WORD LADDER (Assigned from verified ladder variants when defined for challengeId)
   if (gameType === 'wend') {
-    const pool = WEND_VARIANTS_BY_CHALLENGE[challengeId] || WEND_VARIANTS_BY_CHALLENGE['CHG-KNW-09'];
+    const pool = WEND_VARIANTS_BY_CHALLENGE[challengeId];
+    if (!pool || pool.length === 0) {
+      return {
+        variantId: `${challengeId}-DEFAULT`,
+        gameConfig: {
+          ...baseGameConfig,
+        },
+        solutionConfig: {
+          ...baseSolutionConfig,
+        },
+      };
+    }
     const picked = pool[variantIdx % pool.length];
     return {
       variantId: picked.variantId,
@@ -1174,15 +1279,6 @@ export const assignVariantForTeamAttempt = (
       .join('|')}`;
     const variantId = `MM-${size}X${size}-${Math.floor(rng() * 900 + 100)}`;
 
-    const r1TopHalfCount = generatedRounds[0].targets.filter(
-      (idx) => Math.floor(idx / size) < Math.ceil(size / 2)
-    ).length;
-    const r3CornerCount = generatedRounds[generatedRounds.length - 1].targets.filter((idx) => {
-      const r = Math.floor(idx / size);
-      const c = idx % size;
-      return (r === 0 || r === size - 1) && (c === 0 || c === size - 1);
-    }).length;
-
     return {
       variantId,
       gameConfig: {
@@ -1196,8 +1292,8 @@ export const assignVariantForTeamAttempt = (
         expectedAnswer,
         acceptedAnswers: [expectedAnswer],
         hints: [
-          `HINT 01 // Group flashing tiles into row pairs or L-shapes during the flash window. In Stage 01, ${r1TopHalfCount} target nodes are in the top half of the grid.`,
-          `HINT 02 // Use the RE-FLASH pulse if you miss a tile. In the final stage, ${r3CornerCount} of the target nodes are located on the 4 extreme corners of the matrix.`,
+          'HINT 01 // Group adjacent flashing tiles into visual shapes (2×2 blocks, diagonals, or L-corners) instead of memorizing individual coordinates.',
+          'HINT 02 // Scan the outer border vs. inner core during the initial flash, and save your RE-FLASH pulses for the final, highest-density stage.',
         ],
       },
     };

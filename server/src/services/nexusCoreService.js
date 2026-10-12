@@ -403,19 +403,19 @@ export class NexusCoreService {
         title: coreDoc.title || 'THE NEXUS CORE',
         category: 'TECHNICAL',
       },
-      summary: `NEXUS CORE COMPLETED: ${coreDoc.title} (+${rewardAmount} CR)`,
+      summary: `NEXUS CORE SOLVED: ${coreDoc.title} (+${rewardAmount} CR)`,
       autoSaveTeam: false,
     });
 
     const completedAt = new Date();
-    const proclamationCode = `NX-SOVEREIGN-${teamDoc.teamId}-${completedAt
+    const proclamationCode = `NX-CORE-${teamDoc.teamId}-${completedAt
       .getTime()
       .toString(36)
       .toUpperCase()}`;
 
-    // Update global NexusCoreConfig winner & completedTeams
+    // Record team in completedTeams for bonus points tracking (do NOT declare event winner)
     let completionRank = 1;
-    let isFirstWinner = false;
+    const isFirstWinner = false;
 
     if (typeof coreDoc.save === 'function') {
       const existingCompleted = Array.isArray(coreDoc.completedTeams)
@@ -425,7 +425,7 @@ export class NexusCoreService {
 
       if (!alreadyListed) {
         completionRank = existingCompleted.length + 1;
-        const winnerEntry = {
+        const completedEntry = {
           rank: completionRank,
           teamId: teamDoc.teamId,
           teamName: teamDoc.teamName,
@@ -442,11 +442,8 @@ export class NexusCoreService {
           proclamationCode,
         };
 
-        coreDoc.completedTeams.push(winnerEntry);
-        if (!coreDoc.winner) {
-          coreDoc.winner = winnerEntry;
-          isFirstWinner = true;
-        }
+        coreDoc.completedTeams.push(completedEntry);
+        coreDoc.winner = null;
         coreDoc.markModified('completedTeams');
         coreDoc.markModified('winner');
         await coreDoc.save();
@@ -496,8 +493,8 @@ export class NexusCoreService {
         proclamationCode,
         creditsDelta: rewardAmount,
         balanceAfter: teamDoc.credits,
-        winner: nexusCore.winner,
-        message: `NEXUS CORE OVERTHROWN // Squad [${teamDoc.teamName}] has completed the ultimate system objective!`,
+        winner: null,
+        message: `NEXUS CORE SOLVED // +${rewardAmount} CR AWARDED TO SQUAD [${teamDoc.teamName}]!`,
         timestamp: completedAt.toISOString(),
       },
     };

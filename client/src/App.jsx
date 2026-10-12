@@ -34,6 +34,8 @@ export const App = () => {
               <Route path="/display" element={<ProjectorDisplayPage />} />
               <Route path="/admin" element={<AdminControlPage />} />
               <Route path="/admin/teams" element={<AdminControlPage />} />
+              <Route path="/admin/leaderboard" element={<AdminControlPage />} />
+              <Route path="/admin/volunteers" element={<AdminControlPage />} />
               <Route path="/admin/challenges" element={<AdminControlPage />} />
               <Route path="/admin/attempts" element={<AdminControlPage />} />
               <Route path="/admin/events" element={<AdminControlPage />} />

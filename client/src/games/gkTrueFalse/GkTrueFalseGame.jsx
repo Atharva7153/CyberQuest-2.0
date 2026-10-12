@@ -19,6 +19,7 @@ export const GkTrueFalseGame = ({
   challenge,
   session,
   gameConfig = {},
+  evaluationResult = null,
   actionPending = false,
   disabled = false,
   onDraftChange,
@@ -108,38 +109,23 @@ export const GkTrueFalseGame = ({
         </div>
       </div>
 
-      {/* RIGHT / WRONG SUMMARY BANNER (Only shown when all 6 questions are answered — NEVER reveals which question is right or wrong!) */}
-      {validation.isComplete && (
-        <div
-          className={`p-3.5 border-2 border-nexus-ink flex flex-col sm:flex-row sm:items-center justify-between gap-3 font-mono text-xs ${
-            validation.wrongCount === 0
-              ? 'bg-nexus-ink text-nexus-paper'
-              : 'bg-nexus-paper-elevated text-nexus-ink'
-          }`}
-        >
-          <div className="flex flex-wrap items-center gap-2">
-            <span className="px-2.5 py-1 bg-emerald-600 text-white font-bold uppercase tracking-wider">
-              ✓ {validation.rightCount} RIGHT
-            </span>
-            <span className="px-2.5 py-1 bg-nexus-crimson text-white font-bold uppercase tracking-wider">
-              ✕ {validation.wrongCount} WRONG
-            </span>
-          </div>
-
-          <span className="text-[11px] font-bold uppercase tracking-wider">
-            {validation.wrongCount === 0 ? (
-              <span className="text-emerald-400 inline-flex items-center gap-1.5">
-                <CheckCircle2 className="w-4 h-4" />
-                ALL 6 CORRECT — CLICK SUBMIT BELOW!
-              </span>
-            ) : (
-              <span className="text-nexus-crimson inline-flex items-center gap-1.5">
-                <AlertTriangle className="w-4 h-4 shrink-0" />
-                {validation.wrongCount} STATEMENT{validation.wrongCount > 1 ? 'S ARE' : ' IS'} WRONG — REVIEW Q1–Q6 TO FIND & FIX!
-              </span>
-            )}
+      {/* Post-submission failure breakdown OR neutral pre-submission readiness banner */}
+      {evaluationResult && !evaluationResult.passed && evaluationResult.reason ? (
+        <div className="p-3.5 border-2 border-nexus-crimson bg-red-950 text-red-100 flex flex-col sm:flex-row sm:items-center justify-between gap-3 font-mono text-xs">
+          <span className="inline-flex items-center gap-2 font-bold uppercase tracking-wider">
+            <AlertTriangle className="w-4 h-4 text-red-400 shrink-0" />
+            <span>{evaluationResult.reason}</span>
           </span>
         </div>
+      ) : (
+        validation.isComplete && (
+          <div className="p-3 border-2 border-nexus-ink bg-nexus-ink text-nexus-paper flex flex-col sm:flex-row sm:items-center justify-between gap-2 font-mono text-xs">
+            <span className="text-emerald-400 font-bold uppercase tracking-wider inline-flex items-center gap-1.5">
+              <CheckCircle2 className="w-4 h-4 shrink-0" />
+              ALL {questions.length} STATEMENTS SELECTED — REVIEW YOUR CHOICES & CLICK SUBMIT BELOW
+            </span>
+          </div>
+        )
       )}
 
       {/* Question Stepper Strip (1 .. 6) — Neutral colors only so it never leaks which one is right/wrong */}

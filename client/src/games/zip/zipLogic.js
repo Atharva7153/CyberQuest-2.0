@@ -7,11 +7,11 @@ export const DEFAULT_ZIP_CONFIG = {
   cols: 5,
   waypoints: [
     { num: 1, r: 0, c: 0 },
-    { num: 2, r: 1, c: 2 },
+    { num: 2, r: 3, c: 0 },
     { num: 3, r: 2, c: 1 },
-    { num: 4, r: 0, c: 3 },
-    { num: 5, r: 3, c: 4 },
-    { num: 6, r: 3, c: 0 },
+    { num: 4, r: 1, c: 2 },
+    { num: 5, r: 0, c: 3 },
+    { num: 6, r: 3, c: 4 },
     { num: 7, r: 4, c: 4 },
   ],
   blockedCells: [],
@@ -32,12 +32,15 @@ export const normalizeZipConfig = (gameConfig = {}) => {
           .sort((a, b) => a.num - b.num)
       : DEFAULT_ZIP_CONFIG.waypoints;
 
-  const blockedCells = Array.isArray(gameConfig.blockedCells)
-    ? gameConfig.blockedCells.map((b) => ({
-        r: Number(b.r),
-        c: Number(b.c),
-      }))
+  const rawBlocked = Array.isArray(gameConfig.blockedCells)
+    ? gameConfig.blockedCells
+    : Array.isArray(gameConfig.blocked)
+    ? gameConfig.blocked
     : [];
+  const blockedCells = rawBlocked.map((b) => ({
+    r: Number(b.r),
+    c: Number(b.c),
+  }));
 
   return {
     rows,

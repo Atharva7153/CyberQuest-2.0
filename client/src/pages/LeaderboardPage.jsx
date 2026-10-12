@@ -5,13 +5,7 @@ import { PortalShellLayout } from '../layouts/PortalShellLayout';
 import { RiskBadge } from '../components/RiskBadge';
 import { useTeamPortal } from '../hooks/useTeamPortal';
 import { socketClient, NEXUS_SOCKET_EVENTS } from '../socket/socketClient';
-
-const API_BASE_URL =
-  import.meta.env.VITE_API_BASE_URL ||
-  import.meta.env.VITE_API_URL ||
-  (typeof window !== 'undefined' && window.location.port !== '5173'
-    ? window.location.origin
-    : 'http://localhost:5050');
+import { API_BASE_URL } from '../config/runtimeConfig';
 
 export const LeaderboardPage = () => {
   const navigate = useNavigate();

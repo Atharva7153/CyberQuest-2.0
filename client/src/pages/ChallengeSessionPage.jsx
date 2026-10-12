@@ -165,28 +165,35 @@ export const ChallengeSessionPage = () => {
   const matchedFromActiveAttempts = (team?.activeAttempts || []).find(
     (a) => String(a.challengeId || '').toUpperCase() === normalizedRouteChallengeId
   );
-  const matchedFromSessionMeta =
-    sessionMeta?.activeAttempt &&
-    String(sessionMeta.activeAttempt.challengeId || '').toUpperCase() === normalizedRouteChallengeId
-      ? sessionMeta.activeAttempt
-      : null;
   const matchedFromLegacy =
     team?.activeAttempt &&
     String(team.activeAttempt.challengeId || '').toUpperCase() === normalizedRouteChallengeId
       ? team.activeAttempt
       : null;
+  const matchedFromSessionMeta =
+    !team &&
+    sessionMeta?.activeAttempt &&
+    String(sessionMeta.activeAttempt.challengeId || '').toUpperCase() === normalizedRouteChallengeId
+      ? sessionMeta.activeAttempt
+      : null;
 
-  const activeAttempt =
-    matchedFromActiveAttempts ||
-    matchedFromSessionMeta ||
-    matchedFromLegacy ||
-    sessionMeta?.activeAttempt ||
-    team?.activeAttempt ||
-    null;
+  const candidateActiveAttempt =
+    matchedFromActiveAttempts || matchedFromLegacy || matchedFromSessionMeta || null;
 
-  const isThisChallengeActive = Boolean(
-    matchedFromActiveAttempts || matchedFromSessionMeta || matchedFromLegacy
-  );
+  const isAttemptAlreadySubmitted =
+    Boolean(candidateActiveAttempt?.attemptId) &&
+    submittedAttemptIds.has(candidateActiveAttempt.attemptId);
+
+  const activeAttempt = !isAttemptAlreadySubmitted ? candidateActiveAttempt : null;
+
+  const isThisChallengeActive = Boolean(activeAttempt);
+
+  const pageEvaluationResult =
+    lastEvaluationResult &&
+    (!lastEvaluationResult.challengeId ||
+      String(lastEvaluationResult.challengeId).toUpperCase() === normalizedRouteChallengeId)
+      ? lastEvaluationResult
+      : null;
 
   const catalogChallenge = catalog.find(
     (c) => String(c.challengeId).toUpperCase() === normalizedRouteChallengeId
@@ -229,40 +236,6 @@ export const ChallengeSessionPage = () => {
           : remainingSeconds <= 180
             ? 'WARNING'
             : 'ACTIVE';
-
-  useEffect(() => {
-    if (
-      !isRoundActive ||
-      !isThisChallengeActive ||
-      !activeAttempt?.attemptId ||
-      remainingSeconds > 0 ||
-      duplicateSubmitLockRef.current
-    ) {
-      return;
-    }
-
-    if (timeoutTriggeredForAttemptRef.current === activeAttempt.attemptId) {
-      return;
-    }
-    timeoutTriggeredForAttemptRef.current = activeAttempt.attemptId;
-
-    syncSessionTimer().then((ack) => {
-      if (!ack?.expired && !ack?.evaluationResult) {
-        performTeamAction('TIMEOUT_CHALLENGE', {
-          challengeId: activeAttempt.challengeId,
-          attemptId: activeAttempt.attemptId,
-        }).catch(() => {});
-      }
-    });
-  }, [
-    isRoundActive,
-    isThisChallengeActive,
-    activeAttempt?.attemptId,
-    activeAttempt?.challengeId,
-    remainingSeconds,
-    syncSessionTimer,
-    performTeamAction,
-  ]);
 
   useEffect(() => {
     const frameEl = urgencyFrameRef.current;
@@ -320,8 +293,6 @@ export const ChallengeSessionPage = () => {
     setLocalSubmitting(false);
   }, [activeAttempt?.attemptId]);
 
-  const isAttemptAlreadySubmitted =
-    Boolean(activeAttempt?.attemptId) && submittedAttemptIds.has(activeAttempt.attemptId);
   const isSubmissionLocked =
     !isRoundActive ||
     !isThisChallengeActive ||
@@ -330,45 +301,115 @@ export const ChallengeSessionPage = () => {
     isAttemptAlreadySubmitted ||
     remainingSeconds <= 0;
 
-  const handleAuthoritativeSubmit = async (overridePayload = null) => {
-    if (!isRoundActive || !isThisChallengeActive || !activeAttempt?.attemptId) return;
-    if (duplicateSubmitLockRef.current || isAttemptAlreadySubmitted || localSubmitting) {
+  const handleAuthoritativeSubmit = useCallback(
+    async (overridePayload = null) => {
+      if (!isRoundActive || !isThisChallengeActive || !activeAttempt?.attemptId) return;
+      if (duplicateSubmitLockRef.current || isAttemptAlreadySubmitted || localSubmitting) {
+        return;
+      }
+
+      const submissionPayload = overridePayload || draftSubmission;
+      const candidateAnswer =
+        typeof submissionPayload === 'object' && submissionPayload !== null
+          ? String(submissionPayload.answer ?? submissionPayload.word ?? '').trim()
+          : String(submissionPayload ?? '').trim();
+
+      if (!candidateAnswer) {
+        return;
+      }
+
+      duplicateSubmitLockRef.current = true;
+      setLocalSubmitting(true);
+      const currentAttemptId = activeAttempt.attemptId;
+
+      try {
+        setSubmittedAttemptIds((prev) => new Set(prev).add(currentAttemptId));
+        await performTeamAction('SUBMIT_CHALLENGE', {
+          challengeId: targetChallenge?.challengeId || normalizedRouteChallengeId,
+          attemptId: currentAttemptId,
+          submission: submissionPayload,
+        });
+        setSessionMeta((prev) => (prev ? { ...prev, activeAttempt: null } : prev));
+        await refreshSessionFromServer();
+      } catch {
+        duplicateSubmitLockRef.current = false;
+        setSubmittedAttemptIds((prev) => {
+          const next = new Set(prev);
+          next.delete(currentAttemptId);
+          return next;
+        });
+      } finally {
+        setLocalSubmitting(false);
+      }
+    },
+    [
+      isRoundActive,
+      isThisChallengeActive,
+      activeAttempt?.attemptId,
+      isAttemptAlreadySubmitted,
+      localSubmitting,
+      draftSubmission,
+      performTeamAction,
+      targetChallenge?.challengeId,
+      normalizedRouteChallengeId,
+      refreshSessionFromServer,
+    ]
+  );
+
+  useEffect(() => {
+    if (
+      !isRoundActive ||
+      !isThisChallengeActive ||
+      !activeAttempt?.attemptId ||
+      remainingSeconds > 0 ||
+      duplicateSubmitLockRef.current ||
+      isAttemptAlreadySubmitted ||
+      localSubmitting ||
+      actionPending ||
+      pageEvaluationResult?.attemptId === activeAttempt.attemptId
+    ) {
       return;
     }
 
-    const submissionPayload = overridePayload || draftSubmission;
-    const candidateAnswer =
-      typeof submissionPayload === 'object' && submissionPayload !== null
-        ? String(submissionPayload.answer ?? submissionPayload.word ?? '').trim()
-        : String(submissionPayload ?? '').trim();
+    if (timeoutTriggeredForAttemptRef.current === activeAttempt.attemptId) {
+      return;
+    }
+    timeoutTriggeredForAttemptRef.current = activeAttempt.attemptId;
 
-    if (!candidateAnswer) {
+    // If the operative already completed a valid solution on the board before the clock hit 0,
+    // submit their completed solution instead of timing out the session.
+    if (
+      draftSubmission?.answer &&
+      draftSubmission?.isComplete &&
+      draftSubmission?.isValid !== false
+    ) {
+      handleAuthoritativeSubmit(draftSubmission);
       return;
     }
 
-    duplicateSubmitLockRef.current = true;
-    setLocalSubmitting(true);
-    const currentAttemptId = activeAttempt.attemptId;
-
-    try {
-      setSubmittedAttemptIds((prev) => new Set(prev).add(currentAttemptId));
-      await performTeamAction('SUBMIT_CHALLENGE', {
-        challengeId: targetChallenge?.challengeId || normalizedRouteChallengeId,
-        attemptId: currentAttemptId,
-        submission: submissionPayload,
-      });
-      await refreshSessionFromServer();
-    } catch {
-      duplicateSubmitLockRef.current = false;
-      setSubmittedAttemptIds((prev) => {
-        const next = new Set(prev);
-        next.delete(currentAttemptId);
-        return next;
-      });
-    } finally {
-      setLocalSubmitting(false);
-    }
-  };
+    syncSessionTimer().then((ack) => {
+      if (!ack?.expired && !ack?.evaluationResult) {
+        performTeamAction('TIMEOUT_CHALLENGE', {
+          challengeId: activeAttempt.challengeId,
+          attemptId: activeAttempt.attemptId,
+        }).catch(() => {});
+      }
+    });
+  }, [
+    isRoundActive,
+    isThisChallengeActive,
+    activeAttempt?.attemptId,
+    activeAttempt?.challengeId,
+    remainingSeconds,
+    isAttemptAlreadySubmitted,
+    localSubmitting,
+    actionPending,
+    pageEvaluationResult?.attemptId,
+    draftSubmission,
+    handleAuthoritativeSubmit,
+    syncSessionTimer,
+    performTeamAction,
+  ]);
 
   const handleAbandonSession = async () => {
     if (!isRoundActive || !isThisChallengeActive || !activeAttempt?.attemptId) return;
@@ -381,6 +422,7 @@ export const ChallengeSessionPage = () => {
         challengeId: targetChallenge?.challengeId || normalizedRouteChallengeId,
         attemptId: activeAttempt.attemptId,
       });
+      setSessionMeta((prev) => (prev ? { ...prev, activeAttempt: null } : prev));
       await refreshSessionFromServer();
     } catch {
       duplicateSubmitLockRef.current = false;
@@ -712,6 +754,7 @@ export const ChallengeSessionPage = () => {
                 session={activeAttempt}
                 actionPending={actionPending || localSubmitting}
                 disabled={isSubmissionLocked}
+                evaluationResult={pageEvaluationResult}
                 onDraftChange={setDraftSubmission}
                 onSubmitAnswer={(payload) => handleAuthoritativeSubmit(payload)}
               />
@@ -827,11 +870,11 @@ export const ChallengeSessionPage = () => {
           Supports: SUCCESS | FAILED | TIMEOUT | ABANDONED
          ===================================================================== */}
       <AnimatePresence>
-        {lastEvaluationResult && (() => {
+        {pageEvaluationResult && (() => {
           const isSuccess =
-            lastEvaluationResult.status === 'SUCCESS' || Boolean(lastEvaluationResult.passed);
-          const isTimeout = lastEvaluationResult.status === 'TIMEOUT';
-          const isAbandoned = lastEvaluationResult.status === 'ABANDONED';
+            pageEvaluationResult.status === 'SUCCESS' || Boolean(pageEvaluationResult.passed);
+          const isTimeout = pageEvaluationResult.status === 'TIMEOUT';
+          const isAbandoned = pageEvaluationResult.status === 'ABANDONED';
           const headlineText = isSuccess
             ? 'CHALLENGE SOLVED!'
             : isTimeout

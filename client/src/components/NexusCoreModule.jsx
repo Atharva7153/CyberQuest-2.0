@@ -807,95 +807,95 @@ export const NexusCoreModule = ({
             exit={prefersReducedMotion ? undefined : { opacity: 0, y: -6 }}
             transition={{ duration: 0.22 }}
           >
-            {/* WINNER DISPLAY AFTER CORE COMPLETION */}
+            {/* CORE SOLVED — POINTS AWARDED SUMMARY */}
             <div
               data-testid="nexus-core-winner-proclamation"
               className="border-2 border-nexus-ink bg-nexus-ink text-nexus-paper shadow-brutal-lg overflow-hidden"
             >
-              <div className="bg-nexus-crimson text-white px-6 py-3 border-b-2 border-nexus-ink flex flex-wrap items-center justify-between gap-2">
+              <div className="bg-nexus-crimson text-white px-4 sm:px-6 py-3 border-b-2 border-nexus-ink flex flex-wrap items-center justify-between gap-2">
                 <div className="flex items-center gap-2 font-mono text-xs font-bold uppercase tracking-[0.22em]">
                   <Award className="w-4 h-4" />
-                  <span>NEXUS CORE COMPLETED</span>
+                  <span>NEXUS CORE SOLVED</span>
                 </div>
                 <span className="font-mono text-xs font-bold uppercase">
-                  VICTORY CONFIRMED
+                  +{unlockConfig.completionReward ?? 1500} CR BONUS AWARDED
                 </span>
               </div>
 
-              <div className="p-6 sm:p-8 grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
+              <div className="p-5 sm:p-8 grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
                 <div className="lg:col-span-7 space-y-4">
                   <span className="inline-block px-3 py-1 bg-nexus-paper text-nexus-ink font-mono text-[11px] font-bold uppercase tracking-widest">
-                    ULTIMATE OBJECTIVE COMPLETED
+                    CORE OBJECTIVE COMPLETED · POINTS CREDITED
                   </span>
 
-                  <h3 className="font-display text-5xl sm:text-6xl uppercase tracking-wide text-white leading-none">
-                    WINNER // {winner?.teamName || team?.teamName}
+                  <h3 className="font-display text-4xl sm:text-6xl uppercase tracking-wide text-white leading-none">
+                    CORE SOLVED // +{unlockConfig.completionReward ?? 1500} CR
                   </h3>
 
-                  <p className="font-editorial text-base text-nexus-paper/85 leading-relaxed">
-                    Team{' '}
-                    <strong className="text-white">
-                      {winner?.teamName || team?.teamName}
+                  <p className="font-editorial text-sm sm:text-base text-nexus-paper/85 leading-relaxed">
+                    Team <strong className="text-white">{team?.teamName}</strong> unlocked the
+                    master key and solved the NEXUS Core, earning{' '}
+                    <strong className="text-emerald-400">
+                      +{unlockConfig.completionReward ?? 1500} CR
                     </strong>{' '}
-                    unlocked the master key and conquered the NEXUS Core.
+                    toward your total score! Continue solving challenges in the Challenge Market to
+                    maximize your team&apos;s credits before the round ends.
                   </p>
 
-                  {/* Winning Team Roster */}
+                  {/* Team Roster */}
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 pt-2">
-                    {(winner?.members?.length ? winner.members : team?.members || []).map(
-                      (member, idx) => (
-                        <div
-                          key={member.memberId || idx}
-                          className="p-3 border border-nexus-paper/25 bg-black/50 flex items-center justify-between font-mono text-xs"
-                        >
-                          <div>
-                            <span className="text-[10px] text-nexus-crimson font-bold block">
-                              {member.role || 'MEMBER'}
-                            </span>
-                            <span className="font-bold text-nexus-paper">{member.name}</span>
-                          </div>
-                          <CheckCircle2 className="w-4 h-4 text-nexus-crimson shrink-0" />
+                    {(team?.members || []).map((member, idx) => (
+                      <div
+                        key={member.memberId || idx}
+                        className="p-3 border border-nexus-paper/25 bg-black/50 flex items-center justify-between font-mono text-xs"
+                      >
+                        <div>
+                          <span className="text-[10px] text-nexus-crimson font-bold block">
+                            {member.role || 'MEMBER'}
+                          </span>
+                          <span className="font-bold text-nexus-paper">{member.name}</span>
                         </div>
-                      )
-                    )}
+                        <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
+                      </div>
+                    ))}
                   </div>
                 </div>
 
-                {/* Victory Summary */}
+                {/* Core Points Summary */}
                 <div className="lg:col-span-5 space-y-4">
-                  <div className="nexus-paper-canvas text-nexus-ink border-2 border-nexus-ink p-5 space-y-3">
+                  <div className="nexus-paper-canvas text-nexus-ink border-2 border-nexus-ink p-4 sm:p-5 space-y-3">
                     <div className="flex items-center justify-between border-b border-nexus-ink/20 pb-2">
                       <span className="font-mono text-[10px] uppercase tracking-widest text-nexus-muted">
-                        VICTORY SUMMARY
+                        NEXUS CORE BONUS SUMMARY
                       </span>
                       <SystemBadge variant="crimson" pulse>
-                        RANK #{nexusCore?.teamCoreRecord?.completionRank || 1}
+                        SOLVED #{nexusCore?.teamCoreRecord?.completionRank || 1}
                       </SystemBadge>
                     </div>
 
                     <div className="grid grid-cols-2 gap-3 font-mono text-xs">
                       <div className="p-2.5 border border-nexus-ink bg-nexus-paper">
-                        <span className="text-[10px] text-nexus-muted block">FINAL CREDITS</span>
+                        <span className="text-[10px] text-nexus-muted block">CURRENT CREDITS</span>
                         <span className="text-lg font-bold text-nexus-crimson">
-                          {winner?.finalCredits ?? team?.credits} CR
+                          {team?.credits ?? 0} CR
                         </span>
                       </div>
                       <div className="p-2.5 border border-nexus-ink bg-nexus-paper">
-                        <span className="text-[10px] text-nexus-muted block">CORE REWARD</span>
+                        <span className="text-[10px] text-nexus-muted block">CORE BONUS</span>
                         <span className="text-lg font-bold text-nexus-ink">
-                          +{winner?.rewardAwarded ?? unlockConfig.completionReward ?? 1500} CR
+                          +{unlockConfig.completionReward ?? 1500} CR
                         </span>
                       </div>
                       <div className="p-2.5 border border-nexus-ink bg-nexus-paper">
                         <span className="text-[10px] text-nexus-muted block">SOLVED</span>
                         <span className="text-sm font-bold text-nexus-ink">
-                          {winner?.totalSolved ?? challengesSolved} CHALLENGES
+                          {challengesSolved} CHALLENGES
                         </span>
                       </div>
                       <div className="p-2.5 border border-nexus-ink bg-nexus-paper">
                         <span className="text-[10px] text-nexus-muted block">PLAYSTYLE</span>
                         <span className="text-sm font-bold text-nexus-ink">
-                          {winner?.riskProfile || team?.stats?.riskProfile || 'BALANCED'}
+                          {team?.stats?.riskProfile || 'BALANCED'}
                         </span>
                       </div>
                     </div>
@@ -903,7 +903,7 @@ export const NexusCoreModule = ({
                     {completedTeams.length > 0 && (
                       <div className="pt-2 border-t border-nexus-ink/20 space-y-1.5">
                         <span className="font-mono text-[10px] uppercase tracking-widest text-nexus-muted block">
-                          COMPLETED TEAMS ({completedTeams.length})
+                          TEAMS THAT SOLVED CORE ({completedTeams.length})
                         </span>
                         {completedTeams.map((entry) => (
                           <div
@@ -914,7 +914,7 @@ export const NexusCoreModule = ({
                               #{entry.rank} {entry.teamName}
                             </span>
                             <span className="text-nexus-crimson font-bold">
-                              {entry.finalCredits} CR
+                              +{entry.rewardAwarded || 1500} CR
                             </span>
                           </div>
                         ))}

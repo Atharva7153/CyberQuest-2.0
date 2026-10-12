@@ -321,6 +321,34 @@ export const controlGlobalArenaEvent = (command, payload = {}, actor = 'ADMIN-NE
       break;
     }
 
+    case 'RESET':
+    case 'RESET_ALL': {
+      const durationSec =
+        Number(payload.durationSeconds) > 0
+          ? Number(payload.durationSeconds)
+          : globalArenaState.totalDurationSeconds || DEFAULT_ARENA_DURATION_SECONDS;
+      globalArenaState.eventStatus = 'PAUSED';
+      globalArenaState.totalDurationSeconds = durationSec;
+      globalArenaState.pausedRemainingSeconds = durationSec;
+      globalArenaState.targetExpiresAtMs = nowMs + durationSec * 1000;
+      globalArenaState.countdownTotalSeconds = 0;
+      globalArenaState.countdownEndsAtMs = null;
+      globalArenaState.declaredWinner = null;
+      globalArenaState.roundStartedAt = null;
+      globalArenaState.roundEndedAt = null;
+      globalArenaState.lastTransitionAt = new Date(nowMs).toISOString();
+      globalArenaState.lastCommandBy = actor;
+      recordAdminEventLog({
+        action: 'RESET_ALL',
+        category: 'EVENT_CONTROL',
+        actor,
+        summary: `ARENA RESET TO ZERO // ALL TEAMS & CHALLENGES RESTORED (${Math.round(
+          durationSec / 60
+        )} MIN STANDBY)`,
+      });
+      break;
+    }
+
     case 'SET_TIMER': {
       const nextRemaining = Math.max(
         60,
@@ -430,14 +458,6 @@ export const buildPublicTopTeams = async (teams = []) => {
   });
 
   enriched.sort((a, b) => {
-    const aCompleted = a.coreState === 'COMPLETED' ? 1 : 0;
-    const bCompleted = b.coreState === 'COMPLETED' ? 1 : 0;
-    if (aCompleted !== bCompleted) return bCompleted - aCompleted;
-
-    if (a.completionRank && b.completionRank && a.completionRank !== b.completionRank) {
-      return a.completionRank - b.completionRank;
-    }
-
     if (b.credits !== a.credits) return b.credits - a.credits;
     if (b.totalSolved !== a.totalSolved) return b.totalSolved - a.totalSolved;
     if (b.convergencePercent !== a.convergencePercent) {

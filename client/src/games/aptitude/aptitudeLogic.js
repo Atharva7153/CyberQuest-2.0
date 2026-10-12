@@ -94,38 +94,30 @@ export const normalizeAptitudeConfig = (gameConfig = {}) => {
     totalQuestions: questions.length,
     instructions:
       gameConfig.instructions ||
-      `Solve all ${questions.length} aptitude problems one by one. You will see how many total answers are RIGHT and WRONG, but not which ones!`,
+      `Solve all ${questions.length} aptitude problems one by one, then submit your answers for verification.`,
   };
 };
 
 export const validateAptitudeClient = (selectedKeys = [], config) => {
   const totalQuestions = config?.questions?.length || 4;
-  const answerKey = Array.isArray(config?.answerKey) ? config.answerKey : [];
   let answeredCount = 0;
-  let rightCount = 0;
 
   for (let i = 0; i < totalQuestions; i++) {
     const val = String(selectedKeys[i] || '').trim().toUpperCase();
     if (val) {
       answeredCount += 1;
-      if (answerKey[i] && val === answerKey[i]) {
-        rightCount += 1;
-      }
     }
   }
 
   const isComplete = answeredCount === totalQuestions;
-  const wrongCount = isComplete ? Math.max(0, totalQuestions - rightCount) : 0;
-  const isAllCorrect =
-    isComplete && (answerKey.length === 0 || rightCount === totalQuestions);
 
   return {
     answeredCount,
     totalQuestions,
     isComplete,
-    rightCount: isComplete && answerKey.length > 0 ? rightCount : null,
-    wrongCount: isComplete && answerKey.length > 0 ? wrongCount : null,
-    isValid: isAllCorrect,
+    rightCount: null,
+    wrongCount: null,
+    isValid: isComplete,
   };
 };
 

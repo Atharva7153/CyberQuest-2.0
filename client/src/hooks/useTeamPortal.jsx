@@ -15,6 +15,7 @@ import {
   postTeamActionHttp,
 } from '../services/authService';
 import { socketClient, NEXUS_SOCKET_EVENTS } from '../socket/socketClient';
+import { API_BASE_URL } from '../config/runtimeConfig';
 
 const TeamPortalContext = createContext(null);
 
@@ -117,15 +118,9 @@ export const TeamPortalProvider = ({ children }) => {
   // Keep globalTimer continuously synced with /api/display even if socket reconnects
   useEffect(() => {
     let active = true;
-    const apiBase =
-      import.meta.env.VITE_API_BASE_URL ||
-      import.meta.env.VITE_API_URL ||
-      (typeof window !== 'undefined' && window.location.port !== '5173'
-        ? window.location.origin
-        : 'http://localhost:5050');
 
     const syncGlobalTimerHttp = () => {
-      fetch(`${apiBase}/api/display`)
+      fetch(`${API_BASE_URL}/api/display`)
         .then((r) => r.json())
         .then((data) => {
           if (active && data?.globalTimer) {
@@ -338,13 +333,27 @@ export const TeamPortalProvider = ({ children }) => {
         applyServerClock(payload.serverTime);
       }
       if (payload?.evaluationResult) {
-        setLastEvaluationResult(payload.evaluationResult);
+        setLastEvaluationResult((prev) => {
+          if (
+            prev &&
+            (prev.status === 'SUCCESS' || prev.passed) &&
+            payload.evaluationResult.status === 'TIMEOUT'
+          ) {
+            return prev;
+          }
+          return payload.evaluationResult;
+        });
       }
     };
 
     const handleSubmissionResult = (payload) => {
       if (payload) {
-        setLastEvaluationResult(payload);
+        setLastEvaluationResult((prev) => {
+          if (prev && (prev.status === 'SUCCESS' || prev.passed) && payload.status === 'TIMEOUT') {
+            return prev;
+          }
+          return payload;
+        });
       }
     };
 
@@ -388,10 +397,11 @@ export const TeamPortalProvider = ({ children }) => {
       if (payload?.coreEvaluation) {
         setLastEvaluationResult(payload.coreEvaluation);
       }
+      const rewardCr = payload?.coreEvaluation?.creditsDelta || 1500;
       pushNotification(
-        `NEXUS CORE OVERTHROWN // SQUAD [${payload?.teamName || payload?.teamId}] CLAIMED THE CORE!`,
+        `NEXUS CORE SOLVED // SQUAD [${payload?.teamName || payload?.teamId}] EARNED +${rewardCr} CR!`,
         'operational',
-        payload?.coreEvaluation?.creditsDelta || 0
+        rewardCr
       );
     };
 
@@ -442,7 +452,16 @@ export const TeamPortalProvider = ({ children }) => {
         });
       }
       if (payload?.evaluationResult) {
-        setLastEvaluationResult(payload.evaluationResult);
+        setLastEvaluationResult((prev) => {
+          if (
+            prev &&
+            (prev.status === 'SUCCESS' || prev.passed) &&
+            payload.evaluationResult.status === 'TIMEOUT'
+          ) {
+            return prev;
+          }
+          return payload.evaluationResult;
+        });
       }
       if (payload?.onlineOperatives !== undefined) {
         setOnlineOperatives(payload.onlineOperatives);
@@ -521,7 +540,18 @@ export const TeamPortalProvider = ({ children }) => {
           if (ack?.serverTime) applyServerClock(ack.serverTime);
           if (ack?.timer) setSessionTimer(ack.timer);
           if (ack?.globalTimer) setGlobalTimer(ack.globalTimer);
-          if (ack?.evaluationResult) setLastEvaluationResult(ack.evaluationResult);
+          if (ack?.evaluationResult) {
+            setLastEvaluationResult((prev) => {
+              if (
+                prev &&
+                (prev.status === 'SUCCESS' || prev.passed) &&
+                ack.evaluationResult.status === 'TIMEOUT'
+              ) {
+                return prev;
+              }
+              return ack.evaluationResult;
+            });
+          }
           resolve(ack || null);
         }
       );

@@ -30,14 +30,7 @@ import { useReducedMotion } from '../hooks/useReducedMotion';
 import artCoreBridge from '../assets/artwork/nexus-core-bridge.jpg';
 import artMonolithGate from '../assets/artwork/nexus-monolith-gate.jpg';
 import artRingCitadel from '../assets/artwork/nexus-ring-citadel.jpg';
-
-const API_BASE_URL =
-  import.meta.env.API_URL ||
-  import.meta.env.VITE_API_URL ||
-  import.meta.env.VITE_API_BASE_URL ||
-  (typeof window !== 'undefined' && window.location.port !== '5173'
-    ? window.location.origin
-    : 'http://localhost:5050');
+import { API_BASE_URL } from '../config/runtimeConfig';
 
 const formatGiantTimer = (totalSeconds) => {
   const safe = Math.max(0, Math.floor(Number(totalSeconds || 0)));
@@ -210,16 +203,15 @@ export const ProjectorDisplayPage = () => {
     };
 
     const handleCoreCompleted = (payload) => {
+      const rewardCr = payload?.coreEvaluation?.creditsDelta || 1500;
       setLiveAlertBanner({
         alertKey: `CORE-CMP-${Date.now()}`,
-        eventType: 'CORE COMPLETED',
-        teamName: payload?.teamName || payload?.teamId || 'SOVEREIGN',
-        headline: `NEXUS CORE OVERTHROWN BY SQUAD ${
+        eventType: 'CORE SOLVED',
+        teamName: payload?.teamName || payload?.teamId || 'SQUAD',
+        headline: `NEXUS CORE SOLVED BY SQUAD ${
           payload?.teamName || payload?.teamId || ''
         }!`,
-        detail: `PROCLAMATION: ${
-          payload?.winner?.proclamationCode || 'NX-SOVEREIGN-PRIME'
-        }`,
+        detail: `CORE BONUS AWARDED: +${rewardCr} CR`,
         timestamp: payload?.timestamp || new Date().toISOString(),
       });
       fetch(`${API_BASE_URL}/api/display`)
@@ -946,6 +938,7 @@ export const ProjectorDisplayPage = () => {
       <CinematicArenaOverlay
         globalTimer={snapshot?.globalTimer}
         coreStatus={snapshot?.coreStatus}
+        leaderboard={snapshot?.topTeams || []}
       />
     </div>
   );

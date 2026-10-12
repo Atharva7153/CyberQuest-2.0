@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { protectAdminRoute } from '../middleware/authMiddleware.js';
+import { protectAdminRoute, requireAdminOnly } from '../middleware/authMiddleware.js';
 import { rateLimitLogin } from '../middleware/rateLimitMiddleware.js';
 import {
   loginAdminOperator,
@@ -14,6 +14,8 @@ import {
   updateAdminSettings,
   controlAdminRecording,
   getAdminRecordingReport,
+  createAdminVolunteer,
+  deleteAdminVolunteer,
 } from '../controllers/adminController.js';
 
 const adminRouter = Router();
@@ -22,17 +24,36 @@ const adminRouter = Router();
 adminRouter.post('/login', rateLimitLogin, loginAdminOperator);
 adminRouter.get('/operators', getAdminOperatorsHint);
 
-// Protected Admin/Volunteer Control Endpoints
+// Read-only state endpoint accessible to both ADMIN and VOLUNTEER roles
 adminRouter.get('/state', protectAdminRoute, getAdminControlState);
-adminRouter.get('/audit', protectAdminRoute, getAdminAuditLogs);
-adminRouter.post('/teams/register', protectAdminRoute, registerAdminTeam);
-adminRouter.post('/teams/action', protectAdminRoute, executeAdminTeamAction);
-adminRouter.post('/challenges', protectAdminRoute, upsertAdminChallenge);
-adminRouter.patch('/challenges/:challengeId', protectAdminRoute, patchAdminChallenge);
-adminRouter.post('/events/control', protectAdminRoute, executeAdminEventControl);
-adminRouter.post('/settings', protectAdminRoute, updateAdminSettings);
-adminRouter.post('/recording', protectAdminRoute, controlAdminRecording);
-adminRouter.get('/recording', protectAdminRoute, getAdminRecordingReport);
-adminRouter.get('/recording/:recordingId', protectAdminRoute, getAdminRecordingReport);
+
+// Admin-Only Control & Mutation Endpoints (Volunteers blocked by requireAdminOnly)
+adminRouter.get('/audit', protectAdminRoute, requireAdminOnly, getAdminAuditLogs);
+adminRouter.post('/volunteers', protectAdminRoute, requireAdminOnly, createAdminVolunteer);
+adminRouter.delete(
+  '/volunteers/:operatorId',
+  protectAdminRoute,
+  requireAdminOnly,
+  deleteAdminVolunteer
+);
+adminRouter.post('/teams/register', protectAdminRoute, requireAdminOnly, registerAdminTeam);
+adminRouter.post('/teams/action', protectAdminRoute, requireAdminOnly, executeAdminTeamAction);
+adminRouter.post('/challenges', protectAdminRoute, requireAdminOnly, upsertAdminChallenge);
+adminRouter.patch(
+  '/challenges/:challengeId',
+  protectAdminRoute,
+  requireAdminOnly,
+  patchAdminChallenge
+);
+adminRouter.post('/events/control', protectAdminRoute, requireAdminOnly, executeAdminEventControl);
+adminRouter.post('/settings', protectAdminRoute, requireAdminOnly, updateAdminSettings);
+adminRouter.post('/recording', protectAdminRoute, requireAdminOnly, controlAdminRecording);
+adminRouter.get('/recording', protectAdminRoute, requireAdminOnly, getAdminRecordingReport);
+adminRouter.get(
+  '/recording/:recordingId',
+  protectAdminRoute,
+  requireAdminOnly,
+  getAdminRecordingReport
+);
 
 export default adminRouter;

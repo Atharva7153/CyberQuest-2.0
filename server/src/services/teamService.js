@@ -54,39 +54,10 @@ const buildSeedTeams = () => {
         { memberId: 'OP-03', name: 'OPERATIVE KIRA', role: 'SYSTEMS RECON', online: false },
         { memberId: 'OP-04', name: 'OPERATIVE AXIOM', role: 'STRATEGIST', online: false },
       ],
-      currentChallenge: {
-        ...initialChallenge,
-        solutionConfig: undefined,
-      },
-      purchasedChallenges: [
-        {
-          ...initialChallenge,
-          solutionConfig: undefined,
-          attemptNumber: 1,
-          timestamp: new Date(),
-        },
-      ],
-      activeAttempt: {
-        attemptId: 'ATT-901',
-        challengeId: initialChallenge.challengeId,
-        title: initialChallenge.title,
-        category: initialChallenge.category,
-        difficulty: initialChallenge.difficulty,
-        risk: initialChallenge.risk,
-        gameType: initialChallenge.gameType,
-        gameConfig: initialChallenge.gameConfig,
-        costPaid: initialChallenge.cost,
-        potentialReward: initialChallenge.reward,
-        penaltyOnFail: initialChallenge.penalty,
-        timeLimit: initialChallenge.timeLimit,
-        hintsUnlocked: 0,
-        unlockedHints: [],
-        extraTimeMinutes: 0,
-        isReattempt: false,
-        startedAt: new Date(),
-        expiresAt: new Date(Date.now() + initialChallenge.timeLimit * 1000),
-        status: 'IN_PROGRESS',
-      },
+      currentChallenge: null,
+      purchasedChallenges: [],
+      activeAttempt: null,
+      activeAttempts: [],
       completedChallenges: [
         {
           challengeId: 'CHG-INIT-00',
@@ -251,6 +222,7 @@ export const ensureDefaultTeamsSeeded = async () => {
         existing = await Team.create({
           ...teamData,
           passwordHash,
+          accessPassword: plainPassword || 'NEXUS-2026',
         });
         logger.info(
           'SEED',
@@ -258,6 +230,10 @@ export const ensureDefaultTeamsSeeded = async () => {
         );
       } else {
         let needsSave = false;
+        if (!existing.accessPassword) {
+          existing.accessPassword = seed.plainPassword || 'NEXUS-2026';
+          needsSave = true;
+        }
 
         const catalogMatch = existing.currentChallenge
           ? CHALLENGE_CATALOG.find(
@@ -648,6 +624,66 @@ export const getPublicTeamRoster = async (rawTeamId) => {
     teamId: team.teamId,
     teamName: team.teamName,
     teamSize: Math.max(1, existingMembers.length || 4),
+    slots,
+  };
+};
+
+/**
+ * Step 1 of 2-Step Login: Verify Team ID and Password, then return the team's registered players/slots
+ * so the player can select which player name from their team they are logging in as.
+ */
+export const verifyTeamCredentials = async (rawTeamId, plainPassword) => {
+  const normalizedTeamId = String(rawTeamId || '')
+    .trim()
+    .toUpperCase();
+
+  if (!normalizedTeamId || !plainPassword) {
+    const err = new Error('TEAM ID and PASSWORD are required.');
+    err.statusCode = 400;
+    err.code = 'MISSING_CREDENTIALS';
+    throw err;
+  }
+
+  await ensureDefaultTeamsSeeded();
+
+  const team = await Team.findOne({ teamId: normalizedTeamId }).select('+passwordHash').lean();
+  if (!team) {
+    const err = new Error(`Team [${normalizedTeamId}] is not registered in NEXUS Core.`);
+    err.statusCode = 401;
+    err.code = 'INVALID_CREDENTIALS';
+    throw err;
+  }
+
+  const isPasswordValid = await verifyPassword(plainPassword, team.passwordHash);
+  if (!isPasswordValid) {
+    const err = new Error('Invalid password for the specified Team ID.');
+    err.statusCode = 401;
+    err.code = 'INVALID_CREDENTIALS';
+    throw err;
+  }
+
+  const existingMembers = Array.isArray(team.members) ? team.members : [];
+  const teamSize = Math.min(4, Math.max(1, existingMembers.length || 4));
+  const slots = Array.from({ length: teamSize }, (_, idx) => {
+    const slotId = `OP-0${idx + 1}`;
+    const existing =
+      existingMembers[idx] ||
+      existingMembers.find((m) => String(m.memberId).toUpperCase() === slotId) ||
+      null;
+    const defaultName = idx === 0 ? 'PLAYER 1 (LEAD)' : `PLAYER ${idx + 1}`;
+    return {
+      slotNumber: idx + 1,
+      memberId: existing?.memberId || slotId,
+      name: existing?.name || defaultName,
+      role: existing?.role || (idx === 0 ? 'LEAD' : 'OPERATIVE'),
+      online: Boolean(existing?.online),
+    };
+  });
+
+  return {
+    teamId: team.teamId,
+    teamName: team.teamName,
+    teamSize,
     slots,
   };
 };
@@ -1358,66 +1394,63 @@ export const executeTeamAction = async (rawTeamId, actionType, rawPayload = {}, 
     }
 
     case 'RESET_DEMO_STATE': {
-      const seed = buildSeedTeams().find((s) => s.teamId === normalizedTeamId);
-      if (seed) {
-        const { plainPassword, ...seedFields } = seed;
-        Object.assign(team, seedFields);
-        team.activeAttempts = seed.activeAttempt ? [{ ...seed.activeAttempt }] : [];
-        await team.save();
-        await CreditTransaction.deleteMany({ teamId: normalizedTeamId });
-        await ChallengeAttempt.deleteMany({ teamId: normalizedTeamId });
-        await NexusCoreService.resetNexusCoreDemoState();
-        await ensureDefaultTeamsSeeded();
-        coreStateChanged = true;
-      } else {
-        const startingCredits = creditsConfig.getStartingCredits();
-        team.credits = startingCredits;
-        team.status = 'ACTIVE';
-        team.currentChallenge = null;
-        team.purchasedChallenges = [];
-        team.activeAttempt = null;
-        team.activeAttempts = [];
-        team.completedChallenges = [];
-        team.failedChallenges = [];
-        team.abilities = AbilityService.buildInitialTeamAbilitySlots(DEFAULT_ABILITY_CATALOG);
-        team.nexusCore = {
-          state: 'LOCKED',
-          unlockedAt: null,
-          activatedAt: null,
-          completedAt: null,
-          attemptsCount: 0,
-          completionRank: null,
-          proclamationCode: null,
-        };
-        team.stats = {
-          totalSolved: 0,
-          totalFailed: 0,
-          creditsEarned: startingCredits,
-          creditsSpent: 0,
-          penaltiesIncurred: 0,
-          reattemptsCount: 0,
-          hintsPurchased: 0,
-          extraTimePurchased: 0,
-          abilitiesUsed: 0,
-          riskProfile: 'SAFE',
-          safeAttempts: 0,
-          balancedAttempts: 0,
-          aggressiveAttempts: 0,
-          successByRisk: { SAFE: 0, BALANCED: 0, AGGRESSIVE: 0 },
-          creditsByRisk: {
-            SAFE: { gained: 0, lost: 0, net: 0 },
-            BALANCED: { gained: 0, lost: 0, net: 0 },
-            AGGRESSIVE: { gained: 0, lost: 0, net: 0 },
-          },
-          coreProgressPercent: 0,
-          lastActionAt: new Date(),
-          recentActivity: [],
-        };
-        await team.save();
-        await CreditTransaction.deleteMany({ teamId: normalizedTeamId });
-        await ChallengeAttempt.deleteMany({ teamId: normalizedTeamId });
-        coreStateChanged = true;
-      }
+      const startingCredits =
+        payload.credits !== undefined
+          ? Math.max(0, Number(payload.credits))
+          : creditsConfig.getStartingCredits();
+      team.credits = startingCredits;
+      team.status = 'ACTIVE';
+      team.currentChallenge = null;
+      team.purchasedChallenges = [];
+      team.activeAttempt = null;
+      team.activeAttempts = [];
+      team.completedChallenges = [];
+      team.failedChallenges = [];
+      team.abilities = AbilityService.buildInitialTeamAbilitySlots(DEFAULT_ABILITY_CATALOG);
+      team.nexusCore = {
+        state: 'LOCKED',
+        unlockedAt: null,
+        activatedAt: null,
+        completedAt: null,
+        attemptsCount: 0,
+        completionRank: null,
+        proclamationCode: null,
+      };
+      team.stats = {
+        totalSolved: 0,
+        totalFailed: 0,
+        creditsEarned: startingCredits,
+        creditsSpent: 0,
+        penaltiesIncurred: 0,
+        reattemptsCount: 0,
+        hintsPurchased: 0,
+        extraTimePurchased: 0,
+        abilitiesUsed: 0,
+        riskProfile: 'SAFE',
+        safeAttempts: 0,
+        balancedAttempts: 0,
+        aggressiveAttempts: 0,
+        successByRisk: { SAFE: 0, BALANCED: 0, AGGRESSIVE: 0 },
+        creditsByRisk: {
+          SAFE: { gained: 0, lost: 0, net: 0 },
+          BALANCED: { gained: 0, lost: 0, net: 0 },
+          AGGRESSIVE: { gained: 0, lost: 0, net: 0 },
+        },
+        coreProgressPercent: 0,
+        lastActionAt: new Date(),
+        recentActivity: [],
+      };
+      team.markModified('purchasedChallenges');
+      team.markModified('completedChallenges');
+      team.markModified('failedChallenges');
+      team.markModified('activeAttempts');
+      team.markModified('abilities');
+      team.markModified('nexusCore');
+      team.markModified('stats');
+      await team.save();
+      await CreditTransaction.deleteMany({ teamId: normalizedTeamId });
+      await ChallengeAttempt.deleteMany({ teamId: normalizedTeamId });
+      coreStateChanged = true;
       break;
     }
 

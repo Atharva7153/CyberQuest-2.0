@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
-import { Eye, Sparkles, RotateCcw, CheckCircle2, Zap, AlertTriangle } from 'lucide-react';
+import { Eye, Sparkles, RotateCcw, CheckCircle2, Zap, AlertTriangle, Send } from 'lucide-react';
 import {
   normalizeMemoryMatrixConfig,
   validateMemoryMatrixClient,
@@ -8,14 +8,22 @@ import {
 
 export const MemoryMatrixGame = ({
   challenge,
+  gameConfig = {},
   value,
   onChange,
   onComplete,
+  onDraftChange,
+  onSubmitAnswer,
+  actionPending = false,
   disabled = false,
 }) => {
   const config = useMemo(
-    () => normalizeMemoryMatrixConfig(challenge?.gameConfig),
-    [challenge]
+    () =>
+      normalizeMemoryMatrixConfig({
+        ...(challenge?.gameConfig || {}),
+        ...gameConfig,
+      }),
+    [challenge, gameConfig]
   );
   const { size, rounds, maxReflashes } = config;
   const totalStages = rounds.length;
@@ -100,19 +108,43 @@ export const MemoryMatrixGame = ({
   const syncWithParent = (nextVerifiedRounds) => {
     const status = validateMemoryMatrixClient(nextVerifiedRounds, config);
     const serialized = serializeMemoryMatrixSubmission(nextVerifiedRounds);
+    const payload = {
+      gameType: 'memoryMatrix',
+      answer: status.isComplete ? serialized : '',
+      rounds: nextVerifiedRounds,
+      completedStages: status.completedStages,
+      totalStages: status.totalStages,
+      isComplete: status.isComplete,
+      isValid: status.isValid,
+    };
 
+    if (onDraftChange) {
+      onDraftChange(payload);
+    }
     if (onChange) {
-      onChange({
-        answer: serialized,
-        rounds: nextVerifiedRounds,
-        completedStages: status.completedStages,
-        totalStages: status.totalStages,
-        isComplete: status.isComplete,
-        isValid: status.isValid,
-      });
+      onChange(payload);
     }
 
     if (status.isComplete && onComplete) {
+      onComplete(serialized);
+    }
+  };
+
+  const handleSubmit = () => {
+    const status = validateMemoryMatrixClient(verifiedRounds, config);
+    if (!status.isComplete || !status.isValid || disabled || actionPending) return;
+    const serialized = serializeMemoryMatrixSubmission(verifiedRounds);
+    if (onSubmitAnswer) {
+      onSubmitAnswer({
+        gameType: 'memoryMatrix',
+        answer: serialized,
+        rounds: verifiedRounds,
+        completedStages: status.completedStages,
+        totalStages: status.totalStages,
+        isComplete: true,
+        isValid: true,
+      });
+    } else if (onComplete) {
       onComplete(serialized);
     }
   };
@@ -365,14 +397,28 @@ export const MemoryMatrixGame = ({
         </div>
       </div>
 
-      {/* Bottom Stage Summary Bar */}
-      <div className="p-2.5 bg-black/5 border border-nexus-ink/20 flex flex-wrap items-center justify-between gap-2 font-mono text-[11px] text-nexus-steel">
-        <span>
-          RULE: Complete all {totalStages} stages in sequence. If a stage mismatches, it automatically re-flashes so you can try again.
-        </span>
-        <span className="font-bold text-nexus-ink">
-          VERIFIED STAGES: {validation.completedStages} / {totalStages}
-        </span>
+      {/* Bottom Stage Summary & Submit Action Bar */}
+      <div className="p-3 bg-white border-2 border-nexus-ink flex flex-col sm:flex-row sm:items-center justify-between gap-3 shadow-[4px_4px_0_#111]">
+        <div className="font-mono text-[11px] text-nexus-steel space-y-0.5">
+          <div className="font-bold text-nexus-ink uppercase">
+            VERIFIED STAGES: {validation.completedStages} / {totalStages}
+          </div>
+          <div>
+            {validation.isComplete
+              ? 'All memory stages verified! Click SUBMIT SOLUTION to lock in your answer.'
+              : `Complete all ${totalStages} stages in sequence. Mismatched stages re-flash automatically.`}
+          </div>
+        </div>
+
+        <button
+          type="button"
+          onClick={handleSubmit}
+          disabled={!validation.isComplete || !validation.isValid || disabled || actionPending}
+          className="px-5 py-2.5 bg-nexus-crimson text-white border-2 border-nexus-ink font-mono text-xs font-bold uppercase tracking-widest shadow-[3px_3px_0_#111] hover:bg-nexus-ink transition-colors inline-flex items-center justify-center gap-2 disabled:opacity-40 cursor-pointer shrink-0"
+        >
+          <Send className="w-3.5 h-3.5" />
+          {actionPending ? 'SUBMITTING...' : 'SUBMIT SOLUTION'}
+        </button>
       </div>
     </div>
   );

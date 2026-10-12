@@ -133,7 +133,7 @@ export const sanitizePublicChallenge = (docOrObj) => {
   const raw = typeof docOrObj.toObject === 'function' ? docOrObj.toObject({ versionKey: false }) : { ...docOrObj };
   delete raw.solutionConfig;
   if (raw.gameConfig && typeof raw.gameConfig === 'object') {
-    const { expectedAnswer, acceptedAnswers, secretSolution, ...safeConfig } = raw.gameConfig;
+    const { expectedAnswer, acceptedAnswers, secretSolution, answerKey, ...safeConfig } = raw.gameConfig;
     raw.gameConfig = safeConfig;
   }
   return raw;

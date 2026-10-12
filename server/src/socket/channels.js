@@ -24,6 +24,54 @@ const getRoomClientCount = (io, roomName) => {
   return room ? room.size : 0;
 };
 
+const getRoomOnlineMemberIds = (io, roomName) => {
+  const onlineMemberIds = new Set();
+  const room = io?.sockets?.adapter?.rooms?.get(roomName);
+  if (!room) return onlineMemberIds;
+  for (const socketId of room) {
+    const s = io.sockets.sockets.get(socketId);
+    if (s?.data?.memberId) {
+      onlineMemberIds.add(String(s.data.memberId).trim().toUpperCase());
+    }
+  }
+  return onlineMemberIds;
+};
+
+const syncTeamMembersOnlinePresence = async (io, rawTeamId) => {
+  try {
+    const normalizedTeamId = String(rawTeamId || '').trim().toUpperCase();
+    if (!normalizedTeamId || !io) return;
+    const roomName = SOCKET_ROOMS.teamRoom(normalizedTeamId);
+    const onlineMemberIds = getRoomOnlineMemberIds(io, roomName);
+    const roomCount = getRoomClientCount(io, roomName);
+
+    const { Team } = await import('../models/Team.js');
+    const teamDoc = await Team.findOne({ teamId: normalizedTeamId });
+    if (!teamDoc || !Array.isArray(teamDoc.members)) return;
+
+    let changed = false;
+    teamDoc.members.forEach((m, idx) => {
+      const mId = String(m.memberId || `OP-0${idx + 1}`).trim().toUpperCase();
+      const shouldBeOnline =
+        onlineMemberIds.has(mId) || (onlineMemberIds.size === 0 && roomCount > 0 && idx === 0);
+      if (Boolean(m.online) !== shouldBeOnline) {
+        m.online = shouldBeOnline;
+        if (shouldBeOnline) {
+          m.lastSeenAt = new Date();
+        }
+        changed = true;
+      }
+    });
+
+    if (changed) {
+      teamDoc.markModified('members');
+      await teamDoc.save();
+    }
+  } catch {
+    // Ignore transient presence sync errors
+  }
+};
+
 let adminMonitorDebounceTimer = null;
 
 const emitLiveAdminMonitorUpdate = (io) => {
@@ -161,6 +209,7 @@ export const registerSocketChannels = (io, socket) => {
         `Terminal [${socket.id}] (${decodedMemberName || decodedMemberId || 'OPERATIVE'}) authenticated & joined [${roomName}] | Operatives online: ${onlineOperatives}`
       );
 
+      await syncTeamMembersOnlinePresence(io, normalizedTeamId);
       const snapshot = await hydrateTeamChannelSnapshot(normalizedTeamId);
       const currentOnlineOperatives = getRoomClientCount(io, roomName);
       const serverTime = new Date().toISOString();
@@ -407,18 +456,29 @@ export const registerSocketChannels = (io, socket) => {
   socket.on(SOCKET_EVENTS.CREDITS.TRANSACTION, handleAuthoritativeAction);
 
   // 3. Leave Team Room
-  socket.on(SOCKET_EVENTS.TEAM.LEAVE, (payload = {}, callback) => {
+  socket.on(SOCKET_EVENTS.TEAM.LEAVE, async (payload = {}, callback) => {
     const teamId = payload?.teamId || socket.data.teamId;
     if (teamId) {
       const roomName = SOCKET_ROOMS.teamRoom(teamId);
       socket.leave(roomName);
+      await syncTeamMembersOnlinePresence(io, teamId);
       const onlineOperatives = getRoomClientCount(io, roomName);
+      const updatedTeam = await getTeamStateById(teamId).catch(() => null);
       io.to(roomName).emit(SOCKET_EVENTS.TEAM.PRESENCE_UPDATE, {
         teamId,
         room: roomName,
         onlineOperatives,
         timestamp: new Date().toISOString(),
       });
+      if (updatedTeam) {
+        io.to(roomName).emit(SOCKET_EVENTS.TEAM.STATE_UPDATE, {
+          teamId,
+          room: roomName,
+          team: updatedTeam,
+          onlineOperatives,
+          timestamp: new Date().toISOString(),
+        });
+      }
     }
     socket.data.teamId = null;
     socket.data.teamRoom = null;
@@ -428,16 +488,28 @@ export const registerSocketChannels = (io, socket) => {
     }
   });
 
-  socket.on('disconnect', () => {
+  socket.on('disconnect', async () => {
     if (socket.data.teamRoom && socket.data.teamId) {
+      const teamId = socket.data.teamId;
       const roomName = socket.data.teamRoom;
+      await syncTeamMembersOnlinePresence(io, teamId);
       const onlineOperatives = getRoomClientCount(io, roomName);
+      const updatedTeam = await getTeamStateById(teamId).catch(() => null);
       io.to(roomName).emit(SOCKET_EVENTS.TEAM.PRESENCE_UPDATE, {
-        teamId: socket.data.teamId,
+        teamId,
         room: roomName,
         onlineOperatives,
         timestamp: new Date().toISOString(),
       });
+      if (updatedTeam) {
+        io.to(roomName).emit(SOCKET_EVENTS.TEAM.STATE_UPDATE, {
+          teamId,
+          room: roomName,
+          team: updatedTeam,
+          onlineOperatives,
+          timestamp: new Date().toISOString(),
+        });
+      }
     }
     emitLiveAdminMonitorUpdate(io);
   });

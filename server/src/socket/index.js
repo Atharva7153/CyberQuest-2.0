@@ -55,6 +55,8 @@ export const initSocketServer = (httpServer) => {
       socket.data.authRole = 'TEAM';
       socket.data.authenticatedTeamId = normalizedTeamId;
       socket.data.teamId = normalizedTeamId;
+      socket.data.memberId = decodedTeam.memberId || null;
+      socket.data.memberName = decodedTeam.memberName || null;
       return next();
     } catch {
       try {

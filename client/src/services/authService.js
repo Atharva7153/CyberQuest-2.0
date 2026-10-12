@@ -1,9 +1,4 @@
-const API_BASE_URL =
-  import.meta.env.VITE_API_BASE_URL ||
-  import.meta.env.VITE_API_URL ||
-  (typeof window !== 'undefined' && window.location.port !== '5173'
-    ? window.location.origin
-    : 'http://localhost:5050');
+import { API_BASE_URL } from '../config/runtimeConfig';
 
 const TOKEN_STORAGE_KEY = 'nexus_team_jwt';
 const TEAM_ID_STORAGE_KEY = 'nexus_team_id';
@@ -47,6 +42,27 @@ export const fetchTeamRosterPublic = async (teamId) => {
   if (!response.ok) return null;
   const data = await response.json().catch(() => ({}));
   return data.roster || null;
+};
+
+export const verifyTeamCredentialsRequest = async (teamId, password) => {
+  const response = await fetch(`${API_BASE_URL}/api/auth/verify-team`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Accept: 'application/json',
+    },
+    body: JSON.stringify({
+      teamId: String(teamId || '').trim().toUpperCase(),
+      password: String(password || '').trim(),
+    }),
+  });
+
+  const data = await response.json().catch(() => ({}));
+  if (!response.ok) {
+    throw new Error(data.message || 'Authentication failed. Check TEAM ID and PASSWORD.');
+  }
+
+  return data.roster || data;
 };
 
 export const loginTeamRequest = async (teamId, password, operative = {}) => {
