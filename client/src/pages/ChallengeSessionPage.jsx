@@ -550,7 +550,7 @@ export const ChallengeSessionPage = () => {
 
             <div className="min-w-0">
               <span className="block font-mono text-[9px] uppercase tracking-[0.2em] text-nexus-crimson font-bold">
-                {getGameNameLabel(targetChallenge)} · {getFriendlyDifficultyLabel(targetChallenge)} · +{targetChallenge?.reward || 400} CR
+                [{targetChallenge?.challengeId || normalizedRouteChallengeId}] · {getGameNameLabel(targetChallenge)} · {getFriendlyDifficultyLabel(targetChallenge)} · +{targetChallenge?.reward || 400} CR
               </span>
               <h1 className="font-display text-2xl sm:text-3xl uppercase tracking-wide text-nexus-paper leading-none truncate">
                 {getFriendlyChallengeTitle(targetChallenge)}

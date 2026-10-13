@@ -522,6 +522,13 @@ export const AdminControlPage = () => {
     });
   }, [adminState?.teams, teamFilter, teamSearch]);
 
+  const [challengePage, setChallengePage] = useState(1);
+  const ADMIN_CHALLENGES_PER_PAGE = 30;
+
+  useEffect(() => {
+    setChallengePage(1);
+  }, [challengeCategoryFilter, challengeSearch]);
+
   // Filtered & sorted challenges (by Game Name + Difficulty)
   const filteredChallenges = useMemo(() => {
     const list = adminState?.challenges || [];
@@ -552,6 +559,16 @@ export const AdminControlPage = () => {
     });
     return sortChallengesByGameDifficulty(matching, 'ASC');
   }, [adminState?.challenges, challengeCategoryFilter, challengeSearch]);
+
+  const totalChallengePages = Math.max(
+    1,
+    Math.ceil(filteredChallenges.length / ADMIN_CHALLENGES_PER_PAGE)
+  );
+  const safeChallengePage = Math.min(challengePage, totalChallengePages);
+  const paginatedAdminChallenges = useMemo(() => {
+    const startIdx = (safeChallengePage - 1) * ADMIN_CHALLENGES_PER_PAGE;
+    return filteredChallenges.slice(startIdx, startIdx + ADMIN_CHALLENGES_PER_PAGE);
+  }, [filteredChallenges, safeChallengePage]);
 
   // Team lookup map for Live Events
   const teamsById = useMemo(() => {
@@ -3180,8 +3197,44 @@ export const AdminControlPage = () => {
               </div>
             </div>
 
+            {totalChallengePages > 1 && (
+              <div className="flex flex-wrap items-center justify-between gap-2 bg-white border-2 border-[#111111] px-4 py-2.5 font-mono text-xs">
+                <span className="text-neutral-600 uppercase font-bold">
+                  SHOWING {(safeChallengePage - 1) * ADMIN_CHALLENGES_PER_PAGE + 1}–
+                  {Math.min(
+                    safeChallengePage * ADMIN_CHALLENGES_PER_PAGE,
+                    filteredChallenges.length
+                  )}{' '}
+                  OF {filteredChallenges.length} CHALLENGES
+                </span>
+                <div className="flex items-center gap-2">
+                  <button
+                    type="button"
+                    disabled={safeChallengePage <= 1}
+                    onClick={() => setChallengePage((p) => Math.max(1, p - 1))}
+                    className="px-3 py-1 border border-[#111111] bg-[#FAF9F5] hover:bg-[#111111] hover:text-white font-bold uppercase cursor-pointer disabled:opacity-40"
+                  >
+                    PREV PAGE
+                  </button>
+                  <span className="px-2.5 py-1 bg-[#111111] text-white font-bold uppercase">
+                    PAGE {safeChallengePage} / {totalChallengePages}
+                  </span>
+                  <button
+                    type="button"
+                    disabled={safeChallengePage >= totalChallengePages}
+                    onClick={() =>
+                      setChallengePage((p) => Math.min(totalChallengePages, p + 1))
+                    }
+                    className="px-3 py-1 border border-[#111111] bg-[#FAF9F5] hover:bg-[#111111] hover:text-white font-bold uppercase cursor-pointer disabled:opacity-40"
+                  >
+                    NEXT PAGE
+                  </button>
+                </div>
+              </div>
+            )}
+
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-              {filteredChallenges.map((chg) => {
+              {paginatedAdminChallenges.map((chg) => {
                 const isEnabled = chg.enabled !== false;
                 const friendlyTitle = getFriendlyChallengeTitle(chg);
                 const friendlyDesc = getFriendlyChallengeDescription(chg);
@@ -3197,9 +3250,14 @@ export const AdminControlPage = () => {
                     <div className="space-y-2.5">
                       <div className="flex items-start justify-between gap-2">
                         <div>
-                          <span className="font-mono text-[10px] font-bold uppercase px-2 py-0.5 bg-neutral-100 border border-neutral-300 text-neutral-700">
-                            {getGameNameLabel(chg)} · {getFriendlyDifficultyLabel(chg)}
-                          </span>
+                          <div className="flex flex-wrap items-center gap-1.5">
+                            <span className="font-mono text-[10px] font-bold uppercase px-2 py-0.5 bg-[#111111] text-white">
+                              {chg.challengeId}
+                            </span>
+                            <span className="font-mono text-[10px] font-bold uppercase px-2 py-0.5 bg-neutral-100 border border-neutral-300 text-neutral-700">
+                              {getGameNameLabel(chg)} · {getFriendlyDifficultyLabel(chg)}
+                            </span>
+                          </div>
                           <h3 className="font-display text-2xl uppercase text-[#111111] mt-1">
                             {friendlyTitle}
                           </h3>

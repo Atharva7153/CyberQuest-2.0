@@ -4675,12 +4675,19 @@ export const ensureDefaultChallengesSeeded = async () => {
 
   challengesSeedPromise = (async () => {
     try {
-      for (const item of DEFAULT_CHALLENGE_CATALOG) {
-        await Challenge.findOneAndUpdate(
-          { challengeId: item.challengeId },
-          { $set: item },
-          { upsert: true, new: true }
-        );
+      const BATCH_SIZE = 250;
+      for (let i = 0; i < DEFAULT_CHALLENGE_CATALOG.length; i += BATCH_SIZE) {
+        const chunk = DEFAULT_CHALLENGE_CATALOG.slice(i, i + BATCH_SIZE);
+        const ops = chunk.map((item) => ({
+          updateOne: {
+            filter: { challengeId: item.challengeId },
+            update: { $set: item },
+            upsert: true,
+          },
+        }));
+        if (ops.length > 0) {
+          await Challenge.bulkWrite(ops, { ordered: false });
+        }
       }
 
       // Normalize any legacy risk values in existing MongoDB documents to SAFE | BALANCED | AGGRESSIVE

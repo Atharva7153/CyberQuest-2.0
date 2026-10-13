@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import gsap from 'gsap';
 import {
   Filter,
+  Search,
   ArrowUpRight,
   X,
   AlertTriangle,
@@ -436,16 +437,29 @@ export const ClassifiedChallengeCard = ({
         >
           <GamePreviewThumbnail challenge={challenge} />
 
+          {challenge.challengeId && (
+            <div className="absolute top-2 left-2 z-10 px-1.5 py-0.5 bg-black/85 border border-nexus-crimson/80 text-nexus-paper font-mono text-[10px] font-bold uppercase tracking-wider shadow-sm">
+              {challenge.challengeId}
+            </div>
+          )}
+
           <div className="absolute top-2.5 right-2.5 z-10">
             <CrosshairMark variant="crimson" size={12} />
           </div>
         </div>
 
-        {/* Title */}
+        {/* Title + Challenge ID */}
         <div className="p-2.5 sm:p-3.5 flex-1 flex flex-col justify-between space-y-1.5 sm:space-y-2">
-          <h3 className="font-display text-xl sm:text-[26px] uppercase tracking-wide text-nexus-paper leading-none group-hover:text-nexus-crimson transition-colors">
-            {friendlyTitle}
-          </h3>
+          <div className="space-y-1">
+            {challenge.challengeId && (
+              <span className="inline-block font-mono text-[10px] font-bold uppercase tracking-[0.16em] text-nexus-crimson">
+                ID: {challenge.challengeId}
+              </span>
+            )}
+            <h3 className="font-display text-xl sm:text-[26px] uppercase tracking-wide text-nexus-paper leading-none group-hover:text-nexus-crimson transition-colors">
+              {friendlyTitle}
+            </h3>
+          </div>
 
           {!compact && friendlyDescription && (
             <p className="font-editorial text-xs text-nexus-paper/75 line-clamp-2 leading-relaxed">
@@ -499,6 +513,8 @@ export const ClassifiedChallengeCard = ({
   );
 };
 
+const MARKET_PAGE_SIZE = 40;
+
 /**
  * Challenge Market View
  */
@@ -520,12 +536,18 @@ export const ChallengeMarketModule = ({
   const [selectedDifficulty, setSelectedDifficulty] = useState('ALL');
   const [selectedRisk, setSelectedRisk] = useState(initialRiskFilter || 'ALL');
   const [difficultySort, setDifficultySort] = useState('ASC');
+  const [searchQuery, setSearchQuery] = useState('');
+  const [currentPage, setCurrentPage] = useState(1);
 
   React.useEffect(() => {
     if (initialRiskFilter && MARKET_RISKS.includes(initialRiskFilter)) {
       setSelectedRisk(initialRiskFilter);
     }
   }, [initialRiskFilter]);
+
+  React.useEffect(() => {
+    setCurrentPage(1);
+  }, [selectedGame, selectedDifficulty, selectedRisk, difficultySort, searchQuery]);
 
   const [inspectingChallenge, setInspectingChallenge] = useState(null);
   const [modalError, setModalError] = useState('');
@@ -566,15 +588,37 @@ export const ChallengeMarketModule = ({
   );
 
   const filteredChallenges = useMemo(() => {
+    const q = searchQuery.trim().toUpperCase();
     const matching = (catalog || []).filter((item) => {
       if (item.enabled === false) return false;
       if (selectedGame !== 'ALL' && resolveChallengeGameType(item) !== selectedGame) return false;
       if (selectedDifficulty !== 'ALL' && item.difficulty !== selectedDifficulty) return false;
       if (selectedRisk !== 'ALL' && item.risk !== selectedRisk) return false;
+      if (q) {
+        const idStr = String(item.challengeId || '').toUpperCase();
+        const titleStr = String(getFriendlyChallengeTitle(item) || '').toUpperCase();
+        const rawTitleStr = String(item.title || '').toUpperCase();
+        const gameStr = String(getGameNameLabel(item) || '').toUpperCase();
+        if (
+          !idStr.includes(q) &&
+          !titleStr.includes(q) &&
+          !rawTitleStr.includes(q) &&
+          !gameStr.includes(q)
+        ) {
+          return false;
+        }
+      }
       return true;
     });
     return sortChallengesByGameDifficulty(matching, difficultySort);
-  }, [catalog, selectedGame, selectedDifficulty, selectedRisk, difficultySort]);
+  }, [catalog, selectedGame, selectedDifficulty, selectedRisk, difficultySort, searchQuery]);
+
+  const totalPages = Math.max(1, Math.ceil(filteredChallenges.length / MARKET_PAGE_SIZE));
+  const safePage = Math.min(currentPage, totalPages);
+  const paginatedChallenges = useMemo(() => {
+    const startIdx = (safePage - 1) * MARKET_PAGE_SIZE;
+    return filteredChallenges.slice(startIdx, startIdx + MARKET_PAGE_SIZE);
+  }, [filteredChallenges, safePage]);
 
   const gameCounts = useMemo(() => {
     const enabledList = (catalog || []).filter((c) => c.enabled !== false);
@@ -591,13 +635,16 @@ export const ChallengeMarketModule = ({
     selectedGame !== 'ALL' ||
     selectedDifficulty !== 'ALL' ||
     selectedRisk !== 'ALL' ||
-    difficultySort !== 'ASC';
+    difficultySort !== 'ASC' ||
+    Boolean(searchQuery.trim());
 
   const handleResetFilters = () => {
     setSelectedGame('ALL');
     setSelectedDifficulty('ALL');
     setSelectedRisk('ALL');
     setDifficultySort('ASC');
+    setSearchQuery('');
+    setCurrentPage(1);
   };
 
   const handleOpenConfirmation = (challenge) => {
@@ -854,15 +901,39 @@ export const ChallengeMarketModule = ({
               })}
             </div>
 
-            {hasActiveFilters && (
-              <button
-                type="button"
-                onClick={handleResetFilters}
-                className="px-3 py-1 border border-nexus-crimson bg-nexus-paper hover:bg-nexus-crimson hover:text-white font-mono text-[10px] font-bold uppercase tracking-widest text-nexus-crimson transition-colors cursor-pointer"
-              >
-                RESET FILTERS
-              </button>
-            )}
+            <div className="flex flex-wrap items-center gap-2">
+              <div className="relative">
+                <Search className="w-3.5 h-3.5 text-nexus-muted absolute left-2.5 top-1/2 -translate-y-1/2 pointer-events-none" />
+                <input
+                  type="text"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  placeholder="SEARCH ID OR TITLE (E.G. CHG-LOG-04)..."
+                  aria-label="Search challenges by ID or title"
+                  className="pl-7 pr-6 py-1 border border-nexus-ink bg-nexus-paper text-nexus-ink font-mono text-[10px] font-bold uppercase tracking-wider w-56 sm:w-64 focus:outline-none focus:border-nexus-crimson"
+                />
+                {searchQuery && (
+                  <button
+                    type="button"
+                    onClick={() => setSearchQuery('')}
+                    aria-label="Clear search"
+                    className="absolute right-1.5 top-1/2 -translate-y-1/2 text-nexus-muted hover:text-nexus-crimson cursor-pointer"
+                  >
+                    <X className="w-3 h-3" />
+                  </button>
+                )}
+              </div>
+
+              {hasActiveFilters && (
+                <button
+                  type="button"
+                  onClick={handleResetFilters}
+                  className="px-3 py-1 border border-nexus-crimson bg-nexus-paper hover:bg-nexus-crimson hover:text-white font-mono text-[10px] font-bold uppercase tracking-widest text-nexus-crimson transition-colors cursor-pointer"
+                >
+                  RESET FILTERS
+                </button>
+              )}
+            </div>
           </div>
 
           <div className="pt-2.5 border-t border-dashed border-nexus-ink/25 flex flex-col xl:flex-row xl:items-center justify-between gap-2">
@@ -944,13 +1015,46 @@ export const ChallengeMarketModule = ({
           </div>
         ) : (
           <div className="space-y-2.5">
-            {/* Horizontal Scroll Controls Bar */}
-            <div className="flex items-center justify-between gap-3">
+            {/* Horizontal Scroll & Page Controls Bar */}
+            <div className="flex flex-wrap items-center justify-between gap-3">
               <span className="font-mono text-[10px] sm:text-xs font-bold uppercase tracking-[0.2em] text-nexus-muted">
-                SHOWING {filteredChallenges.length} CHALLENGES · SORTED BY DIFFICULTY ({difficultySort === 'ASC' ? 'EASY → HARD' : 'HARD → EASY'}) · SWIPE SIDEWAYS →
+                SHOWING {(safePage - 1) * MARKET_PAGE_SIZE + 1}–
+                {Math.min(safePage * MARKET_PAGE_SIZE, filteredChallenges.length)} OF{' '}
+                {filteredChallenges.length} CHALLENGES · SORTED BY DIFFICULTY (
+                {difficultySort === 'ASC' ? 'EASY → HARD' : 'HARD → EASY'}) · SWIPE SIDEWAYS →
               </span>
 
-              <div className="flex items-center gap-2 shrink-0">
+              <div className="flex flex-wrap items-center gap-2 shrink-0">
+                {totalPages > 1 && (
+                  <div className="flex items-center gap-1.5 mr-1">
+                    <button
+                      type="button"
+                      disabled={safePage <= 1}
+                      onClick={() => {
+                        setCurrentPage((p) => Math.max(1, p - 1));
+                        if (scrollTrackRef.current) scrollTrackRef.current.scrollLeft = 0;
+                      }}
+                      className="px-2.5 py-1.5 border-2 border-nexus-ink bg-nexus-paper hover:bg-nexus-crimson hover:text-white text-nexus-ink font-mono text-[10px] font-bold uppercase tracking-wider transition-colors cursor-pointer disabled:opacity-40"
+                    >
+                      PAGE -
+                    </button>
+                    <span className="px-2 py-1 bg-nexus-ink text-nexus-paper font-mono text-[10px] font-bold uppercase tracking-wider">
+                      PG {safePage}/{totalPages}
+                    </span>
+                    <button
+                      type="button"
+                      disabled={safePage >= totalPages}
+                      onClick={() => {
+                        setCurrentPage((p) => Math.min(totalPages, p + 1));
+                        if (scrollTrackRef.current) scrollTrackRef.current.scrollLeft = 0;
+                      }}
+                      className="px-2.5 py-1.5 border-2 border-nexus-ink bg-nexus-paper hover:bg-nexus-crimson hover:text-white text-nexus-ink font-mono text-[10px] font-bold uppercase tracking-wider transition-colors cursor-pointer disabled:opacity-40"
+                    >
+                      PAGE +
+                    </button>
+                  </div>
+                )}
+
                 <button
                   type="button"
                   onClick={() => handleScrollHorizontal(-1)}
@@ -977,11 +1081,11 @@ export const ChallengeMarketModule = ({
               ref={scrollTrackRef}
               onWheel={handleWheelToHorizontal}
               className={`grid ${
-                filteredChallenges.length > 1 ? 'grid-rows-2' : 'grid-rows-1'
+                paginatedChallenges.length > 1 ? 'grid-rows-2' : 'grid-rows-1'
               } grid-flow-col auto-cols-[240px] sm:auto-cols-[290px] lg:auto-cols-[305px] overflow-x-auto gap-3 sm:gap-4 pb-4 pt-1 snap-x snap-mandatory scroll-smooth`}
             >
               <AnimatePresence mode="popLayout">
-                {filteredChallenges.map((challenge) => {
+                {paginatedChallenges.map((challenge) => {
                   const matchedAttempt = activeAttemptsByChallengeId.get(
                     String(challenge.challengeId).toUpperCase()
                   );
@@ -1144,8 +1248,8 @@ export const ChallengeMarketModule = ({
                     <div className="min-w-0">
                       <span className="font-mono text-[9px] uppercase tracking-widest text-nexus-crimson font-bold block truncate">
                         {solverName
-                          ? `● SOLVING: ${solverName}`
-                          : `${getGameNameLabel(item)} · +${item.reward || 400} CR`}
+                          ? `● SOLVING: ${solverName} (${item.challengeId})`
+                          : `${item.challengeId} · ${getGameNameLabel(item)} · +${item.reward || 400} CR`}
                       </span>
                       <p className="font-display text-lg uppercase tracking-wide text-white truncate">
                         {getFriendlyChallengeTitle(item)}
@@ -1214,7 +1318,7 @@ export const ChallengeMarketModule = ({
                           : 'BUY OR SOLVE CHALLENGE'}
                   </span>
                   <span className="font-mono text-xs text-nexus-paper/75 uppercase">
-                    {getGameNameLabel(inspectingChallenge)}
+                    {getGameNameLabel(inspectingChallenge)} · {inspectingChallenge.challengeId}
                   </span>
                 </div>
 
