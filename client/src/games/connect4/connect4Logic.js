@@ -16,15 +16,15 @@ export const DEFAULT_CONNECT4_CONFIG = {
 export const resolveConnect4AiTier = (difficultyOrSkill = 'LOW') => {
   const raw = String(difficultyOrSkill || 'LOW').toUpperCase();
   if (raw === 'LOW' || raw === 'NOOB' || raw === 'NOVICE' || raw === 'EASY') {
-    return { id: 'NOOB', label: 'NOOB AI', badge: 'NOOB AI (EASY)', maxBlocks: 0 };
+    return { id: 'NOOB', label: 'NOOB AI', badge: 'NOOB AI (EASY)', searchDepth: 1 };
   }
   if (raw === 'MODERATE' || raw === 'ROOKIE' || raw === 'MEDIUM') {
-    return { id: 'ROOKIE', label: 'ROOKIE AI', badge: 'ROOKIE AI (MODERATE)', maxBlocks: 1 };
+    return { id: 'ROOKIE', label: 'ROOKIE AI', badge: 'ROOKIE AI (MODERATE)', searchDepth: 2 };
   }
   if (raw === 'HIGH' || raw === 'SMART' || raw === 'STRATEGIC' || raw === 'HARD') {
-    return { id: 'SMART', label: 'SMART AI', badge: 'SMART AI (HIGH)', maxBlocks: 3 };
+    return { id: 'SMART', label: 'SMART AI', badge: 'SMART AI (HIGH)', searchDepth: 4 };
   }
-  return { id: 'PRO', label: 'PRO AI', badge: 'PRO AI (EXTREME)', maxBlocks: 5 };
+  return { id: 'PRO', label: 'PRO AI', badge: 'PRO AI (EXTREME)', searchDepth: 6 };
 };
 
 export const normalizeConnect4Config = (gameConfig = {}, challengeDifficulty = 'LOW') => {
@@ -120,36 +120,42 @@ export const evaluateConnect4Board = (board) => {
 const cloneBoard = (board) => board.map((row) => [...row]);
 
 /**
- * Score a 4-cell window for heuristic evaluation.
+ * Score a 4-cell window for Connect 4 heuristic evaluation.
  */
-const scoreWindow = (windowCells) => {
+const scoreWindow = (windowCells, aiToken = 'O', playerToken = 'X') => {
   let aiCount = 0;
   let playerCount = 0;
   let emptyCount = 0;
 
   for (const cell of windowCells) {
-    if (cell === 'O') aiCount++;
-    else if (cell === 'X') playerCount++;
+    if (cell === aiToken) aiCount++;
+    else if (cell === playerToken) playerCount++;
     else emptyCount++;
   }
 
-  if (aiCount === 4) return 1000;
-  if (playerCount === 4) return -1000;
-  if (aiCount === 3 && emptyCount === 1) return 25;
-  if (playerCount === 3 && emptyCount === 1) return -40;
-  if (aiCount === 2 && emptyCount === 2) return 6;
-  if (playerCount === 2 && emptyCount === 2) return -8;
+  if (aiCount === 4) return 10000;
+  if (playerCount === 4) return -10000;
+  if (aiCount === 3 && emptyCount === 1) return 120;
+  if (playerCount === 3 && emptyCount === 1) return -140;
+  if (aiCount === 2 && emptyCount === 2) return 15;
+  if (playerCount === 2 && emptyCount === 2) return -18;
   return 0;
 };
 
-const scoreBoardState = (board) => {
+const scoreBoardState = (board, aiToken = 'O', playerToken = 'X') => {
   let score = 0;
 
-  // Center column preference
+  // Center column strategic dominance (column 3 is involved in the most win lines)
   const centerCol = 3;
   for (let r = 0; r < CONNECT4_ROWS; r++) {
-    if (board[r][centerCol] === 'O') score += 4;
-    else if (board[r][centerCol] === 'X') score -= 3;
+    if (board[r][centerCol] === aiToken) score += 20;
+    else if (board[r][centerCol] === playerToken) score -= 16;
+  }
+
+  // Adjacent columns 2 and 4 bonus
+  for (let r = 0; r < CONNECT4_ROWS; r++) {
+    if (board[r][2] === aiToken || board[r][4] === aiToken) score += 8;
+    else if (board[r][2] === playerToken || board[r][4] === playerToken) score -= 6;
   }
 
   // Horizontal windows
@@ -160,7 +166,7 @@ const scoreBoardState = (board) => {
         board[r][c + 1],
         board[r][c + 2],
         board[r][c + 3],
-      ]);
+      ], aiToken, playerToken);
     }
   }
 
@@ -172,11 +178,11 @@ const scoreBoardState = (board) => {
         board[r + 1][c],
         board[r + 2][c],
         board[r + 3][c],
-      ]);
+      ], aiToken, playerToken);
     }
   }
 
-  // Diagonal windows
+  // Diagonal windows (down-right and down-left)
   for (let r = 0; r <= CONNECT4_ROWS - 4; r++) {
     for (let c = 0; c <= CONNECT4_COLS - 4; c++) {
       score += scoreWindow([
@@ -184,43 +190,86 @@ const scoreBoardState = (board) => {
         board[r + 1][c + 1],
         board[r + 2][c + 2],
         board[r + 3][c + 3],
-      ]);
+      ], aiToken, playerToken);
+    }
+  }
+  for (let r = 0; r <= CONNECT4_ROWS - 4; r++) {
+    for (let c = 3; c < CONNECT4_COLS; c++) {
       score += scoreWindow([
-        board[r + 3][c],
-        board[r + 2][c + 1],
-        board[r + 1][c + 2],
-        board[r][c + 3],
-      ]);
+        board[r][c],
+        board[r + 1][c - 1],
+        board[r + 2][c - 2],
+        board[r + 3][c - 3],
+      ], aiToken, playerToken);
     }
   }
 
   return score;
 };
 
+// Strategic column exploration order: center outwards for max alpha-beta cutoffs
+const COLUMN_SEARCH_ORDER = [3, 2, 4, 1, 5, 0, 6];
+
 /**
- * Choose Connect 4 AI column ('O') scaled by how "noob" the AI is:
- * - NOOB (LOW): Never blocks X's 4-in-a-row wins, plays outer/side columns so player connects 4 easily.
- * - ROOKIE (MODERATE): Blocks at most 1 early threat (totalOCount < 1), plays casual columns without lookahead.
- * - SMART (HIGH): Blocks up to 3 early threats (totalOCount < 3), takes open wins, uses window scoring.
- * - PRO (EXTREME): Blocks up to 5 threats (totalOCount < 5), checks row-above traps, still beatable via forks or turn 6+ threats.
+ * Minimax with Alpha-Beta Pruning for Connect 4
+ */
+const minimaxConnect4 = (board, depth, alpha, beta, isMaximizing) => {
+  const outcome = evaluateConnect4Board(board);
+  if (outcome.winner === 'O') return 100000 + depth;
+  if (outcome.winner === 'X') return -100000 - depth;
+  if (depth === 0 || outcome.isDraw) {
+    return scoreBoardState(board, 'O', 'X');
+  }
+
+  const validMoves = [];
+  for (const c of COLUMN_SEARCH_ORDER) {
+    const r = getDropRow(board, c);
+    if (r !== -1) validMoves.push({ r, c });
+  }
+  if (validMoves.length === 0) return 0;
+
+  if (isMaximizing) {
+    let maxEval = -Infinity;
+    for (const move of validMoves) {
+      board[move.r][move.c] = 'O';
+      const ev = minimaxConnect4(board, depth - 1, alpha, beta, false);
+      board[move.r][move.c] = '';
+      maxEval = Math.max(maxEval, ev);
+      alpha = Math.max(alpha, ev);
+      if (beta <= alpha) break;
+    }
+    return maxEval;
+  } else {
+    let minEval = Infinity;
+    for (const move of validMoves) {
+      board[move.r][move.c] = 'X';
+      const ev = minimaxConnect4(board, depth - 1, alpha, beta, true);
+      board[move.r][move.c] = '';
+      minEval = Math.min(minEval, ev);
+      beta = Math.min(beta, ev);
+      if (beta <= alpha) break;
+    }
+    return minEval;
+  }
+};
+
+/**
+ * Master-tier Connect 4 AI move selection:
+ * - NOOB (LOW): Easy/casual moves away from center, forgiving.
+ * - ROOKIE (MODERATE): Blocks immediate 4-in-a-row threats, grabs open wins, shallow lookahead.
+ * - SMART (HIGH): Minimax depth 4, evaluates forks and avoids gifting player wins above.
+ * - PRO (EXTREME): Deep Minimax depth 6 with alpha-beta pruning. Relentless tactical play.
  */
 export const chooseConnect4AiColumn = (board, difficultyOrSkill = 'LOW', moveCount = 0) => {
   const validCols = [];
-  for (let c = 0; c < CONNECT4_COLS; c++) {
+  for (const c of COLUMN_SEARCH_ORDER) {
     if (getDropRow(board, c) !== -1) validCols.push(c);
   }
   if (validCols.length === 0) return -1;
 
-  let totalOCount = 0;
-  for (let r = 0; r < CONNECT4_ROWS; r++) {
-    for (let c = 0; c < CONNECT4_COLS; c++) {
-      if (board[r]?.[c] === 'O') totalOCount++;
-    }
-  }
-
   const aiTier = resolveConnect4AiTier(difficultyOrSkill);
 
-  // NOOB AI: Play outer/side columns away from X's active stacks and never block X's winning move
+  // NOOB AI: Casual play
   if (aiTier.id === 'NOOB') {
     const noobOrder = [0, 6, 1, 5, 2, 4, 3];
     for (const col of noobOrder) {
@@ -230,86 +279,71 @@ export const chooseConnect4AiColumn = (board, difficultyOrSkill = 'LOW', moveCou
       const testX = cloneBoard(board);
       testX[r][col] = 'X';
       if (evaluateConnect4Board(testX).winner === 'X') continue;
-      // Prefer columns that don't have X right below
-      if (r === CONNECT4_ROWS - 1 || board[r + 1]?.[col] !== 'X') {
-        return col;
-      }
-    }
-    return validCols[(moveCount + totalOCount) % validCols.length];
-  }
-
-  // 1. Immediate block of Player ('X') 4-in-a-row win (only within aiTier.maxBlocks)
-  if (totalOCount < aiTier.maxBlocks) {
-    for (const col of validCols) {
-      const r = getDropRow(board, col);
-      const next = cloneBoard(board);
-      next[r][col] = 'X';
-      if (evaluateConnect4Board(next).winner === 'X') return col;
-    }
-  }
-
-  // 2. Immediate AI win (unless X already has an unblocked immediate win ready)
-  const xHasImmediateWin = validCols.some((col) => {
-    const r = getDropRow(board, col);
-    const next = cloneBoard(board);
-    next[r][col] = 'X';
-    return evaluateConnect4Board(next).winner === 'X';
-  });
-
-  if (aiTier.id !== 'ROOKIE' && !xHasImmediateWin) {
-    for (const col of validCols) {
-      const r = getDropRow(board, col);
-      const next = cloneBoard(board);
-      next[r][col] = 'O';
-      if (evaluateConnect4Board(next).winner === 'O') return col;
-    }
-  }
-
-  // ROOKIE AI: Pick a simple column without deep lookahead or blocking X's developing horizontal lines
-  if (aiTier.id === 'ROOKIE') {
-    const rookieOrder = [1, 5, 2, 4, 0, 6, 3];
-    for (const col of rookieOrder) {
-      if (!validCols.includes(col)) continue;
-      const r = getDropRow(board, col);
-      const testX = cloneBoard(board);
-      testX[r][col] = 'X';
-      if (evaluateConnect4Board(testX).winner === 'X') continue;
       return col;
     }
-    return validCols[0];
+    return validCols[(moveCount) % validCols.length];
   }
 
-  // 3. SMART & PRO AI: Evaluate heuristic score
+  // 1. RULE 1: If AI can win right now, ALWAYS take the win!
+  for (const col of validCols) {
+    const r = getDropRow(board, col);
+    const testO = cloneBoard(board);
+    testO[r][col] = 'O';
+    if (evaluateConnect4Board(testO).winner === 'O') {
+      return col;
+    }
+  }
+
+  // 2. RULE 2: If Player ('X') has an immediate winning threat, ALWAYS block it!
+  for (const col of validCols) {
+    const r = getDropRow(board, col);
+    const testX = cloneBoard(board);
+    testX[r][col] = 'X';
+    if (evaluateConnect4Board(testX).winner === 'X') {
+      return col;
+    }
+  }
+
+  // ROOKIE AI: Pick a smart column, avoid giving player win right above
+  if (aiTier.id === 'ROOKIE') {
+    const safeCols = validCols.filter((col) => {
+      const r = getDropRow(board, col);
+      if (r > 0) {
+        const testAbove = cloneBoard(board);
+        testAbove[r][col] = 'O';
+        testAbove[r - 1][col] = 'X';
+        if (evaluateConnect4Board(testAbove).winner === 'X') return false;
+      }
+      return true;
+    });
+    const candidateList = safeCols.length > 0 ? safeCols : validCols;
+    // Prefer center-weighted columns
+    return candidateList[0];
+  }
+
+  // SMART (Depth 4) and PRO (Depth 6) AI via Minimax + Alpha-Beta
+  const depth = aiTier.searchDepth || (aiTier.id === 'PRO' ? 6 : 4);
   let bestCol = validCols[0];
   let bestScore = -Infinity;
 
   for (const col of validCols) {
     const r = getDropRow(board, col);
-    const next = cloneBoard(board);
-    next[r][col] = 'O';
+    const nextBoard = cloneBoard(board);
+    nextBoard[r][col] = 'O';
 
-    // Once past maxBlocks, avoid accidentally stealing X's immediate winning column
-    if (totalOCount >= aiTier.maxBlocks) {
-      const testX = cloneBoard(board);
-      testX[r][col] = 'X';
-      if (evaluateConnect4Board(testX).winner === 'X') {
-        continue;
-      }
-    }
-
-    let score = scoreBoardState(next);
-
-    // PRO AI also checks if dropping here gifts player an immediate win on row r - 1
-    if (aiTier.id === 'PRO' && r > 0) {
-      const aboveTest = cloneBoard(next);
+    // If dropping here directly hands player an immediate win on r - 1, heavily penalize
+    if (r > 0) {
+      const aboveTest = cloneBoard(nextBoard);
       aboveTest[r - 1][col] = 'X';
       if (evaluateConnect4Board(aboveTest).winner === 'X') {
-        score -= 500;
+        // Only skip if there are other legal moves available
+        if (validCols.length > 1) {
+          continue;
+        }
       }
     }
 
-    score -= Math.abs(3 - col) * 1.2;
-
+    const score = minimaxConnect4(nextBoard, depth - 1, -Infinity, Infinity, false);
     if (score > bestScore) {
       bestScore = score;
       bestCol = col;

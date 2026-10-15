@@ -165,40 +165,41 @@ export const QUANT_APTITUDE_POOL = [
 
 export const LOGIC_APTITUDE_POOL = [
   {
-    topic: 'CODING-DECODING',
+    topic: 'CIPHER LOGIC',
     question:
-      'If NEXUS is coded as OFYVT (each letter shifted +1 forward), how is LOGIC coded?',
-    options: ['MPHJF', 'MPHJD', 'LPHJD', 'NQIKE'],
-    answer: 'B',
-    hintNote: 'Shift each letter of LOGIC forward by +1 in the alphabet, paying special attention to the last letter.',
-  },
-  {
-    topic: 'DIRECTION SENSE',
-    question:
-      'An operative walks 8 km North, turns Right and walks 6 km. How far is the operative in a straight line from the starting point?',
-    options: ['10 km', '12 km', '14 km', '7 km'],
+      'In a positional cipher, letters are shifted forward by their 1-indexed position in the word (1st letter +1, 2nd +2, 3rd +3, etc.). How is CYBER encoded?',
+    options: ['DAEIW', 'DAEIV', 'EBEIX', 'DZEIW'],
     answer: 'A',
-    hintNote: 'North and East form a right-angled triangle; apply the Pythagorean theorem a² + b² = c².',
+    hintNote: 'C(+1)=D, Y(+2)=A (wraps past Z), B(+3)=E, E(+4)=I, R(+5)=W.',
   },
   {
-    topic: 'PROBABILITY',
+    topic: 'SPATIAL DISPLACEMENT',
     question:
-      'Two fair coins are tossed simultaneously. What is the probability of getting at least one Head?',
-    options: ['1/4', '1/2', '3/4', '2/3'],
-    answer: 'C',
-    hintNote: 'List all 4 outcomes (HH, HT, TH, TT) and count how many contain at least one H.',
+      'An operative travels 12 km North, turns Right and travels 9 km East, then turns Right again and travels 24 km South. How far in a straight line is the operative from the origin point?',
+    options: ['13 km', '15 km', '17 km', '21 km'],
+    answer: 'B',
+    hintNote: 'Net Y displacement is 12 - 24 = -12 km. Net X is 9 km. Use Pythagoras: √(9² + 12²) = 15 km.',
   },
   {
-    topic: 'ODD ONE OUT',
-    question: 'Which number does NOT belong in the group: 16, 25, 36, 48, 64, 81?',
-    options: ['25', '36', '48', '64'],
+    topic: 'SYSTEM RELIABILITY',
+    question:
+      'A security perimeter has two independent firewalls. Firewall 1 fails with probability 0.10, and Firewall 2 fails with probability 0.20. What is the probability that AT LEAST ONE firewall successfully blocks an intrusion?',
+    options: ['80%', '90%', '98%', '72%'],
     answer: 'C',
-    hintNote: 'Check which numbers are perfect squares of integers.',
+    hintNote: 'Compute probability that both fail (0.10 × 0.20 = 0.02) and subtract from 1.',
+  },
+  {
+    topic: 'SET DEDUCTION',
+    question:
+      'In a team of 50 engineers: 30 know Python, 25 know C++, and 10 know neither language. How many engineers know BOTH Python and C++?',
+    options: ['10', '20', '25', '15'],
+    answer: 'D',
+    hintNote: 'Total knowing at least one is 50 - 10 = 40. |A ∩ B| = 30 + 25 - 40 = 15.',
   },
   {
     topic: 'CODING-DECODING',
     question:
-      'In a cipher, CLOUD is written as DKNTC (+1, -1, +1, -1, +1). Wait — if PIXEL is shifted +2 on every letter, what is the code?',
+      'In a cipher, CLOUD is written as DKNTC (+1, -1, +1, -1, +1). If PIXEL is shifted +2 on every letter, what is the code?',
     options: ['RKZGN', 'RKYGN', 'QJZFM', 'RKZGM'],
     answer: 'A',
     hintNote: 'Advance each letter of P-I-X-E-L forward by 2 positions in the alphabet.',
@@ -227,10 +228,10 @@ export const LOGIC_APTITUDE_POOL = [
   {
     topic: 'CLOCK GEOMETRY',
     question:
-      'What is the angle between the hour hand and the minute hand of a clock at exactly 3:00?',
-    options: ['60°', '75°', '90°', '120°'],
-    answer: 'C',
-    hintNote: 'A full 12-hour dial is 360°, so each hour mark represents 30°.',
+      'What is the acute angle between the hour hand and minute hand of an analog clock at exactly 3:20?',
+    options: ['15°', '20°', '25°', '30°'],
+    answer: 'B',
+    hintNote: 'Hour hand is at 3×30° + 20×0.5° = 100°. Minute hand is at 20×6° = 120°. Difference = 20°.',
   },
   {
     topic: 'PROBABILITY',
@@ -238,7 +239,7 @@ export const LOGIC_APTITUDE_POOL = [
       'A standard 6-sided die is rolled once. What is the probability of rolling a prime number?',
     options: ['1/3', '1/2', '2/3', '1/6'],
     answer: 'B',
-    hintNote: 'Identify which numbers among {1, 2, 3, 4, 5, 6} are prime (remember 1 is not prime).',
+    hintNote: 'Identify which numbers among {1, 2, 3, 4, 5, 6} are prime: {2, 3, 5} -> 3/6 = 1/2.',
   },
   {
     topic: 'LETTER SERIES',
@@ -253,7 +254,7 @@ export const LOGIC_APTITUDE_POOL = [
       'Facing East, a rover turns 90° clockwise, then 180° counter-clockwise. Which direction is it facing now?',
     options: ['North', 'South', 'West', 'East'],
     answer: 'A',
-    hintNote: 'Track each 90° turn step-by-step starting from East.',
+    hintNote: 'East -> 90° CW = South -> 180° CCW = North.',
   },
   {
     topic: 'BLOOD RELATIONS',
@@ -261,35 +262,37 @@ export const LOGIC_APTITUDE_POOL = [
       'Pointing to a photograph, Aria says, "He is the only son of my mother’s father." How is the man in the photograph related to Aria?',
     options: ['Brother', 'Maternal Uncle', 'Father', 'Cousin'],
     answer: 'B',
-    hintNote: 'Break down "mother’s father" first, then identify his only son relative to Aria’s mother.',
+    hintNote: 'Mother\'s father is maternal grandfather; his only son is Aria\'s maternal uncle.',
   },
   {
     topic: 'BINARY LOGIC',
     question: 'If A = 1 and B = 0, what is the output of the boolean expression: (A AND B) OR (NOT B)?',
     options: ['0', '1', 'Undefined', 'Depends on A'],
     answer: 'B',
-    hintNote: 'Evaluate (A AND B) first, then evaluate (NOT B), and combine them with OR.',
+    hintNote: '(1 AND 0) = 0. (NOT 0) = 1. 0 OR 1 = 1.',
   },
   {
     topic: 'ANALOGY',
     question: 'COMPILER : SOURCE CODE :: DNS : ?',
     options: ['IP PACKET', 'DOMAIN NAME', 'MAC ADDRESS', 'ENCRYPTION KEY'],
     answer: 'B',
-    hintNote: 'A compiler translates source code into machine code; what does DNS translate into an IP address?',
+    hintNote: 'A compiler translates source code into machine code; DNS translates domain names into IP addresses.',
   },
   {
     topic: 'ODD ONE OUT',
-    question: 'Which protocol does NOT belong with the others: TCP, UDP, HTTP, MONITOR?',
-    options: ['TCP', 'UDP', 'HTTP', 'MONITOR'],
-    answer: 'D',
-    hintNote: 'Three of the options are network communication protocols, while one is a hardware display.',
+    question:
+      'Which of the following is a symmetric block cipher rather than a cryptographic hash function?',
+    options: ['MD5', 'SHA-256', 'AES-256', 'BLAKE3'],
+    answer: 'C',
+    hintNote: 'MD5, SHA-256, and BLAKE3 are one-way hash digests; AES-256 is a reversible symmetric encryption cipher.',
   },
   {
-    topic: 'CALENDAR LOGIC',
-    question: 'If the 1st of a month falls on a Monday, what day of the week will the 22nd of the same month be?',
+    topic: 'CALENDAR & MODULAR',
+    question:
+      'If today is Monday, what day of the week will it be after 4¹⁵ days?',
     options: ['Sunday', 'Monday', 'Tuesday', 'Wednesday'],
-    answer: 'B',
-    hintNote: 'Adding multiples of 7 days (+7, +14, +21) always lands on the exact same day of the week.',
+    answer: 'C',
+    hintNote: '4¹ ≡ 4, 4² ≡ 2, 4³ ≡ 1 (mod 7). Since 15 is divisible by 3, 4¹⁵ ≡ 1 (mod 7). Monday + 1 day = Tuesday.',
   },
 ];
 
@@ -299,111 +302,151 @@ export const LOGIC_APTITUDE_POOL = [
 export const GK_TECH_SCIENCE_POOL = [
   {
     topic: 'WEB PROTOCOLS',
-    statement: 'HTTP Status Code 404 means the server crashed due to an internal error.',
+    statement: 'HTTP Status Code 404 indicates an unhandled server-side crash or internal exception.',
     answer: 'F',
   },
   {
-    topic: 'ASTROPHYSICS',
-    statement: 'Sunlight takes approximately 8 minutes and 20 seconds to travel from the Sun to Earth.',
-    answer: 'T',
-  },
-  {
-    topic: 'CHEMISTRY',
-    statement: 'Diamond and Graphite are both pure allotropes of the element Carbon.',
-    answer: 'T',
-  },
-  {
-    topic: 'NETWORKING',
-    statement: 'An IPv4 address uses 32 bits, while an IPv6 address uses 128 bits.',
-    answer: 'T',
-  },
-  {
-    topic: 'PHYSICS',
-    statement: 'Sound waves travel faster through air than they do through solid steel.',
+    topic: 'ROUTING PROTOCOLS',
+    statement: 'BGP (Border Gateway Protocol) establishes its peering sessions over UDP port 53.',
     answer: 'F',
-  },
-  {
-    topic: 'COMPUTING',
-    statement: 'One Byte consists of exactly 8 bits.',
-    answer: 'T',
   },
   {
     topic: 'OPERATING SYSTEMS',
-    statement: 'RAM (Random Access Memory) retains all stored data permanently even when power is turned off.',
-    answer: 'F',
-  },
-  {
-    topic: 'SPACE SCIENCE',
-    statement: 'Venus is the hottest planet in our Solar System due to its dense carbon dioxide atmosphere.',
-    answer: 'T',
-  },
-  {
-    topic: 'COMPUTER SCIENCE',
-    statement: 'Binary search requires the input array or list to be sorted beforehand.',
-    answer: 'T',
-  },
-  {
-    topic: 'PHYSICS',
-    statement: 'Electrical resistance is measured in Ohms (Ω).',
-    answer: 'T',
-  },
-  {
-    topic: 'CHEMISTRY',
-    statement: 'Nitrogen makes up roughly 78% of Earth’s atmosphere by volume.',
-    answer: 'T',
-  },
-  {
-    topic: 'WEB DEVELOPMENT',
-    statement: 'HTML is a relational database management system used to run SQL queries.',
+    statement: 'In a multi-threaded process, each thread is allocated its own private, isolated heap memory space.',
     answer: 'F',
   },
   {
     topic: 'NETWORKING',
-    statement: 'The default port for standard unencrypted HTTP traffic is Port 80.',
-    answer: 'T',
+    statement: 'An IPv4 address uses 64 bits, while an IPv6 address uses 256 bits.',
+    answer: 'F',
+  },
+  {
+    topic: 'OPERATING SYSTEMS',
+    statement: 'RAM (Random Access Memory) retains all stored data permanently when host power is turned off.',
+    answer: 'F',
+  },
+  {
+    topic: 'ALGORITHMS',
+    statement: 'Binary search can execute correctly in O(log N) time on any unsorted linked list.',
+    answer: 'F',
+  },
+  {
+    topic: 'WEB PROTOCOLS',
+    statement: 'In HTTP/1.1 pipelining, transport Head-of-Line (HoL) blocking is completely eliminated.',
+    answer: 'F',
   },
   {
     topic: 'ELECTRONICS',
-    statement: 'A diode allows electric current to flow easily in one direction while blocking the opposite direction.',
-    answer: 'T',
-  },
-  {
-    topic: 'ASTRONOMY',
-    statement: 'A light-year is a unit of time equal to 365.25 Earth days.',
+    statement: 'A standard diode conducts electric current equally well in both forward and reverse bias directions.',
     answer: 'F',
-  },
-  {
-    topic: 'BIOLOGY',
-    statement: 'Mitochondria generate most of the chemical energy (ATP) needed to power a eukaryotic cell.',
-    answer: 'T',
-  },
-  {
-    topic: 'THERMODYNAMICS',
-    statement: 'Pure water boils at 100°C at standard sea-level atmospheric pressure.',
-    answer: 'T',
   },
   {
     topic: 'DATABASES',
-    statement: 'In a relational database, a Primary Key column is allowed to contain duplicate NULL values.',
+    statement: 'In a relational database, a Primary Key column allows duplicate NULL entries.',
     answer: 'F',
+  },
+  {
+    topic: 'COMPUTER ARCHITECTURE',
+    statement: 'Modern superscalar CPUs utilize branch prediction and speculative execution to reduce instruction pipeline stalls.',
+    answer: 'T',
+  },
+  {
+    topic: 'HARDWARE IDENTIFICATION',
+    statement: 'A standard Ethernet MAC address consists of 48 bits, formatted as 6 hexadecimal octets.',
+    answer: 'T',
+  },
+  {
+    topic: 'CRYPTOGRAPHY',
+    statement: 'TLS 1.3 eliminates support for static RSA key exchanges and weak ciphers in favor of ephemeral Diffie-Hellman (ECDHE).',
+    answer: 'T',
+  },
+  {
+    topic: 'PHYSICS',
+    statement: 'Electrical resistance is measured in Ohms (Ω), following Ohm\'s Law V = I × R.',
+    answer: 'T',
+  },
+  {
+    topic: 'INTERRUPT HANDLING',
+    statement: 'An interrupt request (IRQ) causes the CPU to pause execution of the current thread and invoke an Interrupt Service Routine (ISR).',
+    answer: 'T',
+  },
+  {
+    topic: 'NETWORKING',
+    statement: 'The default well-known port for standard unencrypted HTTP web traffic is Port 80.',
+    answer: 'T',
+  },
+  {
+    topic: 'CRYPTOGRAPHY',
+    statement: 'Elliptic Curve Cryptography (ECC) achieves equivalent cryptographic security to RSA with significantly smaller key bit sizes.',
+    answer: 'T',
+  },
+  {
+    topic: 'DISTRIBUTED SYSTEMS',
+    statement: 'In distributed consensus protocols like Raft and Paxos, a leader node must obtain an absolute majority quorum before committing an entry.',
+    answer: 'T',
+  },
+  {
+    topic: 'TRANSPORT LAYER',
+    statement: 'TCP uses a sliding window mechanism to implement end-to-end flow control based on receiver buffer capacity.',
+    answer: 'T',
   },
 ];
 
 export const GK_WORLD_CYBER_POOL = [
   {
-    topic: 'CYBERSECURITY',
-    statement: 'HTTPS encrypts communication between a browser and a website using TLS/SSL.',
-    answer: 'T',
+    topic: 'DATA STRUCTURES',
+    statement: 'A Red-Black balanced binary search tree provides guaranteed O(1) constant-time key lookups in the worst case.',
+    answer: 'F',
   },
   {
-    topic: 'WORLD GEOGRAPHY',
-    statement: 'Australia is both a sovereign country and a continent.',
-    answer: 'T',
+    topic: 'DNS INFRASTRUCTURE',
+    statement: 'Internet DNS Root Nameservers are authoritative for directly serving IP addresses of second-level domain names like google.com.',
+    answer: 'F',
+  },
+  {
+    topic: 'CRYPTOGRAPHY',
+    statement: 'In asymmetric (public-key) encryption, the exact same key is used for both encryption and decryption.',
+    answer: 'F',
+  },
+  {
+    topic: 'ALGORITHMS',
+    statement: 'The worst-case time complexity of standard Bubble Sort on an array of N elements is O(log N).',
+    answer: 'F',
+  },
+  {
+    topic: 'NETWORK PROTOCOLS',
+    statement: 'UDP guarantees packet delivery order and automatic retransmission of lost datagrams.',
+    answer: 'F',
   },
   {
     topic: 'DATA STRUCTURES',
-    statement: 'A Stack data structure operates on a First-In, First-Out (FIFO) principle.',
+    statement: 'A Stack data structure operates on a First-In, First-Out (FIFO) access pattern.',
     answer: 'F',
+  },
+  {
+    topic: 'NUMBER SYSTEMS',
+    statement: 'In base-16 hexadecimal notation, the letter E represents the decimal value 15.',
+    answer: 'F',
+  },
+  {
+    topic: 'SYSTEM SECURITY',
+    statement: 'Address Space Layout Randomization (ASLR) encrypts the executable binary on disk so it cannot be disassembled.',
+    answer: 'F',
+  },
+  {
+    topic: 'DIGITAL SIGNATURES',
+    statement: 'To create a digital signature, the sender encrypts the document hash using the recipient\'s public key.',
+    answer: 'F',
+  },
+  {
+    topic: 'CYBERSECURITY',
+    statement: 'HTTPS encrypts communication between a web client and a server using TLS/SSL.',
+    answer: 'T',
+  },
+  {
+    topic: 'LINK LAYER',
+    statement: 'ARP (Address Resolution Protocol) resolves a known IPv4 address into its corresponding Layer 2 physical MAC address on a local broadcast domain.',
+    answer: 'T',
   },
   {
     topic: 'TECH HISTORY',
@@ -411,18 +454,13 @@ export const GK_WORLD_CYBER_POOL = [
     answer: 'T',
   },
   {
-    topic: 'HUMAN BIOLOGY',
-    statement: 'The femur (thigh bone) is the longest and strongest bone in the human body.',
+    topic: 'OPERATING SYSTEMS',
+    statement: 'Copy-On-Write (COW) allows the Linux fork() system call to create a new child process without immediately copying parent physical memory pages.',
     answer: 'T',
   },
   {
-    topic: 'NUMBER SYSTEMS',
-    statement: 'The binary representation of the decimal number 10 is 1100.',
-    answer: 'F',
-  },
-  {
     topic: 'CYBERSECURITY',
-    statement: 'Phishing is a social-engineering attack that tricks users into revealing sensitive credentials.',
+    statement: 'Phishing is a social-engineering attack designed to deceive users into revealing credentials or sensitive information.',
     answer: 'T',
   },
   {
@@ -431,54 +469,19 @@ export const GK_WORLD_CYBER_POOL = [
     answer: 'T',
   },
   {
-    topic: 'CRYPTOGRAPHY',
-    statement: 'In asymmetric (public-key) encryption, the exact same key is used for both encryption and decryption.',
-    answer: 'F',
-  },
-  {
-    topic: 'WORLD GEOGRAPHY',
-    statement: 'The Pacific Ocean is the largest and deepest ocean on Earth.',
+    topic: 'WEB SECURITY',
+    statement: 'Cross-Site Request Forgery (CSRF) exploits the browser automatically attaching stored session cookies to ambient cross-origin requests.',
     answer: 'T',
   },
   {
     topic: 'NETWORKING',
-    statement: 'DNS (Domain Name System) translates human-readable domain names into IP addresses.',
+    statement: 'DNS (Domain Name System) translates human-readable domain names into numerical IP addresses.',
     answer: 'T',
-  },
-  {
-    topic: 'ALGORITHMS',
-    statement: 'The worst-case time complexity of Bubble Sort on N elements is O(log N).',
-    answer: 'F',
   },
   {
     topic: 'CYBERSECURITY',
-    statement: 'Two-Factor Authentication (2FA) requires two independent forms of verification before granting access.',
+    statement: 'Two-Factor Authentication (2FA) requires two distinct categories of authentication factors before granting access.',
     answer: 'T',
-  },
-  {
-    topic: 'COMPUTER ARCHITECTURE',
-    statement: 'CPU L1 Cache is faster to access than main system RAM.',
-    answer: 'T',
-  },
-  {
-    topic: 'NUMBER SYSTEMS',
-    statement: 'In hexadecimal notation, the letter F represents the decimal value 15.',
-    answer: 'T',
-  },
-  {
-    topic: 'TECH HISTORY',
-    statement: 'The World Wide Web was invented by Tim Berners-Lee at CERN.',
-    answer: 'T',
-  },
-  {
-    topic: 'OPERATING SYSTEMS',
-    statement: 'A deadlock occurs when two or more processes are permanently blocked waiting for resources held by each other.',
-    answer: 'T',
-  },
-  {
-    topic: 'NETWORK PROTOCOLS',
-    statement: 'UDP guarantees packet delivery order and automatic retransmission of lost packets.',
-    answer: 'F',
   },
 ];
 

@@ -10,13 +10,13 @@ import {
   CheckCircle2,
   AlertTriangle,
   Radio,
-  Terminal,
+  QrCode,
+  Send,
   ArrowUpRight,
 } from 'lucide-react';
 import { CrosshairMark } from './CrosshairMark';
 import { SystemBadge } from './SystemBadge';
 import { BrutalistPanel } from './BrutalistPanel';
-import { ChallengeRenderer } from '../engine/ChallengeRenderer';
 import { useReducedMotion } from '../hooks/useReducedMotion';
 
 // Supplied NEXUS Core architectural artwork
@@ -269,13 +269,6 @@ export const NexusCoreModule = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [coreDiscoveryEvent?.receivedAt]);
 
-  const handleActivateCoreSession = async () => {
-    setFeedbackBanner(null);
-    if (onActivateCore) {
-      await onActivateCore();
-    }
-  };
-
   const handleSubmitCoreSolution = async (overrideAnswer) => {
     const candidate = overrideAnswer !== undefined ? overrideAnswer : draftSubmission;
     if (!String(candidate || '').trim()) return;
@@ -292,35 +285,13 @@ export const NexusCoreModule = ({
       setFeedbackBanner({
         status: 'FAILED',
         passed: false,
-        message: err.message || 'Core override submission failed.',
+        message: err.message || 'Core answer submission failed.',
       });
     }
   };
 
   const badgeProps = getStateBadgeProps(displayedCoreState);
-  const winner = nexusCore?.winner || null;
   const completedTeams = nexusCore?.completedTeams || [];
-
-  const coreChallengeModel = {
-    challengeId: nexusCore?.coreId || 'NEXUS-CORE-PRIME',
-    title: nexusCore?.title || 'THE NEXUS CORE',
-    category: 'NEXUS CORE',
-    difficulty: 'EXTREME',
-    risk: 'AGGRESSIVE',
-    cost: unlockConfig.entryCost || 0,
-    reward: unlockConfig.completionReward || 1500,
-    gameType: nexusCore?.gameType || 'systemProblem',
-    gameConfig: nexusCore?.gameConfig || {},
-  };
-
-  const coreSessionModel = {
-    attemptId: `CORE-${team?.teamId || 'SQUAD'}`,
-    challengeId: coreChallengeModel.challengeId,
-    title: coreChallengeModel.title,
-    gameType: coreChallengeModel.gameType,
-    gameConfig: coreChallengeModel.gameConfig,
-    status: 'IN_PROGRESS',
-  };
 
   return (
     <section
@@ -613,81 +584,9 @@ export const NexusCoreModule = ({
           </motion.div>
         )}
 
-        {authoritativeState === 'AVAILABLE' && (
+        {(authoritativeState === 'AVAILABLE' || authoritativeState === 'ACTIVE') && (
           <motion.div
-            key="core-state-available"
-            initial={prefersReducedMotion ? false : { opacity: 0, y: 8 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={prefersReducedMotion ? undefined : { opacity: 0, y: -6 }}
-            transition={{ duration: 0.2 }}
-          >
-            <BrutalistPanel
-              codeTag="STATUS // AVAILABLE"
-              title="NEXUS CORE AVAILABLE — READY TO ENTER"
-              accentTitle
-              headerRight={
-                <SystemBadge variant="crimson" pulse>
-                  AVAILABLE
-                </SystemBadge>
-              }
-            >
-              <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
-                <div className="lg:col-span-8 space-y-3">
-                  <div className="flex items-center gap-2 font-mono text-xs font-bold uppercase text-nexus-crimson">
-                    <Zap className="w-4 h-4" />
-                    <span>
-                      THE NEXUS CORE GATE IS OPEN FOR {team?.teamName}
-                    </span>
-                  </div>
-                  <p className="font-editorial text-base text-nexus-charcoal leading-relaxed">
-                    The NEXUS Core is now unlocked. Enter the Core chamber to begin the final objective and compete for victory.
-                  </p>
-
-                  {Array.isArray(nexusCore?.gameConfig?.telemetryNodes) && (
-                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5 pt-1 font-mono text-xs">
-                      {nexusCore.gameConfig.telemetryNodes.map((node) => (
-                        <div
-                          key={node.node}
-                          className="p-2.5 border border-nexus-ink bg-nexus-paper flex flex-col justify-between"
-                        >
-                          <span className="text-[10px] text-nexus-muted">{node.node}</span>
-                          <div className="flex items-center justify-between mt-1">
-                            <span className="font-bold text-nexus-ink">{node.status}</span>
-                            <span className="px-1.5 py-0.5 bg-nexus-ink text-nexus-paper text-[10px] font-bold">
-                              {node.signature}
-                            </span>
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  )}
-                </div>
-
-                <div className="lg:col-span-4 flex flex-col gap-3 p-4 border-2 border-nexus-ink bg-nexus-ink text-nexus-paper">
-                  <span className="font-mono text-[10px] uppercase tracking-widest text-nexus-crimson font-bold">
-                    ENTER THE CORE
-                  </span>
-                  <p className="font-mono text-xs text-nexus-paper/80">
-                    Begin the active NEXUS Core objective for your team.
-                  </p>
-                  <button
-                    type="button"
-                    disabled={actionPending}
-                    onClick={handleActivateCoreSession}
-                    className="w-full py-3.5 px-4 border-2 border-white bg-nexus-crimson text-white hover:bg-white hover:text-nexus-ink font-condensed text-xl font-extrabold uppercase tracking-[0.16em] flex items-center justify-center gap-2 transition-colors cursor-pointer disabled:opacity-50"
-                  >
-                    <Terminal className="w-4 h-4" />
-                    <span>[ ENTER NEXUS CORE ]</span>
-                  </button>
-                </div>
-              </div>
-            </BrutalistPanel>
-          </motion.div>
-        )}
-
-        {authoritativeState === 'ACTIVE' && (
-          <motion.div
-            key="core-state-active"
+            key="core-state-unlocked"
             initial={prefersReducedMotion ? false : { opacity: 0, y: 8 }}
             animate={{ opacity: 1, y: 0 }}
             exit={prefersReducedMotion ? undefined : { opacity: 0, y: -6 }}
@@ -695,85 +594,76 @@ export const NexusCoreModule = ({
             className="space-y-5"
           >
             <BrutalistPanel
-              codeTag="STATUS // ACTIVE"
-              title="ACTIVE NEXUS CORE CHALLENGE"
+              codeTag="CLASSROOM OBJECTIVE // 50 QR CODES"
+              title="THE NEXUS CORE — SUBMIT QR CODE ANSWER"
               accentTitle
               headerRight={
                 <SystemBadge variant="crimson" pulse>
-                  ACTIVE // ATTEMPTS: {nexusCore?.teamCoreRecord?.attemptsCount || 0}
+                  {authoritativeState === 'ACTIVE'
+                    ? `ACTIVE // ATTEMPTS: ${nexusCore?.teamCoreRecord?.attemptsCount || 0}`
+                    : 'CORE UNLOCKED'}
                 </SystemBadge>
               }
             >
               <div className="space-y-5">
-                {Array.isArray(nexusCore?.gameConfig?.telemetryNodes) && (
-                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 font-mono text-xs">
-                    {nexusCore.gameConfig.telemetryNodes.map((node) => (
-                      <div
-                        key={node.node}
-                        className="p-3 border-2 border-nexus-ink bg-nexus-paper flex items-center justify-between"
-                      >
-                        <div>
-                          <span className="text-[10px] text-nexus-muted block">{node.node}</span>
-                          <span className="font-bold text-nexus-ink">{node.status}</span>
-                        </div>
-                        <span className="px-2 py-1 bg-nexus-crimson text-white font-bold text-xs">
-                          {node.signature}
-                        </span>
-                      </div>
-                    ))}
-                  </div>
-                )}
-
-                <ChallengeRenderer
-                  challenge={coreChallengeModel}
-                  session={coreSessionModel}
-                  actionPending={actionPending}
-                  onDraftChange={(val) => {
-                    const nextVal =
-                      typeof val === 'object' && val !== null
-                        ? val.answer ?? val.solution ?? val.word ?? ''
-                        : val;
-                    setDraftSubmission(String(nextVal || ''));
-                  }}
-                  onSubmitAnswer={(val) => {
-                    const nextVal =
-                      typeof val === 'object' && val !== null
-                        ? val.answer ?? val.solution ?? val.word ?? ''
-                        : val;
-                    handleSubmitCoreSolution(nextVal);
-                  }}
-                />
-
-                {/* Master Key Submission Bar */}
-                <div className="p-4 border-2 border-nexus-ink bg-nexus-ink text-nexus-paper flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3">
-                  <div className="space-y-0.5">
-                    <span className="font-mono text-[10px] uppercase tracking-widest text-nexus-crimson font-bold block">
-                      MASTER OVERRIDE KEY
-                    </span>
-                    <p className="font-mono text-xs text-nexus-paper/80">
-                      Submit the master override key to complete the NEXUS Core objective.
+                {/* Classroom QR Hunt Briefing */}
+                <div className="p-4 sm:p-5 border-2 border-nexus-ink bg-nexus-paper flex flex-col md:flex-row md:items-center justify-between gap-4">
+                  <div className="space-y-1.5">
+                    <div className="flex items-center gap-2 font-mono text-xs font-bold uppercase text-nexus-crimson">
+                      <QrCode className="w-4 h-4" />
+                      <span>SCAN THE 50 CLASSROOM QR CODES TO FIND THE ANSWER</span>
+                    </div>
+                    <p className="font-editorial text-base sm:text-lg text-nexus-charcoal leading-relaxed">
+                      50 QR codes are placed across the classroom. Scan them to discover the secret answer and type it directly into the box below.
                     </p>
                   </div>
 
-                  <div className="flex flex-wrap items-center gap-2">
-                    <input
-                      type="text"
-                      value={draftSubmission}
-                      onChange={(e) => setDraftSubmission(e.target.value)}
-                      placeholder="ENTER OVERRIDE KEY..."
-                      aria-label="Master convergence key"
-                      className="px-3 py-2 bg-nexus-paper text-nexus-ink border-2 border-white font-mono text-xs font-bold uppercase tracking-wider"
-                    />
-                    <button
-                      type="button"
-                      disabled={actionPending || !draftSubmission.trim()}
-                      onClick={() => handleSubmitCoreSolution(draftSubmission)}
-                      className="px-5 py-2 bg-nexus-crimson text-white border-2 border-white hover:bg-white hover:text-nexus-ink font-condensed text-base font-extrabold uppercase tracking-wider transition-colors cursor-pointer disabled:opacity-50"
-                    >
-                      SUBMIT KEY
-                    </button>
+                  <div className="shrink-0 p-3 bg-nexus-ink text-nexus-paper border-2 border-nexus-ink font-mono text-xs font-bold uppercase flex flex-col items-center justify-center min-w-[140px]">
+                    <span className="text-[10px] text-nexus-crimson">CORE BONUS</span>
+                    <span className="text-xl font-extrabold text-emerald-400">
+                      +{unlockConfig.completionReward || 1500} CR
+                    </span>
                   </div>
                 </div>
+
+                {/* Single Answer Input Form — No Code, Just the Answer */}
+                <form
+                  onSubmit={(e) => {
+                    e.preventDefault();
+                    handleSubmitCoreSolution(draftSubmission);
+                  }}
+                  className="p-5 sm:p-6 border-4 border-nexus-ink bg-nexus-ink text-nexus-paper shadow-brutal space-y-4"
+                >
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-nexus-paper/20 pb-3">
+                    <span className="font-mono text-xs font-bold uppercase tracking-widest text-nexus-crimson">
+                      NEXUS CORE ANSWER SUBMISSION
+                    </span>
+                    <span className="font-mono text-[11px] text-nexus-paper/70 uppercase">
+                      ENTER THE ANSWER FOUND IN THE CLASSROOM QR CODES
+                    </span>
+                  </div>
+
+                  <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
+                    <input
+                      type="text"
+                      autoComplete="off"
+                      value={draftSubmission}
+                      onChange={(e) => setDraftSubmission(e.target.value)}
+                      placeholder="TYPE YOUR ANSWER HERE..."
+                      aria-label="NEXUS Core QR answer"
+                      disabled={actionPending}
+                      className="flex-1 px-4 py-3.5 bg-nexus-paper text-nexus-ink border-2 border-white font-mono text-base sm:text-lg font-extrabold uppercase tracking-wider placeholder:text-nexus-muted/60 focus:outline-none focus:ring-2 focus:ring-nexus-crimson"
+                    />
+                    <button
+                      type="submit"
+                      disabled={actionPending || !draftSubmission.trim()}
+                      className="px-6 py-3.5 bg-nexus-crimson text-white border-2 border-white hover:bg-white hover:text-nexus-ink font-condensed text-xl font-extrabold uppercase tracking-[0.16em] flex items-center justify-center gap-2 transition-colors cursor-pointer disabled:opacity-45 touch-manipulation"
+                    >
+                      <Send className="w-5 h-5" />
+                      <span>SUBMIT ANSWER</span>
+                    </button>
+                  </div>
+                </form>
 
                 {/* Evaluation Feedback Banner */}
                 {feedbackBanner && (

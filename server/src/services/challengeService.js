@@ -421,15 +421,15 @@ export const DEFAULT_CHALLENGE_CATALOG = [
       boxRows: 3,
       boxCols: 3,
       initialGrid: [
-        [5, 3, 0, 6, 7, 8, 9, 1, 2],
-        [6, 7, 2, 1, 9, 5, 3, 4, 8],
-        [1, 9, 8, 3, 4, 2, 5, 6, 7],
-        [8, 5, 9, 7, 6, 0, 4, 2, 3],
-        [4, 2, 6, 8, 0, 3, 7, 9, 1],
-        [7, 1, 3, 9, 2, 4, 0, 5, 6],
-        [9, 6, 0, 5, 3, 7, 2, 8, 4],
-        [2, 8, 7, 4, 1, 9, 6, 3, 0],
-        [3, 4, 5, 2, 8, 6, 1, 7, 9],
+        [5, 3, 0, 0, 7, 0, 0, 0, 0],
+        [6, 0, 0, 1, 9, 5, 0, 0, 0],
+        [0, 9, 8, 0, 0, 0, 0, 6, 0],
+        [8, 0, 0, 0, 6, 0, 0, 0, 3],
+        [4, 0, 0, 8, 0, 3, 0, 0, 1],
+        [7, 0, 0, 0, 2, 0, 0, 0, 6],
+        [0, 6, 0, 0, 0, 0, 2, 8, 0],
+        [0, 0, 0, 4, 1, 9, 0, 0, 5],
+        [0, 0, 0, 0, 8, 0, 0, 7, 9],
       ],
       solutionGrid: [
         [5, 3, 4, 6, 7, 8, 9, 1, 2],
@@ -447,8 +447,8 @@ export const DEFAULT_CHALLENGE_CATALOG = [
       expectedAnswer: 'SUDOKU:9X9:SOLVED',
       acceptedAnswers: ['SUDOKU:9X9:SOLVED', 'RING 0', 'RING0', '0'],
       hints: [
-        'HINT 01 // Every incomplete row on this board is missing only a single digit from 1 to 9 — scan row by row.',
-        'HINT 02 // Double-check each placed digit against its 3×3 subgrid and column to confirm no duplicates exist.',
+        'HINT 01 // Begin by cross-hatching rows 1–3 and columns 1–3 where givens 5, 6, 8, 9 intersect.',
+        'HINT 02 // Check central box 5 (rows 4–6, cols 4–6) to find locked candidates for 2, 3, 6, and 8.',
       ],
     },
     enabled: true,
@@ -760,45 +760,45 @@ export const DEFAULT_CHALLENGE_CATALOG = [
       maxHints: 2,
       clearanceCode: 'NX-PUZ-16',
       roundTitle: 'APTITUDE // LOGICAL DEDUCTION',
-      answerKey: ['B', 'A', 'C', 'C'],
+      answerKey: ['A', 'B', 'C', 'D'],
       questions: [
         {
           id: 'Q1',
-          topic: 'CODING-DECODING',
+          topic: 'CIPHER LOGIC',
           question:
-            'If NEXUS is coded as OFYVT (each letter shifted +1 forward), how is LOGIC coded?',
-          options: ['MPHJF', 'MPHJD', 'LPHJD', 'NQIKE'],
+            'In a positional cipher, letters are shifted forward by their 1-indexed position in the word (1st letter +1, 2nd +2, 3rd +3, etc.). How is CYBER encoded?',
+          options: ['DAEIW', 'DAEIV', 'EBEIX', 'DZEIW'],
         },
         {
           id: 'Q2',
-          topic: 'DIRECTION SENSE',
+          topic: 'SPATIAL DISPLACEMENT',
           question:
-            'An operative walks 8 km North, turns Right and walks 6 km. How far is the operative in a straight line from the starting point?',
-          options: ['10 km', '12 km', '14 km', '7 km'],
+            'An operative travels 12 km North, turns Right and travels 9 km East, then turns Right again and travels 24 km South. How far in a straight line is the operative from the origin point?',
+          options: ['13 km', '15 km', '17 km', '21 km'],
         },
         {
           id: 'Q3',
-          topic: 'PROBABILITY',
+          topic: 'SYSTEM RELIABILITY',
           question:
-            'Two fair coins are tossed simultaneously. What is the probability of getting at least one Head?',
-          options: ['1/4', '1/2', '3/4', '2/3'],
+            'A security perimeter has two independent firewalls. Firewall 1 fails with probability 0.10, and Firewall 2 fails with probability 0.20. What is the probability that AT LEAST ONE firewall successfully blocks an intrusion?',
+          options: ['80%', '90%', '98%', '72%'],
         },
         {
           id: 'Q4',
-          topic: 'ODD ONE OUT',
+          topic: 'SET DEDUCTION',
           question:
-            'Which number does NOT belong in the group: 16, 25, 36, 48, 64, 81?',
-          options: ['25', '36', '48', '64'],
+            'In a team of 50 engineers: 30 know Python, 25 know C++, and 10 know neither language. How many engineers know BOTH Python and C++?',
+          options: ['10', '20', '25', '15'],
         },
       ],
     },
     solutionConfig: {
-      expectedAnswers: ['B', 'A', 'C', 'C'],
-      expectedAnswer: 'APTITUDE:B-A-C-C',
-      acceptedAnswers: ['APTITUDE:B-A-C-C', 'B-A-C-C'],
+      expectedAnswers: ['A', 'B', 'C', 'D'],
+      expectedAnswer: 'APTITUDE:A-B-C-D',
+      acceptedAnswers: ['APTITUDE:A-B-C-D', 'A-B-C-D'],
       hints: [
-        'HINT 01 // For Q1, pay close attention to the first and last letters when shifting forward by +1. For Q2, form a right triangle and use a² + b² = c².',
-        'HINT 02 // For Q3, list all four coin-toss outcomes and count how many include at least one Head. For Q4, test which numbers are exact squares.',
+        'HINT 01 // Q1: C(+1)=D, Y(+2)=A (wrapping past Z), B(+3)=E. Q2: Compute net North/South displacement (-12 km) and net East displacement (9 km), then use Pythagoras.',
+        'HINT 02 // Q3: Calculate the probability that BOTH firewalls fail simultaneously (0.10 × 0.20) and subtract from 1. Q4: Total knowing at least one is 50 - 10 = 40. Apply |A ∪ B| = |A| + |B| - |A ∩ B|.',
       ],
     },
     enabled: true,
@@ -823,51 +823,54 @@ export const DEFAULT_CHALLENGE_CATALOG = [
       secondaryArtworkKey: 'CREDITS_SPIRE',
       maxHints: 2,
       clearanceCode: 'NX-KNW-17',
-      roundTitle: 'ROUND 01 // 6× TRUE OR FALSE (TECH & SCIENCE)',
-      answerKey: ['F', 'T', 'T', 'T', 'F', 'T'],
+      roundTitle: 'ROUND 01 // 6× TRUE OR FALSE (TECH & SYSTEMS)',
+      answerKey: ['T', 'F', 'T', 'T', 'F', 'T'],
       questions: [
         {
           id: 'Q1',
-          topic: 'WEB PROTOCOLS',
+          topic: 'NETWORKING',
           statement:
-            'HTTP Status Code 404 means the server crashed due to an internal error.',
+            'The standard TCP connection establishment handshake follows the sequence: SYN -> SYN-ACK -> ACK.',
         },
         {
           id: 'Q2',
-          topic: 'ASTROPHYSICS',
+          topic: 'SYSTEM SECURITY',
           statement:
-            'Sunlight takes approximately 8 minutes and 20 seconds to travel from the Sun to Earth.',
+            'Address Space Layout Randomization (ASLR) renders Return-Oriented Programming (ROP) attacks completely impossible under all circumstances.',
         },
         {
           id: 'Q3',
-          topic: 'CHEMISTRY',
-          statement: 'Diamond and Graphite are both pure allotropes of the element Carbon.',
+          topic: 'CPU ARCHITECTURE',
+          statement:
+            'In modern x86-64 processors, virtual addresses use a 48-bit (or 57-bit) canonical address space rather than the full 64 bits.',
         },
         {
           id: 'Q4',
-          topic: 'NETWORKING',
+          topic: 'PHYSICAL LAYER',
           statement:
-            'An IPv4 address uses 32 bits, while an IPv6 address uses 128 bits.',
+            'Optical fiber cables transmit digital data pulses utilizing the physical principle of total internal reflection.',
         },
         {
           id: 'Q5',
-          topic: 'PHYSICS',
-          statement: 'Sound waves travel faster through air than they do through solid steel.',
+          topic: 'CRYPTOGRAPHY',
+          statement:
+            'Symmetric ciphers like AES-256 are computationally slower and require higher CPU cycles than asymmetric RSA-4096 operations.',
         },
         {
           id: 'Q6',
-          topic: 'COMPUTING',
-          statement: 'One Byte consists of exactly 8 bits.',
+          topic: 'HARDWARE IDENTIFICATION',
+          statement:
+            'A standard Ethernet MAC address consists of 48 bits, typically formatted as 6 hexadecimal octets.',
         },
       ],
     },
     solutionConfig: {
-      expectedAnswers: ['F', 'T', 'T', 'T', 'F', 'T'],
-      expectedAnswer: 'GKTF:F-T-T-T-F-T',
-      acceptedAnswers: ['GKTF:F-T-T-T-F-T', 'F-T-T-T-F-T'],
+      expectedAnswers: ['T', 'F', 'T', 'T', 'F', 'T'],
+      expectedAnswer: 'GKTF:T-F-T-T-F-T',
+      acceptedAnswers: ['GKTF:T-F-T-T-F-T', 'F-T-T-T-F-T'],
       hints: [
-        'HINT 01 // Distinguish 4xx client status codes from 5xx server error codes when evaluating Web Protocols.',
-        'HINT 02 // Consider how medium density (gas vs. solid metal) affects mechanical wave propagation speed.',
+        'HINT 01 // Q1: Recall the standard client-server synchronization handshake. Q2: Consider whether memory disclosure info leaks can defeat ASLR base offsets.',
+        'HINT 02 // Q5: Symmetric block ciphers are hardware-accelerated (AES-NI) and far faster than large prime modular exponentiation.',
       ],
     },
     enabled: true,
@@ -878,7 +881,7 @@ export const DEFAULT_CHALLENGE_CATALOG = [
     title: 'GK: WORLD & CYBER (6 T/F)',
     category: 'KNOWLEDGE',
     description:
-      '1 Round of 6 rapid-fire True or False statements on World Facts, Computing & Cyber.',
+      '1 Round of 6 rapid-fire True or False statements on Operating Systems, Networks & Cyber Architecture.',
     difficulty: 'MODERATE',
     risk: 'BALANCED',
     cost: 340,
@@ -897,34 +900,39 @@ export const DEFAULT_CHALLENGE_CATALOG = [
       questions: [
         {
           id: 'Q1',
-          topic: 'CYBERSECURITY',
+          topic: 'CYBER ATTACKS',
           statement:
-            'HTTPS encrypts communication between a browser and a website using TLS/SSL.',
+            'A SYN Flood attack overwhelms a target host by filling its TCP connection backlog queue with half-open connections.',
         },
         {
           id: 'Q2',
-          topic: 'WORLD GEOGRAPHY',
-          statement: 'Australia is both a country and a continent.',
+          topic: 'LINK LAYER',
+          statement:
+            'ARP (Address Resolution Protocol) resolves a known IPv4 address into its corresponding Layer 2 physical MAC address on a local segment.',
         },
         {
           id: 'Q3',
           topic: 'DATA STRUCTURES',
-          statement: 'A Stack data structure operates on a First-In, First-Out (FIFO) principle.',
+          statement:
+            'A Red-Black balanced binary search tree provides guaranteed O(1) constant-time key search in the worst case.',
         },
         {
           id: 'Q4',
-          topic: 'TECH HISTORY',
-          statement: 'The Linux kernel was originally created by Linus Torvalds in 1991.',
+          topic: 'OPERATING SYSTEMS',
+          statement:
+            'Copy-On-Write (COW) allows the fork() system call to create a new child process without immediately duplicating the parent process physical memory pages.',
         },
         {
           id: 'Q5',
-          topic: 'HUMAN BIOLOGY',
-          statement: 'The femur (thigh bone) is the longest and strongest bone in the human body.',
+          topic: 'HASH FUNCTIONS',
+          statement:
+            'A cryptographic hash collision occurs when two distinct input messages evaluate to the exact same hash digest output.',
         },
         {
           id: 'Q6',
-          topic: 'NUMBER SYSTEMS',
-          statement: 'The binary representation of the decimal number 10 is 1100.',
+          topic: 'DNS INFRASTRUCTURE',
+          statement:
+            'Internet DNS Root Nameservers are authoritative for directly returning the IP addresses of second-level domain names like "google.com".',
         },
       ],
     },
@@ -933,8 +941,8 @@ export const DEFAULT_CHALLENGE_CATALOG = [
       expectedAnswer: 'GKTF:T-T-F-T-T-F',
       acceptedAnswers: ['GKTF:T-T-F-T-T-F', 'T-T-F-T-T-F'],
       hints: [
-        'HINT 01 // Compare Stack (LIFO) vs Queue (FIFO) ordering principles carefully.',
-        'HINT 02 // Sum the 4-bit binary place values (8, 4, 2, 1) to verify the binary conversion statement.',
+        'HINT 01 // Q3: Balanced search tree operations scale logarithmically O(log N), not constantly O(1).',
+        'HINT 02 // Q6: Root servers direct queries to Top-Level Domain (TLD) servers (such as .com), which then delegate to authoritative nameservers.',
       ],
     },
     enabled: true,
@@ -1361,12 +1369,12 @@ export const DEFAULT_CHALLENGE_CATALOG = [
       boxRows: 2,
       boxCols: 3,
       initialGrid: [
-        [0, 6, 2, 4, 1, 0],
-        [4, 0, 1, 6, 0, 2],
-        [6, 1, 0, 5, 2, 3],
-        [2, 3, 5, 0, 6, 4],
-        [5, 2, 6, 3, 0, 1],
-        [0, 4, 3, 2, 5, 6],
+        [0, 6, 0, 4, 1, 0],
+        [4, 0, 1, 0, 0, 2],
+        [0, 1, 0, 5, 2, 0],
+        [0, 3, 5, 0, 6, 0],
+        [5, 0, 0, 3, 0, 1],
+        [0, 4, 3, 0, 5, 0],
       ],
       solutionGrid: [
         [3, 6, 2, 4, 1, 5],
@@ -1381,7 +1389,7 @@ export const DEFAULT_CHALLENGE_CATALOG = [
       expectedAnswer: 'SUDOKU:6X6:SOLVED',
       acceptedAnswers: ['SUDOKU:6X6:SOLVED', '362415-451632-614523-235164-526341-143256'],
       hints: [
-        'HINT 01 // Start with rows and 2×3 blocks that already have five given numbers — only one digit from 1 to 6 is missing.',
+        'HINT 01 // Check Row 1 and Row 6 where four digits are given, allowing fast elimination.',
         'HINT 02 // Cross-reference each empty cell by elimination using its row, column, and 2×3 block.',
       ],
     },
@@ -2602,41 +2610,44 @@ export const DEFAULT_CHALLENGE_CATALOG = [
       maxHints: 2,
       clearanceCode: 'NX-AP-01',
       roundTitle: 'APTITUDE // DATA & PROBABILITY',
-      answerKey: ['B', 'C', 'A', 'D'],
+      answerKey: ['A', 'B', 'C', 'D'],
       questions: [
         {
           id: 'Q1',
-          topic: 'PERMUTATIONS',
-          question: 'In how many ways can 4 different colored wires be arranged in a row?',
-          options: ['12', '24', '16', '48'],
+          topic: 'RESTRICTED PERMUTATIONS',
+          question:
+            'In how many distinct ways can the letters of the word CYBER be arranged such that the vowel (E) is never placed at either end?',
+          options: ['72', '48', '96', '60'],
         },
         {
           id: 'Q2',
-          topic: 'PROBABILITY',
-          question: 'A bag has 5 red and 3 blue nodes. What is the probability of picking a red node?',
-          options: ['3/8', '3/5', '5/8', '5/3'],
+          topic: 'SYSTEM RELIABILITY',
+          question:
+            'A 3-node fault-tolerant storage cluster requires at least 2 nodes to be operational to survive. If each node fails independently with probability p = 0.1, what is the exact probability of cluster failure (data loss)?',
+          options: ['1.0%', '2.8%', '3.0%', '0.9%'],
         },
         {
           id: 'Q3',
-          topic: 'RATIO & PROPORTION',
-          question: 'If Team A solved 15 challenges and Team B solved 10, what is the ratio of A to B?',
-          options: ['3:2', '2:3', '5:3', '15:5'],
+          topic: 'MIXTURES & DILUTION',
+          question:
+            'A server cooling reservoir contains 60 liters of pure dielectric coolant. 12 liters are drawn out and replaced with mineral oil. Then, 12 liters of the mixture are drawn out and replaced with mineral oil. How many liters of pure coolant remain?',
+          options: ['36.0 L', '40.2 L', '38.4 L', '42.0 L'],
         },
         {
           id: 'Q4',
-          topic: 'NUMBER THEORY',
-          question: 'What is the Least Common Multiple (LCM) of 12 and 18?',
-          options: ['24', '54', '48', '36'],
+          topic: 'MODULAR ARITHMETIC',
+          question: 'What is the remainder when 2¹⁰⁰ is divided by 7?',
+          options: ['1', '4', '6', '2'],
         },
       ],
     },
     solutionConfig: {
-      expectedAnswers: ['B', 'C', 'A', 'D'],
-      expectedAnswer: 'APTITUDE:B-C-A-D',
-      acceptedAnswers: ['APTITUDE:B-C-A-D', 'B-C-A-D'],
+      expectedAnswers: ['A', 'B', 'C', 'D'],
+      expectedAnswer: 'APTITUDE:A-B-C-D',
+      acceptedAnswers: ['APTITUDE:A-B-C-D', 'A-B-C-D'],
       hints: [
-        'HINT 01 // Q1: Arranging n distinct items in a line uses n factorial (n!). Q2: Divide favorable outcomes by total nodes in the bag.',
-        'HINT 02 // Q3: Divide both numbers by their greatest common divisor. Q4: Find the smallest positive number divisible by both 12 and 18.',
+        'HINT 01 // Q1: Total 5! = 120. Subtract permutations where E is at position 1 (4! = 24) or position 5 (4! = 24). Q2: Failure occurs if exactly 2 nodes fail [3 × 0.1² × 0.9 = 0.027] or all 3 nodes fail [0.1³ = 0.001].',
+        'HINT 02 // Q3: Use the repeated dilution formula: 60 × (1 - 12/60)² = 60 × (4/5)². Q4: Notice that 2³ = 8 ≡ 1 (mod 7). Express 2¹⁰⁰ as (2³)³³ × 2¹.',
       ],
     },
     enabled: true,
@@ -2720,41 +2731,45 @@ export const DEFAULT_CHALLENGE_CATALOG = [
       maxHints: 2,
       clearanceCode: 'NX-AP-03',
       roundTitle: 'APTITUDE // CLOCKS & CALENDARS',
-      answerKey: ['B', 'C', 'A', 'B'],
+      answerKey: ['B', 'B', 'D', 'C'],
       questions: [
         {
           id: 'Q1',
           topic: 'CLOCK ANGLES',
-          question: 'What is the angle between the minute and hour hand at 3:00?',
-          options: ['60°', '90°', '120°', '45°'],
+          question:
+            'What is the acute angle between the hour hand and the minute hand of an analog clock at exactly 3:20?',
+          options: ['15°', '20°', '25°', '30°'],
         },
         {
           id: 'Q2',
-          topic: 'CLOCK ANGLES',
-          question: 'What angle does the minute hand sweep in 20 minutes?',
-          options: ['60°', '90°', '120°', '150°'],
+          topic: 'CLOCK COINCIDENCE',
+          question:
+            'At what exact time between 4:00 and 5:00 do the minute and hour hands of a clock overlap completely?',
+          options: ['4:20:00', '4:21 9/11 min', '4:22 1/11 min', '4:21 5/11 min'],
         },
         {
           id: 'Q3',
           topic: 'CALENDARS',
-          question: 'January 1, 2024 is a Monday. What day is January 1, 2025?',
-          options: ['Wednesday', 'Thursday', 'Friday', 'Saturday'],
+          question:
+            'If January 1, 2000 fell on a Saturday, what day of the week was January 1, 2005?',
+          options: ['Sunday', 'Friday', 'Thursday', 'Saturday'],
         },
         {
           id: 'Q4',
-          topic: 'LEAP YEAR',
-          question: 'How many leap years are there between 2000 and 2024 (inclusive)?',
-          options: ['5', '7', '6', '4'],
+          topic: 'CALENDAR REPEAT CYCLE',
+          question:
+            'The complete 366-day calendar of leap year 2024 (beginning on a Monday) will repeat in its entirety in which year?',
+          options: ['2030', '2036', '2052', '2048'],
         },
       ],
     },
     solutionConfig: {
-      expectedAnswers: ['B', 'C', 'A', 'B'],
-      expectedAnswer: 'APTITUDE:B-C-A-B',
-      acceptedAnswers: ['APTITUDE:B-C-A-B', 'B-C-A-B'],
+      expectedAnswers: ['B', 'B', 'D', 'C'],
+      expectedAnswer: 'APTITUDE:B-B-D-C',
+      acceptedAnswers: ['APTITUDE:B-B-D-C', 'B-B-D-C'],
       hints: [
-        'HINT 01 // A full clock face is 360° across 12 hours (30° per hour mark) and 60 minutes (6° per minute).',
-        'HINT 02 // Remember that 2024 is a leap year (366 days = 52 weeks + 2 odd days), and don\'t forget to include both endpoints in Q4.',
+        'HINT 01 // Q1: Hour hand moves 0.5° per minute (3×30° + 20×0.5° = 100°), minute hand is at 20×6° = 120°. Difference = 20°. Q2: Relative speed is 5.5°/min. Distance to close is 120°. Time = 120 / 5.5 = 240/11 = 21 9/11 minutes past 4.',
+        'HINT 02 // Q3: Count odd days: 2000 (leap=2), 2001 (1), 2002 (1), 2003 (1), 2004 (leap=2). Total = 7 days ≡ 0 mod 7 (Saturday). Q4: Leap year calendars repeat every 28 years (2024 + 28 = 2052).',
       ],
     },
     enabled: true,
@@ -2838,41 +2853,45 @@ export const DEFAULT_CHALLENGE_CATALOG = [
       maxHints: 2,
       clearanceCode: 'NX-AP-05',
       roundTitle: 'APTITUDE // TRAINS & RELATIVE SPEED',
-      answerKey: ['C', 'B', 'D', 'A'],
+      answerKey: ['A', 'B', 'C', 'D'],
       questions: [
         {
           id: 'Q1',
-          topic: 'TRAINS — CROSSING',
-          question: 'A 200-meter train travels at 72 km/h. How long to cross a 400-meter platform?',
-          options: ['20 s', '25 s', '30 s', '35 s'],
+          topic: 'TRAINS — OPPOSITE CROSSING',
+          question:
+            'Train Alpha (180 m, 72 km/h) and Train Beta (220 m, 108 km/h) travel towards each other on parallel tracks. From the moment the engines meet, how many seconds until their tails completely clear each other?',
+          options: ['8 s', '10 s', '12 s', '14 s'],
         },
         {
           id: 'Q2',
-          topic: 'RELATIVE SPEED',
-          question: 'Two trains, 250 m each, approach each other at 60 and 90 km/h. Time to cross?',
-          options: ['8 s', '12 s', '10 s', '15 s'],
+          topic: 'HARMONIC AVERAGE SPEED',
+          question:
+            'A surveillance drone flies from Station A to Station B at 120 km/h and returns along the exact same path at 80 km/h. What is the average speed for the entire round trip?',
+          options: ['100 km/h', '96 km/h', '92 km/h', '98 km/h'],
         },
         {
           id: 'Q3',
           topic: 'BOATS & STREAMS',
-          question: 'A boat\'s speed in still water is 12 km/h; stream speed is 4 km/h. Speed downstream?',
-          options: ['8 km/h', '12 km/h', '14 km/h', '16 km/h'],
+          question:
+            'A river patrol boat covers 36 km downstream in 2 hours, and takes 4 hours to return the same 36 km upstream. What is the speed of the river current?',
+          options: ['3.0 km/h', '4.0 km/h', '4.5 km/h', '6.0 km/h'],
         },
         {
           id: 'Q4',
-          topic: 'AVERAGE SPEED',
-          question: 'Travels 120 km at 60 km/h, then 120 km at 40 km/h. What is the average speed?',
-          options: ['48 km/h', '50 km/h', '45 km/h', '52 km/h'],
+          topic: 'CIRCULAR LAP RACING',
+          question:
+            'Two packet bots start simultaneously from the same node on a circular ring track of length 1200 meters, traveling in the same direction at 25 m/s and 15 m/s. After how many seconds will the faster bot lap and meet the slower bot for the first time?',
+          options: ['60 s', '80 s', '100 s', '120 s'],
         },
       ],
     },
     solutionConfig: {
-      expectedAnswers: ['C', 'B', 'D', 'A'],
-      expectedAnswer: 'APTITUDE:C-B-D-A',
-      acceptedAnswers: ['APTITUDE:C-B-D-A', 'C-B-D-A'],
+      expectedAnswers: ['A', 'B', 'C', 'D'],
+      expectedAnswer: 'APTITUDE:A-B-C-D',
+      acceptedAnswers: ['APTITUDE:A-B-C-D', 'A-B-C-D'],
       hints: [
-        'HINT 01 // Convert km/h to m/s by multiplying by 5/18. Remember total crossing distance includes the length of both objects.',
-        'HINT 02 // Downstream adds the current speed; for equal distances at two speeds, use Total Distance ÷ Total Time (not the simple average).',
+        'HINT 01 // Q1: Relative speed is 72 + 108 = 180 km/h = 50 m/s. Total distance to clear is 180 + 220 = 400 m. Time = 400 / 50 = 8 s. Q2: Equal distance harmonic mean: 2×v1×v2 / (v1 + v2) = 2×120×80 / 200 = 96 km/h.',
+        'HINT 02 // Q3: Downstream speed = 36/2 = 18 km/h, upstream speed = 36/4 = 9 km/h. Current = (18 - 9) / 2 = 4.5 km/h. Q4: Relative speed = 25 - 15 = 10 m/s. Time to lap = 1200 / 10 = 120 s.',
       ],
     },
     enabled: true,
@@ -2896,42 +2915,42 @@ export const DEFAULT_CHALLENGE_CATALOG = [
       secondaryArtworkKey: 'RING_CITADEL',
       maxHints: 2,
       clearanceCode: 'NX-AP-06',
-      roundTitle: 'APTITUDE // BINARY & HEXADECIMAL',
-      answerKey: ['D', 'B', 'C', 'A'],
+      roundTitle: 'APTITUDE // SYSTEMS & CRYPTO BITWISE',
+      answerKey: ['A', 'A', 'A', 'A'],
       questions: [
         {
           id: 'Q1',
-          topic: 'BINARY TO DECIMAL',
-          question: 'Convert binary 11011 to decimal.',
-          options: ['23', '25', '26', '27'],
+          topic: 'SUBNET HOST CALCULATION',
+          question: 'In an enterprise network with subnet /27 (netmask 255.255.255.224), how many usable host IP addresses are available per subnet?',
+          options: ['30', '32', '62', '64'],
         },
         {
           id: 'Q2',
-          topic: 'HEX TO DECIMAL',
-          question: 'What is hexadecimal 1F in decimal?',
-          options: ['30', '31', '32', '29'],
+          topic: "TWO'S COMPLEMENT SIGNED INT",
+          question: "What is the decimal representation of the 8-bit signed two's complement binary value 11110110?",
+          options: ['-10', '-26', '246', '-14'],
         },
         {
           id: 'Q3',
-          topic: 'BITWISE AND',
-          question: 'What is 0b1010 AND 0b1100 in decimal?',
-          options: ['6', '10', '8', '12'],
+          topic: 'BITWISE BITMASK EXTRACTION',
+          question: 'Given a 16-bit register value 0xAF3C, what is the value of (0xAF3C >> 4) & 0x0F in decimal?',
+          options: ['3', '12', '15', '11'],
         },
         {
           id: 'Q4',
-          topic: 'LEFT SHIFT',
-          question: 'What is 5 << 2 in decimal? (Left shift by 2 bits)',
-          options: ['20', '15', '10', '25'],
+          topic: 'XOR CRYPTO KEY PROPERTY',
+          question: 'If ciphertext C = P XOR K, and you intercept C = 0x5A with known plaintext P = 0x3F, what is the encryption key K in hex?',
+          options: ['0x65', '0x95', '0x25', '0x7B'],
         },
       ],
     },
     solutionConfig: {
-      expectedAnswers: ['D', 'B', 'C', 'A'],
-      expectedAnswer: 'APTITUDE:D-B-C-A',
-      acceptedAnswers: ['APTITUDE:D-B-C-A', 'D-B-C-A'],
+      expectedAnswers: ['A', 'A', 'A', 'A'],
+      expectedAnswer: 'APTITUDE:A-A-A-A',
+      acceptedAnswers: ['APTITUDE:A-A-A-A', 'A-A-A-A'],
       hints: [
-        'HINT 01 // Q1: Sum the powers of 2 (16, 8, 4, 2, 1) where a 1 bit appears. Q2: In base-16, the digit F represents 15.',
-        'HINT 02 // Q3: Bitwise AND keeps a 1 only where BOTH inputs have a 1 bit. Q4: Left-shifting by k bits multiplies an integer by 2^k.',
+        'HINT 01 // Q1: A /27 prefix leaves 32 - 27 = 5 host bits. Usable hosts = 2^5 - 2 (subtracting network and broadcast addresses).',
+        "HINT 02 // Q2: Leading bit 1 indicates negative; invert bits and add 1. Q4: Invert XOR using C XOR P = K.",
       ],
     },
     enabled: true,
@@ -3447,15 +3466,15 @@ export const DEFAULT_CHALLENGE_CATALOG = [
       boxRows: 3,
       boxCols: 3,
       initialGrid: [
-        [4, 1, 0, 3, 6, 9, 0, 2, 5],
-        [6, 0, 2, 1, 5, 0, 9, 4, 7],
-        [9, 5, 8, 0, 2, 4, 3, 0, 6],
-        [0, 2, 5, 4, 3, 7, 1, 6, 0],
-        [7, 9, 0, 5, 0, 6, 4, 3, 2],
-        [3, 0, 6, 9, 1, 2, 0, 5, 8],
-        [2, 8, 9, 0, 4, 3, 5, 7, 0],
-        [0, 7, 3, 2, 9, 0, 6, 8, 4],
-        [1, 6, 0, 8, 7, 5, 2, 0, 3],
+        [4, 0, 7, 0, 6, 0, 8, 2, 0],
+        [0, 3, 0, 1, 0, 8, 0, 0, 7],
+        [9, 0, 8, 0, 2, 0, 3, 0, 0],
+        [8, 0, 5, 4, 0, 7, 0, 6, 0],
+        [0, 9, 0, 5, 0, 0, 4, 0, 2],
+        [3, 0, 0, 0, 1, 2, 0, 5, 0],
+        [2, 0, 9, 6, 0, 3, 5, 0, 1],
+        [0, 7, 0, 2, 9, 0, 0, 8, 0],
+        [1, 0, 4, 0, 7, 5, 0, 9, 0],
       ],
       solutionGrid: [
         [4, 1, 7, 3, 6, 9, 8, 2, 5],
@@ -3473,8 +3492,8 @@ export const DEFAULT_CHALLENGE_CATALOG = [
       expectedAnswer: 'SUDOKU:9X9:SOLVED',
       acceptedAnswers: ['SUDOKU:9X9:SOLVED'],
       hints: [
-        'HINT 01 // Every row is missing exactly 2 digits — list the pair of missing digits for a row and check the column to decide which goes where.',
-        'HINT 02 // Each 3×3 block also has only 2 empty cells, making cross-checking very fast.',
+        'HINT 01 // Inspect column 1 and column 9 — multiple givens narrow the missing values down to pairs.',
+        'HINT 02 // Check Box 7 (bottom-left) where digits 1, 2, 9 are already anchored.',
       ],
     },
     enabled: true,
@@ -4397,42 +4416,42 @@ export const DEFAULT_CHALLENGE_CATALOG = [
       secondaryArtworkKey: 'LOGIC',
       maxHints: 2,
       clearanceCode: 'NX-AP-09',
-      roundTitle: 'APTITUDE // COMBINATORICS & CRYPTO MATH',
-      answerKey: ['B', 'C', 'A', 'D'],
+      roundTitle: 'APTITUDE // ADVANCED CRYPTO MATH & PROBABILITY',
+      answerKey: ['C', 'A', 'A', 'A'],
       questions: [
         {
           id: 'Q1',
-          topic: 'MESH TOPOLOGY',
-          question: 'In a fully connected mesh network of 6 nodes, how many direct links connect all pairs of nodes?',
-          options: ['12', '15', '18', '30'],
+          topic: 'GRAPH THEORY / SPANNING TREES',
+          question: "According to Cayley's formula, how many distinct spanning trees can be formed on a labeled network of 5 autonomous server nodes (n^(n - 2))?",
+          options: ['60', '120', '125', '256'],
         },
         {
           id: 'Q2',
-          topic: 'MODULAR ARITHMETIC',
-          question: 'What is the remainder when (17 × 19) is divided by 5?',
-          options: ['1', '2', '3', '4'],
+          topic: 'MODULAR EXPONENTIATION / RSA',
+          question: "By Fermat's Little Theorem or modular arithmetic, what is the remainder when 3^102 is divided by 7?",
+          options: ['1', '2', '4', '6'],
         },
         {
           id: 'Q3',
-          topic: 'COMBINATIONS',
-          question: 'How many ways can a 3-person cyber squad be chosen from 5 operatives?',
-          options: ['10', '15', '20', '60'],
+          topic: 'BAYESIAN INTRUSION DETECTION',
+          question: 'An IDS has a 99% true positive rate and a 1% false positive rate. If only 0.1% (1 in 1000) of packets are malicious, what is the approximate probability that an alerted packet is ACTUALLY malicious?',
+          options: ['~9%', '~50%', '~90%', '~99%'],
         },
         {
           id: 'Q4',
-          topic: 'PIGEONHOLE PRINCIPLE',
-          question: 'A server pool has 4 clusters. What is the minimum number of tasks required to guarantee at least one cluster gets 3 tasks?',
-          options: ['8', '10', '12', '9'],
+          topic: 'HASH COLLISION BIRTHDAY ATTACK',
+          question: 'To achieve a 50% probability of finding a hash collision against an n-bit hash function via the Birthday Paradox, approximately how many random hashes must an attacker generate?',
+          options: ['2^(n/2)', '2^(n - 1)', 'n^2', '2^n'],
         },
       ],
     },
     solutionConfig: {
-      expectedAnswers: ['B', 'C', 'A', 'D'],
-      expectedAnswer: 'APTITUDE:B-C-A-D',
-      acceptedAnswers: ['APTITUDE:B-C-A-D', 'B-C-A-D'],
+      expectedAnswers: ['C', 'A', 'A', 'A'],
+      expectedAnswer: 'APTITUDE:C-A-A-A',
+      acceptedAnswers: ['APTITUDE:C-A-A-A', 'C-A-A-A'],
       hints: [
-        'HINT 01 // Q1 uses n(n - 1) / 2 for n = 6. Q2: multiply the remainders (17 mod 5 = 2, 19 mod 5 = 4) and take mod 5.',
-        'HINT 02 // Q3 uses 5! / (3! × 2!). Q4: worst case gives 2 tasks to each of the 4 clusters (8 tasks) before the next task forces 3.',
+        "HINT 01 // Q1: Cayley's theorem gives n^(n - 2) = 5^3 = 125. Q2: 3^6 = 729 = 104 × 7 + 1 = 1 (mod 7). 102 = 17 × 6.",
+        'HINT 02 // Q3 uses Bayes: (0.001 × 0.99) / [ (0.001 × 0.99) + (0.999 × 0.01) ] ≈ 0.00099 / 0.01098 ≈ 9%. Q4: Square root of 2^n is 2^(n/2).',
       ],
     },
     enabled: true,
@@ -5781,7 +5800,20 @@ export class ChallengeService {
       let evaluationResult = null;
 
       if (passed) {
-        const reward = Number(fullChallenge.reward) || 500;
+        const baseReward = Number(fullChallenge.reward) || 500;
+        const rewardRatio =
+          typeof gameRegistryEvaluation?.rewardRatio === 'number' &&
+          gameRegistryEvaluation.rewardRatio > 0 &&
+          gameRegistryEvaluation.rewardRatio <= 1
+            ? gameRegistryEvaluation.rewardRatio
+            : 1;
+        const reward = Math.max(1, Math.round(baseReward * rewardRatio));
+        const hasScoreBreakdown =
+          typeof gameRegistryEvaluation?.rightCount === 'number' &&
+          typeof gameRegistryEvaluation?.totalQuestions === 'number';
+        const scoreTag = hasScoreBreakdown
+          ? ` [${gameRegistryEvaluation.rightCount}/${gameRegistryEvaluation.totalQuestions} correct]`
+          : '';
         const progressDelta = 14;
         const nextProgress = Math.min(
           100,
@@ -5793,7 +5825,7 @@ export class ChallengeService {
           type: CREDIT_TRANSACTION_TYPES.CHALLENGE_REWARD,
           amount: reward,
           relatedChallenge,
-          summary: `CHALLENGE SOLVED${resolvedMemberName ? ` (${resolvedMemberName})` : ''}: ${fullChallenge.title} (+${reward} CR)`,
+          summary: `CHALLENGE SOLVED${resolvedMemberName ? ` (${resolvedMemberName})` : ''}: ${fullChallenge.title}${scoreTag} (+${reward} CR)`,
           autoSaveTeam: false,
         });
 
@@ -5845,6 +5877,11 @@ export class ChallengeService {
           submittedAnswer: rawAnswer || '[ADMIN_ADJUDICATED_PASS]',
           creditsDelta: reward,
           rewardGranted: reward,
+          baseReward,
+          rewardRatio,
+          rightCount: hasScoreBreakdown ? gameRegistryEvaluation.rightCount : undefined,
+          wrongCount: hasScoreBreakdown ? gameRegistryEvaluation.wrongCount : undefined,
+          totalQuestions: hasScoreBreakdown ? gameRegistryEvaluation.totalQuestions : undefined,
           penaltyApplied: 0,
           balanceAfter: team.credits,
           coreProgressDelta: progressDelta,
@@ -5857,7 +5894,7 @@ export class ChallengeService {
           completedAt: now.toISOString(),
           timeLimit,
           solveDurationSeconds,
-          message: `VERIFIED BY NEXUS CORE // Solution accepted for ${fullChallenge.title}. +${reward} CR credited to squad ledger.`,
+          message: `VERIFIED BY NEXUS CORE // Solution accepted for ${fullChallenge.title}${scoreTag}. +${reward} CR credited to squad ledger.`,
           timestamp: now.toISOString(),
         };
 
@@ -5871,10 +5908,14 @@ export class ChallengeService {
           attemptNumber,
           creditsDelta: reward,
           balanceAfter: team.credits,
-          summary: `${team.teamId}${resolvedMemberName ? ` (${resolvedMemberName})` : ''} succeeded on [${fullChallenge.challengeId}] ${fullChallenge.title} in ${solveDurationSeconds}s (Attempt #${attemptNumber}, +${reward} CR)`,
+          summary: `${team.teamId}${resolvedMemberName ? ` (${resolvedMemberName})` : ''} succeeded on [${fullChallenge.challengeId}] ${fullChallenge.title}${scoreTag} in ${solveDurationSeconds}s (Attempt #${attemptNumber}, +${reward} CR)`,
           metadata: {
             cost: costPaid,
             reward,
+            baseReward,
+            rewardRatio,
+            rightCount: hasScoreBreakdown ? gameRegistryEvaluation.rightCount : undefined,
+            totalQuestions: hasScoreBreakdown ? gameRegistryEvaluation.totalQuestions : undefined,
             attemptNumber,
             variantId: assignedVariantId,
             title: fullChallenge.title,

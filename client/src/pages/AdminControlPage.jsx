@@ -217,6 +217,7 @@ export const AdminControlPage = () => {
   const [countdownSeconds, setCountdownSeconds] = useState(10);
   const [selectedWinnerTeamId, setSelectedWinnerTeamId] = useState('AUTO_LEADER');
   const [selectedSecondWinnerTeamId, setSelectedSecondWinnerTeamId] = useState('AUTO_SECOND');
+  const [coreAnswerInput, setCoreAnswerInput] = useState('');
   const lastSyncedTotalSecRef = useRef(null);
   const [settingsForm, setSettingsForm] = useState({
     startingCredits: 1500,
@@ -3841,6 +3842,42 @@ export const AdminControlPage = () => {
                     >
                       Reveal Core
                     </button>
+                  </div>
+
+                  {/* Classroom QR Code Hunt Answer Config */}
+                  <div className="pt-3 border-t border-dashed border-neutral-300 space-y-2">
+                    <div className="flex items-center justify-between">
+                      <span className="font-bold uppercase text-neutral-700">
+                        Classroom QR Solution Answer
+                      </span>
+                      <span className="text-[10px] text-neutral-500 font-mono">
+                        CURRENT: <strong className="text-[#111111]">{adminState?.coreStatus?.expectedAnswer || 'NEXUS-OMEGA'}</strong>
+                      </span>
+                    </div>
+                    <div className="flex gap-2">
+                      <input
+                        type="text"
+                        value={coreAnswerInput}
+                        onChange={(e) => setCoreAnswerInput(e.target.value)}
+                        placeholder="ENTER NEW QR ANSWER..."
+                        className="flex-1 px-3 py-1.5 bg-[#FAF9F5] border-2 border-[#111111] font-bold text-xs uppercase"
+                      />
+                      <button
+                        type="button"
+                        onClick={() => {
+                          if (!coreAnswerInput.trim()) return;
+                          handleEventCommand(
+                            'SET_CORE_ANSWER',
+                            { answer: coreAnswerInput.trim() },
+                            `NEXUS Core QR Answer updated to: ${coreAnswerInput.trim().toUpperCase()}`
+                          );
+                          setCoreAnswerInput('');
+                        }}
+                        className="px-3 py-1.5 bg-[#111111] hover:bg-[#E11D2E] text-white font-bold uppercase cursor-pointer text-xs"
+                      >
+                        Set Answer
+                      </button>
+                    </div>
                   </div>
                 </div>
               </div>

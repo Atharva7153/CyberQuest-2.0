@@ -21,15 +21,15 @@ export const XO4X4_WIN_LINES = [
 export const resolveXo4x4AiTier = (difficultyOrSkill = 'LOW') => {
   const raw = String(difficultyOrSkill || 'LOW').toUpperCase();
   if (raw === 'LOW' || raw === 'NOOB' || raw === 'NOVICE' || raw === 'EASY') {
-    return { id: 'NOOB', label: 'NOOB AI', badge: 'NOOB AI (EASY)', maxBlocks: 0 };
+    return { id: 'NOOB', label: 'NOOB AI', badge: 'NOOB AI (EASY)', searchDepth: 1 };
   }
   if (raw === 'MODERATE' || raw === 'ROOKIE' || raw === 'CALCULATED' || raw === 'MEDIUM') {
-    return { id: 'ROOKIE', label: 'ROOKIE AI', badge: 'ROOKIE AI (MODERATE)', maxBlocks: 1 };
+    return { id: 'ROOKIE', label: 'ROOKIE AI', badge: 'ROOKIE AI (MODERATE)', searchDepth: 2 };
   }
   if (raw === 'HIGH' || raw === 'SMART' || raw === 'STRATEGIC' || raw === 'HARD') {
-    return { id: 'SMART', label: 'SMART AI', badge: 'SMART AI (HIGH)', maxBlocks: 2 };
+    return { id: 'SMART', label: 'SMART AI', badge: 'SMART AI (HIGH)', searchDepth: 3 };
   }
-  return { id: 'PRO', label: 'PRO AI', badge: 'PRO AI (EXTREME)', maxBlocks: 3 };
+  return { id: 'PRO', label: 'PRO AI', badge: 'PRO AI (EXTREME)', searchDepth: 5 };
 };
 
 export const normalizeXo4x4Config = (gameConfig = {}, challengeDifficulty = 'LOW') => {
@@ -92,94 +92,189 @@ export const evaluateXo4x4Board = (board) => {
 };
 
 /**
- * AI move selector for 4x4 Tic-Tac-Toe scaled by how "noob" the AI is:
- * - NOOB (LOW): Never blocks X's 3-in-a-rows, never steals wins, plays passive outer cells.
- * - ROOKIE (MODERATE): Blocks at most 1 early 3-in-a-row threat (totalOCount < 1), then leaves lines open.
- * - SMART (HIGH): Blocks up to 2 early threats (totalOCount < 2), develops its own lines without spoiling X's 2-in-a-rows.
- * - PRO (EXTREME): Blocks up to 3 early threats (totalOCount < 3), takes open wins, still beatable via forks or turn 4+ threats.
+ * Board evaluation function for 4x4 Tic-Tac-Toe
  */
-export const chooseAiMove4x4 = (board, moveCount = 0, difficultyOrSkill = 'LOW') => {
+const evaluateXo4x4State = (board, aiToken = 'O', playerToken = 'X') => {
+  let score = 0;
+
+  // Center control (cells 5, 6, 9, 10) are the most critical strategically
+  const centerCells = [5, 6, 9, 10];
+  for (const idx of centerCells) {
+    if (board[idx] === aiToken) score += 16;
+    else if (board[idx] === playerToken) score -= 16;
+  }
+
+  // Four corners
+  const cornerCells = [0, 3, 12, 15];
+  for (const idx of cornerCells) {
+    if (board[idx] === aiToken) score += 6;
+    else if (board[idx] === playerToken) score -= 6;
+  }
+
+  for (const line of XO4X4_WIN_LINES) {
+    let aiCount = 0;
+    let playerCount = 0;
+    let blocked = false;
+
+    for (const cellIdx of line) {
+      const cell = board[cellIdx];
+      if (cell === '#') {
+        blocked = true;
+        break;
+      }
+      if (cell === aiToken) aiCount++;
+      else if (cell === playerToken) playerCount++;
+    }
+
+    if (blocked) continue;
+
+    if (aiCount === 4) return 10000;
+    if (playerCount === 4) return -10000;
+
+    // 3 in a row threats (one move away from winning)
+    if (aiCount === 3 && playerCount === 0) score += 160;
+    if (playerCount === 3 && aiCount === 0) score -= 260;
+
+    // 2 in a row developments
+    if (aiCount === 2 && playerCount === 0) score += 25;
+    if (playerCount === 2 && aiCount === 0) score -= 35;
+
+    // 1 in a row
+    if (aiCount === 1 && playerCount === 0) score += 5;
+    if (playerCount === 1 && aiCount === 0) score -= 6;
+  }
+
+  return score;
+};
+
+// Strategic cell order for faster alpha-beta cutoffs (center -> corners -> edges)
+const CELL_SEARCH_ORDER = [5, 6, 9, 10, 0, 3, 12, 15, 1, 2, 4, 7, 8, 11, 13, 14];
+
+/**
+ * Minimax with Alpha-Beta Pruning for 4x4 Tic-Tac-Toe
+ */
+const minimaxXo4x4 = (board, depth, alpha, beta, isMaximizing) => {
+  const outcome = evaluateXo4x4Board(board);
+  if (outcome.winner === 'O') return 10000 + depth;
+  if (outcome.winner === 'X') return -10000 - depth;
+  if (depth === 0 || outcome.isDraw) {
+    return evaluateXo4x4State(board, 'O', 'X');
+  }
+
+  const emptyCells = [];
+  for (const idx of CELL_SEARCH_ORDER) {
+    if (board[idx] === '') emptyCells.push(idx);
+  }
+  if (emptyCells.length === 0) return 0;
+
+  if (isMaximizing) {
+    let maxEval = -Infinity;
+    for (const idx of emptyCells) {
+      board[idx] = 'O';
+      const ev = minimaxXo4x4(board, depth - 1, alpha, beta, false);
+      board[idx] = '';
+      maxEval = Math.max(maxEval, ev);
+      alpha = Math.max(alpha, ev);
+      if (beta <= alpha) break;
+    }
+    return maxEval;
+  } else {
+    let minEval = Infinity;
+    for (const idx of emptyCells) {
+      board[idx] = 'X';
+      const ev = minimaxXo4x4(board, depth - 1, alpha, beta, true);
+      board[idx] = '';
+      minEval = Math.min(minEval, ev);
+      beta = Math.min(beta, ev);
+      if (beta <= alpha) break;
+    }
+    return minEval;
+  }
+};
+
+/**
+ * AI move selector for 4x4 Tic-Tac-Toe:
+ * - NOOB (LOW): Casual beginner AI.
+ * - ROOKIE (MODERATE): Takes immediate wins, blocks obvious wins.
+ * - SMART (HIGH): Minimax depth 3, calculates 3-in-a-row threats.
+ * - PRO (EXTREME): Deep Minimax depth 5 with alpha-beta pruning. Controls center, blocks all threats, punishes mistakes.
+ */
+export const chooseAiMove4x4 = (board, moveCountOrDifficulty = 0, difficultyOrSkill = 'LOW') => {
+  let moveCount = 0;
+  let difficulty = 'LOW';
+  if (typeof moveCountOrDifficulty === 'string') {
+    difficulty = moveCountOrDifficulty;
+    moveCount = typeof difficultyOrSkill === 'number' ? difficultyOrSkill : 0;
+  } else {
+    moveCount = typeof moveCountOrDifficulty === 'number' ? moveCountOrDifficulty : 0;
+    difficulty = difficultyOrSkill || 'LOW';
+  }
+
   const emptyIndices = [];
-  let totalOCount = 0;
-  for (let i = 0; i < 16; i++) {
-    if (board[i] === '') emptyIndices.push(i);
-    else if (board[i] === 'O') totalOCount++;
+  for (const idx of CELL_SEARCH_ORDER) {
+    if (board[idx] === '') emptyIndices.push(idx);
   }
   if (emptyIndices.length === 0) return -1;
 
-  const aiTier = resolveXo4x4AiTier(difficultyOrSkill);
+  const aiTier = resolveXo4x4AiTier(difficulty);
 
-  // 1. Block X's immediate 3-in-a-row threat ONLY if AI is within its maxBlocks allowance.
-  // For NOOB AI, maxBlocks is 0 so it never blocks X's winning line.
-  if (totalOCount < aiTier.maxBlocks) {
-    for (const idx of emptyIndices) {
+  // NOOB AI: Casual play, plays outer border cells
+  if (aiTier.id === 'NOOB') {
+    const noobCandidates = [1, 2, 4, 7, 8, 11, 13, 14, 0, 3, 12, 15];
+    for (const idx of noobCandidates) {
+      if (!emptyIndices.includes(idx)) continue;
+      // Don't accidentally block X's winning cell
       const copy = [...board];
       copy[idx] = 'X';
-      if (evaluateXo4x4Board(copy).winner === 'X') {
-        return idx;
-      }
+      if (evaluateXo4x4Board(copy).winner === 'X') continue;
+      return idx;
+    }
+    return emptyIndices[(moveCount) % emptyIndices.length];
+  }
+
+  // 1. RULE 1: If AI can complete 4-in-a-row, TAKE IT IMMEDIATELY!
+  for (const idx of emptyIndices) {
+    const copy = [...board];
+    copy[idx] = 'O';
+    if (evaluateXo4x4Board(copy).winner === 'O') {
+      return idx;
     }
   }
 
-  // 2. Check if AI ('O') can win immediately (skip for NOOB AI, and skip if X already has an immediate win)
-  const xHasImmediateWin = emptyIndices.some((idx) => {
+  // 2. RULE 2: If Player ('X') has an immediate 4-in-a-row threat, BLOCK IT!
+  for (const idx of emptyIndices) {
     const copy = [...board];
     copy[idx] = 'X';
-    return evaluateXo4x4Board(copy).winner === 'X';
-  });
+    if (evaluateXo4x4Board(copy).winner === 'X') {
+      return idx;
+    }
+  }
 
-  if (aiTier.id !== 'NOOB' && !xHasImmediateWin) {
+  // ROOKIE AI: Greedy center / development choice
+  if (aiTier.id === 'ROOKIE') {
+    let bestScore = -Infinity;
+    let bestIdx = emptyIndices[0];
     for (const idx of emptyIndices) {
       const copy = [...board];
       copy[idx] = 'O';
-      if (evaluateXo4x4Board(copy).winner === 'O') {
-        return idx;
+      const score = evaluateXo4x4State(copy, 'O', 'X');
+      if (score > bestScore) {
+        bestScore = score;
+        bestIdx = idx;
       }
     }
+    return bestIdx;
   }
 
-  // 3. Score candidate squares while avoiding poisoning X's active lines
+  // SMART (Depth 3) and PRO (Depth 5) AI via Minimax + Alpha-Beta
+  const depth = aiTier.searchDepth || (aiTier.id === 'PRO' ? 5 : 3);
   let bestScore = -Infinity;
   let bestIdx = emptyIndices[0];
 
   for (const idx of emptyIndices) {
-    let score = 0;
-
-    for (const line of XO4X4_WIN_LINES) {
-      if (!line.includes(idx)) continue;
-      let xCount = 0;
-      let oCount = 0;
-      let blocked = false;
-
-      for (const cellIdx of line) {
-        if (board[cellIdx] === '#') blocked = true;
-        else if (board[cellIdx] === 'X') xCount++;
-        else if (board[cellIdx] === 'O') oCount++;
-      }
-
-      if (blocked) continue;
-
-      if (xCount === 0) {
-        score += (oCount + 1) * (aiTier.id === 'NOOB' ? 1 : 4);
-      } else if (oCount === 0) {
-        // Avoid spoiling X's developing lines so the player can complete a 4-in-a-row
-        if (xCount >= 2) {
-          score -= 20;
-        } else if (xCount === 1) {
-          score -= aiTier.id === 'NOOB' ? 10 : 4;
-        }
-      }
-    }
-
-    // Prefer outer border squares so center lines stay open for the player
-    const r = Math.floor(idx / 4);
-    const c = idx % 4;
-    if (r === 0 || r === 3 || c === 0 || c === 3) {
-      score += aiTier.id === 'NOOB' ? 6 : 3;
-    }
-
-    score += ((idx + moveCount) % 3) * 0.1;
-
+    const copy = [...board];
+    copy[idx] = 'O';
+    const score = minimaxXo4x4(copy, depth - 1, -Infinity, Infinity, false);
     if (score > bestScore) {
       bestScore = score;
       bestIdx = idx;

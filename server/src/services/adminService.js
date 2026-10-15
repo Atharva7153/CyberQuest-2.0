@@ -1571,6 +1571,27 @@ export class AdminService {
         actor,
         summary: auditSummary,
       });
+    } else if (normalizedCmd === 'SET_CORE_ANSWER' || normalizedCmd === 'UPDATE_CORE_ANSWER') {
+      const newAnswer = String(payload.answer || payload.expectedAnswer || '').trim().toUpperCase();
+      if (!newAnswer) {
+        const err = new Error('Answer text cannot be empty.');
+        err.statusCode = 400;
+        throw err;
+      }
+      await NexusCoreService.updateCoreConfig({
+        solutionConfig: {
+          expectedAnswer: newAnswer,
+          acceptedAnswers: [newAnswer, `NEXUS{${newAnswer}}`],
+        },
+      });
+      coreStateUpdated = true;
+      auditSummary = `NEXUS CORE QR ANSWER UPDATED TO [${newAnswer}]`;
+      recordAdminEventLog({
+        action: 'SET_CORE_ANSWER',
+        category: 'CORE_CONTROL',
+        actor,
+        summary: auditSummary,
+      });
     } else {
       const err = new Error(`Unsupported event control command: ${normalizedCmd}`);
       err.statusCode = 400;

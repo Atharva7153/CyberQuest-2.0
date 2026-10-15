@@ -7,10 +7,10 @@ import { logger } from '../utils/logger.js';
 export const DEFAULT_NEXUS_CORE_DEFINITION = {
   coreId: 'NEXUS-CORE-PRIME',
   title: 'THE NEXUS CORE',
-  designation: 'ULTIMATE SYSTEM OBJECTIVE // CENTRAL CONVERGENCE',
-  classification: 'DIRECTIVE OMEGA // CORE ARCHITECTURE',
+  designation: 'CLASSROOM QR CODE HUNT // FINAL OBJECTIVE',
+  classification: 'PHYSICAL SEARCH // 50 QR CODES',
   description:
-    'At the end of the path lies the NEXUS Core — the ultimate system objective. Synchronize the master override vector to reclaim control of the central autonomous architecture.',
+    '50 QR codes are hidden across the classroom. Scan the QR codes to find the secret answer, then enter the answer below to solve the NEXUS Core!',
   enabled: true,
   globalOverrideState: null,
   unlockConfig: {
@@ -19,20 +19,16 @@ export const DEFAULT_NEXUS_CORE_DEFINITION = {
     entryCost: 0,
     completionReward: 1500,
   },
-  gameType: 'systemProblem',
+  gameType: 'qrAnswerOnly',
   gameConfig: {
-    sector: 'SECTOR-00 // CENTRAL_CORE_CHAMBER',
+    sector: 'SECTOR-00 // CLASSROOM QR HUNT',
     artworkKey: 'CORE_BRIDGE',
     secondaryArtworkKey: 'MONOLITH_GATE',
-    clearanceCode: 'OMEGA-00-SOVEREIGN',
+    clearanceCode: 'QR-HUNT-50',
     prompt:
-      'CENTRAL CORE ARCHITECTURE // TERMINAL OVERRIDE: Three primary containment relays report harmonic lock at [N-E-X-U-S] — [O-M-E-G-A]. Transmit the 11-character master convergence key (NEXUS-OMEGA) to sever the Overlord neural link and claim the NEXUS Core.',
-    telemetryNodes: [
-      { node: 'RELAY-01 // LOGIC_SPIRE', status: 'SYNCHRONIZED', signature: 'NX-77' },
-      { node: 'RELAY-02 // CIPHER_MONOLITH', status: 'SYNCHRONIZED', signature: 'OM-42' },
-      { node: 'RELAY-03 // CENTRAL_BRIDGE', status: 'AWAITING_KEY', signature: 'NEXUS-OMEGA' },
-    ],
-    inputPlaceholder: 'ENTER MASTER CONVERGENCE KEY (E.G. NEXUS-OMEGA)...',
+      '50 QR codes have been placed around the classroom. Scan them to find the secret answer and type it directly into the box below — no code required.',
+    telemetryNodes: [],
+    inputPlaceholder: 'TYPE THE QR CODE ANSWER HERE...',
   },
   solutionConfig: {
     expectedAnswer: 'NEXUS-OMEGA',
@@ -67,6 +63,21 @@ export const ensureNexusCoreSeeded = async () => {
       if (!doc) {
         doc = await NexusCoreConfig.create(DEFAULT_NEXUS_CORE_DEFINITION);
         logger.info('SEED', 'Seeded configurable NEXUS Core objective [NEXUS-CORE-PRIME]');
+      } else if (
+        Array.isArray(doc.gameConfig?.telemetryNodes) &&
+        doc.gameConfig.telemetryNodes.length > 0
+      ) {
+        doc.designation = DEFAULT_NEXUS_CORE_DEFINITION.designation;
+        doc.classification = DEFAULT_NEXUS_CORE_DEFINITION.classification;
+        doc.description = DEFAULT_NEXUS_CORE_DEFINITION.description;
+        doc.gameType = DEFAULT_NEXUS_CORE_DEFINITION.gameType;
+        doc.gameConfig = {
+          ...(doc.gameConfig || {}),
+          ...DEFAULT_NEXUS_CORE_DEFINITION.gameConfig,
+          telemetryNodes: [],
+        };
+        doc.markModified('gameConfig');
+        await doc.save();
       }
       nexusCoreSeeded = true;
       return doc;
@@ -382,7 +393,7 @@ export class NexusCoreService {
           creditsDelta: 0,
           balanceAfter: teamDoc.credits,
           message:
-            'CORE OVERRIDE REJECTED // Master convergence key mismatch. Verify harmonic relay signatures (NEXUS-OMEGA) and transmit again.',
+            'INCORRECT ANSWER // That answer does not match the NEXUS Core solution. Keep scanning the classroom QR codes and try again.',
           timestamp: new Date().toISOString(),
         },
       };

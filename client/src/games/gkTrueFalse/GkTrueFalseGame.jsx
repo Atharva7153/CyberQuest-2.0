@@ -103,6 +103,9 @@ export const GkTrueFalseGame = ({
         </div>
 
         <div className="flex flex-wrap items-center gap-2 shrink-0 font-mono text-xs font-bold uppercase">
+          <span className="px-2.5 py-1 border border-nexus-ink bg-emerald-100 text-emerald-950 font-extrabold">
+            PASS: ≥{config.minToPass || 3}/{validation.totalQuestions} (50%)
+          </span>
           <span className="px-2.5 py-1 border border-nexus-ink bg-nexus-paper-elevated text-nexus-ink">
             {validation.answeredCount} / {validation.totalQuestions} ANSWERED
           </span>

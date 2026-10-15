@@ -66,14 +66,16 @@ export const normalizeGkTrueFalseConfig = (gameConfig = {}) => {
     return u === 'T' || u === 'TRUE' ? 'T' : 'F';
   });
 
+  const minToPass = Math.ceil(questions.length * 0.5);
+
   return {
     roundTitle: gameConfig.roundTitle || DEFAULT_GK_TRUE_FALSE_CONFIG.roundTitle,
     questions,
     answerKey,
     totalQuestions: questions.length,
+    minToPass,
     instructions:
-      gameConfig.instructions ||
-      `Answer all ${questions.length} statements one by one, then submit your choices for verification.`,
+      `Answer all ${questions.length} statements one by one. Score at least ${minToPass}/${questions.length} (50%) correct to pass — your credit reward scales proportionally with how many you get right!`,
   };
 };
 

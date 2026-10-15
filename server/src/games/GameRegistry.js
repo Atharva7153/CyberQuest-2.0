@@ -891,12 +891,18 @@ export const validateAptitudeServer = (submission, challenge) => {
  */
 export const validateGkTrueFalseServer = (submission, challenge) => {
   const solutionConfig = challenge?.solutionConfig || {};
-  const expectedAnswers = Array.isArray(solutionConfig.expectedAnswers)
-    ? solutionConfig.expectedAnswers.map((a) => {
-        const u = String(a).trim().toUpperCase();
-        return u === 'TRUE' || u === 'T' ? 'T' : 'F';
-      })
-    : [];
+  const gameConfig = challenge?.gameConfig || {};
+  const rawExpected =
+    Array.isArray(solutionConfig.expectedAnswers) && solutionConfig.expectedAnswers.length > 0
+      ? solutionConfig.expectedAnswers
+      : Array.isArray(gameConfig.answerKey) && gameConfig.answerKey.length > 0
+        ? gameConfig.answerKey
+        : [];
+
+  const expectedAnswers = rawExpected.map((a) => {
+    const u = String(a).trim().toUpperCase();
+    return u === 'TRUE' || u === 'T' ? 'T' : 'F';
+  });
 
   let submittedList = [];
   if (Array.isArray(submission?.answers) && submission.answers.length > 0) {
@@ -918,11 +924,12 @@ export const validateGkTrueFalseServer = (submission, challenge) => {
   }
 
   if (expectedAnswers.length > 0) {
-    if (submittedList.length !== expectedAnswers.length || submittedList.some((v) => !v)) {
+    const totalQuestions = expectedAnswers.length;
+    if (submittedList.length !== totalQuestions || submittedList.some((v) => !v)) {
       return {
         valid: false,
         passed: false,
-        reason: `Answer all ${expectedAnswers.length} True/False statements.`,
+        reason: `Answer all ${totalQuestions} True/False statements.`,
       };
     }
     let rightCount = 0;
@@ -938,24 +945,35 @@ export const validateGkTrueFalseServer = (submission, challenge) => {
         wrongCount++;
       }
     });
-    if (wrongCount > 0) {
+
+    const minRequired = Math.ceil(totalQuestions * 0.5);
+    const rewardRatio = totalQuestions > 0 ? rightCount / totalQuestions : 0;
+    const accuracyPercent = Math.round(rewardRatio * 100);
+
+    if (rightCount < minRequired) {
       return {
         valid: false,
         passed: false,
         rightCount,
         wrongCount,
+        totalQuestions,
+        rewardRatio: 0,
         trueCount,
         falseCount,
-        reason: `${rightCount} RIGHT · ${wrongCount} WRONG (Round breakdown: ${trueCount} TRUE · ${falseCount} FALSE) — All ${expectedAnswers.length} statements must be correct.`,
+        reason: `${rightCount}/${totalQuestions} RIGHT (${accuracyPercent}%) · ${wrongCount} WRONG — Need at least 50% (${minRequired}/${totalQuestions} correct) to pass.`,
       };
     }
+
     return {
       valid: true,
       passed: true,
       rightCount,
-      wrongCount: 0,
+      wrongCount,
+      totalQuestions,
+      rewardRatio,
       trueCount,
       falseCount,
+      reason: `${rightCount}/${totalQuestions} RIGHT (${accuracyPercent}%)`,
     };
   }
 
@@ -1105,7 +1123,12 @@ export const evaluateGameSubmissionServer = (submission, challenge) => {
   if (handler && typeof handler.validate === 'function') {
     const result = handler.validate(submission, challenge);
     if (result.passed || result.valid) {
-      return { valid: true, passed: true, reason: null };
+      return {
+        ...result,
+        valid: true,
+        passed: true,
+        reason: result.reason || null,
+      };
     }
     // Also allow exact expectedAnswer / acceptedAnswers match if configured
     const rawAnswer =
@@ -1119,9 +1142,10 @@ export const evaluateGameSubmissionServer = (submission, challenge) => {
       String(a).trim().toUpperCase()
     );
     if (rawAnswer && ((expected && rawAnswer === expected) || accepted.includes(rawAnswer))) {
-      return { valid: true, passed: true, reason: null };
+      return { valid: true, passed: true, reason: null, rewardRatio: 1 };
     }
     return {
+      ...result,
       valid: false,
       passed: false,
       reason: result.reason || 'Validation failed.',
