@@ -192,11 +192,8 @@ export const CinematicArenaOverlay = ({
     ? `${declaredWinner.teamId}-${runnerUp?.teamId || 'NONE'}-${declaredWinner.declaredAt || declaredWinner.credits}`
     : null;
 
-  // Strictly Admin-controlled: remains open until Admin clears/dismisses or resets
-  const showWinnerModal =
-    Boolean(declaredWinner) &&
-    !isCountingDown &&
-    !blastOffActive;
+  // Top 2 crown ceremony disabled per user requirement: winners announced later
+  const showWinnerModal = false;
 
   // Cinematic GSAP timeline for the Top 2 Winners Ceremony
   useEffect(() => {
@@ -838,14 +835,14 @@ export const NexusPreStartLoreChamber = ({ team, globalTimer }) => {
         {/* Status Pill */}
         <div className="lore-fade-item inline-flex items-center gap-2 px-3 sm:px-3.5 py-1 bg-nexus-crimson text-white font-mono text-[10px] sm:text-[11px] font-bold uppercase tracking-[0.16em] sm:tracking-[0.26em] mb-3 sm:mb-4">
           <Radio className="w-3.5 h-3.5 animate-pulse shrink-0" />
-          <span>{isEnded ? 'TRANSMISSION CLOSED // ROUND ENDED' : 'WAITING FOR GAME TO START'}</span>
+          <span>{isEnded ? 'GAME HAS ENDED // TRANSMISSION CLOSED' : 'WAITING FOR GAME TO START'}</span>
         </div>
 
         {/* Clean Hero Title */}
         <h1 className="lore-fade-item font-display text-4xl sm:text-7xl uppercase tracking-wide text-white leading-none">
           {isEnded ? (
             <>
-              THE ARENA IS <span className="text-nexus-crimson">CLOSED</span>
+              GAME HAS <span className="text-nexus-crimson">ENDED</span>
             </>
           ) : (
             <>
@@ -857,7 +854,7 @@ export const NexusPreStartLoreChamber = ({ team, globalTimer }) => {
         {/* Short, Punchy 1-Line Lore Message */}
         <p className="lore-fade-item font-editorial text-xs sm:text-base text-nexus-paper/75 max-w-lg mt-3 sm:mt-4 leading-relaxed px-1">
           {isEnded
-            ? 'All sector vaults have been locked. Check the Leaderboard to view the final arena standings.'
+            ? 'The game has ended. Winners will be announced soon.'
             : 'NEXUS-OMEGA holds all sectors under lockdown. Stand by — your terminal will unlock automatically when the countdown begins.'}
         </p>
 

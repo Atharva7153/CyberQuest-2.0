@@ -1,0 +1,56 @@
+# ==============================================================================
+# CyberQuest (NEXUS) — Standalone Production Compose Configuration
+# ==============================================================================
+# Run this after loading the Docker tar file:
+#   docker load -i cyberquest-full-bundle.tar
+#   docker compose -f docker-compose.standalone.yml up -d
+#
+# Access the application at:
+#   http://localhost:5050
+# ==============================================================================
+
+services:
+  mongodb:
+    image: mongo:7
+    container_name: nexus-mongodb
+    restart: unless-stopped
+    ports:
+      - "27017:27017"
+    volumes:
+      - nexus_mongodb_data:/data/db
+    networks:
+      - nexus-network
+    healthcheck:
+      test: ["CMD", "mongosh", "--quiet", "--eval", "db.adminCommand('ping').ok"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+
+  app:
+    image: cyberquest:latest
+    container_name: nexus-app
+    restart: unless-stopped
+    ports:
+      - "5050:5050"
+    environment:
+      - NODE_ENV=production
+      - PORT=5050
+      - MONGO_URI=mongodb://mongodb:27017/nexus
+      - CLIENT_URL=http://localhost:5050
+      - SOCKET_URL=http://localhost:5050
+      - JWT_SECRET=nexus_core_authoritative_secret_key_2026
+      - STARTING_CREDITS=1250
+    depends_on:
+      mongodb:
+        condition: service_healthy
+    networks:
+      - nexus-network
+
+volumes:
+  nexus_mongodb_data:
+    name: nexus_mongodb_data
+
+networks:
+  nexus-network:
+    name: nexus_network

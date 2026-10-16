@@ -331,7 +331,9 @@ export const MemoryMatrixGame = ({
       {/* Interactive Matrix Grid */}
       <div className="flex justify-center py-2">
         <div
-          className="p-3 bg-nexus-ink border-4 border-nexus-ink shadow-[6px_6px_0_#111] grid gap-2 sm:gap-2.5 w-full max-w-[340px] aspect-square"
+          className={`p-3 bg-nexus-ink border-4 border-nexus-ink shadow-[6px_6px_0_#111] grid ${
+            size >= 6 ? 'gap-1.5 sm:gap-2 max-w-[380px]' : 'gap-2 sm:gap-2.5 max-w-[340px]'
+          } w-full aspect-square`}
           style={{
             gridTemplateColumns: `repeat(${size}, minmax(0, 1fr))`,
           }}

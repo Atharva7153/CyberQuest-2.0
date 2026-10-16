@@ -88,7 +88,6 @@ const ADMIN_NAV_TABS = [
 
 const VOLUNTEER_NAV_TABS = [
   { path: '/admin/teams', id: 'teams', label: 'Teams & Passwords', icon: Users },
-  { path: '/admin/leaderboard', id: 'leaderboard', label: 'Leaderboard', icon: Trophy },
 ];
 
 const formatDurationClock = (seconds, forceHours = false) => {
@@ -156,8 +155,8 @@ export const AdminControlPage = () => {
       return null;
     }
   });
-  const [loginId, setLoginId] = useState('ADMIN-NEXUS');
-  const [loginPassword, setLoginPassword] = useState('NEXUS-ADMIN-2026');
+  const [loginId, setLoginId] = useState('');
+  const [loginPassword, setLoginPassword] = useState('');
   const [authError, setAuthError] = useState('');
   const [authLoading, setAuthLoading] = useState(false);
 
@@ -226,6 +225,7 @@ export const AdminControlPage = () => {
     extraTimeMinutes: 5,
     reattemptMultiplier: 1.25,
     arenaAnnouncement: 'ALL SECTORS NOMINAL // RESISTANCE OPERATIVES ACTIVE',
+    challengeTimingMultiplier: 1.0,
   });
 
   const globalEventBannerRef = useRef(null);
@@ -450,11 +450,10 @@ export const AdminControlPage = () => {
     [nowMs, serverOffsetMs]
   );
 
-  // Determine active route section (Floor Volunteers only see 'teams' or 'leaderboard')
+  // Determine active route section (Floor Volunteers only see 'teams', Admin sees all)
   const activeTabId = useMemo(() => {
     const p = location.pathname.replace(/\/+$/, '');
     if (isVolunteer) {
-      if (p === '/admin/leaderboard') return 'leaderboard';
       return 'teams';
     }
     if (p === '/admin/leaderboard') return 'leaderboard';
@@ -1230,7 +1229,7 @@ export const AdminControlPage = () => {
   };
 
   const handleEndRound = () => {
-    handleEventCommand('END', {}, 'Round Ended & #1 Winner Declared!');
+    handleEventCommand('END', {}, 'Round Ended — All Submissions Locked');
   };
 
   // Password-protected Global Reset Modal state
@@ -1478,44 +1477,6 @@ export const AdminControlPage = () => {
             <p className="text-xs text-neutral-600 mt-1">
               Manage teams, round timer, live events by team, and challenges.
             </p>
-          </div>
-
-          <div>
-            <p className="font-mono text-[10px] font-bold uppercase tracking-wider text-neutral-500 mb-2">
-              Quick Fill Credentials:
-            </p>
-            <div className="grid grid-cols-2 gap-2.5">
-              <button
-                type="button"
-                onClick={() => {
-                  setLoginId('ADMIN-NEXUS');
-                  setLoginPassword('NEXUS-ADMIN-2026');
-                }}
-                className={`text-left p-2.5 border text-xs transition-colors cursor-pointer ${
-                  loginId === 'ADMIN-NEXUS'
-                    ? 'border-[#E11D2E] bg-red-50/70 text-[#111111]'
-                    : 'border-neutral-300 bg-neutral-50 text-neutral-700 hover:border-neutral-400'
-                }`}
-              >
-                <div className="font-mono font-bold text-[11px] text-[#E11D2E]">ADMIN-NEXUS</div>
-                <div className="text-[11px] text-neutral-500">Event Organizer</div>
-              </button>
-              <button
-                type="button"
-                onClick={() => {
-                  setLoginId('VOLUNTEER-01');
-                  setLoginPassword('NEXUS-VOL-2026');
-                }}
-                className={`text-left p-2.5 border text-xs transition-colors cursor-pointer ${
-                  loginId === 'VOLUNTEER-01'
-                    ? 'border-[#E11D2E] bg-red-50/70 text-[#111111]'
-                    : 'border-neutral-300 bg-neutral-50 text-neutral-700 hover:border-neutral-400'
-                }`}
-              >
-                <div className="font-mono font-bold text-[11px] text-amber-700">VOLUNTEER-01</div>
-                <div className="text-[11px] text-neutral-500">Floor Volunteer</div>
-              </button>
-            </div>
           </div>
 
           <form onSubmit={handleAdminLogin} className="space-y-4">
@@ -3597,10 +3558,10 @@ export const AdminControlPage = () => {
                       onClick={handleEndRound}
                       disabled={liveGlobalTimer.status === 'ENDED'}
                       className="py-3 sm:py-3.5 px-4 bg-white hover:bg-[#E11D2E] hover:text-white disabled:opacity-40 text-[#111111] font-bold uppercase tracking-wider cursor-pointer border border-white inline-flex items-center justify-center gap-2 transition-colors"
-                      title="End Round and automatically crown Top 2 Leaderboard Teams"
+                      title="End Round and lock all challenge submissions"
                     >
                       <Square className="w-4 h-4 shrink-0" />
-                      <span>End & Crown Top 2</span>
+                      <span>End Round</span>
                     </button>
 
                     <button
@@ -3979,6 +3940,55 @@ export const AdminControlPage = () => {
                       }
                       className="w-full px-3 py-2 bg-[#FAF9F5] border border-neutral-300 font-bold"
                     />
+                  </div>
+
+                  <div>
+                    <label className="block font-bold uppercase text-neutral-700 mb-1 flex items-center justify-between">
+                      <span>Global Challenge Timing Speed (Anti-AI Multiplier)</span>
+                      <span className="text-[#E11D2E] font-mono font-bold">
+                        {settingsForm.challengeTimingMultiplier || 1.0}×
+                      </span>
+                    </label>
+                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 mb-2">
+                      {[
+                        { label: '0.75× Blitz (Anti-AI)', val: 0.75 },
+                        { label: '1.0× Standard', val: 1.0 },
+                        { label: '1.25× Relaxed', val: 1.25 },
+                        { label: '1.5× Extended', val: 1.5 },
+                      ].map((preset) => (
+                        <button
+                          key={preset.val}
+                          type="button"
+                          onClick={() =>
+                            setSettingsForm((p) => ({ ...p, challengeTimingMultiplier: preset.val }))
+                          }
+                          className={`py-1.5 px-2 border font-mono text-[10px] uppercase font-bold cursor-pointer transition-colors ${
+                            Number(settingsForm.challengeTimingMultiplier) === preset.val
+                              ? 'bg-[#E11D2E] text-white border-[#E11D2E]'
+                              : 'bg-white text-neutral-800 border-neutral-300 hover:border-black'
+                          }`}
+                        >
+                          {preset.label}
+                        </button>
+                      ))}
+                    </div>
+                    <input
+                      type="number"
+                      step="0.05"
+                      min="0.3"
+                      max="3.0"
+                      value={settingsForm.challengeTimingMultiplier ?? 1.0}
+                      onChange={(e) =>
+                        setSettingsForm((p) => ({
+                          ...p,
+                          challengeTimingMultiplier: Number(e.target.value),
+                        }))
+                      }
+                      className="w-full px-3 py-2 bg-[#FAF9F5] border border-neutral-300 font-bold"
+                    />
+                    <span className="text-[10px] text-neutral-500 block mt-1">
+                      Scales active question timer across all game types. 0.75× Blitz gives ~35s on GK and ~60s on Aptitude to block smartphone AI lookups while rewarding sharp human thinking.
+                    </span>
                   </div>
 
                   <div className="flex flex-wrap items-center justify-between gap-3 pt-3 border-t border-neutral-200">

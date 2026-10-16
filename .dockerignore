@@ -34,5 +34,7 @@ server/.env.*
 .DS_Store
 Thumbs.db
 *.log
+*.tar
+*.tar.gz
 .vscode
 .idea

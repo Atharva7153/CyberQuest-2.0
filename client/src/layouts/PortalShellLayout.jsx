@@ -40,7 +40,6 @@ import { API_BASE_URL } from '../config/runtimeConfig';
 export const PORTAL_NAV_ITEMS = [
   { id: 'HOME', label: 'HOME', shortLabel: 'HOME', icon: LayoutGrid, route: '/dashboard' },
   { id: 'CHALLENGES', label: 'CHALLENGES', shortLabel: 'CHALLENGES', icon: Crosshair, route: '/challenges' },
-  { id: 'LEADERBOARD', label: 'LEADERBOARD', shortLabel: 'RANKS', icon: Trophy, route: '/leaderboard' },
   { id: 'MY_TEAM', label: 'MY TEAM', shortLabel: 'MY TEAM', icon: Users, route: '/progress' },
   { id: 'HISTORY', label: 'HISTORY', shortLabel: 'HISTORY', icon: History, route: '/history' },
   { id: 'NEXUS_CORE', label: 'NEXUS CORE', shortLabel: 'CORE', icon: Cpu, route: '/nexus-core' },
@@ -128,7 +127,13 @@ export const PortalShellLayout = ({
     };
 
     fetchDisplaySync();
-    const pollInterval = setInterval(fetchDisplaySync, 1500);
+
+    // Fallback polling only if socket is disconnected (every 30s)
+    const fallbackPollInterval = setInterval(() => {
+      if (!socketClient.connected) {
+        fetchDisplaySync();
+      }
+    }, 30000);
 
     const handleGlobalUpdate = (payload) => {
       if (payload?.globalTimer) {
@@ -153,7 +158,7 @@ export const PortalShellLayout = ({
 
     return () => {
       active = false;
-      clearInterval(pollInterval);
+      clearInterval(fallbackPollInterval);
       socketClient.off(NEXUS_SOCKET_EVENTS.LEADERBOARD.UPDATE, handleGlobalUpdate);
       socketClient.off(NEXUS_SOCKET_EVENTS.SYSTEM.TELEMETRY, handleGlobalUpdate);
       socketClient.off(NEXUS_SOCKET_EVENTS.TIMER.UPDATE, handleGlobalUpdate);

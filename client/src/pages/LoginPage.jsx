@@ -34,8 +34,8 @@ export const LoginPage = () => {
 
   // Step 1 = Verify Team ID + Password | Step 2 = Choose Player Name from Team
   const [loginStep, setLoginStep] = useState(1);
-  const [teamId, setTeamId] = useState('TEAM-CIPHER');
-  const [password, setPassword] = useState('NEXUS-2026');
+  const [teamId, setTeamId] = useState('');
+  const [password, setPassword] = useState('');
   const [verifiedTeamName, setVerifiedTeamName] = useState('');
   const [rosterSlots, setRosterSlots] = useState(DEFAULT_SLOTS);
   const [selectedSlotId, setSelectedSlotId] = useState('OP-01');
@@ -191,14 +191,6 @@ export const LoginPage = () => {
     } finally {
       setIsSubmitting(false);
     }
-  };
-
-  const applyPresetTeam = (presetId) => {
-    setTeamId(presetId);
-    setPassword('NEXUS-2026');
-    setLoginStep(1);
-    setFieldErrors({ teamId: false, password: false, memberName: false });
-    setErrorMessage(null);
   };
 
   return (
@@ -622,40 +614,12 @@ export const LoginPage = () => {
               )}
             </div>
 
-            {/* Quick-Select Demo Teams */}
-            <div className="mt-6 sm:mt-8 pt-4 border-t border-dashed border-nexus-ink/30 space-y-2.5">
-              <div className="flex items-center justify-between font-mono text-[10px] uppercase tracking-widest text-nexus-muted">
-                <span>QUICK SELECT DEMO TEAMS</span>
-                <Link to="/" className="text-nexus-crimson font-bold hover:underline">
-                  ← EVENT BRIEFING
-                </Link>
-              </div>
-              <div className="grid grid-cols-2 gap-2.5">
-                <button
-                  type="button"
-                  onClick={() => applyPresetTeam('TEAM-CIPHER')}
-                  className={`px-3 py-2 border font-mono text-xs text-left transition-colors cursor-pointer ${
-                    teamId === 'TEAM-CIPHER'
-                      ? 'bg-nexus-ink text-nexus-paper border-nexus-ink'
-                      : 'bg-nexus-paper text-nexus-ink border-nexus-ink/40 hover:border-nexus-ink'
-                  }`}
-                >
-                  <span className="block font-bold">TEAM-CIPHER</span>
-                  <span className="text-[10px] opacity-75">1,250 CR · 4 PLAYER SLOTS</span>
-                </button>
-                <button
-                  type="button"
-                  onClick={() => applyPresetTeam('TEAM-VANGUARD')}
-                  className={`px-3 py-2 border font-mono text-xs text-left transition-colors cursor-pointer ${
-                    teamId === 'TEAM-VANGUARD'
-                      ? 'bg-nexus-ink text-nexus-paper border-nexus-ink'
-                      : 'bg-nexus-paper text-nexus-ink border-nexus-ink/40 hover:border-nexus-ink'
-                  }`}
-                >
-                  <span className="block font-bold">TEAM-VANGUARD</span>
-                  <span className="text-[10px] opacity-75">1,000 CR · 4 PLAYER SLOTS</span>
-                </button>
-              </div>
+            {/* Footer Navigation */}
+            <div className="mt-6 sm:mt-8 pt-4 border-t border-dashed border-nexus-ink/30 flex items-center justify-between font-mono text-[10px] uppercase tracking-widest text-nexus-muted">
+              <span>NEXUS // RESISTANCE TERMINAL</span>
+              <Link to="/" className="text-nexus-crimson font-bold hover:underline">
+                ← EVENT BRIEFING
+              </Link>
             </div>
           </div>
         </div>

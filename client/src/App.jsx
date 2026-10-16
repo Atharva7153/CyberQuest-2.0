@@ -26,7 +26,7 @@ export const App = () => {
               <Route path="/login" element={<LoginPage />} />
               <Route path="/dashboard" element={<DashboardPage />} />
               <Route path="/challenges" element={<DashboardPage initialSection="CHALLENGES" />} />
-              <Route path="/leaderboard" element={<LeaderboardPage />} />
+              <Route path="/leaderboard" element={<Navigate to="/dashboard" replace />} />
               <Route path="/team" element={<ProgressPage />} />
               <Route path="/progress" element={<ProgressPage />} />
               <Route path="/history" element={<HistoryPage />} />

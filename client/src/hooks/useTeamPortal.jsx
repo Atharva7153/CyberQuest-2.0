@@ -115,7 +115,7 @@ export const TeamPortalProvider = ({ children }) => {
     return () => clearInterval(id);
   }, []);
 
-  // Keep globalTimer continuously synced with /api/display even if socket reconnects
+  // Fallback sync for globalTimer only when socket is disconnected
   useEffect(() => {
     let active = true;
 
@@ -130,12 +130,26 @@ export const TeamPortalProvider = ({ children }) => {
         .catch(() => {});
     };
 
-    const pollId = setInterval(syncGlobalTimerHttp, 2000);
+    // If globalTimer is not loaded yet after 3s, fetch once
+    const initialTimer = setTimeout(() => {
+      if (active && !globalTimer) {
+        syncGlobalTimerHttp();
+      }
+    }, 3000);
+
+    // Infrequent 30s fallback poll only if disconnected
+    const fallbackPollId = setInterval(() => {
+      if (active && !socketClient.connected) {
+        syncGlobalTimerHttp();
+      }
+    }, 30000);
+
     return () => {
       active = false;
-      clearInterval(pollId);
+      clearTimeout(initialTimer);
+      clearInterval(fallbackPollId);
     };
-  }, []);
+  }, [globalTimer]);
 
   const mergeIncomingFeedEvents = useCallback((incomingEvents = [], fullFeed = null) => {
     if (Array.isArray(fullFeed) && fullFeed.length > 0 && (!incomingEvents || incomingEvents.length === 0)) {

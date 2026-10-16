@@ -44,6 +44,10 @@ import { hashPassword } from '../utils/password.js';
 import { signAdminToken } from '../utils/jwt.js';
 import { getSocketServer } from '../socket/index.js';
 import { SOCKET_ROOMS } from '../socket/socketEvents.js';
+import {
+  getChallengeTimingMultiplier,
+  setChallengeTimingMultiplier,
+} from '../config/timingConfig.js';
 
 export const SEEDED_ADMIN_OPERATORS = [
   {
@@ -392,7 +396,7 @@ export class AdminService {
   /**
    * Build the full Admin & Volunteer Control System state (Optimized single-wave query)
    */
-  static async getAdminControlState() {
+  static async getAdminControlState(role = 'ADMIN') {
     await ensureDefaultTeamsSeeded();
 
     const [
@@ -549,6 +553,7 @@ export class AdminService {
       reattemptMultiplier:
         runtimeSettingsOverride.reattemptMultiplier ?? baseCreditsCfg.reattemptMultiplier,
       arenaAnnouncement: runtimeSettingsOverride.arenaAnnouncement,
+      challengeTimingMultiplier: getChallengeTimingMultiplier(),
     };
 
     const globalCoreState =
@@ -587,7 +592,7 @@ export class AdminService {
         declaredWinner: getGlobalDeclaredWinner(),
       },
       teams: enrichedTeams,
-      leaderboard,
+      leaderboard: role === 'ADMIN' ? leaderboard : [],
       volunteers,
       challenges,
       attempts: enrichedAttempts,
@@ -1363,46 +1368,8 @@ export class AdminService {
       auditSummary = `GLOBAL EVENT [${normalizedCmd}] -> TIMER: ${updatedTimer.formatted} (${updatedTimer.status})`;
 
       if (normalizedCmd === 'END') {
-        const allTeams = await Team.find({ teamId: { $not: /^SIM-TEAM-/ } }).lean();
-        const membersByTeamId = new Map(
-          allTeams.map((t) => [String(t.teamId).toUpperCase(), t.members || []])
-        );
-        const rankedRaw = await buildPublicTopTeams(allTeams);
-        const ranked = rankedRaw.map((r) => ({
-          ...r,
-          members: membersByTeamId.get(String(r.teamId).toUpperCase()) || [],
-        }));
-        if (ranked.length > 0) {
-          const top = ranked[0];
-          const second = ranked[1] || null;
-          setGlobalDeclaredWinner(
-            {
-              teamId: top.teamId,
-              teamName: top.teamName,
-              credits: top.credits,
-              totalSolved: top.totalSolved,
-              coreState: top.coreState,
-              members: top.members,
-              rank: 1,
-              runnerUp: second
-                ? {
-                    teamId: second.teamId,
-                    teamName: second.teamName,
-                    credits: second.credits,
-                    totalSolved: second.totalSolved,
-                    coreState: second.coreState,
-                    members: second.members,
-                    rank: 2,
-                  }
-                : null,
-              topTwo: [top, second].filter(Boolean),
-              podium: ranked.slice(0, 3),
-              allTeamsRanking: ranked,
-              reason: 'FINAL ARENA STANDINGS // TOP 2 SOVEREIGN SQUADS',
-            },
-            actor
-          );
-        }
+        // Do not auto-crown Top 2 winners when round ends. Winners are announced later by admin.
+        setGlobalDeclaredWinner(null, actor);
       }
     } else if (normalizedCmd === 'DECLARE_WINNER') {
       const allTeams = await Team.find({ teamId: { $not: /^SIM-TEAM-/ } }).lean();
@@ -1643,6 +1610,9 @@ export class AdminService {
     }
     if (payload.arenaAnnouncement !== undefined) {
       runtimeSettingsOverride.arenaAnnouncement = String(payload.arenaAnnouncement).trim();
+    }
+    if (payload.challengeTimingMultiplier !== undefined) {
+      setChallengeTimingMultiplier(payload.challengeTimingMultiplier);
     }
 
     const summaryMsg = 'UPDATED GLOBAL ARENA PARAMETERS & CREDIT CONFIGURATION';

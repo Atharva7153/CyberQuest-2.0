@@ -202,9 +202,10 @@ export const getAdminOperatorsHint = async (_req, res) => {
  * GET /api/admin/state
  * Protected endpoint returning full Admin & Volunteer Control System state
  */
-export const getAdminControlState = async (_req, res, next) => {
+export const getAdminControlState = async (req, res, next) => {
   try {
-    const state = await AdminService.getAdminControlState();
+    const role = req.admin?.role || 'ADMIN';
+    const state = await AdminService.getAdminControlState(role);
     res.status(200).json(state);
   } catch (error) {
     next(error);

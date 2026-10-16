@@ -3,6 +3,7 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import express from 'express';
 import cors from 'cors';
+import compression from 'compression';
 import { env } from './config/env.js';
 import apiRouter from './routes/index.js';
 import { requestLogger } from './middleware/requestLogger.js';
@@ -17,6 +18,7 @@ export const createApp = () => {
   const app = express();
 
   // Global Middleware
+  app.use(compression());
   app.use(
     cors({
       origin: true,

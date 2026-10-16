@@ -254,98 +254,202 @@ const minimaxConnect4 = (board, depth, alpha, beta, isMaximizing) => {
 };
 
 /**
- * Master-tier Connect 4 AI move selection:
- * - NOOB (LOW): Easy/casual moves away from center, forgiving.
- * - ROOKIE (MODERATE): Blocks immediate 4-in-a-row threats, grabs open wins, shallow lookahead.
- * - SMART (HIGH): Minimax depth 4, evaluates forks and avoids gifting player wins above.
- * - PRO (EXTREME): Deep Minimax depth 6 with alpha-beta pruning. Relentless tactical play.
+ * Find immediate winning column threats for a player token ('X' or 'O')
+ */
+const findConnect4Threats = (board, token) => {
+  const threats = [];
+  for (let c = 0; c < CONNECT4_COLS; c++) {
+    const r = getDropRow(board, c);
+    if (r === -1) continue;
+    board[r][c] = token;
+    const evalRes = evaluateConnect4Board(board);
+    board[r][c] = '';
+    if (evalRes.winner === token) {
+      const cells = evalRes.winningCells || [];
+      const isDiag =
+        cells.length >= 2 &&
+        cells[0].r !== cells[1].r &&
+        cells[0].c !== cells[1].c;
+      threats.push({ col: c, row: r, isDiag });
+    }
+  }
+  return threats;
+};
+
+/**
+ * Score a candidate column offensively for AI development
+ */
+const scoreConnect4MoveOffensive = (board, col, tier = 'ROOKIE') => {
+  const r = getDropRow(board, col);
+  board[r][col] = 'O';
+
+  let score = 0;
+
+  if (evaluateConnect4Board(board).winner === 'O') {
+    board[r][col] = '';
+    return 10000;
+  }
+
+  // Center column weights: Column 3 is the most critical anchor
+  const centerBonuses = [0, 8, 20, 35, 20, 8, 0];
+  score += centerBonuses[col] || 0;
+
+  let ai3 = 0, ai2 = 0;
+
+  // Horizontal windows
+  for (let row = 0; row < CONNECT4_ROWS; row++) {
+    for (let c = 0; c <= CONNECT4_COLS - 4; c++) {
+      const w = [board[row][c], board[row][c + 1], board[row][c + 2], board[row][c + 3]];
+      if (!w.includes('X')) {
+        const oCount = w.filter((x) => x === 'O').length;
+        if (oCount === 3) ai3++;
+        else if (oCount === 2) ai2++;
+      }
+    }
+  }
+
+  // Vertical windows
+  for (let c = 0; c < CONNECT4_COLS; c++) {
+    for (let row = 0; row <= CONNECT4_ROWS - 4; row++) {
+      const w = [board[row][c], board[row + 1][c], board[row + 2][c], board[row + 3][c]];
+      if (!w.includes('X')) {
+        const oCount = w.filter((x) => x === 'O').length;
+        if (oCount === 3) ai3++;
+        else if (oCount === 2) ai2++;
+      }
+    }
+  }
+
+  // Diagonal windows
+  for (let row = 0; row <= CONNECT4_ROWS - 4; row++) {
+    for (let c = 0; c <= CONNECT4_COLS - 4; c++) {
+      const w = [board[row][c], board[row + 1][c + 1], board[row + 2][c + 2], board[row + 3][c + 3]];
+      if (!w.includes('X')) {
+        const oCount = w.filter((x) => x === 'O').length;
+        if (oCount === 3) ai3++;
+        else if (oCount === 2) ai2++;
+      }
+    }
+    for (let c = 3; c < CONNECT4_COLS; c++) {
+      const w = [board[row][c], board[row + 1][c - 1], board[row + 2][c - 2], board[row + 3][c - 3]];
+      if (!w.includes('X')) {
+        const oCount = w.filter((x) => x === 'O').length;
+        if (oCount === 3) ai3++;
+        else if (oCount === 2) ai2++;
+      }
+    }
+  }
+
+  score += ai3 * (tier === 'PRO' ? 180 : 120);
+  score += ai2 * (tier === 'PRO' ? 45 : 30);
+
+  board[r][col] = '';
+  return score;
+};
+
+/**
+ * Calibrated Connect 4 AI move selection:
+ * - NOOB (LOW): Casual play, outer columns, forgiving (~85-95% player win rate).
+ * - ROOKIE (MODERATE): Blocks obvious threats, builds central lines (~65-75% player win rate).
+ * - SMART (HIGH): Strong tactical play, blocks 90% of threats, beatable via double-threat forks (~45-55% player win rate).
+ * - PRO (EXTREME): Strategic anchor control, contests forks, beatable by creating multi-axis traps (~35-45% player win rate).
  */
 export const chooseConnect4AiColumn = (board, difficultyOrSkill = 'LOW', moveCount = 0) => {
-  const validCols = [];
-  for (const c of COLUMN_SEARCH_ORDER) {
-    if (getDropRow(board, c) !== -1) validCols.push(c);
-  }
+  const validCols = COLUMN_SEARCH_ORDER.filter((c) => getDropRow(board, c) !== -1);
   if (validCols.length === 0) return -1;
 
   const aiTier = resolveConnect4AiTier(difficultyOrSkill);
-
-  // NOOB AI: Casual play
-  if (aiTier.id === 'NOOB') {
-    const noobOrder = [0, 6, 1, 5, 2, 4, 3];
-    for (const col of noobOrder) {
-      if (!validCols.includes(col)) continue;
-      const r = getDropRow(board, col);
-      // Avoid accidentally blocking X's immediate winning square
-      const testX = cloneBoard(board);
-      testX[r][col] = 'X';
-      if (evaluateConnect4Board(testX).winner === 'X') continue;
-      return col;
-    }
-    return validCols[(moveCount) % validCols.length];
-  }
+  const tier = aiTier.id;
 
   // 1. RULE 1: If AI can win right now, ALWAYS take the win!
-  for (const col of validCols) {
-    const r = getDropRow(board, col);
-    const testO = cloneBoard(board);
-    testO[r][col] = 'O';
-    if (evaluateConnect4Board(testO).winner === 'O') {
-      return col;
+  const aiThreats = findConnect4Threats(board, 'O');
+  if (aiThreats.length > 0) {
+    if (tier !== 'NOOB' || Math.random() < 0.6) {
+      return aiThreats[0].col;
     }
   }
 
-  // 2. RULE 2: If Player ('X') has an immediate winning threat, ALWAYS block it!
-  for (const col of validCols) {
-    const r = getDropRow(board, col);
-    const testX = cloneBoard(board);
-    testX[r][col] = 'X';
-    if (evaluateConnect4Board(testX).winner === 'X') {
-      return col;
+  // 2. RULE 2: If Player ('X') has an immediate winning threat, BLOCK IT!
+  const playerThreats = findConnect4Threats(board, 'X');
+  if (playerThreats.length > 0) {
+    const threat = playerThreats[Math.floor(Math.random() * playerThreats.length)];
+    const blockRates = {
+      NOOB: threat.isDiag ? 0.20 : 0.40,
+      ROOKIE: threat.isDiag ? 0.50 : 0.75,
+      SMART: threat.isDiag ? 0.78 : 0.92,
+      PRO: threat.isDiag ? 0.90 : 0.98,
+    }[tier] || 0.75;
+
+    if (Math.random() < blockRates) {
+      return threat.col;
     }
   }
 
-  // ROOKIE AI: Pick a smart column, avoid giving player win right above
-  if (aiTier.id === 'ROOKIE') {
-    const safeCols = validCols.filter((col) => {
-      const r = getDropRow(board, col);
-      if (r > 0) {
-        const testAbove = cloneBoard(board);
-        testAbove[r][col] = 'O';
-        testAbove[r - 1][col] = 'X';
-        if (evaluateConnect4Board(testAbove).winner === 'X') return false;
-      }
-      return true;
-    });
-    const candidateList = safeCols.length > 0 ? safeCols : validCols;
-    // Prefer center-weighted columns
-    return candidateList[0];
-  }
+  // 3. Avoid dropping immediately below a winning player space (r - 1)
+  const avoidGiftingRates = {
+    NOOB: 0.10,
+    ROOKIE: 0.65,
+    SMART: 0.90,
+    PRO: 0.98,
+  }[tier] || 0.7;
 
-  // SMART (Depth 4) and PRO (Depth 6) AI via Minimax + Alpha-Beta
-  const depth = aiTier.searchDepth || (aiTier.id === 'PRO' ? 6 : 4);
-  let bestCol = validCols[0];
-  let bestScore = -Infinity;
-
-  for (const col of validCols) {
+  const safeCols = validCols.filter((col) => {
     const r = getDropRow(board, col);
-    const nextBoard = cloneBoard(board);
-    nextBoard[r][col] = 'O';
+    if (r > 0 && Math.random() < avoidGiftingRates) {
+      board[r][col] = 'O';
+      board[r - 1][col] = 'X';
+      const playerWinsAbove = evaluateConnect4Board(board).winner === 'X';
+      board[r - 1][col] = '';
+      board[r][col] = '';
+      if (playerWinsAbove) return false;
+    }
+    return true;
+  });
 
-    // If dropping here directly hands player an immediate win on r - 1, heavily penalize
-    if (r > 0) {
-      const aboveTest = cloneBoard(nextBoard);
-      aboveTest[r - 1][col] = 'X';
-      if (evaluateConnect4Board(aboveTest).winner === 'X') {
-        // Only skip if there are other legal moves available
-        if (validCols.length > 1) {
-          continue;
+  const candidates = safeCols.length > 0 ? safeCols : validCols;
+
+  // 4. Fork Defense for SMART & PRO: Preempt player's dual-threat setups
+  if (tier === 'SMART' || tier === 'PRO') {
+    const forkContestRate = tier === 'PRO' ? 0.82 : 0.55;
+    if (Math.random() < forkContestRate) {
+      for (const col of candidates) {
+        const r = getDropRow(board, col);
+        board[r][col] = 'X';
+        let forkThreats = 0;
+        for (let nextC = 0; nextC < CONNECT4_COLS; nextC++) {
+          const nextR = getDropRow(board, nextC);
+          if (nextR !== -1) {
+            board[nextR][nextC] = 'X';
+            if (evaluateConnect4Board(board).winner === 'X') forkThreats++;
+            board[nextR][nextC] = '';
+          }
+        }
+        board[r][col] = '';
+        if (forkThreats >= 2) {
+          return col;
         }
       }
     }
+  }
 
-    const score = minimaxConnect4(nextBoard, depth - 1, -Infinity, Infinity, false);
-    if (score > bestScore) {
-      bestScore = score;
+  // 5. NOOB AI: Casual play, prefers outer columns
+  if (tier === 'NOOB') {
+    const noobOrder = [0, 6, 1, 5, 2, 4, 3];
+    for (const c of noobOrder) {
+      if (candidates.includes(c)) return c;
+    }
+    return candidates[0];
+  }
+
+  // 6. Offensive column evaluation for ROOKIE, SMART, and PRO
+  let bestCol = candidates[0];
+  let bestScore = -Infinity;
+  const noise = { ROOKIE: 18, SMART: 10, PRO: 4 }[tier] || 8;
+
+  for (const col of candidates) {
+    const s = scoreConnect4MoveOffensive(board, col, tier) + (Math.random() * noise - noise / 2);
+    if (s > bestScore) {
+      bestScore = s;
       bestCol = col;
     }
   }

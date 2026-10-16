@@ -273,6 +273,8 @@ const teamSchema = new mongoose.Schema(
   }
 );
 
+teamSchema.index({ 'activeAttempt.status': 1, 'activeAttempt.expiresAt': 1 });
+
 teamSchema.methods.toPublicJSON = function () {
   const obj = this.toObject({ versionKey: false });
   delete obj.passwordHash;

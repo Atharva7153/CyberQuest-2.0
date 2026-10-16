@@ -159,5 +159,7 @@ const challengeAttemptSchema = new mongoose.Schema(
   }
 );
 
+challengeAttemptSchema.index({ startedAt: -1 });
+
 export const ChallengeAttempt = mongoose.model('ChallengeAttempt', challengeAttemptSchema);
 export default ChallengeAttempt;

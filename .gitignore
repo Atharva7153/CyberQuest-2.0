@@ -17,3 +17,7 @@ server/.env.local
 *.log
 npm-debug.log*
 .DS_Store
+
+# Docker image archives
+*.tar
+*.tar.gz

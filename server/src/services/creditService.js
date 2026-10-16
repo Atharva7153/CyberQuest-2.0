@@ -52,8 +52,8 @@ export class CreditService {
     }
 
     const rawMagnitude = Math.abs(Number(amount || 0));
-    if (Number.isNaN(rawMagnitude) || rawMagnitude <= 0) {
-      const err = new Error('Transaction amount must be a positive number.');
+    if (Number.isNaN(rawMagnitude) || rawMagnitude < 0) {
+      const err = new Error('Transaction amount must be a non-negative number.');
       err.statusCode = 400;
       err.code = 'INVALID_TRANSACTION_AMOUNT';
       throw err;
@@ -65,6 +65,7 @@ export class CreditService {
     // Enforce strict balance check on voluntary spends (penalties clamp at 0)
     if (
       isDebit &&
+      rawMagnitude > 0 &&
       type !== CREDIT_TRANSACTION_TYPES.FAILURE_PENALTY &&
       balanceBefore < rawMagnitude
     ) {

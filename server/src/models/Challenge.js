@@ -128,6 +128,10 @@ const challengeSchema = new mongoose.Schema(
   }
 );
 
+challengeSchema.index({ enabled: 1, available: 1, cost: 1, challengeId: 1 });
+challengeSchema.index({ enabled: 1, gameType: 1, difficulty: 1 });
+
+
 export const sanitizePublicChallenge = (docOrObj) => {
   if (!docOrObj) return null;
   const raw = typeof docOrObj.toObject === 'function' ? docOrObj.toObject({ versionKey: false }) : { ...docOrObj };

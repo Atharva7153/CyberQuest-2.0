@@ -51,6 +51,16 @@ const globalArenaState = {
   ],
 };
 
+// In-memory cache for getProjectorDisplaySnapshot to prevent DB stampede
+let cachedSnapshotBase = null;
+let cachedSnapshotExpiresAt = 0;
+const SNAPSHOT_CACHE_TTL_MS = 2000;
+
+export const invalidateDisplaySnapshotCache = () => {
+  cachedSnapshotBase = null;
+  cachedSnapshotExpiresAt = 0;
+};
+
 export const setGlobalDeclaredWinner = (winnerPayload = null, actor = 'ADMIN-NEXUS') => {
   globalArenaState.declaredWinner = winnerPayload
     ? {
@@ -60,6 +70,7 @@ export const setGlobalDeclaredWinner = (winnerPayload = null, actor = 'ADMIN-NEX
       }
     : null;
   globalArenaState.lastTransitionAt = new Date().toISOString();
+  invalidateDisplaySnapshotCache();
   return globalArenaState.declaredWinner;
 };
 
@@ -380,7 +391,7 @@ export const controlGlobalArenaEvent = (command, payload = {}, actor = 'ADMIN-NE
         actor,
         summary: `TOTAL ROUND TIME SET TO ${updated.totalDurationMinutes} MIN (${updated.formatted})`,
       });
-      return updated;
+      break;
     }
 
     case 'ADJUST_TIMER': {
@@ -407,13 +418,14 @@ export const controlGlobalArenaEvent = (command, payload = {}, actor = 'ADMIN-NE
           deltaSeconds / 60
         )}m) -> ${updated.formatted}`,
       });
-      return updated;
+      break;
     }
 
     default:
       break;
   }
 
+  invalidateDisplaySnapshotCache();
   return computeGlobalArenaTimer();
 };
 
@@ -669,10 +681,28 @@ export const buildSanitizedRecentSystemEvents = ({
 };
 
 export class DisplayService {
+  static invalidateSnapshotCache() {
+    invalidateDisplaySnapshotCache();
+  }
+
   /**
    * Build the complete, sanitized public projector display snapshot for /display.
    */
   static async getProjectorDisplaySnapshot() {
+    const nowMs = Date.now();
+    if (cachedSnapshotBase && nowMs < cachedSnapshotExpiresAt) {
+      const globalTimer = computeGlobalArenaTimer();
+      return {
+        ...cachedSnapshotBase,
+        system: {
+          ...cachedSnapshotBase.system,
+          serverTime: globalTimer.serverTime,
+        },
+        globalTimer,
+        timestamp: globalTimer.serverTime,
+      };
+    }
+
     await ensureDefaultTeamsSeeded();
 
     const [teams, attempts, transactions, coreDoc] = await Promise.all([
@@ -753,7 +783,7 @@ export class DisplayService {
 
     const globalTimer = computeGlobalArenaTimer();
 
-    return {
+    const snapshot = {
       status: 'ok',
       service: 'cyber-quest-projector-display',
       system: {
@@ -778,11 +808,12 @@ export class DisplayService {
         activeTeamsCount: topTeams.filter((t) => t.coreState === 'ACTIVE').length,
         completedTeamsCount: topTeams.filter((t) => t.coreState === 'COMPLETED').length,
         completionReward: coreDoc?.unlockConfig?.completionReward || 1500,
-        winner: publicWinner,
-        completedTeams: publicCompletedTeams,
+        winner: null,
+        completedTeams: [],
       },
-      topTeams,
-      recentSystemEvents,
+      topTeams: [],
+      leaderboard: [],
+      recentSystemEvents: [],
       privacyAttestation: {
         privateSubmissionsExposed: false,
         challengeAnswersExposed: false,
@@ -790,5 +821,10 @@ export class DisplayService {
       },
       timestamp: globalTimer.serverTime,
     };
+
+    cachedSnapshotBase = snapshot;
+    cachedSnapshotExpiresAt = Date.now() + SNAPSHOT_CACHE_TTL_MS;
+
+    return snapshot;
   }
 }

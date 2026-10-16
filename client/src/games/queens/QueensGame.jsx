@@ -17,15 +17,18 @@ import {
 } from './queensLogic';
 
 const REGION_COLORS = [
-  'bg-amber-500/20',
-  'bg-sky-500/20',
-  'bg-emerald-500/20',
-  'bg-purple-500/20',
-  'bg-rose-500/20',
-  'bg-teal-500/20',
-  'bg-indigo-500/20',
-  'bg-orange-500/20',
-  'bg-lime-500/20',
+  'bg-[#fde047] text-yellow-950', // Canary yellow
+  'bg-[#7dd3fc] text-sky-950',    // Bright sky blue
+  'bg-[#86efac] text-emerald-950',// Fresh mint green
+  'bg-[#f472b6] text-pink-950',   // Bright candy pink
+  'bg-[#c084fc] text-purple-950', // Vivid lavender purple
+  'bg-[#fdba74] text-orange-950', // Bright orange peach
+  'bg-[#5eead4] text-teal-950',   // Vibrant teal cyan
+  'bg-[#a5b4fc] text-indigo-950', // Bright periwinkle
+  'bg-[#bef264] text-lime-950',   // Vivid neon lime
+  'bg-[#fda4af] text-rose-950',   // Bright coral rose
+  'bg-[#cbd5e1] text-slate-900',  // Crisp ice silver
+  'bg-[#fef08a] text-amber-950',  // Warm sunshine
 ];
 
 export const QueensGame = ({
@@ -310,7 +313,7 @@ export const QueensGame = ({
                         : isGiven
                           ? 'bg-nexus-ink text-nexus-paper'
                           : 'bg-nexus-ink text-white border border-nexus-crimson'
-                      : `${baseBg} hover:bg-nexus-crimson/15 text-nexus-ink`
+                      : `${baseBg} hover:brightness-95`
                   }`}
                 >
                   {/* Coordinate label on top/left edge */}
