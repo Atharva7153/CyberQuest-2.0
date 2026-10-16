@@ -153,7 +153,6 @@ export const acquireChallenge = async (req, res, next) => {
       serverTime: result.serverTime,
       transactions: result.transactions,
       event: result.event,
-      catalog: result.catalog,
       creditsConfig: result.creditsConfig,
     });
 
@@ -182,7 +181,6 @@ export const acquireChallenge = async (req, res, next) => {
       transaction: result.transaction,
       transactions: result.transactions,
       event: result.event,
-      catalog: result.catalog,
       creditsConfig: result.creditsConfig,
     });
   } catch (error) {
@@ -243,7 +241,6 @@ export const submitChallengeSession = async (req, res, next) => {
       serverTime: result.serverTime,
       transactions: result.transactions,
       event: result.event,
-      catalog: result.catalog,
       creditsConfig: result.creditsConfig,
     });
 
@@ -258,7 +255,6 @@ export const submitChallengeSession = async (req, res, next) => {
       transaction: result.transaction,
       transactions: result.transactions,
       event: result.event,
-      catalog: result.catalog,
       creditsConfig: result.creditsConfig,
     });
   } catch (error) {

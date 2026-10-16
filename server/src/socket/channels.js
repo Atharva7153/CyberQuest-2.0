@@ -82,7 +82,7 @@ const emitLiveAdminMonitorUpdate = (io) => {
     adminMonitorDebounceTimer = null;
     try {
       if (!io || getRoomClientCount(io, SOCKET_ROOMS.ADMIN_CONTROL) === 0) return;
-      const adminState = await AdminService.getAdminControlState();
+      const adminState = await AdminService.getAdminControlState('ADMIN', { includeChallenges: false });
       io.to(SOCKET_ROOMS.ADMIN_CONTROL).emit(SOCKET_EVENTS.ADMIN.STATE_UPDATE, {
         ...adminState,
         timestamp: new Date().toISOString(),
@@ -102,24 +102,22 @@ const hydrateTeamChannelSnapshot = (normalizedTeamId) => {
 
   const promise = (async () => {
     try {
-      const [teamState, transactions, catalog, attempts, abilitiesCatalog] = await Promise.all([
+      const [teamState, transactions, attempts, abilitiesCatalog] = await Promise.all([
         getTeamStateById(normalizedTeamId),
         CreditService.getTeamTransactions(normalizedTeamId),
-        ChallengeService.listChallenges(),
         ChallengeService.getAttemptsForTeam(normalizedTeamId),
         AbilityService.listAbilities(),
       ]);
 
       const nexusCore = await NexusCoreService.getNexusCoreStatusForTeam(teamState);
-      const resolvedCatalog = catalog || CHALLENGE_CATALOG;
-      const attemptHistory = normalizeAttemptHistory(teamState, attempts, resolvedCatalog);
+      const attemptHistory = normalizeAttemptHistory(teamState, attempts, CHALLENGE_CATALOG);
       const progressSummary = buildTeamProgressSummary(
         teamState,
         attempts,
         transactions,
-        resolvedCatalog
+        CHALLENGE_CATALOG
       );
-      const liveFeed = buildCanonicalLiveFeed(teamState, attempts, transactions, resolvedCatalog);
+      const liveFeed = buildCanonicalLiveFeed(teamState, attempts, transactions, CHALLENGE_CATALOG);
       const timer = ChallengeService.computeSessionTimerTelemetry(teamState?.activeAttempt);
 
       return {
@@ -132,7 +130,6 @@ const hydrateTeamChannelSnapshot = (normalizedTeamId) => {
         liveFeed,
         timer,
         globalTimer: computeGlobalArenaTimer(),
-        catalog: resolvedCatalog,
         abilitiesCatalog: abilitiesCatalog || [],
         creditsConfig: CreditService.getConfig(),
       };

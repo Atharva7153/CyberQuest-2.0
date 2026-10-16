@@ -15,7 +15,16 @@ import { CREDIT_TRANSACTION_TYPES, creditsConfig } from '../config/creditsConfig
 import { evaluateGameSubmissionServer } from '../games/GameRegistry.js';
 import { assignVariantForTeamAttempt } from './challengeVariantService.js';
 import { logger } from '../utils/logger.js';
-import { getChallengeTimingMultiplier } from '../config/timingConfig.js';
+import {
+  getChallengeTimingMultiplier,
+  calculateChallengeTimeLimit,
+  getTeamConsecutiveStreak,
+  normalizeGameType,
+  getGameLabel,
+  getMaxConsecutiveGames,
+  getConsecutiveGamesCooldownSeconds,
+  getConsecutiveGamesCooldownMinutes,
+} from '../config/timingConfig.js';
 
 import { DEFAULT_CHALLENGE_CATALOG } from './catalog/index.js';
 
@@ -126,6 +135,7 @@ let challengesSeeded = false;
 let challengesSeedPromise = null;
 let cachedPublicCatalog = null;
 let cachedPublicCatalogExpiresAt = 0;
+let inFlightCatalogPromise = null;
 
 export const ensureDefaultChallengesSeeded = async () => {
   if (mongoose.connection.readyState !== 1) return;
@@ -134,7 +144,18 @@ export const ensureDefaultChallengesSeeded = async () => {
 
   challengesSeedPromise = (async () => {
     try {
-      const existingCount = await Challenge.countDocuments({ enabled: true });
+      const validIds = DEFAULT_CHALLENGE_CATALOG.map((c) => c.challengeId);
+      const existingCount = await Challenge.countDocuments({
+        enabled: true,
+        challengeId: { $in: validIds },
+      });
+
+      // Disable any outdated challenges not present in the 3000 catalog
+      await Challenge.updateMany(
+        { challengeId: { $nin: validIds } },
+        { $set: { enabled: false, available: false } }
+      );
+
       if (existingCount >= DEFAULT_CHALLENGE_CATALOG.length) {
         challengesSeeded = true;
         return;
@@ -165,11 +186,7 @@ export const ensureDefaultChallengesSeeded = async () => {
         { $set: { risk: 'BALANCED' } }
       );
       await Challenge.updateMany({ risk: 'LOW' }, { $set: { risk: 'SAFE' } });
-      const validIds = DEFAULT_CHALLENGE_CATALOG.map((c) => c.challengeId);
-      await Challenge.updateMany(
-        { challengeId: { $nin: validIds } },
-        { $set: { enabled: false, available: false } }
-      );
+
       challengesSeeded = true;
     } catch (err) {
       logger.warn('SEED', `Challenge catalog seed check warning: ${err.message}`);
@@ -236,34 +253,53 @@ export class ChallengeService {
       return cachedPublicCatalog;
     }
 
-    if (mongoose.connection.readyState === 1) {
-      const docs = await Challenge.find(query).sort({ cost: 1, challengeId: 1 }).lean();
-      if (docs.length > 0 || !isUnfiltered) {
-        const sanitized = docs.map((d) => sanitizePublicChallenge(d)).sort(sortByDifficultyAndCost);
-        if (isUnfiltered) {
-          cachedPublicCatalog = sanitized;
-          cachedPublicCatalogExpiresAt = Date.now() + 3000;
+    if (isUnfiltered && inFlightCatalogPromise) {
+      return inFlightCatalogPromise;
+    }
+
+    const loadCatalogPromise = (async () => {
+      if (mongoose.connection.readyState === 1) {
+        const docs = await Challenge.find(query).sort({ cost: 1, challengeId: 1 }).lean();
+        if (docs.length > 0 || !isUnfiltered) {
+          const sanitized = docs
+            .map((d) => sanitizePublicChallenge(d, { isMarketListing: true }))
+            .sort(sortByDifficultyAndCost);
+          if (isUnfiltered) {
+            cachedPublicCatalog = sanitized;
+            cachedPublicCatalogExpiresAt = Date.now() + 15 * 60 * 1000; // 15 min cache
+          }
+          return sanitized;
         }
-        return sanitized;
+      }
+
+      const fallbackList = DEFAULT_CHALLENGE_CATALOG.filter((c) => {
+        if (!c.enabled) return false;
+        if (query.category && c.category !== query.category) return false;
+        if (query.gameType && c.gameType !== query.gameType) return false;
+        if (query.difficulty && c.difficulty !== query.difficulty) return false;
+        if (query.risk && c.risk !== query.risk) return false;
+        return true;
+      })
+        .map((c) => sanitizePublicChallenge(c, { isMarketListing: true }))
+        .sort(sortByDifficultyAndCost);
+
+      if (isUnfiltered) {
+        cachedPublicCatalog = fallbackList;
+        cachedPublicCatalogExpiresAt = Date.now() + 15 * 60 * 1000; // 15 min cache
+      }
+      return fallbackList;
+    })();
+
+    if (isUnfiltered) {
+      inFlightCatalogPromise = loadCatalogPromise;
+      try {
+        return await inFlightCatalogPromise;
+      } finally {
+        inFlightCatalogPromise = null;
       }
     }
 
-    const fallbackList = DEFAULT_CHALLENGE_CATALOG.filter((c) => {
-      if (!c.enabled) return false;
-      if (query.category && c.category !== query.category) return false;
-      if (query.gameType && c.gameType !== query.gameType) return false;
-      if (query.difficulty && c.difficulty !== query.difficulty) return false;
-      if (query.risk && c.risk !== query.risk) return false;
-      return true;
-    })
-      .map((c) => sanitizePublicChallenge(c))
-      .sort(sortByDifficultyAndCost);
-
-    if (isUnfiltered) {
-      cachedPublicCatalog = fallbackList;
-      cachedPublicCatalogExpiresAt = Date.now() + 3000;
-    }
-    return fallbackList;
+    return loadCatalogPromise;
   }
 
   static async getChallengeById(rawChallengeId, { includeSolution = false } = {}) {
@@ -453,11 +489,57 @@ export class ChallengeService {
         : priorAttemptsCount + 1;
       const isReattempt = Boolean(priorAttemptsCount > 0 || wasFailed || isReattemptRequested);
 
+      // Enforce Tactical Diversity Rotation Protocol & Cooldown Timeout
+      const candidateGt = normalizeGameType(challenge.gameType);
+
+      // 1. Check if gameType is under active tactical timeout cooldown (5-min timeout after 5 solved)
+      if (team.gameCooldowns && team.gameCooldowns[candidateGt]) {
+        const cooldownEndMs = new Date(team.gameCooldowns[candidateGt]).getTime();
+        if (cooldownEndMs > Date.now()) {
+          const remSec = Math.ceil((cooldownEndMs - Date.now()) / 1000);
+          const mins = Math.floor(remSec / 60);
+          const secs = remSec % 60;
+          const timeStr = mins > 0 ? `${mins}m ${secs}s` : `${secs}s`;
+          const gameTitle = getGameLabel(candidateGt);
+          const cooldownMins = getConsecutiveGamesCooldownMinutes();
+          const err = new Error(
+            `TACTICAL COOLDOWN ACTIVE: Your squad has solved 5 ${gameTitle} questions! This game engine is locked for a ${cooldownMins}-minute timeout. Time remaining: ${timeStr}. Please select a different game type.`
+          );
+          err.statusCode = 403;
+          err.code = 'GAME_TYPE_COOLDOWN_ACTIVE';
+          err.gameType = candidateGt;
+          err.gameLabel = gameTitle;
+          err.cooldownRemainingSeconds = remSec;
+          throw err;
+        }
+      }
+
+      // 2. Check consecutive streak lock (only for newly acquired challenges)
+      if (!alreadyPurchased) {
+        const streak = getTeamConsecutiveStreak(team);
+        const maxAllowed = streak.maxAllowed || getMaxConsecutiveGames();
+        if (streak.isLocked && streak.gameType === candidateGt) {
+          const gameTitle = streak.gameLabel || getGameLabel(candidateGt);
+          const err = new Error(
+            `TACTICAL DIVERSITY LOCK: Your squad has played ${streak.count} games of ${gameTitle} in a row! To maintain arena competition, you must play a different game type before returning.`
+          );
+          err.statusCode = 403;
+          err.code = 'CONSECUTIVE_GAME_LIMIT_REACHED';
+          err.gameType = candidateGt;
+          err.gameLabel = gameTitle;
+          err.count = streak.count;
+          err.limit = maxAllowed;
+          throw err;
+        }
+      }
+
       const normalizedRisk = normalizeRiskTier(challenge.risk);
       const now = new Date();
-      const timingMultiplier = getChallengeTimingMultiplier();
-      const baseTimeLimit = Number(challenge.timeLimit) || 1200;
-      const timeLimitSeconds = Math.max(25, Math.round(baseTimeLimit * timingMultiplier));
+      const timeLimitSeconds = calculateChallengeTimeLimit(
+        challenge.gameType,
+        challenge.difficulty,
+        challenge.timeLimit
+      );
 
       let effectiveCost = Number(existingPurchasedEntry?.cost ?? challenge.cost ?? 0);
       let creditResult = null;
@@ -1308,6 +1390,29 @@ export class ChallengeService {
           solvedByMemberName: resolvedMemberName,
           timestamp: now,
         });
+
+        // Trigger cooldown timeout after every 5 questions solved of the same game (configurable through admin)
+        const solvedGt = normalizeGameType(fullChallenge.gameType);
+        const solvedCountForGt = (team.completedChallenges || []).filter(
+          (c) => normalizeGameType(c.gameType) === solvedGt
+        ).length;
+        const maxConsecutive = getMaxConsecutiveGames(); // default 5
+        const cooldownSec = getConsecutiveGamesCooldownSeconds(); // default 300s (5 minutes)
+
+        if (cooldownSec > 0 && maxConsecutive > 0 && solvedCountForGt % maxConsecutive === 0) {
+          if (!team.gameCooldowns) {
+            team.gameCooldowns = {};
+          }
+          const cooldownExpiresAt = new Date(now.getTime() + cooldownSec * 1000);
+          team.gameCooldowns[solvedGt] = cooldownExpiresAt;
+          team.markModified('gameCooldowns');
+          logger.info(
+            'COOLDOWN',
+            `Team [${team.teamId}] completed ${solvedCountForGt} questions of ${getGameLabel(
+              solvedGt
+            )}. Tactical cooldown activated until ${cooldownExpiresAt.toISOString()}`
+          );
+        }
 
         // Remove from failedChallenges if it was previously failed and now solved
         team.failedChallenges = (team.failedChallenges || []).filter(

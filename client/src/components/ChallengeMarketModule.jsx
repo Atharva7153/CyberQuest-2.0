@@ -7,8 +7,10 @@ import {
   ArrowUpRight,
   X,
   AlertTriangle,
+  RotateCcw,
   ChevronLeft,
   ChevronRight,
+  Clock,
 } from 'lucide-react';
 import { CrosshairMark } from './CrosshairMark';
 import { RiskBadge, getRiskMetadata } from './RiskBadge';
@@ -325,6 +327,8 @@ export const ClassifiedChallengeCard = ({
   isPurchased = false,
   isSolved,
   isFailed,
+  isStreakLocked = false,
+  cooldownRemainingSeconds = 0,
   isRoundActive = true,
   reattemptMultiplier,
   isSelected,
@@ -344,6 +348,12 @@ export const ClassifiedChallengeCard = ({
   const friendlyTitle = getFriendlyChallengeTitle(challenge);
   const friendlyDescription = getFriendlyChallengeDescription(challenge);
 
+  const formatCdTime = (sec) => {
+    const m = Math.floor(sec / 60);
+    const s = sec % 60;
+    return `${m}:${s < 10 ? '0' : ''}${s}`;
+  };
+
   const actionLabel = !isRoundActive
     ? '[ TIMER STOPPED ]'
     : isCurrent
@@ -352,13 +362,15 @@ export const ClassifiedChallengeCard = ({
         : '[ CONTINUE ]'
       : isSolved
         ? '[ SOLVED ]'
-        : isPurchased
-          ? '[ SOLVE NOW ]'
-          : isFailed
-            ? '[ REATTEMPT ]'
-            : !isAvailable
-              ? '[ LOCKED ]'
-              : '[ BUY / SOLVE ]';
+        : cooldownRemainingSeconds > 0
+          ? `[ TIMEOUT: ${formatCdTime(cooldownRemainingSeconds)} ]`
+          : isPurchased
+            ? '[ SOLVE NOW ]'
+            : isFailed
+              ? '[ REATTEMPT ]'
+              : !isAvailable
+                ? '[ LOCKED ]'
+                : '[ BUY / SOLVE ]';
 
   return (
     <motion.article
@@ -418,6 +430,18 @@ export const ClassifiedChallengeCard = ({
             {isFailed && !isCurrent && !isPurchased && (
               <span className="px-1.5 py-0.5 bg-nexus-crimson/25 border border-nexus-crimson text-white font-mono text-[9px] font-bold uppercase tracking-wider">
                 REATTEMPT
+              </span>
+            )}
+            {isStreakLocked && !isCurrent && !isPurchased && !isSolved && (
+              <span className="px-1.5 py-0.5 bg-amber-500/25 border border-amber-400 text-amber-300 font-mono text-[9px] font-bold uppercase tracking-wider flex items-center gap-1">
+                <RotateCcw className="w-2.5 h-2.5 shrink-0" />
+                STREAK (5/5)
+              </span>
+            )}
+            {cooldownRemainingSeconds > 0 && !isCurrent && !isSolved && (
+              <span className="px-1.5 py-0.5 bg-red-600/35 border border-red-500 text-red-300 font-mono text-[9px] font-bold uppercase tracking-wider flex items-center gap-1 animate-pulse">
+                <Clock className="w-2.5 h-2.5 shrink-0" />
+                TIMEOUT ({formatCdTime(cooldownRemainingSeconds)})
               </span>
             )}
             {!isAvailable && (
@@ -551,6 +575,46 @@ export const ChallengeMarketModule = ({
 
   const [inspectingChallenge, setInspectingChallenge] = useState(null);
   const [modalError, setModalError] = useState('');
+  const [streakLimitModal, setStreakLimitModal] = useState({
+    isOpen: false,
+    isCooldown: false,
+    gameType: '',
+    gameLabel: '',
+    remainingSeconds: 0,
+    count: 5,
+    limit: 5,
+  });
+
+  const [currentTime, setCurrentTime] = useState(() => Date.now());
+  React.useEffect(() => {
+    const timer = setInterval(() => setCurrentTime(Date.now()), 1000);
+    return () => clearInterval(timer);
+  }, []);
+
+  const activeCooldowns = useMemo(() => {
+    const map = {};
+    const rawMap = team?.gameCooldowns || team?.consecutiveStreak?.activeCooldowns;
+    if (rawMap && typeof rawMap === 'object') {
+      for (const [key, val] of Object.entries(rawMap)) {
+        const expiresMs =
+          typeof val === 'object' && val?.expiresAt
+            ? new Date(val.expiresAt).getTime()
+            : new Date(val).getTime();
+        if (expiresMs > currentTime) {
+          const remSec = Math.ceil((expiresMs - currentTime) / 1000);
+          map[key] = {
+            gameType: key,
+            remainingSeconds: remSec,
+            expiresMs,
+          };
+        }
+      }
+    }
+    return map;
+  }, [team?.gameCooldowns, team?.consecutiveStreak?.activeCooldowns, currentTime]);
+
+  const consecutiveStreak = team?.consecutiveStreak;
+  const lockedStreakGameType = consecutiveStreak?.isLocked ? consecutiveStreak.gameType : null;
 
   const activeChallenge = team?.currentChallenge;
   const activeAttemptsList = useMemo(() => {
@@ -648,6 +712,37 @@ export const ChallengeMarketModule = ({
   };
 
   const handleOpenConfirmation = (challenge) => {
+    const isOwned =
+      purchasedIds.has(challenge.challengeId) ||
+      activeAttemptsByChallengeId.has(String(challenge.challengeId).toUpperCase()) ||
+      activeChallenge?.challengeId === challenge.challengeId;
+
+    const gt = resolveChallengeGameType(challenge);
+    if (!isOwned && activeCooldowns[gt]) {
+      setStreakLimitModal({
+        isOpen: true,
+        isCooldown: true,
+        gameType: gt,
+        gameLabel: getGameNameLabel(challenge),
+        remainingSeconds: activeCooldowns[gt].remainingSeconds,
+        count: 5,
+        limit: 5,
+      });
+      return;
+    }
+
+    if (!isOwned && lockedStreakGameType && lockedStreakGameType === gt) {
+      setStreakLimitModal({
+        isOpen: true,
+        isCooldown: false,
+        gameType: gt,
+        gameLabel: consecutiveStreak?.gameLabel || getGameNameLabel(challenge),
+        count: consecutiveStreak?.count || 5,
+        limit: consecutiveStreak?.maxAllowed || 5,
+      });
+      return;
+    }
+
     setModalError('');
     setInspectingChallenge(challenge);
   };
@@ -678,7 +773,40 @@ export const ChallengeMarketModule = ({
       });
       setInspectingChallenge(null);
     } catch (err) {
-      setModalError(err?.message || 'Unable to start this challenge.');
+      if (
+        err?.code === 'GAME_TYPE_COOLDOWN_ACTIVE' ||
+        err?.message?.includes('COOLDOWN') ||
+        err?.message?.includes('TIMEOUT')
+      ) {
+        const gt = err.gameType || resolveChallengeGameType(inspectingChallenge);
+        setInspectingChallenge(null);
+        setStreakLimitModal({
+          isOpen: true,
+          isCooldown: true,
+          gameType: gt,
+          gameLabel: err.gameLabel || getGameNameLabel(inspectingChallenge),
+          remainingSeconds: err.cooldownRemainingSeconds || activeCooldowns[gt]?.remainingSeconds || 300,
+          count: 5,
+          limit: 5,
+        });
+      } else if (
+        err?.code === 'CONSECUTIVE_GAME_LIMIT_REACHED' ||
+        err?.message?.includes('ROTATION') ||
+        err?.message?.includes('DIVERSITY')
+      ) {
+        const gt = err.gameType || resolveChallengeGameType(inspectingChallenge);
+        setInspectingChallenge(null);
+        setStreakLimitModal({
+          isOpen: true,
+          isCooldown: false,
+          gameType: gt,
+          gameLabel: err.gameLabel || getGameNameLabel(inspectingChallenge),
+          count: err.count || consecutiveStreak?.count || 5,
+          limit: err.limit || consecutiveStreak?.maxAllowed || 5,
+        });
+      } else {
+        setModalError(err?.message || 'Unable to start this challenge.');
+      }
     }
   };
 
@@ -710,12 +838,48 @@ export const ChallengeMarketModule = ({
       }
       setInspectingChallenge(null);
     } catch (err) {
-      setModalError(err?.message || 'Unable to purchase this challenge.');
+      if (
+        err?.code === 'GAME_TYPE_COOLDOWN_ACTIVE' ||
+        err?.message?.includes('COOLDOWN') ||
+        err?.message?.includes('TIMEOUT')
+      ) {
+        const gt = err.gameType || resolveChallengeGameType(inspectingChallenge);
+        setInspectingChallenge(null);
+        setStreakLimitModal({
+          isOpen: true,
+          isCooldown: true,
+          gameType: gt,
+          gameLabel: err.gameLabel || getGameNameLabel(inspectingChallenge),
+          remainingSeconds: err.cooldownRemainingSeconds || activeCooldowns[gt]?.remainingSeconds || 300,
+          count: 5,
+          limit: 5,
+        });
+      } else if (
+        err?.code === 'CONSECUTIVE_GAME_LIMIT_REACHED' ||
+        err?.message?.includes('ROTATION') ||
+        err?.message?.includes('DIVERSITY')
+      ) {
+        const gt = err.gameType || resolveChallengeGameType(inspectingChallenge);
+        setInspectingChallenge(null);
+        setStreakLimitModal({
+          isOpen: true,
+          isCooldown: false,
+          gameType: gt,
+          gameLabel: err.gameLabel || getGameNameLabel(inspectingChallenge),
+          count: err.count || consecutiveStreak?.count || 5,
+          limit: err.limit || consecutiveStreak?.maxAllowed || 5,
+        });
+      } else {
+        setModalError(err?.message || 'Unable to purchase this challenge.');
+      }
     }
   };
 
   const inspectingIsFailed = inspectingChallenge
     ? failedIds.has(inspectingChallenge.challengeId)
+    : false;
+  const inspectingIsSolved = inspectingChallenge
+    ? completedIds.has(inspectingChallenge.challengeId)
     : false;
   const inspectingActiveAttempt = inspectingChallenge
     ? activeAttemptsByChallengeId.get(String(inspectingChallenge.challengeId).toUpperCase())
@@ -726,6 +890,11 @@ export const ChallengeMarketModule = ({
   const inspectingIsPurchased = inspectingChallenge
     ? purchasedIds.has(inspectingChallenge.challengeId) || inspectingIsCurrent
     : false;
+  const inspectingGt = inspectingChallenge ? resolveChallengeGameType(inspectingChallenge) : null;
+  const inspectingCooldownRemaining =
+    inspectingGt && activeCooldowns[inspectingGt] && !inspectingIsCurrent && !inspectingIsSolved
+      ? activeCooldowns[inspectingGt].remainingSeconds
+      : 0;
   const inspectingEffectiveCost = inspectingChallenge
     ? inspectingIsPurchased
       ? 0
@@ -873,6 +1042,7 @@ export const ChallengeMarketModule = ({
             >
               {MARKET_GAMES.map((gameSpec) => {
                 const isActive = selectedGame === gameSpec.id;
+                const cdInfo = activeCooldowns[gameSpec.id];
                 return (
                   <button
                     key={gameSpec.id}
@@ -883,23 +1053,55 @@ export const ChallengeMarketModule = ({
                     className={`px-2.5 sm:px-3 py-1 font-condensed text-xs sm:text-sm font-extrabold uppercase tracking-[0.14em] border-2 border-nexus-ink transition-colors cursor-pointer ${
                       isActive
                         ? 'text-white bg-nexus-crimson'
+                        : cdInfo
+                        ? 'bg-red-50 text-red-900 border-red-500 hover:bg-red-100'
                         : 'bg-nexus-paper text-nexus-ink hover:bg-nexus-ink hover:text-nexus-paper'
                     }`}
                   >
                     <span className="flex items-center gap-1.5">
                       <span>{gameSpec.label}</span>
-                      <span
-                        className={`font-mono text-[10px] px-1 ${
-                          isActive ? 'bg-nexus-ink text-white' : 'bg-nexus-ink/10 text-nexus-ink'
-                        }`}
-                      >
-                        {gameCounts[gameSpec.id] ?? 0}
-                      </span>
+                      {cdInfo ? (
+                        <span className="font-mono text-[9px] px-1 py-0.5 bg-red-600 text-white font-bold flex items-center gap-0.5 rounded-xs animate-pulse">
+                          <Clock className="w-2.5 h-2.5" />
+                          {Math.floor(cdInfo.remainingSeconds / 60)}:{cdInfo.remainingSeconds % 60 < 10 ? '0' : ''}{cdInfo.remainingSeconds % 60}
+                        </span>
+                      ) : (
+                        <span
+                          className={`font-mono text-[10px] px-1 ${
+                            isActive ? 'bg-nexus-ink text-white' : 'bg-nexus-ink/10 text-nexus-ink'
+                          }`}
+                        >
+                          {gameCounts[gameSpec.id] ?? 0}
+                        </span>
+                      )}
                     </span>
                   </button>
                 );
               })}
             </div>
+
+            {selectedGame !== 'ALL' && activeCooldowns[selectedGame] && (
+              <div className="w-full p-3 border-2 border-[#111111] bg-red-600 text-white font-mono text-xs flex flex-wrap items-center justify-between gap-2 shadow-[3px_3px_0px_#111111]">
+                <div className="flex items-center gap-2.5">
+                  <Clock className="w-4 h-4 shrink-0 animate-spin-slow" />
+                  <div>
+                    <p className="font-bold uppercase tracking-wider">
+                      TACTICAL TIMEOUT ACTIVE // 5 QUESTIONS SOLVED
+                    </p>
+                    <p className="text-[11px] text-white/90">
+                      Your squad has solved 5 {MARKET_GAMES.find((g) => g.id === selectedGame)?.label || selectedGame} questions. This game engine is locked for another {Math.floor(activeCooldowns[selectedGame].remainingSeconds / 60)}m {activeCooldowns[selectedGame].remainingSeconds % 60}s. Choose a different game engine to rotate into!
+                    </p>
+                  </div>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => setSelectedGame('ALL')}
+                  className="px-3 py-1 bg-white hover:bg-neutral-100 text-black font-bold uppercase text-[11px] cursor-pointer shrink-0 transition-colors"
+                >
+                  Browse All Games →
+                </button>
+              </div>
+            )}
 
             <div className="flex flex-wrap items-center gap-2">
               <div className="relative">
@@ -1097,6 +1299,17 @@ export const ChallengeMarketModule = ({
                   const isFailed = failedIds.has(challenge.challengeId);
                   const isSelected =
                     inspectingChallenge?.challengeId === challenge.challengeId;
+                  const chgGt = resolveChallengeGameType(challenge);
+                  const isStreakLocked = Boolean(
+                    lockedStreakGameType &&
+                    chgGt === lockedStreakGameType &&
+                    !isPurchased &&
+                    !isCurrent &&
+                    !isSolved
+                  );
+                  const cdInfo = activeCooldowns[chgGt];
+                  const cooldownRemainingSeconds =
+                    cdInfo && !isCurrent && !isSolved ? cdInfo.remainingSeconds : 0;
 
                   return (
                     <div
@@ -1111,6 +1324,8 @@ export const ChallengeMarketModule = ({
                           isPurchased={isPurchased}
                           isSolved={isSolved}
                           isFailed={isFailed}
+                          isStreakLocked={isStreakLocked}
+                          cooldownRemainingSeconds={cooldownRemainingSeconds}
                           isRoundActive={isRoundActive}
                           reattemptMultiplier={creditsConfig?.reattemptMultiplier || 1.25}
                           isSelected={isSelected}
@@ -1419,6 +1634,20 @@ export const ChallengeMarketModule = ({
                   </div>
                 )}
 
+                {inspectingCooldownRemaining > 0 && (
+                  <div className="p-3 bg-red-600 text-white border-2 border-[#111111] font-mono text-xs flex items-center gap-2.5 shadow-[3px_3px_0px_#111111]">
+                    <Clock className="w-4 h-4 shrink-0 animate-spin-slow" />
+                    <div>
+                      <span className="font-bold uppercase tracking-wider block">
+                        TACTICAL TIMEOUT ACTIVE // 5 QUESTIONS SOLVED
+                      </span>
+                      <span className="text-[11px] opacity-95">
+                        Your squad has solved 5 {getGameNameLabel(inspectingChallenge)} questions! This engine is locked for another {Math.floor(inspectingCooldownRemaining / 60)}m {inspectingCooldownRemaining % 60}s. Please choose a different game type.
+                      </span>
+                    </div>
+                  </div>
+                )}
+
                 <AnimatePresence>
                   {modalError && (
                     <motion.div
@@ -1445,34 +1674,174 @@ export const ChallengeMarketModule = ({
                   {!inspectingIsPurchased && !inspectingIsCurrent && (
                     <button
                       type="button"
-                      disabled={actionPending || !isRoundActive}
+                      disabled={actionPending || !isRoundActive || inspectingCooldownRemaining > 0}
                       onClick={handleConfirmBuyForLater}
                       className="flex-1 py-3 px-4 border-2 border-nexus-ink bg-nexus-ink text-nexus-paper hover:bg-nexus-crimson hover:text-white font-condensed text-base font-extrabold uppercase tracking-[0.16em] transition-colors cursor-pointer disabled:opacity-50 flex items-center justify-center gap-1.5"
                     >
                       <span>
                         {actionPending
                           ? 'BUYING...'
-                          : `[ BUY FOR LATER (${inspectingEffectiveCost} CR) ]`}
+                          : inspectingCooldownRemaining > 0
+                            ? `[ TIMEOUT (${Math.floor(inspectingCooldownRemaining / 60)}:${inspectingCooldownRemaining % 60 < 10 ? '0' : ''}${inspectingCooldownRemaining % 60}) ]`
+                            : `[ BUY FOR LATER (${inspectingEffectiveCost} CR) ]`}
                       </span>
                     </button>
                   )}
 
                   <button
                     type="button"
-                    disabled={actionPending || !isRoundActive}
+                    disabled={actionPending || !isRoundActive || inspectingCooldownRemaining > 0}
                     onClick={handleConfirmAcquire}
                     className="flex-1 py-3 px-4 border-2 border-nexus-ink bg-nexus-crimson text-white hover:bg-nexus-ink font-condensed text-base font-extrabold uppercase tracking-[0.16em] transition-colors cursor-pointer disabled:opacity-50 flex items-center justify-center gap-1.5"
                   >
                     <span>
                       {actionPending
                         ? 'WORKING...'
-                        : inspectingIsCurrent
-                          ? '[ CONTINUE CHALLENGE ]'
-                          : inspectingIsPurchased
-                            ? '[ SOLVE NOW (PAID) ]'
-                            : `[ BUY & SOLVE (${inspectingEffectiveCost} CR) ]`}
+                        : inspectingCooldownRemaining > 0
+                          ? `[ TIMEOUT (${Math.floor(inspectingCooldownRemaining / 60)}:${inspectingCooldownRemaining % 60 < 10 ? '0' : ''}${inspectingCooldownRemaining % 60}) ]`
+                          : inspectingIsCurrent
+                            ? '[ CONTINUE CHALLENGE ]'
+                            : inspectingIsPurchased
+                              ? '[ SOLVE NOW (PAID) ]'
+                              : `[ BUY & SOLVE (${inspectingEffectiveCost} CR) ]`}
                     </span>
                     <ArrowUpRight className="w-4 h-4 shrink-0" />
+                  </button>
+                </div>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Rotation Protocol / Consecutive Streak Limit Modal */}
+      <AnimatePresence>
+        {streakLimitModal.isOpen && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.2 }}
+            onClick={() => setStreakLimitModal((p) => ({ ...p, isOpen: false }))}
+            className="fixed inset-0 z-50 bg-black/85 backdrop-blur-md flex items-center justify-center p-4 overflow-y-auto"
+          >
+            <motion.div
+              initial={prefersReducedMotion ? false : { scale: 0.9, opacity: 0, y: 18 }}
+              animate={{ scale: 1, opacity: 1, y: 0 }}
+              exit={prefersReducedMotion ? undefined : { scale: 0.94, opacity: 0, y: 10 }}
+              transition={{ type: 'spring', stiffness: 320, damping: 24 }}
+              onClick={(e) => e.stopPropagation()}
+              role="dialog"
+              aria-modal="true"
+              aria-labelledby="streak-limit-modal-title"
+              className="nexus-editorial-box max-w-lg w-full overflow-hidden border-4 border-[#E11D2E] bg-[#FAF9F5] shadow-[0_0_65px_rgba(225,29,46,0.45),8px_8px_0px_#111111] text-[#111111]"
+            >
+              {/* Header */}
+              <div className="bg-[#111111] text-white px-5 py-4 border-b-2 border-[#111111] flex items-center justify-between">
+                <div className="flex items-center gap-3">
+                  <div className="p-2 bg-[#E11D2E] text-white">
+                    {streakLimitModal.isCooldown ? (
+                      <Clock className="w-5 h-5 animate-spin-slow" />
+                    ) : (
+                      <RotateCcw className="w-5 h-5 animate-spin-slow" />
+                    )}
+                  </div>
+                  <div>
+                    <span className="font-mono text-[10px] uppercase font-bold tracking-widest text-[#E11D2E] block">
+                      {streakLimitModal.isCooldown
+                        ? 'TACTICAL TIMEOUT PROTOCOL // ENGINE COOLDOWN'
+                        : 'TACTICAL DIVERSITY PROTOCOL // ANTI-GRIND'}
+                    </span>
+                    <h3
+                      id="streak-limit-modal-title"
+                      className="font-display text-2xl uppercase tracking-tight text-white leading-none mt-0.5"
+                    >
+                      {streakLimitModal.isCooldown ? 'Engine in Timeout' : 'Streak Limit Reached'}
+                    </h3>
+                  </div>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => setStreakLimitModal((p) => ({ ...p, isOpen: false }))}
+                  className="p-1 hover:bg-neutral-800 text-neutral-400 hover:text-white transition-colors cursor-pointer"
+                  aria-label="Close streak limit modal"
+                >
+                  <X className="w-5 h-5" />
+                </button>
+              </div>
+
+              {/* Body */}
+              <div className="p-5 sm:p-6 space-y-4">
+                <div className="bg-red-50 border-2 border-[#E11D2E] p-3.5 space-y-1">
+                  <span className="font-mono text-[10px] font-bold uppercase tracking-widest text-[#E11D2E] block">
+                    {streakLimitModal.isCooldown
+                      ? '5 QUESTIONS SOLVED — TIMEOUT ACTIVE'
+                      : 'ROTATION RESTRICTION ACTIVE'}
+                  </span>
+                  <div className="font-mono text-xs font-bold text-neutral-900">
+                    {streakLimitModal.isCooldown ? (
+                      <>
+                        <p>Your squad has solved 5 {streakLimitModal.gameLabel || 'this game'} questions!</p>
+                        <p className="mt-1 text-neutral-700">This game engine is on a 5-minute timeout lockout.</p>
+                        {(() => {
+                          const rem =
+                            activeCooldowns[streakLimitModal.gameType]?.remainingSeconds ||
+                            streakLimitModal.remainingSeconds ||
+                            0;
+                          return rem > 0 ? (
+                            <span className="inline-block mt-1 px-2 py-0.5 bg-red-600 text-white font-extrabold text-xs">
+                              Time remaining: {Math.floor(rem / 60)}m {rem % 60}s
+                            </span>
+                          ) : null;
+                        })()}
+                      </>
+                    ) : (
+                      `Your squad has played ${streakLimitModal.count || 5} ${streakLimitModal.gameLabel || 'SUDOKU'} games in a row!`
+                    )}
+                  </div>
+                </div>
+
+                <p className="font-editorial text-xs text-neutral-700 leading-relaxed">
+                  {streakLimitModal.isCooldown
+                    ? `To encourage broad mastery across all challenge categories, game engines lock for a 5-minute timeout after every 5 questions solved. You can choose any of the other game engines below while the cooldown timer runs down.`
+                    : `To ensure competitive balance and prevent single-game grinding, players cannot play more than ${streakLimitModal.limit || 5} games of the same engine consecutively. You must play at least one different game before returning to ${streakLimitModal.gameLabel || 'this game'}.`}
+                </p>
+
+                {/* Suggested Alternatives */}
+                <div className="space-y-2 pt-2 border-t border-dashed border-neutral-300">
+                  <span className="font-mono text-[10px] uppercase font-bold text-neutral-600 block">
+                    Choose a different game engine to rotate into:
+                  </span>
+                  <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
+                    {MARKET_GAMES.filter(
+                      (g) => g.id !== 'ALL' && g.id !== streakLimitModal.gameType
+                    ).map((game) => (
+                      <button
+                        key={game.id}
+                        type="button"
+                        onClick={() => {
+                          setStreakLimitModal((p) => ({ ...p, isOpen: false }));
+                          setSelectedGame(game.id);
+                          setSelectedDifficulty('ALL');
+                          setSearchQuery('');
+                        }}
+                        className="p-2.5 bg-white hover:bg-[#111111] hover:text-white border-2 border-[#111111] font-mono text-[11px] font-bold uppercase transition-colors cursor-pointer text-left flex items-center justify-between group"
+                      >
+                        <span className="truncate">{game.label}</span>
+                        <ArrowUpRight className="w-3.5 h-3.5 shrink-0 opacity-60 group-hover:opacity-100 transition-opacity" />
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Action Footer */}
+                <div className="pt-3 border-t border-neutral-300 flex justify-end">
+                  <button
+                    type="button"
+                    onClick={() => setStreakLimitModal((p) => ({ ...p, isOpen: false }))}
+                    className="py-2.5 px-6 bg-[#111111] hover:bg-[#E11D2E] text-white font-condensed text-sm font-extrabold uppercase tracking-widest transition-colors cursor-pointer"
+                  >
+                    Understood // Select Other Game
                   </button>
                 </div>
               </div>

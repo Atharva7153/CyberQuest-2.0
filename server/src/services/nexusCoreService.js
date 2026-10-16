@@ -360,13 +360,24 @@ export class NexusCoreService {
         : String(submission ?? '').trim();
 
     const normalizedCandidate = rawCandidate.toUpperCase();
+    const cleanCandidate = normalizedCandidate.replace(/[-_\s]/g, '');
     const solutionCfg =
       coreDoc.solutionConfig || DEFAULT_NEXUS_CORE_DEFINITION.solutionConfig;
     const acceptedList = (
       solutionCfg.acceptedAnswers || [solutionCfg.expectedAnswer || 'NEXUS-OMEGA']
     ).map((a) => String(a).trim().toUpperCase());
 
-    const passed = !simulateFailure && acceptedList.includes(normalizedCandidate);
+    const passed =
+      !simulateFailure &&
+      (acceptedList.includes(normalizedCandidate) ||
+        acceptedList.some((a) => {
+          const cleanA = a.replace(/[-_\s]/g, '');
+          return (
+            cleanA === cleanCandidate ||
+            `NEXUS{${cleanA}}` === cleanCandidate ||
+            `FLAG{${cleanA}}` === cleanCandidate
+          );
+        }));
     const attemptsCount = Number(teamDoc.nexusCore?.attemptsCount || 0) + 1;
 
     if (!passed) {

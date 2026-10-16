@@ -1,5 +1,6 @@
 import mongoose from 'mongoose';
 import { creditsConfig } from '../config/creditsConfig.js';
+import { getTeamConsecutiveStreak } from '../config/timingConfig.js';
 
 const teamMemberSchema = new mongoose.Schema(
   {
@@ -266,6 +267,11 @@ const teamSchema = new mongoose.Schema(
       completionRank: { type: Number, default: null },
       proclamationCode: { type: String, default: null },
     },
+    // Engine cooldown timers: { [gameType]: Date }
+    gameCooldowns: {
+      type: mongoose.Schema.Types.Mixed,
+      default: () => ({}),
+    },
   },
   {
     timestamps: true,
@@ -291,6 +297,8 @@ teamSchema.methods.toPublicJSON = function () {
       return att;
     });
   }
+  obj.gameCooldowns = this.gameCooldowns || {};
+  obj.consecutiveStreak = getTeamConsecutiveStreak(this);
   return obj;
 };
 

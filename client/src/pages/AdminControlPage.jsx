@@ -32,6 +32,7 @@ import {
   ChevronUp,
   Trophy,
   Flame,
+  KeyRound,
 } from 'lucide-react';
 import { socketClient, NEXUS_SOCKET_EVENTS as SOCKET_EVENTS } from '../socket/socketClient';
 import { GamePreviewThumbnail } from '../components/GamePreviewThumbnail';
@@ -226,6 +227,22 @@ export const AdminControlPage = () => {
     reattemptMultiplier: 1.25,
     arenaAnnouncement: 'ALL SECTORS NOMINAL // RESISTANCE OPERATIVES ACTIVE',
     challengeTimingMultiplier: 1.0,
+    maxConsecutiveGames: 5,
+    consecutiveGamesCooldownMinutes: 5,
+    consecutiveGamesCooldownSeconds: 300,
+    gameTimings: {
+      sudoku: 300,
+      patches: 210,
+      zip: 210,
+      queens: 210,
+      memoryMatrix: 180,
+      connect4: 210,
+      xo4x4: 210,
+      wordGuess: 180,
+      wend: 180,
+      aptitude: 210,
+      gkTrueFalse: 100,
+    },
   });
 
   const globalEventBannerRef = useRef(null);
@@ -272,6 +289,10 @@ export const AdminControlPage = () => {
       setSettingsForm((prev) => ({
         ...prev,
         ...data.settings,
+        gameTimings: {
+          ...prev.gameTimings,
+          ...(data.settings.gameTimings || {}),
+        },
       }));
     }
   }, []);
@@ -839,6 +860,26 @@ export const AdminControlPage = () => {
       {
         key: `del-vol-${operatorIdToDelete}`,
         successMessage: `Removed Floor Volunteer ${operatorIdToDelete}`,
+      }
+    );
+  };
+
+  // Reset all squad passwords to "123" (Admin only)
+  const handleResetAllPasswords = async () => {
+    if (
+      !window.confirm(
+        'SECURITY OVERRIDE: Reset ALL team access passwords to "123"? All squads will be able to log in with password "123".'
+      )
+    ) {
+      return;
+    }
+    await executeAdminApi(
+      '/api/admin/teams/reset-all-passwords',
+      'POST',
+      { password: '123' },
+      {
+        key: 'reset-all-passwords',
+        successMessage: 'Successfully reset all squad passwords to "123"',
       }
     );
   };
@@ -1812,20 +1853,34 @@ export const AdminControlPage = () => {
                       Solo · Duo · Trio · Max 4
                     </span>
                   </div>
-                  <button
-                    type="button"
-                    className="px-3 py-1 bg-[#111111] text-white font-mono text-xs font-bold uppercase inline-flex items-center gap-1 cursor-pointer"
-                  >
-                    {showRegisterForm ? (
-                      <>
-                        Hide Form <ChevronUp className="w-3.5 h-3.5" />
-                      </>
-                    ) : (
-                      <>
-                        + New Team <ChevronDown className="w-3.5 h-3.5" />
-                      </>
-                    )}
-                  </button>
+                  <div className="flex items-center gap-2">
+                    <button
+                      type="button"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleResetAllPasswords();
+                      }}
+                      className="px-3 py-1 bg-amber-600 hover:bg-amber-700 text-white font-mono text-xs font-bold uppercase inline-flex items-center gap-1.5 cursor-pointer shadow-sm transition-colors"
+                      title="Reset all team passwords to 123"
+                    >
+                      <KeyRound className="w-3.5 h-3.5" />
+                      Reset Passwords to "123"
+                    </button>
+                    <button
+                      type="button"
+                      className="px-3 py-1 bg-[#111111] text-white font-mono text-xs font-bold uppercase inline-flex items-center gap-1 cursor-pointer"
+                    >
+                      {showRegisterForm ? (
+                        <>
+                          Hide Form <ChevronUp className="w-3.5 h-3.5" />
+                        </>
+                      ) : (
+                        <>
+                          + New Team <ChevronDown className="w-3.5 h-3.5" />
+                        </>
+                      )}
+                    </button>
+                  </div>
                 </div>
 
                 {showRegisterForm && (
@@ -3989,6 +4044,208 @@ export const AdminControlPage = () => {
                     <span className="text-[10px] text-neutral-500 block mt-1">
                       Scales active question timer across all game types. 0.75× Blitz gives ~35s on GK and ~60s on Aptitude to block smartphone AI lookups while rewarding sharp human thinking.
                     </span>
+                  </div>
+
+                  {/* Tactical Diversity Rotation Limit */}
+                  <div className="pt-3 border-t border-neutral-200">
+                    <label className="block font-bold uppercase text-neutral-700 mb-1 flex items-center justify-between">
+                      <span>Rotation Protocol // Max Consecutive Games of Same Engine</span>
+                      <span className="text-[#E11D2E] font-mono font-bold">
+                        {settingsForm.maxConsecutiveGames ?? 5} in a row
+                      </span>
+                    </label>
+                    <input
+                      type="number"
+                      min="1"
+                      max="30"
+                      value={settingsForm.maxConsecutiveGames ?? 5}
+                      onChange={(e) =>
+                        setSettingsForm((p) => ({
+                          ...p,
+                          maxConsecutiveGames: Math.max(1, Number(e.target.value)),
+                        }))
+                      }
+                      className="w-full px-3 py-2 bg-[#FAF9F5] border border-neutral-300 font-bold"
+                    />
+                    <span className="text-[10px] text-neutral-500 block mt-1">
+                      Prevents teams from grinding only one game (e.g. Sudoku). After playing this many in a row, a popup locks that engine until they play another game.
+                    </span>
+                  </div>
+
+                  {/* Consecutive Solved Cooldown Timeout */}
+                  <div className="pt-3 border-t border-neutral-200">
+                    <label className="block font-bold uppercase text-neutral-700 mb-1 flex items-center justify-between">
+                      <span>Cooldown Timeout // Lockout Duration After Every {settingsForm.maxConsecutiveGames ?? 5} Solved</span>
+                      <span className="text-[#E11D2E] font-mono font-bold">
+                        {settingsForm.consecutiveGamesCooldownMinutes ?? 5} min ({ (settingsForm.consecutiveGamesCooldownMinutes ?? 5) * 60 }s)
+                      </span>
+                    </label>
+                    <input
+                      type="number"
+                      min="1"
+                      max="60"
+                      step="1"
+                      value={settingsForm.consecutiveGamesCooldownMinutes ?? 5}
+                      onChange={(e) => {
+                        const mins = Math.max(1, Number(e.target.value));
+                        setSettingsForm((p) => ({
+                          ...p,
+                          consecutiveGamesCooldownMinutes: mins,
+                          consecutiveGamesCooldownSeconds: mins * 60,
+                        }));
+                      }}
+                      className="w-full px-3 py-2 bg-[#FAF9F5] border border-neutral-300 font-bold"
+                    />
+                    <span className="text-[10px] text-neutral-500 block mt-1">
+                      After every {settingsForm.maxConsecutiveGames ?? 5} questions solved of the same game engine, squads are locked out from playing that engine for this duration (default 5 minutes). Configurable per competition requirements.
+                    </span>
+                  </div>
+
+                  {/* Per-Game Engine Baseline Timings */}
+                  <div className="pt-4 border-t border-neutral-200 space-y-3">
+                    <div className="flex flex-wrap items-center justify-between gap-2">
+                      <div>
+                        <span className="font-mono text-[10px] font-bold uppercase text-[#E11D2E] block">
+                          GAME ENGINE DURATION CONFIGURATION
+                        </span>
+                        <h4 className="font-bold uppercase text-neutral-800 text-sm">
+                          Time Limit Per Game (Overall Engine Duration)
+                        </h4>
+                      </div>
+                      <div className="flex items-center gap-1.5">
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setSettingsForm((p) => ({
+                              ...p,
+                              gameTimings: {
+                                sudoku: 300,
+                                patches: 210,
+                                zip: 210,
+                                queens: 210,
+                                memoryMatrix: 180,
+                                connect4: 210,
+                                xo4x4: 210,
+                                wordGuess: 180,
+                                wend: 180,
+                                aptitude: 210,
+                                gkTrueFalse: 100,
+                              },
+                            }));
+                          }}
+                          className="px-2 py-1 bg-white hover:bg-neutral-100 border border-neutral-300 text-[10px] font-bold uppercase cursor-pointer"
+                        >
+                          Reset Default
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setSettingsForm((p) => {
+                              const updated = {};
+                              for (const [k, v] of Object.entries(p.gameTimings || {})) {
+                                updated[k] = Math.round(Number(v) * 1.3);
+                              }
+                              return { ...p, gameTimings: updated };
+                            });
+                          }}
+                          className="px-2 py-1 bg-white hover:bg-neutral-100 border border-neutral-300 text-[10px] font-bold uppercase cursor-pointer"
+                        >
+                          +30% Relaxed
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setSettingsForm((p) => {
+                              const updated = {};
+                              for (const [k, v] of Object.entries(p.gameTimings || {})) {
+                                updated[k] = Math.max(30, Math.round(Number(v) * 0.7));
+                              }
+                              return { ...p, gameTimings: updated };
+                            });
+                          }}
+                          className="px-2 py-1 bg-white hover:bg-neutral-100 border border-neutral-300 text-[10px] font-bold uppercase cursor-pointer"
+                        >
+                          -30% Blitz
+                        </button>
+                      </div>
+                    </div>
+
+                    <p className="text-[11px] text-neutral-600">
+                      Configure baseline time in seconds for each game. Difficulty scaling automatically applies: LOW = 0.8×, MODERATE = 1.0×, HIGH = 1.25×, EXTREME = 1.5×.
+                    </p>
+
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 max-h-80 overflow-y-auto p-1 border border-neutral-200 bg-[#FAF9F5]">
+                      {[
+                        { id: 'sudoku', label: 'Sudoku', defaultSec: 300 },
+                        { id: 'patches', label: 'Patches', defaultSec: 210 },
+                        { id: 'zip', label: 'Zip Grid', defaultSec: 210 },
+                        { id: 'queens', label: 'N-Queens', defaultSec: 210 },
+                        { id: 'memoryMatrix', label: 'Memory Matrix', defaultSec: 180 },
+                        { id: 'connect4', label: 'Connect 4', defaultSec: 210 },
+                        { id: 'xo4x4', label: 'XO 4x4', defaultSec: 210 },
+                        { id: 'wordGuess', label: 'Word Guess', defaultSec: 180 },
+                        { id: 'wend', label: 'Wend (Wordle)', defaultSec: 180 },
+                        { id: 'aptitude', label: 'Aptitude MCQ', defaultSec: 210 },
+                        { id: 'gkTrueFalse', label: 'GK True/False', defaultSec: 100 },
+                      ].map((engine) => {
+                        const currentVal =
+                          settingsForm.gameTimings?.[engine.id] ?? engine.defaultSec;
+                        const activeCount =
+                          adminState?.monitor?.activeTeamsPerGame?.[engine.id] || 0;
+                        const minsStr =
+                          currentVal >= 60
+                            ? `${Math.floor(currentVal / 60)}m ${
+                                currentVal % 60 > 0 ? `${currentVal % 60}s` : ''
+                              }`.trim()
+                            : `${currentVal}s`;
+
+                        return (
+                          <div
+                            key={engine.id}
+                            className="p-2.5 bg-white border border-neutral-300 space-y-1.5"
+                          >
+                            <div className="flex items-center justify-between text-xs">
+                              <span className="font-bold uppercase text-neutral-900 truncate">
+                                {engine.label}
+                              </span>
+                              <div className="flex items-center gap-1.5 shrink-0">
+                                {activeCount > 0 && (
+                                  <span className="px-1.5 py-0.2 bg-emerald-100 text-emerald-800 text-[9px] font-bold uppercase rounded">
+                                    {activeCount} squads
+                                  </span>
+                                )}
+                                <span className="text-[10px] font-mono font-bold text-[#E11D2E]">
+                                  {minsStr}
+                                </span>
+                              </div>
+                            </div>
+                            <div className="flex items-center gap-1.5">
+                              <input
+                                type="number"
+                                min="20"
+                                max="1800"
+                                step="10"
+                                value={currentVal}
+                                onChange={(e) => {
+                                  const val = Math.max(20, Number(e.target.value));
+                                  setSettingsForm((p) => ({
+                                    ...p,
+                                    gameTimings: {
+                                      ...(p.gameTimings || {}),
+                                      [engine.id]: val,
+                                    },
+                                  }));
+                                }}
+                                className="w-full px-2 py-1 bg-[#FAF9F5] border border-neutral-300 font-mono text-xs font-bold"
+                              />
+                              <span className="text-[10px] font-mono text-neutral-500 uppercase">
+                                sec
+                              </span>
+                            </div>
+                          </div>
+                        );
+                      })}
+                    </div>
                   </div>
 
                   <div className="flex flex-wrap items-center justify-between gap-3 pt-3 border-t border-neutral-200">

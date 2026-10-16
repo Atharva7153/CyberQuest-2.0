@@ -452,6 +452,10 @@ export const controlAdminRecording = async (req, res, next) => {
  * GET /api/admin/recording/:recordingId?
  * Retrieve full recording report & anomaly analysis
  */
+/**
+ * GET /api/admin/recording/:recordingId?
+ * Retrieve full recording report & anomaly analysis
+ */
 export const getAdminRecordingReport = async (req, res, next) => {
   try {
     const { recordingId } = req.params || {};
@@ -461,6 +465,28 @@ export const getAdminRecordingReport = async (req, res, next) => {
       recordingStatus: RecordingService.getStatus(),
       report,
     });
+  } catch (error) {
+    next(error);
+  }
+};
+
+/**
+ * POST /api/admin/teams/reset-all-passwords
+ * Reset all competing teams passwords to "123" (or specified password)
+ */
+export const resetAllTeamPasswords = async (req, res, next) => {
+  try {
+    const password = req.body?.password || '123';
+    const actor = req.admin?.operatorId || 'ADMIN-NEXUS';
+    const result = await AdminService.resetAllTeamPasswords(password, actor);
+    const state = await AdminService.getAdminControlState('ADMIN', { includeChallenges: false });
+    res.status(200).json({
+      status: 'ok',
+      message: `All team passwords successfully reset to "${result.password}".`,
+      ...result,
+      ...state,
+    });
+    broadcastAdminAndArenaSync(state).catch(() => {});
   } catch (error) {
     next(error);
   }

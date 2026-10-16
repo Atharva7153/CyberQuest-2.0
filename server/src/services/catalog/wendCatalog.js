@@ -1,6 +1,6 @@
 /**
- * Wend (Word Ladder / Weaver) Master Catalog (200 Challenges)
- * Generated with verified 1-letter lexical transitions and contextual semantic clues.
+ * Auto-reduced Master Catalog (300 Challenges)
+ * Balanced difficulty distribution (LOW, MODERATE, HIGH, EXTREME).
  */
 export const wendChallenges = [
   {
@@ -61,69 +61,6 @@ export const wendChallenges = [
       "hints": [
         "HINT 01 // Focus on Step 2 (4 letters): change position 2 of 'COLD' to align with the clue: \"A flexible insulated cable or binding twine\".",
         "HINT 02 // The pivot transition requires bridging through 'CARD'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WND-0002",
-    "title": "WEND // WORD LADDER #0002 (DARK → FIRE)",
-    "category": "LOGIC",
-    "description": "Morph 'DARK' into 'FIRE' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "LOW",
-    "risk": "SAFE",
-    "cost": 60,
-    "reward": 85,
-    "penalty": 30,
-    "timeLimit": 55,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-01 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0002",
-      "wordLength": 4,
-      "startWord": "DARK",
-      "targetWord": "FIRE",
-      "steps": [
-        {
-          "clue": "Starting state: Absence of illumination",
-          "lockedWord": "DARK"
-        },
-        {
-          "clue": "A small pointed projectile or rapid dash"
-        },
-        {
-          "clue": "Loose soil, earth, or particulate matter"
-        },
-        {
-          "clue": "Extremely urgent or calamitous circumstance"
-        },
-        {
-          "clue": "Target state: Combustion generating thermal heat",
-          "lockedWord": "FIRE"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "DARK-DART-DIRT-DIRE-FIRE",
-      "expectedWords": [
-        "DARK",
-        "DART",
-        "DIRT",
-        "DIRE",
-        "FIRE"
-      ],
-      "acceptedAnswers": [
-        "DARK-DART-DIRT-DIRE-FIRE",
-        "DART-DIRT-DIRE",
-        "WEND:DARK-DART-DIRT-DIRE-FIRE"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (4 letters): change position 2 of 'DARK' to align with the clue: \"A small pointed projectile or rapid dash\".",
-        "HINT 02 // The pivot transition requires bridging through 'DIRT'; check vowel shifts between adjacent steps."
       ]
     },
     "enabled": true,
@@ -193,69 +130,6 @@ export const wendChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WND-0004",
-    "title": "WEND // WORD LADDER #0004 (LEAD → GOLD)",
-    "category": "LOGIC",
-    "description": "Morph 'LEAD' into 'GOLD' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "LOW",
-    "risk": "SAFE",
-    "cost": 60,
-    "reward": 85,
-    "penalty": 30,
-    "timeLimit": 55,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-01 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0004",
-      "wordLength": 4,
-      "startWord": "LEAD",
-      "targetWord": "GOLD",
-      "steps": [
-        {
-          "clue": "Starting state: Dense heavy metallic element",
-          "lockedWord": "LEAD"
-        },
-        {
-          "clue": "A heavy burden or amount carried"
-        },
-        {
-          "clue": "An amphibious tailless creature"
-        },
-        {
-          "clue": "Communicated verbal instruction in the past"
-        },
-        {
-          "clue": "Target state: Precious lustrous yellow metal",
-          "lockedWord": "GOLD"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "LEAD-LOAD-TOAD-TOLD-GOLD",
-      "expectedWords": [
-        "LEAD",
-        "LOAD",
-        "TOAD",
-        "TOLD",
-        "GOLD"
-      ],
-      "acceptedAnswers": [
-        "LEAD-LOAD-TOAD-TOLD-GOLD",
-        "LOAD-TOAD-TOLD",
-        "WEND:LEAD-LOAD-TOAD-TOLD-GOLD"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (4 letters): change position 2 of 'LEAD' to align with the clue: \"A heavy burden or amount carried\".",
-        "HINT 02 // The pivot transition requires bridging through 'TOAD'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WND-0005",
     "title": "WEND // WORD LADDER #0005 (MORE → SAFE)",
     "category": "LOGIC",
@@ -319,69 +193,6 @@ export const wendChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WND-0006",
-    "title": "WEND // WORD LADDER #0006 (FAST → POST)",
-    "category": "LOGIC",
-    "description": "Morph 'FAST' into 'POST' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "LOW",
-    "risk": "SAFE",
-    "cost": 60,
-    "reward": 85,
-    "penalty": 30,
-    "timeLimit": 55,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-01 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0006",
-      "wordLength": 4,
-      "startWord": "FAST",
-      "targetWord": "POST",
-      "steps": [
-        {
-          "clue": "Starting state: Moving at high velocity",
-          "lockedWord": "FAST"
-        },
-        {
-          "clue": "Gone by in time and no longer existing"
-        },
-        {
-          "clue": "A component portion of a greater whole"
-        },
-        {
-          "clue": "A maritime harbor or network interface"
-        },
-        {
-          "clue": "Target state: Sturdy upright timber or bulletin",
-          "lockedWord": "POST"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "FAST-PAST-PART-PORT-POST",
-      "expectedWords": [
-        "FAST",
-        "PAST",
-        "PART",
-        "PORT",
-        "POST"
-      ],
-      "acceptedAnswers": [
-        "FAST-PAST-PART-PORT-POST",
-        "PAST-PART-PORT",
-        "WEND:FAST-PAST-PART-PORT-POST"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (4 letters): change position 2 of 'FAST' to align with the clue: \"Gone by in time and no longer existing\".",
-        "HINT 02 // The pivot transition requires bridging through 'PART'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WND-0007",
     "title": "WEND // WORD LADDER #0007 (CODE → BARK)",
     "category": "LOGIC",
@@ -439,69 +250,6 @@ export const wendChallenges = [
       "hints": [
         "HINT 01 // Focus on Step 2 (4 letters): change position 2 of 'CODE' to align with the clue: \"Central structural nexus of a planetary system\".",
         "HINT 02 // The pivot transition requires bridging through 'CARE'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WND-0008",
-    "title": "WEND // WORD LADDER #0008 (GATE → CALM)",
-    "category": "LOGIC",
-    "description": "Morph 'GATE' into 'CALM' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "LOW",
-    "risk": "SAFE",
-    "cost": 60,
-    "reward": 85,
-    "penalty": 30,
-    "timeLimit": 55,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-01 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0008",
-      "wordLength": 4,
-      "startWord": "GATE",
-      "targetWord": "CALM",
-      "steps": [
-        {
-          "clue": "Starting state: Hinged barrier across an opening",
-          "lockedWord": "GATE"
-        },
-        {
-          "clue": "Conferred or transferred possession in the past"
-        },
-        {
-          "clue": "A subterranean hollow or subterranean chamber"
-        },
-        {
-          "clue": "Arrived at a specified coordinate"
-        },
-        {
-          "clue": "Target state: Free from agitation or turbulent disturbance",
-          "lockedWord": "CALM"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "GATE-GAVE-CAVE-CAME-CALM",
-      "expectedWords": [
-        "GATE",
-        "GAVE",
-        "CAVE",
-        "CAME",
-        "CALM"
-      ],
-      "acceptedAnswers": [
-        "GATE-GAVE-CAVE-CAME-CALM",
-        "GAVE-CAVE-CAME",
-        "WEND:GATE-GAVE-CAVE-CAME-CALM"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (4 letters): change position 2 of 'GATE' to align with the clue: \"Conferred or transferred possession in the past\".",
-        "HINT 02 // The pivot transition requires bridging through 'CAVE'; check vowel shifts between adjacent steps."
       ]
     },
     "enabled": true,
@@ -575,69 +323,6 @@ export const wendChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WND-0010",
-    "title": "WEND // WORD LADDER #0010 (WIND → LOVE)",
-    "category": "LOGIC",
-    "description": "Morph 'WIND' into 'LOVE' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "LOW",
-    "risk": "SAFE",
-    "cost": 60,
-    "reward": 85,
-    "penalty": 30,
-    "timeLimit": 55,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-01 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0010",
-      "wordLength": 4,
-      "startWord": "WIND",
-      "targetWord": "LOVE",
-      "steps": [
-        {
-          "clue": "Starting state: Natural perceptible movement of air",
-          "lockedWord": "WIND"
-        },
-        {
-          "clue": "Fermented juice of grapes or fruit"
-        },
-        {
-          "clue": "Continuous spatial extent having only one dimension"
-        },
-        {
-          "clue": "Having no companions; solitary in wilderness"
-        },
-        {
-          "clue": "Target state: Deep affection and protective devotion",
-          "lockedWord": "LOVE"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "WIND-WINE-LINE-LONE-LOVE",
-      "expectedWords": [
-        "WIND",
-        "WINE",
-        "LINE",
-        "LONE",
-        "LOVE"
-      ],
-      "acceptedAnswers": [
-        "WIND-WINE-LINE-LONE-LOVE",
-        "WINE-LINE-LONE",
-        "WEND:WIND-WINE-LINE-LONE-LOVE"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (4 letters): change position 2 of 'WIND' to align with the clue: \"Fermented juice of grapes or fruit\".",
-        "HINT 02 // The pivot transition requires bridging through 'LINE'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WND-0011",
     "title": "WEND // WORD LADDER #0011 (STONE → CHALK)",
     "category": "LOGIC",
@@ -699,69 +384,6 @@ export const wendChallenges = [
       "hints": [
         "HINT 01 // Focus on Step 2 (5 letters): change position 2 of 'STONE' to align with the clue: \"Emitted radiant light in the past\".",
         "HINT 02 // The pivot transition requires bridging through 'CHINE'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WND-0012",
-    "title": "WEND // WORD LADDER #0012 (BLACK → CLING)",
-    "category": "LOGIC",
-    "description": "Morph 'BLACK' into 'CLING' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "LOW",
-    "risk": "SAFE",
-    "cost": 60,
-    "reward": 85,
-    "penalty": 30,
-    "timeLimit": 55,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-01 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0012",
-      "wordLength": 5,
-      "startWord": "BLACK",
-      "targetWord": "CLING",
-      "steps": [
-        {
-          "clue": "Starting state: Total absence of visible light",
-          "lockedWord": "BLACK"
-        },
-        {
-          "clue": "Empty of marks, writing, or expression"
-        },
-        {
-          "clue": "To open and close eyes rapidly"
-        },
-        {
-          "clue": "A sharp metallic resonant sound"
-        },
-        {
-          "clue": "Target state: To hold on tightly to an anchor",
-          "lockedWord": "CLING"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "BLACK-BLANK-BLINK-CLINK-CLING",
-      "expectedWords": [
-        "BLACK",
-        "BLANK",
-        "BLINK",
-        "CLINK",
-        "CLING"
-      ],
-      "acceptedAnswers": [
-        "BLACK-BLANK-BLINK-CLINK-CLING",
-        "BLANK-BLINK-CLINK",
-        "WEND:BLACK-BLANK-BLINK-CLINK-CLING"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (5 letters): change position 2 of 'BLACK' to align with the clue: \"Empty of marks, writing, or expression\".",
-        "HINT 02 // The pivot transition requires bridging through 'BLINK'; check vowel shifts between adjacent steps."
       ]
     },
     "enabled": true,
@@ -831,69 +453,6 @@ export const wendChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WND-0014",
-    "title": "WEND // WORD LADDER #0014 (RIVER → AFTER)",
-    "category": "LOGIC",
-    "description": "Morph 'RIVER' into 'AFTER' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "LOW",
-    "risk": "SAFE",
-    "cost": 60,
-    "reward": 85,
-    "penalty": 30,
-    "timeLimit": 55,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-01 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0014",
-      "wordLength": 5,
-      "startWord": "RIVER",
-      "targetWord": "AFTER",
-      "steps": [
-        {
-          "clue": "Starting state: Large natural stream of flowing water",
-          "lockedWord": "RIVER"
-        },
-        {
-          "clue": "One who travels mounted on horseback"
-        },
-        {
-          "clue": "One who provides relief or auxiliary support"
-        },
-        {
-          "clue": "To change or modify character without replacing"
-        },
-        {
-          "clue": "Target state: Subsequent in chronological sequence",
-          "lockedWord": "AFTER"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "RIVER-RIDER-AIDER-ALTER-AFTER",
-      "expectedWords": [
-        "RIVER",
-        "RIDER",
-        "AIDER",
-        "ALTER",
-        "AFTER"
-      ],
-      "acceptedAnswers": [
-        "RIVER-RIDER-AIDER-ALTER-AFTER",
-        "RIDER-AIDER-ALTER",
-        "WEND:RIVER-RIDER-AIDER-ALTER-AFTER"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (5 letters): change position 2 of 'RIVER' to align with the clue: \"One who travels mounted on horseback\".",
-        "HINT 02 // The pivot transition requires bridging through 'AIDER'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WND-0015",
     "title": "WEND // WORD LADDER #0015 (PLANT → STARE)",
     "category": "LOGIC",
@@ -951,69 +510,6 @@ export const wendChallenges = [
       "hints": [
         "HINT 01 // Focus on Step 2 (5 letters): change position 2 of 'PLANT' to align with the clue: \"Flat two-dimensional surface or winged aircraft\".",
         "HINT 02 // The pivot transition requires bridging through 'PLATE'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WND-0016",
-    "title": "WEND // WORD LADDER #0016 (SLEEP → STEEL)",
-    "category": "LOGIC",
-    "description": "Morph 'SLEEP' into 'STEEL' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "LOW",
-    "risk": "SAFE",
-    "cost": 60,
-    "reward": 85,
-    "penalty": 30,
-    "timeLimit": 55,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-01 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0016",
-      "wordLength": 5,
-      "startWord": "SLEEP",
-      "targetWord": "STEEL",
-      "steps": [
-        {
-          "clue": "Starting state: Naturally recurring condition of biological rest",
-          "lockedWord": "SLEEP"
-        },
-        {
-          "clue": "Ruminant quadruped domesticated for wool"
-        },
-        {
-          "clue": "Perpendicularly steep or absolute pure"
-        },
-        {
-          "clue": "To guide the direction of a vessel or vehicle"
-        },
-        {
-          "clue": "Target state: Alloy of iron with carbon of high tensile strength",
-          "lockedWord": "STEEL"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "SLEEP-SHEEP-SHEER-STEER-STEEL",
-      "expectedWords": [
-        "SLEEP",
-        "SHEEP",
-        "SHEER",
-        "STEER",
-        "STEEL"
-      ],
-      "acceptedAnswers": [
-        "SLEEP-SHEEP-SHEER-STEER-STEEL",
-        "SHEEP-SHEER-STEER",
-        "WEND:SLEEP-SHEEP-SHEER-STEER-STEEL"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (5 letters): change position 2 of 'SLEEP' to align with the clue: \"Ruminant quadruped domesticated for wool\".",
-        "HINT 02 // The pivot transition requires bridging through 'SHEER'; check vowel shifts between adjacent steps."
       ]
     },
     "enabled": true,
@@ -1086,69 +582,6 @@ export const wendChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WND-0018",
-    "title": "WEND // WORD LADDER #0018 (STORM → SPARK)",
-    "category": "LOGIC",
-    "description": "Morph 'STORM' into 'SPARK' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "LOW",
-    "risk": "SAFE",
-    "cost": 60,
-    "reward": 85,
-    "penalty": 30,
-    "timeLimit": 55,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-01 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0018",
-      "wordLength": 5,
-      "startWord": "STORM",
-      "targetWord": "SPARK",
-      "steps": [
-        {
-          "clue": "Starting state: Violent disturbance of meteorological atmosphere",
-          "lockedWord": "STORM"
-        },
-        {
-          "clue": "Retail mercantile establishment or storage repository"
-        },
-        {
-          "clue": "To gaze fixedly with wide uninterrupted eyes"
-        },
-        {
-          "clue": "Additional component held in reserve backup"
-        },
-        {
-          "clue": "Target state: Incandescent particle thrown off from a burning body",
-          "lockedWord": "SPARK"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "STORM-STORE-STARE-SPARE-SPARK",
-      "expectedWords": [
-        "STORM",
-        "STORE",
-        "STARE",
-        "SPARE",
-        "SPARK"
-      ],
-      "acceptedAnswers": [
-        "STORM-STORE-STARE-SPARE-SPARK",
-        "STORE-STARE-SPARE",
-        "WEND:STORM-STORE-STARE-SPARE-SPARK"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (5 letters): change position 2 of 'STORM' to align with the clue: \"Retail mercantile establishment or storage repository\".",
-        "HINT 02 // The pivot transition requires bridging through 'STARE'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WND-0019",
     "title": "WEND // WORD LADDER #0019 (COLD → WARM)",
     "category": "LOGIC",
@@ -1206,69 +639,6 @@ export const wendChallenges = [
       "hints": [
         "HINT 01 // Focus on Step 2 (4 letters): change position 2 of 'COLD' to align with the clue: \"A flexible insulated cable or binding twine\".",
         "HINT 02 // The pivot transition requires bridging through 'CARD'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WND-0020",
-    "title": "WEND // WORD LADDER #0020 (DARK → FIRE)",
-    "category": "LOGIC",
-    "description": "Morph 'DARK' into 'FIRE' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "LOW",
-    "risk": "SAFE",
-    "cost": 60,
-    "reward": 85,
-    "penalty": 30,
-    "timeLimit": 55,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-02 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0020",
-      "wordLength": 4,
-      "startWord": "DARK",
-      "targetWord": "FIRE",
-      "steps": [
-        {
-          "clue": "Starting state: Absence of illumination",
-          "lockedWord": "DARK"
-        },
-        {
-          "clue": "A small pointed projectile or rapid dash"
-        },
-        {
-          "clue": "Loose soil, earth, or particulate matter"
-        },
-        {
-          "clue": "Extremely urgent or calamitous circumstance"
-        },
-        {
-          "clue": "Target state: Combustion generating thermal heat",
-          "lockedWord": "FIRE"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "DARK-DART-DIRT-DIRE-FIRE",
-      "expectedWords": [
-        "DARK",
-        "DART",
-        "DIRT",
-        "DIRE",
-        "FIRE"
-      ],
-      "acceptedAnswers": [
-        "DARK-DART-DIRT-DIRE-FIRE",
-        "DART-DIRT-DIRE",
-        "WEND:DARK-DART-DIRT-DIRE-FIRE"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (4 letters): change position 2 of 'DARK' to align with the clue: \"A small pointed projectile or rapid dash\".",
-        "HINT 02 // The pivot transition requires bridging through 'DIRT'; check vowel shifts between adjacent steps."
       ]
     },
     "enabled": true,
@@ -1338,69 +708,6 @@ export const wendChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WND-0022",
-    "title": "WEND // WORD LADDER #0022 (LEAD → GOLD)",
-    "category": "LOGIC",
-    "description": "Morph 'LEAD' into 'GOLD' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "LOW",
-    "risk": "SAFE",
-    "cost": 60,
-    "reward": 85,
-    "penalty": 30,
-    "timeLimit": 55,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-02 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0022",
-      "wordLength": 4,
-      "startWord": "LEAD",
-      "targetWord": "GOLD",
-      "steps": [
-        {
-          "clue": "Starting state: Dense heavy metallic element",
-          "lockedWord": "LEAD"
-        },
-        {
-          "clue": "A heavy burden or amount carried"
-        },
-        {
-          "clue": "An amphibious tailless creature"
-        },
-        {
-          "clue": "Communicated verbal instruction in the past"
-        },
-        {
-          "clue": "Target state: Precious lustrous yellow metal",
-          "lockedWord": "GOLD"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "LEAD-LOAD-TOAD-TOLD-GOLD",
-      "expectedWords": [
-        "LEAD",
-        "LOAD",
-        "TOAD",
-        "TOLD",
-        "GOLD"
-      ],
-      "acceptedAnswers": [
-        "LEAD-LOAD-TOAD-TOLD-GOLD",
-        "LOAD-TOAD-TOLD",
-        "WEND:LEAD-LOAD-TOAD-TOLD-GOLD"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (4 letters): change position 2 of 'LEAD' to align with the clue: \"A heavy burden or amount carried\".",
-        "HINT 02 // The pivot transition requires bridging through 'TOAD'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WND-0023",
     "title": "WEND // WORD LADDER #0023 (MORE → SAFE)",
     "category": "LOGIC",
@@ -1464,69 +771,6 @@ export const wendChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WND-0024",
-    "title": "WEND // WORD LADDER #0024 (FAST → POST)",
-    "category": "LOGIC",
-    "description": "Morph 'FAST' into 'POST' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "LOW",
-    "risk": "SAFE",
-    "cost": 60,
-    "reward": 85,
-    "penalty": 30,
-    "timeLimit": 55,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-02 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0024",
-      "wordLength": 4,
-      "startWord": "FAST",
-      "targetWord": "POST",
-      "steps": [
-        {
-          "clue": "Starting state: Moving at high velocity",
-          "lockedWord": "FAST"
-        },
-        {
-          "clue": "Gone by in time and no longer existing"
-        },
-        {
-          "clue": "A component portion of a greater whole"
-        },
-        {
-          "clue": "A maritime harbor or network interface"
-        },
-        {
-          "clue": "Target state: Sturdy upright timber or bulletin",
-          "lockedWord": "POST"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "FAST-PAST-PART-PORT-POST",
-      "expectedWords": [
-        "FAST",
-        "PAST",
-        "PART",
-        "PORT",
-        "POST"
-      ],
-      "acceptedAnswers": [
-        "FAST-PAST-PART-PORT-POST",
-        "PAST-PART-PORT",
-        "WEND:FAST-PAST-PART-PORT-POST"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (4 letters): change position 2 of 'FAST' to align with the clue: \"Gone by in time and no longer existing\".",
-        "HINT 02 // The pivot transition requires bridging through 'PART'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WND-0025",
     "title": "WEND // WORD LADDER #0025 (CODE → BARK)",
     "category": "LOGIC",
@@ -1584,69 +828,6 @@ export const wendChallenges = [
       "hints": [
         "HINT 01 // Focus on Step 2 (4 letters): change position 2 of 'CODE' to align with the clue: \"Central structural nexus of a planetary system\".",
         "HINT 02 // The pivot transition requires bridging through 'CARE'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WND-0026",
-    "title": "WEND // WORD LADDER #0026 (GATE → CALM)",
-    "category": "LOGIC",
-    "description": "Morph 'GATE' into 'CALM' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "LOW",
-    "risk": "SAFE",
-    "cost": 60,
-    "reward": 85,
-    "penalty": 30,
-    "timeLimit": 55,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-02 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0026",
-      "wordLength": 4,
-      "startWord": "GATE",
-      "targetWord": "CALM",
-      "steps": [
-        {
-          "clue": "Starting state: Hinged barrier across an opening",
-          "lockedWord": "GATE"
-        },
-        {
-          "clue": "Conferred or transferred possession in the past"
-        },
-        {
-          "clue": "A subterranean hollow or subterranean chamber"
-        },
-        {
-          "clue": "Arrived at a specified coordinate"
-        },
-        {
-          "clue": "Target state: Free from agitation or turbulent disturbance",
-          "lockedWord": "CALM"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "GATE-GAVE-CAVE-CAME-CALM",
-      "expectedWords": [
-        "GATE",
-        "GAVE",
-        "CAVE",
-        "CAME",
-        "CALM"
-      ],
-      "acceptedAnswers": [
-        "GATE-GAVE-CAVE-CAME-CALM",
-        "GAVE-CAVE-CAME",
-        "WEND:GATE-GAVE-CAVE-CAME-CALM"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (4 letters): change position 2 of 'GATE' to align with the clue: \"Conferred or transferred possession in the past\".",
-        "HINT 02 // The pivot transition requires bridging through 'CAVE'; check vowel shifts between adjacent steps."
       ]
     },
     "enabled": true,
@@ -1720,69 +901,6 @@ export const wendChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WND-0028",
-    "title": "WEND // WORD LADDER #0028 (WIND → LOVE)",
-    "category": "LOGIC",
-    "description": "Morph 'WIND' into 'LOVE' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "LOW",
-    "risk": "SAFE",
-    "cost": 60,
-    "reward": 85,
-    "penalty": 30,
-    "timeLimit": 55,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-02 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0028",
-      "wordLength": 4,
-      "startWord": "WIND",
-      "targetWord": "LOVE",
-      "steps": [
-        {
-          "clue": "Starting state: Natural perceptible movement of air",
-          "lockedWord": "WIND"
-        },
-        {
-          "clue": "Fermented juice of grapes or fruit"
-        },
-        {
-          "clue": "Continuous spatial extent having only one dimension"
-        },
-        {
-          "clue": "Having no companions; solitary in wilderness"
-        },
-        {
-          "clue": "Target state: Deep affection and protective devotion",
-          "lockedWord": "LOVE"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "WIND-WINE-LINE-LONE-LOVE",
-      "expectedWords": [
-        "WIND",
-        "WINE",
-        "LINE",
-        "LONE",
-        "LOVE"
-      ],
-      "acceptedAnswers": [
-        "WIND-WINE-LINE-LONE-LOVE",
-        "WINE-LINE-LONE",
-        "WEND:WIND-WINE-LINE-LONE-LOVE"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (4 letters): change position 2 of 'WIND' to align with the clue: \"Fermented juice of grapes or fruit\".",
-        "HINT 02 // The pivot transition requires bridging through 'LINE'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WND-0029",
     "title": "WEND // WORD LADDER #0029 (STONE → CHALK)",
     "category": "LOGIC",
@@ -1844,69 +962,6 @@ export const wendChallenges = [
       "hints": [
         "HINT 01 // Focus on Step 2 (5 letters): change position 2 of 'STONE' to align with the clue: \"Emitted radiant light in the past\".",
         "HINT 02 // The pivot transition requires bridging through 'CHINE'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WND-0030",
-    "title": "WEND // WORD LADDER #0030 (BLACK → CLING)",
-    "category": "LOGIC",
-    "description": "Morph 'BLACK' into 'CLING' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "LOW",
-    "risk": "SAFE",
-    "cost": 60,
-    "reward": 85,
-    "penalty": 30,
-    "timeLimit": 55,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-02 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0030",
-      "wordLength": 5,
-      "startWord": "BLACK",
-      "targetWord": "CLING",
-      "steps": [
-        {
-          "clue": "Starting state: Total absence of visible light",
-          "lockedWord": "BLACK"
-        },
-        {
-          "clue": "Empty of marks, writing, or expression"
-        },
-        {
-          "clue": "To open and close eyes rapidly"
-        },
-        {
-          "clue": "A sharp metallic resonant sound"
-        },
-        {
-          "clue": "Target state: To hold on tightly to an anchor",
-          "lockedWord": "CLING"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "BLACK-BLANK-BLINK-CLINK-CLING",
-      "expectedWords": [
-        "BLACK",
-        "BLANK",
-        "BLINK",
-        "CLINK",
-        "CLING"
-      ],
-      "acceptedAnswers": [
-        "BLACK-BLANK-BLINK-CLINK-CLING",
-        "BLANK-BLINK-CLINK",
-        "WEND:BLACK-BLANK-BLINK-CLINK-CLING"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (5 letters): change position 2 of 'BLACK' to align with the clue: \"Empty of marks, writing, or expression\".",
-        "HINT 02 // The pivot transition requires bridging through 'BLINK'; check vowel shifts between adjacent steps."
       ]
     },
     "enabled": true,
@@ -1976,69 +1031,6 @@ export const wendChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WND-0032",
-    "title": "WEND // WORD LADDER #0032 (RIVER → AFTER)",
-    "category": "LOGIC",
-    "description": "Morph 'RIVER' into 'AFTER' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "LOW",
-    "risk": "SAFE",
-    "cost": 60,
-    "reward": 85,
-    "penalty": 30,
-    "timeLimit": 55,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-02 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0032",
-      "wordLength": 5,
-      "startWord": "RIVER",
-      "targetWord": "AFTER",
-      "steps": [
-        {
-          "clue": "Starting state: Large natural stream of flowing water",
-          "lockedWord": "RIVER"
-        },
-        {
-          "clue": "One who travels mounted on horseback"
-        },
-        {
-          "clue": "One who provides relief or auxiliary support"
-        },
-        {
-          "clue": "To change or modify character without replacing"
-        },
-        {
-          "clue": "Target state: Subsequent in chronological sequence",
-          "lockedWord": "AFTER"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "RIVER-RIDER-AIDER-ALTER-AFTER",
-      "expectedWords": [
-        "RIVER",
-        "RIDER",
-        "AIDER",
-        "ALTER",
-        "AFTER"
-      ],
-      "acceptedAnswers": [
-        "RIVER-RIDER-AIDER-ALTER-AFTER",
-        "RIDER-AIDER-ALTER",
-        "WEND:RIVER-RIDER-AIDER-ALTER-AFTER"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (5 letters): change position 2 of 'RIVER' to align with the clue: \"One who travels mounted on horseback\".",
-        "HINT 02 // The pivot transition requires bridging through 'AIDER'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WND-0033",
     "title": "WEND // WORD LADDER #0033 (PLANT → STARE)",
     "category": "LOGIC",
@@ -2096,69 +1088,6 @@ export const wendChallenges = [
       "hints": [
         "HINT 01 // Focus on Step 2 (5 letters): change position 2 of 'PLANT' to align with the clue: \"Flat two-dimensional surface or winged aircraft\".",
         "HINT 02 // The pivot transition requires bridging through 'PLATE'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WND-0034",
-    "title": "WEND // WORD LADDER #0034 (SLEEP → STEEL)",
-    "category": "LOGIC",
-    "description": "Morph 'SLEEP' into 'STEEL' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "LOW",
-    "risk": "SAFE",
-    "cost": 60,
-    "reward": 85,
-    "penalty": 30,
-    "timeLimit": 55,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-02 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0034",
-      "wordLength": 5,
-      "startWord": "SLEEP",
-      "targetWord": "STEEL",
-      "steps": [
-        {
-          "clue": "Starting state: Naturally recurring condition of biological rest",
-          "lockedWord": "SLEEP"
-        },
-        {
-          "clue": "Ruminant quadruped domesticated for wool"
-        },
-        {
-          "clue": "Perpendicularly steep or absolute pure"
-        },
-        {
-          "clue": "To guide the direction of a vessel or vehicle"
-        },
-        {
-          "clue": "Target state: Alloy of iron with carbon of high tensile strength",
-          "lockedWord": "STEEL"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "SLEEP-SHEEP-SHEER-STEER-STEEL",
-      "expectedWords": [
-        "SLEEP",
-        "SHEEP",
-        "SHEER",
-        "STEER",
-        "STEEL"
-      ],
-      "acceptedAnswers": [
-        "SLEEP-SHEEP-SHEER-STEER-STEEL",
-        "SHEEP-SHEER-STEER",
-        "WEND:SLEEP-SHEEP-SHEER-STEER-STEEL"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (5 letters): change position 2 of 'SLEEP' to align with the clue: \"Ruminant quadruped domesticated for wool\".",
-        "HINT 02 // The pivot transition requires bridging through 'SHEER'; check vowel shifts between adjacent steps."
       ]
     },
     "enabled": true,
@@ -2231,69 +1160,6 @@ export const wendChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WND-0036",
-    "title": "WEND // WORD LADDER #0036 (STORM → SPARK)",
-    "category": "LOGIC",
-    "description": "Morph 'STORM' into 'SPARK' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "LOW",
-    "risk": "SAFE",
-    "cost": 60,
-    "reward": 85,
-    "penalty": 30,
-    "timeLimit": 55,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-02 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0036",
-      "wordLength": 5,
-      "startWord": "STORM",
-      "targetWord": "SPARK",
-      "steps": [
-        {
-          "clue": "Starting state: Violent disturbance of meteorological atmosphere",
-          "lockedWord": "STORM"
-        },
-        {
-          "clue": "Retail mercantile establishment or storage repository"
-        },
-        {
-          "clue": "To gaze fixedly with wide uninterrupted eyes"
-        },
-        {
-          "clue": "Additional component held in reserve backup"
-        },
-        {
-          "clue": "Target state: Incandescent particle thrown off from a burning body",
-          "lockedWord": "SPARK"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "STORM-STORE-STARE-SPARE-SPARK",
-      "expectedWords": [
-        "STORM",
-        "STORE",
-        "STARE",
-        "SPARE",
-        "SPARK"
-      ],
-      "acceptedAnswers": [
-        "STORM-STORE-STARE-SPARE-SPARK",
-        "STORE-STARE-SPARE",
-        "WEND:STORM-STORE-STARE-SPARE-SPARK"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (5 letters): change position 2 of 'STORM' to align with the clue: \"Retail mercantile establishment or storage repository\".",
-        "HINT 02 // The pivot transition requires bridging through 'STARE'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WND-0037",
     "title": "WEND // WORD LADDER #0037 (COLD → WARM)",
     "category": "LOGIC",
@@ -2351,69 +1217,6 @@ export const wendChallenges = [
       "hints": [
         "HINT 01 // Focus on Step 2 (4 letters): change position 2 of 'COLD' to align with the clue: \"A flexible insulated cable or binding twine\".",
         "HINT 02 // The pivot transition requires bridging through 'CARD'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WND-0038",
-    "title": "WEND // WORD LADDER #0038 (DARK → FIRE)",
-    "category": "LOGIC",
-    "description": "Morph 'DARK' into 'FIRE' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "LOW",
-    "risk": "SAFE",
-    "cost": 60,
-    "reward": 85,
-    "penalty": 30,
-    "timeLimit": 55,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-02 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0038",
-      "wordLength": 4,
-      "startWord": "DARK",
-      "targetWord": "FIRE",
-      "steps": [
-        {
-          "clue": "Starting state: Absence of illumination",
-          "lockedWord": "DARK"
-        },
-        {
-          "clue": "A small pointed projectile or rapid dash"
-        },
-        {
-          "clue": "Loose soil, earth, or particulate matter"
-        },
-        {
-          "clue": "Extremely urgent or calamitous circumstance"
-        },
-        {
-          "clue": "Target state: Combustion generating thermal heat",
-          "lockedWord": "FIRE"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "DARK-DART-DIRT-DIRE-FIRE",
-      "expectedWords": [
-        "DARK",
-        "DART",
-        "DIRT",
-        "DIRE",
-        "FIRE"
-      ],
-      "acceptedAnswers": [
-        "DARK-DART-DIRT-DIRE-FIRE",
-        "DART-DIRT-DIRE",
-        "WEND:DARK-DART-DIRT-DIRE-FIRE"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (4 letters): change position 2 of 'DARK' to align with the clue: \"A small pointed projectile or rapid dash\".",
-        "HINT 02 // The pivot transition requires bridging through 'DIRT'; check vowel shifts between adjacent steps."
       ]
     },
     "enabled": true,
@@ -2483,69 +1286,6 @@ export const wendChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WND-0040",
-    "title": "WEND // WORD LADDER #0040 (LEAD → GOLD)",
-    "category": "LOGIC",
-    "description": "Morph 'LEAD' into 'GOLD' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "LOW",
-    "risk": "SAFE",
-    "cost": 60,
-    "reward": 85,
-    "penalty": 30,
-    "timeLimit": 55,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-03 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0040",
-      "wordLength": 4,
-      "startWord": "LEAD",
-      "targetWord": "GOLD",
-      "steps": [
-        {
-          "clue": "Starting state: Dense heavy metallic element",
-          "lockedWord": "LEAD"
-        },
-        {
-          "clue": "A heavy burden or amount carried"
-        },
-        {
-          "clue": "An amphibious tailless creature"
-        },
-        {
-          "clue": "Communicated verbal instruction in the past"
-        },
-        {
-          "clue": "Target state: Precious lustrous yellow metal",
-          "lockedWord": "GOLD"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "LEAD-LOAD-TOAD-TOLD-GOLD",
-      "expectedWords": [
-        "LEAD",
-        "LOAD",
-        "TOAD",
-        "TOLD",
-        "GOLD"
-      ],
-      "acceptedAnswers": [
-        "LEAD-LOAD-TOAD-TOLD-GOLD",
-        "LOAD-TOAD-TOLD",
-        "WEND:LEAD-LOAD-TOAD-TOLD-GOLD"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (4 letters): change position 2 of 'LEAD' to align with the clue: \"A heavy burden or amount carried\".",
-        "HINT 02 // The pivot transition requires bridging through 'TOAD'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WND-0041",
     "title": "WEND // WORD LADDER #0041 (MORE → SAFE)",
     "category": "LOGIC",
@@ -2609,69 +1349,6 @@ export const wendChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WND-0042",
-    "title": "WEND // WORD LADDER #0042 (FAST → POST)",
-    "category": "LOGIC",
-    "description": "Morph 'FAST' into 'POST' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "LOW",
-    "risk": "SAFE",
-    "cost": 60,
-    "reward": 85,
-    "penalty": 30,
-    "timeLimit": 55,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-03 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0042",
-      "wordLength": 4,
-      "startWord": "FAST",
-      "targetWord": "POST",
-      "steps": [
-        {
-          "clue": "Starting state: Moving at high velocity",
-          "lockedWord": "FAST"
-        },
-        {
-          "clue": "Gone by in time and no longer existing"
-        },
-        {
-          "clue": "A component portion of a greater whole"
-        },
-        {
-          "clue": "A maritime harbor or network interface"
-        },
-        {
-          "clue": "Target state: Sturdy upright timber or bulletin",
-          "lockedWord": "POST"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "FAST-PAST-PART-PORT-POST",
-      "expectedWords": [
-        "FAST",
-        "PAST",
-        "PART",
-        "PORT",
-        "POST"
-      ],
-      "acceptedAnswers": [
-        "FAST-PAST-PART-PORT-POST",
-        "PAST-PART-PORT",
-        "WEND:FAST-PAST-PART-PORT-POST"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (4 letters): change position 2 of 'FAST' to align with the clue: \"Gone by in time and no longer existing\".",
-        "HINT 02 // The pivot transition requires bridging through 'PART'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WND-0043",
     "title": "WEND // WORD LADDER #0043 (CODE → BARK)",
     "category": "LOGIC",
@@ -2729,69 +1406,6 @@ export const wendChallenges = [
       "hints": [
         "HINT 01 // Focus on Step 2 (4 letters): change position 2 of 'CODE' to align with the clue: \"Central structural nexus of a planetary system\".",
         "HINT 02 // The pivot transition requires bridging through 'CARE'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WND-0044",
-    "title": "WEND // WORD LADDER #0044 (GATE → CALM)",
-    "category": "LOGIC",
-    "description": "Morph 'GATE' into 'CALM' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "LOW",
-    "risk": "SAFE",
-    "cost": 60,
-    "reward": 85,
-    "penalty": 30,
-    "timeLimit": 55,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-03 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0044",
-      "wordLength": 4,
-      "startWord": "GATE",
-      "targetWord": "CALM",
-      "steps": [
-        {
-          "clue": "Starting state: Hinged barrier across an opening",
-          "lockedWord": "GATE"
-        },
-        {
-          "clue": "Conferred or transferred possession in the past"
-        },
-        {
-          "clue": "A subterranean hollow or subterranean chamber"
-        },
-        {
-          "clue": "Arrived at a specified coordinate"
-        },
-        {
-          "clue": "Target state: Free from agitation or turbulent disturbance",
-          "lockedWord": "CALM"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "GATE-GAVE-CAVE-CAME-CALM",
-      "expectedWords": [
-        "GATE",
-        "GAVE",
-        "CAVE",
-        "CAME",
-        "CALM"
-      ],
-      "acceptedAnswers": [
-        "GATE-GAVE-CAVE-CAME-CALM",
-        "GAVE-CAVE-CAME",
-        "WEND:GATE-GAVE-CAVE-CAME-CALM"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (4 letters): change position 2 of 'GATE' to align with the clue: \"Conferred or transferred possession in the past\".",
-        "HINT 02 // The pivot transition requires bridging through 'CAVE'; check vowel shifts between adjacent steps."
       ]
     },
     "enabled": true,
@@ -2865,69 +1479,6 @@ export const wendChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WND-0046",
-    "title": "WEND // WORD LADDER #0046 (WIND → LOVE)",
-    "category": "LOGIC",
-    "description": "Morph 'WIND' into 'LOVE' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "LOW",
-    "risk": "SAFE",
-    "cost": 60,
-    "reward": 85,
-    "penalty": 30,
-    "timeLimit": 55,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-03 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0046",
-      "wordLength": 4,
-      "startWord": "WIND",
-      "targetWord": "LOVE",
-      "steps": [
-        {
-          "clue": "Starting state: Natural perceptible movement of air",
-          "lockedWord": "WIND"
-        },
-        {
-          "clue": "Fermented juice of grapes or fruit"
-        },
-        {
-          "clue": "Continuous spatial extent having only one dimension"
-        },
-        {
-          "clue": "Having no companions; solitary in wilderness"
-        },
-        {
-          "clue": "Target state: Deep affection and protective devotion",
-          "lockedWord": "LOVE"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "WIND-WINE-LINE-LONE-LOVE",
-      "expectedWords": [
-        "WIND",
-        "WINE",
-        "LINE",
-        "LONE",
-        "LOVE"
-      ],
-      "acceptedAnswers": [
-        "WIND-WINE-LINE-LONE-LOVE",
-        "WINE-LINE-LONE",
-        "WEND:WIND-WINE-LINE-LONE-LOVE"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (4 letters): change position 2 of 'WIND' to align with the clue: \"Fermented juice of grapes or fruit\".",
-        "HINT 02 // The pivot transition requires bridging through 'LINE'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WND-0047",
     "title": "WEND // WORD LADDER #0047 (STONE → CHALK)",
     "category": "LOGIC",
@@ -2989,69 +1540,6 @@ export const wendChallenges = [
       "hints": [
         "HINT 01 // Focus on Step 2 (5 letters): change position 2 of 'STONE' to align with the clue: \"Emitted radiant light in the past\".",
         "HINT 02 // The pivot transition requires bridging through 'CHINE'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WND-0048",
-    "title": "WEND // WORD LADDER #0048 (BLACK → CLING)",
-    "category": "LOGIC",
-    "description": "Morph 'BLACK' into 'CLING' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "LOW",
-    "risk": "SAFE",
-    "cost": 60,
-    "reward": 85,
-    "penalty": 30,
-    "timeLimit": 55,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-03 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0048",
-      "wordLength": 5,
-      "startWord": "BLACK",
-      "targetWord": "CLING",
-      "steps": [
-        {
-          "clue": "Starting state: Total absence of visible light",
-          "lockedWord": "BLACK"
-        },
-        {
-          "clue": "Empty of marks, writing, or expression"
-        },
-        {
-          "clue": "To open and close eyes rapidly"
-        },
-        {
-          "clue": "A sharp metallic resonant sound"
-        },
-        {
-          "clue": "Target state: To hold on tightly to an anchor",
-          "lockedWord": "CLING"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "BLACK-BLANK-BLINK-CLINK-CLING",
-      "expectedWords": [
-        "BLACK",
-        "BLANK",
-        "BLINK",
-        "CLINK",
-        "CLING"
-      ],
-      "acceptedAnswers": [
-        "BLACK-BLANK-BLINK-CLINK-CLING",
-        "BLANK-BLINK-CLINK",
-        "WEND:BLACK-BLANK-BLINK-CLINK-CLING"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (5 letters): change position 2 of 'BLACK' to align with the clue: \"Empty of marks, writing, or expression\".",
-        "HINT 02 // The pivot transition requires bridging through 'BLINK'; check vowel shifts between adjacent steps."
       ]
     },
     "enabled": true,
@@ -3121,69 +1609,6 @@ export const wendChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WND-0050",
-    "title": "WEND // WORD LADDER #0050 (RIVER → AFTER)",
-    "category": "LOGIC",
-    "description": "Morph 'RIVER' into 'AFTER' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "LOW",
-    "risk": "SAFE",
-    "cost": 60,
-    "reward": 85,
-    "penalty": 30,
-    "timeLimit": 55,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-03 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0050",
-      "wordLength": 5,
-      "startWord": "RIVER",
-      "targetWord": "AFTER",
-      "steps": [
-        {
-          "clue": "Starting state: Large natural stream of flowing water",
-          "lockedWord": "RIVER"
-        },
-        {
-          "clue": "One who travels mounted on horseback"
-        },
-        {
-          "clue": "One who provides relief or auxiliary support"
-        },
-        {
-          "clue": "To change or modify character without replacing"
-        },
-        {
-          "clue": "Target state: Subsequent in chronological sequence",
-          "lockedWord": "AFTER"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "RIVER-RIDER-AIDER-ALTER-AFTER",
-      "expectedWords": [
-        "RIVER",
-        "RIDER",
-        "AIDER",
-        "ALTER",
-        "AFTER"
-      ],
-      "acceptedAnswers": [
-        "RIVER-RIDER-AIDER-ALTER-AFTER",
-        "RIDER-AIDER-ALTER",
-        "WEND:RIVER-RIDER-AIDER-ALTER-AFTER"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (5 letters): change position 2 of 'RIVER' to align with the clue: \"One who travels mounted on horseback\".",
-        "HINT 02 // The pivot transition requires bridging through 'AIDER'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WND-0051",
     "title": "WEND // WORD LADDER #0051 (PLANT → STARE)",
     "category": "LOGIC",
@@ -3241,69 +1666,6 @@ export const wendChallenges = [
       "hints": [
         "HINT 01 // Focus on Step 2 (5 letters): change position 2 of 'PLANT' to align with the clue: \"Flat two-dimensional surface or winged aircraft\".",
         "HINT 02 // The pivot transition requires bridging through 'PLATE'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WND-0052",
-    "title": "WEND // WORD LADDER #0052 (SLEEP → STEEL)",
-    "category": "LOGIC",
-    "description": "Morph 'SLEEP' into 'STEEL' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "LOW",
-    "risk": "SAFE",
-    "cost": 60,
-    "reward": 85,
-    "penalty": 30,
-    "timeLimit": 55,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-03 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0052",
-      "wordLength": 5,
-      "startWord": "SLEEP",
-      "targetWord": "STEEL",
-      "steps": [
-        {
-          "clue": "Starting state: Naturally recurring condition of biological rest",
-          "lockedWord": "SLEEP"
-        },
-        {
-          "clue": "Ruminant quadruped domesticated for wool"
-        },
-        {
-          "clue": "Perpendicularly steep or absolute pure"
-        },
-        {
-          "clue": "To guide the direction of a vessel or vehicle"
-        },
-        {
-          "clue": "Target state: Alloy of iron with carbon of high tensile strength",
-          "lockedWord": "STEEL"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "SLEEP-SHEEP-SHEER-STEER-STEEL",
-      "expectedWords": [
-        "SLEEP",
-        "SHEEP",
-        "SHEER",
-        "STEER",
-        "STEEL"
-      ],
-      "acceptedAnswers": [
-        "SLEEP-SHEEP-SHEER-STEER-STEEL",
-        "SHEEP-SHEER-STEER",
-        "WEND:SLEEP-SHEEP-SHEER-STEER-STEEL"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (5 letters): change position 2 of 'SLEEP' to align with the clue: \"Ruminant quadruped domesticated for wool\".",
-        "HINT 02 // The pivot transition requires bridging through 'SHEER'; check vowel shifts between adjacent steps."
       ]
     },
     "enabled": true,
@@ -3376,69 +1738,6 @@ export const wendChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WND-0054",
-    "title": "WEND // WORD LADDER #0054 (STORM → SPARK)",
-    "category": "LOGIC",
-    "description": "Morph 'STORM' into 'SPARK' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "LOW",
-    "risk": "SAFE",
-    "cost": 60,
-    "reward": 85,
-    "penalty": 30,
-    "timeLimit": 55,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-03 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0054",
-      "wordLength": 5,
-      "startWord": "STORM",
-      "targetWord": "SPARK",
-      "steps": [
-        {
-          "clue": "Starting state: Violent disturbance of meteorological atmosphere",
-          "lockedWord": "STORM"
-        },
-        {
-          "clue": "Retail mercantile establishment or storage repository"
-        },
-        {
-          "clue": "To gaze fixedly with wide uninterrupted eyes"
-        },
-        {
-          "clue": "Additional component held in reserve backup"
-        },
-        {
-          "clue": "Target state: Incandescent particle thrown off from a burning body",
-          "lockedWord": "SPARK"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "STORM-STORE-STARE-SPARE-SPARK",
-      "expectedWords": [
-        "STORM",
-        "STORE",
-        "STARE",
-        "SPARE",
-        "SPARK"
-      ],
-      "acceptedAnswers": [
-        "STORM-STORE-STARE-SPARE-SPARK",
-        "STORE-STARE-SPARE",
-        "WEND:STORM-STORE-STARE-SPARE-SPARK"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (5 letters): change position 2 of 'STORM' to align with the clue: \"Retail mercantile establishment or storage repository\".",
-        "HINT 02 // The pivot transition requires bridging through 'STARE'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WND-0055",
     "title": "WEND // WORD LADDER #0055 (COLD → WARM)",
     "category": "LOGIC",
@@ -3496,69 +1795,6 @@ export const wendChallenges = [
       "hints": [
         "HINT 01 // Focus on Step 2 (4 letters): change position 2 of 'COLD' to align with the clue: \"A flexible insulated cable or binding twine\".",
         "HINT 02 // The pivot transition requires bridging through 'CARD'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WND-0056",
-    "title": "WEND // WORD LADDER #0056 (DARK → FIRE)",
-    "category": "LOGIC",
-    "description": "Morph 'DARK' into 'FIRE' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "LOW",
-    "risk": "SAFE",
-    "cost": 60,
-    "reward": 85,
-    "penalty": 30,
-    "timeLimit": 55,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-03 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0056",
-      "wordLength": 4,
-      "startWord": "DARK",
-      "targetWord": "FIRE",
-      "steps": [
-        {
-          "clue": "Starting state: Absence of illumination",
-          "lockedWord": "DARK"
-        },
-        {
-          "clue": "A small pointed projectile or rapid dash"
-        },
-        {
-          "clue": "Loose soil, earth, or particulate matter"
-        },
-        {
-          "clue": "Extremely urgent or calamitous circumstance"
-        },
-        {
-          "clue": "Target state: Combustion generating thermal heat",
-          "lockedWord": "FIRE"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "DARK-DART-DIRT-DIRE-FIRE",
-      "expectedWords": [
-        "DARK",
-        "DART",
-        "DIRT",
-        "DIRE",
-        "FIRE"
-      ],
-      "acceptedAnswers": [
-        "DARK-DART-DIRT-DIRE-FIRE",
-        "DART-DIRT-DIRE",
-        "WEND:DARK-DART-DIRT-DIRE-FIRE"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (4 letters): change position 2 of 'DARK' to align with the clue: \"A small pointed projectile or rapid dash\".",
-        "HINT 02 // The pivot transition requires bridging through 'DIRT'; check vowel shifts between adjacent steps."
       ]
     },
     "enabled": true,
@@ -3628,69 +1864,6 @@ export const wendChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WND-0058",
-    "title": "WEND // WORD LADDER #0058 (LEAD → GOLD)",
-    "category": "LOGIC",
-    "description": "Morph 'LEAD' into 'GOLD' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "LOW",
-    "risk": "SAFE",
-    "cost": 60,
-    "reward": 85,
-    "penalty": 30,
-    "timeLimit": 55,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-03 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0058",
-      "wordLength": 4,
-      "startWord": "LEAD",
-      "targetWord": "GOLD",
-      "steps": [
-        {
-          "clue": "Starting state: Dense heavy metallic element",
-          "lockedWord": "LEAD"
-        },
-        {
-          "clue": "A heavy burden or amount carried"
-        },
-        {
-          "clue": "An amphibious tailless creature"
-        },
-        {
-          "clue": "Communicated verbal instruction in the past"
-        },
-        {
-          "clue": "Target state: Precious lustrous yellow metal",
-          "lockedWord": "GOLD"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "LEAD-LOAD-TOAD-TOLD-GOLD",
-      "expectedWords": [
-        "LEAD",
-        "LOAD",
-        "TOAD",
-        "TOLD",
-        "GOLD"
-      ],
-      "acceptedAnswers": [
-        "LEAD-LOAD-TOAD-TOLD-GOLD",
-        "LOAD-TOAD-TOLD",
-        "WEND:LEAD-LOAD-TOAD-TOLD-GOLD"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (4 letters): change position 2 of 'LEAD' to align with the clue: \"A heavy burden or amount carried\".",
-        "HINT 02 // The pivot transition requires bridging through 'TOAD'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WND-0059",
     "title": "WEND // WORD LADDER #0059 (MORE → SAFE)",
     "category": "LOGIC",
@@ -3754,69 +1927,6 @@ export const wendChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WND-0060",
-    "title": "WEND // WORD LADDER #0060 (FAST → POST)",
-    "category": "LOGIC",
-    "description": "Morph 'FAST' into 'POST' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "LOW",
-    "risk": "SAFE",
-    "cost": 60,
-    "reward": 85,
-    "penalty": 30,
-    "timeLimit": 55,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-04 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0060",
-      "wordLength": 4,
-      "startWord": "FAST",
-      "targetWord": "POST",
-      "steps": [
-        {
-          "clue": "Starting state: Moving at high velocity",
-          "lockedWord": "FAST"
-        },
-        {
-          "clue": "Gone by in time and no longer existing"
-        },
-        {
-          "clue": "A component portion of a greater whole"
-        },
-        {
-          "clue": "A maritime harbor or network interface"
-        },
-        {
-          "clue": "Target state: Sturdy upright timber or bulletin",
-          "lockedWord": "POST"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "FAST-PAST-PART-PORT-POST",
-      "expectedWords": [
-        "FAST",
-        "PAST",
-        "PART",
-        "PORT",
-        "POST"
-      ],
-      "acceptedAnswers": [
-        "FAST-PAST-PART-PORT-POST",
-        "PAST-PART-PORT",
-        "WEND:FAST-PAST-PART-PORT-POST"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (4 letters): change position 2 of 'FAST' to align with the clue: \"Gone by in time and no longer existing\".",
-        "HINT 02 // The pivot transition requires bridging through 'PART'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WND-0061",
     "title": "WEND // WORD LADDER #0061 (CODE → BARK)",
     "category": "LOGIC",
@@ -3874,69 +1984,6 @@ export const wendChallenges = [
       "hints": [
         "HINT 01 // Focus on Step 2 (4 letters): change position 2 of 'CODE' to align with the clue: \"Central structural nexus of a planetary system\".",
         "HINT 02 // The pivot transition requires bridging through 'CARE'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WND-0062",
-    "title": "WEND // WORD LADDER #0062 (GATE → CALM)",
-    "category": "LOGIC",
-    "description": "Morph 'GATE' into 'CALM' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "LOW",
-    "risk": "SAFE",
-    "cost": 60,
-    "reward": 85,
-    "penalty": 30,
-    "timeLimit": 55,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-04 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0062",
-      "wordLength": 4,
-      "startWord": "GATE",
-      "targetWord": "CALM",
-      "steps": [
-        {
-          "clue": "Starting state: Hinged barrier across an opening",
-          "lockedWord": "GATE"
-        },
-        {
-          "clue": "Conferred or transferred possession in the past"
-        },
-        {
-          "clue": "A subterranean hollow or subterranean chamber"
-        },
-        {
-          "clue": "Arrived at a specified coordinate"
-        },
-        {
-          "clue": "Target state: Free from agitation or turbulent disturbance",
-          "lockedWord": "CALM"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "GATE-GAVE-CAVE-CAME-CALM",
-      "expectedWords": [
-        "GATE",
-        "GAVE",
-        "CAVE",
-        "CAME",
-        "CALM"
-      ],
-      "acceptedAnswers": [
-        "GATE-GAVE-CAVE-CAME-CALM",
-        "GAVE-CAVE-CAME",
-        "WEND:GATE-GAVE-CAVE-CAME-CALM"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (4 letters): change position 2 of 'GATE' to align with the clue: \"Conferred or transferred possession in the past\".",
-        "HINT 02 // The pivot transition requires bridging through 'CAVE'; check vowel shifts between adjacent steps."
       ]
     },
     "enabled": true,
@@ -4010,69 +2057,6 @@ export const wendChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WND-0064",
-    "title": "WEND // WORD LADDER #0064 (WIND → LOVE)",
-    "category": "LOGIC",
-    "description": "Morph 'WIND' into 'LOVE' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "LOW",
-    "risk": "SAFE",
-    "cost": 60,
-    "reward": 85,
-    "penalty": 30,
-    "timeLimit": 55,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-04 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0064",
-      "wordLength": 4,
-      "startWord": "WIND",
-      "targetWord": "LOVE",
-      "steps": [
-        {
-          "clue": "Starting state: Natural perceptible movement of air",
-          "lockedWord": "WIND"
-        },
-        {
-          "clue": "Fermented juice of grapes or fruit"
-        },
-        {
-          "clue": "Continuous spatial extent having only one dimension"
-        },
-        {
-          "clue": "Having no companions; solitary in wilderness"
-        },
-        {
-          "clue": "Target state: Deep affection and protective devotion",
-          "lockedWord": "LOVE"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "WIND-WINE-LINE-LONE-LOVE",
-      "expectedWords": [
-        "WIND",
-        "WINE",
-        "LINE",
-        "LONE",
-        "LOVE"
-      ],
-      "acceptedAnswers": [
-        "WIND-WINE-LINE-LONE-LOVE",
-        "WINE-LINE-LONE",
-        "WEND:WIND-WINE-LINE-LONE-LOVE"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (4 letters): change position 2 of 'WIND' to align with the clue: \"Fermented juice of grapes or fruit\".",
-        "HINT 02 // The pivot transition requires bridging through 'LINE'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WND-0065",
     "title": "WEND // WORD LADDER #0065 (STONE → CHALK)",
     "category": "LOGIC",
@@ -4134,69 +2118,6 @@ export const wendChallenges = [
       "hints": [
         "HINT 01 // Focus on Step 2 (5 letters): change position 2 of 'STONE' to align with the clue: \"Emitted radiant light in the past\".",
         "HINT 02 // The pivot transition requires bridging through 'CHINE'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WND-0066",
-    "title": "WEND // WORD LADDER #0066 (BLACK → CLING)",
-    "category": "LOGIC",
-    "description": "Morph 'BLACK' into 'CLING' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "LOW",
-    "risk": "SAFE",
-    "cost": 60,
-    "reward": 85,
-    "penalty": 30,
-    "timeLimit": 55,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-04 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0066",
-      "wordLength": 5,
-      "startWord": "BLACK",
-      "targetWord": "CLING",
-      "steps": [
-        {
-          "clue": "Starting state: Total absence of visible light",
-          "lockedWord": "BLACK"
-        },
-        {
-          "clue": "Empty of marks, writing, or expression"
-        },
-        {
-          "clue": "To open and close eyes rapidly"
-        },
-        {
-          "clue": "A sharp metallic resonant sound"
-        },
-        {
-          "clue": "Target state: To hold on tightly to an anchor",
-          "lockedWord": "CLING"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "BLACK-BLANK-BLINK-CLINK-CLING",
-      "expectedWords": [
-        "BLACK",
-        "BLANK",
-        "BLINK",
-        "CLINK",
-        "CLING"
-      ],
-      "acceptedAnswers": [
-        "BLACK-BLANK-BLINK-CLINK-CLING",
-        "BLANK-BLINK-CLINK",
-        "WEND:BLACK-BLANK-BLINK-CLINK-CLING"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (5 letters): change position 2 of 'BLACK' to align with the clue: \"Empty of marks, writing, or expression\".",
-        "HINT 02 // The pivot transition requires bridging through 'BLINK'; check vowel shifts between adjacent steps."
       ]
     },
     "enabled": true,
@@ -4266,69 +2187,6 @@ export const wendChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WND-0068",
-    "title": "WEND // WORD LADDER #0068 (RIVER → AFTER)",
-    "category": "LOGIC",
-    "description": "Morph 'RIVER' into 'AFTER' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "LOW",
-    "risk": "SAFE",
-    "cost": 60,
-    "reward": 85,
-    "penalty": 30,
-    "timeLimit": 55,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-04 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0068",
-      "wordLength": 5,
-      "startWord": "RIVER",
-      "targetWord": "AFTER",
-      "steps": [
-        {
-          "clue": "Starting state: Large natural stream of flowing water",
-          "lockedWord": "RIVER"
-        },
-        {
-          "clue": "One who travels mounted on horseback"
-        },
-        {
-          "clue": "One who provides relief or auxiliary support"
-        },
-        {
-          "clue": "To change or modify character without replacing"
-        },
-        {
-          "clue": "Target state: Subsequent in chronological sequence",
-          "lockedWord": "AFTER"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "RIVER-RIDER-AIDER-ALTER-AFTER",
-      "expectedWords": [
-        "RIVER",
-        "RIDER",
-        "AIDER",
-        "ALTER",
-        "AFTER"
-      ],
-      "acceptedAnswers": [
-        "RIVER-RIDER-AIDER-ALTER-AFTER",
-        "RIDER-AIDER-ALTER",
-        "WEND:RIVER-RIDER-AIDER-ALTER-AFTER"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (5 letters): change position 2 of 'RIVER' to align with the clue: \"One who travels mounted on horseback\".",
-        "HINT 02 // The pivot transition requires bridging through 'AIDER'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WND-0069",
     "title": "WEND // WORD LADDER #0069 (PLANT → STARE)",
     "category": "LOGIC",
@@ -4386,69 +2244,6 @@ export const wendChallenges = [
       "hints": [
         "HINT 01 // Focus on Step 2 (5 letters): change position 2 of 'PLANT' to align with the clue: \"Flat two-dimensional surface or winged aircraft\".",
         "HINT 02 // The pivot transition requires bridging through 'PLATE'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WND-0070",
-    "title": "WEND // WORD LADDER #0070 (SLEEP → STEEL)",
-    "category": "LOGIC",
-    "description": "Morph 'SLEEP' into 'STEEL' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "LOW",
-    "risk": "SAFE",
-    "cost": 60,
-    "reward": 85,
-    "penalty": 30,
-    "timeLimit": 55,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-04 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0070",
-      "wordLength": 5,
-      "startWord": "SLEEP",
-      "targetWord": "STEEL",
-      "steps": [
-        {
-          "clue": "Starting state: Naturally recurring condition of biological rest",
-          "lockedWord": "SLEEP"
-        },
-        {
-          "clue": "Ruminant quadruped domesticated for wool"
-        },
-        {
-          "clue": "Perpendicularly steep or absolute pure"
-        },
-        {
-          "clue": "To guide the direction of a vessel or vehicle"
-        },
-        {
-          "clue": "Target state: Alloy of iron with carbon of high tensile strength",
-          "lockedWord": "STEEL"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "SLEEP-SHEEP-SHEER-STEER-STEEL",
-      "expectedWords": [
-        "SLEEP",
-        "SHEEP",
-        "SHEER",
-        "STEER",
-        "STEEL"
-      ],
-      "acceptedAnswers": [
-        "SLEEP-SHEEP-SHEER-STEER-STEEL",
-        "SHEEP-SHEER-STEER",
-        "WEND:SLEEP-SHEEP-SHEER-STEER-STEEL"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (5 letters): change position 2 of 'SLEEP' to align with the clue: \"Ruminant quadruped domesticated for wool\".",
-        "HINT 02 // The pivot transition requires bridging through 'SHEER'; check vowel shifts between adjacent steps."
       ]
     },
     "enabled": true,
@@ -4521,69 +2316,6 @@ export const wendChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WND-0072",
-    "title": "WEND // WORD LADDER #0072 (STORM → SPARK)",
-    "category": "LOGIC",
-    "description": "Morph 'STORM' into 'SPARK' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "LOW",
-    "risk": "SAFE",
-    "cost": 60,
-    "reward": 85,
-    "penalty": 30,
-    "timeLimit": 55,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-04 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0072",
-      "wordLength": 5,
-      "startWord": "STORM",
-      "targetWord": "SPARK",
-      "steps": [
-        {
-          "clue": "Starting state: Violent disturbance of meteorological atmosphere",
-          "lockedWord": "STORM"
-        },
-        {
-          "clue": "Retail mercantile establishment or storage repository"
-        },
-        {
-          "clue": "To gaze fixedly with wide uninterrupted eyes"
-        },
-        {
-          "clue": "Additional component held in reserve backup"
-        },
-        {
-          "clue": "Target state: Incandescent particle thrown off from a burning body",
-          "lockedWord": "SPARK"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "STORM-STORE-STARE-SPARE-SPARK",
-      "expectedWords": [
-        "STORM",
-        "STORE",
-        "STARE",
-        "SPARE",
-        "SPARK"
-      ],
-      "acceptedAnswers": [
-        "STORM-STORE-STARE-SPARE-SPARK",
-        "STORE-STARE-SPARE",
-        "WEND:STORM-STORE-STARE-SPARE-SPARK"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (5 letters): change position 2 of 'STORM' to align with the clue: \"Retail mercantile establishment or storage repository\".",
-        "HINT 02 // The pivot transition requires bridging through 'STARE'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WND-0073",
     "title": "WEND // WORD LADDER #0073 (COLD → WARM)",
     "category": "LOGIC",
@@ -4641,69 +2373,6 @@ export const wendChallenges = [
       "hints": [
         "HINT 01 // Focus on Step 2 (4 letters): change position 2 of 'COLD' to align with the clue: \"A flexible insulated cable or binding twine\".",
         "HINT 02 // The pivot transition requires bridging through 'CARD'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WND-0074",
-    "title": "WEND // WORD LADDER #0074 (DARK → FIRE)",
-    "category": "LOGIC",
-    "description": "Morph 'DARK' into 'FIRE' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "LOW",
-    "risk": "SAFE",
-    "cost": 60,
-    "reward": 85,
-    "penalty": 30,
-    "timeLimit": 55,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-04 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0074",
-      "wordLength": 4,
-      "startWord": "DARK",
-      "targetWord": "FIRE",
-      "steps": [
-        {
-          "clue": "Starting state: Absence of illumination",
-          "lockedWord": "DARK"
-        },
-        {
-          "clue": "A small pointed projectile or rapid dash"
-        },
-        {
-          "clue": "Loose soil, earth, or particulate matter"
-        },
-        {
-          "clue": "Extremely urgent or calamitous circumstance"
-        },
-        {
-          "clue": "Target state: Combustion generating thermal heat",
-          "lockedWord": "FIRE"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "DARK-DART-DIRT-DIRE-FIRE",
-      "expectedWords": [
-        "DARK",
-        "DART",
-        "DIRT",
-        "DIRE",
-        "FIRE"
-      ],
-      "acceptedAnswers": [
-        "DARK-DART-DIRT-DIRE-FIRE",
-        "DART-DIRT-DIRE",
-        "WEND:DARK-DART-DIRT-DIRE-FIRE"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (4 letters): change position 2 of 'DARK' to align with the clue: \"A small pointed projectile or rapid dash\".",
-        "HINT 02 // The pivot transition requires bridging through 'DIRT'; check vowel shifts between adjacent steps."
       ]
     },
     "enabled": true,
@@ -4773,69 +2442,6 @@ export const wendChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WND-0076",
-    "title": "WEND // WORD LADDER #0076 (LEAD → GOLD)",
-    "category": "LOGIC",
-    "description": "Morph 'LEAD' into 'GOLD' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "LOW",
-    "risk": "SAFE",
-    "cost": 60,
-    "reward": 85,
-    "penalty": 30,
-    "timeLimit": 55,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-04 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0076",
-      "wordLength": 4,
-      "startWord": "LEAD",
-      "targetWord": "GOLD",
-      "steps": [
-        {
-          "clue": "Starting state: Dense heavy metallic element",
-          "lockedWord": "LEAD"
-        },
-        {
-          "clue": "A heavy burden or amount carried"
-        },
-        {
-          "clue": "An amphibious tailless creature"
-        },
-        {
-          "clue": "Communicated verbal instruction in the past"
-        },
-        {
-          "clue": "Target state: Precious lustrous yellow metal",
-          "lockedWord": "GOLD"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "LEAD-LOAD-TOAD-TOLD-GOLD",
-      "expectedWords": [
-        "LEAD",
-        "LOAD",
-        "TOAD",
-        "TOLD",
-        "GOLD"
-      ],
-      "acceptedAnswers": [
-        "LEAD-LOAD-TOAD-TOLD-GOLD",
-        "LOAD-TOAD-TOLD",
-        "WEND:LEAD-LOAD-TOAD-TOLD-GOLD"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (4 letters): change position 2 of 'LEAD' to align with the clue: \"A heavy burden or amount carried\".",
-        "HINT 02 // The pivot transition requires bridging through 'TOAD'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WND-0077",
     "title": "WEND // WORD LADDER #0077 (MORE → SAFE)",
     "category": "LOGIC",
@@ -4899,69 +2505,6 @@ export const wendChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WND-0078",
-    "title": "WEND // WORD LADDER #0078 (FAST → POST)",
-    "category": "LOGIC",
-    "description": "Morph 'FAST' into 'POST' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "LOW",
-    "risk": "SAFE",
-    "cost": 60,
-    "reward": 85,
-    "penalty": 30,
-    "timeLimit": 55,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-04 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0078",
-      "wordLength": 4,
-      "startWord": "FAST",
-      "targetWord": "POST",
-      "steps": [
-        {
-          "clue": "Starting state: Moving at high velocity",
-          "lockedWord": "FAST"
-        },
-        {
-          "clue": "Gone by in time and no longer existing"
-        },
-        {
-          "clue": "A component portion of a greater whole"
-        },
-        {
-          "clue": "A maritime harbor or network interface"
-        },
-        {
-          "clue": "Target state: Sturdy upright timber or bulletin",
-          "lockedWord": "POST"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "FAST-PAST-PART-PORT-POST",
-      "expectedWords": [
-        "FAST",
-        "PAST",
-        "PART",
-        "PORT",
-        "POST"
-      ],
-      "acceptedAnswers": [
-        "FAST-PAST-PART-PORT-POST",
-        "PAST-PART-PORT",
-        "WEND:FAST-PAST-PART-PORT-POST"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (4 letters): change position 2 of 'FAST' to align with the clue: \"Gone by in time and no longer existing\".",
-        "HINT 02 // The pivot transition requires bridging through 'PART'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WND-0079",
     "title": "WEND // WORD LADDER #0079 (CODE → BARK)",
     "category": "LOGIC",
@@ -5019,69 +2562,6 @@ export const wendChallenges = [
       "hints": [
         "HINT 01 // Focus on Step 2 (4 letters): change position 2 of 'CODE' to align with the clue: \"Central structural nexus of a planetary system\".",
         "HINT 02 // The pivot transition requires bridging through 'CARE'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WND-0080",
-    "title": "WEND // WORD LADDER #0080 (GATE → CALM)",
-    "category": "LOGIC",
-    "description": "Morph 'GATE' into 'CALM' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "LOW",
-    "risk": "SAFE",
-    "cost": 60,
-    "reward": 85,
-    "penalty": 30,
-    "timeLimit": 55,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-05 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0080",
-      "wordLength": 4,
-      "startWord": "GATE",
-      "targetWord": "CALM",
-      "steps": [
-        {
-          "clue": "Starting state: Hinged barrier across an opening",
-          "lockedWord": "GATE"
-        },
-        {
-          "clue": "Conferred or transferred possession in the past"
-        },
-        {
-          "clue": "A subterranean hollow or subterranean chamber"
-        },
-        {
-          "clue": "Arrived at a specified coordinate"
-        },
-        {
-          "clue": "Target state: Free from agitation or turbulent disturbance",
-          "lockedWord": "CALM"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "GATE-GAVE-CAVE-CAME-CALM",
-      "expectedWords": [
-        "GATE",
-        "GAVE",
-        "CAVE",
-        "CAME",
-        "CALM"
-      ],
-      "acceptedAnswers": [
-        "GATE-GAVE-CAVE-CAME-CALM",
-        "GAVE-CAVE-CAME",
-        "WEND:GATE-GAVE-CAVE-CAME-CALM"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (4 letters): change position 2 of 'GATE' to align with the clue: \"Conferred or transferred possession in the past\".",
-        "HINT 02 // The pivot transition requires bridging through 'CAVE'; check vowel shifts between adjacent steps."
       ]
     },
     "enabled": true,
@@ -5155,69 +2635,6 @@ export const wendChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WND-0082",
-    "title": "WEND // WORD LADDER #0082 (WIND → LOVE)",
-    "category": "LOGIC",
-    "description": "Morph 'WIND' into 'LOVE' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "LOW",
-    "risk": "SAFE",
-    "cost": 60,
-    "reward": 85,
-    "penalty": 30,
-    "timeLimit": 55,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-05 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0082",
-      "wordLength": 4,
-      "startWord": "WIND",
-      "targetWord": "LOVE",
-      "steps": [
-        {
-          "clue": "Starting state: Natural perceptible movement of air",
-          "lockedWord": "WIND"
-        },
-        {
-          "clue": "Fermented juice of grapes or fruit"
-        },
-        {
-          "clue": "Continuous spatial extent having only one dimension"
-        },
-        {
-          "clue": "Having no companions; solitary in wilderness"
-        },
-        {
-          "clue": "Target state: Deep affection and protective devotion",
-          "lockedWord": "LOVE"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "WIND-WINE-LINE-LONE-LOVE",
-      "expectedWords": [
-        "WIND",
-        "WINE",
-        "LINE",
-        "LONE",
-        "LOVE"
-      ],
-      "acceptedAnswers": [
-        "WIND-WINE-LINE-LONE-LOVE",
-        "WINE-LINE-LONE",
-        "WEND:WIND-WINE-LINE-LONE-LOVE"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (4 letters): change position 2 of 'WIND' to align with the clue: \"Fermented juice of grapes or fruit\".",
-        "HINT 02 // The pivot transition requires bridging through 'LINE'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WND-0083",
     "title": "WEND // WORD LADDER #0083 (STONE → CHALK)",
     "category": "LOGIC",
@@ -5279,69 +2696,6 @@ export const wendChallenges = [
       "hints": [
         "HINT 01 // Focus on Step 2 (5 letters): change position 2 of 'STONE' to align with the clue: \"Emitted radiant light in the past\".",
         "HINT 02 // The pivot transition requires bridging through 'CHINE'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WND-0084",
-    "title": "WEND // WORD LADDER #0084 (BLACK → CLING)",
-    "category": "LOGIC",
-    "description": "Morph 'BLACK' into 'CLING' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "LOW",
-    "risk": "SAFE",
-    "cost": 60,
-    "reward": 85,
-    "penalty": 30,
-    "timeLimit": 55,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-05 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0084",
-      "wordLength": 5,
-      "startWord": "BLACK",
-      "targetWord": "CLING",
-      "steps": [
-        {
-          "clue": "Starting state: Total absence of visible light",
-          "lockedWord": "BLACK"
-        },
-        {
-          "clue": "Empty of marks, writing, or expression"
-        },
-        {
-          "clue": "To open and close eyes rapidly"
-        },
-        {
-          "clue": "A sharp metallic resonant sound"
-        },
-        {
-          "clue": "Target state: To hold on tightly to an anchor",
-          "lockedWord": "CLING"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "BLACK-BLANK-BLINK-CLINK-CLING",
-      "expectedWords": [
-        "BLACK",
-        "BLANK",
-        "BLINK",
-        "CLINK",
-        "CLING"
-      ],
-      "acceptedAnswers": [
-        "BLACK-BLANK-BLINK-CLINK-CLING",
-        "BLANK-BLINK-CLINK",
-        "WEND:BLACK-BLANK-BLINK-CLINK-CLING"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (5 letters): change position 2 of 'BLACK' to align with the clue: \"Empty of marks, writing, or expression\".",
-        "HINT 02 // The pivot transition requires bridging through 'BLINK'; check vowel shifts between adjacent steps."
       ]
     },
     "enabled": true,
@@ -5411,69 +2765,6 @@ export const wendChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WND-0086",
-    "title": "WEND // WORD LADDER #0086 (RIVER → AFTER)",
-    "category": "LOGIC",
-    "description": "Morph 'RIVER' into 'AFTER' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "LOW",
-    "risk": "SAFE",
-    "cost": 60,
-    "reward": 85,
-    "penalty": 30,
-    "timeLimit": 55,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-05 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0086",
-      "wordLength": 5,
-      "startWord": "RIVER",
-      "targetWord": "AFTER",
-      "steps": [
-        {
-          "clue": "Starting state: Large natural stream of flowing water",
-          "lockedWord": "RIVER"
-        },
-        {
-          "clue": "One who travels mounted on horseback"
-        },
-        {
-          "clue": "One who provides relief or auxiliary support"
-        },
-        {
-          "clue": "To change or modify character without replacing"
-        },
-        {
-          "clue": "Target state: Subsequent in chronological sequence",
-          "lockedWord": "AFTER"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "RIVER-RIDER-AIDER-ALTER-AFTER",
-      "expectedWords": [
-        "RIVER",
-        "RIDER",
-        "AIDER",
-        "ALTER",
-        "AFTER"
-      ],
-      "acceptedAnswers": [
-        "RIVER-RIDER-AIDER-ALTER-AFTER",
-        "RIDER-AIDER-ALTER",
-        "WEND:RIVER-RIDER-AIDER-ALTER-AFTER"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (5 letters): change position 2 of 'RIVER' to align with the clue: \"One who travels mounted on horseback\".",
-        "HINT 02 // The pivot transition requires bridging through 'AIDER'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WND-0087",
     "title": "WEND // WORD LADDER #0087 (PLANT → STARE)",
     "category": "LOGIC",
@@ -5531,69 +2822,6 @@ export const wendChallenges = [
       "hints": [
         "HINT 01 // Focus on Step 2 (5 letters): change position 2 of 'PLANT' to align with the clue: \"Flat two-dimensional surface or winged aircraft\".",
         "HINT 02 // The pivot transition requires bridging through 'PLATE'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WND-0088",
-    "title": "WEND // WORD LADDER #0088 (SLEEP → STEEL)",
-    "category": "LOGIC",
-    "description": "Morph 'SLEEP' into 'STEEL' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "LOW",
-    "risk": "SAFE",
-    "cost": 60,
-    "reward": 85,
-    "penalty": 30,
-    "timeLimit": 55,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-05 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0088",
-      "wordLength": 5,
-      "startWord": "SLEEP",
-      "targetWord": "STEEL",
-      "steps": [
-        {
-          "clue": "Starting state: Naturally recurring condition of biological rest",
-          "lockedWord": "SLEEP"
-        },
-        {
-          "clue": "Ruminant quadruped domesticated for wool"
-        },
-        {
-          "clue": "Perpendicularly steep or absolute pure"
-        },
-        {
-          "clue": "To guide the direction of a vessel or vehicle"
-        },
-        {
-          "clue": "Target state: Alloy of iron with carbon of high tensile strength",
-          "lockedWord": "STEEL"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "SLEEP-SHEEP-SHEER-STEER-STEEL",
-      "expectedWords": [
-        "SLEEP",
-        "SHEEP",
-        "SHEER",
-        "STEER",
-        "STEEL"
-      ],
-      "acceptedAnswers": [
-        "SLEEP-SHEEP-SHEER-STEER-STEEL",
-        "SHEEP-SHEER-STEER",
-        "WEND:SLEEP-SHEEP-SHEER-STEER-STEEL"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (5 letters): change position 2 of 'SLEEP' to align with the clue: \"Ruminant quadruped domesticated for wool\".",
-        "HINT 02 // The pivot transition requires bridging through 'SHEER'; check vowel shifts between adjacent steps."
       ]
     },
     "enabled": true,
@@ -5666,69 +2894,6 @@ export const wendChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WND-0090",
-    "title": "WEND // WORD LADDER #0090 (STORM → SPARK)",
-    "category": "LOGIC",
-    "description": "Morph 'STORM' into 'SPARK' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "LOW",
-    "risk": "SAFE",
-    "cost": 60,
-    "reward": 85,
-    "penalty": 30,
-    "timeLimit": 55,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-05 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0090",
-      "wordLength": 5,
-      "startWord": "STORM",
-      "targetWord": "SPARK",
-      "steps": [
-        {
-          "clue": "Starting state: Violent disturbance of meteorological atmosphere",
-          "lockedWord": "STORM"
-        },
-        {
-          "clue": "Retail mercantile establishment or storage repository"
-        },
-        {
-          "clue": "To gaze fixedly with wide uninterrupted eyes"
-        },
-        {
-          "clue": "Additional component held in reserve backup"
-        },
-        {
-          "clue": "Target state: Incandescent particle thrown off from a burning body",
-          "lockedWord": "SPARK"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "STORM-STORE-STARE-SPARE-SPARK",
-      "expectedWords": [
-        "STORM",
-        "STORE",
-        "STARE",
-        "SPARE",
-        "SPARK"
-      ],
-      "acceptedAnswers": [
-        "STORM-STORE-STARE-SPARE-SPARK",
-        "STORE-STARE-SPARE",
-        "WEND:STORM-STORE-STARE-SPARE-SPARK"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (5 letters): change position 2 of 'STORM' to align with the clue: \"Retail mercantile establishment or storage repository\".",
-        "HINT 02 // The pivot transition requires bridging through 'STARE'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WND-0091",
     "title": "WEND // WORD LADDER #0091 (COLD → WARM)",
     "category": "LOGIC",
@@ -5786,69 +2951,6 @@ export const wendChallenges = [
       "hints": [
         "HINT 01 // Focus on Step 2 (4 letters): change position 2 of 'COLD' to align with the clue: \"A flexible insulated cable or binding twine\".",
         "HINT 02 // The pivot transition requires bridging through 'CARD'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WND-0092",
-    "title": "WEND // WORD LADDER #0092 (DARK → FIRE)",
-    "category": "LOGIC",
-    "description": "Morph 'DARK' into 'FIRE' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "LOW",
-    "risk": "SAFE",
-    "cost": 60,
-    "reward": 85,
-    "penalty": 30,
-    "timeLimit": 55,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-05 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0092",
-      "wordLength": 4,
-      "startWord": "DARK",
-      "targetWord": "FIRE",
-      "steps": [
-        {
-          "clue": "Starting state: Absence of illumination",
-          "lockedWord": "DARK"
-        },
-        {
-          "clue": "A small pointed projectile or rapid dash"
-        },
-        {
-          "clue": "Loose soil, earth, or particulate matter"
-        },
-        {
-          "clue": "Extremely urgent or calamitous circumstance"
-        },
-        {
-          "clue": "Target state: Combustion generating thermal heat",
-          "lockedWord": "FIRE"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "DARK-DART-DIRT-DIRE-FIRE",
-      "expectedWords": [
-        "DARK",
-        "DART",
-        "DIRT",
-        "DIRE",
-        "FIRE"
-      ],
-      "acceptedAnswers": [
-        "DARK-DART-DIRT-DIRE-FIRE",
-        "DART-DIRT-DIRE",
-        "WEND:DARK-DART-DIRT-DIRE-FIRE"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (4 letters): change position 2 of 'DARK' to align with the clue: \"A small pointed projectile or rapid dash\".",
-        "HINT 02 // The pivot transition requires bridging through 'DIRT'; check vowel shifts between adjacent steps."
       ]
     },
     "enabled": true,
@@ -5918,69 +3020,6 @@ export const wendChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WND-0094",
-    "title": "WEND // WORD LADDER #0094 (LEAD → GOLD)",
-    "category": "LOGIC",
-    "description": "Morph 'LEAD' into 'GOLD' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "LOW",
-    "risk": "SAFE",
-    "cost": 60,
-    "reward": 85,
-    "penalty": 30,
-    "timeLimit": 55,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-05 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0094",
-      "wordLength": 4,
-      "startWord": "LEAD",
-      "targetWord": "GOLD",
-      "steps": [
-        {
-          "clue": "Starting state: Dense heavy metallic element",
-          "lockedWord": "LEAD"
-        },
-        {
-          "clue": "A heavy burden or amount carried"
-        },
-        {
-          "clue": "An amphibious tailless creature"
-        },
-        {
-          "clue": "Communicated verbal instruction in the past"
-        },
-        {
-          "clue": "Target state: Precious lustrous yellow metal",
-          "lockedWord": "GOLD"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "LEAD-LOAD-TOAD-TOLD-GOLD",
-      "expectedWords": [
-        "LEAD",
-        "LOAD",
-        "TOAD",
-        "TOLD",
-        "GOLD"
-      ],
-      "acceptedAnswers": [
-        "LEAD-LOAD-TOAD-TOLD-GOLD",
-        "LOAD-TOAD-TOLD",
-        "WEND:LEAD-LOAD-TOAD-TOLD-GOLD"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (4 letters): change position 2 of 'LEAD' to align with the clue: \"A heavy burden or amount carried\".",
-        "HINT 02 // The pivot transition requires bridging through 'TOAD'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WND-0095",
     "title": "WEND // WORD LADDER #0095 (MORE → SAFE)",
     "category": "LOGIC",
@@ -6044,69 +3083,6 @@ export const wendChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WND-0096",
-    "title": "WEND // WORD LADDER #0096 (FAST → POST)",
-    "category": "LOGIC",
-    "description": "Morph 'FAST' into 'POST' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "LOW",
-    "risk": "SAFE",
-    "cost": 60,
-    "reward": 85,
-    "penalty": 30,
-    "timeLimit": 55,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-05 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0096",
-      "wordLength": 4,
-      "startWord": "FAST",
-      "targetWord": "POST",
-      "steps": [
-        {
-          "clue": "Starting state: Moving at high velocity",
-          "lockedWord": "FAST"
-        },
-        {
-          "clue": "Gone by in time and no longer existing"
-        },
-        {
-          "clue": "A component portion of a greater whole"
-        },
-        {
-          "clue": "A maritime harbor or network interface"
-        },
-        {
-          "clue": "Target state: Sturdy upright timber or bulletin",
-          "lockedWord": "POST"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "FAST-PAST-PART-PORT-POST",
-      "expectedWords": [
-        "FAST",
-        "PAST",
-        "PART",
-        "PORT",
-        "POST"
-      ],
-      "acceptedAnswers": [
-        "FAST-PAST-PART-PORT-POST",
-        "PAST-PART-PORT",
-        "WEND:FAST-PAST-PART-PORT-POST"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (4 letters): change position 2 of 'FAST' to align with the clue: \"Gone by in time and no longer existing\".",
-        "HINT 02 // The pivot transition requires bridging through 'PART'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WND-0097",
     "title": "WEND // WORD LADDER #0097 (CODE → BARK)",
     "category": "LOGIC",
@@ -6164,69 +3140,6 @@ export const wendChallenges = [
       "hints": [
         "HINT 01 // Focus on Step 2 (4 letters): change position 2 of 'CODE' to align with the clue: \"Central structural nexus of a planetary system\".",
         "HINT 02 // The pivot transition requires bridging through 'CARE'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WND-0098",
-    "title": "WEND // WORD LADDER #0098 (GATE → CALM)",
-    "category": "LOGIC",
-    "description": "Morph 'GATE' into 'CALM' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "LOW",
-    "risk": "SAFE",
-    "cost": 60,
-    "reward": 85,
-    "penalty": 30,
-    "timeLimit": 55,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-05 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0098",
-      "wordLength": 4,
-      "startWord": "GATE",
-      "targetWord": "CALM",
-      "steps": [
-        {
-          "clue": "Starting state: Hinged barrier across an opening",
-          "lockedWord": "GATE"
-        },
-        {
-          "clue": "Conferred or transferred possession in the past"
-        },
-        {
-          "clue": "A subterranean hollow or subterranean chamber"
-        },
-        {
-          "clue": "Arrived at a specified coordinate"
-        },
-        {
-          "clue": "Target state: Free from agitation or turbulent disturbance",
-          "lockedWord": "CALM"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "GATE-GAVE-CAVE-CAME-CALM",
-      "expectedWords": [
-        "GATE",
-        "GAVE",
-        "CAVE",
-        "CAME",
-        "CALM"
-      ],
-      "acceptedAnswers": [
-        "GATE-GAVE-CAVE-CAME-CALM",
-        "GAVE-CAVE-CAME",
-        "WEND:GATE-GAVE-CAVE-CAME-CALM"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (4 letters): change position 2 of 'GATE' to align with the clue: \"Conferred or transferred possession in the past\".",
-        "HINT 02 // The pivot transition requires bridging through 'CAVE'; check vowel shifts between adjacent steps."
       ]
     },
     "enabled": true,
@@ -6300,69 +3213,6 @@ export const wendChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WND-0100",
-    "title": "WEND // WORD LADDER #0100 (WIND → LOVE)",
-    "category": "LOGIC",
-    "description": "Morph 'WIND' into 'LOVE' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "LOW",
-    "risk": "SAFE",
-    "cost": 60,
-    "reward": 85,
-    "penalty": 30,
-    "timeLimit": 55,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-06 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0100",
-      "wordLength": 4,
-      "startWord": "WIND",
-      "targetWord": "LOVE",
-      "steps": [
-        {
-          "clue": "Starting state: Natural perceptible movement of air",
-          "lockedWord": "WIND"
-        },
-        {
-          "clue": "Fermented juice of grapes or fruit"
-        },
-        {
-          "clue": "Continuous spatial extent having only one dimension"
-        },
-        {
-          "clue": "Having no companions; solitary in wilderness"
-        },
-        {
-          "clue": "Target state: Deep affection and protective devotion",
-          "lockedWord": "LOVE"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "WIND-WINE-LINE-LONE-LOVE",
-      "expectedWords": [
-        "WIND",
-        "WINE",
-        "LINE",
-        "LONE",
-        "LOVE"
-      ],
-      "acceptedAnswers": [
-        "WIND-WINE-LINE-LONE-LOVE",
-        "WINE-LINE-LONE",
-        "WEND:WIND-WINE-LINE-LONE-LOVE"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (4 letters): change position 2 of 'WIND' to align with the clue: \"Fermented juice of grapes or fruit\".",
-        "HINT 02 // The pivot transition requires bridging through 'LINE'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WND-0101",
     "title": "WEND // WORD LADDER #0101 (STONE → CHALK)",
     "category": "LOGIC",
@@ -6424,69 +3274,6 @@ export const wendChallenges = [
       "hints": [
         "HINT 01 // Focus on Step 2 (5 letters): change position 2 of 'STONE' to align with the clue: \"Emitted radiant light in the past\".",
         "HINT 02 // The pivot transition requires bridging through 'CHINE'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WND-0102",
-    "title": "WEND // WORD LADDER #0102 (BLACK → CLING)",
-    "category": "LOGIC",
-    "description": "Morph 'BLACK' into 'CLING' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "LOW",
-    "risk": "SAFE",
-    "cost": 60,
-    "reward": 85,
-    "penalty": 30,
-    "timeLimit": 55,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-06 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0102",
-      "wordLength": 5,
-      "startWord": "BLACK",
-      "targetWord": "CLING",
-      "steps": [
-        {
-          "clue": "Starting state: Total absence of visible light",
-          "lockedWord": "BLACK"
-        },
-        {
-          "clue": "Empty of marks, writing, or expression"
-        },
-        {
-          "clue": "To open and close eyes rapidly"
-        },
-        {
-          "clue": "A sharp metallic resonant sound"
-        },
-        {
-          "clue": "Target state: To hold on tightly to an anchor",
-          "lockedWord": "CLING"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "BLACK-BLANK-BLINK-CLINK-CLING",
-      "expectedWords": [
-        "BLACK",
-        "BLANK",
-        "BLINK",
-        "CLINK",
-        "CLING"
-      ],
-      "acceptedAnswers": [
-        "BLACK-BLANK-BLINK-CLINK-CLING",
-        "BLANK-BLINK-CLINK",
-        "WEND:BLACK-BLANK-BLINK-CLINK-CLING"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (5 letters): change position 2 of 'BLACK' to align with the clue: \"Empty of marks, writing, or expression\".",
-        "HINT 02 // The pivot transition requires bridging through 'BLINK'; check vowel shifts between adjacent steps."
       ]
     },
     "enabled": true,
@@ -6556,69 +3343,6 @@ export const wendChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WND-0104",
-    "title": "WEND // WORD LADDER #0104 (RIVER → AFTER)",
-    "category": "LOGIC",
-    "description": "Morph 'RIVER' into 'AFTER' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "LOW",
-    "risk": "SAFE",
-    "cost": 60,
-    "reward": 85,
-    "penalty": 30,
-    "timeLimit": 55,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-06 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0104",
-      "wordLength": 5,
-      "startWord": "RIVER",
-      "targetWord": "AFTER",
-      "steps": [
-        {
-          "clue": "Starting state: Large natural stream of flowing water",
-          "lockedWord": "RIVER"
-        },
-        {
-          "clue": "One who travels mounted on horseback"
-        },
-        {
-          "clue": "One who provides relief or auxiliary support"
-        },
-        {
-          "clue": "To change or modify character without replacing"
-        },
-        {
-          "clue": "Target state: Subsequent in chronological sequence",
-          "lockedWord": "AFTER"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "RIVER-RIDER-AIDER-ALTER-AFTER",
-      "expectedWords": [
-        "RIVER",
-        "RIDER",
-        "AIDER",
-        "ALTER",
-        "AFTER"
-      ],
-      "acceptedAnswers": [
-        "RIVER-RIDER-AIDER-ALTER-AFTER",
-        "RIDER-AIDER-ALTER",
-        "WEND:RIVER-RIDER-AIDER-ALTER-AFTER"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (5 letters): change position 2 of 'RIVER' to align with the clue: \"One who travels mounted on horseback\".",
-        "HINT 02 // The pivot transition requires bridging through 'AIDER'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WND-0105",
     "title": "WEND // WORD LADDER #0105 (PLANT → STARE)",
     "category": "LOGIC",
@@ -6676,69 +3400,6 @@ export const wendChallenges = [
       "hints": [
         "HINT 01 // Focus on Step 2 (5 letters): change position 2 of 'PLANT' to align with the clue: \"Flat two-dimensional surface or winged aircraft\".",
         "HINT 02 // The pivot transition requires bridging through 'PLATE'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WND-0106",
-    "title": "WEND // WORD LADDER #0106 (SLEEP → STEEL)",
-    "category": "LOGIC",
-    "description": "Morph 'SLEEP' into 'STEEL' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "LOW",
-    "risk": "SAFE",
-    "cost": 60,
-    "reward": 85,
-    "penalty": 30,
-    "timeLimit": 55,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-06 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0106",
-      "wordLength": 5,
-      "startWord": "SLEEP",
-      "targetWord": "STEEL",
-      "steps": [
-        {
-          "clue": "Starting state: Naturally recurring condition of biological rest",
-          "lockedWord": "SLEEP"
-        },
-        {
-          "clue": "Ruminant quadruped domesticated for wool"
-        },
-        {
-          "clue": "Perpendicularly steep or absolute pure"
-        },
-        {
-          "clue": "To guide the direction of a vessel or vehicle"
-        },
-        {
-          "clue": "Target state: Alloy of iron with carbon of high tensile strength",
-          "lockedWord": "STEEL"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "SLEEP-SHEEP-SHEER-STEER-STEEL",
-      "expectedWords": [
-        "SLEEP",
-        "SHEEP",
-        "SHEER",
-        "STEER",
-        "STEEL"
-      ],
-      "acceptedAnswers": [
-        "SLEEP-SHEEP-SHEER-STEER-STEEL",
-        "SHEEP-SHEER-STEER",
-        "WEND:SLEEP-SHEEP-SHEER-STEER-STEEL"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (5 letters): change position 2 of 'SLEEP' to align with the clue: \"Ruminant quadruped domesticated for wool\".",
-        "HINT 02 // The pivot transition requires bridging through 'SHEER'; check vowel shifts between adjacent steps."
       ]
     },
     "enabled": true,
@@ -6811,69 +3472,6 @@ export const wendChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WND-0108",
-    "title": "WEND // WORD LADDER #0108 (STORM → SPARK)",
-    "category": "LOGIC",
-    "description": "Morph 'STORM' into 'SPARK' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "LOW",
-    "risk": "SAFE",
-    "cost": 60,
-    "reward": 85,
-    "penalty": 30,
-    "timeLimit": 55,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-06 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0108",
-      "wordLength": 5,
-      "startWord": "STORM",
-      "targetWord": "SPARK",
-      "steps": [
-        {
-          "clue": "Starting state: Violent disturbance of meteorological atmosphere",
-          "lockedWord": "STORM"
-        },
-        {
-          "clue": "Retail mercantile establishment or storage repository"
-        },
-        {
-          "clue": "To gaze fixedly with wide uninterrupted eyes"
-        },
-        {
-          "clue": "Additional component held in reserve backup"
-        },
-        {
-          "clue": "Target state: Incandescent particle thrown off from a burning body",
-          "lockedWord": "SPARK"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "STORM-STORE-STARE-SPARE-SPARK",
-      "expectedWords": [
-        "STORM",
-        "STORE",
-        "STARE",
-        "SPARE",
-        "SPARK"
-      ],
-      "acceptedAnswers": [
-        "STORM-STORE-STARE-SPARE-SPARK",
-        "STORE-STARE-SPARE",
-        "WEND:STORM-STORE-STARE-SPARE-SPARK"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (5 letters): change position 2 of 'STORM' to align with the clue: \"Retail mercantile establishment or storage repository\".",
-        "HINT 02 // The pivot transition requires bridging through 'STARE'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WND-0109",
     "title": "WEND // WORD LADDER #0109 (COLD → WARM)",
     "category": "LOGIC",
@@ -6931,69 +3529,6 @@ export const wendChallenges = [
       "hints": [
         "HINT 01 // Focus on Step 2 (4 letters): change position 2 of 'COLD' to align with the clue: \"A flexible insulated cable or binding twine\".",
         "HINT 02 // The pivot transition requires bridging through 'CARD'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WND-0110",
-    "title": "WEND // WORD LADDER #0110 (DARK → FIRE)",
-    "category": "LOGIC",
-    "description": "Morph 'DARK' into 'FIRE' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "LOW",
-    "risk": "SAFE",
-    "cost": 60,
-    "reward": 85,
-    "penalty": 30,
-    "timeLimit": 55,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-06 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0110",
-      "wordLength": 4,
-      "startWord": "DARK",
-      "targetWord": "FIRE",
-      "steps": [
-        {
-          "clue": "Starting state: Absence of illumination",
-          "lockedWord": "DARK"
-        },
-        {
-          "clue": "A small pointed projectile or rapid dash"
-        },
-        {
-          "clue": "Loose soil, earth, or particulate matter"
-        },
-        {
-          "clue": "Extremely urgent or calamitous circumstance"
-        },
-        {
-          "clue": "Target state: Combustion generating thermal heat",
-          "lockedWord": "FIRE"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "DARK-DART-DIRT-DIRE-FIRE",
-      "expectedWords": [
-        "DARK",
-        "DART",
-        "DIRT",
-        "DIRE",
-        "FIRE"
-      ],
-      "acceptedAnswers": [
-        "DARK-DART-DIRT-DIRE-FIRE",
-        "DART-DIRT-DIRE",
-        "WEND:DARK-DART-DIRT-DIRE-FIRE"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (4 letters): change position 2 of 'DARK' to align with the clue: \"A small pointed projectile or rapid dash\".",
-        "HINT 02 // The pivot transition requires bridging through 'DIRT'; check vowel shifts between adjacent steps."
       ]
     },
     "enabled": true,
@@ -7063,69 +3598,6 @@ export const wendChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WND-0112",
-    "title": "WEND // WORD LADDER #0112 (LEAD → GOLD)",
-    "category": "LOGIC",
-    "description": "Morph 'LEAD' into 'GOLD' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "LOW",
-    "risk": "SAFE",
-    "cost": 60,
-    "reward": 85,
-    "penalty": 30,
-    "timeLimit": 55,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-06 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0112",
-      "wordLength": 4,
-      "startWord": "LEAD",
-      "targetWord": "GOLD",
-      "steps": [
-        {
-          "clue": "Starting state: Dense heavy metallic element",
-          "lockedWord": "LEAD"
-        },
-        {
-          "clue": "A heavy burden or amount carried"
-        },
-        {
-          "clue": "An amphibious tailless creature"
-        },
-        {
-          "clue": "Communicated verbal instruction in the past"
-        },
-        {
-          "clue": "Target state: Precious lustrous yellow metal",
-          "lockedWord": "GOLD"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "LEAD-LOAD-TOAD-TOLD-GOLD",
-      "expectedWords": [
-        "LEAD",
-        "LOAD",
-        "TOAD",
-        "TOLD",
-        "GOLD"
-      ],
-      "acceptedAnswers": [
-        "LEAD-LOAD-TOAD-TOLD-GOLD",
-        "LOAD-TOAD-TOLD",
-        "WEND:LEAD-LOAD-TOAD-TOLD-GOLD"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (4 letters): change position 2 of 'LEAD' to align with the clue: \"A heavy burden or amount carried\".",
-        "HINT 02 // The pivot transition requires bridging through 'TOAD'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WND-0113",
     "title": "WEND // WORD LADDER #0113 (MORE → SAFE)",
     "category": "LOGIC",
@@ -7189,69 +3661,6 @@ export const wendChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WND-0114",
-    "title": "WEND // WORD LADDER #0114 (FAST → POST)",
-    "category": "LOGIC",
-    "description": "Morph 'FAST' into 'POST' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "LOW",
-    "risk": "SAFE",
-    "cost": 60,
-    "reward": 85,
-    "penalty": 30,
-    "timeLimit": 55,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-06 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0114",
-      "wordLength": 4,
-      "startWord": "FAST",
-      "targetWord": "POST",
-      "steps": [
-        {
-          "clue": "Starting state: Moving at high velocity",
-          "lockedWord": "FAST"
-        },
-        {
-          "clue": "Gone by in time and no longer existing"
-        },
-        {
-          "clue": "A component portion of a greater whole"
-        },
-        {
-          "clue": "A maritime harbor or network interface"
-        },
-        {
-          "clue": "Target state: Sturdy upright timber or bulletin",
-          "lockedWord": "POST"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "FAST-PAST-PART-PORT-POST",
-      "expectedWords": [
-        "FAST",
-        "PAST",
-        "PART",
-        "PORT",
-        "POST"
-      ],
-      "acceptedAnswers": [
-        "FAST-PAST-PART-PORT-POST",
-        "PAST-PART-PORT",
-        "WEND:FAST-PAST-PART-PORT-POST"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (4 letters): change position 2 of 'FAST' to align with the clue: \"Gone by in time and no longer existing\".",
-        "HINT 02 // The pivot transition requires bridging through 'PART'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WND-0115",
     "title": "WEND // WORD LADDER #0115 (CODE → BARK)",
     "category": "LOGIC",
@@ -7309,69 +3718,6 @@ export const wendChallenges = [
       "hints": [
         "HINT 01 // Focus on Step 2 (4 letters): change position 2 of 'CODE' to align with the clue: \"Central structural nexus of a planetary system\".",
         "HINT 02 // The pivot transition requires bridging through 'CARE'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WND-0116",
-    "title": "WEND // WORD LADDER #0116 (GATE → CALM)",
-    "category": "LOGIC",
-    "description": "Morph 'GATE' into 'CALM' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "LOW",
-    "risk": "SAFE",
-    "cost": 60,
-    "reward": 85,
-    "penalty": 30,
-    "timeLimit": 55,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-06 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0116",
-      "wordLength": 4,
-      "startWord": "GATE",
-      "targetWord": "CALM",
-      "steps": [
-        {
-          "clue": "Starting state: Hinged barrier across an opening",
-          "lockedWord": "GATE"
-        },
-        {
-          "clue": "Conferred or transferred possession in the past"
-        },
-        {
-          "clue": "A subterranean hollow or subterranean chamber"
-        },
-        {
-          "clue": "Arrived at a specified coordinate"
-        },
-        {
-          "clue": "Target state: Free from agitation or turbulent disturbance",
-          "lockedWord": "CALM"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "GATE-GAVE-CAVE-CAME-CALM",
-      "expectedWords": [
-        "GATE",
-        "GAVE",
-        "CAVE",
-        "CAME",
-        "CALM"
-      ],
-      "acceptedAnswers": [
-        "GATE-GAVE-CAVE-CAME-CALM",
-        "GAVE-CAVE-CAME",
-        "WEND:GATE-GAVE-CAVE-CAME-CALM"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (4 letters): change position 2 of 'GATE' to align with the clue: \"Conferred or transferred possession in the past\".",
-        "HINT 02 // The pivot transition requires bridging through 'CAVE'; check vowel shifts between adjacent steps."
       ]
     },
     "enabled": true,
@@ -7445,69 +3791,6 @@ export const wendChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WND-0118",
-    "title": "WEND // WORD LADDER #0118 (WIND → LOVE)",
-    "category": "LOGIC",
-    "description": "Morph 'WIND' into 'LOVE' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "LOW",
-    "risk": "SAFE",
-    "cost": 60,
-    "reward": 85,
-    "penalty": 30,
-    "timeLimit": 55,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-06 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0118",
-      "wordLength": 4,
-      "startWord": "WIND",
-      "targetWord": "LOVE",
-      "steps": [
-        {
-          "clue": "Starting state: Natural perceptible movement of air",
-          "lockedWord": "WIND"
-        },
-        {
-          "clue": "Fermented juice of grapes or fruit"
-        },
-        {
-          "clue": "Continuous spatial extent having only one dimension"
-        },
-        {
-          "clue": "Having no companions; solitary in wilderness"
-        },
-        {
-          "clue": "Target state: Deep affection and protective devotion",
-          "lockedWord": "LOVE"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "WIND-WINE-LINE-LONE-LOVE",
-      "expectedWords": [
-        "WIND",
-        "WINE",
-        "LINE",
-        "LONE",
-        "LOVE"
-      ],
-      "acceptedAnswers": [
-        "WIND-WINE-LINE-LONE-LOVE",
-        "WINE-LINE-LONE",
-        "WEND:WIND-WINE-LINE-LONE-LOVE"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (4 letters): change position 2 of 'WIND' to align with the clue: \"Fermented juice of grapes or fruit\".",
-        "HINT 02 // The pivot transition requires bridging through 'LINE'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WND-0119",
     "title": "WEND // WORD LADDER #0119 (STONE → CHALK)",
     "category": "LOGIC",
@@ -7569,69 +3852,6 @@ export const wendChallenges = [
       "hints": [
         "HINT 01 // Focus on Step 2 (5 letters): change position 2 of 'STONE' to align with the clue: \"Emitted radiant light in the past\".",
         "HINT 02 // The pivot transition requires bridging through 'CHINE'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WND-0120",
-    "title": "WEND // WORD LADDER #0120 (BLACK → CLING)",
-    "category": "LOGIC",
-    "description": "Morph 'BLACK' into 'CLING' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "LOW",
-    "risk": "SAFE",
-    "cost": 60,
-    "reward": 85,
-    "penalty": 30,
-    "timeLimit": 55,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-07 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0120",
-      "wordLength": 5,
-      "startWord": "BLACK",
-      "targetWord": "CLING",
-      "steps": [
-        {
-          "clue": "Starting state: Total absence of visible light",
-          "lockedWord": "BLACK"
-        },
-        {
-          "clue": "Empty of marks, writing, or expression"
-        },
-        {
-          "clue": "To open and close eyes rapidly"
-        },
-        {
-          "clue": "A sharp metallic resonant sound"
-        },
-        {
-          "clue": "Target state: To hold on tightly to an anchor",
-          "lockedWord": "CLING"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "BLACK-BLANK-BLINK-CLINK-CLING",
-      "expectedWords": [
-        "BLACK",
-        "BLANK",
-        "BLINK",
-        "CLINK",
-        "CLING"
-      ],
-      "acceptedAnswers": [
-        "BLACK-BLANK-BLINK-CLINK-CLING",
-        "BLANK-BLINK-CLINK",
-        "WEND:BLACK-BLANK-BLINK-CLINK-CLING"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (5 letters): change position 2 of 'BLACK' to align with the clue: \"Empty of marks, writing, or expression\".",
-        "HINT 02 // The pivot transition requires bridging through 'BLINK'; check vowel shifts between adjacent steps."
       ]
     },
     "enabled": true,
@@ -7701,69 +3921,6 @@ export const wendChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WND-0122",
-    "title": "WEND // WORD LADDER #0122 (RIVER → AFTER)",
-    "category": "LOGIC",
-    "description": "Morph 'RIVER' into 'AFTER' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "LOW",
-    "risk": "SAFE",
-    "cost": 60,
-    "reward": 85,
-    "penalty": 30,
-    "timeLimit": 55,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-07 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0122",
-      "wordLength": 5,
-      "startWord": "RIVER",
-      "targetWord": "AFTER",
-      "steps": [
-        {
-          "clue": "Starting state: Large natural stream of flowing water",
-          "lockedWord": "RIVER"
-        },
-        {
-          "clue": "One who travels mounted on horseback"
-        },
-        {
-          "clue": "One who provides relief or auxiliary support"
-        },
-        {
-          "clue": "To change or modify character without replacing"
-        },
-        {
-          "clue": "Target state: Subsequent in chronological sequence",
-          "lockedWord": "AFTER"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "RIVER-RIDER-AIDER-ALTER-AFTER",
-      "expectedWords": [
-        "RIVER",
-        "RIDER",
-        "AIDER",
-        "ALTER",
-        "AFTER"
-      ],
-      "acceptedAnswers": [
-        "RIVER-RIDER-AIDER-ALTER-AFTER",
-        "RIDER-AIDER-ALTER",
-        "WEND:RIVER-RIDER-AIDER-ALTER-AFTER"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (5 letters): change position 2 of 'RIVER' to align with the clue: \"One who travels mounted on horseback\".",
-        "HINT 02 // The pivot transition requires bridging through 'AIDER'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WND-0123",
     "title": "WEND // WORD LADDER #0123 (PLANT → STARE)",
     "category": "LOGIC",
@@ -7821,69 +3978,6 @@ export const wendChallenges = [
       "hints": [
         "HINT 01 // Focus on Step 2 (5 letters): change position 2 of 'PLANT' to align with the clue: \"Flat two-dimensional surface or winged aircraft\".",
         "HINT 02 // The pivot transition requires bridging through 'PLATE'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WND-0124",
-    "title": "WEND // WORD LADDER #0124 (SLEEP → STEEL)",
-    "category": "LOGIC",
-    "description": "Morph 'SLEEP' into 'STEEL' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "LOW",
-    "risk": "SAFE",
-    "cost": 60,
-    "reward": 85,
-    "penalty": 30,
-    "timeLimit": 55,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-07 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0124",
-      "wordLength": 5,
-      "startWord": "SLEEP",
-      "targetWord": "STEEL",
-      "steps": [
-        {
-          "clue": "Starting state: Naturally recurring condition of biological rest",
-          "lockedWord": "SLEEP"
-        },
-        {
-          "clue": "Ruminant quadruped domesticated for wool"
-        },
-        {
-          "clue": "Perpendicularly steep or absolute pure"
-        },
-        {
-          "clue": "To guide the direction of a vessel or vehicle"
-        },
-        {
-          "clue": "Target state: Alloy of iron with carbon of high tensile strength",
-          "lockedWord": "STEEL"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "SLEEP-SHEEP-SHEER-STEER-STEEL",
-      "expectedWords": [
-        "SLEEP",
-        "SHEEP",
-        "SHEER",
-        "STEER",
-        "STEEL"
-      ],
-      "acceptedAnswers": [
-        "SLEEP-SHEEP-SHEER-STEER-STEEL",
-        "SHEEP-SHEER-STEER",
-        "WEND:SLEEP-SHEEP-SHEER-STEER-STEEL"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (5 letters): change position 2 of 'SLEEP' to align with the clue: \"Ruminant quadruped domesticated for wool\".",
-        "HINT 02 // The pivot transition requires bridging through 'SHEER'; check vowel shifts between adjacent steps."
       ]
     },
     "enabled": true,
@@ -7956,69 +4050,6 @@ export const wendChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WND-0126",
-    "title": "WEND // WORD LADDER #0126 (STORM → SPARK)",
-    "category": "LOGIC",
-    "description": "Morph 'STORM' into 'SPARK' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "LOW",
-    "risk": "SAFE",
-    "cost": 60,
-    "reward": 85,
-    "penalty": 30,
-    "timeLimit": 55,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-07 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0126",
-      "wordLength": 5,
-      "startWord": "STORM",
-      "targetWord": "SPARK",
-      "steps": [
-        {
-          "clue": "Starting state: Violent disturbance of meteorological atmosphere",
-          "lockedWord": "STORM"
-        },
-        {
-          "clue": "Retail mercantile establishment or storage repository"
-        },
-        {
-          "clue": "To gaze fixedly with wide uninterrupted eyes"
-        },
-        {
-          "clue": "Additional component held in reserve backup"
-        },
-        {
-          "clue": "Target state: Incandescent particle thrown off from a burning body",
-          "lockedWord": "SPARK"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "STORM-STORE-STARE-SPARE-SPARK",
-      "expectedWords": [
-        "STORM",
-        "STORE",
-        "STARE",
-        "SPARE",
-        "SPARK"
-      ],
-      "acceptedAnswers": [
-        "STORM-STORE-STARE-SPARE-SPARK",
-        "STORE-STARE-SPARE",
-        "WEND:STORM-STORE-STARE-SPARE-SPARK"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (5 letters): change position 2 of 'STORM' to align with the clue: \"Retail mercantile establishment or storage repository\".",
-        "HINT 02 // The pivot transition requires bridging through 'STARE'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WND-0127",
     "title": "WEND // WORD LADDER #0127 (COLD → WARM)",
     "category": "LOGIC",
@@ -8076,69 +4107,6 @@ export const wendChallenges = [
       "hints": [
         "HINT 01 // Focus on Step 2 (4 letters): change position 2 of 'COLD' to align with the clue: \"A flexible insulated cable or binding twine\".",
         "HINT 02 // The pivot transition requires bridging through 'CARD'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WND-0128",
-    "title": "WEND // WORD LADDER #0128 (DARK → FIRE)",
-    "category": "LOGIC",
-    "description": "Morph 'DARK' into 'FIRE' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "LOW",
-    "risk": "SAFE",
-    "cost": 60,
-    "reward": 85,
-    "penalty": 30,
-    "timeLimit": 55,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-07 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0128",
-      "wordLength": 4,
-      "startWord": "DARK",
-      "targetWord": "FIRE",
-      "steps": [
-        {
-          "clue": "Starting state: Absence of illumination",
-          "lockedWord": "DARK"
-        },
-        {
-          "clue": "A small pointed projectile or rapid dash"
-        },
-        {
-          "clue": "Loose soil, earth, or particulate matter"
-        },
-        {
-          "clue": "Extremely urgent or calamitous circumstance"
-        },
-        {
-          "clue": "Target state: Combustion generating thermal heat",
-          "lockedWord": "FIRE"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "DARK-DART-DIRT-DIRE-FIRE",
-      "expectedWords": [
-        "DARK",
-        "DART",
-        "DIRT",
-        "DIRE",
-        "FIRE"
-      ],
-      "acceptedAnswers": [
-        "DARK-DART-DIRT-DIRE-FIRE",
-        "DART-DIRT-DIRE",
-        "WEND:DARK-DART-DIRT-DIRE-FIRE"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (4 letters): change position 2 of 'DARK' to align with the clue: \"A small pointed projectile or rapid dash\".",
-        "HINT 02 // The pivot transition requires bridging through 'DIRT'; check vowel shifts between adjacent steps."
       ]
     },
     "enabled": true,
@@ -8208,69 +4176,6 @@ export const wendChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WND-0130",
-    "title": "WEND // WORD LADDER #0130 (LEAD → GOLD)",
-    "category": "LOGIC",
-    "description": "Morph 'LEAD' into 'GOLD' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "LOW",
-    "risk": "SAFE",
-    "cost": 60,
-    "reward": 85,
-    "penalty": 30,
-    "timeLimit": 55,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-07 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0130",
-      "wordLength": 4,
-      "startWord": "LEAD",
-      "targetWord": "GOLD",
-      "steps": [
-        {
-          "clue": "Starting state: Dense heavy metallic element",
-          "lockedWord": "LEAD"
-        },
-        {
-          "clue": "A heavy burden or amount carried"
-        },
-        {
-          "clue": "An amphibious tailless creature"
-        },
-        {
-          "clue": "Communicated verbal instruction in the past"
-        },
-        {
-          "clue": "Target state: Precious lustrous yellow metal",
-          "lockedWord": "GOLD"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "LEAD-LOAD-TOAD-TOLD-GOLD",
-      "expectedWords": [
-        "LEAD",
-        "LOAD",
-        "TOAD",
-        "TOLD",
-        "GOLD"
-      ],
-      "acceptedAnswers": [
-        "LEAD-LOAD-TOAD-TOLD-GOLD",
-        "LOAD-TOAD-TOLD",
-        "WEND:LEAD-LOAD-TOAD-TOLD-GOLD"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (4 letters): change position 2 of 'LEAD' to align with the clue: \"A heavy burden or amount carried\".",
-        "HINT 02 // The pivot transition requires bridging through 'TOAD'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WND-0131",
     "title": "WEND // WORD LADDER #0131 (MORE → SAFE)",
     "category": "LOGIC",
@@ -8334,69 +4239,6 @@ export const wendChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WND-0132",
-    "title": "WEND // WORD LADDER #0132 (FAST → POST)",
-    "category": "LOGIC",
-    "description": "Morph 'FAST' into 'POST' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "LOW",
-    "risk": "SAFE",
-    "cost": 60,
-    "reward": 85,
-    "penalty": 30,
-    "timeLimit": 55,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-07 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0132",
-      "wordLength": 4,
-      "startWord": "FAST",
-      "targetWord": "POST",
-      "steps": [
-        {
-          "clue": "Starting state: Moving at high velocity",
-          "lockedWord": "FAST"
-        },
-        {
-          "clue": "Gone by in time and no longer existing"
-        },
-        {
-          "clue": "A component portion of a greater whole"
-        },
-        {
-          "clue": "A maritime harbor or network interface"
-        },
-        {
-          "clue": "Target state: Sturdy upright timber or bulletin",
-          "lockedWord": "POST"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "FAST-PAST-PART-PORT-POST",
-      "expectedWords": [
-        "FAST",
-        "PAST",
-        "PART",
-        "PORT",
-        "POST"
-      ],
-      "acceptedAnswers": [
-        "FAST-PAST-PART-PORT-POST",
-        "PAST-PART-PORT",
-        "WEND:FAST-PAST-PART-PORT-POST"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (4 letters): change position 2 of 'FAST' to align with the clue: \"Gone by in time and no longer existing\".",
-        "HINT 02 // The pivot transition requires bridging through 'PART'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WND-0133",
     "title": "WEND // WORD LADDER #0133 (CODE → BARK)",
     "category": "LOGIC",
@@ -8454,69 +4296,6 @@ export const wendChallenges = [
       "hints": [
         "HINT 01 // Focus on Step 2 (4 letters): change position 2 of 'CODE' to align with the clue: \"Central structural nexus of a planetary system\".",
         "HINT 02 // The pivot transition requires bridging through 'CARE'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WND-0134",
-    "title": "WEND // WORD LADDER #0134 (GATE → CALM)",
-    "category": "LOGIC",
-    "description": "Morph 'GATE' into 'CALM' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "LOW",
-    "risk": "SAFE",
-    "cost": 60,
-    "reward": 85,
-    "penalty": 30,
-    "timeLimit": 55,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-07 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0134",
-      "wordLength": 4,
-      "startWord": "GATE",
-      "targetWord": "CALM",
-      "steps": [
-        {
-          "clue": "Starting state: Hinged barrier across an opening",
-          "lockedWord": "GATE"
-        },
-        {
-          "clue": "Conferred or transferred possession in the past"
-        },
-        {
-          "clue": "A subterranean hollow or subterranean chamber"
-        },
-        {
-          "clue": "Arrived at a specified coordinate"
-        },
-        {
-          "clue": "Target state: Free from agitation or turbulent disturbance",
-          "lockedWord": "CALM"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "GATE-GAVE-CAVE-CAME-CALM",
-      "expectedWords": [
-        "GATE",
-        "GAVE",
-        "CAVE",
-        "CAME",
-        "CALM"
-      ],
-      "acceptedAnswers": [
-        "GATE-GAVE-CAVE-CAME-CALM",
-        "GAVE-CAVE-CAME",
-        "WEND:GATE-GAVE-CAVE-CAME-CALM"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (4 letters): change position 2 of 'GATE' to align with the clue: \"Conferred or transferred possession in the past\".",
-        "HINT 02 // The pivot transition requires bridging through 'CAVE'; check vowel shifts between adjacent steps."
       ]
     },
     "enabled": true,
@@ -8590,69 +4369,6 @@ export const wendChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WND-0136",
-    "title": "WEND // WORD LADDER #0136 (WIND → LOVE)",
-    "category": "LOGIC",
-    "description": "Morph 'WIND' into 'LOVE' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "LOW",
-    "risk": "SAFE",
-    "cost": 60,
-    "reward": 85,
-    "penalty": 30,
-    "timeLimit": 55,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-07 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0136",
-      "wordLength": 4,
-      "startWord": "WIND",
-      "targetWord": "LOVE",
-      "steps": [
-        {
-          "clue": "Starting state: Natural perceptible movement of air",
-          "lockedWord": "WIND"
-        },
-        {
-          "clue": "Fermented juice of grapes or fruit"
-        },
-        {
-          "clue": "Continuous spatial extent having only one dimension"
-        },
-        {
-          "clue": "Having no companions; solitary in wilderness"
-        },
-        {
-          "clue": "Target state: Deep affection and protective devotion",
-          "lockedWord": "LOVE"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "WIND-WINE-LINE-LONE-LOVE",
-      "expectedWords": [
-        "WIND",
-        "WINE",
-        "LINE",
-        "LONE",
-        "LOVE"
-      ],
-      "acceptedAnswers": [
-        "WIND-WINE-LINE-LONE-LOVE",
-        "WINE-LINE-LONE",
-        "WEND:WIND-WINE-LINE-LONE-LOVE"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (4 letters): change position 2 of 'WIND' to align with the clue: \"Fermented juice of grapes or fruit\".",
-        "HINT 02 // The pivot transition requires bridging through 'LINE'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WND-0137",
     "title": "WEND // WORD LADDER #0137 (STONE → CHALK)",
     "category": "LOGIC",
@@ -8714,69 +4430,6 @@ export const wendChallenges = [
       "hints": [
         "HINT 01 // Focus on Step 2 (5 letters): change position 2 of 'STONE' to align with the clue: \"Emitted radiant light in the past\".",
         "HINT 02 // The pivot transition requires bridging through 'CHINE'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WND-0138",
-    "title": "WEND // WORD LADDER #0138 (BLACK → CLING)",
-    "category": "LOGIC",
-    "description": "Morph 'BLACK' into 'CLING' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "LOW",
-    "risk": "SAFE",
-    "cost": 60,
-    "reward": 85,
-    "penalty": 30,
-    "timeLimit": 55,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-07 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0138",
-      "wordLength": 5,
-      "startWord": "BLACK",
-      "targetWord": "CLING",
-      "steps": [
-        {
-          "clue": "Starting state: Total absence of visible light",
-          "lockedWord": "BLACK"
-        },
-        {
-          "clue": "Empty of marks, writing, or expression"
-        },
-        {
-          "clue": "To open and close eyes rapidly"
-        },
-        {
-          "clue": "A sharp metallic resonant sound"
-        },
-        {
-          "clue": "Target state: To hold on tightly to an anchor",
-          "lockedWord": "CLING"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "BLACK-BLANK-BLINK-CLINK-CLING",
-      "expectedWords": [
-        "BLACK",
-        "BLANK",
-        "BLINK",
-        "CLINK",
-        "CLING"
-      ],
-      "acceptedAnswers": [
-        "BLACK-BLANK-BLINK-CLINK-CLING",
-        "BLANK-BLINK-CLINK",
-        "WEND:BLACK-BLANK-BLINK-CLINK-CLING"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (5 letters): change position 2 of 'BLACK' to align with the clue: \"Empty of marks, writing, or expression\".",
-        "HINT 02 // The pivot transition requires bridging through 'BLINK'; check vowel shifts between adjacent steps."
       ]
     },
     "enabled": true,
@@ -8846,69 +4499,6 @@ export const wendChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WND-0140",
-    "title": "WEND // WORD LADDER #0140 (RIVER → AFTER)",
-    "category": "LOGIC",
-    "description": "Morph 'RIVER' into 'AFTER' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "LOW",
-    "risk": "SAFE",
-    "cost": 60,
-    "reward": 85,
-    "penalty": 30,
-    "timeLimit": 55,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-08 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0140",
-      "wordLength": 5,
-      "startWord": "RIVER",
-      "targetWord": "AFTER",
-      "steps": [
-        {
-          "clue": "Starting state: Large natural stream of flowing water",
-          "lockedWord": "RIVER"
-        },
-        {
-          "clue": "One who travels mounted on horseback"
-        },
-        {
-          "clue": "One who provides relief or auxiliary support"
-        },
-        {
-          "clue": "To change or modify character without replacing"
-        },
-        {
-          "clue": "Target state: Subsequent in chronological sequence",
-          "lockedWord": "AFTER"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "RIVER-RIDER-AIDER-ALTER-AFTER",
-      "expectedWords": [
-        "RIVER",
-        "RIDER",
-        "AIDER",
-        "ALTER",
-        "AFTER"
-      ],
-      "acceptedAnswers": [
-        "RIVER-RIDER-AIDER-ALTER-AFTER",
-        "RIDER-AIDER-ALTER",
-        "WEND:RIVER-RIDER-AIDER-ALTER-AFTER"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (5 letters): change position 2 of 'RIVER' to align with the clue: \"One who travels mounted on horseback\".",
-        "HINT 02 // The pivot transition requires bridging through 'AIDER'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WND-0141",
     "title": "WEND // WORD LADDER #0141 (PLANT → STARE)",
     "category": "LOGIC",
@@ -8966,69 +4556,6 @@ export const wendChallenges = [
       "hints": [
         "HINT 01 // Focus on Step 2 (5 letters): change position 2 of 'PLANT' to align with the clue: \"Flat two-dimensional surface or winged aircraft\".",
         "HINT 02 // The pivot transition requires bridging through 'PLATE'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WND-0142",
-    "title": "WEND // WORD LADDER #0142 (SLEEP → STEEL)",
-    "category": "LOGIC",
-    "description": "Morph 'SLEEP' into 'STEEL' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "LOW",
-    "risk": "SAFE",
-    "cost": 60,
-    "reward": 85,
-    "penalty": 30,
-    "timeLimit": 55,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-08 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0142",
-      "wordLength": 5,
-      "startWord": "SLEEP",
-      "targetWord": "STEEL",
-      "steps": [
-        {
-          "clue": "Starting state: Naturally recurring condition of biological rest",
-          "lockedWord": "SLEEP"
-        },
-        {
-          "clue": "Ruminant quadruped domesticated for wool"
-        },
-        {
-          "clue": "Perpendicularly steep or absolute pure"
-        },
-        {
-          "clue": "To guide the direction of a vessel or vehicle"
-        },
-        {
-          "clue": "Target state: Alloy of iron with carbon of high tensile strength",
-          "lockedWord": "STEEL"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "SLEEP-SHEEP-SHEER-STEER-STEEL",
-      "expectedWords": [
-        "SLEEP",
-        "SHEEP",
-        "SHEER",
-        "STEER",
-        "STEEL"
-      ],
-      "acceptedAnswers": [
-        "SLEEP-SHEEP-SHEER-STEER-STEEL",
-        "SHEEP-SHEER-STEER",
-        "WEND:SLEEP-SHEEP-SHEER-STEER-STEEL"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (5 letters): change position 2 of 'SLEEP' to align with the clue: \"Ruminant quadruped domesticated for wool\".",
-        "HINT 02 // The pivot transition requires bridging through 'SHEER'; check vowel shifts between adjacent steps."
       ]
     },
     "enabled": true,
@@ -9101,69 +4628,6 @@ export const wendChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WND-0144",
-    "title": "WEND // WORD LADDER #0144 (STORM → SPARK)",
-    "category": "LOGIC",
-    "description": "Morph 'STORM' into 'SPARK' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "LOW",
-    "risk": "SAFE",
-    "cost": 60,
-    "reward": 85,
-    "penalty": 30,
-    "timeLimit": 55,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-08 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0144",
-      "wordLength": 5,
-      "startWord": "STORM",
-      "targetWord": "SPARK",
-      "steps": [
-        {
-          "clue": "Starting state: Violent disturbance of meteorological atmosphere",
-          "lockedWord": "STORM"
-        },
-        {
-          "clue": "Retail mercantile establishment or storage repository"
-        },
-        {
-          "clue": "To gaze fixedly with wide uninterrupted eyes"
-        },
-        {
-          "clue": "Additional component held in reserve backup"
-        },
-        {
-          "clue": "Target state: Incandescent particle thrown off from a burning body",
-          "lockedWord": "SPARK"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "STORM-STORE-STARE-SPARE-SPARK",
-      "expectedWords": [
-        "STORM",
-        "STORE",
-        "STARE",
-        "SPARE",
-        "SPARK"
-      ],
-      "acceptedAnswers": [
-        "STORM-STORE-STARE-SPARE-SPARK",
-        "STORE-STARE-SPARE",
-        "WEND:STORM-STORE-STARE-SPARE-SPARK"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (5 letters): change position 2 of 'STORM' to align with the clue: \"Retail mercantile establishment or storage repository\".",
-        "HINT 02 // The pivot transition requires bridging through 'STARE'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WND-0145",
     "title": "WEND // WORD LADDER #0145 (COLD → WARM)",
     "category": "LOGIC",
@@ -9221,69 +4685,6 @@ export const wendChallenges = [
       "hints": [
         "HINT 01 // Focus on Step 2 (4 letters): change position 2 of 'COLD' to align with the clue: \"A flexible insulated cable or binding twine\".",
         "HINT 02 // The pivot transition requires bridging through 'CARD'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WND-0146",
-    "title": "WEND // WORD LADDER #0146 (DARK → FIRE)",
-    "category": "LOGIC",
-    "description": "Morph 'DARK' into 'FIRE' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "LOW",
-    "risk": "SAFE",
-    "cost": 60,
-    "reward": 85,
-    "penalty": 30,
-    "timeLimit": 55,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-08 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0146",
-      "wordLength": 4,
-      "startWord": "DARK",
-      "targetWord": "FIRE",
-      "steps": [
-        {
-          "clue": "Starting state: Absence of illumination",
-          "lockedWord": "DARK"
-        },
-        {
-          "clue": "A small pointed projectile or rapid dash"
-        },
-        {
-          "clue": "Loose soil, earth, or particulate matter"
-        },
-        {
-          "clue": "Extremely urgent or calamitous circumstance"
-        },
-        {
-          "clue": "Target state: Combustion generating thermal heat",
-          "lockedWord": "FIRE"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "DARK-DART-DIRT-DIRE-FIRE",
-      "expectedWords": [
-        "DARK",
-        "DART",
-        "DIRT",
-        "DIRE",
-        "FIRE"
-      ],
-      "acceptedAnswers": [
-        "DARK-DART-DIRT-DIRE-FIRE",
-        "DART-DIRT-DIRE",
-        "WEND:DARK-DART-DIRT-DIRE-FIRE"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (4 letters): change position 2 of 'DARK' to align with the clue: \"A small pointed projectile or rapid dash\".",
-        "HINT 02 // The pivot transition requires bridging through 'DIRT'; check vowel shifts between adjacent steps."
       ]
     },
     "enabled": true,
@@ -9353,69 +4754,6 @@ export const wendChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WND-0148",
-    "title": "WEND // WORD LADDER #0148 (LEAD → GOLD)",
-    "category": "LOGIC",
-    "description": "Morph 'LEAD' into 'GOLD' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "LOW",
-    "risk": "SAFE",
-    "cost": 60,
-    "reward": 85,
-    "penalty": 30,
-    "timeLimit": 55,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-08 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0148",
-      "wordLength": 4,
-      "startWord": "LEAD",
-      "targetWord": "GOLD",
-      "steps": [
-        {
-          "clue": "Starting state: Dense heavy metallic element",
-          "lockedWord": "LEAD"
-        },
-        {
-          "clue": "A heavy burden or amount carried"
-        },
-        {
-          "clue": "An amphibious tailless creature"
-        },
-        {
-          "clue": "Communicated verbal instruction in the past"
-        },
-        {
-          "clue": "Target state: Precious lustrous yellow metal",
-          "lockedWord": "GOLD"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "LEAD-LOAD-TOAD-TOLD-GOLD",
-      "expectedWords": [
-        "LEAD",
-        "LOAD",
-        "TOAD",
-        "TOLD",
-        "GOLD"
-      ],
-      "acceptedAnswers": [
-        "LEAD-LOAD-TOAD-TOLD-GOLD",
-        "LOAD-TOAD-TOLD",
-        "WEND:LEAD-LOAD-TOAD-TOLD-GOLD"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (4 letters): change position 2 of 'LEAD' to align with the clue: \"A heavy burden or amount carried\".",
-        "HINT 02 // The pivot transition requires bridging through 'TOAD'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WND-0149",
     "title": "WEND // WORD LADDER #0149 (MORE → SAFE)",
     "category": "LOGIC",
@@ -9479,69 +4817,6 @@ export const wendChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WND-0150",
-    "title": "WEND // WORD LADDER #0150 (FAST → POST)",
-    "category": "LOGIC",
-    "description": "Morph 'FAST' into 'POST' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "LOW",
-    "risk": "SAFE",
-    "cost": 60,
-    "reward": 85,
-    "penalty": 30,
-    "timeLimit": 55,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-08 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0150",
-      "wordLength": 4,
-      "startWord": "FAST",
-      "targetWord": "POST",
-      "steps": [
-        {
-          "clue": "Starting state: Moving at high velocity",
-          "lockedWord": "FAST"
-        },
-        {
-          "clue": "Gone by in time and no longer existing"
-        },
-        {
-          "clue": "A component portion of a greater whole"
-        },
-        {
-          "clue": "A maritime harbor or network interface"
-        },
-        {
-          "clue": "Target state: Sturdy upright timber or bulletin",
-          "lockedWord": "POST"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "FAST-PAST-PART-PORT-POST",
-      "expectedWords": [
-        "FAST",
-        "PAST",
-        "PART",
-        "PORT",
-        "POST"
-      ],
-      "acceptedAnswers": [
-        "FAST-PAST-PART-PORT-POST",
-        "PAST-PART-PORT",
-        "WEND:FAST-PAST-PART-PORT-POST"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (4 letters): change position 2 of 'FAST' to align with the clue: \"Gone by in time and no longer existing\".",
-        "HINT 02 // The pivot transition requires bridging through 'PART'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WND-0151",
     "title": "WEND // WORD LADDER #0151 (CODE → BARK)",
     "category": "LOGIC",
@@ -9599,69 +4874,6 @@ export const wendChallenges = [
       "hints": [
         "HINT 01 // Focus on Step 2 (4 letters): change position 2 of 'CODE' to align with the clue: \"Central structural nexus of a planetary system\".",
         "HINT 02 // The pivot transition requires bridging through 'CARE'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WND-0152",
-    "title": "WEND // WORD LADDER #0152 (GATE → CALM)",
-    "category": "LOGIC",
-    "description": "Morph 'GATE' into 'CALM' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "MODERATE",
-    "risk": "BALANCED",
-    "cost": 140,
-    "reward": 260,
-    "penalty": 80,
-    "timeLimit": 75,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-08 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0152",
-      "wordLength": 4,
-      "startWord": "GATE",
-      "targetWord": "CALM",
-      "steps": [
-        {
-          "clue": "Starting state: Hinged barrier across an opening",
-          "lockedWord": "GATE"
-        },
-        {
-          "clue": "Conferred or transferred possession in the past"
-        },
-        {
-          "clue": "A subterranean hollow or subterranean chamber"
-        },
-        {
-          "clue": "Arrived at a specified coordinate"
-        },
-        {
-          "clue": "Target state: Free from agitation or turbulent disturbance",
-          "lockedWord": "CALM"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "GATE-GAVE-CAVE-CAME-CALM",
-      "expectedWords": [
-        "GATE",
-        "GAVE",
-        "CAVE",
-        "CAME",
-        "CALM"
-      ],
-      "acceptedAnswers": [
-        "GATE-GAVE-CAVE-CAME-CALM",
-        "GAVE-CAVE-CAME",
-        "WEND:GATE-GAVE-CAVE-CAME-CALM"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (4 letters): change position 2 of 'GATE' to align with the clue: \"Conferred or transferred possession in the past\".",
-        "HINT 02 // The pivot transition requires bridging through 'CAVE'; check vowel shifts between adjacent steps."
       ]
     },
     "enabled": true,
@@ -9735,69 +4947,6 @@ export const wendChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WND-0154",
-    "title": "WEND // WORD LADDER #0154 (WIND → LOVE)",
-    "category": "LOGIC",
-    "description": "Morph 'WIND' into 'LOVE' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "MODERATE",
-    "risk": "BALANCED",
-    "cost": 140,
-    "reward": 260,
-    "penalty": 80,
-    "timeLimit": 75,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-08 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0154",
-      "wordLength": 4,
-      "startWord": "WIND",
-      "targetWord": "LOVE",
-      "steps": [
-        {
-          "clue": "Starting state: Natural perceptible movement of air",
-          "lockedWord": "WIND"
-        },
-        {
-          "clue": "Fermented juice of grapes or fruit"
-        },
-        {
-          "clue": "Continuous spatial extent having only one dimension"
-        },
-        {
-          "clue": "Having no companions; solitary in wilderness"
-        },
-        {
-          "clue": "Target state: Deep affection and protective devotion",
-          "lockedWord": "LOVE"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "WIND-WINE-LINE-LONE-LOVE",
-      "expectedWords": [
-        "WIND",
-        "WINE",
-        "LINE",
-        "LONE",
-        "LOVE"
-      ],
-      "acceptedAnswers": [
-        "WIND-WINE-LINE-LONE-LOVE",
-        "WINE-LINE-LONE",
-        "WEND:WIND-WINE-LINE-LONE-LOVE"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (4 letters): change position 2 of 'WIND' to align with the clue: \"Fermented juice of grapes or fruit\".",
-        "HINT 02 // The pivot transition requires bridging through 'LINE'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WND-0155",
     "title": "WEND // WORD LADDER #0155 (STONE → CHALK)",
     "category": "LOGIC",
@@ -9859,69 +5008,6 @@ export const wendChallenges = [
       "hints": [
         "HINT 01 // Focus on Step 2 (5 letters): change position 3 of 'STONE' to align with the clue: \"Emitted radiant light in the past\".",
         "HINT 02 // The pivot transition requires bridging through 'CHINE'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WND-0156",
-    "title": "WEND // WORD LADDER #0156 (BLACK → CLING)",
-    "category": "LOGIC",
-    "description": "Morph 'BLACK' into 'CLING' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "MODERATE",
-    "risk": "BALANCED",
-    "cost": 140,
-    "reward": 260,
-    "penalty": 80,
-    "timeLimit": 75,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-08 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0156",
-      "wordLength": 5,
-      "startWord": "BLACK",
-      "targetWord": "CLING",
-      "steps": [
-        {
-          "clue": "Starting state: Total absence of visible light",
-          "lockedWord": "BLACK"
-        },
-        {
-          "clue": "Empty of marks, writing, or expression"
-        },
-        {
-          "clue": "To open and close eyes rapidly"
-        },
-        {
-          "clue": "A sharp metallic resonant sound"
-        },
-        {
-          "clue": "Target state: To hold on tightly to an anchor",
-          "lockedWord": "CLING"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "BLACK-BLANK-BLINK-CLINK-CLING",
-      "expectedWords": [
-        "BLACK",
-        "BLANK",
-        "BLINK",
-        "CLINK",
-        "CLING"
-      ],
-      "acceptedAnswers": [
-        "BLACK-BLANK-BLINK-CLINK-CLING",
-        "BLANK-BLINK-CLINK",
-        "WEND:BLACK-BLANK-BLINK-CLINK-CLING"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (5 letters): change position 3 of 'BLACK' to align with the clue: \"Empty of marks, writing, or expression\".",
-        "HINT 02 // The pivot transition requires bridging through 'BLINK'; check vowel shifts between adjacent steps."
       ]
     },
     "enabled": true,
@@ -9991,69 +5077,6 @@ export const wendChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WND-0158",
-    "title": "WEND // WORD LADDER #0158 (RIVER → AFTER)",
-    "category": "LOGIC",
-    "description": "Morph 'RIVER' into 'AFTER' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "MODERATE",
-    "risk": "BALANCED",
-    "cost": 140,
-    "reward": 260,
-    "penalty": 80,
-    "timeLimit": 75,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-08 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0158",
-      "wordLength": 5,
-      "startWord": "RIVER",
-      "targetWord": "AFTER",
-      "steps": [
-        {
-          "clue": "Starting state: Large natural stream of flowing water",
-          "lockedWord": "RIVER"
-        },
-        {
-          "clue": "One who travels mounted on horseback"
-        },
-        {
-          "clue": "One who provides relief or auxiliary support"
-        },
-        {
-          "clue": "To change or modify character without replacing"
-        },
-        {
-          "clue": "Target state: Subsequent in chronological sequence",
-          "lockedWord": "AFTER"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "RIVER-RIDER-AIDER-ALTER-AFTER",
-      "expectedWords": [
-        "RIVER",
-        "RIDER",
-        "AIDER",
-        "ALTER",
-        "AFTER"
-      ],
-      "acceptedAnswers": [
-        "RIVER-RIDER-AIDER-ALTER-AFTER",
-        "RIDER-AIDER-ALTER",
-        "WEND:RIVER-RIDER-AIDER-ALTER-AFTER"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (5 letters): change position 3 of 'RIVER' to align with the clue: \"One who travels mounted on horseback\".",
-        "HINT 02 // The pivot transition requires bridging through 'AIDER'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WND-0159",
     "title": "WEND // WORD LADDER #0159 (PLANT → STARE)",
     "category": "LOGIC",
@@ -10111,69 +5134,6 @@ export const wendChallenges = [
       "hints": [
         "HINT 01 // Focus on Step 2 (5 letters): change position 3 of 'PLANT' to align with the clue: \"Flat two-dimensional surface or winged aircraft\".",
         "HINT 02 // The pivot transition requires bridging through 'PLATE'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WND-0160",
-    "title": "WEND // WORD LADDER #0160 (SLEEP → STEEL)",
-    "category": "LOGIC",
-    "description": "Morph 'SLEEP' into 'STEEL' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "MODERATE",
-    "risk": "BALANCED",
-    "cost": 140,
-    "reward": 260,
-    "penalty": 80,
-    "timeLimit": 75,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-09 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0160",
-      "wordLength": 5,
-      "startWord": "SLEEP",
-      "targetWord": "STEEL",
-      "steps": [
-        {
-          "clue": "Starting state: Naturally recurring condition of biological rest",
-          "lockedWord": "SLEEP"
-        },
-        {
-          "clue": "Ruminant quadruped domesticated for wool"
-        },
-        {
-          "clue": "Perpendicularly steep or absolute pure"
-        },
-        {
-          "clue": "To guide the direction of a vessel or vehicle"
-        },
-        {
-          "clue": "Target state: Alloy of iron with carbon of high tensile strength",
-          "lockedWord": "STEEL"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "SLEEP-SHEEP-SHEER-STEER-STEEL",
-      "expectedWords": [
-        "SLEEP",
-        "SHEEP",
-        "SHEER",
-        "STEER",
-        "STEEL"
-      ],
-      "acceptedAnswers": [
-        "SLEEP-SHEEP-SHEER-STEER-STEEL",
-        "SHEEP-SHEER-STEER",
-        "WEND:SLEEP-SHEEP-SHEER-STEER-STEEL"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (5 letters): change position 3 of 'SLEEP' to align with the clue: \"Ruminant quadruped domesticated for wool\".",
-        "HINT 02 // The pivot transition requires bridging through 'SHEER'; check vowel shifts between adjacent steps."
       ]
     },
     "enabled": true,
@@ -10246,69 +5206,6 @@ export const wendChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WND-0162",
-    "title": "WEND // WORD LADDER #0162 (STORM → SPARK)",
-    "category": "LOGIC",
-    "description": "Morph 'STORM' into 'SPARK' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "MODERATE",
-    "risk": "BALANCED",
-    "cost": 140,
-    "reward": 260,
-    "penalty": 80,
-    "timeLimit": 75,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-09 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0162",
-      "wordLength": 5,
-      "startWord": "STORM",
-      "targetWord": "SPARK",
-      "steps": [
-        {
-          "clue": "Starting state: Violent disturbance of meteorological atmosphere",
-          "lockedWord": "STORM"
-        },
-        {
-          "clue": "Retail mercantile establishment or storage repository"
-        },
-        {
-          "clue": "To gaze fixedly with wide uninterrupted eyes"
-        },
-        {
-          "clue": "Additional component held in reserve backup"
-        },
-        {
-          "clue": "Target state: Incandescent particle thrown off from a burning body",
-          "lockedWord": "SPARK"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "STORM-STORE-STARE-SPARE-SPARK",
-      "expectedWords": [
-        "STORM",
-        "STORE",
-        "STARE",
-        "SPARE",
-        "SPARK"
-      ],
-      "acceptedAnswers": [
-        "STORM-STORE-STARE-SPARE-SPARK",
-        "STORE-STARE-SPARE",
-        "WEND:STORM-STORE-STARE-SPARE-SPARK"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (5 letters): change position 3 of 'STORM' to align with the clue: \"Retail mercantile establishment or storage repository\".",
-        "HINT 02 // The pivot transition requires bridging through 'STARE'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WND-0163",
     "title": "WEND // WORD LADDER #0163 (COLD → WARM)",
     "category": "LOGIC",
@@ -10366,69 +5263,6 @@ export const wendChallenges = [
       "hints": [
         "HINT 01 // Focus on Step 2 (4 letters): change position 2 of 'COLD' to align with the clue: \"A flexible insulated cable or binding twine\".",
         "HINT 02 // The pivot transition requires bridging through 'CARD'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WND-0164",
-    "title": "WEND // WORD LADDER #0164 (DARK → FIRE)",
-    "category": "LOGIC",
-    "description": "Morph 'DARK' into 'FIRE' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "MODERATE",
-    "risk": "BALANCED",
-    "cost": 140,
-    "reward": 260,
-    "penalty": 80,
-    "timeLimit": 75,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-09 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0164",
-      "wordLength": 4,
-      "startWord": "DARK",
-      "targetWord": "FIRE",
-      "steps": [
-        {
-          "clue": "Starting state: Absence of illumination",
-          "lockedWord": "DARK"
-        },
-        {
-          "clue": "A small pointed projectile or rapid dash"
-        },
-        {
-          "clue": "Loose soil, earth, or particulate matter"
-        },
-        {
-          "clue": "Extremely urgent or calamitous circumstance"
-        },
-        {
-          "clue": "Target state: Combustion generating thermal heat",
-          "lockedWord": "FIRE"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "DARK-DART-DIRT-DIRE-FIRE",
-      "expectedWords": [
-        "DARK",
-        "DART",
-        "DIRT",
-        "DIRE",
-        "FIRE"
-      ],
-      "acceptedAnswers": [
-        "DARK-DART-DIRT-DIRE-FIRE",
-        "DART-DIRT-DIRE",
-        "WEND:DARK-DART-DIRT-DIRE-FIRE"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (4 letters): change position 2 of 'DARK' to align with the clue: \"A small pointed projectile or rapid dash\".",
-        "HINT 02 // The pivot transition requires bridging through 'DIRT'; check vowel shifts between adjacent steps."
       ]
     },
     "enabled": true,
@@ -10498,69 +5332,6 @@ export const wendChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WND-0166",
-    "title": "WEND // WORD LADDER #0166 (LEAD → GOLD)",
-    "category": "LOGIC",
-    "description": "Morph 'LEAD' into 'GOLD' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "MODERATE",
-    "risk": "BALANCED",
-    "cost": 140,
-    "reward": 260,
-    "penalty": 80,
-    "timeLimit": 75,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-09 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0166",
-      "wordLength": 4,
-      "startWord": "LEAD",
-      "targetWord": "GOLD",
-      "steps": [
-        {
-          "clue": "Starting state: Dense heavy metallic element",
-          "lockedWord": "LEAD"
-        },
-        {
-          "clue": "A heavy burden or amount carried"
-        },
-        {
-          "clue": "An amphibious tailless creature"
-        },
-        {
-          "clue": "Communicated verbal instruction in the past"
-        },
-        {
-          "clue": "Target state: Precious lustrous yellow metal",
-          "lockedWord": "GOLD"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "LEAD-LOAD-TOAD-TOLD-GOLD",
-      "expectedWords": [
-        "LEAD",
-        "LOAD",
-        "TOAD",
-        "TOLD",
-        "GOLD"
-      ],
-      "acceptedAnswers": [
-        "LEAD-LOAD-TOAD-TOLD-GOLD",
-        "LOAD-TOAD-TOLD",
-        "WEND:LEAD-LOAD-TOAD-TOLD-GOLD"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (4 letters): change position 2 of 'LEAD' to align with the clue: \"A heavy burden or amount carried\".",
-        "HINT 02 // The pivot transition requires bridging through 'TOAD'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WND-0167",
     "title": "WEND // WORD LADDER #0167 (MORE → SAFE)",
     "category": "LOGIC",
@@ -10624,69 +5395,6 @@ export const wendChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WND-0168",
-    "title": "WEND // WORD LADDER #0168 (FAST → POST)",
-    "category": "LOGIC",
-    "description": "Morph 'FAST' into 'POST' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "MODERATE",
-    "risk": "BALANCED",
-    "cost": 140,
-    "reward": 260,
-    "penalty": 80,
-    "timeLimit": 75,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-09 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0168",
-      "wordLength": 4,
-      "startWord": "FAST",
-      "targetWord": "POST",
-      "steps": [
-        {
-          "clue": "Starting state: Moving at high velocity",
-          "lockedWord": "FAST"
-        },
-        {
-          "clue": "Gone by in time and no longer existing"
-        },
-        {
-          "clue": "A component portion of a greater whole"
-        },
-        {
-          "clue": "A maritime harbor or network interface"
-        },
-        {
-          "clue": "Target state: Sturdy upright timber or bulletin",
-          "lockedWord": "POST"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "FAST-PAST-PART-PORT-POST",
-      "expectedWords": [
-        "FAST",
-        "PAST",
-        "PART",
-        "PORT",
-        "POST"
-      ],
-      "acceptedAnswers": [
-        "FAST-PAST-PART-PORT-POST",
-        "PAST-PART-PORT",
-        "WEND:FAST-PAST-PART-PORT-POST"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (4 letters): change position 2 of 'FAST' to align with the clue: \"Gone by in time and no longer existing\".",
-        "HINT 02 // The pivot transition requires bridging through 'PART'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WND-0169",
     "title": "WEND // WORD LADDER #0169 (CODE → BARK)",
     "category": "LOGIC",
@@ -10744,69 +5452,6 @@ export const wendChallenges = [
       "hints": [
         "HINT 01 // Focus on Step 2 (4 letters): change position 2 of 'CODE' to align with the clue: \"Central structural nexus of a planetary system\".",
         "HINT 02 // The pivot transition requires bridging through 'CARE'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WND-0170",
-    "title": "WEND // WORD LADDER #0170 (GATE → CALM)",
-    "category": "LOGIC",
-    "description": "Morph 'GATE' into 'CALM' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "MODERATE",
-    "risk": "BALANCED",
-    "cost": 140,
-    "reward": 260,
-    "penalty": 80,
-    "timeLimit": 75,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-09 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0170",
-      "wordLength": 4,
-      "startWord": "GATE",
-      "targetWord": "CALM",
-      "steps": [
-        {
-          "clue": "Starting state: Hinged barrier across an opening",
-          "lockedWord": "GATE"
-        },
-        {
-          "clue": "Conferred or transferred possession in the past"
-        },
-        {
-          "clue": "A subterranean hollow or subterranean chamber"
-        },
-        {
-          "clue": "Arrived at a specified coordinate"
-        },
-        {
-          "clue": "Target state: Free from agitation or turbulent disturbance",
-          "lockedWord": "CALM"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "GATE-GAVE-CAVE-CAME-CALM",
-      "expectedWords": [
-        "GATE",
-        "GAVE",
-        "CAVE",
-        "CAME",
-        "CALM"
-      ],
-      "acceptedAnswers": [
-        "GATE-GAVE-CAVE-CAME-CALM",
-        "GAVE-CAVE-CAME",
-        "WEND:GATE-GAVE-CAVE-CAME-CALM"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (4 letters): change position 2 of 'GATE' to align with the clue: \"Conferred or transferred possession in the past\".",
-        "HINT 02 // The pivot transition requires bridging through 'CAVE'; check vowel shifts between adjacent steps."
       ]
     },
     "enabled": true,
@@ -10880,69 +5525,6 @@ export const wendChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WND-0172",
-    "title": "WEND // WORD LADDER #0172 (WIND → LOVE)",
-    "category": "LOGIC",
-    "description": "Morph 'WIND' into 'LOVE' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "MODERATE",
-    "risk": "BALANCED",
-    "cost": 140,
-    "reward": 260,
-    "penalty": 80,
-    "timeLimit": 75,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-09 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0172",
-      "wordLength": 4,
-      "startWord": "WIND",
-      "targetWord": "LOVE",
-      "steps": [
-        {
-          "clue": "Starting state: Natural perceptible movement of air",
-          "lockedWord": "WIND"
-        },
-        {
-          "clue": "Fermented juice of grapes or fruit"
-        },
-        {
-          "clue": "Continuous spatial extent having only one dimension"
-        },
-        {
-          "clue": "Having no companions; solitary in wilderness"
-        },
-        {
-          "clue": "Target state: Deep affection and protective devotion",
-          "lockedWord": "LOVE"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "WIND-WINE-LINE-LONE-LOVE",
-      "expectedWords": [
-        "WIND",
-        "WINE",
-        "LINE",
-        "LONE",
-        "LOVE"
-      ],
-      "acceptedAnswers": [
-        "WIND-WINE-LINE-LONE-LOVE",
-        "WINE-LINE-LONE",
-        "WEND:WIND-WINE-LINE-LONE-LOVE"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (4 letters): change position 2 of 'WIND' to align with the clue: \"Fermented juice of grapes or fruit\".",
-        "HINT 02 // The pivot transition requires bridging through 'LINE'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WND-0173",
     "title": "WEND // WORD LADDER #0173 (STONE → CHALK)",
     "category": "LOGIC",
@@ -11004,69 +5586,6 @@ export const wendChallenges = [
       "hints": [
         "HINT 01 // Focus on Step 2 (5 letters): change position 3 of 'STONE' to align with the clue: \"Emitted radiant light in the past\".",
         "HINT 02 // The pivot transition requires bridging through 'CHINE'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WND-0174",
-    "title": "WEND // WORD LADDER #0174 (BLACK → CLING)",
-    "category": "LOGIC",
-    "description": "Morph 'BLACK' into 'CLING' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "MODERATE",
-    "risk": "BALANCED",
-    "cost": 140,
-    "reward": 260,
-    "penalty": 80,
-    "timeLimit": 75,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-09 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0174",
-      "wordLength": 5,
-      "startWord": "BLACK",
-      "targetWord": "CLING",
-      "steps": [
-        {
-          "clue": "Starting state: Total absence of visible light",
-          "lockedWord": "BLACK"
-        },
-        {
-          "clue": "Empty of marks, writing, or expression"
-        },
-        {
-          "clue": "To open and close eyes rapidly"
-        },
-        {
-          "clue": "A sharp metallic resonant sound"
-        },
-        {
-          "clue": "Target state: To hold on tightly to an anchor",
-          "lockedWord": "CLING"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "BLACK-BLANK-BLINK-CLINK-CLING",
-      "expectedWords": [
-        "BLACK",
-        "BLANK",
-        "BLINK",
-        "CLINK",
-        "CLING"
-      ],
-      "acceptedAnswers": [
-        "BLACK-BLANK-BLINK-CLINK-CLING",
-        "BLANK-BLINK-CLINK",
-        "WEND:BLACK-BLANK-BLINK-CLINK-CLING"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (5 letters): change position 3 of 'BLACK' to align with the clue: \"Empty of marks, writing, or expression\".",
-        "HINT 02 // The pivot transition requires bridging through 'BLINK'; check vowel shifts between adjacent steps."
       ]
     },
     "enabled": true,
@@ -11136,69 +5655,6 @@ export const wendChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WND-0176",
-    "title": "WEND // WORD LADDER #0176 (RIVER → AFTER)",
-    "category": "LOGIC",
-    "description": "Morph 'RIVER' into 'AFTER' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "MODERATE",
-    "risk": "BALANCED",
-    "cost": 140,
-    "reward": 260,
-    "penalty": 80,
-    "timeLimit": 75,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-09 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0176",
-      "wordLength": 5,
-      "startWord": "RIVER",
-      "targetWord": "AFTER",
-      "steps": [
-        {
-          "clue": "Starting state: Large natural stream of flowing water",
-          "lockedWord": "RIVER"
-        },
-        {
-          "clue": "One who travels mounted on horseback"
-        },
-        {
-          "clue": "One who provides relief or auxiliary support"
-        },
-        {
-          "clue": "To change or modify character without replacing"
-        },
-        {
-          "clue": "Target state: Subsequent in chronological sequence",
-          "lockedWord": "AFTER"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "RIVER-RIDER-AIDER-ALTER-AFTER",
-      "expectedWords": [
-        "RIVER",
-        "RIDER",
-        "AIDER",
-        "ALTER",
-        "AFTER"
-      ],
-      "acceptedAnswers": [
-        "RIVER-RIDER-AIDER-ALTER-AFTER",
-        "RIDER-AIDER-ALTER",
-        "WEND:RIVER-RIDER-AIDER-ALTER-AFTER"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (5 letters): change position 3 of 'RIVER' to align with the clue: \"One who travels mounted on horseback\".",
-        "HINT 02 // The pivot transition requires bridging through 'AIDER'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WND-0177",
     "title": "WEND // WORD LADDER #0177 (PLANT → STARE)",
     "category": "LOGIC",
@@ -11256,69 +5712,6 @@ export const wendChallenges = [
       "hints": [
         "HINT 01 // Focus on Step 2 (5 letters): change position 3 of 'PLANT' to align with the clue: \"Flat two-dimensional surface or winged aircraft\".",
         "HINT 02 // The pivot transition requires bridging through 'PLATE'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WND-0178",
-    "title": "WEND // WORD LADDER #0178 (SLEEP → STEEL)",
-    "category": "LOGIC",
-    "description": "Morph 'SLEEP' into 'STEEL' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "MODERATE",
-    "risk": "BALANCED",
-    "cost": 140,
-    "reward": 260,
-    "penalty": 80,
-    "timeLimit": 75,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-09 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0178",
-      "wordLength": 5,
-      "startWord": "SLEEP",
-      "targetWord": "STEEL",
-      "steps": [
-        {
-          "clue": "Starting state: Naturally recurring condition of biological rest",
-          "lockedWord": "SLEEP"
-        },
-        {
-          "clue": "Ruminant quadruped domesticated for wool"
-        },
-        {
-          "clue": "Perpendicularly steep or absolute pure"
-        },
-        {
-          "clue": "To guide the direction of a vessel or vehicle"
-        },
-        {
-          "clue": "Target state: Alloy of iron with carbon of high tensile strength",
-          "lockedWord": "STEEL"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "SLEEP-SHEEP-SHEER-STEER-STEEL",
-      "expectedWords": [
-        "SLEEP",
-        "SHEEP",
-        "SHEER",
-        "STEER",
-        "STEEL"
-      ],
-      "acceptedAnswers": [
-        "SLEEP-SHEEP-SHEER-STEER-STEEL",
-        "SHEEP-SHEER-STEER",
-        "WEND:SLEEP-SHEEP-SHEER-STEER-STEEL"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (5 letters): change position 3 of 'SLEEP' to align with the clue: \"Ruminant quadruped domesticated for wool\".",
-        "HINT 02 // The pivot transition requires bridging through 'SHEER'; check vowel shifts between adjacent steps."
       ]
     },
     "enabled": true,
@@ -11391,69 +5784,6 @@ export const wendChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WND-0180",
-    "title": "WEND // WORD LADDER #0180 (STORM → SPARK)",
-    "category": "LOGIC",
-    "description": "Morph 'STORM' into 'SPARK' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "MODERATE",
-    "risk": "BALANCED",
-    "cost": 140,
-    "reward": 260,
-    "penalty": 80,
-    "timeLimit": 75,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-10 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0180",
-      "wordLength": 5,
-      "startWord": "STORM",
-      "targetWord": "SPARK",
-      "steps": [
-        {
-          "clue": "Starting state: Violent disturbance of meteorological atmosphere",
-          "lockedWord": "STORM"
-        },
-        {
-          "clue": "Retail mercantile establishment or storage repository"
-        },
-        {
-          "clue": "To gaze fixedly with wide uninterrupted eyes"
-        },
-        {
-          "clue": "Additional component held in reserve backup"
-        },
-        {
-          "clue": "Target state: Incandescent particle thrown off from a burning body",
-          "lockedWord": "SPARK"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "STORM-STORE-STARE-SPARE-SPARK",
-      "expectedWords": [
-        "STORM",
-        "STORE",
-        "STARE",
-        "SPARE",
-        "SPARK"
-      ],
-      "acceptedAnswers": [
-        "STORM-STORE-STARE-SPARE-SPARK",
-        "STORE-STARE-SPARE",
-        "WEND:STORM-STORE-STARE-SPARE-SPARK"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (5 letters): change position 3 of 'STORM' to align with the clue: \"Retail mercantile establishment or storage repository\".",
-        "HINT 02 // The pivot transition requires bridging through 'STARE'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WND-0181",
     "title": "WEND // WORD LADDER #0181 (COLD → WARM)",
     "category": "LOGIC",
@@ -11511,69 +5841,6 @@ export const wendChallenges = [
       "hints": [
         "HINT 01 // Focus on Step 2 (4 letters): change position 2 of 'COLD' to align with the clue: \"A flexible insulated cable or binding twine\".",
         "HINT 02 // The pivot transition requires bridging through 'CARD'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WND-0182",
-    "title": "WEND // WORD LADDER #0182 (DARK → FIRE)",
-    "category": "LOGIC",
-    "description": "Morph 'DARK' into 'FIRE' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "MODERATE",
-    "risk": "BALANCED",
-    "cost": 140,
-    "reward": 260,
-    "penalty": 80,
-    "timeLimit": 75,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-10 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0182",
-      "wordLength": 4,
-      "startWord": "DARK",
-      "targetWord": "FIRE",
-      "steps": [
-        {
-          "clue": "Starting state: Absence of illumination",
-          "lockedWord": "DARK"
-        },
-        {
-          "clue": "A small pointed projectile or rapid dash"
-        },
-        {
-          "clue": "Loose soil, earth, or particulate matter"
-        },
-        {
-          "clue": "Extremely urgent or calamitous circumstance"
-        },
-        {
-          "clue": "Target state: Combustion generating thermal heat",
-          "lockedWord": "FIRE"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "DARK-DART-DIRT-DIRE-FIRE",
-      "expectedWords": [
-        "DARK",
-        "DART",
-        "DIRT",
-        "DIRE",
-        "FIRE"
-      ],
-      "acceptedAnswers": [
-        "DARK-DART-DIRT-DIRE-FIRE",
-        "DART-DIRT-DIRE",
-        "WEND:DARK-DART-DIRT-DIRE-FIRE"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (4 letters): change position 2 of 'DARK' to align with the clue: \"A small pointed projectile or rapid dash\".",
-        "HINT 02 // The pivot transition requires bridging through 'DIRT'; check vowel shifts between adjacent steps."
       ]
     },
     "enabled": true,
@@ -11643,69 +5910,6 @@ export const wendChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WND-0184",
-    "title": "WEND // WORD LADDER #0184 (LEAD → GOLD)",
-    "category": "LOGIC",
-    "description": "Morph 'LEAD' into 'GOLD' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "MODERATE",
-    "risk": "BALANCED",
-    "cost": 140,
-    "reward": 260,
-    "penalty": 80,
-    "timeLimit": 75,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-10 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0184",
-      "wordLength": 4,
-      "startWord": "LEAD",
-      "targetWord": "GOLD",
-      "steps": [
-        {
-          "clue": "Starting state: Dense heavy metallic element",
-          "lockedWord": "LEAD"
-        },
-        {
-          "clue": "A heavy burden or amount carried"
-        },
-        {
-          "clue": "An amphibious tailless creature"
-        },
-        {
-          "clue": "Communicated verbal instruction in the past"
-        },
-        {
-          "clue": "Target state: Precious lustrous yellow metal",
-          "lockedWord": "GOLD"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "LEAD-LOAD-TOAD-TOLD-GOLD",
-      "expectedWords": [
-        "LEAD",
-        "LOAD",
-        "TOAD",
-        "TOLD",
-        "GOLD"
-      ],
-      "acceptedAnswers": [
-        "LEAD-LOAD-TOAD-TOLD-GOLD",
-        "LOAD-TOAD-TOLD",
-        "WEND:LEAD-LOAD-TOAD-TOLD-GOLD"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (4 letters): change position 2 of 'LEAD' to align with the clue: \"A heavy burden or amount carried\".",
-        "HINT 02 // The pivot transition requires bridging through 'TOAD'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WND-0185",
     "title": "WEND // WORD LADDER #0185 (MORE → SAFE)",
     "category": "LOGIC",
@@ -11769,69 +5973,6 @@ export const wendChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WND-0186",
-    "title": "WEND // WORD LADDER #0186 (FAST → POST)",
-    "category": "LOGIC",
-    "description": "Morph 'FAST' into 'POST' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "MODERATE",
-    "risk": "BALANCED",
-    "cost": 140,
-    "reward": 260,
-    "penalty": 80,
-    "timeLimit": 75,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-10 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0186",
-      "wordLength": 4,
-      "startWord": "FAST",
-      "targetWord": "POST",
-      "steps": [
-        {
-          "clue": "Starting state: Moving at high velocity",
-          "lockedWord": "FAST"
-        },
-        {
-          "clue": "Gone by in time and no longer existing"
-        },
-        {
-          "clue": "A component portion of a greater whole"
-        },
-        {
-          "clue": "A maritime harbor or network interface"
-        },
-        {
-          "clue": "Target state: Sturdy upright timber or bulletin",
-          "lockedWord": "POST"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "FAST-PAST-PART-PORT-POST",
-      "expectedWords": [
-        "FAST",
-        "PAST",
-        "PART",
-        "PORT",
-        "POST"
-      ],
-      "acceptedAnswers": [
-        "FAST-PAST-PART-PORT-POST",
-        "PAST-PART-PORT",
-        "WEND:FAST-PAST-PART-PORT-POST"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (4 letters): change position 2 of 'FAST' to align with the clue: \"Gone by in time and no longer existing\".",
-        "HINT 02 // The pivot transition requires bridging through 'PART'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WND-0187",
     "title": "WEND // WORD LADDER #0187 (CODE → BARK)",
     "category": "LOGIC",
@@ -11889,69 +6030,6 @@ export const wendChallenges = [
       "hints": [
         "HINT 01 // Focus on Step 2 (4 letters): change position 2 of 'CODE' to align with the clue: \"Central structural nexus of a planetary system\".",
         "HINT 02 // The pivot transition requires bridging through 'CARE'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WND-0188",
-    "title": "WEND // WORD LADDER #0188 (GATE → CALM)",
-    "category": "LOGIC",
-    "description": "Morph 'GATE' into 'CALM' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "MODERATE",
-    "risk": "BALANCED",
-    "cost": 140,
-    "reward": 260,
-    "penalty": 80,
-    "timeLimit": 75,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-10 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0188",
-      "wordLength": 4,
-      "startWord": "GATE",
-      "targetWord": "CALM",
-      "steps": [
-        {
-          "clue": "Starting state: Hinged barrier across an opening",
-          "lockedWord": "GATE"
-        },
-        {
-          "clue": "Conferred or transferred possession in the past"
-        },
-        {
-          "clue": "A subterranean hollow or subterranean chamber"
-        },
-        {
-          "clue": "Arrived at a specified coordinate"
-        },
-        {
-          "clue": "Target state: Free from agitation or turbulent disturbance",
-          "lockedWord": "CALM"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "GATE-GAVE-CAVE-CAME-CALM",
-      "expectedWords": [
-        "GATE",
-        "GAVE",
-        "CAVE",
-        "CAME",
-        "CALM"
-      ],
-      "acceptedAnswers": [
-        "GATE-GAVE-CAVE-CAME-CALM",
-        "GAVE-CAVE-CAME",
-        "WEND:GATE-GAVE-CAVE-CAME-CALM"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (4 letters): change position 2 of 'GATE' to align with the clue: \"Conferred or transferred possession in the past\".",
-        "HINT 02 // The pivot transition requires bridging through 'CAVE'; check vowel shifts between adjacent steps."
       ]
     },
     "enabled": true,
@@ -12025,69 +6103,6 @@ export const wendChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WND-0190",
-    "title": "WEND // WORD LADDER #0190 (WIND → LOVE)",
-    "category": "LOGIC",
-    "description": "Morph 'WIND' into 'LOVE' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "MODERATE",
-    "risk": "BALANCED",
-    "cost": 140,
-    "reward": 260,
-    "penalty": 80,
-    "timeLimit": 75,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-10 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0190",
-      "wordLength": 4,
-      "startWord": "WIND",
-      "targetWord": "LOVE",
-      "steps": [
-        {
-          "clue": "Starting state: Natural perceptible movement of air",
-          "lockedWord": "WIND"
-        },
-        {
-          "clue": "Fermented juice of grapes or fruit"
-        },
-        {
-          "clue": "Continuous spatial extent having only one dimension"
-        },
-        {
-          "clue": "Having no companions; solitary in wilderness"
-        },
-        {
-          "clue": "Target state: Deep affection and protective devotion",
-          "lockedWord": "LOVE"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "WIND-WINE-LINE-LONE-LOVE",
-      "expectedWords": [
-        "WIND",
-        "WINE",
-        "LINE",
-        "LONE",
-        "LOVE"
-      ],
-      "acceptedAnswers": [
-        "WIND-WINE-LINE-LONE-LOVE",
-        "WINE-LINE-LONE",
-        "WEND:WIND-WINE-LINE-LONE-LOVE"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (4 letters): change position 2 of 'WIND' to align with the clue: \"Fermented juice of grapes or fruit\".",
-        "HINT 02 // The pivot transition requires bridging through 'LINE'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WND-0191",
     "title": "WEND // WORD LADDER #0191 (STONE → CHALK)",
     "category": "LOGIC",
@@ -12149,69 +6164,6 @@ export const wendChallenges = [
       "hints": [
         "HINT 01 // Focus on Step 2 (5 letters): change position 3 of 'STONE' to align with the clue: \"Emitted radiant light in the past\".",
         "HINT 02 // The pivot transition requires bridging through 'CHINE'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WND-0192",
-    "title": "WEND // WORD LADDER #0192 (BLACK → CLING)",
-    "category": "LOGIC",
-    "description": "Morph 'BLACK' into 'CLING' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "MODERATE",
-    "risk": "BALANCED",
-    "cost": 140,
-    "reward": 260,
-    "penalty": 80,
-    "timeLimit": 75,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-10 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0192",
-      "wordLength": 5,
-      "startWord": "BLACK",
-      "targetWord": "CLING",
-      "steps": [
-        {
-          "clue": "Starting state: Total absence of visible light",
-          "lockedWord": "BLACK"
-        },
-        {
-          "clue": "Empty of marks, writing, or expression"
-        },
-        {
-          "clue": "To open and close eyes rapidly"
-        },
-        {
-          "clue": "A sharp metallic resonant sound"
-        },
-        {
-          "clue": "Target state: To hold on tightly to an anchor",
-          "lockedWord": "CLING"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "BLACK-BLANK-BLINK-CLINK-CLING",
-      "expectedWords": [
-        "BLACK",
-        "BLANK",
-        "BLINK",
-        "CLINK",
-        "CLING"
-      ],
-      "acceptedAnswers": [
-        "BLACK-BLANK-BLINK-CLINK-CLING",
-        "BLANK-BLINK-CLINK",
-        "WEND:BLACK-BLANK-BLINK-CLINK-CLING"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (5 letters): change position 3 of 'BLACK' to align with the clue: \"Empty of marks, writing, or expression\".",
-        "HINT 02 // The pivot transition requires bridging through 'BLINK'; check vowel shifts between adjacent steps."
       ]
     },
     "enabled": true,
@@ -12281,69 +6233,6 @@ export const wendChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WND-0194",
-    "title": "WEND // WORD LADDER #0194 (RIVER → AFTER)",
-    "category": "LOGIC",
-    "description": "Morph 'RIVER' into 'AFTER' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "MODERATE",
-    "risk": "BALANCED",
-    "cost": 140,
-    "reward": 260,
-    "penalty": 80,
-    "timeLimit": 75,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-10 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0194",
-      "wordLength": 5,
-      "startWord": "RIVER",
-      "targetWord": "AFTER",
-      "steps": [
-        {
-          "clue": "Starting state: Large natural stream of flowing water",
-          "lockedWord": "RIVER"
-        },
-        {
-          "clue": "One who travels mounted on horseback"
-        },
-        {
-          "clue": "One who provides relief or auxiliary support"
-        },
-        {
-          "clue": "To change or modify character without replacing"
-        },
-        {
-          "clue": "Target state: Subsequent in chronological sequence",
-          "lockedWord": "AFTER"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "RIVER-RIDER-AIDER-ALTER-AFTER",
-      "expectedWords": [
-        "RIVER",
-        "RIDER",
-        "AIDER",
-        "ALTER",
-        "AFTER"
-      ],
-      "acceptedAnswers": [
-        "RIVER-RIDER-AIDER-ALTER-AFTER",
-        "RIDER-AIDER-ALTER",
-        "WEND:RIVER-RIDER-AIDER-ALTER-AFTER"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (5 letters): change position 3 of 'RIVER' to align with the clue: \"One who travels mounted on horseback\".",
-        "HINT 02 // The pivot transition requires bridging through 'AIDER'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WND-0195",
     "title": "WEND // WORD LADDER #0195 (PLANT → STARE)",
     "category": "LOGIC",
@@ -12401,69 +6290,6 @@ export const wendChallenges = [
       "hints": [
         "HINT 01 // Focus on Step 2 (5 letters): change position 3 of 'PLANT' to align with the clue: \"Flat two-dimensional surface or winged aircraft\".",
         "HINT 02 // The pivot transition requires bridging through 'PLATE'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WND-0196",
-    "title": "WEND // WORD LADDER #0196 (SLEEP → STEEL)",
-    "category": "LOGIC",
-    "description": "Morph 'SLEEP' into 'STEEL' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "MODERATE",
-    "risk": "BALANCED",
-    "cost": 140,
-    "reward": 260,
-    "penalty": 80,
-    "timeLimit": 75,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-10 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0196",
-      "wordLength": 5,
-      "startWord": "SLEEP",
-      "targetWord": "STEEL",
-      "steps": [
-        {
-          "clue": "Starting state: Naturally recurring condition of biological rest",
-          "lockedWord": "SLEEP"
-        },
-        {
-          "clue": "Ruminant quadruped domesticated for wool"
-        },
-        {
-          "clue": "Perpendicularly steep or absolute pure"
-        },
-        {
-          "clue": "To guide the direction of a vessel or vehicle"
-        },
-        {
-          "clue": "Target state: Alloy of iron with carbon of high tensile strength",
-          "lockedWord": "STEEL"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "SLEEP-SHEEP-SHEER-STEER-STEEL",
-      "expectedWords": [
-        "SLEEP",
-        "SHEEP",
-        "SHEER",
-        "STEER",
-        "STEEL"
-      ],
-      "acceptedAnswers": [
-        "SLEEP-SHEEP-SHEER-STEER-STEEL",
-        "SHEEP-SHEER-STEER",
-        "WEND:SLEEP-SHEEP-SHEER-STEER-STEEL"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (5 letters): change position 3 of 'SLEEP' to align with the clue: \"Ruminant quadruped domesticated for wool\".",
-        "HINT 02 // The pivot transition requires bridging through 'SHEER'; check vowel shifts between adjacent steps."
       ]
     },
     "enabled": true,
@@ -12536,69 +6362,6 @@ export const wendChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WND-0198",
-    "title": "WEND // WORD LADDER #0198 (STORM → SPARK)",
-    "category": "LOGIC",
-    "description": "Morph 'STORM' into 'SPARK' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "MODERATE",
-    "risk": "BALANCED",
-    "cost": 140,
-    "reward": 260,
-    "penalty": 80,
-    "timeLimit": 75,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-10 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0198",
-      "wordLength": 5,
-      "startWord": "STORM",
-      "targetWord": "SPARK",
-      "steps": [
-        {
-          "clue": "Starting state: Violent disturbance of meteorological atmosphere",
-          "lockedWord": "STORM"
-        },
-        {
-          "clue": "Retail mercantile establishment or storage repository"
-        },
-        {
-          "clue": "To gaze fixedly with wide uninterrupted eyes"
-        },
-        {
-          "clue": "Additional component held in reserve backup"
-        },
-        {
-          "clue": "Target state: Incandescent particle thrown off from a burning body",
-          "lockedWord": "SPARK"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "STORM-STORE-STARE-SPARE-SPARK",
-      "expectedWords": [
-        "STORM",
-        "STORE",
-        "STARE",
-        "SPARE",
-        "SPARK"
-      ],
-      "acceptedAnswers": [
-        "STORM-STORE-STARE-SPARE-SPARK",
-        "STORE-STARE-SPARE",
-        "WEND:STORM-STORE-STARE-SPARE-SPARK"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (5 letters): change position 3 of 'STORM' to align with the clue: \"Retail mercantile establishment or storage repository\".",
-        "HINT 02 // The pivot transition requires bridging through 'STARE'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WND-0199",
     "title": "WEND // WORD LADDER #0199 (COLD → WARM)",
     "category": "LOGIC",
@@ -12656,69 +6419,6 @@ export const wendChallenges = [
       "hints": [
         "HINT 01 // Focus on Step 2 (4 letters): change position 3 of 'COLD' to align with the clue: \"A flexible insulated cable or binding twine\".",
         "HINT 02 // The pivot transition requires bridging through 'CARD'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WND-0200",
-    "title": "WEND // WORD LADDER #0200 (DARK → FIRE)",
-    "category": "LOGIC",
-    "description": "Morph 'DARK' into 'FIRE' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "MODERATE",
-    "risk": "BALANCED",
-    "cost": 140,
-    "reward": 260,
-    "penalty": 80,
-    "timeLimit": 75,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-11 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0200",
-      "wordLength": 4,
-      "startWord": "DARK",
-      "targetWord": "FIRE",
-      "steps": [
-        {
-          "clue": "Starting state: Absence of illumination",
-          "lockedWord": "DARK"
-        },
-        {
-          "clue": "A small pointed projectile or rapid dash"
-        },
-        {
-          "clue": "Loose soil, earth, or particulate matter"
-        },
-        {
-          "clue": "Extremely urgent or calamitous circumstance"
-        },
-        {
-          "clue": "Target state: Combustion generating thermal heat",
-          "lockedWord": "FIRE"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "DARK-DART-DIRT-DIRE-FIRE",
-      "expectedWords": [
-        "DARK",
-        "DART",
-        "DIRT",
-        "DIRE",
-        "FIRE"
-      ],
-      "acceptedAnswers": [
-        "DARK-DART-DIRT-DIRE-FIRE",
-        "DART-DIRT-DIRE",
-        "WEND:DARK-DART-DIRT-DIRE-FIRE"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (4 letters): change position 3 of 'DARK' to align with the clue: \"A small pointed projectile or rapid dash\".",
-        "HINT 02 // The pivot transition requires bridging through 'DIRT'; check vowel shifts between adjacent steps."
       ]
     },
     "enabled": true,
@@ -12788,69 +6488,6 @@ export const wendChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WND-0202",
-    "title": "WEND // WORD LADDER #0202 (LEAD → GOLD)",
-    "category": "LOGIC",
-    "description": "Morph 'LEAD' into 'GOLD' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "MODERATE",
-    "risk": "BALANCED",
-    "cost": 140,
-    "reward": 260,
-    "penalty": 80,
-    "timeLimit": 75,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-11 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0202",
-      "wordLength": 4,
-      "startWord": "LEAD",
-      "targetWord": "GOLD",
-      "steps": [
-        {
-          "clue": "Starting state: Dense heavy metallic element",
-          "lockedWord": "LEAD"
-        },
-        {
-          "clue": "A heavy burden or amount carried"
-        },
-        {
-          "clue": "An amphibious tailless creature"
-        },
-        {
-          "clue": "Communicated verbal instruction in the past"
-        },
-        {
-          "clue": "Target state: Precious lustrous yellow metal",
-          "lockedWord": "GOLD"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "LEAD-LOAD-TOAD-TOLD-GOLD",
-      "expectedWords": [
-        "LEAD",
-        "LOAD",
-        "TOAD",
-        "TOLD",
-        "GOLD"
-      ],
-      "acceptedAnswers": [
-        "LEAD-LOAD-TOAD-TOLD-GOLD",
-        "LOAD-TOAD-TOLD",
-        "WEND:LEAD-LOAD-TOAD-TOLD-GOLD"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (4 letters): change position 3 of 'LEAD' to align with the clue: \"A heavy burden or amount carried\".",
-        "HINT 02 // The pivot transition requires bridging through 'TOAD'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WND-0203",
     "title": "WEND // WORD LADDER #0203 (MORE → SAFE)",
     "category": "LOGIC",
@@ -12914,69 +6551,6 @@ export const wendChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WND-0204",
-    "title": "WEND // WORD LADDER #0204 (FAST → POST)",
-    "category": "LOGIC",
-    "description": "Morph 'FAST' into 'POST' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "MODERATE",
-    "risk": "BALANCED",
-    "cost": 140,
-    "reward": 260,
-    "penalty": 80,
-    "timeLimit": 75,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-11 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0204",
-      "wordLength": 4,
-      "startWord": "FAST",
-      "targetWord": "POST",
-      "steps": [
-        {
-          "clue": "Starting state: Moving at high velocity",
-          "lockedWord": "FAST"
-        },
-        {
-          "clue": "Gone by in time and no longer existing"
-        },
-        {
-          "clue": "A component portion of a greater whole"
-        },
-        {
-          "clue": "A maritime harbor or network interface"
-        },
-        {
-          "clue": "Target state: Sturdy upright timber or bulletin",
-          "lockedWord": "POST"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "FAST-PAST-PART-PORT-POST",
-      "expectedWords": [
-        "FAST",
-        "PAST",
-        "PART",
-        "PORT",
-        "POST"
-      ],
-      "acceptedAnswers": [
-        "FAST-PAST-PART-PORT-POST",
-        "PAST-PART-PORT",
-        "WEND:FAST-PAST-PART-PORT-POST"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (4 letters): change position 3 of 'FAST' to align with the clue: \"Gone by in time and no longer existing\".",
-        "HINT 02 // The pivot transition requires bridging through 'PART'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WND-0205",
     "title": "WEND // WORD LADDER #0205 (CODE → BARK)",
     "category": "LOGIC",
@@ -13034,69 +6608,6 @@ export const wendChallenges = [
       "hints": [
         "HINT 01 // Focus on Step 2 (4 letters): change position 3 of 'CODE' to align with the clue: \"Central structural nexus of a planetary system\".",
         "HINT 02 // The pivot transition requires bridging through 'CARE'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WND-0206",
-    "title": "WEND // WORD LADDER #0206 (GATE → CALM)",
-    "category": "LOGIC",
-    "description": "Morph 'GATE' into 'CALM' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "MODERATE",
-    "risk": "BALANCED",
-    "cost": 140,
-    "reward": 260,
-    "penalty": 80,
-    "timeLimit": 75,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-11 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0206",
-      "wordLength": 4,
-      "startWord": "GATE",
-      "targetWord": "CALM",
-      "steps": [
-        {
-          "clue": "Starting state: Hinged barrier across an opening",
-          "lockedWord": "GATE"
-        },
-        {
-          "clue": "Conferred or transferred possession in the past"
-        },
-        {
-          "clue": "A subterranean hollow or subterranean chamber"
-        },
-        {
-          "clue": "Arrived at a specified coordinate"
-        },
-        {
-          "clue": "Target state: Free from agitation or turbulent disturbance",
-          "lockedWord": "CALM"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "GATE-GAVE-CAVE-CAME-CALM",
-      "expectedWords": [
-        "GATE",
-        "GAVE",
-        "CAVE",
-        "CAME",
-        "CALM"
-      ],
-      "acceptedAnswers": [
-        "GATE-GAVE-CAVE-CAME-CALM",
-        "GAVE-CAVE-CAME",
-        "WEND:GATE-GAVE-CAVE-CAME-CALM"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (4 letters): change position 3 of 'GATE' to align with the clue: \"Conferred or transferred possession in the past\".",
-        "HINT 02 // The pivot transition requires bridging through 'CAVE'; check vowel shifts between adjacent steps."
       ]
     },
     "enabled": true,
@@ -13170,69 +6681,6 @@ export const wendChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WND-0208",
-    "title": "WEND // WORD LADDER #0208 (WIND → LOVE)",
-    "category": "LOGIC",
-    "description": "Morph 'WIND' into 'LOVE' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "MODERATE",
-    "risk": "BALANCED",
-    "cost": 140,
-    "reward": 260,
-    "penalty": 80,
-    "timeLimit": 75,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-11 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0208",
-      "wordLength": 4,
-      "startWord": "WIND",
-      "targetWord": "LOVE",
-      "steps": [
-        {
-          "clue": "Starting state: Natural perceptible movement of air",
-          "lockedWord": "WIND"
-        },
-        {
-          "clue": "Fermented juice of grapes or fruit"
-        },
-        {
-          "clue": "Continuous spatial extent having only one dimension"
-        },
-        {
-          "clue": "Having no companions; solitary in wilderness"
-        },
-        {
-          "clue": "Target state: Deep affection and protective devotion",
-          "lockedWord": "LOVE"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "WIND-WINE-LINE-LONE-LOVE",
-      "expectedWords": [
-        "WIND",
-        "WINE",
-        "LINE",
-        "LONE",
-        "LOVE"
-      ],
-      "acceptedAnswers": [
-        "WIND-WINE-LINE-LONE-LOVE",
-        "WINE-LINE-LONE",
-        "WEND:WIND-WINE-LINE-LONE-LOVE"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (4 letters): change position 3 of 'WIND' to align with the clue: \"Fermented juice of grapes or fruit\".",
-        "HINT 02 // The pivot transition requires bridging through 'LINE'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WND-0209",
     "title": "WEND // WORD LADDER #0209 (STONE → CHALK)",
     "category": "LOGIC",
@@ -13294,69 +6742,6 @@ export const wendChallenges = [
       "hints": [
         "HINT 01 // Focus on Step 2 (5 letters): change position 3 of 'STONE' to align with the clue: \"Emitted radiant light in the past\".",
         "HINT 02 // The pivot transition requires bridging through 'CHINE'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WND-0210",
-    "title": "WEND // WORD LADDER #0210 (BLACK → CLING)",
-    "category": "LOGIC",
-    "description": "Morph 'BLACK' into 'CLING' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "MODERATE",
-    "risk": "BALANCED",
-    "cost": 140,
-    "reward": 260,
-    "penalty": 80,
-    "timeLimit": 75,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-11 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0210",
-      "wordLength": 5,
-      "startWord": "BLACK",
-      "targetWord": "CLING",
-      "steps": [
-        {
-          "clue": "Starting state: Total absence of visible light",
-          "lockedWord": "BLACK"
-        },
-        {
-          "clue": "Empty of marks, writing, or expression"
-        },
-        {
-          "clue": "To open and close eyes rapidly"
-        },
-        {
-          "clue": "A sharp metallic resonant sound"
-        },
-        {
-          "clue": "Target state: To hold on tightly to an anchor",
-          "lockedWord": "CLING"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "BLACK-BLANK-BLINK-CLINK-CLING",
-      "expectedWords": [
-        "BLACK",
-        "BLANK",
-        "BLINK",
-        "CLINK",
-        "CLING"
-      ],
-      "acceptedAnswers": [
-        "BLACK-BLANK-BLINK-CLINK-CLING",
-        "BLANK-BLINK-CLINK",
-        "WEND:BLACK-BLANK-BLINK-CLINK-CLING"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (5 letters): change position 3 of 'BLACK' to align with the clue: \"Empty of marks, writing, or expression\".",
-        "HINT 02 // The pivot transition requires bridging through 'BLINK'; check vowel shifts between adjacent steps."
       ]
     },
     "enabled": true,
@@ -13426,69 +6811,6 @@ export const wendChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WND-0212",
-    "title": "WEND // WORD LADDER #0212 (RIVER → AFTER)",
-    "category": "LOGIC",
-    "description": "Morph 'RIVER' into 'AFTER' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "MODERATE",
-    "risk": "BALANCED",
-    "cost": 140,
-    "reward": 260,
-    "penalty": 80,
-    "timeLimit": 75,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-11 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0212",
-      "wordLength": 5,
-      "startWord": "RIVER",
-      "targetWord": "AFTER",
-      "steps": [
-        {
-          "clue": "Starting state: Large natural stream of flowing water",
-          "lockedWord": "RIVER"
-        },
-        {
-          "clue": "One who travels mounted on horseback"
-        },
-        {
-          "clue": "One who provides relief or auxiliary support"
-        },
-        {
-          "clue": "To change or modify character without replacing"
-        },
-        {
-          "clue": "Target state: Subsequent in chronological sequence",
-          "lockedWord": "AFTER"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "RIVER-RIDER-AIDER-ALTER-AFTER",
-      "expectedWords": [
-        "RIVER",
-        "RIDER",
-        "AIDER",
-        "ALTER",
-        "AFTER"
-      ],
-      "acceptedAnswers": [
-        "RIVER-RIDER-AIDER-ALTER-AFTER",
-        "RIDER-AIDER-ALTER",
-        "WEND:RIVER-RIDER-AIDER-ALTER-AFTER"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (5 letters): change position 3 of 'RIVER' to align with the clue: \"One who travels mounted on horseback\".",
-        "HINT 02 // The pivot transition requires bridging through 'AIDER'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WND-0213",
     "title": "WEND // WORD LADDER #0213 (PLANT → STARE)",
     "category": "LOGIC",
@@ -13546,69 +6868,6 @@ export const wendChallenges = [
       "hints": [
         "HINT 01 // Focus on Step 2 (5 letters): change position 3 of 'PLANT' to align with the clue: \"Flat two-dimensional surface or winged aircraft\".",
         "HINT 02 // The pivot transition requires bridging through 'PLATE'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WND-0214",
-    "title": "WEND // WORD LADDER #0214 (SLEEP → STEEL)",
-    "category": "LOGIC",
-    "description": "Morph 'SLEEP' into 'STEEL' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "MODERATE",
-    "risk": "BALANCED",
-    "cost": 140,
-    "reward": 260,
-    "penalty": 80,
-    "timeLimit": 75,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-11 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0214",
-      "wordLength": 5,
-      "startWord": "SLEEP",
-      "targetWord": "STEEL",
-      "steps": [
-        {
-          "clue": "Starting state: Naturally recurring condition of biological rest",
-          "lockedWord": "SLEEP"
-        },
-        {
-          "clue": "Ruminant quadruped domesticated for wool"
-        },
-        {
-          "clue": "Perpendicularly steep or absolute pure"
-        },
-        {
-          "clue": "To guide the direction of a vessel or vehicle"
-        },
-        {
-          "clue": "Target state: Alloy of iron with carbon of high tensile strength",
-          "lockedWord": "STEEL"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "SLEEP-SHEEP-SHEER-STEER-STEEL",
-      "expectedWords": [
-        "SLEEP",
-        "SHEEP",
-        "SHEER",
-        "STEER",
-        "STEEL"
-      ],
-      "acceptedAnswers": [
-        "SLEEP-SHEEP-SHEER-STEER-STEEL",
-        "SHEEP-SHEER-STEER",
-        "WEND:SLEEP-SHEEP-SHEER-STEER-STEEL"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (5 letters): change position 3 of 'SLEEP' to align with the clue: \"Ruminant quadruped domesticated for wool\".",
-        "HINT 02 // The pivot transition requires bridging through 'SHEER'; check vowel shifts between adjacent steps."
       ]
     },
     "enabled": true,
@@ -13681,69 +6940,6 @@ export const wendChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WND-0216",
-    "title": "WEND // WORD LADDER #0216 (STORM → SPARK)",
-    "category": "LOGIC",
-    "description": "Morph 'STORM' into 'SPARK' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "MODERATE",
-    "risk": "BALANCED",
-    "cost": 140,
-    "reward": 260,
-    "penalty": 80,
-    "timeLimit": 75,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-11 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0216",
-      "wordLength": 5,
-      "startWord": "STORM",
-      "targetWord": "SPARK",
-      "steps": [
-        {
-          "clue": "Starting state: Violent disturbance of meteorological atmosphere",
-          "lockedWord": "STORM"
-        },
-        {
-          "clue": "Retail mercantile establishment or storage repository"
-        },
-        {
-          "clue": "To gaze fixedly with wide uninterrupted eyes"
-        },
-        {
-          "clue": "Additional component held in reserve backup"
-        },
-        {
-          "clue": "Target state: Incandescent particle thrown off from a burning body",
-          "lockedWord": "SPARK"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "STORM-STORE-STARE-SPARE-SPARK",
-      "expectedWords": [
-        "STORM",
-        "STORE",
-        "STARE",
-        "SPARE",
-        "SPARK"
-      ],
-      "acceptedAnswers": [
-        "STORM-STORE-STARE-SPARE-SPARK",
-        "STORE-STARE-SPARE",
-        "WEND:STORM-STORE-STARE-SPARE-SPARK"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (5 letters): change position 3 of 'STORM' to align with the clue: \"Retail mercantile establishment or storage repository\".",
-        "HINT 02 // The pivot transition requires bridging through 'STARE'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WND-0217",
     "title": "WEND // WORD LADDER #0217 (COLD → WARM)",
     "category": "LOGIC",
@@ -13801,69 +6997,6 @@ export const wendChallenges = [
       "hints": [
         "HINT 01 // Focus on Step 2 (4 letters): change position 3 of 'COLD' to align with the clue: \"A flexible insulated cable or binding twine\".",
         "HINT 02 // The pivot transition requires bridging through 'CARD'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WND-0218",
-    "title": "WEND // WORD LADDER #0218 (DARK → FIRE)",
-    "category": "LOGIC",
-    "description": "Morph 'DARK' into 'FIRE' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "MODERATE",
-    "risk": "BALANCED",
-    "cost": 140,
-    "reward": 260,
-    "penalty": 80,
-    "timeLimit": 75,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-11 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0218",
-      "wordLength": 4,
-      "startWord": "DARK",
-      "targetWord": "FIRE",
-      "steps": [
-        {
-          "clue": "Starting state: Absence of illumination",
-          "lockedWord": "DARK"
-        },
-        {
-          "clue": "A small pointed projectile or rapid dash"
-        },
-        {
-          "clue": "Loose soil, earth, or particulate matter"
-        },
-        {
-          "clue": "Extremely urgent or calamitous circumstance"
-        },
-        {
-          "clue": "Target state: Combustion generating thermal heat",
-          "lockedWord": "FIRE"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "DARK-DART-DIRT-DIRE-FIRE",
-      "expectedWords": [
-        "DARK",
-        "DART",
-        "DIRT",
-        "DIRE",
-        "FIRE"
-      ],
-      "acceptedAnswers": [
-        "DARK-DART-DIRT-DIRE-FIRE",
-        "DART-DIRT-DIRE",
-        "WEND:DARK-DART-DIRT-DIRE-FIRE"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (4 letters): change position 3 of 'DARK' to align with the clue: \"A small pointed projectile or rapid dash\".",
-        "HINT 02 // The pivot transition requires bridging through 'DIRT'; check vowel shifts between adjacent steps."
       ]
     },
     "enabled": true,
@@ -13933,69 +7066,6 @@ export const wendChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WND-0220",
-    "title": "WEND // WORD LADDER #0220 (LEAD → GOLD)",
-    "category": "LOGIC",
-    "description": "Morph 'LEAD' into 'GOLD' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "MODERATE",
-    "risk": "BALANCED",
-    "cost": 140,
-    "reward": 260,
-    "penalty": 80,
-    "timeLimit": 75,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-12 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0220",
-      "wordLength": 4,
-      "startWord": "LEAD",
-      "targetWord": "GOLD",
-      "steps": [
-        {
-          "clue": "Starting state: Dense heavy metallic element",
-          "lockedWord": "LEAD"
-        },
-        {
-          "clue": "A heavy burden or amount carried"
-        },
-        {
-          "clue": "An amphibious tailless creature"
-        },
-        {
-          "clue": "Communicated verbal instruction in the past"
-        },
-        {
-          "clue": "Target state: Precious lustrous yellow metal",
-          "lockedWord": "GOLD"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "LEAD-LOAD-TOAD-TOLD-GOLD",
-      "expectedWords": [
-        "LEAD",
-        "LOAD",
-        "TOAD",
-        "TOLD",
-        "GOLD"
-      ],
-      "acceptedAnswers": [
-        "LEAD-LOAD-TOAD-TOLD-GOLD",
-        "LOAD-TOAD-TOLD",
-        "WEND:LEAD-LOAD-TOAD-TOLD-GOLD"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (4 letters): change position 3 of 'LEAD' to align with the clue: \"A heavy burden or amount carried\".",
-        "HINT 02 // The pivot transition requires bridging through 'TOAD'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WND-0221",
     "title": "WEND // WORD LADDER #0221 (MORE → SAFE)",
     "category": "LOGIC",
@@ -14059,69 +7129,6 @@ export const wendChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WND-0222",
-    "title": "WEND // WORD LADDER #0222 (FAST → POST)",
-    "category": "LOGIC",
-    "description": "Morph 'FAST' into 'POST' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "MODERATE",
-    "risk": "BALANCED",
-    "cost": 140,
-    "reward": 260,
-    "penalty": 80,
-    "timeLimit": 75,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-12 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0222",
-      "wordLength": 4,
-      "startWord": "FAST",
-      "targetWord": "POST",
-      "steps": [
-        {
-          "clue": "Starting state: Moving at high velocity",
-          "lockedWord": "FAST"
-        },
-        {
-          "clue": "Gone by in time and no longer existing"
-        },
-        {
-          "clue": "A component portion of a greater whole"
-        },
-        {
-          "clue": "A maritime harbor or network interface"
-        },
-        {
-          "clue": "Target state: Sturdy upright timber or bulletin",
-          "lockedWord": "POST"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "FAST-PAST-PART-PORT-POST",
-      "expectedWords": [
-        "FAST",
-        "PAST",
-        "PART",
-        "PORT",
-        "POST"
-      ],
-      "acceptedAnswers": [
-        "FAST-PAST-PART-PORT-POST",
-        "PAST-PART-PORT",
-        "WEND:FAST-PAST-PART-PORT-POST"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (4 letters): change position 3 of 'FAST' to align with the clue: \"Gone by in time and no longer existing\".",
-        "HINT 02 // The pivot transition requires bridging through 'PART'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WND-0223",
     "title": "WEND // WORD LADDER #0223 (CODE → BARK)",
     "category": "LOGIC",
@@ -14179,69 +7186,6 @@ export const wendChallenges = [
       "hints": [
         "HINT 01 // Focus on Step 2 (4 letters): change position 3 of 'CODE' to align with the clue: \"Central structural nexus of a planetary system\".",
         "HINT 02 // The pivot transition requires bridging through 'CARE'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WND-0224",
-    "title": "WEND // WORD LADDER #0224 (GATE → CALM)",
-    "category": "LOGIC",
-    "description": "Morph 'GATE' into 'CALM' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "MODERATE",
-    "risk": "BALANCED",
-    "cost": 140,
-    "reward": 260,
-    "penalty": 80,
-    "timeLimit": 75,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-12 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0224",
-      "wordLength": 4,
-      "startWord": "GATE",
-      "targetWord": "CALM",
-      "steps": [
-        {
-          "clue": "Starting state: Hinged barrier across an opening",
-          "lockedWord": "GATE"
-        },
-        {
-          "clue": "Conferred or transferred possession in the past"
-        },
-        {
-          "clue": "A subterranean hollow or subterranean chamber"
-        },
-        {
-          "clue": "Arrived at a specified coordinate"
-        },
-        {
-          "clue": "Target state: Free from agitation or turbulent disturbance",
-          "lockedWord": "CALM"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "GATE-GAVE-CAVE-CAME-CALM",
-      "expectedWords": [
-        "GATE",
-        "GAVE",
-        "CAVE",
-        "CAME",
-        "CALM"
-      ],
-      "acceptedAnswers": [
-        "GATE-GAVE-CAVE-CAME-CALM",
-        "GAVE-CAVE-CAME",
-        "WEND:GATE-GAVE-CAVE-CAME-CALM"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (4 letters): change position 3 of 'GATE' to align with the clue: \"Conferred or transferred possession in the past\".",
-        "HINT 02 // The pivot transition requires bridging through 'CAVE'; check vowel shifts between adjacent steps."
       ]
     },
     "enabled": true,
@@ -14315,69 +7259,6 @@ export const wendChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WND-0226",
-    "title": "WEND // WORD LADDER #0226 (WIND → LOVE)",
-    "category": "LOGIC",
-    "description": "Morph 'WIND' into 'LOVE' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "MODERATE",
-    "risk": "BALANCED",
-    "cost": 140,
-    "reward": 260,
-    "penalty": 80,
-    "timeLimit": 75,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-12 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0226",
-      "wordLength": 4,
-      "startWord": "WIND",
-      "targetWord": "LOVE",
-      "steps": [
-        {
-          "clue": "Starting state: Natural perceptible movement of air",
-          "lockedWord": "WIND"
-        },
-        {
-          "clue": "Fermented juice of grapes or fruit"
-        },
-        {
-          "clue": "Continuous spatial extent having only one dimension"
-        },
-        {
-          "clue": "Having no companions; solitary in wilderness"
-        },
-        {
-          "clue": "Target state: Deep affection and protective devotion",
-          "lockedWord": "LOVE"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "WIND-WINE-LINE-LONE-LOVE",
-      "expectedWords": [
-        "WIND",
-        "WINE",
-        "LINE",
-        "LONE",
-        "LOVE"
-      ],
-      "acceptedAnswers": [
-        "WIND-WINE-LINE-LONE-LOVE",
-        "WINE-LINE-LONE",
-        "WEND:WIND-WINE-LINE-LONE-LOVE"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (4 letters): change position 3 of 'WIND' to align with the clue: \"Fermented juice of grapes or fruit\".",
-        "HINT 02 // The pivot transition requires bridging through 'LINE'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WND-0227",
     "title": "WEND // WORD LADDER #0227 (STONE → CHALK)",
     "category": "LOGIC",
@@ -14439,69 +7320,6 @@ export const wendChallenges = [
       "hints": [
         "HINT 01 // Focus on Step 2 (5 letters): change position 3 of 'STONE' to align with the clue: \"Emitted radiant light in the past\".",
         "HINT 02 // The pivot transition requires bridging through 'CHINE'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WND-0228",
-    "title": "WEND // WORD LADDER #0228 (BLACK → CLING)",
-    "category": "LOGIC",
-    "description": "Morph 'BLACK' into 'CLING' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "MODERATE",
-    "risk": "BALANCED",
-    "cost": 140,
-    "reward": 260,
-    "penalty": 80,
-    "timeLimit": 75,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-12 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0228",
-      "wordLength": 5,
-      "startWord": "BLACK",
-      "targetWord": "CLING",
-      "steps": [
-        {
-          "clue": "Starting state: Total absence of visible light",
-          "lockedWord": "BLACK"
-        },
-        {
-          "clue": "Empty of marks, writing, or expression"
-        },
-        {
-          "clue": "To open and close eyes rapidly"
-        },
-        {
-          "clue": "A sharp metallic resonant sound"
-        },
-        {
-          "clue": "Target state: To hold on tightly to an anchor",
-          "lockedWord": "CLING"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "BLACK-BLANK-BLINK-CLINK-CLING",
-      "expectedWords": [
-        "BLACK",
-        "BLANK",
-        "BLINK",
-        "CLINK",
-        "CLING"
-      ],
-      "acceptedAnswers": [
-        "BLACK-BLANK-BLINK-CLINK-CLING",
-        "BLANK-BLINK-CLINK",
-        "WEND:BLACK-BLANK-BLINK-CLINK-CLING"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (5 letters): change position 3 of 'BLACK' to align with the clue: \"Empty of marks, writing, or expression\".",
-        "HINT 02 // The pivot transition requires bridging through 'BLINK'; check vowel shifts between adjacent steps."
       ]
     },
     "enabled": true,
@@ -14571,69 +7389,6 @@ export const wendChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WND-0230",
-    "title": "WEND // WORD LADDER #0230 (RIVER → AFTER)",
-    "category": "LOGIC",
-    "description": "Morph 'RIVER' into 'AFTER' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "MODERATE",
-    "risk": "BALANCED",
-    "cost": 140,
-    "reward": 260,
-    "penalty": 80,
-    "timeLimit": 75,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-12 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0230",
-      "wordLength": 5,
-      "startWord": "RIVER",
-      "targetWord": "AFTER",
-      "steps": [
-        {
-          "clue": "Starting state: Large natural stream of flowing water",
-          "lockedWord": "RIVER"
-        },
-        {
-          "clue": "One who travels mounted on horseback"
-        },
-        {
-          "clue": "One who provides relief or auxiliary support"
-        },
-        {
-          "clue": "To change or modify character without replacing"
-        },
-        {
-          "clue": "Target state: Subsequent in chronological sequence",
-          "lockedWord": "AFTER"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "RIVER-RIDER-AIDER-ALTER-AFTER",
-      "expectedWords": [
-        "RIVER",
-        "RIDER",
-        "AIDER",
-        "ALTER",
-        "AFTER"
-      ],
-      "acceptedAnswers": [
-        "RIVER-RIDER-AIDER-ALTER-AFTER",
-        "RIDER-AIDER-ALTER",
-        "WEND:RIVER-RIDER-AIDER-ALTER-AFTER"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (5 letters): change position 3 of 'RIVER' to align with the clue: \"One who travels mounted on horseback\".",
-        "HINT 02 // The pivot transition requires bridging through 'AIDER'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WND-0231",
     "title": "WEND // WORD LADDER #0231 (PLANT → STARE)",
     "category": "LOGIC",
@@ -14691,69 +7446,6 @@ export const wendChallenges = [
       "hints": [
         "HINT 01 // Focus on Step 2 (5 letters): change position 3 of 'PLANT' to align with the clue: \"Flat two-dimensional surface or winged aircraft\".",
         "HINT 02 // The pivot transition requires bridging through 'PLATE'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WND-0232",
-    "title": "WEND // WORD LADDER #0232 (SLEEP → STEEL)",
-    "category": "LOGIC",
-    "description": "Morph 'SLEEP' into 'STEEL' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "MODERATE",
-    "risk": "BALANCED",
-    "cost": 140,
-    "reward": 260,
-    "penalty": 80,
-    "timeLimit": 75,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-12 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0232",
-      "wordLength": 5,
-      "startWord": "SLEEP",
-      "targetWord": "STEEL",
-      "steps": [
-        {
-          "clue": "Starting state: Naturally recurring condition of biological rest",
-          "lockedWord": "SLEEP"
-        },
-        {
-          "clue": "Ruminant quadruped domesticated for wool"
-        },
-        {
-          "clue": "Perpendicularly steep or absolute pure"
-        },
-        {
-          "clue": "To guide the direction of a vessel or vehicle"
-        },
-        {
-          "clue": "Target state: Alloy of iron with carbon of high tensile strength",
-          "lockedWord": "STEEL"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "SLEEP-SHEEP-SHEER-STEER-STEEL",
-      "expectedWords": [
-        "SLEEP",
-        "SHEEP",
-        "SHEER",
-        "STEER",
-        "STEEL"
-      ],
-      "acceptedAnswers": [
-        "SLEEP-SHEEP-SHEER-STEER-STEEL",
-        "SHEEP-SHEER-STEER",
-        "WEND:SLEEP-SHEEP-SHEER-STEER-STEEL"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (5 letters): change position 3 of 'SLEEP' to align with the clue: \"Ruminant quadruped domesticated for wool\".",
-        "HINT 02 // The pivot transition requires bridging through 'SHEER'; check vowel shifts between adjacent steps."
       ]
     },
     "enabled": true,
@@ -14826,69 +7518,6 @@ export const wendChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WND-0234",
-    "title": "WEND // WORD LADDER #0234 (STORM → SPARK)",
-    "category": "LOGIC",
-    "description": "Morph 'STORM' into 'SPARK' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "MODERATE",
-    "risk": "BALANCED",
-    "cost": 140,
-    "reward": 260,
-    "penalty": 80,
-    "timeLimit": 75,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-12 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0234",
-      "wordLength": 5,
-      "startWord": "STORM",
-      "targetWord": "SPARK",
-      "steps": [
-        {
-          "clue": "Starting state: Violent disturbance of meteorological atmosphere",
-          "lockedWord": "STORM"
-        },
-        {
-          "clue": "Retail mercantile establishment or storage repository"
-        },
-        {
-          "clue": "To gaze fixedly with wide uninterrupted eyes"
-        },
-        {
-          "clue": "Additional component held in reserve backup"
-        },
-        {
-          "clue": "Target state: Incandescent particle thrown off from a burning body",
-          "lockedWord": "SPARK"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "STORM-STORE-STARE-SPARE-SPARK",
-      "expectedWords": [
-        "STORM",
-        "STORE",
-        "STARE",
-        "SPARE",
-        "SPARK"
-      ],
-      "acceptedAnswers": [
-        "STORM-STORE-STARE-SPARE-SPARK",
-        "STORE-STARE-SPARE",
-        "WEND:STORM-STORE-STARE-SPARE-SPARK"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (5 letters): change position 3 of 'STORM' to align with the clue: \"Retail mercantile establishment or storage repository\".",
-        "HINT 02 // The pivot transition requires bridging through 'STARE'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WND-0235",
     "title": "WEND // WORD LADDER #0235 (COLD → WARM)",
     "category": "LOGIC",
@@ -14946,69 +7575,6 @@ export const wendChallenges = [
       "hints": [
         "HINT 01 // Focus on Step 2 (4 letters): change position 3 of 'COLD' to align with the clue: \"A flexible insulated cable or binding twine\".",
         "HINT 02 // The pivot transition requires bridging through 'CARD'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WND-0236",
-    "title": "WEND // WORD LADDER #0236 (DARK → FIRE)",
-    "category": "LOGIC",
-    "description": "Morph 'DARK' into 'FIRE' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "MODERATE",
-    "risk": "BALANCED",
-    "cost": 140,
-    "reward": 260,
-    "penalty": 80,
-    "timeLimit": 75,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-12 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0236",
-      "wordLength": 4,
-      "startWord": "DARK",
-      "targetWord": "FIRE",
-      "steps": [
-        {
-          "clue": "Starting state: Absence of illumination",
-          "lockedWord": "DARK"
-        },
-        {
-          "clue": "A small pointed projectile or rapid dash"
-        },
-        {
-          "clue": "Loose soil, earth, or particulate matter"
-        },
-        {
-          "clue": "Extremely urgent or calamitous circumstance"
-        },
-        {
-          "clue": "Target state: Combustion generating thermal heat",
-          "lockedWord": "FIRE"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "DARK-DART-DIRT-DIRE-FIRE",
-      "expectedWords": [
-        "DARK",
-        "DART",
-        "DIRT",
-        "DIRE",
-        "FIRE"
-      ],
-      "acceptedAnswers": [
-        "DARK-DART-DIRT-DIRE-FIRE",
-        "DART-DIRT-DIRE",
-        "WEND:DARK-DART-DIRT-DIRE-FIRE"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (4 letters): change position 3 of 'DARK' to align with the clue: \"A small pointed projectile or rapid dash\".",
-        "HINT 02 // The pivot transition requires bridging through 'DIRT'; check vowel shifts between adjacent steps."
       ]
     },
     "enabled": true,
@@ -15078,69 +7644,6 @@ export const wendChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WND-0238",
-    "title": "WEND // WORD LADDER #0238 (LEAD → GOLD)",
-    "category": "LOGIC",
-    "description": "Morph 'LEAD' into 'GOLD' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "MODERATE",
-    "risk": "BALANCED",
-    "cost": 140,
-    "reward": 260,
-    "penalty": 80,
-    "timeLimit": 75,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-12 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0238",
-      "wordLength": 4,
-      "startWord": "LEAD",
-      "targetWord": "GOLD",
-      "steps": [
-        {
-          "clue": "Starting state: Dense heavy metallic element",
-          "lockedWord": "LEAD"
-        },
-        {
-          "clue": "A heavy burden or amount carried"
-        },
-        {
-          "clue": "An amphibious tailless creature"
-        },
-        {
-          "clue": "Communicated verbal instruction in the past"
-        },
-        {
-          "clue": "Target state: Precious lustrous yellow metal",
-          "lockedWord": "GOLD"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "LEAD-LOAD-TOAD-TOLD-GOLD",
-      "expectedWords": [
-        "LEAD",
-        "LOAD",
-        "TOAD",
-        "TOLD",
-        "GOLD"
-      ],
-      "acceptedAnswers": [
-        "LEAD-LOAD-TOAD-TOLD-GOLD",
-        "LOAD-TOAD-TOLD",
-        "WEND:LEAD-LOAD-TOAD-TOLD-GOLD"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (4 letters): change position 3 of 'LEAD' to align with the clue: \"A heavy burden or amount carried\".",
-        "HINT 02 // The pivot transition requires bridging through 'TOAD'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WND-0239",
     "title": "WEND // WORD LADDER #0239 (MORE → SAFE)",
     "category": "LOGIC",
@@ -15204,69 +7707,6 @@ export const wendChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WND-0240",
-    "title": "WEND // WORD LADDER #0240 (FAST → POST)",
-    "category": "LOGIC",
-    "description": "Morph 'FAST' into 'POST' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "MODERATE",
-    "risk": "BALANCED",
-    "cost": 140,
-    "reward": 260,
-    "penalty": 80,
-    "timeLimit": 75,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-13 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0240",
-      "wordLength": 4,
-      "startWord": "FAST",
-      "targetWord": "POST",
-      "steps": [
-        {
-          "clue": "Starting state: Moving at high velocity",
-          "lockedWord": "FAST"
-        },
-        {
-          "clue": "Gone by in time and no longer existing"
-        },
-        {
-          "clue": "A component portion of a greater whole"
-        },
-        {
-          "clue": "A maritime harbor or network interface"
-        },
-        {
-          "clue": "Target state: Sturdy upright timber or bulletin",
-          "lockedWord": "POST"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "FAST-PAST-PART-PORT-POST",
-      "expectedWords": [
-        "FAST",
-        "PAST",
-        "PART",
-        "PORT",
-        "POST"
-      ],
-      "acceptedAnswers": [
-        "FAST-PAST-PART-PORT-POST",
-        "PAST-PART-PORT",
-        "WEND:FAST-PAST-PART-PORT-POST"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (4 letters): change position 3 of 'FAST' to align with the clue: \"Gone by in time and no longer existing\".",
-        "HINT 02 // The pivot transition requires bridging through 'PART'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WND-0241",
     "title": "WEND // WORD LADDER #0241 (CODE → BARK)",
     "category": "LOGIC",
@@ -15324,69 +7764,6 @@ export const wendChallenges = [
       "hints": [
         "HINT 01 // Focus on Step 2 (4 letters): change position 3 of 'CODE' to align with the clue: \"Central structural nexus of a planetary system\".",
         "HINT 02 // The pivot transition requires bridging through 'CARE'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WND-0242",
-    "title": "WEND // WORD LADDER #0242 (GATE → CALM)",
-    "category": "LOGIC",
-    "description": "Morph 'GATE' into 'CALM' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "MODERATE",
-    "risk": "BALANCED",
-    "cost": 140,
-    "reward": 260,
-    "penalty": 80,
-    "timeLimit": 75,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-13 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0242",
-      "wordLength": 4,
-      "startWord": "GATE",
-      "targetWord": "CALM",
-      "steps": [
-        {
-          "clue": "Starting state: Hinged barrier across an opening",
-          "lockedWord": "GATE"
-        },
-        {
-          "clue": "Conferred or transferred possession in the past"
-        },
-        {
-          "clue": "A subterranean hollow or subterranean chamber"
-        },
-        {
-          "clue": "Arrived at a specified coordinate"
-        },
-        {
-          "clue": "Target state: Free from agitation or turbulent disturbance",
-          "lockedWord": "CALM"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "GATE-GAVE-CAVE-CAME-CALM",
-      "expectedWords": [
-        "GATE",
-        "GAVE",
-        "CAVE",
-        "CAME",
-        "CALM"
-      ],
-      "acceptedAnswers": [
-        "GATE-GAVE-CAVE-CAME-CALM",
-        "GAVE-CAVE-CAME",
-        "WEND:GATE-GAVE-CAVE-CAME-CALM"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (4 letters): change position 3 of 'GATE' to align with the clue: \"Conferred or transferred possession in the past\".",
-        "HINT 02 // The pivot transition requires bridging through 'CAVE'; check vowel shifts between adjacent steps."
       ]
     },
     "enabled": true,
@@ -15460,69 +7837,6 @@ export const wendChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WND-0244",
-    "title": "WEND // WORD LADDER #0244 (WIND → LOVE)",
-    "category": "LOGIC",
-    "description": "Morph 'WIND' into 'LOVE' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "MODERATE",
-    "risk": "BALANCED",
-    "cost": 140,
-    "reward": 260,
-    "penalty": 80,
-    "timeLimit": 75,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-13 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0244",
-      "wordLength": 4,
-      "startWord": "WIND",
-      "targetWord": "LOVE",
-      "steps": [
-        {
-          "clue": "Starting state: Natural perceptible movement of air",
-          "lockedWord": "WIND"
-        },
-        {
-          "clue": "Fermented juice of grapes or fruit"
-        },
-        {
-          "clue": "Continuous spatial extent having only one dimension"
-        },
-        {
-          "clue": "Having no companions; solitary in wilderness"
-        },
-        {
-          "clue": "Target state: Deep affection and protective devotion",
-          "lockedWord": "LOVE"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "WIND-WINE-LINE-LONE-LOVE",
-      "expectedWords": [
-        "WIND",
-        "WINE",
-        "LINE",
-        "LONE",
-        "LOVE"
-      ],
-      "acceptedAnswers": [
-        "WIND-WINE-LINE-LONE-LOVE",
-        "WINE-LINE-LONE",
-        "WEND:WIND-WINE-LINE-LONE-LOVE"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (4 letters): change position 3 of 'WIND' to align with the clue: \"Fermented juice of grapes or fruit\".",
-        "HINT 02 // The pivot transition requires bridging through 'LINE'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WND-0245",
     "title": "WEND // WORD LADDER #0245 (STONE → CHALK)",
     "category": "LOGIC",
@@ -15584,69 +7898,6 @@ export const wendChallenges = [
       "hints": [
         "HINT 01 // Focus on Step 2 (5 letters): change position 3 of 'STONE' to align with the clue: \"Emitted radiant light in the past\".",
         "HINT 02 // The pivot transition requires bridging through 'CHINE'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WND-0246",
-    "title": "WEND // WORD LADDER #0246 (BLACK → CLING)",
-    "category": "LOGIC",
-    "description": "Morph 'BLACK' into 'CLING' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "MODERATE",
-    "risk": "BALANCED",
-    "cost": 140,
-    "reward": 260,
-    "penalty": 80,
-    "timeLimit": 75,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-13 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0246",
-      "wordLength": 5,
-      "startWord": "BLACK",
-      "targetWord": "CLING",
-      "steps": [
-        {
-          "clue": "Starting state: Total absence of visible light",
-          "lockedWord": "BLACK"
-        },
-        {
-          "clue": "Empty of marks, writing, or expression"
-        },
-        {
-          "clue": "To open and close eyes rapidly"
-        },
-        {
-          "clue": "A sharp metallic resonant sound"
-        },
-        {
-          "clue": "Target state: To hold on tightly to an anchor",
-          "lockedWord": "CLING"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "BLACK-BLANK-BLINK-CLINK-CLING",
-      "expectedWords": [
-        "BLACK",
-        "BLANK",
-        "BLINK",
-        "CLINK",
-        "CLING"
-      ],
-      "acceptedAnswers": [
-        "BLACK-BLANK-BLINK-CLINK-CLING",
-        "BLANK-BLINK-CLINK",
-        "WEND:BLACK-BLANK-BLINK-CLINK-CLING"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (5 letters): change position 3 of 'BLACK' to align with the clue: \"Empty of marks, writing, or expression\".",
-        "HINT 02 // The pivot transition requires bridging through 'BLINK'; check vowel shifts between adjacent steps."
       ]
     },
     "enabled": true,
@@ -15716,69 +7967,6 @@ export const wendChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WND-0248",
-    "title": "WEND // WORD LADDER #0248 (RIVER → AFTER)",
-    "category": "LOGIC",
-    "description": "Morph 'RIVER' into 'AFTER' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "MODERATE",
-    "risk": "BALANCED",
-    "cost": 140,
-    "reward": 260,
-    "penalty": 80,
-    "timeLimit": 75,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-13 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0248",
-      "wordLength": 5,
-      "startWord": "RIVER",
-      "targetWord": "AFTER",
-      "steps": [
-        {
-          "clue": "Starting state: Large natural stream of flowing water",
-          "lockedWord": "RIVER"
-        },
-        {
-          "clue": "One who travels mounted on horseback"
-        },
-        {
-          "clue": "One who provides relief or auxiliary support"
-        },
-        {
-          "clue": "To change or modify character without replacing"
-        },
-        {
-          "clue": "Target state: Subsequent in chronological sequence",
-          "lockedWord": "AFTER"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "RIVER-RIDER-AIDER-ALTER-AFTER",
-      "expectedWords": [
-        "RIVER",
-        "RIDER",
-        "AIDER",
-        "ALTER",
-        "AFTER"
-      ],
-      "acceptedAnswers": [
-        "RIVER-RIDER-AIDER-ALTER-AFTER",
-        "RIDER-AIDER-ALTER",
-        "WEND:RIVER-RIDER-AIDER-ALTER-AFTER"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (5 letters): change position 3 of 'RIVER' to align with the clue: \"One who travels mounted on horseback\".",
-        "HINT 02 // The pivot transition requires bridging through 'AIDER'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WND-0249",
     "title": "WEND // WORD LADDER #0249 (PLANT → STARE)",
     "category": "LOGIC",
@@ -15836,69 +8024,6 @@ export const wendChallenges = [
       "hints": [
         "HINT 01 // Focus on Step 2 (5 letters): change position 3 of 'PLANT' to align with the clue: \"Flat two-dimensional surface or winged aircraft\".",
         "HINT 02 // The pivot transition requires bridging through 'PLATE'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WND-0250",
-    "title": "WEND // WORD LADDER #0250 (SLEEP → STEEL)",
-    "category": "LOGIC",
-    "description": "Morph 'SLEEP' into 'STEEL' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "MODERATE",
-    "risk": "BALANCED",
-    "cost": 140,
-    "reward": 260,
-    "penalty": 80,
-    "timeLimit": 75,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-13 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0250",
-      "wordLength": 5,
-      "startWord": "SLEEP",
-      "targetWord": "STEEL",
-      "steps": [
-        {
-          "clue": "Starting state: Naturally recurring condition of biological rest",
-          "lockedWord": "SLEEP"
-        },
-        {
-          "clue": "Ruminant quadruped domesticated for wool"
-        },
-        {
-          "clue": "Perpendicularly steep or absolute pure"
-        },
-        {
-          "clue": "To guide the direction of a vessel or vehicle"
-        },
-        {
-          "clue": "Target state: Alloy of iron with carbon of high tensile strength",
-          "lockedWord": "STEEL"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "SLEEP-SHEEP-SHEER-STEER-STEEL",
-      "expectedWords": [
-        "SLEEP",
-        "SHEEP",
-        "SHEER",
-        "STEER",
-        "STEEL"
-      ],
-      "acceptedAnswers": [
-        "SLEEP-SHEEP-SHEER-STEER-STEEL",
-        "SHEEP-SHEER-STEER",
-        "WEND:SLEEP-SHEEP-SHEER-STEER-STEEL"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (5 letters): change position 3 of 'SLEEP' to align with the clue: \"Ruminant quadruped domesticated for wool\".",
-        "HINT 02 // The pivot transition requires bridging through 'SHEER'; check vowel shifts between adjacent steps."
       ]
     },
     "enabled": true,
@@ -15971,69 +8096,6 @@ export const wendChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WND-0252",
-    "title": "WEND // WORD LADDER #0252 (STORM → SPARK)",
-    "category": "LOGIC",
-    "description": "Morph 'STORM' into 'SPARK' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "MODERATE",
-    "risk": "BALANCED",
-    "cost": 140,
-    "reward": 260,
-    "penalty": 80,
-    "timeLimit": 75,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-13 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0252",
-      "wordLength": 5,
-      "startWord": "STORM",
-      "targetWord": "SPARK",
-      "steps": [
-        {
-          "clue": "Starting state: Violent disturbance of meteorological atmosphere",
-          "lockedWord": "STORM"
-        },
-        {
-          "clue": "Retail mercantile establishment or storage repository"
-        },
-        {
-          "clue": "To gaze fixedly with wide uninterrupted eyes"
-        },
-        {
-          "clue": "Additional component held in reserve backup"
-        },
-        {
-          "clue": "Target state: Incandescent particle thrown off from a burning body",
-          "lockedWord": "SPARK"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "STORM-STORE-STARE-SPARE-SPARK",
-      "expectedWords": [
-        "STORM",
-        "STORE",
-        "STARE",
-        "SPARE",
-        "SPARK"
-      ],
-      "acceptedAnswers": [
-        "STORM-STORE-STARE-SPARE-SPARK",
-        "STORE-STARE-SPARE",
-        "WEND:STORM-STORE-STARE-SPARE-SPARK"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (5 letters): change position 3 of 'STORM' to align with the clue: \"Retail mercantile establishment or storage repository\".",
-        "HINT 02 // The pivot transition requires bridging through 'STARE'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WND-0253",
     "title": "WEND // WORD LADDER #0253 (COLD → WARM)",
     "category": "LOGIC",
@@ -16091,69 +8153,6 @@ export const wendChallenges = [
       "hints": [
         "HINT 01 // Focus on Step 2 (4 letters): change position 3 of 'COLD' to align with the clue: \"A flexible insulated cable or binding twine\".",
         "HINT 02 // The pivot transition requires bridging through 'CARD'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WND-0254",
-    "title": "WEND // WORD LADDER #0254 (DARK → FIRE)",
-    "category": "LOGIC",
-    "description": "Morph 'DARK' into 'FIRE' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "MODERATE",
-    "risk": "BALANCED",
-    "cost": 140,
-    "reward": 260,
-    "penalty": 80,
-    "timeLimit": 75,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-13 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0254",
-      "wordLength": 4,
-      "startWord": "DARK",
-      "targetWord": "FIRE",
-      "steps": [
-        {
-          "clue": "Starting state: Absence of illumination",
-          "lockedWord": "DARK"
-        },
-        {
-          "clue": "A small pointed projectile or rapid dash"
-        },
-        {
-          "clue": "Loose soil, earth, or particulate matter"
-        },
-        {
-          "clue": "Extremely urgent or calamitous circumstance"
-        },
-        {
-          "clue": "Target state: Combustion generating thermal heat",
-          "lockedWord": "FIRE"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "DARK-DART-DIRT-DIRE-FIRE",
-      "expectedWords": [
-        "DARK",
-        "DART",
-        "DIRT",
-        "DIRE",
-        "FIRE"
-      ],
-      "acceptedAnswers": [
-        "DARK-DART-DIRT-DIRE-FIRE",
-        "DART-DIRT-DIRE",
-        "WEND:DARK-DART-DIRT-DIRE-FIRE"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (4 letters): change position 3 of 'DARK' to align with the clue: \"A small pointed projectile or rapid dash\".",
-        "HINT 02 // The pivot transition requires bridging through 'DIRT'; check vowel shifts between adjacent steps."
       ]
     },
     "enabled": true,
@@ -16223,69 +8222,6 @@ export const wendChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WND-0256",
-    "title": "WEND // WORD LADDER #0256 (LEAD → GOLD)",
-    "category": "LOGIC",
-    "description": "Morph 'LEAD' into 'GOLD' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "MODERATE",
-    "risk": "BALANCED",
-    "cost": 140,
-    "reward": 260,
-    "penalty": 80,
-    "timeLimit": 75,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-13 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0256",
-      "wordLength": 4,
-      "startWord": "LEAD",
-      "targetWord": "GOLD",
-      "steps": [
-        {
-          "clue": "Starting state: Dense heavy metallic element",
-          "lockedWord": "LEAD"
-        },
-        {
-          "clue": "A heavy burden or amount carried"
-        },
-        {
-          "clue": "An amphibious tailless creature"
-        },
-        {
-          "clue": "Communicated verbal instruction in the past"
-        },
-        {
-          "clue": "Target state: Precious lustrous yellow metal",
-          "lockedWord": "GOLD"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "LEAD-LOAD-TOAD-TOLD-GOLD",
-      "expectedWords": [
-        "LEAD",
-        "LOAD",
-        "TOAD",
-        "TOLD",
-        "GOLD"
-      ],
-      "acceptedAnswers": [
-        "LEAD-LOAD-TOAD-TOLD-GOLD",
-        "LOAD-TOAD-TOLD",
-        "WEND:LEAD-LOAD-TOAD-TOLD-GOLD"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (4 letters): change position 3 of 'LEAD' to align with the clue: \"A heavy burden or amount carried\".",
-        "HINT 02 // The pivot transition requires bridging through 'TOAD'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WND-0257",
     "title": "WEND // WORD LADDER #0257 (MORE → SAFE)",
     "category": "LOGIC",
@@ -16349,69 +8285,6 @@ export const wendChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WND-0258",
-    "title": "WEND // WORD LADDER #0258 (FAST → POST)",
-    "category": "LOGIC",
-    "description": "Morph 'FAST' into 'POST' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "MODERATE",
-    "risk": "BALANCED",
-    "cost": 140,
-    "reward": 260,
-    "penalty": 80,
-    "timeLimit": 75,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-13 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0258",
-      "wordLength": 4,
-      "startWord": "FAST",
-      "targetWord": "POST",
-      "steps": [
-        {
-          "clue": "Starting state: Moving at high velocity",
-          "lockedWord": "FAST"
-        },
-        {
-          "clue": "Gone by in time and no longer existing"
-        },
-        {
-          "clue": "A component portion of a greater whole"
-        },
-        {
-          "clue": "A maritime harbor or network interface"
-        },
-        {
-          "clue": "Target state: Sturdy upright timber or bulletin",
-          "lockedWord": "POST"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "FAST-PAST-PART-PORT-POST",
-      "expectedWords": [
-        "FAST",
-        "PAST",
-        "PART",
-        "PORT",
-        "POST"
-      ],
-      "acceptedAnswers": [
-        "FAST-PAST-PART-PORT-POST",
-        "PAST-PART-PORT",
-        "WEND:FAST-PAST-PART-PORT-POST"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (4 letters): change position 3 of 'FAST' to align with the clue: \"Gone by in time and no longer existing\".",
-        "HINT 02 // The pivot transition requires bridging through 'PART'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WND-0259",
     "title": "WEND // WORD LADDER #0259 (CODE → BARK)",
     "category": "LOGIC",
@@ -16469,69 +8342,6 @@ export const wendChallenges = [
       "hints": [
         "HINT 01 // Focus on Step 2 (4 letters): change position 3 of 'CODE' to align with the clue: \"Central structural nexus of a planetary system\".",
         "HINT 02 // The pivot transition requires bridging through 'CARE'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WND-0260",
-    "title": "WEND // WORD LADDER #0260 (GATE → CALM)",
-    "category": "LOGIC",
-    "description": "Morph 'GATE' into 'CALM' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "MODERATE",
-    "risk": "BALANCED",
-    "cost": 140,
-    "reward": 260,
-    "penalty": 80,
-    "timeLimit": 75,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-14 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0260",
-      "wordLength": 4,
-      "startWord": "GATE",
-      "targetWord": "CALM",
-      "steps": [
-        {
-          "clue": "Starting state: Hinged barrier across an opening",
-          "lockedWord": "GATE"
-        },
-        {
-          "clue": "Conferred or transferred possession in the past"
-        },
-        {
-          "clue": "A subterranean hollow or subterranean chamber"
-        },
-        {
-          "clue": "Arrived at a specified coordinate"
-        },
-        {
-          "clue": "Target state: Free from agitation or turbulent disturbance",
-          "lockedWord": "CALM"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "GATE-GAVE-CAVE-CAME-CALM",
-      "expectedWords": [
-        "GATE",
-        "GAVE",
-        "CAVE",
-        "CAME",
-        "CALM"
-      ],
-      "acceptedAnswers": [
-        "GATE-GAVE-CAVE-CAME-CALM",
-        "GAVE-CAVE-CAME",
-        "WEND:GATE-GAVE-CAVE-CAME-CALM"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (4 letters): change position 3 of 'GATE' to align with the clue: \"Conferred or transferred possession in the past\".",
-        "HINT 02 // The pivot transition requires bridging through 'CAVE'; check vowel shifts between adjacent steps."
       ]
     },
     "enabled": true,
@@ -16605,69 +8415,6 @@ export const wendChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WND-0262",
-    "title": "WEND // WORD LADDER #0262 (WIND → LOVE)",
-    "category": "LOGIC",
-    "description": "Morph 'WIND' into 'LOVE' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "MODERATE",
-    "risk": "BALANCED",
-    "cost": 140,
-    "reward": 260,
-    "penalty": 80,
-    "timeLimit": 75,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-14 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0262",
-      "wordLength": 4,
-      "startWord": "WIND",
-      "targetWord": "LOVE",
-      "steps": [
-        {
-          "clue": "Starting state: Natural perceptible movement of air",
-          "lockedWord": "WIND"
-        },
-        {
-          "clue": "Fermented juice of grapes or fruit"
-        },
-        {
-          "clue": "Continuous spatial extent having only one dimension"
-        },
-        {
-          "clue": "Having no companions; solitary in wilderness"
-        },
-        {
-          "clue": "Target state: Deep affection and protective devotion",
-          "lockedWord": "LOVE"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "WIND-WINE-LINE-LONE-LOVE",
-      "expectedWords": [
-        "WIND",
-        "WINE",
-        "LINE",
-        "LONE",
-        "LOVE"
-      ],
-      "acceptedAnswers": [
-        "WIND-WINE-LINE-LONE-LOVE",
-        "WINE-LINE-LONE",
-        "WEND:WIND-WINE-LINE-LONE-LOVE"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (4 letters): change position 3 of 'WIND' to align with the clue: \"Fermented juice of grapes or fruit\".",
-        "HINT 02 // The pivot transition requires bridging through 'LINE'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WND-0263",
     "title": "WEND // WORD LADDER #0263 (STONE → CHALK)",
     "category": "LOGIC",
@@ -16729,69 +8476,6 @@ export const wendChallenges = [
       "hints": [
         "HINT 01 // Focus on Step 2 (5 letters): change position 3 of 'STONE' to align with the clue: \"Emitted radiant light in the past\".",
         "HINT 02 // The pivot transition requires bridging through 'CHINE'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WND-0264",
-    "title": "WEND // WORD LADDER #0264 (BLACK → CLING)",
-    "category": "LOGIC",
-    "description": "Morph 'BLACK' into 'CLING' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "MODERATE",
-    "risk": "BALANCED",
-    "cost": 140,
-    "reward": 260,
-    "penalty": 80,
-    "timeLimit": 75,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-14 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0264",
-      "wordLength": 5,
-      "startWord": "BLACK",
-      "targetWord": "CLING",
-      "steps": [
-        {
-          "clue": "Starting state: Total absence of visible light",
-          "lockedWord": "BLACK"
-        },
-        {
-          "clue": "Empty of marks, writing, or expression"
-        },
-        {
-          "clue": "To open and close eyes rapidly"
-        },
-        {
-          "clue": "A sharp metallic resonant sound"
-        },
-        {
-          "clue": "Target state: To hold on tightly to an anchor",
-          "lockedWord": "CLING"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "BLACK-BLANK-BLINK-CLINK-CLING",
-      "expectedWords": [
-        "BLACK",
-        "BLANK",
-        "BLINK",
-        "CLINK",
-        "CLING"
-      ],
-      "acceptedAnswers": [
-        "BLACK-BLANK-BLINK-CLINK-CLING",
-        "BLANK-BLINK-CLINK",
-        "WEND:BLACK-BLANK-BLINK-CLINK-CLING"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (5 letters): change position 3 of 'BLACK' to align with the clue: \"Empty of marks, writing, or expression\".",
-        "HINT 02 // The pivot transition requires bridging through 'BLINK'; check vowel shifts between adjacent steps."
       ]
     },
     "enabled": true,
@@ -16861,69 +8545,6 @@ export const wendChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WND-0266",
-    "title": "WEND // WORD LADDER #0266 (RIVER → AFTER)",
-    "category": "LOGIC",
-    "description": "Morph 'RIVER' into 'AFTER' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "MODERATE",
-    "risk": "BALANCED",
-    "cost": 140,
-    "reward": 260,
-    "penalty": 80,
-    "timeLimit": 75,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-14 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0266",
-      "wordLength": 5,
-      "startWord": "RIVER",
-      "targetWord": "AFTER",
-      "steps": [
-        {
-          "clue": "Starting state: Large natural stream of flowing water",
-          "lockedWord": "RIVER"
-        },
-        {
-          "clue": "One who travels mounted on horseback"
-        },
-        {
-          "clue": "One who provides relief or auxiliary support"
-        },
-        {
-          "clue": "To change or modify character without replacing"
-        },
-        {
-          "clue": "Target state: Subsequent in chronological sequence",
-          "lockedWord": "AFTER"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "RIVER-RIDER-AIDER-ALTER-AFTER",
-      "expectedWords": [
-        "RIVER",
-        "RIDER",
-        "AIDER",
-        "ALTER",
-        "AFTER"
-      ],
-      "acceptedAnswers": [
-        "RIVER-RIDER-AIDER-ALTER-AFTER",
-        "RIDER-AIDER-ALTER",
-        "WEND:RIVER-RIDER-AIDER-ALTER-AFTER"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (5 letters): change position 3 of 'RIVER' to align with the clue: \"One who travels mounted on horseback\".",
-        "HINT 02 // The pivot transition requires bridging through 'AIDER'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WND-0267",
     "title": "WEND // WORD LADDER #0267 (PLANT → STARE)",
     "category": "LOGIC",
@@ -16981,69 +8602,6 @@ export const wendChallenges = [
       "hints": [
         "HINT 01 // Focus on Step 2 (5 letters): change position 3 of 'PLANT' to align with the clue: \"Flat two-dimensional surface or winged aircraft\".",
         "HINT 02 // The pivot transition requires bridging through 'PLATE'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WND-0268",
-    "title": "WEND // WORD LADDER #0268 (SLEEP → STEEL)",
-    "category": "LOGIC",
-    "description": "Morph 'SLEEP' into 'STEEL' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "MODERATE",
-    "risk": "BALANCED",
-    "cost": 140,
-    "reward": 260,
-    "penalty": 80,
-    "timeLimit": 75,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-14 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0268",
-      "wordLength": 5,
-      "startWord": "SLEEP",
-      "targetWord": "STEEL",
-      "steps": [
-        {
-          "clue": "Starting state: Naturally recurring condition of biological rest",
-          "lockedWord": "SLEEP"
-        },
-        {
-          "clue": "Ruminant quadruped domesticated for wool"
-        },
-        {
-          "clue": "Perpendicularly steep or absolute pure"
-        },
-        {
-          "clue": "To guide the direction of a vessel or vehicle"
-        },
-        {
-          "clue": "Target state: Alloy of iron with carbon of high tensile strength",
-          "lockedWord": "STEEL"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "SLEEP-SHEEP-SHEER-STEER-STEEL",
-      "expectedWords": [
-        "SLEEP",
-        "SHEEP",
-        "SHEER",
-        "STEER",
-        "STEEL"
-      ],
-      "acceptedAnswers": [
-        "SLEEP-SHEEP-SHEER-STEER-STEEL",
-        "SHEEP-SHEER-STEER",
-        "WEND:SLEEP-SHEEP-SHEER-STEER-STEEL"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (5 letters): change position 3 of 'SLEEP' to align with the clue: \"Ruminant quadruped domesticated for wool\".",
-        "HINT 02 // The pivot transition requires bridging through 'SHEER'; check vowel shifts between adjacent steps."
       ]
     },
     "enabled": true,
@@ -17116,69 +8674,6 @@ export const wendChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WND-0270",
-    "title": "WEND // WORD LADDER #0270 (STORM → SPARK)",
-    "category": "LOGIC",
-    "description": "Morph 'STORM' into 'SPARK' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "MODERATE",
-    "risk": "BALANCED",
-    "cost": 140,
-    "reward": 260,
-    "penalty": 80,
-    "timeLimit": 75,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-14 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0270",
-      "wordLength": 5,
-      "startWord": "STORM",
-      "targetWord": "SPARK",
-      "steps": [
-        {
-          "clue": "Starting state: Violent disturbance of meteorological atmosphere",
-          "lockedWord": "STORM"
-        },
-        {
-          "clue": "Retail mercantile establishment or storage repository"
-        },
-        {
-          "clue": "To gaze fixedly with wide uninterrupted eyes"
-        },
-        {
-          "clue": "Additional component held in reserve backup"
-        },
-        {
-          "clue": "Target state: Incandescent particle thrown off from a burning body",
-          "lockedWord": "SPARK"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "STORM-STORE-STARE-SPARE-SPARK",
-      "expectedWords": [
-        "STORM",
-        "STORE",
-        "STARE",
-        "SPARE",
-        "SPARK"
-      ],
-      "acceptedAnswers": [
-        "STORM-STORE-STARE-SPARE-SPARK",
-        "STORE-STARE-SPARE",
-        "WEND:STORM-STORE-STARE-SPARE-SPARK"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (5 letters): change position 3 of 'STORM' to align with the clue: \"Retail mercantile establishment or storage repository\".",
-        "HINT 02 // The pivot transition requires bridging through 'STARE'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WND-0271",
     "title": "WEND // WORD LADDER #0271 (COLD → WARM)",
     "category": "LOGIC",
@@ -17236,69 +8731,6 @@ export const wendChallenges = [
       "hints": [
         "HINT 01 // Focus on Step 2 (4 letters): change position 3 of 'COLD' to align with the clue: \"A flexible insulated cable or binding twine\".",
         "HINT 02 // The pivot transition requires bridging through 'CARD'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WND-0272",
-    "title": "WEND // WORD LADDER #0272 (DARK → FIRE)",
-    "category": "LOGIC",
-    "description": "Morph 'DARK' into 'FIRE' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "MODERATE",
-    "risk": "BALANCED",
-    "cost": 140,
-    "reward": 260,
-    "penalty": 80,
-    "timeLimit": 75,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-14 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0272",
-      "wordLength": 4,
-      "startWord": "DARK",
-      "targetWord": "FIRE",
-      "steps": [
-        {
-          "clue": "Starting state: Absence of illumination",
-          "lockedWord": "DARK"
-        },
-        {
-          "clue": "A small pointed projectile or rapid dash"
-        },
-        {
-          "clue": "Loose soil, earth, or particulate matter"
-        },
-        {
-          "clue": "Extremely urgent or calamitous circumstance"
-        },
-        {
-          "clue": "Target state: Combustion generating thermal heat",
-          "lockedWord": "FIRE"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "DARK-DART-DIRT-DIRE-FIRE",
-      "expectedWords": [
-        "DARK",
-        "DART",
-        "DIRT",
-        "DIRE",
-        "FIRE"
-      ],
-      "acceptedAnswers": [
-        "DARK-DART-DIRT-DIRE-FIRE",
-        "DART-DIRT-DIRE",
-        "WEND:DARK-DART-DIRT-DIRE-FIRE"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (4 letters): change position 3 of 'DARK' to align with the clue: \"A small pointed projectile or rapid dash\".",
-        "HINT 02 // The pivot transition requires bridging through 'DIRT'; check vowel shifts between adjacent steps."
       ]
     },
     "enabled": true,
@@ -17368,69 +8800,6 @@ export const wendChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WND-0274",
-    "title": "WEND // WORD LADDER #0274 (LEAD → GOLD)",
-    "category": "LOGIC",
-    "description": "Morph 'LEAD' into 'GOLD' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "MODERATE",
-    "risk": "BALANCED",
-    "cost": 140,
-    "reward": 260,
-    "penalty": 80,
-    "timeLimit": 75,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-14 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0274",
-      "wordLength": 4,
-      "startWord": "LEAD",
-      "targetWord": "GOLD",
-      "steps": [
-        {
-          "clue": "Starting state: Dense heavy metallic element",
-          "lockedWord": "LEAD"
-        },
-        {
-          "clue": "A heavy burden or amount carried"
-        },
-        {
-          "clue": "An amphibious tailless creature"
-        },
-        {
-          "clue": "Communicated verbal instruction in the past"
-        },
-        {
-          "clue": "Target state: Precious lustrous yellow metal",
-          "lockedWord": "GOLD"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "LEAD-LOAD-TOAD-TOLD-GOLD",
-      "expectedWords": [
-        "LEAD",
-        "LOAD",
-        "TOAD",
-        "TOLD",
-        "GOLD"
-      ],
-      "acceptedAnswers": [
-        "LEAD-LOAD-TOAD-TOLD-GOLD",
-        "LOAD-TOAD-TOLD",
-        "WEND:LEAD-LOAD-TOAD-TOLD-GOLD"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (4 letters): change position 3 of 'LEAD' to align with the clue: \"A heavy burden or amount carried\".",
-        "HINT 02 // The pivot transition requires bridging through 'TOAD'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WND-0275",
     "title": "WEND // WORD LADDER #0275 (MORE → SAFE)",
     "category": "LOGIC",
@@ -17494,69 +8863,6 @@ export const wendChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WND-0276",
-    "title": "WEND // WORD LADDER #0276 (FAST → POST)",
-    "category": "LOGIC",
-    "description": "Morph 'FAST' into 'POST' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "MODERATE",
-    "risk": "BALANCED",
-    "cost": 140,
-    "reward": 260,
-    "penalty": 80,
-    "timeLimit": 75,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-14 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0276",
-      "wordLength": 4,
-      "startWord": "FAST",
-      "targetWord": "POST",
-      "steps": [
-        {
-          "clue": "Starting state: Moving at high velocity",
-          "lockedWord": "FAST"
-        },
-        {
-          "clue": "Gone by in time and no longer existing"
-        },
-        {
-          "clue": "A component portion of a greater whole"
-        },
-        {
-          "clue": "A maritime harbor or network interface"
-        },
-        {
-          "clue": "Target state: Sturdy upright timber or bulletin",
-          "lockedWord": "POST"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "FAST-PAST-PART-PORT-POST",
-      "expectedWords": [
-        "FAST",
-        "PAST",
-        "PART",
-        "PORT",
-        "POST"
-      ],
-      "acceptedAnswers": [
-        "FAST-PAST-PART-PORT-POST",
-        "PAST-PART-PORT",
-        "WEND:FAST-PAST-PART-PORT-POST"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (4 letters): change position 3 of 'FAST' to align with the clue: \"Gone by in time and no longer existing\".",
-        "HINT 02 // The pivot transition requires bridging through 'PART'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WND-0277",
     "title": "WEND // WORD LADDER #0277 (CODE → BARK)",
     "category": "LOGIC",
@@ -17614,69 +8920,6 @@ export const wendChallenges = [
       "hints": [
         "HINT 01 // Focus on Step 2 (4 letters): change position 3 of 'CODE' to align with the clue: \"Central structural nexus of a planetary system\".",
         "HINT 02 // The pivot transition requires bridging through 'CARE'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WND-0278",
-    "title": "WEND // WORD LADDER #0278 (GATE → CALM)",
-    "category": "LOGIC",
-    "description": "Morph 'GATE' into 'CALM' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "MODERATE",
-    "risk": "BALANCED",
-    "cost": 140,
-    "reward": 260,
-    "penalty": 80,
-    "timeLimit": 75,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-14 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0278",
-      "wordLength": 4,
-      "startWord": "GATE",
-      "targetWord": "CALM",
-      "steps": [
-        {
-          "clue": "Starting state: Hinged barrier across an opening",
-          "lockedWord": "GATE"
-        },
-        {
-          "clue": "Conferred or transferred possession in the past"
-        },
-        {
-          "clue": "A subterranean hollow or subterranean chamber"
-        },
-        {
-          "clue": "Arrived at a specified coordinate"
-        },
-        {
-          "clue": "Target state: Free from agitation or turbulent disturbance",
-          "lockedWord": "CALM"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "GATE-GAVE-CAVE-CAME-CALM",
-      "expectedWords": [
-        "GATE",
-        "GAVE",
-        "CAVE",
-        "CAME",
-        "CALM"
-      ],
-      "acceptedAnswers": [
-        "GATE-GAVE-CAVE-CAME-CALM",
-        "GAVE-CAVE-CAME",
-        "WEND:GATE-GAVE-CAVE-CAME-CALM"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (4 letters): change position 3 of 'GATE' to align with the clue: \"Conferred or transferred possession in the past\".",
-        "HINT 02 // The pivot transition requires bridging through 'CAVE'; check vowel shifts between adjacent steps."
       ]
     },
     "enabled": true,
@@ -17750,69 +8993,6 @@ export const wendChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WND-0280",
-    "title": "WEND // WORD LADDER #0280 (WIND → LOVE)",
-    "category": "LOGIC",
-    "description": "Morph 'WIND' into 'LOVE' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "MODERATE",
-    "risk": "BALANCED",
-    "cost": 140,
-    "reward": 260,
-    "penalty": 80,
-    "timeLimit": 75,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-15 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0280",
-      "wordLength": 4,
-      "startWord": "WIND",
-      "targetWord": "LOVE",
-      "steps": [
-        {
-          "clue": "Starting state: Natural perceptible movement of air",
-          "lockedWord": "WIND"
-        },
-        {
-          "clue": "Fermented juice of grapes or fruit"
-        },
-        {
-          "clue": "Continuous spatial extent having only one dimension"
-        },
-        {
-          "clue": "Having no companions; solitary in wilderness"
-        },
-        {
-          "clue": "Target state: Deep affection and protective devotion",
-          "lockedWord": "LOVE"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "WIND-WINE-LINE-LONE-LOVE",
-      "expectedWords": [
-        "WIND",
-        "WINE",
-        "LINE",
-        "LONE",
-        "LOVE"
-      ],
-      "acceptedAnswers": [
-        "WIND-WINE-LINE-LONE-LOVE",
-        "WINE-LINE-LONE",
-        "WEND:WIND-WINE-LINE-LONE-LOVE"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (4 letters): change position 3 of 'WIND' to align with the clue: \"Fermented juice of grapes or fruit\".",
-        "HINT 02 // The pivot transition requires bridging through 'LINE'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WND-0281",
     "title": "WEND // WORD LADDER #0281 (STONE → CHALK)",
     "category": "LOGIC",
@@ -17874,69 +9054,6 @@ export const wendChallenges = [
       "hints": [
         "HINT 01 // Focus on Step 2 (5 letters): change position 3 of 'STONE' to align with the clue: \"Emitted radiant light in the past\".",
         "HINT 02 // The pivot transition requires bridging through 'CHINE'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WND-0282",
-    "title": "WEND // WORD LADDER #0282 (BLACK → CLING)",
-    "category": "LOGIC",
-    "description": "Morph 'BLACK' into 'CLING' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "MODERATE",
-    "risk": "BALANCED",
-    "cost": 140,
-    "reward": 260,
-    "penalty": 80,
-    "timeLimit": 75,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-15 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0282",
-      "wordLength": 5,
-      "startWord": "BLACK",
-      "targetWord": "CLING",
-      "steps": [
-        {
-          "clue": "Starting state: Total absence of visible light",
-          "lockedWord": "BLACK"
-        },
-        {
-          "clue": "Empty of marks, writing, or expression"
-        },
-        {
-          "clue": "To open and close eyes rapidly"
-        },
-        {
-          "clue": "A sharp metallic resonant sound"
-        },
-        {
-          "clue": "Target state: To hold on tightly to an anchor",
-          "lockedWord": "CLING"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "BLACK-BLANK-BLINK-CLINK-CLING",
-      "expectedWords": [
-        "BLACK",
-        "BLANK",
-        "BLINK",
-        "CLINK",
-        "CLING"
-      ],
-      "acceptedAnswers": [
-        "BLACK-BLANK-BLINK-CLINK-CLING",
-        "BLANK-BLINK-CLINK",
-        "WEND:BLACK-BLANK-BLINK-CLINK-CLING"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (5 letters): change position 3 of 'BLACK' to align with the clue: \"Empty of marks, writing, or expression\".",
-        "HINT 02 // The pivot transition requires bridging through 'BLINK'; check vowel shifts between adjacent steps."
       ]
     },
     "enabled": true,
@@ -18006,69 +9123,6 @@ export const wendChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WND-0284",
-    "title": "WEND // WORD LADDER #0284 (RIVER → AFTER)",
-    "category": "LOGIC",
-    "description": "Morph 'RIVER' into 'AFTER' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "MODERATE",
-    "risk": "BALANCED",
-    "cost": 140,
-    "reward": 260,
-    "penalty": 80,
-    "timeLimit": 75,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-15 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0284",
-      "wordLength": 5,
-      "startWord": "RIVER",
-      "targetWord": "AFTER",
-      "steps": [
-        {
-          "clue": "Starting state: Large natural stream of flowing water",
-          "lockedWord": "RIVER"
-        },
-        {
-          "clue": "One who travels mounted on horseback"
-        },
-        {
-          "clue": "One who provides relief or auxiliary support"
-        },
-        {
-          "clue": "To change or modify character without replacing"
-        },
-        {
-          "clue": "Target state: Subsequent in chronological sequence",
-          "lockedWord": "AFTER"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "RIVER-RIDER-AIDER-ALTER-AFTER",
-      "expectedWords": [
-        "RIVER",
-        "RIDER",
-        "AIDER",
-        "ALTER",
-        "AFTER"
-      ],
-      "acceptedAnswers": [
-        "RIVER-RIDER-AIDER-ALTER-AFTER",
-        "RIDER-AIDER-ALTER",
-        "WEND:RIVER-RIDER-AIDER-ALTER-AFTER"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (5 letters): change position 3 of 'RIVER' to align with the clue: \"One who travels mounted on horseback\".",
-        "HINT 02 // The pivot transition requires bridging through 'AIDER'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WND-0285",
     "title": "WEND // WORD LADDER #0285 (PLANT → STARE)",
     "category": "LOGIC",
@@ -18126,69 +9180,6 @@ export const wendChallenges = [
       "hints": [
         "HINT 01 // Focus on Step 2 (5 letters): change position 3 of 'PLANT' to align with the clue: \"Flat two-dimensional surface or winged aircraft\".",
         "HINT 02 // The pivot transition requires bridging through 'PLATE'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WND-0286",
-    "title": "WEND // WORD LADDER #0286 (SLEEP → STEEL)",
-    "category": "LOGIC",
-    "description": "Morph 'SLEEP' into 'STEEL' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "MODERATE",
-    "risk": "BALANCED",
-    "cost": 140,
-    "reward": 260,
-    "penalty": 80,
-    "timeLimit": 75,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-15 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0286",
-      "wordLength": 5,
-      "startWord": "SLEEP",
-      "targetWord": "STEEL",
-      "steps": [
-        {
-          "clue": "Starting state: Naturally recurring condition of biological rest",
-          "lockedWord": "SLEEP"
-        },
-        {
-          "clue": "Ruminant quadruped domesticated for wool"
-        },
-        {
-          "clue": "Perpendicularly steep or absolute pure"
-        },
-        {
-          "clue": "To guide the direction of a vessel or vehicle"
-        },
-        {
-          "clue": "Target state: Alloy of iron with carbon of high tensile strength",
-          "lockedWord": "STEEL"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "SLEEP-SHEEP-SHEER-STEER-STEEL",
-      "expectedWords": [
-        "SLEEP",
-        "SHEEP",
-        "SHEER",
-        "STEER",
-        "STEEL"
-      ],
-      "acceptedAnswers": [
-        "SLEEP-SHEEP-SHEER-STEER-STEEL",
-        "SHEEP-SHEER-STEER",
-        "WEND:SLEEP-SHEEP-SHEER-STEER-STEEL"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (5 letters): change position 3 of 'SLEEP' to align with the clue: \"Ruminant quadruped domesticated for wool\".",
-        "HINT 02 // The pivot transition requires bridging through 'SHEER'; check vowel shifts between adjacent steps."
       ]
     },
     "enabled": true,
@@ -18261,69 +9252,6 @@ export const wendChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WND-0288",
-    "title": "WEND // WORD LADDER #0288 (STORM → SPARK)",
-    "category": "LOGIC",
-    "description": "Morph 'STORM' into 'SPARK' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "MODERATE",
-    "risk": "BALANCED",
-    "cost": 140,
-    "reward": 260,
-    "penalty": 80,
-    "timeLimit": 75,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-15 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0288",
-      "wordLength": 5,
-      "startWord": "STORM",
-      "targetWord": "SPARK",
-      "steps": [
-        {
-          "clue": "Starting state: Violent disturbance of meteorological atmosphere",
-          "lockedWord": "STORM"
-        },
-        {
-          "clue": "Retail mercantile establishment or storage repository"
-        },
-        {
-          "clue": "To gaze fixedly with wide uninterrupted eyes"
-        },
-        {
-          "clue": "Additional component held in reserve backup"
-        },
-        {
-          "clue": "Target state: Incandescent particle thrown off from a burning body",
-          "lockedWord": "SPARK"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "STORM-STORE-STARE-SPARE-SPARK",
-      "expectedWords": [
-        "STORM",
-        "STORE",
-        "STARE",
-        "SPARE",
-        "SPARK"
-      ],
-      "acceptedAnswers": [
-        "STORM-STORE-STARE-SPARE-SPARK",
-        "STORE-STARE-SPARE",
-        "WEND:STORM-STORE-STARE-SPARE-SPARK"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (5 letters): change position 3 of 'STORM' to align with the clue: \"Retail mercantile establishment or storage repository\".",
-        "HINT 02 // The pivot transition requires bridging through 'STARE'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WND-0289",
     "title": "WEND // WORD LADDER #0289 (COLD → WARM)",
     "category": "LOGIC",
@@ -18381,69 +9309,6 @@ export const wendChallenges = [
       "hints": [
         "HINT 01 // Focus on Step 2 (4 letters): change position 3 of 'COLD' to align with the clue: \"A flexible insulated cable or binding twine\".",
         "HINT 02 // The pivot transition requires bridging through 'CARD'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WND-0290",
-    "title": "WEND // WORD LADDER #0290 (DARK → FIRE)",
-    "category": "LOGIC",
-    "description": "Morph 'DARK' into 'FIRE' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "MODERATE",
-    "risk": "BALANCED",
-    "cost": 140,
-    "reward": 260,
-    "penalty": 80,
-    "timeLimit": 75,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-15 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0290",
-      "wordLength": 4,
-      "startWord": "DARK",
-      "targetWord": "FIRE",
-      "steps": [
-        {
-          "clue": "Starting state: Absence of illumination",
-          "lockedWord": "DARK"
-        },
-        {
-          "clue": "A small pointed projectile or rapid dash"
-        },
-        {
-          "clue": "Loose soil, earth, or particulate matter"
-        },
-        {
-          "clue": "Extremely urgent or calamitous circumstance"
-        },
-        {
-          "clue": "Target state: Combustion generating thermal heat",
-          "lockedWord": "FIRE"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "DARK-DART-DIRT-DIRE-FIRE",
-      "expectedWords": [
-        "DARK",
-        "DART",
-        "DIRT",
-        "DIRE",
-        "FIRE"
-      ],
-      "acceptedAnswers": [
-        "DARK-DART-DIRT-DIRE-FIRE",
-        "DART-DIRT-DIRE",
-        "WEND:DARK-DART-DIRT-DIRE-FIRE"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (4 letters): change position 3 of 'DARK' to align with the clue: \"A small pointed projectile or rapid dash\".",
-        "HINT 02 // The pivot transition requires bridging through 'DIRT'; check vowel shifts between adjacent steps."
       ]
     },
     "enabled": true,
@@ -18513,69 +9378,6 @@ export const wendChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WND-0292",
-    "title": "WEND // WORD LADDER #0292 (LEAD → GOLD)",
-    "category": "LOGIC",
-    "description": "Morph 'LEAD' into 'GOLD' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "MODERATE",
-    "risk": "BALANCED",
-    "cost": 140,
-    "reward": 260,
-    "penalty": 80,
-    "timeLimit": 75,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-15 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0292",
-      "wordLength": 4,
-      "startWord": "LEAD",
-      "targetWord": "GOLD",
-      "steps": [
-        {
-          "clue": "Starting state: Dense heavy metallic element",
-          "lockedWord": "LEAD"
-        },
-        {
-          "clue": "A heavy burden or amount carried"
-        },
-        {
-          "clue": "An amphibious tailless creature"
-        },
-        {
-          "clue": "Communicated verbal instruction in the past"
-        },
-        {
-          "clue": "Target state: Precious lustrous yellow metal",
-          "lockedWord": "GOLD"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "LEAD-LOAD-TOAD-TOLD-GOLD",
-      "expectedWords": [
-        "LEAD",
-        "LOAD",
-        "TOAD",
-        "TOLD",
-        "GOLD"
-      ],
-      "acceptedAnswers": [
-        "LEAD-LOAD-TOAD-TOLD-GOLD",
-        "LOAD-TOAD-TOLD",
-        "WEND:LEAD-LOAD-TOAD-TOLD-GOLD"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (4 letters): change position 3 of 'LEAD' to align with the clue: \"A heavy burden or amount carried\".",
-        "HINT 02 // The pivot transition requires bridging through 'TOAD'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WND-0293",
     "title": "WEND // WORD LADDER #0293 (MORE → SAFE)",
     "category": "LOGIC",
@@ -18639,69 +9441,6 @@ export const wendChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WND-0294",
-    "title": "WEND // WORD LADDER #0294 (FAST → POST)",
-    "category": "LOGIC",
-    "description": "Morph 'FAST' into 'POST' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "MODERATE",
-    "risk": "BALANCED",
-    "cost": 140,
-    "reward": 260,
-    "penalty": 80,
-    "timeLimit": 75,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-15 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0294",
-      "wordLength": 4,
-      "startWord": "FAST",
-      "targetWord": "POST",
-      "steps": [
-        {
-          "clue": "Starting state: Moving at high velocity",
-          "lockedWord": "FAST"
-        },
-        {
-          "clue": "Gone by in time and no longer existing"
-        },
-        {
-          "clue": "A component portion of a greater whole"
-        },
-        {
-          "clue": "A maritime harbor or network interface"
-        },
-        {
-          "clue": "Target state: Sturdy upright timber or bulletin",
-          "lockedWord": "POST"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "FAST-PAST-PART-PORT-POST",
-      "expectedWords": [
-        "FAST",
-        "PAST",
-        "PART",
-        "PORT",
-        "POST"
-      ],
-      "acceptedAnswers": [
-        "FAST-PAST-PART-PORT-POST",
-        "PAST-PART-PORT",
-        "WEND:FAST-PAST-PART-PORT-POST"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (4 letters): change position 3 of 'FAST' to align with the clue: \"Gone by in time and no longer existing\".",
-        "HINT 02 // The pivot transition requires bridging through 'PART'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WND-0295",
     "title": "WEND // WORD LADDER #0295 (CODE → BARK)",
     "category": "LOGIC",
@@ -18759,69 +9498,6 @@ export const wendChallenges = [
       "hints": [
         "HINT 01 // Focus on Step 2 (4 letters): change position 3 of 'CODE' to align with the clue: \"Central structural nexus of a planetary system\".",
         "HINT 02 // The pivot transition requires bridging through 'CARE'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WND-0296",
-    "title": "WEND // WORD LADDER #0296 (GATE → CALM)",
-    "category": "LOGIC",
-    "description": "Morph 'GATE' into 'CALM' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "MODERATE",
-    "risk": "BALANCED",
-    "cost": 140,
-    "reward": 260,
-    "penalty": 80,
-    "timeLimit": 75,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-15 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0296",
-      "wordLength": 4,
-      "startWord": "GATE",
-      "targetWord": "CALM",
-      "steps": [
-        {
-          "clue": "Starting state: Hinged barrier across an opening",
-          "lockedWord": "GATE"
-        },
-        {
-          "clue": "Conferred or transferred possession in the past"
-        },
-        {
-          "clue": "A subterranean hollow or subterranean chamber"
-        },
-        {
-          "clue": "Arrived at a specified coordinate"
-        },
-        {
-          "clue": "Target state: Free from agitation or turbulent disturbance",
-          "lockedWord": "CALM"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "GATE-GAVE-CAVE-CAME-CALM",
-      "expectedWords": [
-        "GATE",
-        "GAVE",
-        "CAVE",
-        "CAME",
-        "CALM"
-      ],
-      "acceptedAnswers": [
-        "GATE-GAVE-CAVE-CAME-CALM",
-        "GAVE-CAVE-CAME",
-        "WEND:GATE-GAVE-CAVE-CAME-CALM"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (4 letters): change position 3 of 'GATE' to align with the clue: \"Conferred or transferred possession in the past\".",
-        "HINT 02 // The pivot transition requires bridging through 'CAVE'; check vowel shifts between adjacent steps."
       ]
     },
     "enabled": true,
@@ -18895,69 +9571,6 @@ export const wendChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WND-0298",
-    "title": "WEND // WORD LADDER #0298 (WIND → LOVE)",
-    "category": "LOGIC",
-    "description": "Morph 'WIND' into 'LOVE' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "MODERATE",
-    "risk": "BALANCED",
-    "cost": 140,
-    "reward": 260,
-    "penalty": 80,
-    "timeLimit": 75,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-15 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0298",
-      "wordLength": 4,
-      "startWord": "WIND",
-      "targetWord": "LOVE",
-      "steps": [
-        {
-          "clue": "Starting state: Natural perceptible movement of air",
-          "lockedWord": "WIND"
-        },
-        {
-          "clue": "Fermented juice of grapes or fruit"
-        },
-        {
-          "clue": "Continuous spatial extent having only one dimension"
-        },
-        {
-          "clue": "Having no companions; solitary in wilderness"
-        },
-        {
-          "clue": "Target state: Deep affection and protective devotion",
-          "lockedWord": "LOVE"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "WIND-WINE-LINE-LONE-LOVE",
-      "expectedWords": [
-        "WIND",
-        "WINE",
-        "LINE",
-        "LONE",
-        "LOVE"
-      ],
-      "acceptedAnswers": [
-        "WIND-WINE-LINE-LONE-LOVE",
-        "WINE-LINE-LONE",
-        "WEND:WIND-WINE-LINE-LONE-LOVE"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (4 letters): change position 3 of 'WIND' to align with the clue: \"Fermented juice of grapes or fruit\".",
-        "HINT 02 // The pivot transition requires bridging through 'LINE'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WND-0299",
     "title": "WEND // WORD LADDER #0299 (STONE → CHALK)",
     "category": "LOGIC",
@@ -19019,69 +9632,6 @@ export const wendChallenges = [
       "hints": [
         "HINT 01 // Focus on Step 2 (5 letters): change position 3 of 'STONE' to align with the clue: \"Emitted radiant light in the past\".",
         "HINT 02 // The pivot transition requires bridging through 'CHINE'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WND-0300",
-    "title": "WEND // WORD LADDER #0300 (BLACK → CLING)",
-    "category": "LOGIC",
-    "description": "Morph 'BLACK' into 'CLING' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "MODERATE",
-    "risk": "BALANCED",
-    "cost": 140,
-    "reward": 260,
-    "penalty": 80,
-    "timeLimit": 75,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-16 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0300",
-      "wordLength": 5,
-      "startWord": "BLACK",
-      "targetWord": "CLING",
-      "steps": [
-        {
-          "clue": "Starting state: Total absence of visible light",
-          "lockedWord": "BLACK"
-        },
-        {
-          "clue": "Empty of marks, writing, or expression"
-        },
-        {
-          "clue": "To open and close eyes rapidly"
-        },
-        {
-          "clue": "A sharp metallic resonant sound"
-        },
-        {
-          "clue": "Target state: To hold on tightly to an anchor",
-          "lockedWord": "CLING"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "BLACK-BLANK-BLINK-CLINK-CLING",
-      "expectedWords": [
-        "BLACK",
-        "BLANK",
-        "BLINK",
-        "CLINK",
-        "CLING"
-      ],
-      "acceptedAnswers": [
-        "BLACK-BLANK-BLINK-CLINK-CLING",
-        "BLANK-BLINK-CLINK",
-        "WEND:BLACK-BLANK-BLINK-CLINK-CLING"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (5 letters): change position 3 of 'BLACK' to align with the clue: \"Empty of marks, writing, or expression\".",
-        "HINT 02 // The pivot transition requires bridging through 'BLINK'; check vowel shifts between adjacent steps."
       ]
     },
     "enabled": true,
@@ -19151,69 +9701,6 @@ export const wendChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WND-0302",
-    "title": "WEND // WORD LADDER #0302 (RIVER → AFTER)",
-    "category": "LOGIC",
-    "description": "Morph 'RIVER' into 'AFTER' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "MODERATE",
-    "risk": "BALANCED",
-    "cost": 140,
-    "reward": 260,
-    "penalty": 80,
-    "timeLimit": 75,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-16 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0302",
-      "wordLength": 5,
-      "startWord": "RIVER",
-      "targetWord": "AFTER",
-      "steps": [
-        {
-          "clue": "Starting state: Large natural stream of flowing water",
-          "lockedWord": "RIVER"
-        },
-        {
-          "clue": "One who travels mounted on horseback"
-        },
-        {
-          "clue": "One who provides relief or auxiliary support"
-        },
-        {
-          "clue": "To change or modify character without replacing"
-        },
-        {
-          "clue": "Target state: Subsequent in chronological sequence",
-          "lockedWord": "AFTER"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "RIVER-RIDER-AIDER-ALTER-AFTER",
-      "expectedWords": [
-        "RIVER",
-        "RIDER",
-        "AIDER",
-        "ALTER",
-        "AFTER"
-      ],
-      "acceptedAnswers": [
-        "RIVER-RIDER-AIDER-ALTER-AFTER",
-        "RIDER-AIDER-ALTER",
-        "WEND:RIVER-RIDER-AIDER-ALTER-AFTER"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (5 letters): change position 3 of 'RIVER' to align with the clue: \"One who travels mounted on horseback\".",
-        "HINT 02 // The pivot transition requires bridging through 'AIDER'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WND-0303",
     "title": "WEND // WORD LADDER #0303 (PLANT → STARE)",
     "category": "LOGIC",
@@ -19271,69 +9758,6 @@ export const wendChallenges = [
       "hints": [
         "HINT 01 // Focus on Step 2 (5 letters): change position 3 of 'PLANT' to align with the clue: \"Flat two-dimensional surface or winged aircraft\".",
         "HINT 02 // The pivot transition requires bridging through 'PLATE'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WND-0304",
-    "title": "WEND // WORD LADDER #0304 (SLEEP → STEEL)",
-    "category": "LOGIC",
-    "description": "Morph 'SLEEP' into 'STEEL' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "MODERATE",
-    "risk": "BALANCED",
-    "cost": 140,
-    "reward": 260,
-    "penalty": 80,
-    "timeLimit": 75,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-16 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0304",
-      "wordLength": 5,
-      "startWord": "SLEEP",
-      "targetWord": "STEEL",
-      "steps": [
-        {
-          "clue": "Starting state: Naturally recurring condition of biological rest",
-          "lockedWord": "SLEEP"
-        },
-        {
-          "clue": "Ruminant quadruped domesticated for wool"
-        },
-        {
-          "clue": "Perpendicularly steep or absolute pure"
-        },
-        {
-          "clue": "To guide the direction of a vessel or vehicle"
-        },
-        {
-          "clue": "Target state: Alloy of iron with carbon of high tensile strength",
-          "lockedWord": "STEEL"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "SLEEP-SHEEP-SHEER-STEER-STEEL",
-      "expectedWords": [
-        "SLEEP",
-        "SHEEP",
-        "SHEER",
-        "STEER",
-        "STEEL"
-      ],
-      "acceptedAnswers": [
-        "SLEEP-SHEEP-SHEER-STEER-STEEL",
-        "SHEEP-SHEER-STEER",
-        "WEND:SLEEP-SHEEP-SHEER-STEER-STEEL"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (5 letters): change position 3 of 'SLEEP' to align with the clue: \"Ruminant quadruped domesticated for wool\".",
-        "HINT 02 // The pivot transition requires bridging through 'SHEER'; check vowel shifts between adjacent steps."
       ]
     },
     "enabled": true,
@@ -19406,69 +9830,6 @@ export const wendChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WND-0306",
-    "title": "WEND // WORD LADDER #0306 (STORM → SPARK)",
-    "category": "LOGIC",
-    "description": "Morph 'STORM' into 'SPARK' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "MODERATE",
-    "risk": "BALANCED",
-    "cost": 140,
-    "reward": 260,
-    "penalty": 80,
-    "timeLimit": 75,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-16 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0306",
-      "wordLength": 5,
-      "startWord": "STORM",
-      "targetWord": "SPARK",
-      "steps": [
-        {
-          "clue": "Starting state: Violent disturbance of meteorological atmosphere",
-          "lockedWord": "STORM"
-        },
-        {
-          "clue": "Retail mercantile establishment or storage repository"
-        },
-        {
-          "clue": "To gaze fixedly with wide uninterrupted eyes"
-        },
-        {
-          "clue": "Additional component held in reserve backup"
-        },
-        {
-          "clue": "Target state: Incandescent particle thrown off from a burning body",
-          "lockedWord": "SPARK"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "STORM-STORE-STARE-SPARE-SPARK",
-      "expectedWords": [
-        "STORM",
-        "STORE",
-        "STARE",
-        "SPARE",
-        "SPARK"
-      ],
-      "acceptedAnswers": [
-        "STORM-STORE-STARE-SPARE-SPARK",
-        "STORE-STARE-SPARE",
-        "WEND:STORM-STORE-STARE-SPARE-SPARK"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (5 letters): change position 3 of 'STORM' to align with the clue: \"Retail mercantile establishment or storage repository\".",
-        "HINT 02 // The pivot transition requires bridging through 'STARE'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WND-0307",
     "title": "WEND // WORD LADDER #0307 (COLD → WARM)",
     "category": "LOGIC",
@@ -19526,69 +9887,6 @@ export const wendChallenges = [
       "hints": [
         "HINT 01 // Focus on Step 2 (4 letters): change position 3 of 'COLD' to align with the clue: \"A flexible insulated cable or binding twine\".",
         "HINT 02 // The pivot transition requires bridging through 'CARD'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WND-0308",
-    "title": "WEND // WORD LADDER #0308 (DARK → FIRE)",
-    "category": "LOGIC",
-    "description": "Morph 'DARK' into 'FIRE' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "MODERATE",
-    "risk": "BALANCED",
-    "cost": 140,
-    "reward": 260,
-    "penalty": 80,
-    "timeLimit": 75,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-16 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0308",
-      "wordLength": 4,
-      "startWord": "DARK",
-      "targetWord": "FIRE",
-      "steps": [
-        {
-          "clue": "Starting state: Absence of illumination",
-          "lockedWord": "DARK"
-        },
-        {
-          "clue": "A small pointed projectile or rapid dash"
-        },
-        {
-          "clue": "Loose soil, earth, or particulate matter"
-        },
-        {
-          "clue": "Extremely urgent or calamitous circumstance"
-        },
-        {
-          "clue": "Target state: Combustion generating thermal heat",
-          "lockedWord": "FIRE"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "DARK-DART-DIRT-DIRE-FIRE",
-      "expectedWords": [
-        "DARK",
-        "DART",
-        "DIRT",
-        "DIRE",
-        "FIRE"
-      ],
-      "acceptedAnswers": [
-        "DARK-DART-DIRT-DIRE-FIRE",
-        "DART-DIRT-DIRE",
-        "WEND:DARK-DART-DIRT-DIRE-FIRE"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (4 letters): change position 3 of 'DARK' to align with the clue: \"A small pointed projectile or rapid dash\".",
-        "HINT 02 // The pivot transition requires bridging through 'DIRT'; check vowel shifts between adjacent steps."
       ]
     },
     "enabled": true,
@@ -19658,69 +9956,6 @@ export const wendChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WND-0310",
-    "title": "WEND // WORD LADDER #0310 (LEAD → GOLD)",
-    "category": "LOGIC",
-    "description": "Morph 'LEAD' into 'GOLD' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "MODERATE",
-    "risk": "BALANCED",
-    "cost": 140,
-    "reward": 260,
-    "penalty": 80,
-    "timeLimit": 75,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-16 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0310",
-      "wordLength": 4,
-      "startWord": "LEAD",
-      "targetWord": "GOLD",
-      "steps": [
-        {
-          "clue": "Starting state: Dense heavy metallic element",
-          "lockedWord": "LEAD"
-        },
-        {
-          "clue": "A heavy burden or amount carried"
-        },
-        {
-          "clue": "An amphibious tailless creature"
-        },
-        {
-          "clue": "Communicated verbal instruction in the past"
-        },
-        {
-          "clue": "Target state: Precious lustrous yellow metal",
-          "lockedWord": "GOLD"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "LEAD-LOAD-TOAD-TOLD-GOLD",
-      "expectedWords": [
-        "LEAD",
-        "LOAD",
-        "TOAD",
-        "TOLD",
-        "GOLD"
-      ],
-      "acceptedAnswers": [
-        "LEAD-LOAD-TOAD-TOLD-GOLD",
-        "LOAD-TOAD-TOLD",
-        "WEND:LEAD-LOAD-TOAD-TOLD-GOLD"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (4 letters): change position 3 of 'LEAD' to align with the clue: \"A heavy burden or amount carried\".",
-        "HINT 02 // The pivot transition requires bridging through 'TOAD'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WND-0311",
     "title": "WEND // WORD LADDER #0311 (MORE → SAFE)",
     "category": "LOGIC",
@@ -19784,69 +10019,6 @@ export const wendChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WND-0312",
-    "title": "WEND // WORD LADDER #0312 (FAST → POST)",
-    "category": "LOGIC",
-    "description": "Morph 'FAST' into 'POST' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "MODERATE",
-    "risk": "BALANCED",
-    "cost": 140,
-    "reward": 260,
-    "penalty": 80,
-    "timeLimit": 75,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-16 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0312",
-      "wordLength": 4,
-      "startWord": "FAST",
-      "targetWord": "POST",
-      "steps": [
-        {
-          "clue": "Starting state: Moving at high velocity",
-          "lockedWord": "FAST"
-        },
-        {
-          "clue": "Gone by in time and no longer existing"
-        },
-        {
-          "clue": "A component portion of a greater whole"
-        },
-        {
-          "clue": "A maritime harbor or network interface"
-        },
-        {
-          "clue": "Target state: Sturdy upright timber or bulletin",
-          "lockedWord": "POST"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "FAST-PAST-PART-PORT-POST",
-      "expectedWords": [
-        "FAST",
-        "PAST",
-        "PART",
-        "PORT",
-        "POST"
-      ],
-      "acceptedAnswers": [
-        "FAST-PAST-PART-PORT-POST",
-        "PAST-PART-PORT",
-        "WEND:FAST-PAST-PART-PORT-POST"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (4 letters): change position 3 of 'FAST' to align with the clue: \"Gone by in time and no longer existing\".",
-        "HINT 02 // The pivot transition requires bridging through 'PART'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WND-0313",
     "title": "WEND // WORD LADDER #0313 (CODE → BARK)",
     "category": "LOGIC",
@@ -19904,69 +10076,6 @@ export const wendChallenges = [
       "hints": [
         "HINT 01 // Focus on Step 2 (4 letters): change position 3 of 'CODE' to align with the clue: \"Central structural nexus of a planetary system\".",
         "HINT 02 // The pivot transition requires bridging through 'CARE'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WND-0314",
-    "title": "WEND // WORD LADDER #0314 (GATE → CALM)",
-    "category": "LOGIC",
-    "description": "Morph 'GATE' into 'CALM' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "MODERATE",
-    "risk": "BALANCED",
-    "cost": 140,
-    "reward": 260,
-    "penalty": 80,
-    "timeLimit": 75,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-16 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0314",
-      "wordLength": 4,
-      "startWord": "GATE",
-      "targetWord": "CALM",
-      "steps": [
-        {
-          "clue": "Starting state: Hinged barrier across an opening",
-          "lockedWord": "GATE"
-        },
-        {
-          "clue": "Conferred or transferred possession in the past"
-        },
-        {
-          "clue": "A subterranean hollow or subterranean chamber"
-        },
-        {
-          "clue": "Arrived at a specified coordinate"
-        },
-        {
-          "clue": "Target state: Free from agitation or turbulent disturbance",
-          "lockedWord": "CALM"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "GATE-GAVE-CAVE-CAME-CALM",
-      "expectedWords": [
-        "GATE",
-        "GAVE",
-        "CAVE",
-        "CAME",
-        "CALM"
-      ],
-      "acceptedAnswers": [
-        "GATE-GAVE-CAVE-CAME-CALM",
-        "GAVE-CAVE-CAME",
-        "WEND:GATE-GAVE-CAVE-CAME-CALM"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (4 letters): change position 3 of 'GATE' to align with the clue: \"Conferred or transferred possession in the past\".",
-        "HINT 02 // The pivot transition requires bridging through 'CAVE'; check vowel shifts between adjacent steps."
       ]
     },
     "enabled": true,
@@ -20040,69 +10149,6 @@ export const wendChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WND-0316",
-    "title": "WEND // WORD LADDER #0316 (WIND → LOVE)",
-    "category": "LOGIC",
-    "description": "Morph 'WIND' into 'LOVE' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "MODERATE",
-    "risk": "BALANCED",
-    "cost": 140,
-    "reward": 260,
-    "penalty": 80,
-    "timeLimit": 75,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-16 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0316",
-      "wordLength": 4,
-      "startWord": "WIND",
-      "targetWord": "LOVE",
-      "steps": [
-        {
-          "clue": "Starting state: Natural perceptible movement of air",
-          "lockedWord": "WIND"
-        },
-        {
-          "clue": "Fermented juice of grapes or fruit"
-        },
-        {
-          "clue": "Continuous spatial extent having only one dimension"
-        },
-        {
-          "clue": "Having no companions; solitary in wilderness"
-        },
-        {
-          "clue": "Target state: Deep affection and protective devotion",
-          "lockedWord": "LOVE"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "WIND-WINE-LINE-LONE-LOVE",
-      "expectedWords": [
-        "WIND",
-        "WINE",
-        "LINE",
-        "LONE",
-        "LOVE"
-      ],
-      "acceptedAnswers": [
-        "WIND-WINE-LINE-LONE-LOVE",
-        "WINE-LINE-LONE",
-        "WEND:WIND-WINE-LINE-LONE-LOVE"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (4 letters): change position 3 of 'WIND' to align with the clue: \"Fermented juice of grapes or fruit\".",
-        "HINT 02 // The pivot transition requires bridging through 'LINE'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WND-0317",
     "title": "WEND // WORD LADDER #0317 (STONE → CHALK)",
     "category": "LOGIC",
@@ -20164,69 +10210,6 @@ export const wendChallenges = [
       "hints": [
         "HINT 01 // Focus on Step 2 (5 letters): change position 3 of 'STONE' to align with the clue: \"Emitted radiant light in the past\".",
         "HINT 02 // The pivot transition requires bridging through 'CHINE'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WND-0318",
-    "title": "WEND // WORD LADDER #0318 (BLACK → CLING)",
-    "category": "LOGIC",
-    "description": "Morph 'BLACK' into 'CLING' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "MODERATE",
-    "risk": "BALANCED",
-    "cost": 140,
-    "reward": 260,
-    "penalty": 80,
-    "timeLimit": 75,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-16 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0318",
-      "wordLength": 5,
-      "startWord": "BLACK",
-      "targetWord": "CLING",
-      "steps": [
-        {
-          "clue": "Starting state: Total absence of visible light",
-          "lockedWord": "BLACK"
-        },
-        {
-          "clue": "Empty of marks, writing, or expression"
-        },
-        {
-          "clue": "To open and close eyes rapidly"
-        },
-        {
-          "clue": "A sharp metallic resonant sound"
-        },
-        {
-          "clue": "Target state: To hold on tightly to an anchor",
-          "lockedWord": "CLING"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "BLACK-BLANK-BLINK-CLINK-CLING",
-      "expectedWords": [
-        "BLACK",
-        "BLANK",
-        "BLINK",
-        "CLINK",
-        "CLING"
-      ],
-      "acceptedAnswers": [
-        "BLACK-BLANK-BLINK-CLINK-CLING",
-        "BLANK-BLINK-CLINK",
-        "WEND:BLACK-BLANK-BLINK-CLINK-CLING"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (5 letters): change position 3 of 'BLACK' to align with the clue: \"Empty of marks, writing, or expression\".",
-        "HINT 02 // The pivot transition requires bridging through 'BLINK'; check vowel shifts between adjacent steps."
       ]
     },
     "enabled": true,
@@ -20296,69 +10279,6 @@ export const wendChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WND-0320",
-    "title": "WEND // WORD LADDER #0320 (RIVER → AFTER)",
-    "category": "LOGIC",
-    "description": "Morph 'RIVER' into 'AFTER' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "MODERATE",
-    "risk": "BALANCED",
-    "cost": 140,
-    "reward": 260,
-    "penalty": 80,
-    "timeLimit": 75,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-17 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0320",
-      "wordLength": 5,
-      "startWord": "RIVER",
-      "targetWord": "AFTER",
-      "steps": [
-        {
-          "clue": "Starting state: Large natural stream of flowing water",
-          "lockedWord": "RIVER"
-        },
-        {
-          "clue": "One who travels mounted on horseback"
-        },
-        {
-          "clue": "One who provides relief or auxiliary support"
-        },
-        {
-          "clue": "To change or modify character without replacing"
-        },
-        {
-          "clue": "Target state: Subsequent in chronological sequence",
-          "lockedWord": "AFTER"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "RIVER-RIDER-AIDER-ALTER-AFTER",
-      "expectedWords": [
-        "RIVER",
-        "RIDER",
-        "AIDER",
-        "ALTER",
-        "AFTER"
-      ],
-      "acceptedAnswers": [
-        "RIVER-RIDER-AIDER-ALTER-AFTER",
-        "RIDER-AIDER-ALTER",
-        "WEND:RIVER-RIDER-AIDER-ALTER-AFTER"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (5 letters): change position 3 of 'RIVER' to align with the clue: \"One who travels mounted on horseback\".",
-        "HINT 02 // The pivot transition requires bridging through 'AIDER'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WND-0321",
     "title": "WEND // WORD LADDER #0321 (PLANT → STARE)",
     "category": "LOGIC",
@@ -20416,69 +10336,6 @@ export const wendChallenges = [
       "hints": [
         "HINT 01 // Focus on Step 2 (5 letters): change position 3 of 'PLANT' to align with the clue: \"Flat two-dimensional surface or winged aircraft\".",
         "HINT 02 // The pivot transition requires bridging through 'PLATE'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WND-0322",
-    "title": "WEND // WORD LADDER #0322 (SLEEP → STEEL)",
-    "category": "LOGIC",
-    "description": "Morph 'SLEEP' into 'STEEL' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "MODERATE",
-    "risk": "BALANCED",
-    "cost": 140,
-    "reward": 260,
-    "penalty": 80,
-    "timeLimit": 75,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-17 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0322",
-      "wordLength": 5,
-      "startWord": "SLEEP",
-      "targetWord": "STEEL",
-      "steps": [
-        {
-          "clue": "Starting state: Naturally recurring condition of biological rest",
-          "lockedWord": "SLEEP"
-        },
-        {
-          "clue": "Ruminant quadruped domesticated for wool"
-        },
-        {
-          "clue": "Perpendicularly steep or absolute pure"
-        },
-        {
-          "clue": "To guide the direction of a vessel or vehicle"
-        },
-        {
-          "clue": "Target state: Alloy of iron with carbon of high tensile strength",
-          "lockedWord": "STEEL"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "SLEEP-SHEEP-SHEER-STEER-STEEL",
-      "expectedWords": [
-        "SLEEP",
-        "SHEEP",
-        "SHEER",
-        "STEER",
-        "STEEL"
-      ],
-      "acceptedAnswers": [
-        "SLEEP-SHEEP-SHEER-STEER-STEEL",
-        "SHEEP-SHEER-STEER",
-        "WEND:SLEEP-SHEEP-SHEER-STEER-STEEL"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (5 letters): change position 3 of 'SLEEP' to align with the clue: \"Ruminant quadruped domesticated for wool\".",
-        "HINT 02 // The pivot transition requires bridging through 'SHEER'; check vowel shifts between adjacent steps."
       ]
     },
     "enabled": true,
@@ -20551,69 +10408,6 @@ export const wendChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WND-0324",
-    "title": "WEND // WORD LADDER #0324 (STORM → SPARK)",
-    "category": "LOGIC",
-    "description": "Morph 'STORM' into 'SPARK' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "MODERATE",
-    "risk": "BALANCED",
-    "cost": 140,
-    "reward": 260,
-    "penalty": 80,
-    "timeLimit": 75,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-17 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0324",
-      "wordLength": 5,
-      "startWord": "STORM",
-      "targetWord": "SPARK",
-      "steps": [
-        {
-          "clue": "Starting state: Violent disturbance of meteorological atmosphere",
-          "lockedWord": "STORM"
-        },
-        {
-          "clue": "Retail mercantile establishment or storage repository"
-        },
-        {
-          "clue": "To gaze fixedly with wide uninterrupted eyes"
-        },
-        {
-          "clue": "Additional component held in reserve backup"
-        },
-        {
-          "clue": "Target state: Incandescent particle thrown off from a burning body",
-          "lockedWord": "SPARK"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "STORM-STORE-STARE-SPARE-SPARK",
-      "expectedWords": [
-        "STORM",
-        "STORE",
-        "STARE",
-        "SPARE",
-        "SPARK"
-      ],
-      "acceptedAnswers": [
-        "STORM-STORE-STARE-SPARE-SPARK",
-        "STORE-STARE-SPARE",
-        "WEND:STORM-STORE-STARE-SPARE-SPARK"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (5 letters): change position 3 of 'STORM' to align with the clue: \"Retail mercantile establishment or storage repository\".",
-        "HINT 02 // The pivot transition requires bridging through 'STARE'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WND-0325",
     "title": "WEND // WORD LADDER #0325 (COLD → WARM)",
     "category": "LOGIC",
@@ -20671,69 +10465,6 @@ export const wendChallenges = [
       "hints": [
         "HINT 01 // Focus on Step 2 (4 letters): change position 3 of 'COLD' to align with the clue: \"A flexible insulated cable or binding twine\".",
         "HINT 02 // The pivot transition requires bridging through 'CARD'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WND-0326",
-    "title": "WEND // WORD LADDER #0326 (DARK → FIRE)",
-    "category": "LOGIC",
-    "description": "Morph 'DARK' into 'FIRE' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "MODERATE",
-    "risk": "BALANCED",
-    "cost": 140,
-    "reward": 260,
-    "penalty": 80,
-    "timeLimit": 75,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-17 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0326",
-      "wordLength": 4,
-      "startWord": "DARK",
-      "targetWord": "FIRE",
-      "steps": [
-        {
-          "clue": "Starting state: Absence of illumination",
-          "lockedWord": "DARK"
-        },
-        {
-          "clue": "A small pointed projectile or rapid dash"
-        },
-        {
-          "clue": "Loose soil, earth, or particulate matter"
-        },
-        {
-          "clue": "Extremely urgent or calamitous circumstance"
-        },
-        {
-          "clue": "Target state: Combustion generating thermal heat",
-          "lockedWord": "FIRE"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "DARK-DART-DIRT-DIRE-FIRE",
-      "expectedWords": [
-        "DARK",
-        "DART",
-        "DIRT",
-        "DIRE",
-        "FIRE"
-      ],
-      "acceptedAnswers": [
-        "DARK-DART-DIRT-DIRE-FIRE",
-        "DART-DIRT-DIRE",
-        "WEND:DARK-DART-DIRT-DIRE-FIRE"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (4 letters): change position 3 of 'DARK' to align with the clue: \"A small pointed projectile or rapid dash\".",
-        "HINT 02 // The pivot transition requires bridging through 'DIRT'; check vowel shifts between adjacent steps."
       ]
     },
     "enabled": true,
@@ -20803,69 +10534,6 @@ export const wendChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WND-0328",
-    "title": "WEND // WORD LADDER #0328 (LEAD → GOLD)",
-    "category": "LOGIC",
-    "description": "Morph 'LEAD' into 'GOLD' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "MODERATE",
-    "risk": "BALANCED",
-    "cost": 140,
-    "reward": 260,
-    "penalty": 80,
-    "timeLimit": 75,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-17 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0328",
-      "wordLength": 4,
-      "startWord": "LEAD",
-      "targetWord": "GOLD",
-      "steps": [
-        {
-          "clue": "Starting state: Dense heavy metallic element",
-          "lockedWord": "LEAD"
-        },
-        {
-          "clue": "A heavy burden or amount carried"
-        },
-        {
-          "clue": "An amphibious tailless creature"
-        },
-        {
-          "clue": "Communicated verbal instruction in the past"
-        },
-        {
-          "clue": "Target state: Precious lustrous yellow metal",
-          "lockedWord": "GOLD"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "LEAD-LOAD-TOAD-TOLD-GOLD",
-      "expectedWords": [
-        "LEAD",
-        "LOAD",
-        "TOAD",
-        "TOLD",
-        "GOLD"
-      ],
-      "acceptedAnswers": [
-        "LEAD-LOAD-TOAD-TOLD-GOLD",
-        "LOAD-TOAD-TOLD",
-        "WEND:LEAD-LOAD-TOAD-TOLD-GOLD"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (4 letters): change position 3 of 'LEAD' to align with the clue: \"A heavy burden or amount carried\".",
-        "HINT 02 // The pivot transition requires bridging through 'TOAD'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WND-0329",
     "title": "WEND // WORD LADDER #0329 (MORE → SAFE)",
     "category": "LOGIC",
@@ -20929,69 +10597,6 @@ export const wendChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WND-0330",
-    "title": "WEND // WORD LADDER #0330 (FAST → POST)",
-    "category": "LOGIC",
-    "description": "Morph 'FAST' into 'POST' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "MODERATE",
-    "risk": "BALANCED",
-    "cost": 140,
-    "reward": 260,
-    "penalty": 80,
-    "timeLimit": 75,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-17 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0330",
-      "wordLength": 4,
-      "startWord": "FAST",
-      "targetWord": "POST",
-      "steps": [
-        {
-          "clue": "Starting state: Moving at high velocity",
-          "lockedWord": "FAST"
-        },
-        {
-          "clue": "Gone by in time and no longer existing"
-        },
-        {
-          "clue": "A component portion of a greater whole"
-        },
-        {
-          "clue": "A maritime harbor or network interface"
-        },
-        {
-          "clue": "Target state: Sturdy upright timber or bulletin",
-          "lockedWord": "POST"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "FAST-PAST-PART-PORT-POST",
-      "expectedWords": [
-        "FAST",
-        "PAST",
-        "PART",
-        "PORT",
-        "POST"
-      ],
-      "acceptedAnswers": [
-        "FAST-PAST-PART-PORT-POST",
-        "PAST-PART-PORT",
-        "WEND:FAST-PAST-PART-PORT-POST"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (4 letters): change position 3 of 'FAST' to align with the clue: \"Gone by in time and no longer existing\".",
-        "HINT 02 // The pivot transition requires bridging through 'PART'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WND-0331",
     "title": "WEND // WORD LADDER #0331 (CODE → BARK)",
     "category": "LOGIC",
@@ -21049,69 +10654,6 @@ export const wendChallenges = [
       "hints": [
         "HINT 01 // Focus on Step 2 (4 letters): change position 3 of 'CODE' to align with the clue: \"Central structural nexus of a planetary system\".",
         "HINT 02 // The pivot transition requires bridging through 'CARE'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WND-0332",
-    "title": "WEND // WORD LADDER #0332 (GATE → CALM)",
-    "category": "LOGIC",
-    "description": "Morph 'GATE' into 'CALM' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "MODERATE",
-    "risk": "BALANCED",
-    "cost": 140,
-    "reward": 260,
-    "penalty": 80,
-    "timeLimit": 75,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-17 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0332",
-      "wordLength": 4,
-      "startWord": "GATE",
-      "targetWord": "CALM",
-      "steps": [
-        {
-          "clue": "Starting state: Hinged barrier across an opening",
-          "lockedWord": "GATE"
-        },
-        {
-          "clue": "Conferred or transferred possession in the past"
-        },
-        {
-          "clue": "A subterranean hollow or subterranean chamber"
-        },
-        {
-          "clue": "Arrived at a specified coordinate"
-        },
-        {
-          "clue": "Target state: Free from agitation or turbulent disturbance",
-          "lockedWord": "CALM"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "GATE-GAVE-CAVE-CAME-CALM",
-      "expectedWords": [
-        "GATE",
-        "GAVE",
-        "CAVE",
-        "CAME",
-        "CALM"
-      ],
-      "acceptedAnswers": [
-        "GATE-GAVE-CAVE-CAME-CALM",
-        "GAVE-CAVE-CAME",
-        "WEND:GATE-GAVE-CAVE-CAME-CALM"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (4 letters): change position 3 of 'GATE' to align with the clue: \"Conferred or transferred possession in the past\".",
-        "HINT 02 // The pivot transition requires bridging through 'CAVE'; check vowel shifts between adjacent steps."
       ]
     },
     "enabled": true,
@@ -21185,69 +10727,6 @@ export const wendChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WND-0334",
-    "title": "WEND // WORD LADDER #0334 (WIND → LOVE)",
-    "category": "LOGIC",
-    "description": "Morph 'WIND' into 'LOVE' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "MODERATE",
-    "risk": "BALANCED",
-    "cost": 140,
-    "reward": 260,
-    "penalty": 80,
-    "timeLimit": 75,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-17 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0334",
-      "wordLength": 4,
-      "startWord": "WIND",
-      "targetWord": "LOVE",
-      "steps": [
-        {
-          "clue": "Starting state: Natural perceptible movement of air",
-          "lockedWord": "WIND"
-        },
-        {
-          "clue": "Fermented juice of grapes or fruit"
-        },
-        {
-          "clue": "Continuous spatial extent having only one dimension"
-        },
-        {
-          "clue": "Having no companions; solitary in wilderness"
-        },
-        {
-          "clue": "Target state: Deep affection and protective devotion",
-          "lockedWord": "LOVE"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "WIND-WINE-LINE-LONE-LOVE",
-      "expectedWords": [
-        "WIND",
-        "WINE",
-        "LINE",
-        "LONE",
-        "LOVE"
-      ],
-      "acceptedAnswers": [
-        "WIND-WINE-LINE-LONE-LOVE",
-        "WINE-LINE-LONE",
-        "WEND:WIND-WINE-LINE-LONE-LOVE"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (4 letters): change position 3 of 'WIND' to align with the clue: \"Fermented juice of grapes or fruit\".",
-        "HINT 02 // The pivot transition requires bridging through 'LINE'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WND-0335",
     "title": "WEND // WORD LADDER #0335 (STONE → CHALK)",
     "category": "LOGIC",
@@ -21309,69 +10788,6 @@ export const wendChallenges = [
       "hints": [
         "HINT 01 // Focus on Step 2 (5 letters): change position 3 of 'STONE' to align with the clue: \"Emitted radiant light in the past\".",
         "HINT 02 // The pivot transition requires bridging through 'CHINE'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WND-0336",
-    "title": "WEND // WORD LADDER #0336 (BLACK → CLING)",
-    "category": "LOGIC",
-    "description": "Morph 'BLACK' into 'CLING' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "MODERATE",
-    "risk": "BALANCED",
-    "cost": 140,
-    "reward": 260,
-    "penalty": 80,
-    "timeLimit": 75,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-17 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0336",
-      "wordLength": 5,
-      "startWord": "BLACK",
-      "targetWord": "CLING",
-      "steps": [
-        {
-          "clue": "Starting state: Total absence of visible light",
-          "lockedWord": "BLACK"
-        },
-        {
-          "clue": "Empty of marks, writing, or expression"
-        },
-        {
-          "clue": "To open and close eyes rapidly"
-        },
-        {
-          "clue": "A sharp metallic resonant sound"
-        },
-        {
-          "clue": "Target state: To hold on tightly to an anchor",
-          "lockedWord": "CLING"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "BLACK-BLANK-BLINK-CLINK-CLING",
-      "expectedWords": [
-        "BLACK",
-        "BLANK",
-        "BLINK",
-        "CLINK",
-        "CLING"
-      ],
-      "acceptedAnswers": [
-        "BLACK-BLANK-BLINK-CLINK-CLING",
-        "BLANK-BLINK-CLINK",
-        "WEND:BLACK-BLANK-BLINK-CLINK-CLING"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (5 letters): change position 3 of 'BLACK' to align with the clue: \"Empty of marks, writing, or expression\".",
-        "HINT 02 // The pivot transition requires bridging through 'BLINK'; check vowel shifts between adjacent steps."
       ]
     },
     "enabled": true,
@@ -21441,69 +10857,6 @@ export const wendChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WND-0338",
-    "title": "WEND // WORD LADDER #0338 (RIVER → AFTER)",
-    "category": "LOGIC",
-    "description": "Morph 'RIVER' into 'AFTER' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "MODERATE",
-    "risk": "BALANCED",
-    "cost": 140,
-    "reward": 260,
-    "penalty": 80,
-    "timeLimit": 75,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-17 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0338",
-      "wordLength": 5,
-      "startWord": "RIVER",
-      "targetWord": "AFTER",
-      "steps": [
-        {
-          "clue": "Starting state: Large natural stream of flowing water",
-          "lockedWord": "RIVER"
-        },
-        {
-          "clue": "One who travels mounted on horseback"
-        },
-        {
-          "clue": "One who provides relief or auxiliary support"
-        },
-        {
-          "clue": "To change or modify character without replacing"
-        },
-        {
-          "clue": "Target state: Subsequent in chronological sequence",
-          "lockedWord": "AFTER"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "RIVER-RIDER-AIDER-ALTER-AFTER",
-      "expectedWords": [
-        "RIVER",
-        "RIDER",
-        "AIDER",
-        "ALTER",
-        "AFTER"
-      ],
-      "acceptedAnswers": [
-        "RIVER-RIDER-AIDER-ALTER-AFTER",
-        "RIDER-AIDER-ALTER",
-        "WEND:RIVER-RIDER-AIDER-ALTER-AFTER"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (5 letters): change position 3 of 'RIVER' to align with the clue: \"One who travels mounted on horseback\".",
-        "HINT 02 // The pivot transition requires bridging through 'AIDER'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WND-0339",
     "title": "WEND // WORD LADDER #0339 (PLANT → STARE)",
     "category": "LOGIC",
@@ -21561,69 +10914,6 @@ export const wendChallenges = [
       "hints": [
         "HINT 01 // Focus on Step 2 (5 letters): change position 3 of 'PLANT' to align with the clue: \"Flat two-dimensional surface or winged aircraft\".",
         "HINT 02 // The pivot transition requires bridging through 'PLATE'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WND-0340",
-    "title": "WEND // WORD LADDER #0340 (SLEEP → STEEL)",
-    "category": "LOGIC",
-    "description": "Morph 'SLEEP' into 'STEEL' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "MODERATE",
-    "risk": "BALANCED",
-    "cost": 140,
-    "reward": 260,
-    "penalty": 80,
-    "timeLimit": 75,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-18 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0340",
-      "wordLength": 5,
-      "startWord": "SLEEP",
-      "targetWord": "STEEL",
-      "steps": [
-        {
-          "clue": "Starting state: Naturally recurring condition of biological rest",
-          "lockedWord": "SLEEP"
-        },
-        {
-          "clue": "Ruminant quadruped domesticated for wool"
-        },
-        {
-          "clue": "Perpendicularly steep or absolute pure"
-        },
-        {
-          "clue": "To guide the direction of a vessel or vehicle"
-        },
-        {
-          "clue": "Target state: Alloy of iron with carbon of high tensile strength",
-          "lockedWord": "STEEL"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "SLEEP-SHEEP-SHEER-STEER-STEEL",
-      "expectedWords": [
-        "SLEEP",
-        "SHEEP",
-        "SHEER",
-        "STEER",
-        "STEEL"
-      ],
-      "acceptedAnswers": [
-        "SLEEP-SHEEP-SHEER-STEER-STEEL",
-        "SHEEP-SHEER-STEER",
-        "WEND:SLEEP-SHEEP-SHEER-STEER-STEEL"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (5 letters): change position 3 of 'SLEEP' to align with the clue: \"Ruminant quadruped domesticated for wool\".",
-        "HINT 02 // The pivot transition requires bridging through 'SHEER'; check vowel shifts between adjacent steps."
       ]
     },
     "enabled": true,
@@ -21696,69 +10986,6 @@ export const wendChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WND-0342",
-    "title": "WEND // WORD LADDER #0342 (STORM → SPARK)",
-    "category": "LOGIC",
-    "description": "Morph 'STORM' into 'SPARK' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "MODERATE",
-    "risk": "BALANCED",
-    "cost": 140,
-    "reward": 260,
-    "penalty": 80,
-    "timeLimit": 75,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-18 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0342",
-      "wordLength": 5,
-      "startWord": "STORM",
-      "targetWord": "SPARK",
-      "steps": [
-        {
-          "clue": "Starting state: Violent disturbance of meteorological atmosphere",
-          "lockedWord": "STORM"
-        },
-        {
-          "clue": "Retail mercantile establishment or storage repository"
-        },
-        {
-          "clue": "To gaze fixedly with wide uninterrupted eyes"
-        },
-        {
-          "clue": "Additional component held in reserve backup"
-        },
-        {
-          "clue": "Target state: Incandescent particle thrown off from a burning body",
-          "lockedWord": "SPARK"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "STORM-STORE-STARE-SPARE-SPARK",
-      "expectedWords": [
-        "STORM",
-        "STORE",
-        "STARE",
-        "SPARE",
-        "SPARK"
-      ],
-      "acceptedAnswers": [
-        "STORM-STORE-STARE-SPARE-SPARK",
-        "STORE-STARE-SPARE",
-        "WEND:STORM-STORE-STARE-SPARE-SPARK"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (5 letters): change position 3 of 'STORM' to align with the clue: \"Retail mercantile establishment or storage repository\".",
-        "HINT 02 // The pivot transition requires bridging through 'STARE'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WND-0343",
     "title": "WEND // WORD LADDER #0343 (COLD → WARM)",
     "category": "LOGIC",
@@ -21816,69 +11043,6 @@ export const wendChallenges = [
       "hints": [
         "HINT 01 // Focus on Step 2 (4 letters): change position 3 of 'COLD' to align with the clue: \"A flexible insulated cable or binding twine\".",
         "HINT 02 // The pivot transition requires bridging through 'CARD'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WND-0344",
-    "title": "WEND // WORD LADDER #0344 (DARK → FIRE)",
-    "category": "LOGIC",
-    "description": "Morph 'DARK' into 'FIRE' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "MODERATE",
-    "risk": "BALANCED",
-    "cost": 140,
-    "reward": 260,
-    "penalty": 80,
-    "timeLimit": 75,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-18 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0344",
-      "wordLength": 4,
-      "startWord": "DARK",
-      "targetWord": "FIRE",
-      "steps": [
-        {
-          "clue": "Starting state: Absence of illumination",
-          "lockedWord": "DARK"
-        },
-        {
-          "clue": "A small pointed projectile or rapid dash"
-        },
-        {
-          "clue": "Loose soil, earth, or particulate matter"
-        },
-        {
-          "clue": "Extremely urgent or calamitous circumstance"
-        },
-        {
-          "clue": "Target state: Combustion generating thermal heat",
-          "lockedWord": "FIRE"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "DARK-DART-DIRT-DIRE-FIRE",
-      "expectedWords": [
-        "DARK",
-        "DART",
-        "DIRT",
-        "DIRE",
-        "FIRE"
-      ],
-      "acceptedAnswers": [
-        "DARK-DART-DIRT-DIRE-FIRE",
-        "DART-DIRT-DIRE",
-        "WEND:DARK-DART-DIRT-DIRE-FIRE"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (4 letters): change position 3 of 'DARK' to align with the clue: \"A small pointed projectile or rapid dash\".",
-        "HINT 02 // The pivot transition requires bridging through 'DIRT'; check vowel shifts between adjacent steps."
       ]
     },
     "enabled": true,
@@ -21948,69 +11112,6 @@ export const wendChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WND-0346",
-    "title": "WEND // WORD LADDER #0346 (LEAD → GOLD)",
-    "category": "LOGIC",
-    "description": "Morph 'LEAD' into 'GOLD' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "MODERATE",
-    "risk": "BALANCED",
-    "cost": 140,
-    "reward": 260,
-    "penalty": 80,
-    "timeLimit": 75,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-18 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0346",
-      "wordLength": 4,
-      "startWord": "LEAD",
-      "targetWord": "GOLD",
-      "steps": [
-        {
-          "clue": "Starting state: Dense heavy metallic element",
-          "lockedWord": "LEAD"
-        },
-        {
-          "clue": "A heavy burden or amount carried"
-        },
-        {
-          "clue": "An amphibious tailless creature"
-        },
-        {
-          "clue": "Communicated verbal instruction in the past"
-        },
-        {
-          "clue": "Target state: Precious lustrous yellow metal",
-          "lockedWord": "GOLD"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "LEAD-LOAD-TOAD-TOLD-GOLD",
-      "expectedWords": [
-        "LEAD",
-        "LOAD",
-        "TOAD",
-        "TOLD",
-        "GOLD"
-      ],
-      "acceptedAnswers": [
-        "LEAD-LOAD-TOAD-TOLD-GOLD",
-        "LOAD-TOAD-TOLD",
-        "WEND:LEAD-LOAD-TOAD-TOLD-GOLD"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (4 letters): change position 3 of 'LEAD' to align with the clue: \"A heavy burden or amount carried\".",
-        "HINT 02 // The pivot transition requires bridging through 'TOAD'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WND-0347",
     "title": "WEND // WORD LADDER #0347 (MORE → SAFE)",
     "category": "LOGIC",
@@ -22074,69 +11175,6 @@ export const wendChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WND-0348",
-    "title": "WEND // WORD LADDER #0348 (FAST → POST)",
-    "category": "LOGIC",
-    "description": "Morph 'FAST' into 'POST' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "MODERATE",
-    "risk": "BALANCED",
-    "cost": 140,
-    "reward": 260,
-    "penalty": 80,
-    "timeLimit": 75,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-18 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0348",
-      "wordLength": 4,
-      "startWord": "FAST",
-      "targetWord": "POST",
-      "steps": [
-        {
-          "clue": "Starting state: Moving at high velocity",
-          "lockedWord": "FAST"
-        },
-        {
-          "clue": "Gone by in time and no longer existing"
-        },
-        {
-          "clue": "A component portion of a greater whole"
-        },
-        {
-          "clue": "A maritime harbor or network interface"
-        },
-        {
-          "clue": "Target state: Sturdy upright timber or bulletin",
-          "lockedWord": "POST"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "FAST-PAST-PART-PORT-POST",
-      "expectedWords": [
-        "FAST",
-        "PAST",
-        "PART",
-        "PORT",
-        "POST"
-      ],
-      "acceptedAnswers": [
-        "FAST-PAST-PART-PORT-POST",
-        "PAST-PART-PORT",
-        "WEND:FAST-PAST-PART-PORT-POST"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (4 letters): change position 3 of 'FAST' to align with the clue: \"Gone by in time and no longer existing\".",
-        "HINT 02 // The pivot transition requires bridging through 'PART'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WND-0349",
     "title": "WEND // WORD LADDER #0349 (CODE → BARK)",
     "category": "LOGIC",
@@ -22194,69 +11232,6 @@ export const wendChallenges = [
       "hints": [
         "HINT 01 // Focus on Step 2 (4 letters): change position 3 of 'CODE' to align with the clue: \"Central structural nexus of a planetary system\".",
         "HINT 02 // The pivot transition requires bridging through 'CARE'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WND-0350",
-    "title": "WEND // WORD LADDER #0350 (GATE → CALM)",
-    "category": "LOGIC",
-    "description": "Morph 'GATE' into 'CALM' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "MODERATE",
-    "risk": "BALANCED",
-    "cost": 140,
-    "reward": 260,
-    "penalty": 80,
-    "timeLimit": 75,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-18 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0350",
-      "wordLength": 4,
-      "startWord": "GATE",
-      "targetWord": "CALM",
-      "steps": [
-        {
-          "clue": "Starting state: Hinged barrier across an opening",
-          "lockedWord": "GATE"
-        },
-        {
-          "clue": "Conferred or transferred possession in the past"
-        },
-        {
-          "clue": "A subterranean hollow or subterranean chamber"
-        },
-        {
-          "clue": "Arrived at a specified coordinate"
-        },
-        {
-          "clue": "Target state: Free from agitation or turbulent disturbance",
-          "lockedWord": "CALM"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "GATE-GAVE-CAVE-CAME-CALM",
-      "expectedWords": [
-        "GATE",
-        "GAVE",
-        "CAVE",
-        "CAME",
-        "CALM"
-      ],
-      "acceptedAnswers": [
-        "GATE-GAVE-CAVE-CAME-CALM",
-        "GAVE-CAVE-CAME",
-        "WEND:GATE-GAVE-CAVE-CAME-CALM"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (4 letters): change position 3 of 'GATE' to align with the clue: \"Conferred or transferred possession in the past\".",
-        "HINT 02 // The pivot transition requires bridging through 'CAVE'; check vowel shifts between adjacent steps."
       ]
     },
     "enabled": true,
@@ -22330,69 +11305,6 @@ export const wendChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WND-0352",
-    "title": "WEND // WORD LADDER #0352 (WIND → LOVE)",
-    "category": "LOGIC",
-    "description": "Morph 'WIND' into 'LOVE' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "MODERATE",
-    "risk": "BALANCED",
-    "cost": 140,
-    "reward": 260,
-    "penalty": 80,
-    "timeLimit": 75,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-18 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0352",
-      "wordLength": 4,
-      "startWord": "WIND",
-      "targetWord": "LOVE",
-      "steps": [
-        {
-          "clue": "Starting state: Natural perceptible movement of air",
-          "lockedWord": "WIND"
-        },
-        {
-          "clue": "Fermented juice of grapes or fruit"
-        },
-        {
-          "clue": "Continuous spatial extent having only one dimension"
-        },
-        {
-          "clue": "Having no companions; solitary in wilderness"
-        },
-        {
-          "clue": "Target state: Deep affection and protective devotion",
-          "lockedWord": "LOVE"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "WIND-WINE-LINE-LONE-LOVE",
-      "expectedWords": [
-        "WIND",
-        "WINE",
-        "LINE",
-        "LONE",
-        "LOVE"
-      ],
-      "acceptedAnswers": [
-        "WIND-WINE-LINE-LONE-LOVE",
-        "WINE-LINE-LONE",
-        "WEND:WIND-WINE-LINE-LONE-LOVE"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (4 letters): change position 3 of 'WIND' to align with the clue: \"Fermented juice of grapes or fruit\".",
-        "HINT 02 // The pivot transition requires bridging through 'LINE'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WND-0353",
     "title": "WEND // WORD LADDER #0353 (STONE → CHALK)",
     "category": "LOGIC",
@@ -22454,69 +11366,6 @@ export const wendChallenges = [
       "hints": [
         "HINT 01 // Focus on Step 2 (5 letters): change position 3 of 'STONE' to align with the clue: \"Emitted radiant light in the past\".",
         "HINT 02 // The pivot transition requires bridging through 'CHINE'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WND-0354",
-    "title": "WEND // WORD LADDER #0354 (BLACK → CLING)",
-    "category": "LOGIC",
-    "description": "Morph 'BLACK' into 'CLING' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "MODERATE",
-    "risk": "BALANCED",
-    "cost": 140,
-    "reward": 260,
-    "penalty": 80,
-    "timeLimit": 75,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-18 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0354",
-      "wordLength": 5,
-      "startWord": "BLACK",
-      "targetWord": "CLING",
-      "steps": [
-        {
-          "clue": "Starting state: Total absence of visible light",
-          "lockedWord": "BLACK"
-        },
-        {
-          "clue": "Empty of marks, writing, or expression"
-        },
-        {
-          "clue": "To open and close eyes rapidly"
-        },
-        {
-          "clue": "A sharp metallic resonant sound"
-        },
-        {
-          "clue": "Target state: To hold on tightly to an anchor",
-          "lockedWord": "CLING"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "BLACK-BLANK-BLINK-CLINK-CLING",
-      "expectedWords": [
-        "BLACK",
-        "BLANK",
-        "BLINK",
-        "CLINK",
-        "CLING"
-      ],
-      "acceptedAnswers": [
-        "BLACK-BLANK-BLINK-CLINK-CLING",
-        "BLANK-BLINK-CLINK",
-        "WEND:BLACK-BLANK-BLINK-CLINK-CLING"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (5 letters): change position 3 of 'BLACK' to align with the clue: \"Empty of marks, writing, or expression\".",
-        "HINT 02 // The pivot transition requires bridging through 'BLINK'; check vowel shifts between adjacent steps."
       ]
     },
     "enabled": true,
@@ -22586,69 +11435,6 @@ export const wendChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WND-0356",
-    "title": "WEND // WORD LADDER #0356 (RIVER → AFTER)",
-    "category": "LOGIC",
-    "description": "Morph 'RIVER' into 'AFTER' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "MODERATE",
-    "risk": "BALANCED",
-    "cost": 140,
-    "reward": 260,
-    "penalty": 80,
-    "timeLimit": 75,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-18 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0356",
-      "wordLength": 5,
-      "startWord": "RIVER",
-      "targetWord": "AFTER",
-      "steps": [
-        {
-          "clue": "Starting state: Large natural stream of flowing water",
-          "lockedWord": "RIVER"
-        },
-        {
-          "clue": "One who travels mounted on horseback"
-        },
-        {
-          "clue": "One who provides relief or auxiliary support"
-        },
-        {
-          "clue": "To change or modify character without replacing"
-        },
-        {
-          "clue": "Target state: Subsequent in chronological sequence",
-          "lockedWord": "AFTER"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "RIVER-RIDER-AIDER-ALTER-AFTER",
-      "expectedWords": [
-        "RIVER",
-        "RIDER",
-        "AIDER",
-        "ALTER",
-        "AFTER"
-      ],
-      "acceptedAnswers": [
-        "RIVER-RIDER-AIDER-ALTER-AFTER",
-        "RIDER-AIDER-ALTER",
-        "WEND:RIVER-RIDER-AIDER-ALTER-AFTER"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (5 letters): change position 3 of 'RIVER' to align with the clue: \"One who travels mounted on horseback\".",
-        "HINT 02 // The pivot transition requires bridging through 'AIDER'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WND-0357",
     "title": "WEND // WORD LADDER #0357 (PLANT → STARE)",
     "category": "LOGIC",
@@ -22706,69 +11492,6 @@ export const wendChallenges = [
       "hints": [
         "HINT 01 // Focus on Step 2 (5 letters): change position 3 of 'PLANT' to align with the clue: \"Flat two-dimensional surface or winged aircraft\".",
         "HINT 02 // The pivot transition requires bridging through 'PLATE'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WND-0358",
-    "title": "WEND // WORD LADDER #0358 (SLEEP → STEEL)",
-    "category": "LOGIC",
-    "description": "Morph 'SLEEP' into 'STEEL' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "MODERATE",
-    "risk": "BALANCED",
-    "cost": 140,
-    "reward": 260,
-    "penalty": 80,
-    "timeLimit": 75,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-18 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0358",
-      "wordLength": 5,
-      "startWord": "SLEEP",
-      "targetWord": "STEEL",
-      "steps": [
-        {
-          "clue": "Starting state: Naturally recurring condition of biological rest",
-          "lockedWord": "SLEEP"
-        },
-        {
-          "clue": "Ruminant quadruped domesticated for wool"
-        },
-        {
-          "clue": "Perpendicularly steep or absolute pure"
-        },
-        {
-          "clue": "To guide the direction of a vessel or vehicle"
-        },
-        {
-          "clue": "Target state: Alloy of iron with carbon of high tensile strength",
-          "lockedWord": "STEEL"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "SLEEP-SHEEP-SHEER-STEER-STEEL",
-      "expectedWords": [
-        "SLEEP",
-        "SHEEP",
-        "SHEER",
-        "STEER",
-        "STEEL"
-      ],
-      "acceptedAnswers": [
-        "SLEEP-SHEEP-SHEER-STEER-STEEL",
-        "SHEEP-SHEER-STEER",
-        "WEND:SLEEP-SHEEP-SHEER-STEER-STEEL"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (5 letters): change position 3 of 'SLEEP' to align with the clue: \"Ruminant quadruped domesticated for wool\".",
-        "HINT 02 // The pivot transition requires bridging through 'SHEER'; check vowel shifts between adjacent steps."
       ]
     },
     "enabled": true,
@@ -22841,69 +11564,6 @@ export const wendChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WND-0360",
-    "title": "WEND // WORD LADDER #0360 (STORM → SPARK)",
-    "category": "LOGIC",
-    "description": "Morph 'STORM' into 'SPARK' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "MODERATE",
-    "risk": "BALANCED",
-    "cost": 140,
-    "reward": 260,
-    "penalty": 80,
-    "timeLimit": 75,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-19 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0360",
-      "wordLength": 5,
-      "startWord": "STORM",
-      "targetWord": "SPARK",
-      "steps": [
-        {
-          "clue": "Starting state: Violent disturbance of meteorological atmosphere",
-          "lockedWord": "STORM"
-        },
-        {
-          "clue": "Retail mercantile establishment or storage repository"
-        },
-        {
-          "clue": "To gaze fixedly with wide uninterrupted eyes"
-        },
-        {
-          "clue": "Additional component held in reserve backup"
-        },
-        {
-          "clue": "Target state: Incandescent particle thrown off from a burning body",
-          "lockedWord": "SPARK"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "STORM-STORE-STARE-SPARE-SPARK",
-      "expectedWords": [
-        "STORM",
-        "STORE",
-        "STARE",
-        "SPARE",
-        "SPARK"
-      ],
-      "acceptedAnswers": [
-        "STORM-STORE-STARE-SPARE-SPARK",
-        "STORE-STARE-SPARE",
-        "WEND:STORM-STORE-STARE-SPARE-SPARK"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (5 letters): change position 3 of 'STORM' to align with the clue: \"Retail mercantile establishment or storage repository\".",
-        "HINT 02 // The pivot transition requires bridging through 'STARE'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WND-0361",
     "title": "WEND // WORD LADDER #0361 (COLD → WARM)",
     "category": "LOGIC",
@@ -22961,69 +11621,6 @@ export const wendChallenges = [
       "hints": [
         "HINT 01 // Focus on Step 2 (4 letters): change position 3 of 'COLD' to align with the clue: \"A flexible insulated cable or binding twine\".",
         "HINT 02 // The pivot transition requires bridging through 'CARD'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WND-0362",
-    "title": "WEND // WORD LADDER #0362 (DARK → FIRE)",
-    "category": "LOGIC",
-    "description": "Morph 'DARK' into 'FIRE' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "HIGH",
-    "risk": "AGGRESSIVE",
-    "cost": 300,
-    "reward": 750,
-    "penalty": 200,
-    "timeLimit": 95,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-19 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0362",
-      "wordLength": 4,
-      "startWord": "DARK",
-      "targetWord": "FIRE",
-      "steps": [
-        {
-          "clue": "Starting state: Absence of illumination",
-          "lockedWord": "DARK"
-        },
-        {
-          "clue": "A small pointed projectile or rapid dash"
-        },
-        {
-          "clue": "Loose soil, earth, or particulate matter"
-        },
-        {
-          "clue": "Extremely urgent or calamitous circumstance"
-        },
-        {
-          "clue": "Target state: Combustion generating thermal heat",
-          "lockedWord": "FIRE"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "DARK-DART-DIRT-DIRE-FIRE",
-      "expectedWords": [
-        "DARK",
-        "DART",
-        "DIRT",
-        "DIRE",
-        "FIRE"
-      ],
-      "acceptedAnswers": [
-        "DARK-DART-DIRT-DIRE-FIRE",
-        "DART-DIRT-DIRE",
-        "WEND:DARK-DART-DIRT-DIRE-FIRE"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (4 letters): change position 3 of 'DARK' to align with the clue: \"A small pointed projectile or rapid dash\".",
-        "HINT 02 // The pivot transition requires bridging through 'DIRT'; check vowel shifts between adjacent steps."
       ]
     },
     "enabled": true,
@@ -23093,69 +11690,6 @@ export const wendChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WND-0364",
-    "title": "WEND // WORD LADDER #0364 (LEAD → GOLD)",
-    "category": "LOGIC",
-    "description": "Morph 'LEAD' into 'GOLD' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "HIGH",
-    "risk": "AGGRESSIVE",
-    "cost": 300,
-    "reward": 750,
-    "penalty": 200,
-    "timeLimit": 95,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-19 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0364",
-      "wordLength": 4,
-      "startWord": "LEAD",
-      "targetWord": "GOLD",
-      "steps": [
-        {
-          "clue": "Starting state: Dense heavy metallic element",
-          "lockedWord": "LEAD"
-        },
-        {
-          "clue": "A heavy burden or amount carried"
-        },
-        {
-          "clue": "An amphibious tailless creature"
-        },
-        {
-          "clue": "Communicated verbal instruction in the past"
-        },
-        {
-          "clue": "Target state: Precious lustrous yellow metal",
-          "lockedWord": "GOLD"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "LEAD-LOAD-TOAD-TOLD-GOLD",
-      "expectedWords": [
-        "LEAD",
-        "LOAD",
-        "TOAD",
-        "TOLD",
-        "GOLD"
-      ],
-      "acceptedAnswers": [
-        "LEAD-LOAD-TOAD-TOLD-GOLD",
-        "LOAD-TOAD-TOLD",
-        "WEND:LEAD-LOAD-TOAD-TOLD-GOLD"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (4 letters): change position 3 of 'LEAD' to align with the clue: \"A heavy burden or amount carried\".",
-        "HINT 02 // The pivot transition requires bridging through 'TOAD'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WND-0365",
     "title": "WEND // WORD LADDER #0365 (MORE → SAFE)",
     "category": "LOGIC",
@@ -23219,69 +11753,6 @@ export const wendChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WND-0366",
-    "title": "WEND // WORD LADDER #0366 (FAST → POST)",
-    "category": "LOGIC",
-    "description": "Morph 'FAST' into 'POST' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "HIGH",
-    "risk": "AGGRESSIVE",
-    "cost": 300,
-    "reward": 750,
-    "penalty": 200,
-    "timeLimit": 95,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-19 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0366",
-      "wordLength": 4,
-      "startWord": "FAST",
-      "targetWord": "POST",
-      "steps": [
-        {
-          "clue": "Starting state: Moving at high velocity",
-          "lockedWord": "FAST"
-        },
-        {
-          "clue": "Gone by in time and no longer existing"
-        },
-        {
-          "clue": "A component portion of a greater whole"
-        },
-        {
-          "clue": "A maritime harbor or network interface"
-        },
-        {
-          "clue": "Target state: Sturdy upright timber or bulletin",
-          "lockedWord": "POST"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "FAST-PAST-PART-PORT-POST",
-      "expectedWords": [
-        "FAST",
-        "PAST",
-        "PART",
-        "PORT",
-        "POST"
-      ],
-      "acceptedAnswers": [
-        "FAST-PAST-PART-PORT-POST",
-        "PAST-PART-PORT",
-        "WEND:FAST-PAST-PART-PORT-POST"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (4 letters): change position 3 of 'FAST' to align with the clue: \"Gone by in time and no longer existing\".",
-        "HINT 02 // The pivot transition requires bridging through 'PART'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WND-0367",
     "title": "WEND // WORD LADDER #0367 (CODE → BARK)",
     "category": "LOGIC",
@@ -23339,69 +11810,6 @@ export const wendChallenges = [
       "hints": [
         "HINT 01 // Focus on Step 2 (4 letters): change position 3 of 'CODE' to align with the clue: \"Central structural nexus of a planetary system\".",
         "HINT 02 // The pivot transition requires bridging through 'CARE'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WND-0368",
-    "title": "WEND // WORD LADDER #0368 (GATE → CALM)",
-    "category": "LOGIC",
-    "description": "Morph 'GATE' into 'CALM' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "HIGH",
-    "risk": "AGGRESSIVE",
-    "cost": 300,
-    "reward": 750,
-    "penalty": 200,
-    "timeLimit": 95,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-19 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0368",
-      "wordLength": 4,
-      "startWord": "GATE",
-      "targetWord": "CALM",
-      "steps": [
-        {
-          "clue": "Starting state: Hinged barrier across an opening",
-          "lockedWord": "GATE"
-        },
-        {
-          "clue": "Conferred or transferred possession in the past"
-        },
-        {
-          "clue": "A subterranean hollow or subterranean chamber"
-        },
-        {
-          "clue": "Arrived at a specified coordinate"
-        },
-        {
-          "clue": "Target state: Free from agitation or turbulent disturbance",
-          "lockedWord": "CALM"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "GATE-GAVE-CAVE-CAME-CALM",
-      "expectedWords": [
-        "GATE",
-        "GAVE",
-        "CAVE",
-        "CAME",
-        "CALM"
-      ],
-      "acceptedAnswers": [
-        "GATE-GAVE-CAVE-CAME-CALM",
-        "GAVE-CAVE-CAME",
-        "WEND:GATE-GAVE-CAVE-CAME-CALM"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (4 letters): change position 3 of 'GATE' to align with the clue: \"Conferred or transferred possession in the past\".",
-        "HINT 02 // The pivot transition requires bridging through 'CAVE'; check vowel shifts between adjacent steps."
       ]
     },
     "enabled": true,
@@ -23475,69 +11883,6 @@ export const wendChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WND-0370",
-    "title": "WEND // WORD LADDER #0370 (WIND → LOVE)",
-    "category": "LOGIC",
-    "description": "Morph 'WIND' into 'LOVE' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "HIGH",
-    "risk": "AGGRESSIVE",
-    "cost": 300,
-    "reward": 750,
-    "penalty": 200,
-    "timeLimit": 95,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-19 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0370",
-      "wordLength": 4,
-      "startWord": "WIND",
-      "targetWord": "LOVE",
-      "steps": [
-        {
-          "clue": "Starting state: Natural perceptible movement of air",
-          "lockedWord": "WIND"
-        },
-        {
-          "clue": "Fermented juice of grapes or fruit"
-        },
-        {
-          "clue": "Continuous spatial extent having only one dimension"
-        },
-        {
-          "clue": "Having no companions; solitary in wilderness"
-        },
-        {
-          "clue": "Target state: Deep affection and protective devotion",
-          "lockedWord": "LOVE"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "WIND-WINE-LINE-LONE-LOVE",
-      "expectedWords": [
-        "WIND",
-        "WINE",
-        "LINE",
-        "LONE",
-        "LOVE"
-      ],
-      "acceptedAnswers": [
-        "WIND-WINE-LINE-LONE-LOVE",
-        "WINE-LINE-LONE",
-        "WEND:WIND-WINE-LINE-LONE-LOVE"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (4 letters): change position 3 of 'WIND' to align with the clue: \"Fermented juice of grapes or fruit\".",
-        "HINT 02 // The pivot transition requires bridging through 'LINE'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WND-0371",
     "title": "WEND // WORD LADDER #0371 (STONE → CHALK)",
     "category": "LOGIC",
@@ -23599,69 +11944,6 @@ export const wendChallenges = [
       "hints": [
         "HINT 01 // Focus on Step 2 (5 letters): change position 4 of 'STONE' to align with the clue: \"Emitted radiant light in the past\".",
         "HINT 02 // The pivot transition requires bridging through 'CHINE'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WND-0372",
-    "title": "WEND // WORD LADDER #0372 (BLACK → CLING)",
-    "category": "LOGIC",
-    "description": "Morph 'BLACK' into 'CLING' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "HIGH",
-    "risk": "AGGRESSIVE",
-    "cost": 300,
-    "reward": 750,
-    "penalty": 200,
-    "timeLimit": 95,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-19 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0372",
-      "wordLength": 5,
-      "startWord": "BLACK",
-      "targetWord": "CLING",
-      "steps": [
-        {
-          "clue": "Starting state: Total absence of visible light",
-          "lockedWord": "BLACK"
-        },
-        {
-          "clue": "Empty of marks, writing, or expression"
-        },
-        {
-          "clue": "To open and close eyes rapidly"
-        },
-        {
-          "clue": "A sharp metallic resonant sound"
-        },
-        {
-          "clue": "Target state: To hold on tightly to an anchor",
-          "lockedWord": "CLING"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "BLACK-BLANK-BLINK-CLINK-CLING",
-      "expectedWords": [
-        "BLACK",
-        "BLANK",
-        "BLINK",
-        "CLINK",
-        "CLING"
-      ],
-      "acceptedAnswers": [
-        "BLACK-BLANK-BLINK-CLINK-CLING",
-        "BLANK-BLINK-CLINK",
-        "WEND:BLACK-BLANK-BLINK-CLINK-CLING"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (5 letters): change position 4 of 'BLACK' to align with the clue: \"Empty of marks, writing, or expression\".",
-        "HINT 02 // The pivot transition requires bridging through 'BLINK'; check vowel shifts between adjacent steps."
       ]
     },
     "enabled": true,
@@ -23731,69 +12013,6 @@ export const wendChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WND-0374",
-    "title": "WEND // WORD LADDER #0374 (RIVER → AFTER)",
-    "category": "LOGIC",
-    "description": "Morph 'RIVER' into 'AFTER' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "HIGH",
-    "risk": "AGGRESSIVE",
-    "cost": 300,
-    "reward": 750,
-    "penalty": 200,
-    "timeLimit": 95,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-19 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0374",
-      "wordLength": 5,
-      "startWord": "RIVER",
-      "targetWord": "AFTER",
-      "steps": [
-        {
-          "clue": "Starting state: Large natural stream of flowing water",
-          "lockedWord": "RIVER"
-        },
-        {
-          "clue": "One who travels mounted on horseback"
-        },
-        {
-          "clue": "One who provides relief or auxiliary support"
-        },
-        {
-          "clue": "To change or modify character without replacing"
-        },
-        {
-          "clue": "Target state: Subsequent in chronological sequence",
-          "lockedWord": "AFTER"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "RIVER-RIDER-AIDER-ALTER-AFTER",
-      "expectedWords": [
-        "RIVER",
-        "RIDER",
-        "AIDER",
-        "ALTER",
-        "AFTER"
-      ],
-      "acceptedAnswers": [
-        "RIVER-RIDER-AIDER-ALTER-AFTER",
-        "RIDER-AIDER-ALTER",
-        "WEND:RIVER-RIDER-AIDER-ALTER-AFTER"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (5 letters): change position 4 of 'RIVER' to align with the clue: \"One who travels mounted on horseback\".",
-        "HINT 02 // The pivot transition requires bridging through 'AIDER'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WND-0375",
     "title": "WEND // WORD LADDER #0375 (PLANT → STARE)",
     "category": "LOGIC",
@@ -23851,69 +12070,6 @@ export const wendChallenges = [
       "hints": [
         "HINT 01 // Focus on Step 2 (5 letters): change position 4 of 'PLANT' to align with the clue: \"Flat two-dimensional surface or winged aircraft\".",
         "HINT 02 // The pivot transition requires bridging through 'PLATE'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WND-0376",
-    "title": "WEND // WORD LADDER #0376 (SLEEP → STEEL)",
-    "category": "LOGIC",
-    "description": "Morph 'SLEEP' into 'STEEL' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "HIGH",
-    "risk": "AGGRESSIVE",
-    "cost": 300,
-    "reward": 750,
-    "penalty": 200,
-    "timeLimit": 95,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-19 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0376",
-      "wordLength": 5,
-      "startWord": "SLEEP",
-      "targetWord": "STEEL",
-      "steps": [
-        {
-          "clue": "Starting state: Naturally recurring condition of biological rest",
-          "lockedWord": "SLEEP"
-        },
-        {
-          "clue": "Ruminant quadruped domesticated for wool"
-        },
-        {
-          "clue": "Perpendicularly steep or absolute pure"
-        },
-        {
-          "clue": "To guide the direction of a vessel or vehicle"
-        },
-        {
-          "clue": "Target state: Alloy of iron with carbon of high tensile strength",
-          "lockedWord": "STEEL"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "SLEEP-SHEEP-SHEER-STEER-STEEL",
-      "expectedWords": [
-        "SLEEP",
-        "SHEEP",
-        "SHEER",
-        "STEER",
-        "STEEL"
-      ],
-      "acceptedAnswers": [
-        "SLEEP-SHEEP-SHEER-STEER-STEEL",
-        "SHEEP-SHEER-STEER",
-        "WEND:SLEEP-SHEEP-SHEER-STEER-STEEL"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (5 letters): change position 4 of 'SLEEP' to align with the clue: \"Ruminant quadruped domesticated for wool\".",
-        "HINT 02 // The pivot transition requires bridging through 'SHEER'; check vowel shifts between adjacent steps."
       ]
     },
     "enabled": true,
@@ -23986,69 +12142,6 @@ export const wendChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WND-0378",
-    "title": "WEND // WORD LADDER #0378 (STORM → SPARK)",
-    "category": "LOGIC",
-    "description": "Morph 'STORM' into 'SPARK' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "HIGH",
-    "risk": "AGGRESSIVE",
-    "cost": 300,
-    "reward": 750,
-    "penalty": 200,
-    "timeLimit": 95,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-19 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0378",
-      "wordLength": 5,
-      "startWord": "STORM",
-      "targetWord": "SPARK",
-      "steps": [
-        {
-          "clue": "Starting state: Violent disturbance of meteorological atmosphere",
-          "lockedWord": "STORM"
-        },
-        {
-          "clue": "Retail mercantile establishment or storage repository"
-        },
-        {
-          "clue": "To gaze fixedly with wide uninterrupted eyes"
-        },
-        {
-          "clue": "Additional component held in reserve backup"
-        },
-        {
-          "clue": "Target state: Incandescent particle thrown off from a burning body",
-          "lockedWord": "SPARK"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "STORM-STORE-STARE-SPARE-SPARK",
-      "expectedWords": [
-        "STORM",
-        "STORE",
-        "STARE",
-        "SPARE",
-        "SPARK"
-      ],
-      "acceptedAnswers": [
-        "STORM-STORE-STARE-SPARE-SPARK",
-        "STORE-STARE-SPARE",
-        "WEND:STORM-STORE-STARE-SPARE-SPARK"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (5 letters): change position 4 of 'STORM' to align with the clue: \"Retail mercantile establishment or storage repository\".",
-        "HINT 02 // The pivot transition requires bridging through 'STARE'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WND-0379",
     "title": "WEND // WORD LADDER #0379 (COLD → WARM)",
     "category": "LOGIC",
@@ -24106,69 +12199,6 @@ export const wendChallenges = [
       "hints": [
         "HINT 01 // Focus on Step 2 (4 letters): change position 3 of 'COLD' to align with the clue: \"A flexible insulated cable or binding twine\".",
         "HINT 02 // The pivot transition requires bridging through 'CARD'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WND-0380",
-    "title": "WEND // WORD LADDER #0380 (DARK → FIRE)",
-    "category": "LOGIC",
-    "description": "Morph 'DARK' into 'FIRE' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "HIGH",
-    "risk": "AGGRESSIVE",
-    "cost": 300,
-    "reward": 750,
-    "penalty": 200,
-    "timeLimit": 95,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-20 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0380",
-      "wordLength": 4,
-      "startWord": "DARK",
-      "targetWord": "FIRE",
-      "steps": [
-        {
-          "clue": "Starting state: Absence of illumination",
-          "lockedWord": "DARK"
-        },
-        {
-          "clue": "A small pointed projectile or rapid dash"
-        },
-        {
-          "clue": "Loose soil, earth, or particulate matter"
-        },
-        {
-          "clue": "Extremely urgent or calamitous circumstance"
-        },
-        {
-          "clue": "Target state: Combustion generating thermal heat",
-          "lockedWord": "FIRE"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "DARK-DART-DIRT-DIRE-FIRE",
-      "expectedWords": [
-        "DARK",
-        "DART",
-        "DIRT",
-        "DIRE",
-        "FIRE"
-      ],
-      "acceptedAnswers": [
-        "DARK-DART-DIRT-DIRE-FIRE",
-        "DART-DIRT-DIRE",
-        "WEND:DARK-DART-DIRT-DIRE-FIRE"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (4 letters): change position 3 of 'DARK' to align with the clue: \"A small pointed projectile or rapid dash\".",
-        "HINT 02 // The pivot transition requires bridging through 'DIRT'; check vowel shifts between adjacent steps."
       ]
     },
     "enabled": true,
@@ -24238,69 +12268,6 @@ export const wendChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WND-0382",
-    "title": "WEND // WORD LADDER #0382 (LEAD → GOLD)",
-    "category": "LOGIC",
-    "description": "Morph 'LEAD' into 'GOLD' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "HIGH",
-    "risk": "AGGRESSIVE",
-    "cost": 300,
-    "reward": 750,
-    "penalty": 200,
-    "timeLimit": 95,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-20 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0382",
-      "wordLength": 4,
-      "startWord": "LEAD",
-      "targetWord": "GOLD",
-      "steps": [
-        {
-          "clue": "Starting state: Dense heavy metallic element",
-          "lockedWord": "LEAD"
-        },
-        {
-          "clue": "A heavy burden or amount carried"
-        },
-        {
-          "clue": "An amphibious tailless creature"
-        },
-        {
-          "clue": "Communicated verbal instruction in the past"
-        },
-        {
-          "clue": "Target state: Precious lustrous yellow metal",
-          "lockedWord": "GOLD"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "LEAD-LOAD-TOAD-TOLD-GOLD",
-      "expectedWords": [
-        "LEAD",
-        "LOAD",
-        "TOAD",
-        "TOLD",
-        "GOLD"
-      ],
-      "acceptedAnswers": [
-        "LEAD-LOAD-TOAD-TOLD-GOLD",
-        "LOAD-TOAD-TOLD",
-        "WEND:LEAD-LOAD-TOAD-TOLD-GOLD"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (4 letters): change position 3 of 'LEAD' to align with the clue: \"A heavy burden or amount carried\".",
-        "HINT 02 // The pivot transition requires bridging through 'TOAD'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WND-0383",
     "title": "WEND // WORD LADDER #0383 (MORE → SAFE)",
     "category": "LOGIC",
@@ -24364,69 +12331,6 @@ export const wendChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WND-0384",
-    "title": "WEND // WORD LADDER #0384 (FAST → POST)",
-    "category": "LOGIC",
-    "description": "Morph 'FAST' into 'POST' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "HIGH",
-    "risk": "AGGRESSIVE",
-    "cost": 300,
-    "reward": 750,
-    "penalty": 200,
-    "timeLimit": 95,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-20 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0384",
-      "wordLength": 4,
-      "startWord": "FAST",
-      "targetWord": "POST",
-      "steps": [
-        {
-          "clue": "Starting state: Moving at high velocity",
-          "lockedWord": "FAST"
-        },
-        {
-          "clue": "Gone by in time and no longer existing"
-        },
-        {
-          "clue": "A component portion of a greater whole"
-        },
-        {
-          "clue": "A maritime harbor or network interface"
-        },
-        {
-          "clue": "Target state: Sturdy upright timber or bulletin",
-          "lockedWord": "POST"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "FAST-PAST-PART-PORT-POST",
-      "expectedWords": [
-        "FAST",
-        "PAST",
-        "PART",
-        "PORT",
-        "POST"
-      ],
-      "acceptedAnswers": [
-        "FAST-PAST-PART-PORT-POST",
-        "PAST-PART-PORT",
-        "WEND:FAST-PAST-PART-PORT-POST"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (4 letters): change position 3 of 'FAST' to align with the clue: \"Gone by in time and no longer existing\".",
-        "HINT 02 // The pivot transition requires bridging through 'PART'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WND-0385",
     "title": "WEND // WORD LADDER #0385 (CODE → BARK)",
     "category": "LOGIC",
@@ -24484,69 +12388,6 @@ export const wendChallenges = [
       "hints": [
         "HINT 01 // Focus on Step 2 (4 letters): change position 3 of 'CODE' to align with the clue: \"Central structural nexus of a planetary system\".",
         "HINT 02 // The pivot transition requires bridging through 'CARE'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WND-0386",
-    "title": "WEND // WORD LADDER #0386 (GATE → CALM)",
-    "category": "LOGIC",
-    "description": "Morph 'GATE' into 'CALM' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "HIGH",
-    "risk": "AGGRESSIVE",
-    "cost": 300,
-    "reward": 750,
-    "penalty": 200,
-    "timeLimit": 95,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-20 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0386",
-      "wordLength": 4,
-      "startWord": "GATE",
-      "targetWord": "CALM",
-      "steps": [
-        {
-          "clue": "Starting state: Hinged barrier across an opening",
-          "lockedWord": "GATE"
-        },
-        {
-          "clue": "Conferred or transferred possession in the past"
-        },
-        {
-          "clue": "A subterranean hollow or subterranean chamber"
-        },
-        {
-          "clue": "Arrived at a specified coordinate"
-        },
-        {
-          "clue": "Target state: Free from agitation or turbulent disturbance",
-          "lockedWord": "CALM"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "GATE-GAVE-CAVE-CAME-CALM",
-      "expectedWords": [
-        "GATE",
-        "GAVE",
-        "CAVE",
-        "CAME",
-        "CALM"
-      ],
-      "acceptedAnswers": [
-        "GATE-GAVE-CAVE-CAME-CALM",
-        "GAVE-CAVE-CAME",
-        "WEND:GATE-GAVE-CAVE-CAME-CALM"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (4 letters): change position 3 of 'GATE' to align with the clue: \"Conferred or transferred possession in the past\".",
-        "HINT 02 // The pivot transition requires bridging through 'CAVE'; check vowel shifts between adjacent steps."
       ]
     },
     "enabled": true,
@@ -24620,69 +12461,6 @@ export const wendChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WND-0388",
-    "title": "WEND // WORD LADDER #0388 (WIND → LOVE)",
-    "category": "LOGIC",
-    "description": "Morph 'WIND' into 'LOVE' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "HIGH",
-    "risk": "AGGRESSIVE",
-    "cost": 300,
-    "reward": 750,
-    "penalty": 200,
-    "timeLimit": 95,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-20 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0388",
-      "wordLength": 4,
-      "startWord": "WIND",
-      "targetWord": "LOVE",
-      "steps": [
-        {
-          "clue": "Starting state: Natural perceptible movement of air",
-          "lockedWord": "WIND"
-        },
-        {
-          "clue": "Fermented juice of grapes or fruit"
-        },
-        {
-          "clue": "Continuous spatial extent having only one dimension"
-        },
-        {
-          "clue": "Having no companions; solitary in wilderness"
-        },
-        {
-          "clue": "Target state: Deep affection and protective devotion",
-          "lockedWord": "LOVE"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "WIND-WINE-LINE-LONE-LOVE",
-      "expectedWords": [
-        "WIND",
-        "WINE",
-        "LINE",
-        "LONE",
-        "LOVE"
-      ],
-      "acceptedAnswers": [
-        "WIND-WINE-LINE-LONE-LOVE",
-        "WINE-LINE-LONE",
-        "WEND:WIND-WINE-LINE-LONE-LOVE"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (4 letters): change position 3 of 'WIND' to align with the clue: \"Fermented juice of grapes or fruit\".",
-        "HINT 02 // The pivot transition requires bridging through 'LINE'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WND-0389",
     "title": "WEND // WORD LADDER #0389 (STONE → CHALK)",
     "category": "LOGIC",
@@ -24744,69 +12522,6 @@ export const wendChallenges = [
       "hints": [
         "HINT 01 // Focus on Step 2 (5 letters): change position 4 of 'STONE' to align with the clue: \"Emitted radiant light in the past\".",
         "HINT 02 // The pivot transition requires bridging through 'CHINE'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WND-0390",
-    "title": "WEND // WORD LADDER #0390 (BLACK → CLING)",
-    "category": "LOGIC",
-    "description": "Morph 'BLACK' into 'CLING' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "HIGH",
-    "risk": "AGGRESSIVE",
-    "cost": 300,
-    "reward": 750,
-    "penalty": 200,
-    "timeLimit": 95,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-20 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0390",
-      "wordLength": 5,
-      "startWord": "BLACK",
-      "targetWord": "CLING",
-      "steps": [
-        {
-          "clue": "Starting state: Total absence of visible light",
-          "lockedWord": "BLACK"
-        },
-        {
-          "clue": "Empty of marks, writing, or expression"
-        },
-        {
-          "clue": "To open and close eyes rapidly"
-        },
-        {
-          "clue": "A sharp metallic resonant sound"
-        },
-        {
-          "clue": "Target state: To hold on tightly to an anchor",
-          "lockedWord": "CLING"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "BLACK-BLANK-BLINK-CLINK-CLING",
-      "expectedWords": [
-        "BLACK",
-        "BLANK",
-        "BLINK",
-        "CLINK",
-        "CLING"
-      ],
-      "acceptedAnswers": [
-        "BLACK-BLANK-BLINK-CLINK-CLING",
-        "BLANK-BLINK-CLINK",
-        "WEND:BLACK-BLANK-BLINK-CLINK-CLING"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (5 letters): change position 4 of 'BLACK' to align with the clue: \"Empty of marks, writing, or expression\".",
-        "HINT 02 // The pivot transition requires bridging through 'BLINK'; check vowel shifts between adjacent steps."
       ]
     },
     "enabled": true,
@@ -24876,69 +12591,6 @@ export const wendChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WND-0392",
-    "title": "WEND // WORD LADDER #0392 (RIVER → AFTER)",
-    "category": "LOGIC",
-    "description": "Morph 'RIVER' into 'AFTER' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "HIGH",
-    "risk": "AGGRESSIVE",
-    "cost": 300,
-    "reward": 750,
-    "penalty": 200,
-    "timeLimit": 95,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-20 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0392",
-      "wordLength": 5,
-      "startWord": "RIVER",
-      "targetWord": "AFTER",
-      "steps": [
-        {
-          "clue": "Starting state: Large natural stream of flowing water",
-          "lockedWord": "RIVER"
-        },
-        {
-          "clue": "One who travels mounted on horseback"
-        },
-        {
-          "clue": "One who provides relief or auxiliary support"
-        },
-        {
-          "clue": "To change or modify character without replacing"
-        },
-        {
-          "clue": "Target state: Subsequent in chronological sequence",
-          "lockedWord": "AFTER"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "RIVER-RIDER-AIDER-ALTER-AFTER",
-      "expectedWords": [
-        "RIVER",
-        "RIDER",
-        "AIDER",
-        "ALTER",
-        "AFTER"
-      ],
-      "acceptedAnswers": [
-        "RIVER-RIDER-AIDER-ALTER-AFTER",
-        "RIDER-AIDER-ALTER",
-        "WEND:RIVER-RIDER-AIDER-ALTER-AFTER"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (5 letters): change position 4 of 'RIVER' to align with the clue: \"One who travels mounted on horseback\".",
-        "HINT 02 // The pivot transition requires bridging through 'AIDER'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WND-0393",
     "title": "WEND // WORD LADDER #0393 (PLANT → STARE)",
     "category": "LOGIC",
@@ -24996,69 +12648,6 @@ export const wendChallenges = [
       "hints": [
         "HINT 01 // Focus on Step 2 (5 letters): change position 4 of 'PLANT' to align with the clue: \"Flat two-dimensional surface or winged aircraft\".",
         "HINT 02 // The pivot transition requires bridging through 'PLATE'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WND-0394",
-    "title": "WEND // WORD LADDER #0394 (SLEEP → STEEL)",
-    "category": "LOGIC",
-    "description": "Morph 'SLEEP' into 'STEEL' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "HIGH",
-    "risk": "AGGRESSIVE",
-    "cost": 300,
-    "reward": 750,
-    "penalty": 200,
-    "timeLimit": 95,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-20 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0394",
-      "wordLength": 5,
-      "startWord": "SLEEP",
-      "targetWord": "STEEL",
-      "steps": [
-        {
-          "clue": "Starting state: Naturally recurring condition of biological rest",
-          "lockedWord": "SLEEP"
-        },
-        {
-          "clue": "Ruminant quadruped domesticated for wool"
-        },
-        {
-          "clue": "Perpendicularly steep or absolute pure"
-        },
-        {
-          "clue": "To guide the direction of a vessel or vehicle"
-        },
-        {
-          "clue": "Target state: Alloy of iron with carbon of high tensile strength",
-          "lockedWord": "STEEL"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "SLEEP-SHEEP-SHEER-STEER-STEEL",
-      "expectedWords": [
-        "SLEEP",
-        "SHEEP",
-        "SHEER",
-        "STEER",
-        "STEEL"
-      ],
-      "acceptedAnswers": [
-        "SLEEP-SHEEP-SHEER-STEER-STEEL",
-        "SHEEP-SHEER-STEER",
-        "WEND:SLEEP-SHEEP-SHEER-STEER-STEEL"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (5 letters): change position 4 of 'SLEEP' to align with the clue: \"Ruminant quadruped domesticated for wool\".",
-        "HINT 02 // The pivot transition requires bridging through 'SHEER'; check vowel shifts between adjacent steps."
       ]
     },
     "enabled": true,
@@ -25131,69 +12720,6 @@ export const wendChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WND-0396",
-    "title": "WEND // WORD LADDER #0396 (STORM → SPARK)",
-    "category": "LOGIC",
-    "description": "Morph 'STORM' into 'SPARK' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "HIGH",
-    "risk": "AGGRESSIVE",
-    "cost": 300,
-    "reward": 750,
-    "penalty": 200,
-    "timeLimit": 95,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-20 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0396",
-      "wordLength": 5,
-      "startWord": "STORM",
-      "targetWord": "SPARK",
-      "steps": [
-        {
-          "clue": "Starting state: Violent disturbance of meteorological atmosphere",
-          "lockedWord": "STORM"
-        },
-        {
-          "clue": "Retail mercantile establishment or storage repository"
-        },
-        {
-          "clue": "To gaze fixedly with wide uninterrupted eyes"
-        },
-        {
-          "clue": "Additional component held in reserve backup"
-        },
-        {
-          "clue": "Target state: Incandescent particle thrown off from a burning body",
-          "lockedWord": "SPARK"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "STORM-STORE-STARE-SPARE-SPARK",
-      "expectedWords": [
-        "STORM",
-        "STORE",
-        "STARE",
-        "SPARE",
-        "SPARK"
-      ],
-      "acceptedAnswers": [
-        "STORM-STORE-STARE-SPARE-SPARK",
-        "STORE-STARE-SPARE",
-        "WEND:STORM-STORE-STARE-SPARE-SPARK"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (5 letters): change position 4 of 'STORM' to align with the clue: \"Retail mercantile establishment or storage repository\".",
-        "HINT 02 // The pivot transition requires bridging through 'STARE'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WND-0397",
     "title": "WEND // WORD LADDER #0397 (COLD → WARM)",
     "category": "LOGIC",
@@ -25251,69 +12777,6 @@ export const wendChallenges = [
       "hints": [
         "HINT 01 // Focus on Step 2 (4 letters): change position 3 of 'COLD' to align with the clue: \"A flexible insulated cable or binding twine\".",
         "HINT 02 // The pivot transition requires bridging through 'CARD'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WND-0398",
-    "title": "WEND // WORD LADDER #0398 (DARK → FIRE)",
-    "category": "LOGIC",
-    "description": "Morph 'DARK' into 'FIRE' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "HIGH",
-    "risk": "AGGRESSIVE",
-    "cost": 300,
-    "reward": 750,
-    "penalty": 200,
-    "timeLimit": 95,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-20 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0398",
-      "wordLength": 4,
-      "startWord": "DARK",
-      "targetWord": "FIRE",
-      "steps": [
-        {
-          "clue": "Starting state: Absence of illumination",
-          "lockedWord": "DARK"
-        },
-        {
-          "clue": "A small pointed projectile or rapid dash"
-        },
-        {
-          "clue": "Loose soil, earth, or particulate matter"
-        },
-        {
-          "clue": "Extremely urgent or calamitous circumstance"
-        },
-        {
-          "clue": "Target state: Combustion generating thermal heat",
-          "lockedWord": "FIRE"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "DARK-DART-DIRT-DIRE-FIRE",
-      "expectedWords": [
-        "DARK",
-        "DART",
-        "DIRT",
-        "DIRE",
-        "FIRE"
-      ],
-      "acceptedAnswers": [
-        "DARK-DART-DIRT-DIRE-FIRE",
-        "DART-DIRT-DIRE",
-        "WEND:DARK-DART-DIRT-DIRE-FIRE"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (4 letters): change position 3 of 'DARK' to align with the clue: \"A small pointed projectile or rapid dash\".",
-        "HINT 02 // The pivot transition requires bridging through 'DIRT'; check vowel shifts between adjacent steps."
       ]
     },
     "enabled": true,
@@ -25383,69 +12846,6 @@ export const wendChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WND-0400",
-    "title": "WEND // WORD LADDER #0400 (LEAD → GOLD)",
-    "category": "LOGIC",
-    "description": "Morph 'LEAD' into 'GOLD' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "HIGH",
-    "risk": "AGGRESSIVE",
-    "cost": 300,
-    "reward": 750,
-    "penalty": 200,
-    "timeLimit": 95,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-21 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0400",
-      "wordLength": 4,
-      "startWord": "LEAD",
-      "targetWord": "GOLD",
-      "steps": [
-        {
-          "clue": "Starting state: Dense heavy metallic element",
-          "lockedWord": "LEAD"
-        },
-        {
-          "clue": "A heavy burden or amount carried"
-        },
-        {
-          "clue": "An amphibious tailless creature"
-        },
-        {
-          "clue": "Communicated verbal instruction in the past"
-        },
-        {
-          "clue": "Target state: Precious lustrous yellow metal",
-          "lockedWord": "GOLD"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "LEAD-LOAD-TOAD-TOLD-GOLD",
-      "expectedWords": [
-        "LEAD",
-        "LOAD",
-        "TOAD",
-        "TOLD",
-        "GOLD"
-      ],
-      "acceptedAnswers": [
-        "LEAD-LOAD-TOAD-TOLD-GOLD",
-        "LOAD-TOAD-TOLD",
-        "WEND:LEAD-LOAD-TOAD-TOLD-GOLD"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (4 letters): change position 3 of 'LEAD' to align with the clue: \"A heavy burden or amount carried\".",
-        "HINT 02 // The pivot transition requires bridging through 'TOAD'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WND-0401",
     "title": "WEND // WORD LADDER #0401 (MORE → SAFE)",
     "category": "LOGIC",
@@ -25509,69 +12909,6 @@ export const wendChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WND-0402",
-    "title": "WEND // WORD LADDER #0402 (FAST → POST)",
-    "category": "LOGIC",
-    "description": "Morph 'FAST' into 'POST' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "HIGH",
-    "risk": "AGGRESSIVE",
-    "cost": 300,
-    "reward": 750,
-    "penalty": 200,
-    "timeLimit": 95,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-21 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0402",
-      "wordLength": 4,
-      "startWord": "FAST",
-      "targetWord": "POST",
-      "steps": [
-        {
-          "clue": "Starting state: Moving at high velocity",
-          "lockedWord": "FAST"
-        },
-        {
-          "clue": "Gone by in time and no longer existing"
-        },
-        {
-          "clue": "A component portion of a greater whole"
-        },
-        {
-          "clue": "A maritime harbor or network interface"
-        },
-        {
-          "clue": "Target state: Sturdy upright timber or bulletin",
-          "lockedWord": "POST"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "FAST-PAST-PART-PORT-POST",
-      "expectedWords": [
-        "FAST",
-        "PAST",
-        "PART",
-        "PORT",
-        "POST"
-      ],
-      "acceptedAnswers": [
-        "FAST-PAST-PART-PORT-POST",
-        "PAST-PART-PORT",
-        "WEND:FAST-PAST-PART-PORT-POST"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (4 letters): change position 3 of 'FAST' to align with the clue: \"Gone by in time and no longer existing\".",
-        "HINT 02 // The pivot transition requires bridging through 'PART'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WND-0403",
     "title": "WEND // WORD LADDER #0403 (CODE → BARK)",
     "category": "LOGIC",
@@ -25629,69 +12966,6 @@ export const wendChallenges = [
       "hints": [
         "HINT 01 // Focus on Step 2 (4 letters): change position 3 of 'CODE' to align with the clue: \"Central structural nexus of a planetary system\".",
         "HINT 02 // The pivot transition requires bridging through 'CARE'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WND-0404",
-    "title": "WEND // WORD LADDER #0404 (GATE → CALM)",
-    "category": "LOGIC",
-    "description": "Morph 'GATE' into 'CALM' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "HIGH",
-    "risk": "AGGRESSIVE",
-    "cost": 300,
-    "reward": 750,
-    "penalty": 200,
-    "timeLimit": 95,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-21 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0404",
-      "wordLength": 4,
-      "startWord": "GATE",
-      "targetWord": "CALM",
-      "steps": [
-        {
-          "clue": "Starting state: Hinged barrier across an opening",
-          "lockedWord": "GATE"
-        },
-        {
-          "clue": "Conferred or transferred possession in the past"
-        },
-        {
-          "clue": "A subterranean hollow or subterranean chamber"
-        },
-        {
-          "clue": "Arrived at a specified coordinate"
-        },
-        {
-          "clue": "Target state: Free from agitation or turbulent disturbance",
-          "lockedWord": "CALM"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "GATE-GAVE-CAVE-CAME-CALM",
-      "expectedWords": [
-        "GATE",
-        "GAVE",
-        "CAVE",
-        "CAME",
-        "CALM"
-      ],
-      "acceptedAnswers": [
-        "GATE-GAVE-CAVE-CAME-CALM",
-        "GAVE-CAVE-CAME",
-        "WEND:GATE-GAVE-CAVE-CAME-CALM"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (4 letters): change position 3 of 'GATE' to align with the clue: \"Conferred or transferred possession in the past\".",
-        "HINT 02 // The pivot transition requires bridging through 'CAVE'; check vowel shifts between adjacent steps."
       ]
     },
     "enabled": true,
@@ -25765,69 +13039,6 @@ export const wendChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WND-0406",
-    "title": "WEND // WORD LADDER #0406 (WIND → LOVE)",
-    "category": "LOGIC",
-    "description": "Morph 'WIND' into 'LOVE' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "HIGH",
-    "risk": "AGGRESSIVE",
-    "cost": 300,
-    "reward": 750,
-    "penalty": 200,
-    "timeLimit": 95,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-21 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0406",
-      "wordLength": 4,
-      "startWord": "WIND",
-      "targetWord": "LOVE",
-      "steps": [
-        {
-          "clue": "Starting state: Natural perceptible movement of air",
-          "lockedWord": "WIND"
-        },
-        {
-          "clue": "Fermented juice of grapes or fruit"
-        },
-        {
-          "clue": "Continuous spatial extent having only one dimension"
-        },
-        {
-          "clue": "Having no companions; solitary in wilderness"
-        },
-        {
-          "clue": "Target state: Deep affection and protective devotion",
-          "lockedWord": "LOVE"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "WIND-WINE-LINE-LONE-LOVE",
-      "expectedWords": [
-        "WIND",
-        "WINE",
-        "LINE",
-        "LONE",
-        "LOVE"
-      ],
-      "acceptedAnswers": [
-        "WIND-WINE-LINE-LONE-LOVE",
-        "WINE-LINE-LONE",
-        "WEND:WIND-WINE-LINE-LONE-LOVE"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (4 letters): change position 3 of 'WIND' to align with the clue: \"Fermented juice of grapes or fruit\".",
-        "HINT 02 // The pivot transition requires bridging through 'LINE'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WND-0407",
     "title": "WEND // WORD LADDER #0407 (STONE → CHALK)",
     "category": "LOGIC",
@@ -25889,69 +13100,6 @@ export const wendChallenges = [
       "hints": [
         "HINT 01 // Focus on Step 2 (5 letters): change position 4 of 'STONE' to align with the clue: \"Emitted radiant light in the past\".",
         "HINT 02 // The pivot transition requires bridging through 'CHINE'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WND-0408",
-    "title": "WEND // WORD LADDER #0408 (BLACK → CLING)",
-    "category": "LOGIC",
-    "description": "Morph 'BLACK' into 'CLING' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "HIGH",
-    "risk": "AGGRESSIVE",
-    "cost": 300,
-    "reward": 750,
-    "penalty": 200,
-    "timeLimit": 95,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-21 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0408",
-      "wordLength": 5,
-      "startWord": "BLACK",
-      "targetWord": "CLING",
-      "steps": [
-        {
-          "clue": "Starting state: Total absence of visible light",
-          "lockedWord": "BLACK"
-        },
-        {
-          "clue": "Empty of marks, writing, or expression"
-        },
-        {
-          "clue": "To open and close eyes rapidly"
-        },
-        {
-          "clue": "A sharp metallic resonant sound"
-        },
-        {
-          "clue": "Target state: To hold on tightly to an anchor",
-          "lockedWord": "CLING"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "BLACK-BLANK-BLINK-CLINK-CLING",
-      "expectedWords": [
-        "BLACK",
-        "BLANK",
-        "BLINK",
-        "CLINK",
-        "CLING"
-      ],
-      "acceptedAnswers": [
-        "BLACK-BLANK-BLINK-CLINK-CLING",
-        "BLANK-BLINK-CLINK",
-        "WEND:BLACK-BLANK-BLINK-CLINK-CLING"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (5 letters): change position 4 of 'BLACK' to align with the clue: \"Empty of marks, writing, or expression\".",
-        "HINT 02 // The pivot transition requires bridging through 'BLINK'; check vowel shifts between adjacent steps."
       ]
     },
     "enabled": true,
@@ -26021,69 +13169,6 @@ export const wendChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WND-0410",
-    "title": "WEND // WORD LADDER #0410 (RIVER → AFTER)",
-    "category": "LOGIC",
-    "description": "Morph 'RIVER' into 'AFTER' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "HIGH",
-    "risk": "AGGRESSIVE",
-    "cost": 300,
-    "reward": 750,
-    "penalty": 200,
-    "timeLimit": 95,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-21 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0410",
-      "wordLength": 5,
-      "startWord": "RIVER",
-      "targetWord": "AFTER",
-      "steps": [
-        {
-          "clue": "Starting state: Large natural stream of flowing water",
-          "lockedWord": "RIVER"
-        },
-        {
-          "clue": "One who travels mounted on horseback"
-        },
-        {
-          "clue": "One who provides relief or auxiliary support"
-        },
-        {
-          "clue": "To change or modify character without replacing"
-        },
-        {
-          "clue": "Target state: Subsequent in chronological sequence",
-          "lockedWord": "AFTER"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "RIVER-RIDER-AIDER-ALTER-AFTER",
-      "expectedWords": [
-        "RIVER",
-        "RIDER",
-        "AIDER",
-        "ALTER",
-        "AFTER"
-      ],
-      "acceptedAnswers": [
-        "RIVER-RIDER-AIDER-ALTER-AFTER",
-        "RIDER-AIDER-ALTER",
-        "WEND:RIVER-RIDER-AIDER-ALTER-AFTER"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (5 letters): change position 4 of 'RIVER' to align with the clue: \"One who travels mounted on horseback\".",
-        "HINT 02 // The pivot transition requires bridging through 'AIDER'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WND-0411",
     "title": "WEND // WORD LADDER #0411 (PLANT → STARE)",
     "category": "LOGIC",
@@ -26141,69 +13226,6 @@ export const wendChallenges = [
       "hints": [
         "HINT 01 // Focus on Step 2 (5 letters): change position 4 of 'PLANT' to align with the clue: \"Flat two-dimensional surface or winged aircraft\".",
         "HINT 02 // The pivot transition requires bridging through 'PLATE'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WND-0412",
-    "title": "WEND // WORD LADDER #0412 (SLEEP → STEEL)",
-    "category": "LOGIC",
-    "description": "Morph 'SLEEP' into 'STEEL' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "HIGH",
-    "risk": "AGGRESSIVE",
-    "cost": 300,
-    "reward": 750,
-    "penalty": 200,
-    "timeLimit": 95,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-21 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0412",
-      "wordLength": 5,
-      "startWord": "SLEEP",
-      "targetWord": "STEEL",
-      "steps": [
-        {
-          "clue": "Starting state: Naturally recurring condition of biological rest",
-          "lockedWord": "SLEEP"
-        },
-        {
-          "clue": "Ruminant quadruped domesticated for wool"
-        },
-        {
-          "clue": "Perpendicularly steep or absolute pure"
-        },
-        {
-          "clue": "To guide the direction of a vessel or vehicle"
-        },
-        {
-          "clue": "Target state: Alloy of iron with carbon of high tensile strength",
-          "lockedWord": "STEEL"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "SLEEP-SHEEP-SHEER-STEER-STEEL",
-      "expectedWords": [
-        "SLEEP",
-        "SHEEP",
-        "SHEER",
-        "STEER",
-        "STEEL"
-      ],
-      "acceptedAnswers": [
-        "SLEEP-SHEEP-SHEER-STEER-STEEL",
-        "SHEEP-SHEER-STEER",
-        "WEND:SLEEP-SHEEP-SHEER-STEER-STEEL"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (5 letters): change position 4 of 'SLEEP' to align with the clue: \"Ruminant quadruped domesticated for wool\".",
-        "HINT 02 // The pivot transition requires bridging through 'SHEER'; check vowel shifts between adjacent steps."
       ]
     },
     "enabled": true,
@@ -26276,69 +13298,6 @@ export const wendChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WND-0414",
-    "title": "WEND // WORD LADDER #0414 (STORM → SPARK)",
-    "category": "LOGIC",
-    "description": "Morph 'STORM' into 'SPARK' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "HIGH",
-    "risk": "AGGRESSIVE",
-    "cost": 300,
-    "reward": 750,
-    "penalty": 200,
-    "timeLimit": 95,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-21 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0414",
-      "wordLength": 5,
-      "startWord": "STORM",
-      "targetWord": "SPARK",
-      "steps": [
-        {
-          "clue": "Starting state: Violent disturbance of meteorological atmosphere",
-          "lockedWord": "STORM"
-        },
-        {
-          "clue": "Retail mercantile establishment or storage repository"
-        },
-        {
-          "clue": "To gaze fixedly with wide uninterrupted eyes"
-        },
-        {
-          "clue": "Additional component held in reserve backup"
-        },
-        {
-          "clue": "Target state: Incandescent particle thrown off from a burning body",
-          "lockedWord": "SPARK"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "STORM-STORE-STARE-SPARE-SPARK",
-      "expectedWords": [
-        "STORM",
-        "STORE",
-        "STARE",
-        "SPARE",
-        "SPARK"
-      ],
-      "acceptedAnswers": [
-        "STORM-STORE-STARE-SPARE-SPARK",
-        "STORE-STARE-SPARE",
-        "WEND:STORM-STORE-STARE-SPARE-SPARK"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (5 letters): change position 4 of 'STORM' to align with the clue: \"Retail mercantile establishment or storage repository\".",
-        "HINT 02 // The pivot transition requires bridging through 'STARE'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WND-0415",
     "title": "WEND // WORD LADDER #0415 (COLD → WARM)",
     "category": "LOGIC",
@@ -26396,69 +13355,6 @@ export const wendChallenges = [
       "hints": [
         "HINT 01 // Focus on Step 2 (4 letters): change position 3 of 'COLD' to align with the clue: \"A flexible insulated cable or binding twine\".",
         "HINT 02 // The pivot transition requires bridging through 'CARD'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WND-0416",
-    "title": "WEND // WORD LADDER #0416 (DARK → FIRE)",
-    "category": "LOGIC",
-    "description": "Morph 'DARK' into 'FIRE' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "HIGH",
-    "risk": "AGGRESSIVE",
-    "cost": 300,
-    "reward": 750,
-    "penalty": 200,
-    "timeLimit": 95,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-21 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0416",
-      "wordLength": 4,
-      "startWord": "DARK",
-      "targetWord": "FIRE",
-      "steps": [
-        {
-          "clue": "Starting state: Absence of illumination",
-          "lockedWord": "DARK"
-        },
-        {
-          "clue": "A small pointed projectile or rapid dash"
-        },
-        {
-          "clue": "Loose soil, earth, or particulate matter"
-        },
-        {
-          "clue": "Extremely urgent or calamitous circumstance"
-        },
-        {
-          "clue": "Target state: Combustion generating thermal heat",
-          "lockedWord": "FIRE"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "DARK-DART-DIRT-DIRE-FIRE",
-      "expectedWords": [
-        "DARK",
-        "DART",
-        "DIRT",
-        "DIRE",
-        "FIRE"
-      ],
-      "acceptedAnswers": [
-        "DARK-DART-DIRT-DIRE-FIRE",
-        "DART-DIRT-DIRE",
-        "WEND:DARK-DART-DIRT-DIRE-FIRE"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (4 letters): change position 3 of 'DARK' to align with the clue: \"A small pointed projectile or rapid dash\".",
-        "HINT 02 // The pivot transition requires bridging through 'DIRT'; check vowel shifts between adjacent steps."
       ]
     },
     "enabled": true,
@@ -26528,69 +13424,6 @@ export const wendChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WND-0418",
-    "title": "WEND // WORD LADDER #0418 (LEAD → GOLD)",
-    "category": "LOGIC",
-    "description": "Morph 'LEAD' into 'GOLD' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "HIGH",
-    "risk": "AGGRESSIVE",
-    "cost": 300,
-    "reward": 750,
-    "penalty": 200,
-    "timeLimit": 95,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-21 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0418",
-      "wordLength": 4,
-      "startWord": "LEAD",
-      "targetWord": "GOLD",
-      "steps": [
-        {
-          "clue": "Starting state: Dense heavy metallic element",
-          "lockedWord": "LEAD"
-        },
-        {
-          "clue": "A heavy burden or amount carried"
-        },
-        {
-          "clue": "An amphibious tailless creature"
-        },
-        {
-          "clue": "Communicated verbal instruction in the past"
-        },
-        {
-          "clue": "Target state: Precious lustrous yellow metal",
-          "lockedWord": "GOLD"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "LEAD-LOAD-TOAD-TOLD-GOLD",
-      "expectedWords": [
-        "LEAD",
-        "LOAD",
-        "TOAD",
-        "TOLD",
-        "GOLD"
-      ],
-      "acceptedAnswers": [
-        "LEAD-LOAD-TOAD-TOLD-GOLD",
-        "LOAD-TOAD-TOLD",
-        "WEND:LEAD-LOAD-TOAD-TOLD-GOLD"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (4 letters): change position 3 of 'LEAD' to align with the clue: \"A heavy burden or amount carried\".",
-        "HINT 02 // The pivot transition requires bridging through 'TOAD'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WND-0419",
     "title": "WEND // WORD LADDER #0419 (MORE → SAFE)",
     "category": "LOGIC",
@@ -26654,69 +13487,6 @@ export const wendChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WND-0420",
-    "title": "WEND // WORD LADDER #0420 (FAST → POST)",
-    "category": "LOGIC",
-    "description": "Morph 'FAST' into 'POST' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "HIGH",
-    "risk": "AGGRESSIVE",
-    "cost": 300,
-    "reward": 750,
-    "penalty": 200,
-    "timeLimit": 95,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-22 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0420",
-      "wordLength": 4,
-      "startWord": "FAST",
-      "targetWord": "POST",
-      "steps": [
-        {
-          "clue": "Starting state: Moving at high velocity",
-          "lockedWord": "FAST"
-        },
-        {
-          "clue": "Gone by in time and no longer existing"
-        },
-        {
-          "clue": "A component portion of a greater whole"
-        },
-        {
-          "clue": "A maritime harbor or network interface"
-        },
-        {
-          "clue": "Target state: Sturdy upright timber or bulletin",
-          "lockedWord": "POST"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "FAST-PAST-PART-PORT-POST",
-      "expectedWords": [
-        "FAST",
-        "PAST",
-        "PART",
-        "PORT",
-        "POST"
-      ],
-      "acceptedAnswers": [
-        "FAST-PAST-PART-PORT-POST",
-        "PAST-PART-PORT",
-        "WEND:FAST-PAST-PART-PORT-POST"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (4 letters): change position 3 of 'FAST' to align with the clue: \"Gone by in time and no longer existing\".",
-        "HINT 02 // The pivot transition requires bridging through 'PART'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WND-0421",
     "title": "WEND // WORD LADDER #0421 (CODE → BARK)",
     "category": "LOGIC",
@@ -26774,69 +13544,6 @@ export const wendChallenges = [
       "hints": [
         "HINT 01 // Focus on Step 2 (4 letters): change position 3 of 'CODE' to align with the clue: \"Central structural nexus of a planetary system\".",
         "HINT 02 // The pivot transition requires bridging through 'CARE'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WND-0422",
-    "title": "WEND // WORD LADDER #0422 (GATE → CALM)",
-    "category": "LOGIC",
-    "description": "Morph 'GATE' into 'CALM' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "HIGH",
-    "risk": "AGGRESSIVE",
-    "cost": 300,
-    "reward": 750,
-    "penalty": 200,
-    "timeLimit": 95,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-22 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0422",
-      "wordLength": 4,
-      "startWord": "GATE",
-      "targetWord": "CALM",
-      "steps": [
-        {
-          "clue": "Starting state: Hinged barrier across an opening",
-          "lockedWord": "GATE"
-        },
-        {
-          "clue": "Conferred or transferred possession in the past"
-        },
-        {
-          "clue": "A subterranean hollow or subterranean chamber"
-        },
-        {
-          "clue": "Arrived at a specified coordinate"
-        },
-        {
-          "clue": "Target state: Free from agitation or turbulent disturbance",
-          "lockedWord": "CALM"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "GATE-GAVE-CAVE-CAME-CALM",
-      "expectedWords": [
-        "GATE",
-        "GAVE",
-        "CAVE",
-        "CAME",
-        "CALM"
-      ],
-      "acceptedAnswers": [
-        "GATE-GAVE-CAVE-CAME-CALM",
-        "GAVE-CAVE-CAME",
-        "WEND:GATE-GAVE-CAVE-CAME-CALM"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (4 letters): change position 3 of 'GATE' to align with the clue: \"Conferred or transferred possession in the past\".",
-        "HINT 02 // The pivot transition requires bridging through 'CAVE'; check vowel shifts between adjacent steps."
       ]
     },
     "enabled": true,
@@ -26910,69 +13617,6 @@ export const wendChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WND-0424",
-    "title": "WEND // WORD LADDER #0424 (WIND → LOVE)",
-    "category": "LOGIC",
-    "description": "Morph 'WIND' into 'LOVE' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "HIGH",
-    "risk": "AGGRESSIVE",
-    "cost": 300,
-    "reward": 750,
-    "penalty": 200,
-    "timeLimit": 95,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-22 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0424",
-      "wordLength": 4,
-      "startWord": "WIND",
-      "targetWord": "LOVE",
-      "steps": [
-        {
-          "clue": "Starting state: Natural perceptible movement of air",
-          "lockedWord": "WIND"
-        },
-        {
-          "clue": "Fermented juice of grapes or fruit"
-        },
-        {
-          "clue": "Continuous spatial extent having only one dimension"
-        },
-        {
-          "clue": "Having no companions; solitary in wilderness"
-        },
-        {
-          "clue": "Target state: Deep affection and protective devotion",
-          "lockedWord": "LOVE"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "WIND-WINE-LINE-LONE-LOVE",
-      "expectedWords": [
-        "WIND",
-        "WINE",
-        "LINE",
-        "LONE",
-        "LOVE"
-      ],
-      "acceptedAnswers": [
-        "WIND-WINE-LINE-LONE-LOVE",
-        "WINE-LINE-LONE",
-        "WEND:WIND-WINE-LINE-LONE-LOVE"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (4 letters): change position 4 of 'WIND' to align with the clue: \"Fermented juice of grapes or fruit\".",
-        "HINT 02 // The pivot transition requires bridging through 'LINE'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WND-0425",
     "title": "WEND // WORD LADDER #0425 (STONE → CHALK)",
     "category": "LOGIC",
@@ -27034,69 +13678,6 @@ export const wendChallenges = [
       "hints": [
         "HINT 01 // Focus on Step 2 (5 letters): change position 4 of 'STONE' to align with the clue: \"Emitted radiant light in the past\".",
         "HINT 02 // The pivot transition requires bridging through 'CHINE'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WND-0426",
-    "title": "WEND // WORD LADDER #0426 (BLACK → CLING)",
-    "category": "LOGIC",
-    "description": "Morph 'BLACK' into 'CLING' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "HIGH",
-    "risk": "AGGRESSIVE",
-    "cost": 300,
-    "reward": 750,
-    "penalty": 200,
-    "timeLimit": 95,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-22 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0426",
-      "wordLength": 5,
-      "startWord": "BLACK",
-      "targetWord": "CLING",
-      "steps": [
-        {
-          "clue": "Starting state: Total absence of visible light",
-          "lockedWord": "BLACK"
-        },
-        {
-          "clue": "Empty of marks, writing, or expression"
-        },
-        {
-          "clue": "To open and close eyes rapidly"
-        },
-        {
-          "clue": "A sharp metallic resonant sound"
-        },
-        {
-          "clue": "Target state: To hold on tightly to an anchor",
-          "lockedWord": "CLING"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "BLACK-BLANK-BLINK-CLINK-CLING",
-      "expectedWords": [
-        "BLACK",
-        "BLANK",
-        "BLINK",
-        "CLINK",
-        "CLING"
-      ],
-      "acceptedAnswers": [
-        "BLACK-BLANK-BLINK-CLINK-CLING",
-        "BLANK-BLINK-CLINK",
-        "WEND:BLACK-BLANK-BLINK-CLINK-CLING"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (5 letters): change position 4 of 'BLACK' to align with the clue: \"Empty of marks, writing, or expression\".",
-        "HINT 02 // The pivot transition requires bridging through 'BLINK'; check vowel shifts between adjacent steps."
       ]
     },
     "enabled": true,
@@ -27166,69 +13747,6 @@ export const wendChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WND-0428",
-    "title": "WEND // WORD LADDER #0428 (RIVER → AFTER)",
-    "category": "LOGIC",
-    "description": "Morph 'RIVER' into 'AFTER' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "HIGH",
-    "risk": "AGGRESSIVE",
-    "cost": 300,
-    "reward": 750,
-    "penalty": 200,
-    "timeLimit": 95,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-22 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0428",
-      "wordLength": 5,
-      "startWord": "RIVER",
-      "targetWord": "AFTER",
-      "steps": [
-        {
-          "clue": "Starting state: Large natural stream of flowing water",
-          "lockedWord": "RIVER"
-        },
-        {
-          "clue": "One who travels mounted on horseback"
-        },
-        {
-          "clue": "One who provides relief or auxiliary support"
-        },
-        {
-          "clue": "To change or modify character without replacing"
-        },
-        {
-          "clue": "Target state: Subsequent in chronological sequence",
-          "lockedWord": "AFTER"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "RIVER-RIDER-AIDER-ALTER-AFTER",
-      "expectedWords": [
-        "RIVER",
-        "RIDER",
-        "AIDER",
-        "ALTER",
-        "AFTER"
-      ],
-      "acceptedAnswers": [
-        "RIVER-RIDER-AIDER-ALTER-AFTER",
-        "RIDER-AIDER-ALTER",
-        "WEND:RIVER-RIDER-AIDER-ALTER-AFTER"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (5 letters): change position 4 of 'RIVER' to align with the clue: \"One who travels mounted on horseback\".",
-        "HINT 02 // The pivot transition requires bridging through 'AIDER'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WND-0429",
     "title": "WEND // WORD LADDER #0429 (PLANT → STARE)",
     "category": "LOGIC",
@@ -27286,69 +13804,6 @@ export const wendChallenges = [
       "hints": [
         "HINT 01 // Focus on Step 2 (5 letters): change position 4 of 'PLANT' to align with the clue: \"Flat two-dimensional surface or winged aircraft\".",
         "HINT 02 // The pivot transition requires bridging through 'PLATE'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WND-0430",
-    "title": "WEND // WORD LADDER #0430 (SLEEP → STEEL)",
-    "category": "LOGIC",
-    "description": "Morph 'SLEEP' into 'STEEL' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "HIGH",
-    "risk": "AGGRESSIVE",
-    "cost": 300,
-    "reward": 750,
-    "penalty": 200,
-    "timeLimit": 95,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-22 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0430",
-      "wordLength": 5,
-      "startWord": "SLEEP",
-      "targetWord": "STEEL",
-      "steps": [
-        {
-          "clue": "Starting state: Naturally recurring condition of biological rest",
-          "lockedWord": "SLEEP"
-        },
-        {
-          "clue": "Ruminant quadruped domesticated for wool"
-        },
-        {
-          "clue": "Perpendicularly steep or absolute pure"
-        },
-        {
-          "clue": "To guide the direction of a vessel or vehicle"
-        },
-        {
-          "clue": "Target state: Alloy of iron with carbon of high tensile strength",
-          "lockedWord": "STEEL"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "SLEEP-SHEEP-SHEER-STEER-STEEL",
-      "expectedWords": [
-        "SLEEP",
-        "SHEEP",
-        "SHEER",
-        "STEER",
-        "STEEL"
-      ],
-      "acceptedAnswers": [
-        "SLEEP-SHEEP-SHEER-STEER-STEEL",
-        "SHEEP-SHEER-STEER",
-        "WEND:SLEEP-SHEEP-SHEER-STEER-STEEL"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (5 letters): change position 4 of 'SLEEP' to align with the clue: \"Ruminant quadruped domesticated for wool\".",
-        "HINT 02 // The pivot transition requires bridging through 'SHEER'; check vowel shifts between adjacent steps."
       ]
     },
     "enabled": true,
@@ -27421,69 +13876,6 @@ export const wendChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WND-0432",
-    "title": "WEND // WORD LADDER #0432 (STORM → SPARK)",
-    "category": "LOGIC",
-    "description": "Morph 'STORM' into 'SPARK' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "HIGH",
-    "risk": "AGGRESSIVE",
-    "cost": 300,
-    "reward": 750,
-    "penalty": 200,
-    "timeLimit": 95,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-22 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0432",
-      "wordLength": 5,
-      "startWord": "STORM",
-      "targetWord": "SPARK",
-      "steps": [
-        {
-          "clue": "Starting state: Violent disturbance of meteorological atmosphere",
-          "lockedWord": "STORM"
-        },
-        {
-          "clue": "Retail mercantile establishment or storage repository"
-        },
-        {
-          "clue": "To gaze fixedly with wide uninterrupted eyes"
-        },
-        {
-          "clue": "Additional component held in reserve backup"
-        },
-        {
-          "clue": "Target state: Incandescent particle thrown off from a burning body",
-          "lockedWord": "SPARK"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "STORM-STORE-STARE-SPARE-SPARK",
-      "expectedWords": [
-        "STORM",
-        "STORE",
-        "STARE",
-        "SPARE",
-        "SPARK"
-      ],
-      "acceptedAnswers": [
-        "STORM-STORE-STARE-SPARE-SPARK",
-        "STORE-STARE-SPARE",
-        "WEND:STORM-STORE-STARE-SPARE-SPARK"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (5 letters): change position 4 of 'STORM' to align with the clue: \"Retail mercantile establishment or storage repository\".",
-        "HINT 02 // The pivot transition requires bridging through 'STARE'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WND-0433",
     "title": "WEND // WORD LADDER #0433 (COLD → WARM)",
     "category": "LOGIC",
@@ -27541,69 +13933,6 @@ export const wendChallenges = [
       "hints": [
         "HINT 01 // Focus on Step 2 (4 letters): change position 4 of 'COLD' to align with the clue: \"A flexible insulated cable or binding twine\".",
         "HINT 02 // The pivot transition requires bridging through 'CARD'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WND-0434",
-    "title": "WEND // WORD LADDER #0434 (DARK → FIRE)",
-    "category": "LOGIC",
-    "description": "Morph 'DARK' into 'FIRE' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "HIGH",
-    "risk": "AGGRESSIVE",
-    "cost": 300,
-    "reward": 750,
-    "penalty": 200,
-    "timeLimit": 95,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-22 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0434",
-      "wordLength": 4,
-      "startWord": "DARK",
-      "targetWord": "FIRE",
-      "steps": [
-        {
-          "clue": "Starting state: Absence of illumination",
-          "lockedWord": "DARK"
-        },
-        {
-          "clue": "A small pointed projectile or rapid dash"
-        },
-        {
-          "clue": "Loose soil, earth, or particulate matter"
-        },
-        {
-          "clue": "Extremely urgent or calamitous circumstance"
-        },
-        {
-          "clue": "Target state: Combustion generating thermal heat",
-          "lockedWord": "FIRE"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "DARK-DART-DIRT-DIRE-FIRE",
-      "expectedWords": [
-        "DARK",
-        "DART",
-        "DIRT",
-        "DIRE",
-        "FIRE"
-      ],
-      "acceptedAnswers": [
-        "DARK-DART-DIRT-DIRE-FIRE",
-        "DART-DIRT-DIRE",
-        "WEND:DARK-DART-DIRT-DIRE-FIRE"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (4 letters): change position 4 of 'DARK' to align with the clue: \"A small pointed projectile or rapid dash\".",
-        "HINT 02 // The pivot transition requires bridging through 'DIRT'; check vowel shifts between adjacent steps."
       ]
     },
     "enabled": true,
@@ -27673,69 +14002,6 @@ export const wendChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WND-0436",
-    "title": "WEND // WORD LADDER #0436 (LEAD → GOLD)",
-    "category": "LOGIC",
-    "description": "Morph 'LEAD' into 'GOLD' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "HIGH",
-    "risk": "AGGRESSIVE",
-    "cost": 300,
-    "reward": 750,
-    "penalty": 200,
-    "timeLimit": 95,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-22 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0436",
-      "wordLength": 4,
-      "startWord": "LEAD",
-      "targetWord": "GOLD",
-      "steps": [
-        {
-          "clue": "Starting state: Dense heavy metallic element",
-          "lockedWord": "LEAD"
-        },
-        {
-          "clue": "A heavy burden or amount carried"
-        },
-        {
-          "clue": "An amphibious tailless creature"
-        },
-        {
-          "clue": "Communicated verbal instruction in the past"
-        },
-        {
-          "clue": "Target state: Precious lustrous yellow metal",
-          "lockedWord": "GOLD"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "LEAD-LOAD-TOAD-TOLD-GOLD",
-      "expectedWords": [
-        "LEAD",
-        "LOAD",
-        "TOAD",
-        "TOLD",
-        "GOLD"
-      ],
-      "acceptedAnswers": [
-        "LEAD-LOAD-TOAD-TOLD-GOLD",
-        "LOAD-TOAD-TOLD",
-        "WEND:LEAD-LOAD-TOAD-TOLD-GOLD"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (4 letters): change position 4 of 'LEAD' to align with the clue: \"A heavy burden or amount carried\".",
-        "HINT 02 // The pivot transition requires bridging through 'TOAD'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WND-0437",
     "title": "WEND // WORD LADDER #0437 (MORE → SAFE)",
     "category": "LOGIC",
@@ -27799,69 +14065,6 @@ export const wendChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WND-0438",
-    "title": "WEND // WORD LADDER #0438 (FAST → POST)",
-    "category": "LOGIC",
-    "description": "Morph 'FAST' into 'POST' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "HIGH",
-    "risk": "AGGRESSIVE",
-    "cost": 300,
-    "reward": 750,
-    "penalty": 200,
-    "timeLimit": 95,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-22 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0438",
-      "wordLength": 4,
-      "startWord": "FAST",
-      "targetWord": "POST",
-      "steps": [
-        {
-          "clue": "Starting state: Moving at high velocity",
-          "lockedWord": "FAST"
-        },
-        {
-          "clue": "Gone by in time and no longer existing"
-        },
-        {
-          "clue": "A component portion of a greater whole"
-        },
-        {
-          "clue": "A maritime harbor or network interface"
-        },
-        {
-          "clue": "Target state: Sturdy upright timber or bulletin",
-          "lockedWord": "POST"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "FAST-PAST-PART-PORT-POST",
-      "expectedWords": [
-        "FAST",
-        "PAST",
-        "PART",
-        "PORT",
-        "POST"
-      ],
-      "acceptedAnswers": [
-        "FAST-PAST-PART-PORT-POST",
-        "PAST-PART-PORT",
-        "WEND:FAST-PAST-PART-PORT-POST"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (4 letters): change position 4 of 'FAST' to align with the clue: \"Gone by in time and no longer existing\".",
-        "HINT 02 // The pivot transition requires bridging through 'PART'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WND-0439",
     "title": "WEND // WORD LADDER #0439 (CODE → BARK)",
     "category": "LOGIC",
@@ -27919,69 +14122,6 @@ export const wendChallenges = [
       "hints": [
         "HINT 01 // Focus on Step 2 (4 letters): change position 4 of 'CODE' to align with the clue: \"Central structural nexus of a planetary system\".",
         "HINT 02 // The pivot transition requires bridging through 'CARE'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WND-0440",
-    "title": "WEND // WORD LADDER #0440 (GATE → CALM)",
-    "category": "LOGIC",
-    "description": "Morph 'GATE' into 'CALM' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "HIGH",
-    "risk": "AGGRESSIVE",
-    "cost": 300,
-    "reward": 750,
-    "penalty": 200,
-    "timeLimit": 95,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-23 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0440",
-      "wordLength": 4,
-      "startWord": "GATE",
-      "targetWord": "CALM",
-      "steps": [
-        {
-          "clue": "Starting state: Hinged barrier across an opening",
-          "lockedWord": "GATE"
-        },
-        {
-          "clue": "Conferred or transferred possession in the past"
-        },
-        {
-          "clue": "A subterranean hollow or subterranean chamber"
-        },
-        {
-          "clue": "Arrived at a specified coordinate"
-        },
-        {
-          "clue": "Target state: Free from agitation or turbulent disturbance",
-          "lockedWord": "CALM"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "GATE-GAVE-CAVE-CAME-CALM",
-      "expectedWords": [
-        "GATE",
-        "GAVE",
-        "CAVE",
-        "CAME",
-        "CALM"
-      ],
-      "acceptedAnswers": [
-        "GATE-GAVE-CAVE-CAME-CALM",
-        "GAVE-CAVE-CAME",
-        "WEND:GATE-GAVE-CAVE-CAME-CALM"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (4 letters): change position 4 of 'GATE' to align with the clue: \"Conferred or transferred possession in the past\".",
-        "HINT 02 // The pivot transition requires bridging through 'CAVE'; check vowel shifts between adjacent steps."
       ]
     },
     "enabled": true,
@@ -28055,69 +14195,6 @@ export const wendChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WND-0442",
-    "title": "WEND // WORD LADDER #0442 (WIND → LOVE)",
-    "category": "LOGIC",
-    "description": "Morph 'WIND' into 'LOVE' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "HIGH",
-    "risk": "AGGRESSIVE",
-    "cost": 300,
-    "reward": 750,
-    "penalty": 200,
-    "timeLimit": 95,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-23 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0442",
-      "wordLength": 4,
-      "startWord": "WIND",
-      "targetWord": "LOVE",
-      "steps": [
-        {
-          "clue": "Starting state: Natural perceptible movement of air",
-          "lockedWord": "WIND"
-        },
-        {
-          "clue": "Fermented juice of grapes or fruit"
-        },
-        {
-          "clue": "Continuous spatial extent having only one dimension"
-        },
-        {
-          "clue": "Having no companions; solitary in wilderness"
-        },
-        {
-          "clue": "Target state: Deep affection and protective devotion",
-          "lockedWord": "LOVE"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "WIND-WINE-LINE-LONE-LOVE",
-      "expectedWords": [
-        "WIND",
-        "WINE",
-        "LINE",
-        "LONE",
-        "LOVE"
-      ],
-      "acceptedAnswers": [
-        "WIND-WINE-LINE-LONE-LOVE",
-        "WINE-LINE-LONE",
-        "WEND:WIND-WINE-LINE-LONE-LOVE"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (4 letters): change position 4 of 'WIND' to align with the clue: \"Fermented juice of grapes or fruit\".",
-        "HINT 02 // The pivot transition requires bridging through 'LINE'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WND-0443",
     "title": "WEND // WORD LADDER #0443 (STONE → CHALK)",
     "category": "LOGIC",
@@ -28179,69 +14256,6 @@ export const wendChallenges = [
       "hints": [
         "HINT 01 // Focus on Step 2 (5 letters): change position 4 of 'STONE' to align with the clue: \"Emitted radiant light in the past\".",
         "HINT 02 // The pivot transition requires bridging through 'CHINE'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WND-0444",
-    "title": "WEND // WORD LADDER #0444 (BLACK → CLING)",
-    "category": "LOGIC",
-    "description": "Morph 'BLACK' into 'CLING' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "HIGH",
-    "risk": "AGGRESSIVE",
-    "cost": 300,
-    "reward": 750,
-    "penalty": 200,
-    "timeLimit": 95,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-23 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0444",
-      "wordLength": 5,
-      "startWord": "BLACK",
-      "targetWord": "CLING",
-      "steps": [
-        {
-          "clue": "Starting state: Total absence of visible light",
-          "lockedWord": "BLACK"
-        },
-        {
-          "clue": "Empty of marks, writing, or expression"
-        },
-        {
-          "clue": "To open and close eyes rapidly"
-        },
-        {
-          "clue": "A sharp metallic resonant sound"
-        },
-        {
-          "clue": "Target state: To hold on tightly to an anchor",
-          "lockedWord": "CLING"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "BLACK-BLANK-BLINK-CLINK-CLING",
-      "expectedWords": [
-        "BLACK",
-        "BLANK",
-        "BLINK",
-        "CLINK",
-        "CLING"
-      ],
-      "acceptedAnswers": [
-        "BLACK-BLANK-BLINK-CLINK-CLING",
-        "BLANK-BLINK-CLINK",
-        "WEND:BLACK-BLANK-BLINK-CLINK-CLING"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (5 letters): change position 4 of 'BLACK' to align with the clue: \"Empty of marks, writing, or expression\".",
-        "HINT 02 // The pivot transition requires bridging through 'BLINK'; check vowel shifts between adjacent steps."
       ]
     },
     "enabled": true,
@@ -28311,69 +14325,6 @@ export const wendChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WND-0446",
-    "title": "WEND // WORD LADDER #0446 (RIVER → AFTER)",
-    "category": "LOGIC",
-    "description": "Morph 'RIVER' into 'AFTER' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "HIGH",
-    "risk": "AGGRESSIVE",
-    "cost": 300,
-    "reward": 750,
-    "penalty": 200,
-    "timeLimit": 95,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-23 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0446",
-      "wordLength": 5,
-      "startWord": "RIVER",
-      "targetWord": "AFTER",
-      "steps": [
-        {
-          "clue": "Starting state: Large natural stream of flowing water",
-          "lockedWord": "RIVER"
-        },
-        {
-          "clue": "One who travels mounted on horseback"
-        },
-        {
-          "clue": "One who provides relief or auxiliary support"
-        },
-        {
-          "clue": "To change or modify character without replacing"
-        },
-        {
-          "clue": "Target state: Subsequent in chronological sequence",
-          "lockedWord": "AFTER"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "RIVER-RIDER-AIDER-ALTER-AFTER",
-      "expectedWords": [
-        "RIVER",
-        "RIDER",
-        "AIDER",
-        "ALTER",
-        "AFTER"
-      ],
-      "acceptedAnswers": [
-        "RIVER-RIDER-AIDER-ALTER-AFTER",
-        "RIDER-AIDER-ALTER",
-        "WEND:RIVER-RIDER-AIDER-ALTER-AFTER"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (5 letters): change position 4 of 'RIVER' to align with the clue: \"One who travels mounted on horseback\".",
-        "HINT 02 // The pivot transition requires bridging through 'AIDER'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WND-0447",
     "title": "WEND // WORD LADDER #0447 (PLANT → STARE)",
     "category": "LOGIC",
@@ -28431,69 +14382,6 @@ export const wendChallenges = [
       "hints": [
         "HINT 01 // Focus on Step 2 (5 letters): change position 4 of 'PLANT' to align with the clue: \"Flat two-dimensional surface or winged aircraft\".",
         "HINT 02 // The pivot transition requires bridging through 'PLATE'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WND-0448",
-    "title": "WEND // WORD LADDER #0448 (SLEEP → STEEL)",
-    "category": "LOGIC",
-    "description": "Morph 'SLEEP' into 'STEEL' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "HIGH",
-    "risk": "AGGRESSIVE",
-    "cost": 300,
-    "reward": 750,
-    "penalty": 200,
-    "timeLimit": 95,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-23 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0448",
-      "wordLength": 5,
-      "startWord": "SLEEP",
-      "targetWord": "STEEL",
-      "steps": [
-        {
-          "clue": "Starting state: Naturally recurring condition of biological rest",
-          "lockedWord": "SLEEP"
-        },
-        {
-          "clue": "Ruminant quadruped domesticated for wool"
-        },
-        {
-          "clue": "Perpendicularly steep or absolute pure"
-        },
-        {
-          "clue": "To guide the direction of a vessel or vehicle"
-        },
-        {
-          "clue": "Target state: Alloy of iron with carbon of high tensile strength",
-          "lockedWord": "STEEL"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "SLEEP-SHEEP-SHEER-STEER-STEEL",
-      "expectedWords": [
-        "SLEEP",
-        "SHEEP",
-        "SHEER",
-        "STEER",
-        "STEEL"
-      ],
-      "acceptedAnswers": [
-        "SLEEP-SHEEP-SHEER-STEER-STEEL",
-        "SHEEP-SHEER-STEER",
-        "WEND:SLEEP-SHEEP-SHEER-STEER-STEEL"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (5 letters): change position 4 of 'SLEEP' to align with the clue: \"Ruminant quadruped domesticated for wool\".",
-        "HINT 02 // The pivot transition requires bridging through 'SHEER'; check vowel shifts between adjacent steps."
       ]
     },
     "enabled": true,
@@ -28566,69 +14454,6 @@ export const wendChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WND-0450",
-    "title": "WEND // WORD LADDER #0450 (STORM → SPARK)",
-    "category": "LOGIC",
-    "description": "Morph 'STORM' into 'SPARK' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "HIGH",
-    "risk": "AGGRESSIVE",
-    "cost": 300,
-    "reward": 750,
-    "penalty": 200,
-    "timeLimit": 95,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-23 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0450",
-      "wordLength": 5,
-      "startWord": "STORM",
-      "targetWord": "SPARK",
-      "steps": [
-        {
-          "clue": "Starting state: Violent disturbance of meteorological atmosphere",
-          "lockedWord": "STORM"
-        },
-        {
-          "clue": "Retail mercantile establishment or storage repository"
-        },
-        {
-          "clue": "To gaze fixedly with wide uninterrupted eyes"
-        },
-        {
-          "clue": "Additional component held in reserve backup"
-        },
-        {
-          "clue": "Target state: Incandescent particle thrown off from a burning body",
-          "lockedWord": "SPARK"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "STORM-STORE-STARE-SPARE-SPARK",
-      "expectedWords": [
-        "STORM",
-        "STORE",
-        "STARE",
-        "SPARE",
-        "SPARK"
-      ],
-      "acceptedAnswers": [
-        "STORM-STORE-STARE-SPARE-SPARK",
-        "STORE-STARE-SPARE",
-        "WEND:STORM-STORE-STARE-SPARE-SPARK"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (5 letters): change position 4 of 'STORM' to align with the clue: \"Retail mercantile establishment or storage repository\".",
-        "HINT 02 // The pivot transition requires bridging through 'STARE'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WND-0451",
     "title": "WEND // WORD LADDER #0451 (COLD → WARM)",
     "category": "LOGIC",
@@ -28686,69 +14511,6 @@ export const wendChallenges = [
       "hints": [
         "HINT 01 // Focus on Step 2 (4 letters): change position 4 of 'COLD' to align with the clue: \"A flexible insulated cable or binding twine\".",
         "HINT 02 // The pivot transition requires bridging through 'CARD'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WND-0452",
-    "title": "WEND // WORD LADDER #0452 (DARK → FIRE)",
-    "category": "LOGIC",
-    "description": "Morph 'DARK' into 'FIRE' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "HIGH",
-    "risk": "AGGRESSIVE",
-    "cost": 300,
-    "reward": 750,
-    "penalty": 200,
-    "timeLimit": 95,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-23 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0452",
-      "wordLength": 4,
-      "startWord": "DARK",
-      "targetWord": "FIRE",
-      "steps": [
-        {
-          "clue": "Starting state: Absence of illumination",
-          "lockedWord": "DARK"
-        },
-        {
-          "clue": "A small pointed projectile or rapid dash"
-        },
-        {
-          "clue": "Loose soil, earth, or particulate matter"
-        },
-        {
-          "clue": "Extremely urgent or calamitous circumstance"
-        },
-        {
-          "clue": "Target state: Combustion generating thermal heat",
-          "lockedWord": "FIRE"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "DARK-DART-DIRT-DIRE-FIRE",
-      "expectedWords": [
-        "DARK",
-        "DART",
-        "DIRT",
-        "DIRE",
-        "FIRE"
-      ],
-      "acceptedAnswers": [
-        "DARK-DART-DIRT-DIRE-FIRE",
-        "DART-DIRT-DIRE",
-        "WEND:DARK-DART-DIRT-DIRE-FIRE"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (4 letters): change position 4 of 'DARK' to align with the clue: \"A small pointed projectile or rapid dash\".",
-        "HINT 02 // The pivot transition requires bridging through 'DIRT'; check vowel shifts between adjacent steps."
       ]
     },
     "enabled": true,
@@ -28818,69 +14580,6 @@ export const wendChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WND-0454",
-    "title": "WEND // WORD LADDER #0454 (LEAD → GOLD)",
-    "category": "LOGIC",
-    "description": "Morph 'LEAD' into 'GOLD' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "HIGH",
-    "risk": "AGGRESSIVE",
-    "cost": 300,
-    "reward": 750,
-    "penalty": 200,
-    "timeLimit": 95,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-23 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0454",
-      "wordLength": 4,
-      "startWord": "LEAD",
-      "targetWord": "GOLD",
-      "steps": [
-        {
-          "clue": "Starting state: Dense heavy metallic element",
-          "lockedWord": "LEAD"
-        },
-        {
-          "clue": "A heavy burden or amount carried"
-        },
-        {
-          "clue": "An amphibious tailless creature"
-        },
-        {
-          "clue": "Communicated verbal instruction in the past"
-        },
-        {
-          "clue": "Target state: Precious lustrous yellow metal",
-          "lockedWord": "GOLD"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "LEAD-LOAD-TOAD-TOLD-GOLD",
-      "expectedWords": [
-        "LEAD",
-        "LOAD",
-        "TOAD",
-        "TOLD",
-        "GOLD"
-      ],
-      "acceptedAnswers": [
-        "LEAD-LOAD-TOAD-TOLD-GOLD",
-        "LOAD-TOAD-TOLD",
-        "WEND:LEAD-LOAD-TOAD-TOLD-GOLD"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (4 letters): change position 4 of 'LEAD' to align with the clue: \"A heavy burden or amount carried\".",
-        "HINT 02 // The pivot transition requires bridging through 'TOAD'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WND-0455",
     "title": "WEND // WORD LADDER #0455 (MORE → SAFE)",
     "category": "LOGIC",
@@ -28944,69 +14643,6 @@ export const wendChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WND-0456",
-    "title": "WEND // WORD LADDER #0456 (FAST → POST)",
-    "category": "LOGIC",
-    "description": "Morph 'FAST' into 'POST' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "HIGH",
-    "risk": "AGGRESSIVE",
-    "cost": 300,
-    "reward": 750,
-    "penalty": 200,
-    "timeLimit": 95,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-23 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0456",
-      "wordLength": 4,
-      "startWord": "FAST",
-      "targetWord": "POST",
-      "steps": [
-        {
-          "clue": "Starting state: Moving at high velocity",
-          "lockedWord": "FAST"
-        },
-        {
-          "clue": "Gone by in time and no longer existing"
-        },
-        {
-          "clue": "A component portion of a greater whole"
-        },
-        {
-          "clue": "A maritime harbor or network interface"
-        },
-        {
-          "clue": "Target state: Sturdy upright timber or bulletin",
-          "lockedWord": "POST"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "FAST-PAST-PART-PORT-POST",
-      "expectedWords": [
-        "FAST",
-        "PAST",
-        "PART",
-        "PORT",
-        "POST"
-      ],
-      "acceptedAnswers": [
-        "FAST-PAST-PART-PORT-POST",
-        "PAST-PART-PORT",
-        "WEND:FAST-PAST-PART-PORT-POST"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (4 letters): change position 4 of 'FAST' to align with the clue: \"Gone by in time and no longer existing\".",
-        "HINT 02 // The pivot transition requires bridging through 'PART'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WND-0457",
     "title": "WEND // WORD LADDER #0457 (CODE → BARK)",
     "category": "LOGIC",
@@ -29064,69 +14700,6 @@ export const wendChallenges = [
       "hints": [
         "HINT 01 // Focus on Step 2 (4 letters): change position 4 of 'CODE' to align with the clue: \"Central structural nexus of a planetary system\".",
         "HINT 02 // The pivot transition requires bridging through 'CARE'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WND-0458",
-    "title": "WEND // WORD LADDER #0458 (GATE → CALM)",
-    "category": "LOGIC",
-    "description": "Morph 'GATE' into 'CALM' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "HIGH",
-    "risk": "AGGRESSIVE",
-    "cost": 300,
-    "reward": 750,
-    "penalty": 200,
-    "timeLimit": 95,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-23 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0458",
-      "wordLength": 4,
-      "startWord": "GATE",
-      "targetWord": "CALM",
-      "steps": [
-        {
-          "clue": "Starting state: Hinged barrier across an opening",
-          "lockedWord": "GATE"
-        },
-        {
-          "clue": "Conferred or transferred possession in the past"
-        },
-        {
-          "clue": "A subterranean hollow or subterranean chamber"
-        },
-        {
-          "clue": "Arrived at a specified coordinate"
-        },
-        {
-          "clue": "Target state: Free from agitation or turbulent disturbance",
-          "lockedWord": "CALM"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "GATE-GAVE-CAVE-CAME-CALM",
-      "expectedWords": [
-        "GATE",
-        "GAVE",
-        "CAVE",
-        "CAME",
-        "CALM"
-      ],
-      "acceptedAnswers": [
-        "GATE-GAVE-CAVE-CAME-CALM",
-        "GAVE-CAVE-CAME",
-        "WEND:GATE-GAVE-CAVE-CAME-CALM"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (4 letters): change position 4 of 'GATE' to align with the clue: \"Conferred or transferred possession in the past\".",
-        "HINT 02 // The pivot transition requires bridging through 'CAVE'; check vowel shifts between adjacent steps."
       ]
     },
     "enabled": true,
@@ -29200,69 +14773,6 @@ export const wendChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WND-0460",
-    "title": "WEND // WORD LADDER #0460 (WIND → LOVE)",
-    "category": "LOGIC",
-    "description": "Morph 'WIND' into 'LOVE' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "HIGH",
-    "risk": "AGGRESSIVE",
-    "cost": 300,
-    "reward": 750,
-    "penalty": 200,
-    "timeLimit": 95,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-24 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0460",
-      "wordLength": 4,
-      "startWord": "WIND",
-      "targetWord": "LOVE",
-      "steps": [
-        {
-          "clue": "Starting state: Natural perceptible movement of air",
-          "lockedWord": "WIND"
-        },
-        {
-          "clue": "Fermented juice of grapes or fruit"
-        },
-        {
-          "clue": "Continuous spatial extent having only one dimension"
-        },
-        {
-          "clue": "Having no companions; solitary in wilderness"
-        },
-        {
-          "clue": "Target state: Deep affection and protective devotion",
-          "lockedWord": "LOVE"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "WIND-WINE-LINE-LONE-LOVE",
-      "expectedWords": [
-        "WIND",
-        "WINE",
-        "LINE",
-        "LONE",
-        "LOVE"
-      ],
-      "acceptedAnswers": [
-        "WIND-WINE-LINE-LONE-LOVE",
-        "WINE-LINE-LONE",
-        "WEND:WIND-WINE-LINE-LONE-LOVE"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (4 letters): change position 4 of 'WIND' to align with the clue: \"Fermented juice of grapes or fruit\".",
-        "HINT 02 // The pivot transition requires bridging through 'LINE'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WND-0461",
     "title": "WEND // WORD LADDER #0461 (STONE → CHALK)",
     "category": "LOGIC",
@@ -29324,69 +14834,6 @@ export const wendChallenges = [
       "hints": [
         "HINT 01 // Focus on Step 2 (5 letters): change position 4 of 'STONE' to align with the clue: \"Emitted radiant light in the past\".",
         "HINT 02 // The pivot transition requires bridging through 'CHINE'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WND-0462",
-    "title": "WEND // WORD LADDER #0462 (BLACK → CLING)",
-    "category": "LOGIC",
-    "description": "Morph 'BLACK' into 'CLING' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "HIGH",
-    "risk": "AGGRESSIVE",
-    "cost": 300,
-    "reward": 750,
-    "penalty": 200,
-    "timeLimit": 95,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-24 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0462",
-      "wordLength": 5,
-      "startWord": "BLACK",
-      "targetWord": "CLING",
-      "steps": [
-        {
-          "clue": "Starting state: Total absence of visible light",
-          "lockedWord": "BLACK"
-        },
-        {
-          "clue": "Empty of marks, writing, or expression"
-        },
-        {
-          "clue": "To open and close eyes rapidly"
-        },
-        {
-          "clue": "A sharp metallic resonant sound"
-        },
-        {
-          "clue": "Target state: To hold on tightly to an anchor",
-          "lockedWord": "CLING"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "BLACK-BLANK-BLINK-CLINK-CLING",
-      "expectedWords": [
-        "BLACK",
-        "BLANK",
-        "BLINK",
-        "CLINK",
-        "CLING"
-      ],
-      "acceptedAnswers": [
-        "BLACK-BLANK-BLINK-CLINK-CLING",
-        "BLANK-BLINK-CLINK",
-        "WEND:BLACK-BLANK-BLINK-CLINK-CLING"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (5 letters): change position 4 of 'BLACK' to align with the clue: \"Empty of marks, writing, or expression\".",
-        "HINT 02 // The pivot transition requires bridging through 'BLINK'; check vowel shifts between adjacent steps."
       ]
     },
     "enabled": true,
@@ -29456,69 +14903,6 @@ export const wendChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WND-0464",
-    "title": "WEND // WORD LADDER #0464 (RIVER → AFTER)",
-    "category": "LOGIC",
-    "description": "Morph 'RIVER' into 'AFTER' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "HIGH",
-    "risk": "AGGRESSIVE",
-    "cost": 300,
-    "reward": 750,
-    "penalty": 200,
-    "timeLimit": 95,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-24 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0464",
-      "wordLength": 5,
-      "startWord": "RIVER",
-      "targetWord": "AFTER",
-      "steps": [
-        {
-          "clue": "Starting state: Large natural stream of flowing water",
-          "lockedWord": "RIVER"
-        },
-        {
-          "clue": "One who travels mounted on horseback"
-        },
-        {
-          "clue": "One who provides relief or auxiliary support"
-        },
-        {
-          "clue": "To change or modify character without replacing"
-        },
-        {
-          "clue": "Target state: Subsequent in chronological sequence",
-          "lockedWord": "AFTER"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "RIVER-RIDER-AIDER-ALTER-AFTER",
-      "expectedWords": [
-        "RIVER",
-        "RIDER",
-        "AIDER",
-        "ALTER",
-        "AFTER"
-      ],
-      "acceptedAnswers": [
-        "RIVER-RIDER-AIDER-ALTER-AFTER",
-        "RIDER-AIDER-ALTER",
-        "WEND:RIVER-RIDER-AIDER-ALTER-AFTER"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (5 letters): change position 4 of 'RIVER' to align with the clue: \"One who travels mounted on horseback\".",
-        "HINT 02 // The pivot transition requires bridging through 'AIDER'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WND-0465",
     "title": "WEND // WORD LADDER #0465 (PLANT → STARE)",
     "category": "LOGIC",
@@ -29576,69 +14960,6 @@ export const wendChallenges = [
       "hints": [
         "HINT 01 // Focus on Step 2 (5 letters): change position 4 of 'PLANT' to align with the clue: \"Flat two-dimensional surface or winged aircraft\".",
         "HINT 02 // The pivot transition requires bridging through 'PLATE'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WND-0466",
-    "title": "WEND // WORD LADDER #0466 (SLEEP → STEEL)",
-    "category": "LOGIC",
-    "description": "Morph 'SLEEP' into 'STEEL' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "HIGH",
-    "risk": "AGGRESSIVE",
-    "cost": 300,
-    "reward": 750,
-    "penalty": 200,
-    "timeLimit": 95,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-24 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0466",
-      "wordLength": 5,
-      "startWord": "SLEEP",
-      "targetWord": "STEEL",
-      "steps": [
-        {
-          "clue": "Starting state: Naturally recurring condition of biological rest",
-          "lockedWord": "SLEEP"
-        },
-        {
-          "clue": "Ruminant quadruped domesticated for wool"
-        },
-        {
-          "clue": "Perpendicularly steep or absolute pure"
-        },
-        {
-          "clue": "To guide the direction of a vessel or vehicle"
-        },
-        {
-          "clue": "Target state: Alloy of iron with carbon of high tensile strength",
-          "lockedWord": "STEEL"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "SLEEP-SHEEP-SHEER-STEER-STEEL",
-      "expectedWords": [
-        "SLEEP",
-        "SHEEP",
-        "SHEER",
-        "STEER",
-        "STEEL"
-      ],
-      "acceptedAnswers": [
-        "SLEEP-SHEEP-SHEER-STEER-STEEL",
-        "SHEEP-SHEER-STEER",
-        "WEND:SLEEP-SHEEP-SHEER-STEER-STEEL"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (5 letters): change position 4 of 'SLEEP' to align with the clue: \"Ruminant quadruped domesticated for wool\".",
-        "HINT 02 // The pivot transition requires bridging through 'SHEER'; check vowel shifts between adjacent steps."
       ]
     },
     "enabled": true,
@@ -29711,69 +15032,6 @@ export const wendChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WND-0468",
-    "title": "WEND // WORD LADDER #0468 (STORM → SPARK)",
-    "category": "LOGIC",
-    "description": "Morph 'STORM' into 'SPARK' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "HIGH",
-    "risk": "AGGRESSIVE",
-    "cost": 300,
-    "reward": 750,
-    "penalty": 200,
-    "timeLimit": 95,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-24 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0468",
-      "wordLength": 5,
-      "startWord": "STORM",
-      "targetWord": "SPARK",
-      "steps": [
-        {
-          "clue": "Starting state: Violent disturbance of meteorological atmosphere",
-          "lockedWord": "STORM"
-        },
-        {
-          "clue": "Retail mercantile establishment or storage repository"
-        },
-        {
-          "clue": "To gaze fixedly with wide uninterrupted eyes"
-        },
-        {
-          "clue": "Additional component held in reserve backup"
-        },
-        {
-          "clue": "Target state: Incandescent particle thrown off from a burning body",
-          "lockedWord": "SPARK"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "STORM-STORE-STARE-SPARE-SPARK",
-      "expectedWords": [
-        "STORM",
-        "STORE",
-        "STARE",
-        "SPARE",
-        "SPARK"
-      ],
-      "acceptedAnswers": [
-        "STORM-STORE-STARE-SPARE-SPARK",
-        "STORE-STARE-SPARE",
-        "WEND:STORM-STORE-STARE-SPARE-SPARK"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (5 letters): change position 4 of 'STORM' to align with the clue: \"Retail mercantile establishment or storage repository\".",
-        "HINT 02 // The pivot transition requires bridging through 'STARE'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WND-0469",
     "title": "WEND // WORD LADDER #0469 (COLD → WARM)",
     "category": "LOGIC",
@@ -29831,69 +15089,6 @@ export const wendChallenges = [
       "hints": [
         "HINT 01 // Focus on Step 2 (4 letters): change position 4 of 'COLD' to align with the clue: \"A flexible insulated cable or binding twine\".",
         "HINT 02 // The pivot transition requires bridging through 'CARD'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WND-0470",
-    "title": "WEND // WORD LADDER #0470 (DARK → FIRE)",
-    "category": "LOGIC",
-    "description": "Morph 'DARK' into 'FIRE' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "HIGH",
-    "risk": "AGGRESSIVE",
-    "cost": 300,
-    "reward": 750,
-    "penalty": 200,
-    "timeLimit": 95,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-24 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0470",
-      "wordLength": 4,
-      "startWord": "DARK",
-      "targetWord": "FIRE",
-      "steps": [
-        {
-          "clue": "Starting state: Absence of illumination",
-          "lockedWord": "DARK"
-        },
-        {
-          "clue": "A small pointed projectile or rapid dash"
-        },
-        {
-          "clue": "Loose soil, earth, or particulate matter"
-        },
-        {
-          "clue": "Extremely urgent or calamitous circumstance"
-        },
-        {
-          "clue": "Target state: Combustion generating thermal heat",
-          "lockedWord": "FIRE"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "DARK-DART-DIRT-DIRE-FIRE",
-      "expectedWords": [
-        "DARK",
-        "DART",
-        "DIRT",
-        "DIRE",
-        "FIRE"
-      ],
-      "acceptedAnswers": [
-        "DARK-DART-DIRT-DIRE-FIRE",
-        "DART-DIRT-DIRE",
-        "WEND:DARK-DART-DIRT-DIRE-FIRE"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (4 letters): change position 4 of 'DARK' to align with the clue: \"A small pointed projectile or rapid dash\".",
-        "HINT 02 // The pivot transition requires bridging through 'DIRT'; check vowel shifts between adjacent steps."
       ]
     },
     "enabled": true,
@@ -29963,69 +15158,6 @@ export const wendChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WND-0472",
-    "title": "WEND // WORD LADDER #0472 (LEAD → GOLD)",
-    "category": "LOGIC",
-    "description": "Morph 'LEAD' into 'GOLD' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "HIGH",
-    "risk": "AGGRESSIVE",
-    "cost": 300,
-    "reward": 750,
-    "penalty": 200,
-    "timeLimit": 95,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-24 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0472",
-      "wordLength": 4,
-      "startWord": "LEAD",
-      "targetWord": "GOLD",
-      "steps": [
-        {
-          "clue": "Starting state: Dense heavy metallic element",
-          "lockedWord": "LEAD"
-        },
-        {
-          "clue": "A heavy burden or amount carried"
-        },
-        {
-          "clue": "An amphibious tailless creature"
-        },
-        {
-          "clue": "Communicated verbal instruction in the past"
-        },
-        {
-          "clue": "Target state: Precious lustrous yellow metal",
-          "lockedWord": "GOLD"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "LEAD-LOAD-TOAD-TOLD-GOLD",
-      "expectedWords": [
-        "LEAD",
-        "LOAD",
-        "TOAD",
-        "TOLD",
-        "GOLD"
-      ],
-      "acceptedAnswers": [
-        "LEAD-LOAD-TOAD-TOLD-GOLD",
-        "LOAD-TOAD-TOLD",
-        "WEND:LEAD-LOAD-TOAD-TOLD-GOLD"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (4 letters): change position 4 of 'LEAD' to align with the clue: \"A heavy burden or amount carried\".",
-        "HINT 02 // The pivot transition requires bridging through 'TOAD'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WND-0473",
     "title": "WEND // WORD LADDER #0473 (MORE → SAFE)",
     "category": "LOGIC",
@@ -30089,69 +15221,6 @@ export const wendChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WND-0474",
-    "title": "WEND // WORD LADDER #0474 (FAST → POST)",
-    "category": "LOGIC",
-    "description": "Morph 'FAST' into 'POST' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "HIGH",
-    "risk": "AGGRESSIVE",
-    "cost": 300,
-    "reward": 750,
-    "penalty": 200,
-    "timeLimit": 95,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-24 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0474",
-      "wordLength": 4,
-      "startWord": "FAST",
-      "targetWord": "POST",
-      "steps": [
-        {
-          "clue": "Starting state: Moving at high velocity",
-          "lockedWord": "FAST"
-        },
-        {
-          "clue": "Gone by in time and no longer existing"
-        },
-        {
-          "clue": "A component portion of a greater whole"
-        },
-        {
-          "clue": "A maritime harbor or network interface"
-        },
-        {
-          "clue": "Target state: Sturdy upright timber or bulletin",
-          "lockedWord": "POST"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "FAST-PAST-PART-PORT-POST",
-      "expectedWords": [
-        "FAST",
-        "PAST",
-        "PART",
-        "PORT",
-        "POST"
-      ],
-      "acceptedAnswers": [
-        "FAST-PAST-PART-PORT-POST",
-        "PAST-PART-PORT",
-        "WEND:FAST-PAST-PART-PORT-POST"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (4 letters): change position 4 of 'FAST' to align with the clue: \"Gone by in time and no longer existing\".",
-        "HINT 02 // The pivot transition requires bridging through 'PART'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WND-0475",
     "title": "WEND // WORD LADDER #0475 (CODE → BARK)",
     "category": "LOGIC",
@@ -30209,69 +15278,6 @@ export const wendChallenges = [
       "hints": [
         "HINT 01 // Focus on Step 2 (4 letters): change position 4 of 'CODE' to align with the clue: \"Central structural nexus of a planetary system\".",
         "HINT 02 // The pivot transition requires bridging through 'CARE'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WND-0476",
-    "title": "WEND // WORD LADDER #0476 (GATE → CALM)",
-    "category": "LOGIC",
-    "description": "Morph 'GATE' into 'CALM' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "HIGH",
-    "risk": "AGGRESSIVE",
-    "cost": 300,
-    "reward": 750,
-    "penalty": 200,
-    "timeLimit": 95,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-24 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0476",
-      "wordLength": 4,
-      "startWord": "GATE",
-      "targetWord": "CALM",
-      "steps": [
-        {
-          "clue": "Starting state: Hinged barrier across an opening",
-          "lockedWord": "GATE"
-        },
-        {
-          "clue": "Conferred or transferred possession in the past"
-        },
-        {
-          "clue": "A subterranean hollow or subterranean chamber"
-        },
-        {
-          "clue": "Arrived at a specified coordinate"
-        },
-        {
-          "clue": "Target state: Free from agitation or turbulent disturbance",
-          "lockedWord": "CALM"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "GATE-GAVE-CAVE-CAME-CALM",
-      "expectedWords": [
-        "GATE",
-        "GAVE",
-        "CAVE",
-        "CAME",
-        "CALM"
-      ],
-      "acceptedAnswers": [
-        "GATE-GAVE-CAVE-CAME-CALM",
-        "GAVE-CAVE-CAME",
-        "WEND:GATE-GAVE-CAVE-CAME-CALM"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (4 letters): change position 4 of 'GATE' to align with the clue: \"Conferred or transferred possession in the past\".",
-        "HINT 02 // The pivot transition requires bridging through 'CAVE'; check vowel shifts between adjacent steps."
       ]
     },
     "enabled": true,
@@ -30345,69 +15351,6 @@ export const wendChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WND-0478",
-    "title": "WEND // WORD LADDER #0478 (WIND → LOVE)",
-    "category": "LOGIC",
-    "description": "Morph 'WIND' into 'LOVE' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "HIGH",
-    "risk": "AGGRESSIVE",
-    "cost": 300,
-    "reward": 750,
-    "penalty": 200,
-    "timeLimit": 95,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-24 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0478",
-      "wordLength": 4,
-      "startWord": "WIND",
-      "targetWord": "LOVE",
-      "steps": [
-        {
-          "clue": "Starting state: Natural perceptible movement of air",
-          "lockedWord": "WIND"
-        },
-        {
-          "clue": "Fermented juice of grapes or fruit"
-        },
-        {
-          "clue": "Continuous spatial extent having only one dimension"
-        },
-        {
-          "clue": "Having no companions; solitary in wilderness"
-        },
-        {
-          "clue": "Target state: Deep affection and protective devotion",
-          "lockedWord": "LOVE"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "WIND-WINE-LINE-LONE-LOVE",
-      "expectedWords": [
-        "WIND",
-        "WINE",
-        "LINE",
-        "LONE",
-        "LOVE"
-      ],
-      "acceptedAnswers": [
-        "WIND-WINE-LINE-LONE-LOVE",
-        "WINE-LINE-LONE",
-        "WEND:WIND-WINE-LINE-LONE-LOVE"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (4 letters): change position 4 of 'WIND' to align with the clue: \"Fermented juice of grapes or fruit\".",
-        "HINT 02 // The pivot transition requires bridging through 'LINE'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WND-0479",
     "title": "WEND // WORD LADDER #0479 (STONE → CHALK)",
     "category": "LOGIC",
@@ -30469,69 +15412,6 @@ export const wendChallenges = [
       "hints": [
         "HINT 01 // Focus on Step 2 (5 letters): change position 4 of 'STONE' to align with the clue: \"Emitted radiant light in the past\".",
         "HINT 02 // The pivot transition requires bridging through 'CHINE'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WND-0480",
-    "title": "WEND // WORD LADDER #0480 (BLACK → CLING)",
-    "category": "LOGIC",
-    "description": "Morph 'BLACK' into 'CLING' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "HIGH",
-    "risk": "AGGRESSIVE",
-    "cost": 300,
-    "reward": 750,
-    "penalty": 200,
-    "timeLimit": 95,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-25 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0480",
-      "wordLength": 5,
-      "startWord": "BLACK",
-      "targetWord": "CLING",
-      "steps": [
-        {
-          "clue": "Starting state: Total absence of visible light",
-          "lockedWord": "BLACK"
-        },
-        {
-          "clue": "Empty of marks, writing, or expression"
-        },
-        {
-          "clue": "To open and close eyes rapidly"
-        },
-        {
-          "clue": "A sharp metallic resonant sound"
-        },
-        {
-          "clue": "Target state: To hold on tightly to an anchor",
-          "lockedWord": "CLING"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "BLACK-BLANK-BLINK-CLINK-CLING",
-      "expectedWords": [
-        "BLACK",
-        "BLANK",
-        "BLINK",
-        "CLINK",
-        "CLING"
-      ],
-      "acceptedAnswers": [
-        "BLACK-BLANK-BLINK-CLINK-CLING",
-        "BLANK-BLINK-CLINK",
-        "WEND:BLACK-BLANK-BLINK-CLINK-CLING"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (5 letters): change position 4 of 'BLACK' to align with the clue: \"Empty of marks, writing, or expression\".",
-        "HINT 02 // The pivot transition requires bridging through 'BLINK'; check vowel shifts between adjacent steps."
       ]
     },
     "enabled": true,
@@ -30601,69 +15481,6 @@ export const wendChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WND-0482",
-    "title": "WEND // WORD LADDER #0482 (RIVER → AFTER)",
-    "category": "LOGIC",
-    "description": "Morph 'RIVER' into 'AFTER' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "HIGH",
-    "risk": "AGGRESSIVE",
-    "cost": 300,
-    "reward": 750,
-    "penalty": 200,
-    "timeLimit": 95,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-25 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0482",
-      "wordLength": 5,
-      "startWord": "RIVER",
-      "targetWord": "AFTER",
-      "steps": [
-        {
-          "clue": "Starting state: Large natural stream of flowing water",
-          "lockedWord": "RIVER"
-        },
-        {
-          "clue": "One who travels mounted on horseback"
-        },
-        {
-          "clue": "One who provides relief or auxiliary support"
-        },
-        {
-          "clue": "To change or modify character without replacing"
-        },
-        {
-          "clue": "Target state: Subsequent in chronological sequence",
-          "lockedWord": "AFTER"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "RIVER-RIDER-AIDER-ALTER-AFTER",
-      "expectedWords": [
-        "RIVER",
-        "RIDER",
-        "AIDER",
-        "ALTER",
-        "AFTER"
-      ],
-      "acceptedAnswers": [
-        "RIVER-RIDER-AIDER-ALTER-AFTER",
-        "RIDER-AIDER-ALTER",
-        "WEND:RIVER-RIDER-AIDER-ALTER-AFTER"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (5 letters): change position 4 of 'RIVER' to align with the clue: \"One who travels mounted on horseback\".",
-        "HINT 02 // The pivot transition requires bridging through 'AIDER'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WND-0483",
     "title": "WEND // WORD LADDER #0483 (PLANT → STARE)",
     "category": "LOGIC",
@@ -30721,69 +15538,6 @@ export const wendChallenges = [
       "hints": [
         "HINT 01 // Focus on Step 2 (5 letters): change position 4 of 'PLANT' to align with the clue: \"Flat two-dimensional surface or winged aircraft\".",
         "HINT 02 // The pivot transition requires bridging through 'PLATE'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WND-0484",
-    "title": "WEND // WORD LADDER #0484 (SLEEP → STEEL)",
-    "category": "LOGIC",
-    "description": "Morph 'SLEEP' into 'STEEL' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "HIGH",
-    "risk": "AGGRESSIVE",
-    "cost": 300,
-    "reward": 750,
-    "penalty": 200,
-    "timeLimit": 95,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-25 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0484",
-      "wordLength": 5,
-      "startWord": "SLEEP",
-      "targetWord": "STEEL",
-      "steps": [
-        {
-          "clue": "Starting state: Naturally recurring condition of biological rest",
-          "lockedWord": "SLEEP"
-        },
-        {
-          "clue": "Ruminant quadruped domesticated for wool"
-        },
-        {
-          "clue": "Perpendicularly steep or absolute pure"
-        },
-        {
-          "clue": "To guide the direction of a vessel or vehicle"
-        },
-        {
-          "clue": "Target state: Alloy of iron with carbon of high tensile strength",
-          "lockedWord": "STEEL"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "SLEEP-SHEEP-SHEER-STEER-STEEL",
-      "expectedWords": [
-        "SLEEP",
-        "SHEEP",
-        "SHEER",
-        "STEER",
-        "STEEL"
-      ],
-      "acceptedAnswers": [
-        "SLEEP-SHEEP-SHEER-STEER-STEEL",
-        "SHEEP-SHEER-STEER",
-        "WEND:SLEEP-SHEEP-SHEER-STEER-STEEL"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (5 letters): change position 4 of 'SLEEP' to align with the clue: \"Ruminant quadruped domesticated for wool\".",
-        "HINT 02 // The pivot transition requires bridging through 'SHEER'; check vowel shifts between adjacent steps."
       ]
     },
     "enabled": true,
@@ -30856,69 +15610,6 @@ export const wendChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WND-0486",
-    "title": "WEND // WORD LADDER #0486 (STORM → SPARK)",
-    "category": "LOGIC",
-    "description": "Morph 'STORM' into 'SPARK' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "HIGH",
-    "risk": "AGGRESSIVE",
-    "cost": 300,
-    "reward": 750,
-    "penalty": 200,
-    "timeLimit": 95,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-25 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0486",
-      "wordLength": 5,
-      "startWord": "STORM",
-      "targetWord": "SPARK",
-      "steps": [
-        {
-          "clue": "Starting state: Violent disturbance of meteorological atmosphere",
-          "lockedWord": "STORM"
-        },
-        {
-          "clue": "Retail mercantile establishment or storage repository"
-        },
-        {
-          "clue": "To gaze fixedly with wide uninterrupted eyes"
-        },
-        {
-          "clue": "Additional component held in reserve backup"
-        },
-        {
-          "clue": "Target state: Incandescent particle thrown off from a burning body",
-          "lockedWord": "SPARK"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "STORM-STORE-STARE-SPARE-SPARK",
-      "expectedWords": [
-        "STORM",
-        "STORE",
-        "STARE",
-        "SPARE",
-        "SPARK"
-      ],
-      "acceptedAnswers": [
-        "STORM-STORE-STARE-SPARE-SPARK",
-        "STORE-STARE-SPARE",
-        "WEND:STORM-STORE-STARE-SPARE-SPARK"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (5 letters): change position 4 of 'STORM' to align with the clue: \"Retail mercantile establishment or storage repository\".",
-        "HINT 02 // The pivot transition requires bridging through 'STARE'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WND-0487",
     "title": "WEND // WORD LADDER #0487 (COLD → WARM)",
     "category": "LOGIC",
@@ -30976,69 +15667,6 @@ export const wendChallenges = [
       "hints": [
         "HINT 01 // Focus on Step 2 (4 letters): change position 4 of 'COLD' to align with the clue: \"A flexible insulated cable or binding twine\".",
         "HINT 02 // The pivot transition requires bridging through 'CARD'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WND-0488",
-    "title": "WEND // WORD LADDER #0488 (DARK → FIRE)",
-    "category": "LOGIC",
-    "description": "Morph 'DARK' into 'FIRE' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "HIGH",
-    "risk": "AGGRESSIVE",
-    "cost": 300,
-    "reward": 750,
-    "penalty": 200,
-    "timeLimit": 95,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-25 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0488",
-      "wordLength": 4,
-      "startWord": "DARK",
-      "targetWord": "FIRE",
-      "steps": [
-        {
-          "clue": "Starting state: Absence of illumination",
-          "lockedWord": "DARK"
-        },
-        {
-          "clue": "A small pointed projectile or rapid dash"
-        },
-        {
-          "clue": "Loose soil, earth, or particulate matter"
-        },
-        {
-          "clue": "Extremely urgent or calamitous circumstance"
-        },
-        {
-          "clue": "Target state: Combustion generating thermal heat",
-          "lockedWord": "FIRE"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "DARK-DART-DIRT-DIRE-FIRE",
-      "expectedWords": [
-        "DARK",
-        "DART",
-        "DIRT",
-        "DIRE",
-        "FIRE"
-      ],
-      "acceptedAnswers": [
-        "DARK-DART-DIRT-DIRE-FIRE",
-        "DART-DIRT-DIRE",
-        "WEND:DARK-DART-DIRT-DIRE-FIRE"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (4 letters): change position 4 of 'DARK' to align with the clue: \"A small pointed projectile or rapid dash\".",
-        "HINT 02 // The pivot transition requires bridging through 'DIRT'; check vowel shifts between adjacent steps."
       ]
     },
     "enabled": true,
@@ -31108,69 +15736,6 @@ export const wendChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WND-0490",
-    "title": "WEND // WORD LADDER #0490 (LEAD → GOLD)",
-    "category": "LOGIC",
-    "description": "Morph 'LEAD' into 'GOLD' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "HIGH",
-    "risk": "AGGRESSIVE",
-    "cost": 300,
-    "reward": 750,
-    "penalty": 200,
-    "timeLimit": 95,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-25 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0490",
-      "wordLength": 4,
-      "startWord": "LEAD",
-      "targetWord": "GOLD",
-      "steps": [
-        {
-          "clue": "Starting state: Dense heavy metallic element",
-          "lockedWord": "LEAD"
-        },
-        {
-          "clue": "A heavy burden or amount carried"
-        },
-        {
-          "clue": "An amphibious tailless creature"
-        },
-        {
-          "clue": "Communicated verbal instruction in the past"
-        },
-        {
-          "clue": "Target state: Precious lustrous yellow metal",
-          "lockedWord": "GOLD"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "LEAD-LOAD-TOAD-TOLD-GOLD",
-      "expectedWords": [
-        "LEAD",
-        "LOAD",
-        "TOAD",
-        "TOLD",
-        "GOLD"
-      ],
-      "acceptedAnswers": [
-        "LEAD-LOAD-TOAD-TOLD-GOLD",
-        "LOAD-TOAD-TOLD",
-        "WEND:LEAD-LOAD-TOAD-TOLD-GOLD"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (4 letters): change position 4 of 'LEAD' to align with the clue: \"A heavy burden or amount carried\".",
-        "HINT 02 // The pivot transition requires bridging through 'TOAD'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WND-0491",
     "title": "WEND // WORD LADDER #0491 (MORE → SAFE)",
     "category": "LOGIC",
@@ -31234,69 +15799,6 @@ export const wendChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WND-0492",
-    "title": "WEND // WORD LADDER #0492 (FAST → POST)",
-    "category": "LOGIC",
-    "description": "Morph 'FAST' into 'POST' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "HIGH",
-    "risk": "AGGRESSIVE",
-    "cost": 300,
-    "reward": 750,
-    "penalty": 200,
-    "timeLimit": 95,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-25 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0492",
-      "wordLength": 4,
-      "startWord": "FAST",
-      "targetWord": "POST",
-      "steps": [
-        {
-          "clue": "Starting state: Moving at high velocity",
-          "lockedWord": "FAST"
-        },
-        {
-          "clue": "Gone by in time and no longer existing"
-        },
-        {
-          "clue": "A component portion of a greater whole"
-        },
-        {
-          "clue": "A maritime harbor or network interface"
-        },
-        {
-          "clue": "Target state: Sturdy upright timber or bulletin",
-          "lockedWord": "POST"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "FAST-PAST-PART-PORT-POST",
-      "expectedWords": [
-        "FAST",
-        "PAST",
-        "PART",
-        "PORT",
-        "POST"
-      ],
-      "acceptedAnswers": [
-        "FAST-PAST-PART-PORT-POST",
-        "PAST-PART-PORT",
-        "WEND:FAST-PAST-PART-PORT-POST"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (4 letters): change position 4 of 'FAST' to align with the clue: \"Gone by in time and no longer existing\".",
-        "HINT 02 // The pivot transition requires bridging through 'PART'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WND-0493",
     "title": "WEND // WORD LADDER #0493 (CODE → BARK)",
     "category": "LOGIC",
@@ -31354,69 +15856,6 @@ export const wendChallenges = [
       "hints": [
         "HINT 01 // Focus on Step 2 (4 letters): change position 4 of 'CODE' to align with the clue: \"Central structural nexus of a planetary system\".",
         "HINT 02 // The pivot transition requires bridging through 'CARE'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WND-0494",
-    "title": "WEND // WORD LADDER #0494 (GATE → CALM)",
-    "category": "LOGIC",
-    "description": "Morph 'GATE' into 'CALM' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "HIGH",
-    "risk": "AGGRESSIVE",
-    "cost": 300,
-    "reward": 750,
-    "penalty": 200,
-    "timeLimit": 95,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-25 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0494",
-      "wordLength": 4,
-      "startWord": "GATE",
-      "targetWord": "CALM",
-      "steps": [
-        {
-          "clue": "Starting state: Hinged barrier across an opening",
-          "lockedWord": "GATE"
-        },
-        {
-          "clue": "Conferred or transferred possession in the past"
-        },
-        {
-          "clue": "A subterranean hollow or subterranean chamber"
-        },
-        {
-          "clue": "Arrived at a specified coordinate"
-        },
-        {
-          "clue": "Target state: Free from agitation or turbulent disturbance",
-          "lockedWord": "CALM"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "GATE-GAVE-CAVE-CAME-CALM",
-      "expectedWords": [
-        "GATE",
-        "GAVE",
-        "CAVE",
-        "CAME",
-        "CALM"
-      ],
-      "acceptedAnswers": [
-        "GATE-GAVE-CAVE-CAME-CALM",
-        "GAVE-CAVE-CAME",
-        "WEND:GATE-GAVE-CAVE-CAME-CALM"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (4 letters): change position 4 of 'GATE' to align with the clue: \"Conferred or transferred possession in the past\".",
-        "HINT 02 // The pivot transition requires bridging through 'CAVE'; check vowel shifts between adjacent steps."
       ]
     },
     "enabled": true,
@@ -31490,69 +15929,6 @@ export const wendChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WND-0496",
-    "title": "WEND // WORD LADDER #0496 (WIND → LOVE)",
-    "category": "LOGIC",
-    "description": "Morph 'WIND' into 'LOVE' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "HIGH",
-    "risk": "AGGRESSIVE",
-    "cost": 300,
-    "reward": 750,
-    "penalty": 200,
-    "timeLimit": 95,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-25 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0496",
-      "wordLength": 4,
-      "startWord": "WIND",
-      "targetWord": "LOVE",
-      "steps": [
-        {
-          "clue": "Starting state: Natural perceptible movement of air",
-          "lockedWord": "WIND"
-        },
-        {
-          "clue": "Fermented juice of grapes or fruit"
-        },
-        {
-          "clue": "Continuous spatial extent having only one dimension"
-        },
-        {
-          "clue": "Having no companions; solitary in wilderness"
-        },
-        {
-          "clue": "Target state: Deep affection and protective devotion",
-          "lockedWord": "LOVE"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "WIND-WINE-LINE-LONE-LOVE",
-      "expectedWords": [
-        "WIND",
-        "WINE",
-        "LINE",
-        "LONE",
-        "LOVE"
-      ],
-      "acceptedAnswers": [
-        "WIND-WINE-LINE-LONE-LOVE",
-        "WINE-LINE-LONE",
-        "WEND:WIND-WINE-LINE-LONE-LOVE"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (4 letters): change position 4 of 'WIND' to align with the clue: \"Fermented juice of grapes or fruit\".",
-        "HINT 02 // The pivot transition requires bridging through 'LINE'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WND-0497",
     "title": "WEND // WORD LADDER #0497 (STONE → CHALK)",
     "category": "LOGIC",
@@ -31614,69 +15990,6 @@ export const wendChallenges = [
       "hints": [
         "HINT 01 // Focus on Step 2 (5 letters): change position 4 of 'STONE' to align with the clue: \"Emitted radiant light in the past\".",
         "HINT 02 // The pivot transition requires bridging through 'CHINE'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WND-0498",
-    "title": "WEND // WORD LADDER #0498 (BLACK → CLING)",
-    "category": "LOGIC",
-    "description": "Morph 'BLACK' into 'CLING' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "HIGH",
-    "risk": "AGGRESSIVE",
-    "cost": 300,
-    "reward": 750,
-    "penalty": 200,
-    "timeLimit": 95,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-25 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0498",
-      "wordLength": 5,
-      "startWord": "BLACK",
-      "targetWord": "CLING",
-      "steps": [
-        {
-          "clue": "Starting state: Total absence of visible light",
-          "lockedWord": "BLACK"
-        },
-        {
-          "clue": "Empty of marks, writing, or expression"
-        },
-        {
-          "clue": "To open and close eyes rapidly"
-        },
-        {
-          "clue": "A sharp metallic resonant sound"
-        },
-        {
-          "clue": "Target state: To hold on tightly to an anchor",
-          "lockedWord": "CLING"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "BLACK-BLANK-BLINK-CLINK-CLING",
-      "expectedWords": [
-        "BLACK",
-        "BLANK",
-        "BLINK",
-        "CLINK",
-        "CLING"
-      ],
-      "acceptedAnswers": [
-        "BLACK-BLANK-BLINK-CLINK-CLING",
-        "BLANK-BLINK-CLINK",
-        "WEND:BLACK-BLANK-BLINK-CLINK-CLING"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (5 letters): change position 4 of 'BLACK' to align with the clue: \"Empty of marks, writing, or expression\".",
-        "HINT 02 // The pivot transition requires bridging through 'BLINK'; check vowel shifts between adjacent steps."
       ]
     },
     "enabled": true,
@@ -31746,69 +16059,6 @@ export const wendChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WND-0500",
-    "title": "WEND // WORD LADDER #0500 (RIVER → AFTER)",
-    "category": "LOGIC",
-    "description": "Morph 'RIVER' into 'AFTER' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "HIGH",
-    "risk": "AGGRESSIVE",
-    "cost": 300,
-    "reward": 750,
-    "penalty": 200,
-    "timeLimit": 95,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-26 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0500",
-      "wordLength": 5,
-      "startWord": "RIVER",
-      "targetWord": "AFTER",
-      "steps": [
-        {
-          "clue": "Starting state: Large natural stream of flowing water",
-          "lockedWord": "RIVER"
-        },
-        {
-          "clue": "One who travels mounted on horseback"
-        },
-        {
-          "clue": "One who provides relief or auxiliary support"
-        },
-        {
-          "clue": "To change or modify character without replacing"
-        },
-        {
-          "clue": "Target state: Subsequent in chronological sequence",
-          "lockedWord": "AFTER"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "RIVER-RIDER-AIDER-ALTER-AFTER",
-      "expectedWords": [
-        "RIVER",
-        "RIDER",
-        "AIDER",
-        "ALTER",
-        "AFTER"
-      ],
-      "acceptedAnswers": [
-        "RIVER-RIDER-AIDER-ALTER-AFTER",
-        "RIDER-AIDER-ALTER",
-        "WEND:RIVER-RIDER-AIDER-ALTER-AFTER"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (5 letters): change position 4 of 'RIVER' to align with the clue: \"One who travels mounted on horseback\".",
-        "HINT 02 // The pivot transition requires bridging through 'AIDER'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WND-0501",
     "title": "WEND // WORD LADDER #0501 (PLANT → STARE)",
     "category": "LOGIC",
@@ -31866,69 +16116,6 @@ export const wendChallenges = [
       "hints": [
         "HINT 01 // Focus on Step 2 (5 letters): change position 4 of 'PLANT' to align with the clue: \"Flat two-dimensional surface or winged aircraft\".",
         "HINT 02 // The pivot transition requires bridging through 'PLATE'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WND-0502",
-    "title": "WEND // WORD LADDER #0502 (SLEEP → STEEL)",
-    "category": "LOGIC",
-    "description": "Morph 'SLEEP' into 'STEEL' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "HIGH",
-    "risk": "AGGRESSIVE",
-    "cost": 300,
-    "reward": 750,
-    "penalty": 200,
-    "timeLimit": 95,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-26 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0502",
-      "wordLength": 5,
-      "startWord": "SLEEP",
-      "targetWord": "STEEL",
-      "steps": [
-        {
-          "clue": "Starting state: Naturally recurring condition of biological rest",
-          "lockedWord": "SLEEP"
-        },
-        {
-          "clue": "Ruminant quadruped domesticated for wool"
-        },
-        {
-          "clue": "Perpendicularly steep or absolute pure"
-        },
-        {
-          "clue": "To guide the direction of a vessel or vehicle"
-        },
-        {
-          "clue": "Target state: Alloy of iron with carbon of high tensile strength",
-          "lockedWord": "STEEL"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "SLEEP-SHEEP-SHEER-STEER-STEEL",
-      "expectedWords": [
-        "SLEEP",
-        "SHEEP",
-        "SHEER",
-        "STEER",
-        "STEEL"
-      ],
-      "acceptedAnswers": [
-        "SLEEP-SHEEP-SHEER-STEER-STEEL",
-        "SHEEP-SHEER-STEER",
-        "WEND:SLEEP-SHEEP-SHEER-STEER-STEEL"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (5 letters): change position 4 of 'SLEEP' to align with the clue: \"Ruminant quadruped domesticated for wool\".",
-        "HINT 02 // The pivot transition requires bridging through 'SHEER'; check vowel shifts between adjacent steps."
       ]
     },
     "enabled": true,
@@ -32001,69 +16188,6 @@ export const wendChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WND-0504",
-    "title": "WEND // WORD LADDER #0504 (STORM → SPARK)",
-    "category": "LOGIC",
-    "description": "Morph 'STORM' into 'SPARK' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "HIGH",
-    "risk": "AGGRESSIVE",
-    "cost": 300,
-    "reward": 750,
-    "penalty": 200,
-    "timeLimit": 95,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-26 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0504",
-      "wordLength": 5,
-      "startWord": "STORM",
-      "targetWord": "SPARK",
-      "steps": [
-        {
-          "clue": "Starting state: Violent disturbance of meteorological atmosphere",
-          "lockedWord": "STORM"
-        },
-        {
-          "clue": "Retail mercantile establishment or storage repository"
-        },
-        {
-          "clue": "To gaze fixedly with wide uninterrupted eyes"
-        },
-        {
-          "clue": "Additional component held in reserve backup"
-        },
-        {
-          "clue": "Target state: Incandescent particle thrown off from a burning body",
-          "lockedWord": "SPARK"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "STORM-STORE-STARE-SPARE-SPARK",
-      "expectedWords": [
-        "STORM",
-        "STORE",
-        "STARE",
-        "SPARE",
-        "SPARK"
-      ],
-      "acceptedAnswers": [
-        "STORM-STORE-STARE-SPARE-SPARK",
-        "STORE-STARE-SPARE",
-        "WEND:STORM-STORE-STARE-SPARE-SPARK"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (5 letters): change position 4 of 'STORM' to align with the clue: \"Retail mercantile establishment or storage repository\".",
-        "HINT 02 // The pivot transition requires bridging through 'STARE'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WND-0505",
     "title": "WEND // WORD LADDER #0505 (COLD → WARM)",
     "category": "LOGIC",
@@ -32121,69 +16245,6 @@ export const wendChallenges = [
       "hints": [
         "HINT 01 // Focus on Step 2 (4 letters): change position 4 of 'COLD' to align with the clue: \"A flexible insulated cable or binding twine\".",
         "HINT 02 // The pivot transition requires bridging through 'CARD'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WND-0506",
-    "title": "WEND // WORD LADDER #0506 (DARK → FIRE)",
-    "category": "LOGIC",
-    "description": "Morph 'DARK' into 'FIRE' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "HIGH",
-    "risk": "AGGRESSIVE",
-    "cost": 300,
-    "reward": 750,
-    "penalty": 200,
-    "timeLimit": 95,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-26 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0506",
-      "wordLength": 4,
-      "startWord": "DARK",
-      "targetWord": "FIRE",
-      "steps": [
-        {
-          "clue": "Starting state: Absence of illumination",
-          "lockedWord": "DARK"
-        },
-        {
-          "clue": "A small pointed projectile or rapid dash"
-        },
-        {
-          "clue": "Loose soil, earth, or particulate matter"
-        },
-        {
-          "clue": "Extremely urgent or calamitous circumstance"
-        },
-        {
-          "clue": "Target state: Combustion generating thermal heat",
-          "lockedWord": "FIRE"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "DARK-DART-DIRT-DIRE-FIRE",
-      "expectedWords": [
-        "DARK",
-        "DART",
-        "DIRT",
-        "DIRE",
-        "FIRE"
-      ],
-      "acceptedAnswers": [
-        "DARK-DART-DIRT-DIRE-FIRE",
-        "DART-DIRT-DIRE",
-        "WEND:DARK-DART-DIRT-DIRE-FIRE"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (4 letters): change position 4 of 'DARK' to align with the clue: \"A small pointed projectile or rapid dash\".",
-        "HINT 02 // The pivot transition requires bridging through 'DIRT'; check vowel shifts between adjacent steps."
       ]
     },
     "enabled": true,
@@ -32253,69 +16314,6 @@ export const wendChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WND-0508",
-    "title": "WEND // WORD LADDER #0508 (LEAD → GOLD)",
-    "category": "LOGIC",
-    "description": "Morph 'LEAD' into 'GOLD' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "HIGH",
-    "risk": "AGGRESSIVE",
-    "cost": 300,
-    "reward": 750,
-    "penalty": 200,
-    "timeLimit": 95,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-26 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0508",
-      "wordLength": 4,
-      "startWord": "LEAD",
-      "targetWord": "GOLD",
-      "steps": [
-        {
-          "clue": "Starting state: Dense heavy metallic element",
-          "lockedWord": "LEAD"
-        },
-        {
-          "clue": "A heavy burden or amount carried"
-        },
-        {
-          "clue": "An amphibious tailless creature"
-        },
-        {
-          "clue": "Communicated verbal instruction in the past"
-        },
-        {
-          "clue": "Target state: Precious lustrous yellow metal",
-          "lockedWord": "GOLD"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "LEAD-LOAD-TOAD-TOLD-GOLD",
-      "expectedWords": [
-        "LEAD",
-        "LOAD",
-        "TOAD",
-        "TOLD",
-        "GOLD"
-      ],
-      "acceptedAnswers": [
-        "LEAD-LOAD-TOAD-TOLD-GOLD",
-        "LOAD-TOAD-TOLD",
-        "WEND:LEAD-LOAD-TOAD-TOLD-GOLD"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (4 letters): change position 4 of 'LEAD' to align with the clue: \"A heavy burden or amount carried\".",
-        "HINT 02 // The pivot transition requires bridging through 'TOAD'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WND-0509",
     "title": "WEND // WORD LADDER #0509 (MORE → SAFE)",
     "category": "LOGIC",
@@ -32379,69 +16377,6 @@ export const wendChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WND-0510",
-    "title": "WEND // WORD LADDER #0510 (FAST → POST)",
-    "category": "LOGIC",
-    "description": "Morph 'FAST' into 'POST' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "HIGH",
-    "risk": "AGGRESSIVE",
-    "cost": 300,
-    "reward": 750,
-    "penalty": 200,
-    "timeLimit": 95,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-26 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0510",
-      "wordLength": 4,
-      "startWord": "FAST",
-      "targetWord": "POST",
-      "steps": [
-        {
-          "clue": "Starting state: Moving at high velocity",
-          "lockedWord": "FAST"
-        },
-        {
-          "clue": "Gone by in time and no longer existing"
-        },
-        {
-          "clue": "A component portion of a greater whole"
-        },
-        {
-          "clue": "A maritime harbor or network interface"
-        },
-        {
-          "clue": "Target state: Sturdy upright timber or bulletin",
-          "lockedWord": "POST"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "FAST-PAST-PART-PORT-POST",
-      "expectedWords": [
-        "FAST",
-        "PAST",
-        "PART",
-        "PORT",
-        "POST"
-      ],
-      "acceptedAnswers": [
-        "FAST-PAST-PART-PORT-POST",
-        "PAST-PART-PORT",
-        "WEND:FAST-PAST-PART-PORT-POST"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (4 letters): change position 4 of 'FAST' to align with the clue: \"Gone by in time and no longer existing\".",
-        "HINT 02 // The pivot transition requires bridging through 'PART'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WND-0511",
     "title": "WEND // WORD LADDER #0511 (CODE → BARK)",
     "category": "LOGIC",
@@ -32499,69 +16434,6 @@ export const wendChallenges = [
       "hints": [
         "HINT 01 // Focus on Step 2 (4 letters): change position 4 of 'CODE' to align with the clue: \"Central structural nexus of a planetary system\".",
         "HINT 02 // The pivot transition requires bridging through 'CARE'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WND-0512",
-    "title": "WEND // WORD LADDER #0512 (GATE → CALM)",
-    "category": "LOGIC",
-    "description": "Morph 'GATE' into 'CALM' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "EXTREME",
-    "risk": "AGGRESSIVE",
-    "cost": 600,
-    "reward": 1800,
-    "penalty": 450,
-    "timeLimit": 120,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-26 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0512",
-      "wordLength": 4,
-      "startWord": "GATE",
-      "targetWord": "CALM",
-      "steps": [
-        {
-          "clue": "Starting state: Hinged barrier across an opening",
-          "lockedWord": "GATE"
-        },
-        {
-          "clue": "Conferred or transferred possession in the past"
-        },
-        {
-          "clue": "A subterranean hollow or subterranean chamber"
-        },
-        {
-          "clue": "Arrived at a specified coordinate"
-        },
-        {
-          "clue": "Target state: Free from agitation or turbulent disturbance",
-          "lockedWord": "CALM"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "GATE-GAVE-CAVE-CAME-CALM",
-      "expectedWords": [
-        "GATE",
-        "GAVE",
-        "CAVE",
-        "CAME",
-        "CALM"
-      ],
-      "acceptedAnswers": [
-        "GATE-GAVE-CAVE-CAME-CALM",
-        "GAVE-CAVE-CAME",
-        "WEND:GATE-GAVE-CAVE-CAME-CALM"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (4 letters): change position 4 of 'GATE' to align with the clue: \"Conferred or transferred possession in the past\".",
-        "HINT 02 // The pivot transition requires bridging through 'CAVE'; check vowel shifts between adjacent steps."
       ]
     },
     "enabled": true,
@@ -32635,69 +16507,6 @@ export const wendChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WND-0514",
-    "title": "WEND // WORD LADDER #0514 (WIND → LOVE)",
-    "category": "LOGIC",
-    "description": "Morph 'WIND' into 'LOVE' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "EXTREME",
-    "risk": "AGGRESSIVE",
-    "cost": 600,
-    "reward": 1800,
-    "penalty": 450,
-    "timeLimit": 120,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-26 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0514",
-      "wordLength": 4,
-      "startWord": "WIND",
-      "targetWord": "LOVE",
-      "steps": [
-        {
-          "clue": "Starting state: Natural perceptible movement of air",
-          "lockedWord": "WIND"
-        },
-        {
-          "clue": "Fermented juice of grapes or fruit"
-        },
-        {
-          "clue": "Continuous spatial extent having only one dimension"
-        },
-        {
-          "clue": "Having no companions; solitary in wilderness"
-        },
-        {
-          "clue": "Target state: Deep affection and protective devotion",
-          "lockedWord": "LOVE"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "WIND-WINE-LINE-LONE-LOVE",
-      "expectedWords": [
-        "WIND",
-        "WINE",
-        "LINE",
-        "LONE",
-        "LOVE"
-      ],
-      "acceptedAnswers": [
-        "WIND-WINE-LINE-LONE-LOVE",
-        "WINE-LINE-LONE",
-        "WEND:WIND-WINE-LINE-LONE-LOVE"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (4 letters): change position 4 of 'WIND' to align with the clue: \"Fermented juice of grapes or fruit\".",
-        "HINT 02 // The pivot transition requires bridging through 'LINE'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WND-0515",
     "title": "WEND // WORD LADDER #0515 (STONE → CHALK)",
     "category": "LOGIC",
@@ -32759,69 +16568,6 @@ export const wendChallenges = [
       "hints": [
         "HINT 01 // Focus on Step 2 (5 letters): change position 5 of 'STONE' to align with the clue: \"Emitted radiant light in the past\".",
         "HINT 02 // The pivot transition requires bridging through 'CHINE'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WND-0516",
-    "title": "WEND // WORD LADDER #0516 (BLACK → CLING)",
-    "category": "LOGIC",
-    "description": "Morph 'BLACK' into 'CLING' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "EXTREME",
-    "risk": "AGGRESSIVE",
-    "cost": 600,
-    "reward": 1800,
-    "penalty": 450,
-    "timeLimit": 120,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-26 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0516",
-      "wordLength": 5,
-      "startWord": "BLACK",
-      "targetWord": "CLING",
-      "steps": [
-        {
-          "clue": "Starting state: Total absence of visible light",
-          "lockedWord": "BLACK"
-        },
-        {
-          "clue": "Empty of marks, writing, or expression"
-        },
-        {
-          "clue": "To open and close eyes rapidly"
-        },
-        {
-          "clue": "A sharp metallic resonant sound"
-        },
-        {
-          "clue": "Target state: To hold on tightly to an anchor",
-          "lockedWord": "CLING"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "BLACK-BLANK-BLINK-CLINK-CLING",
-      "expectedWords": [
-        "BLACK",
-        "BLANK",
-        "BLINK",
-        "CLINK",
-        "CLING"
-      ],
-      "acceptedAnswers": [
-        "BLACK-BLANK-BLINK-CLINK-CLING",
-        "BLANK-BLINK-CLINK",
-        "WEND:BLACK-BLANK-BLINK-CLINK-CLING"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (5 letters): change position 5 of 'BLACK' to align with the clue: \"Empty of marks, writing, or expression\".",
-        "HINT 02 // The pivot transition requires bridging through 'BLINK'; check vowel shifts between adjacent steps."
       ]
     },
     "enabled": true,
@@ -32891,69 +16637,6 @@ export const wendChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WND-0518",
-    "title": "WEND // WORD LADDER #0518 (RIVER → AFTER)",
-    "category": "LOGIC",
-    "description": "Morph 'RIVER' into 'AFTER' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "EXTREME",
-    "risk": "AGGRESSIVE",
-    "cost": 600,
-    "reward": 1800,
-    "penalty": 450,
-    "timeLimit": 120,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-26 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0518",
-      "wordLength": 5,
-      "startWord": "RIVER",
-      "targetWord": "AFTER",
-      "steps": [
-        {
-          "clue": "Starting state: Large natural stream of flowing water",
-          "lockedWord": "RIVER"
-        },
-        {
-          "clue": "One who travels mounted on horseback"
-        },
-        {
-          "clue": "One who provides relief or auxiliary support"
-        },
-        {
-          "clue": "To change or modify character without replacing"
-        },
-        {
-          "clue": "Target state: Subsequent in chronological sequence",
-          "lockedWord": "AFTER"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "RIVER-RIDER-AIDER-ALTER-AFTER",
-      "expectedWords": [
-        "RIVER",
-        "RIDER",
-        "AIDER",
-        "ALTER",
-        "AFTER"
-      ],
-      "acceptedAnswers": [
-        "RIVER-RIDER-AIDER-ALTER-AFTER",
-        "RIDER-AIDER-ALTER",
-        "WEND:RIVER-RIDER-AIDER-ALTER-AFTER"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (5 letters): change position 5 of 'RIVER' to align with the clue: \"One who travels mounted on horseback\".",
-        "HINT 02 // The pivot transition requires bridging through 'AIDER'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WND-0519",
     "title": "WEND // WORD LADDER #0519 (PLANT → STARE)",
     "category": "LOGIC",
@@ -33011,69 +16694,6 @@ export const wendChallenges = [
       "hints": [
         "HINT 01 // Focus on Step 2 (5 letters): change position 5 of 'PLANT' to align with the clue: \"Flat two-dimensional surface or winged aircraft\".",
         "HINT 02 // The pivot transition requires bridging through 'PLATE'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WND-0520",
-    "title": "WEND // WORD LADDER #0520 (SLEEP → STEEL)",
-    "category": "LOGIC",
-    "description": "Morph 'SLEEP' into 'STEEL' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "EXTREME",
-    "risk": "AGGRESSIVE",
-    "cost": 600,
-    "reward": 1800,
-    "penalty": 450,
-    "timeLimit": 120,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-27 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0520",
-      "wordLength": 5,
-      "startWord": "SLEEP",
-      "targetWord": "STEEL",
-      "steps": [
-        {
-          "clue": "Starting state: Naturally recurring condition of biological rest",
-          "lockedWord": "SLEEP"
-        },
-        {
-          "clue": "Ruminant quadruped domesticated for wool"
-        },
-        {
-          "clue": "Perpendicularly steep or absolute pure"
-        },
-        {
-          "clue": "To guide the direction of a vessel or vehicle"
-        },
-        {
-          "clue": "Target state: Alloy of iron with carbon of high tensile strength",
-          "lockedWord": "STEEL"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "SLEEP-SHEEP-SHEER-STEER-STEEL",
-      "expectedWords": [
-        "SLEEP",
-        "SHEEP",
-        "SHEER",
-        "STEER",
-        "STEEL"
-      ],
-      "acceptedAnswers": [
-        "SLEEP-SHEEP-SHEER-STEER-STEEL",
-        "SHEEP-SHEER-STEER",
-        "WEND:SLEEP-SHEEP-SHEER-STEER-STEEL"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (5 letters): change position 5 of 'SLEEP' to align with the clue: \"Ruminant quadruped domesticated for wool\".",
-        "HINT 02 // The pivot transition requires bridging through 'SHEER'; check vowel shifts between adjacent steps."
       ]
     },
     "enabled": true,
@@ -33146,69 +16766,6 @@ export const wendChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WND-0522",
-    "title": "WEND // WORD LADDER #0522 (STORM → SPARK)",
-    "category": "LOGIC",
-    "description": "Morph 'STORM' into 'SPARK' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "EXTREME",
-    "risk": "AGGRESSIVE",
-    "cost": 600,
-    "reward": 1800,
-    "penalty": 450,
-    "timeLimit": 120,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-27 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0522",
-      "wordLength": 5,
-      "startWord": "STORM",
-      "targetWord": "SPARK",
-      "steps": [
-        {
-          "clue": "Starting state: Violent disturbance of meteorological atmosphere",
-          "lockedWord": "STORM"
-        },
-        {
-          "clue": "Retail mercantile establishment or storage repository"
-        },
-        {
-          "clue": "To gaze fixedly with wide uninterrupted eyes"
-        },
-        {
-          "clue": "Additional component held in reserve backup"
-        },
-        {
-          "clue": "Target state: Incandescent particle thrown off from a burning body",
-          "lockedWord": "SPARK"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "STORM-STORE-STARE-SPARE-SPARK",
-      "expectedWords": [
-        "STORM",
-        "STORE",
-        "STARE",
-        "SPARE",
-        "SPARK"
-      ],
-      "acceptedAnswers": [
-        "STORM-STORE-STARE-SPARE-SPARK",
-        "STORE-STARE-SPARE",
-        "WEND:STORM-STORE-STARE-SPARE-SPARK"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (5 letters): change position 5 of 'STORM' to align with the clue: \"Retail mercantile establishment or storage repository\".",
-        "HINT 02 // The pivot transition requires bridging through 'STARE'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WND-0523",
     "title": "WEND // WORD LADDER #0523 (COLD → WARM)",
     "category": "LOGIC",
@@ -33266,69 +16823,6 @@ export const wendChallenges = [
       "hints": [
         "HINT 01 // Focus on Step 2 (4 letters): change position 4 of 'COLD' to align with the clue: \"A flexible insulated cable or binding twine\".",
         "HINT 02 // The pivot transition requires bridging through 'CARD'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WND-0524",
-    "title": "WEND // WORD LADDER #0524 (DARK → FIRE)",
-    "category": "LOGIC",
-    "description": "Morph 'DARK' into 'FIRE' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "EXTREME",
-    "risk": "AGGRESSIVE",
-    "cost": 600,
-    "reward": 1800,
-    "penalty": 450,
-    "timeLimit": 120,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-27 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0524",
-      "wordLength": 4,
-      "startWord": "DARK",
-      "targetWord": "FIRE",
-      "steps": [
-        {
-          "clue": "Starting state: Absence of illumination",
-          "lockedWord": "DARK"
-        },
-        {
-          "clue": "A small pointed projectile or rapid dash"
-        },
-        {
-          "clue": "Loose soil, earth, or particulate matter"
-        },
-        {
-          "clue": "Extremely urgent or calamitous circumstance"
-        },
-        {
-          "clue": "Target state: Combustion generating thermal heat",
-          "lockedWord": "FIRE"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "DARK-DART-DIRT-DIRE-FIRE",
-      "expectedWords": [
-        "DARK",
-        "DART",
-        "DIRT",
-        "DIRE",
-        "FIRE"
-      ],
-      "acceptedAnswers": [
-        "DARK-DART-DIRT-DIRE-FIRE",
-        "DART-DIRT-DIRE",
-        "WEND:DARK-DART-DIRT-DIRE-FIRE"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (4 letters): change position 4 of 'DARK' to align with the clue: \"A small pointed projectile or rapid dash\".",
-        "HINT 02 // The pivot transition requires bridging through 'DIRT'; check vowel shifts between adjacent steps."
       ]
     },
     "enabled": true,
@@ -33398,69 +16892,6 @@ export const wendChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WND-0526",
-    "title": "WEND // WORD LADDER #0526 (LEAD → GOLD)",
-    "category": "LOGIC",
-    "description": "Morph 'LEAD' into 'GOLD' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "EXTREME",
-    "risk": "AGGRESSIVE",
-    "cost": 600,
-    "reward": 1800,
-    "penalty": 450,
-    "timeLimit": 120,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-27 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0526",
-      "wordLength": 4,
-      "startWord": "LEAD",
-      "targetWord": "GOLD",
-      "steps": [
-        {
-          "clue": "Starting state: Dense heavy metallic element",
-          "lockedWord": "LEAD"
-        },
-        {
-          "clue": "A heavy burden or amount carried"
-        },
-        {
-          "clue": "An amphibious tailless creature"
-        },
-        {
-          "clue": "Communicated verbal instruction in the past"
-        },
-        {
-          "clue": "Target state: Precious lustrous yellow metal",
-          "lockedWord": "GOLD"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "LEAD-LOAD-TOAD-TOLD-GOLD",
-      "expectedWords": [
-        "LEAD",
-        "LOAD",
-        "TOAD",
-        "TOLD",
-        "GOLD"
-      ],
-      "acceptedAnswers": [
-        "LEAD-LOAD-TOAD-TOLD-GOLD",
-        "LOAD-TOAD-TOLD",
-        "WEND:LEAD-LOAD-TOAD-TOLD-GOLD"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (4 letters): change position 4 of 'LEAD' to align with the clue: \"A heavy burden or amount carried\".",
-        "HINT 02 // The pivot transition requires bridging through 'TOAD'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WND-0527",
     "title": "WEND // WORD LADDER #0527 (MORE → SAFE)",
     "category": "LOGIC",
@@ -33524,69 +16955,6 @@ export const wendChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WND-0528",
-    "title": "WEND // WORD LADDER #0528 (FAST → POST)",
-    "category": "LOGIC",
-    "description": "Morph 'FAST' into 'POST' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "EXTREME",
-    "risk": "AGGRESSIVE",
-    "cost": 600,
-    "reward": 1800,
-    "penalty": 450,
-    "timeLimit": 120,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-27 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0528",
-      "wordLength": 4,
-      "startWord": "FAST",
-      "targetWord": "POST",
-      "steps": [
-        {
-          "clue": "Starting state: Moving at high velocity",
-          "lockedWord": "FAST"
-        },
-        {
-          "clue": "Gone by in time and no longer existing"
-        },
-        {
-          "clue": "A component portion of a greater whole"
-        },
-        {
-          "clue": "A maritime harbor or network interface"
-        },
-        {
-          "clue": "Target state: Sturdy upright timber or bulletin",
-          "lockedWord": "POST"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "FAST-PAST-PART-PORT-POST",
-      "expectedWords": [
-        "FAST",
-        "PAST",
-        "PART",
-        "PORT",
-        "POST"
-      ],
-      "acceptedAnswers": [
-        "FAST-PAST-PART-PORT-POST",
-        "PAST-PART-PORT",
-        "WEND:FAST-PAST-PART-PORT-POST"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (4 letters): change position 4 of 'FAST' to align with the clue: \"Gone by in time and no longer existing\".",
-        "HINT 02 // The pivot transition requires bridging through 'PART'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WND-0529",
     "title": "WEND // WORD LADDER #0529 (CODE → BARK)",
     "category": "LOGIC",
@@ -33644,69 +17012,6 @@ export const wendChallenges = [
       "hints": [
         "HINT 01 // Focus on Step 2 (4 letters): change position 4 of 'CODE' to align with the clue: \"Central structural nexus of a planetary system\".",
         "HINT 02 // The pivot transition requires bridging through 'CARE'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WND-0530",
-    "title": "WEND // WORD LADDER #0530 (GATE → CALM)",
-    "category": "LOGIC",
-    "description": "Morph 'GATE' into 'CALM' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "EXTREME",
-    "risk": "AGGRESSIVE",
-    "cost": 600,
-    "reward": 1800,
-    "penalty": 450,
-    "timeLimit": 120,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-27 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0530",
-      "wordLength": 4,
-      "startWord": "GATE",
-      "targetWord": "CALM",
-      "steps": [
-        {
-          "clue": "Starting state: Hinged barrier across an opening",
-          "lockedWord": "GATE"
-        },
-        {
-          "clue": "Conferred or transferred possession in the past"
-        },
-        {
-          "clue": "A subterranean hollow or subterranean chamber"
-        },
-        {
-          "clue": "Arrived at a specified coordinate"
-        },
-        {
-          "clue": "Target state: Free from agitation or turbulent disturbance",
-          "lockedWord": "CALM"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "GATE-GAVE-CAVE-CAME-CALM",
-      "expectedWords": [
-        "GATE",
-        "GAVE",
-        "CAVE",
-        "CAME",
-        "CALM"
-      ],
-      "acceptedAnswers": [
-        "GATE-GAVE-CAVE-CAME-CALM",
-        "GAVE-CAVE-CAME",
-        "WEND:GATE-GAVE-CAVE-CAME-CALM"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (4 letters): change position 4 of 'GATE' to align with the clue: \"Conferred or transferred possession in the past\".",
-        "HINT 02 // The pivot transition requires bridging through 'CAVE'; check vowel shifts between adjacent steps."
       ]
     },
     "enabled": true,
@@ -33780,69 +17085,6 @@ export const wendChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WND-0532",
-    "title": "WEND // WORD LADDER #0532 (WIND → LOVE)",
-    "category": "LOGIC",
-    "description": "Morph 'WIND' into 'LOVE' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "EXTREME",
-    "risk": "AGGRESSIVE",
-    "cost": 600,
-    "reward": 1800,
-    "penalty": 450,
-    "timeLimit": 120,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-27 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0532",
-      "wordLength": 4,
-      "startWord": "WIND",
-      "targetWord": "LOVE",
-      "steps": [
-        {
-          "clue": "Starting state: Natural perceptible movement of air",
-          "lockedWord": "WIND"
-        },
-        {
-          "clue": "Fermented juice of grapes or fruit"
-        },
-        {
-          "clue": "Continuous spatial extent having only one dimension"
-        },
-        {
-          "clue": "Having no companions; solitary in wilderness"
-        },
-        {
-          "clue": "Target state: Deep affection and protective devotion",
-          "lockedWord": "LOVE"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "WIND-WINE-LINE-LONE-LOVE",
-      "expectedWords": [
-        "WIND",
-        "WINE",
-        "LINE",
-        "LONE",
-        "LOVE"
-      ],
-      "acceptedAnswers": [
-        "WIND-WINE-LINE-LONE-LOVE",
-        "WINE-LINE-LONE",
-        "WEND:WIND-WINE-LINE-LONE-LOVE"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (4 letters): change position 4 of 'WIND' to align with the clue: \"Fermented juice of grapes or fruit\".",
-        "HINT 02 // The pivot transition requires bridging through 'LINE'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WND-0533",
     "title": "WEND // WORD LADDER #0533 (STONE → CHALK)",
     "category": "LOGIC",
@@ -33904,69 +17146,6 @@ export const wendChallenges = [
       "hints": [
         "HINT 01 // Focus on Step 2 (5 letters): change position 5 of 'STONE' to align with the clue: \"Emitted radiant light in the past\".",
         "HINT 02 // The pivot transition requires bridging through 'CHINE'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WND-0534",
-    "title": "WEND // WORD LADDER #0534 (BLACK → CLING)",
-    "category": "LOGIC",
-    "description": "Morph 'BLACK' into 'CLING' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "EXTREME",
-    "risk": "AGGRESSIVE",
-    "cost": 600,
-    "reward": 1800,
-    "penalty": 450,
-    "timeLimit": 120,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-27 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0534",
-      "wordLength": 5,
-      "startWord": "BLACK",
-      "targetWord": "CLING",
-      "steps": [
-        {
-          "clue": "Starting state: Total absence of visible light",
-          "lockedWord": "BLACK"
-        },
-        {
-          "clue": "Empty of marks, writing, or expression"
-        },
-        {
-          "clue": "To open and close eyes rapidly"
-        },
-        {
-          "clue": "A sharp metallic resonant sound"
-        },
-        {
-          "clue": "Target state: To hold on tightly to an anchor",
-          "lockedWord": "CLING"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "BLACK-BLANK-BLINK-CLINK-CLING",
-      "expectedWords": [
-        "BLACK",
-        "BLANK",
-        "BLINK",
-        "CLINK",
-        "CLING"
-      ],
-      "acceptedAnswers": [
-        "BLACK-BLANK-BLINK-CLINK-CLING",
-        "BLANK-BLINK-CLINK",
-        "WEND:BLACK-BLANK-BLINK-CLINK-CLING"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (5 letters): change position 5 of 'BLACK' to align with the clue: \"Empty of marks, writing, or expression\".",
-        "HINT 02 // The pivot transition requires bridging through 'BLINK'; check vowel shifts between adjacent steps."
       ]
     },
     "enabled": true,
@@ -34036,69 +17215,6 @@ export const wendChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WND-0536",
-    "title": "WEND // WORD LADDER #0536 (RIVER → AFTER)",
-    "category": "LOGIC",
-    "description": "Morph 'RIVER' into 'AFTER' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "EXTREME",
-    "risk": "AGGRESSIVE",
-    "cost": 600,
-    "reward": 1800,
-    "penalty": 450,
-    "timeLimit": 120,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-27 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0536",
-      "wordLength": 5,
-      "startWord": "RIVER",
-      "targetWord": "AFTER",
-      "steps": [
-        {
-          "clue": "Starting state: Large natural stream of flowing water",
-          "lockedWord": "RIVER"
-        },
-        {
-          "clue": "One who travels mounted on horseback"
-        },
-        {
-          "clue": "One who provides relief or auxiliary support"
-        },
-        {
-          "clue": "To change or modify character without replacing"
-        },
-        {
-          "clue": "Target state: Subsequent in chronological sequence",
-          "lockedWord": "AFTER"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "RIVER-RIDER-AIDER-ALTER-AFTER",
-      "expectedWords": [
-        "RIVER",
-        "RIDER",
-        "AIDER",
-        "ALTER",
-        "AFTER"
-      ],
-      "acceptedAnswers": [
-        "RIVER-RIDER-AIDER-ALTER-AFTER",
-        "RIDER-AIDER-ALTER",
-        "WEND:RIVER-RIDER-AIDER-ALTER-AFTER"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (5 letters): change position 5 of 'RIVER' to align with the clue: \"One who travels mounted on horseback\".",
-        "HINT 02 // The pivot transition requires bridging through 'AIDER'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WND-0537",
     "title": "WEND // WORD LADDER #0537 (PLANT → STARE)",
     "category": "LOGIC",
@@ -34156,69 +17272,6 @@ export const wendChallenges = [
       "hints": [
         "HINT 01 // Focus on Step 2 (5 letters): change position 5 of 'PLANT' to align with the clue: \"Flat two-dimensional surface or winged aircraft\".",
         "HINT 02 // The pivot transition requires bridging through 'PLATE'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WND-0538",
-    "title": "WEND // WORD LADDER #0538 (SLEEP → STEEL)",
-    "category": "LOGIC",
-    "description": "Morph 'SLEEP' into 'STEEL' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "EXTREME",
-    "risk": "AGGRESSIVE",
-    "cost": 600,
-    "reward": 1800,
-    "penalty": 450,
-    "timeLimit": 120,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-27 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0538",
-      "wordLength": 5,
-      "startWord": "SLEEP",
-      "targetWord": "STEEL",
-      "steps": [
-        {
-          "clue": "Starting state: Naturally recurring condition of biological rest",
-          "lockedWord": "SLEEP"
-        },
-        {
-          "clue": "Ruminant quadruped domesticated for wool"
-        },
-        {
-          "clue": "Perpendicularly steep or absolute pure"
-        },
-        {
-          "clue": "To guide the direction of a vessel or vehicle"
-        },
-        {
-          "clue": "Target state: Alloy of iron with carbon of high tensile strength",
-          "lockedWord": "STEEL"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "SLEEP-SHEEP-SHEER-STEER-STEEL",
-      "expectedWords": [
-        "SLEEP",
-        "SHEEP",
-        "SHEER",
-        "STEER",
-        "STEEL"
-      ],
-      "acceptedAnswers": [
-        "SLEEP-SHEEP-SHEER-STEER-STEEL",
-        "SHEEP-SHEER-STEER",
-        "WEND:SLEEP-SHEEP-SHEER-STEER-STEEL"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (5 letters): change position 5 of 'SLEEP' to align with the clue: \"Ruminant quadruped domesticated for wool\".",
-        "HINT 02 // The pivot transition requires bridging through 'SHEER'; check vowel shifts between adjacent steps."
       ]
     },
     "enabled": true,
@@ -34291,69 +17344,6 @@ export const wendChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WND-0540",
-    "title": "WEND // WORD LADDER #0540 (STORM → SPARK)",
-    "category": "LOGIC",
-    "description": "Morph 'STORM' into 'SPARK' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "EXTREME",
-    "risk": "AGGRESSIVE",
-    "cost": 600,
-    "reward": 1800,
-    "penalty": 450,
-    "timeLimit": 120,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-28 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0540",
-      "wordLength": 5,
-      "startWord": "STORM",
-      "targetWord": "SPARK",
-      "steps": [
-        {
-          "clue": "Starting state: Violent disturbance of meteorological atmosphere",
-          "lockedWord": "STORM"
-        },
-        {
-          "clue": "Retail mercantile establishment or storage repository"
-        },
-        {
-          "clue": "To gaze fixedly with wide uninterrupted eyes"
-        },
-        {
-          "clue": "Additional component held in reserve backup"
-        },
-        {
-          "clue": "Target state: Incandescent particle thrown off from a burning body",
-          "lockedWord": "SPARK"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "STORM-STORE-STARE-SPARE-SPARK",
-      "expectedWords": [
-        "STORM",
-        "STORE",
-        "STARE",
-        "SPARE",
-        "SPARK"
-      ],
-      "acceptedAnswers": [
-        "STORM-STORE-STARE-SPARE-SPARK",
-        "STORE-STARE-SPARE",
-        "WEND:STORM-STORE-STARE-SPARE-SPARK"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (5 letters): change position 5 of 'STORM' to align with the clue: \"Retail mercantile establishment or storage repository\".",
-        "HINT 02 // The pivot transition requires bridging through 'STARE'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WND-0541",
     "title": "WEND // WORD LADDER #0541 (COLD → WARM)",
     "category": "LOGIC",
@@ -34411,69 +17401,6 @@ export const wendChallenges = [
       "hints": [
         "HINT 01 // Focus on Step 2 (4 letters): change position 4 of 'COLD' to align with the clue: \"A flexible insulated cable or binding twine\".",
         "HINT 02 // The pivot transition requires bridging through 'CARD'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WND-0542",
-    "title": "WEND // WORD LADDER #0542 (DARK → FIRE)",
-    "category": "LOGIC",
-    "description": "Morph 'DARK' into 'FIRE' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "EXTREME",
-    "risk": "AGGRESSIVE",
-    "cost": 600,
-    "reward": 1800,
-    "penalty": 450,
-    "timeLimit": 120,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-28 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0542",
-      "wordLength": 4,
-      "startWord": "DARK",
-      "targetWord": "FIRE",
-      "steps": [
-        {
-          "clue": "Starting state: Absence of illumination",
-          "lockedWord": "DARK"
-        },
-        {
-          "clue": "A small pointed projectile or rapid dash"
-        },
-        {
-          "clue": "Loose soil, earth, or particulate matter"
-        },
-        {
-          "clue": "Extremely urgent or calamitous circumstance"
-        },
-        {
-          "clue": "Target state: Combustion generating thermal heat",
-          "lockedWord": "FIRE"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "DARK-DART-DIRT-DIRE-FIRE",
-      "expectedWords": [
-        "DARK",
-        "DART",
-        "DIRT",
-        "DIRE",
-        "FIRE"
-      ],
-      "acceptedAnswers": [
-        "DARK-DART-DIRT-DIRE-FIRE",
-        "DART-DIRT-DIRE",
-        "WEND:DARK-DART-DIRT-DIRE-FIRE"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (4 letters): change position 4 of 'DARK' to align with the clue: \"A small pointed projectile or rapid dash\".",
-        "HINT 02 // The pivot transition requires bridging through 'DIRT'; check vowel shifts between adjacent steps."
       ]
     },
     "enabled": true,
@@ -34543,69 +17470,6 @@ export const wendChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WND-0544",
-    "title": "WEND // WORD LADDER #0544 (LEAD → GOLD)",
-    "category": "LOGIC",
-    "description": "Morph 'LEAD' into 'GOLD' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "EXTREME",
-    "risk": "AGGRESSIVE",
-    "cost": 600,
-    "reward": 1800,
-    "penalty": 450,
-    "timeLimit": 120,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-28 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0544",
-      "wordLength": 4,
-      "startWord": "LEAD",
-      "targetWord": "GOLD",
-      "steps": [
-        {
-          "clue": "Starting state: Dense heavy metallic element",
-          "lockedWord": "LEAD"
-        },
-        {
-          "clue": "A heavy burden or amount carried"
-        },
-        {
-          "clue": "An amphibious tailless creature"
-        },
-        {
-          "clue": "Communicated verbal instruction in the past"
-        },
-        {
-          "clue": "Target state: Precious lustrous yellow metal",
-          "lockedWord": "GOLD"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "LEAD-LOAD-TOAD-TOLD-GOLD",
-      "expectedWords": [
-        "LEAD",
-        "LOAD",
-        "TOAD",
-        "TOLD",
-        "GOLD"
-      ],
-      "acceptedAnswers": [
-        "LEAD-LOAD-TOAD-TOLD-GOLD",
-        "LOAD-TOAD-TOLD",
-        "WEND:LEAD-LOAD-TOAD-TOLD-GOLD"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (4 letters): change position 4 of 'LEAD' to align with the clue: \"A heavy burden or amount carried\".",
-        "HINT 02 // The pivot transition requires bridging through 'TOAD'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WND-0545",
     "title": "WEND // WORD LADDER #0545 (MORE → SAFE)",
     "category": "LOGIC",
@@ -34669,69 +17533,6 @@ export const wendChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WND-0546",
-    "title": "WEND // WORD LADDER #0546 (FAST → POST)",
-    "category": "LOGIC",
-    "description": "Morph 'FAST' into 'POST' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "EXTREME",
-    "risk": "AGGRESSIVE",
-    "cost": 600,
-    "reward": 1800,
-    "penalty": 450,
-    "timeLimit": 120,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-28 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0546",
-      "wordLength": 4,
-      "startWord": "FAST",
-      "targetWord": "POST",
-      "steps": [
-        {
-          "clue": "Starting state: Moving at high velocity",
-          "lockedWord": "FAST"
-        },
-        {
-          "clue": "Gone by in time and no longer existing"
-        },
-        {
-          "clue": "A component portion of a greater whole"
-        },
-        {
-          "clue": "A maritime harbor or network interface"
-        },
-        {
-          "clue": "Target state: Sturdy upright timber or bulletin",
-          "lockedWord": "POST"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "FAST-PAST-PART-PORT-POST",
-      "expectedWords": [
-        "FAST",
-        "PAST",
-        "PART",
-        "PORT",
-        "POST"
-      ],
-      "acceptedAnswers": [
-        "FAST-PAST-PART-PORT-POST",
-        "PAST-PART-PORT",
-        "WEND:FAST-PAST-PART-PORT-POST"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (4 letters): change position 4 of 'FAST' to align with the clue: \"Gone by in time and no longer existing\".",
-        "HINT 02 // The pivot transition requires bridging through 'PART'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WND-0547",
     "title": "WEND // WORD LADDER #0547 (CODE → BARK)",
     "category": "LOGIC",
@@ -34789,69 +17590,6 @@ export const wendChallenges = [
       "hints": [
         "HINT 01 // Focus on Step 2 (4 letters): change position 4 of 'CODE' to align with the clue: \"Central structural nexus of a planetary system\".",
         "HINT 02 // The pivot transition requires bridging through 'CARE'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WND-0548",
-    "title": "WEND // WORD LADDER #0548 (GATE → CALM)",
-    "category": "LOGIC",
-    "description": "Morph 'GATE' into 'CALM' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "EXTREME",
-    "risk": "AGGRESSIVE",
-    "cost": 600,
-    "reward": 1800,
-    "penalty": 450,
-    "timeLimit": 120,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-28 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0548",
-      "wordLength": 4,
-      "startWord": "GATE",
-      "targetWord": "CALM",
-      "steps": [
-        {
-          "clue": "Starting state: Hinged barrier across an opening",
-          "lockedWord": "GATE"
-        },
-        {
-          "clue": "Conferred or transferred possession in the past"
-        },
-        {
-          "clue": "A subterranean hollow or subterranean chamber"
-        },
-        {
-          "clue": "Arrived at a specified coordinate"
-        },
-        {
-          "clue": "Target state: Free from agitation or turbulent disturbance",
-          "lockedWord": "CALM"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "GATE-GAVE-CAVE-CAME-CALM",
-      "expectedWords": [
-        "GATE",
-        "GAVE",
-        "CAVE",
-        "CAME",
-        "CALM"
-      ],
-      "acceptedAnswers": [
-        "GATE-GAVE-CAVE-CAME-CALM",
-        "GAVE-CAVE-CAME",
-        "WEND:GATE-GAVE-CAVE-CAME-CALM"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (4 letters): change position 4 of 'GATE' to align with the clue: \"Conferred or transferred possession in the past\".",
-        "HINT 02 // The pivot transition requires bridging through 'CAVE'; check vowel shifts between adjacent steps."
       ]
     },
     "enabled": true,
@@ -34925,69 +17663,6 @@ export const wendChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WND-0550",
-    "title": "WEND // WORD LADDER #0550 (WIND → LOVE)",
-    "category": "LOGIC",
-    "description": "Morph 'WIND' into 'LOVE' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "EXTREME",
-    "risk": "AGGRESSIVE",
-    "cost": 600,
-    "reward": 1800,
-    "penalty": 450,
-    "timeLimit": 120,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-28 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0550",
-      "wordLength": 4,
-      "startWord": "WIND",
-      "targetWord": "LOVE",
-      "steps": [
-        {
-          "clue": "Starting state: Natural perceptible movement of air",
-          "lockedWord": "WIND"
-        },
-        {
-          "clue": "Fermented juice of grapes or fruit"
-        },
-        {
-          "clue": "Continuous spatial extent having only one dimension"
-        },
-        {
-          "clue": "Having no companions; solitary in wilderness"
-        },
-        {
-          "clue": "Target state: Deep affection and protective devotion",
-          "lockedWord": "LOVE"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "WIND-WINE-LINE-LONE-LOVE",
-      "expectedWords": [
-        "WIND",
-        "WINE",
-        "LINE",
-        "LONE",
-        "LOVE"
-      ],
-      "acceptedAnswers": [
-        "WIND-WINE-LINE-LONE-LOVE",
-        "WINE-LINE-LONE",
-        "WEND:WIND-WINE-LINE-LONE-LOVE"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (4 letters): change position 4 of 'WIND' to align with the clue: \"Fermented juice of grapes or fruit\".",
-        "HINT 02 // The pivot transition requires bridging through 'LINE'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WND-0551",
     "title": "WEND // WORD LADDER #0551 (STONE → CHALK)",
     "category": "LOGIC",
@@ -35049,69 +17724,6 @@ export const wendChallenges = [
       "hints": [
         "HINT 01 // Focus on Step 2 (5 letters): change position 5 of 'STONE' to align with the clue: \"Emitted radiant light in the past\".",
         "HINT 02 // The pivot transition requires bridging through 'CHINE'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WND-0552",
-    "title": "WEND // WORD LADDER #0552 (BLACK → CLING)",
-    "category": "LOGIC",
-    "description": "Morph 'BLACK' into 'CLING' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "EXTREME",
-    "risk": "AGGRESSIVE",
-    "cost": 600,
-    "reward": 1800,
-    "penalty": 450,
-    "timeLimit": 120,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-28 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0552",
-      "wordLength": 5,
-      "startWord": "BLACK",
-      "targetWord": "CLING",
-      "steps": [
-        {
-          "clue": "Starting state: Total absence of visible light",
-          "lockedWord": "BLACK"
-        },
-        {
-          "clue": "Empty of marks, writing, or expression"
-        },
-        {
-          "clue": "To open and close eyes rapidly"
-        },
-        {
-          "clue": "A sharp metallic resonant sound"
-        },
-        {
-          "clue": "Target state: To hold on tightly to an anchor",
-          "lockedWord": "CLING"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "BLACK-BLANK-BLINK-CLINK-CLING",
-      "expectedWords": [
-        "BLACK",
-        "BLANK",
-        "BLINK",
-        "CLINK",
-        "CLING"
-      ],
-      "acceptedAnswers": [
-        "BLACK-BLANK-BLINK-CLINK-CLING",
-        "BLANK-BLINK-CLINK",
-        "WEND:BLACK-BLANK-BLINK-CLINK-CLING"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (5 letters): change position 5 of 'BLACK' to align with the clue: \"Empty of marks, writing, or expression\".",
-        "HINT 02 // The pivot transition requires bridging through 'BLINK'; check vowel shifts between adjacent steps."
       ]
     },
     "enabled": true,
@@ -35181,69 +17793,6 @@ export const wendChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WND-0554",
-    "title": "WEND // WORD LADDER #0554 (RIVER → AFTER)",
-    "category": "LOGIC",
-    "description": "Morph 'RIVER' into 'AFTER' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "EXTREME",
-    "risk": "AGGRESSIVE",
-    "cost": 600,
-    "reward": 1800,
-    "penalty": 450,
-    "timeLimit": 120,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-28 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0554",
-      "wordLength": 5,
-      "startWord": "RIVER",
-      "targetWord": "AFTER",
-      "steps": [
-        {
-          "clue": "Starting state: Large natural stream of flowing water",
-          "lockedWord": "RIVER"
-        },
-        {
-          "clue": "One who travels mounted on horseback"
-        },
-        {
-          "clue": "One who provides relief or auxiliary support"
-        },
-        {
-          "clue": "To change or modify character without replacing"
-        },
-        {
-          "clue": "Target state: Subsequent in chronological sequence",
-          "lockedWord": "AFTER"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "RIVER-RIDER-AIDER-ALTER-AFTER",
-      "expectedWords": [
-        "RIVER",
-        "RIDER",
-        "AIDER",
-        "ALTER",
-        "AFTER"
-      ],
-      "acceptedAnswers": [
-        "RIVER-RIDER-AIDER-ALTER-AFTER",
-        "RIDER-AIDER-ALTER",
-        "WEND:RIVER-RIDER-AIDER-ALTER-AFTER"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (5 letters): change position 5 of 'RIVER' to align with the clue: \"One who travels mounted on horseback\".",
-        "HINT 02 // The pivot transition requires bridging through 'AIDER'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WND-0555",
     "title": "WEND // WORD LADDER #0555 (PLANT → STARE)",
     "category": "LOGIC",
@@ -35301,69 +17850,6 @@ export const wendChallenges = [
       "hints": [
         "HINT 01 // Focus on Step 2 (5 letters): change position 5 of 'PLANT' to align with the clue: \"Flat two-dimensional surface or winged aircraft\".",
         "HINT 02 // The pivot transition requires bridging through 'PLATE'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WND-0556",
-    "title": "WEND // WORD LADDER #0556 (SLEEP → STEEL)",
-    "category": "LOGIC",
-    "description": "Morph 'SLEEP' into 'STEEL' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "EXTREME",
-    "risk": "AGGRESSIVE",
-    "cost": 600,
-    "reward": 1800,
-    "penalty": 450,
-    "timeLimit": 120,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-28 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0556",
-      "wordLength": 5,
-      "startWord": "SLEEP",
-      "targetWord": "STEEL",
-      "steps": [
-        {
-          "clue": "Starting state: Naturally recurring condition of biological rest",
-          "lockedWord": "SLEEP"
-        },
-        {
-          "clue": "Ruminant quadruped domesticated for wool"
-        },
-        {
-          "clue": "Perpendicularly steep or absolute pure"
-        },
-        {
-          "clue": "To guide the direction of a vessel or vehicle"
-        },
-        {
-          "clue": "Target state: Alloy of iron with carbon of high tensile strength",
-          "lockedWord": "STEEL"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "SLEEP-SHEEP-SHEER-STEER-STEEL",
-      "expectedWords": [
-        "SLEEP",
-        "SHEEP",
-        "SHEER",
-        "STEER",
-        "STEEL"
-      ],
-      "acceptedAnswers": [
-        "SLEEP-SHEEP-SHEER-STEER-STEEL",
-        "SHEEP-SHEER-STEER",
-        "WEND:SLEEP-SHEEP-SHEER-STEER-STEEL"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (5 letters): change position 5 of 'SLEEP' to align with the clue: \"Ruminant quadruped domesticated for wool\".",
-        "HINT 02 // The pivot transition requires bridging through 'SHEER'; check vowel shifts between adjacent steps."
       ]
     },
     "enabled": true,
@@ -35436,69 +17922,6 @@ export const wendChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WND-0558",
-    "title": "WEND // WORD LADDER #0558 (STORM → SPARK)",
-    "category": "LOGIC",
-    "description": "Morph 'STORM' into 'SPARK' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "EXTREME",
-    "risk": "AGGRESSIVE",
-    "cost": 600,
-    "reward": 1800,
-    "penalty": 450,
-    "timeLimit": 120,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-28 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0558",
-      "wordLength": 5,
-      "startWord": "STORM",
-      "targetWord": "SPARK",
-      "steps": [
-        {
-          "clue": "Starting state: Violent disturbance of meteorological atmosphere",
-          "lockedWord": "STORM"
-        },
-        {
-          "clue": "Retail mercantile establishment or storage repository"
-        },
-        {
-          "clue": "To gaze fixedly with wide uninterrupted eyes"
-        },
-        {
-          "clue": "Additional component held in reserve backup"
-        },
-        {
-          "clue": "Target state: Incandescent particle thrown off from a burning body",
-          "lockedWord": "SPARK"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "STORM-STORE-STARE-SPARE-SPARK",
-      "expectedWords": [
-        "STORM",
-        "STORE",
-        "STARE",
-        "SPARE",
-        "SPARK"
-      ],
-      "acceptedAnswers": [
-        "STORM-STORE-STARE-SPARE-SPARK",
-        "STORE-STARE-SPARE",
-        "WEND:STORM-STORE-STARE-SPARE-SPARK"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (5 letters): change position 5 of 'STORM' to align with the clue: \"Retail mercantile establishment or storage repository\".",
-        "HINT 02 // The pivot transition requires bridging through 'STARE'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WND-0559",
     "title": "WEND // WORD LADDER #0559 (COLD → WARM)",
     "category": "LOGIC",
@@ -35556,69 +17979,6 @@ export const wendChallenges = [
       "hints": [
         "HINT 01 // Focus on Step 2 (4 letters): change position 4 of 'COLD' to align with the clue: \"A flexible insulated cable or binding twine\".",
         "HINT 02 // The pivot transition requires bridging through 'CARD'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WND-0560",
-    "title": "WEND // WORD LADDER #0560 (DARK → FIRE)",
-    "category": "LOGIC",
-    "description": "Morph 'DARK' into 'FIRE' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "EXTREME",
-    "risk": "AGGRESSIVE",
-    "cost": 600,
-    "reward": 1800,
-    "penalty": 450,
-    "timeLimit": 120,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-29 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0560",
-      "wordLength": 4,
-      "startWord": "DARK",
-      "targetWord": "FIRE",
-      "steps": [
-        {
-          "clue": "Starting state: Absence of illumination",
-          "lockedWord": "DARK"
-        },
-        {
-          "clue": "A small pointed projectile or rapid dash"
-        },
-        {
-          "clue": "Loose soil, earth, or particulate matter"
-        },
-        {
-          "clue": "Extremely urgent or calamitous circumstance"
-        },
-        {
-          "clue": "Target state: Combustion generating thermal heat",
-          "lockedWord": "FIRE"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "DARK-DART-DIRT-DIRE-FIRE",
-      "expectedWords": [
-        "DARK",
-        "DART",
-        "DIRT",
-        "DIRE",
-        "FIRE"
-      ],
-      "acceptedAnswers": [
-        "DARK-DART-DIRT-DIRE-FIRE",
-        "DART-DIRT-DIRE",
-        "WEND:DARK-DART-DIRT-DIRE-FIRE"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (4 letters): change position 4 of 'DARK' to align with the clue: \"A small pointed projectile or rapid dash\".",
-        "HINT 02 // The pivot transition requires bridging through 'DIRT'; check vowel shifts between adjacent steps."
       ]
     },
     "enabled": true,
@@ -35688,69 +18048,6 @@ export const wendChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WND-0562",
-    "title": "WEND // WORD LADDER #0562 (LEAD → GOLD)",
-    "category": "LOGIC",
-    "description": "Morph 'LEAD' into 'GOLD' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "EXTREME",
-    "risk": "AGGRESSIVE",
-    "cost": 600,
-    "reward": 1800,
-    "penalty": 450,
-    "timeLimit": 120,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-29 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0562",
-      "wordLength": 4,
-      "startWord": "LEAD",
-      "targetWord": "GOLD",
-      "steps": [
-        {
-          "clue": "Starting state: Dense heavy metallic element",
-          "lockedWord": "LEAD"
-        },
-        {
-          "clue": "A heavy burden or amount carried"
-        },
-        {
-          "clue": "An amphibious tailless creature"
-        },
-        {
-          "clue": "Communicated verbal instruction in the past"
-        },
-        {
-          "clue": "Target state: Precious lustrous yellow metal",
-          "lockedWord": "GOLD"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "LEAD-LOAD-TOAD-TOLD-GOLD",
-      "expectedWords": [
-        "LEAD",
-        "LOAD",
-        "TOAD",
-        "TOLD",
-        "GOLD"
-      ],
-      "acceptedAnswers": [
-        "LEAD-LOAD-TOAD-TOLD-GOLD",
-        "LOAD-TOAD-TOLD",
-        "WEND:LEAD-LOAD-TOAD-TOLD-GOLD"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (4 letters): change position 4 of 'LEAD' to align with the clue: \"A heavy burden or amount carried\".",
-        "HINT 02 // The pivot transition requires bridging through 'TOAD'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WND-0563",
     "title": "WEND // WORD LADDER #0563 (MORE → SAFE)",
     "category": "LOGIC",
@@ -35814,69 +18111,6 @@ export const wendChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WND-0564",
-    "title": "WEND // WORD LADDER #0564 (FAST → POST)",
-    "category": "LOGIC",
-    "description": "Morph 'FAST' into 'POST' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "EXTREME",
-    "risk": "AGGRESSIVE",
-    "cost": 600,
-    "reward": 1800,
-    "penalty": 450,
-    "timeLimit": 120,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-29 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0564",
-      "wordLength": 4,
-      "startWord": "FAST",
-      "targetWord": "POST",
-      "steps": [
-        {
-          "clue": "Starting state: Moving at high velocity",
-          "lockedWord": "FAST"
-        },
-        {
-          "clue": "Gone by in time and no longer existing"
-        },
-        {
-          "clue": "A component portion of a greater whole"
-        },
-        {
-          "clue": "A maritime harbor or network interface"
-        },
-        {
-          "clue": "Target state: Sturdy upright timber or bulletin",
-          "lockedWord": "POST"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "FAST-PAST-PART-PORT-POST",
-      "expectedWords": [
-        "FAST",
-        "PAST",
-        "PART",
-        "PORT",
-        "POST"
-      ],
-      "acceptedAnswers": [
-        "FAST-PAST-PART-PORT-POST",
-        "PAST-PART-PORT",
-        "WEND:FAST-PAST-PART-PORT-POST"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (4 letters): change position 4 of 'FAST' to align with the clue: \"Gone by in time and no longer existing\".",
-        "HINT 02 // The pivot transition requires bridging through 'PART'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WND-0565",
     "title": "WEND // WORD LADDER #0565 (CODE → BARK)",
     "category": "LOGIC",
@@ -35934,69 +18168,6 @@ export const wendChallenges = [
       "hints": [
         "HINT 01 // Focus on Step 2 (4 letters): change position 4 of 'CODE' to align with the clue: \"Central structural nexus of a planetary system\".",
         "HINT 02 // The pivot transition requires bridging through 'CARE'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WND-0566",
-    "title": "WEND // WORD LADDER #0566 (GATE → CALM)",
-    "category": "LOGIC",
-    "description": "Morph 'GATE' into 'CALM' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "EXTREME",
-    "risk": "AGGRESSIVE",
-    "cost": 600,
-    "reward": 1800,
-    "penalty": 450,
-    "timeLimit": 120,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-29 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0566",
-      "wordLength": 4,
-      "startWord": "GATE",
-      "targetWord": "CALM",
-      "steps": [
-        {
-          "clue": "Starting state: Hinged barrier across an opening",
-          "lockedWord": "GATE"
-        },
-        {
-          "clue": "Conferred or transferred possession in the past"
-        },
-        {
-          "clue": "A subterranean hollow or subterranean chamber"
-        },
-        {
-          "clue": "Arrived at a specified coordinate"
-        },
-        {
-          "clue": "Target state: Free from agitation or turbulent disturbance",
-          "lockedWord": "CALM"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "GATE-GAVE-CAVE-CAME-CALM",
-      "expectedWords": [
-        "GATE",
-        "GAVE",
-        "CAVE",
-        "CAME",
-        "CALM"
-      ],
-      "acceptedAnswers": [
-        "GATE-GAVE-CAVE-CAME-CALM",
-        "GAVE-CAVE-CAME",
-        "WEND:GATE-GAVE-CAVE-CAME-CALM"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (4 letters): change position 4 of 'GATE' to align with the clue: \"Conferred or transferred possession in the past\".",
-        "HINT 02 // The pivot transition requires bridging through 'CAVE'; check vowel shifts between adjacent steps."
       ]
     },
     "enabled": true,
@@ -36070,69 +18241,6 @@ export const wendChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WND-0568",
-    "title": "WEND // WORD LADDER #0568 (WIND → LOVE)",
-    "category": "LOGIC",
-    "description": "Morph 'WIND' into 'LOVE' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "EXTREME",
-    "risk": "AGGRESSIVE",
-    "cost": 600,
-    "reward": 1800,
-    "penalty": 450,
-    "timeLimit": 120,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-29 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0568",
-      "wordLength": 4,
-      "startWord": "WIND",
-      "targetWord": "LOVE",
-      "steps": [
-        {
-          "clue": "Starting state: Natural perceptible movement of air",
-          "lockedWord": "WIND"
-        },
-        {
-          "clue": "Fermented juice of grapes or fruit"
-        },
-        {
-          "clue": "Continuous spatial extent having only one dimension"
-        },
-        {
-          "clue": "Having no companions; solitary in wilderness"
-        },
-        {
-          "clue": "Target state: Deep affection and protective devotion",
-          "lockedWord": "LOVE"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "WIND-WINE-LINE-LONE-LOVE",
-      "expectedWords": [
-        "WIND",
-        "WINE",
-        "LINE",
-        "LONE",
-        "LOVE"
-      ],
-      "acceptedAnswers": [
-        "WIND-WINE-LINE-LONE-LOVE",
-        "WINE-LINE-LONE",
-        "WEND:WIND-WINE-LINE-LONE-LOVE"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (4 letters): change position 4 of 'WIND' to align with the clue: \"Fermented juice of grapes or fruit\".",
-        "HINT 02 // The pivot transition requires bridging through 'LINE'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WND-0569",
     "title": "WEND // WORD LADDER #0569 (STONE → CHALK)",
     "category": "LOGIC",
@@ -36194,69 +18302,6 @@ export const wendChallenges = [
       "hints": [
         "HINT 01 // Focus on Step 2 (5 letters): change position 5 of 'STONE' to align with the clue: \"Emitted radiant light in the past\".",
         "HINT 02 // The pivot transition requires bridging through 'CHINE'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WND-0570",
-    "title": "WEND // WORD LADDER #0570 (BLACK → CLING)",
-    "category": "LOGIC",
-    "description": "Morph 'BLACK' into 'CLING' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "EXTREME",
-    "risk": "AGGRESSIVE",
-    "cost": 600,
-    "reward": 1800,
-    "penalty": 450,
-    "timeLimit": 120,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-29 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0570",
-      "wordLength": 5,
-      "startWord": "BLACK",
-      "targetWord": "CLING",
-      "steps": [
-        {
-          "clue": "Starting state: Total absence of visible light",
-          "lockedWord": "BLACK"
-        },
-        {
-          "clue": "Empty of marks, writing, or expression"
-        },
-        {
-          "clue": "To open and close eyes rapidly"
-        },
-        {
-          "clue": "A sharp metallic resonant sound"
-        },
-        {
-          "clue": "Target state: To hold on tightly to an anchor",
-          "lockedWord": "CLING"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "BLACK-BLANK-BLINK-CLINK-CLING",
-      "expectedWords": [
-        "BLACK",
-        "BLANK",
-        "BLINK",
-        "CLINK",
-        "CLING"
-      ],
-      "acceptedAnswers": [
-        "BLACK-BLANK-BLINK-CLINK-CLING",
-        "BLANK-BLINK-CLINK",
-        "WEND:BLACK-BLANK-BLINK-CLINK-CLING"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (5 letters): change position 5 of 'BLACK' to align with the clue: \"Empty of marks, writing, or expression\".",
-        "HINT 02 // The pivot transition requires bridging through 'BLINK'; check vowel shifts between adjacent steps."
       ]
     },
     "enabled": true,
@@ -36326,69 +18371,6 @@ export const wendChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WND-0572",
-    "title": "WEND // WORD LADDER #0572 (RIVER → AFTER)",
-    "category": "LOGIC",
-    "description": "Morph 'RIVER' into 'AFTER' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "EXTREME",
-    "risk": "AGGRESSIVE",
-    "cost": 600,
-    "reward": 1800,
-    "penalty": 450,
-    "timeLimit": 120,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-29 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0572",
-      "wordLength": 5,
-      "startWord": "RIVER",
-      "targetWord": "AFTER",
-      "steps": [
-        {
-          "clue": "Starting state: Large natural stream of flowing water",
-          "lockedWord": "RIVER"
-        },
-        {
-          "clue": "One who travels mounted on horseback"
-        },
-        {
-          "clue": "One who provides relief or auxiliary support"
-        },
-        {
-          "clue": "To change or modify character without replacing"
-        },
-        {
-          "clue": "Target state: Subsequent in chronological sequence",
-          "lockedWord": "AFTER"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "RIVER-RIDER-AIDER-ALTER-AFTER",
-      "expectedWords": [
-        "RIVER",
-        "RIDER",
-        "AIDER",
-        "ALTER",
-        "AFTER"
-      ],
-      "acceptedAnswers": [
-        "RIVER-RIDER-AIDER-ALTER-AFTER",
-        "RIDER-AIDER-ALTER",
-        "WEND:RIVER-RIDER-AIDER-ALTER-AFTER"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (5 letters): change position 5 of 'RIVER' to align with the clue: \"One who travels mounted on horseback\".",
-        "HINT 02 // The pivot transition requires bridging through 'AIDER'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WND-0573",
     "title": "WEND // WORD LADDER #0573 (PLANT → STARE)",
     "category": "LOGIC",
@@ -36446,69 +18428,6 @@ export const wendChallenges = [
       "hints": [
         "HINT 01 // Focus on Step 2 (5 letters): change position 5 of 'PLANT' to align with the clue: \"Flat two-dimensional surface or winged aircraft\".",
         "HINT 02 // The pivot transition requires bridging through 'PLATE'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WND-0574",
-    "title": "WEND // WORD LADDER #0574 (SLEEP → STEEL)",
-    "category": "LOGIC",
-    "description": "Morph 'SLEEP' into 'STEEL' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "EXTREME",
-    "risk": "AGGRESSIVE",
-    "cost": 600,
-    "reward": 1800,
-    "penalty": 450,
-    "timeLimit": 120,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-29 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0574",
-      "wordLength": 5,
-      "startWord": "SLEEP",
-      "targetWord": "STEEL",
-      "steps": [
-        {
-          "clue": "Starting state: Naturally recurring condition of biological rest",
-          "lockedWord": "SLEEP"
-        },
-        {
-          "clue": "Ruminant quadruped domesticated for wool"
-        },
-        {
-          "clue": "Perpendicularly steep or absolute pure"
-        },
-        {
-          "clue": "To guide the direction of a vessel or vehicle"
-        },
-        {
-          "clue": "Target state: Alloy of iron with carbon of high tensile strength",
-          "lockedWord": "STEEL"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "SLEEP-SHEEP-SHEER-STEER-STEEL",
-      "expectedWords": [
-        "SLEEP",
-        "SHEEP",
-        "SHEER",
-        "STEER",
-        "STEEL"
-      ],
-      "acceptedAnswers": [
-        "SLEEP-SHEEP-SHEER-STEER-STEEL",
-        "SHEEP-SHEER-STEER",
-        "WEND:SLEEP-SHEEP-SHEER-STEER-STEEL"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (5 letters): change position 5 of 'SLEEP' to align with the clue: \"Ruminant quadruped domesticated for wool\".",
-        "HINT 02 // The pivot transition requires bridging through 'SHEER'; check vowel shifts between adjacent steps."
       ]
     },
     "enabled": true,
@@ -36581,69 +18500,6 @@ export const wendChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WND-0576",
-    "title": "WEND // WORD LADDER #0576 (STORM → SPARK)",
-    "category": "LOGIC",
-    "description": "Morph 'STORM' into 'SPARK' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "EXTREME",
-    "risk": "AGGRESSIVE",
-    "cost": 600,
-    "reward": 1800,
-    "penalty": 450,
-    "timeLimit": 120,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-29 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0576",
-      "wordLength": 5,
-      "startWord": "STORM",
-      "targetWord": "SPARK",
-      "steps": [
-        {
-          "clue": "Starting state: Violent disturbance of meteorological atmosphere",
-          "lockedWord": "STORM"
-        },
-        {
-          "clue": "Retail mercantile establishment or storage repository"
-        },
-        {
-          "clue": "To gaze fixedly with wide uninterrupted eyes"
-        },
-        {
-          "clue": "Additional component held in reserve backup"
-        },
-        {
-          "clue": "Target state: Incandescent particle thrown off from a burning body",
-          "lockedWord": "SPARK"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "STORM-STORE-STARE-SPARE-SPARK",
-      "expectedWords": [
-        "STORM",
-        "STORE",
-        "STARE",
-        "SPARE",
-        "SPARK"
-      ],
-      "acceptedAnswers": [
-        "STORM-STORE-STARE-SPARE-SPARK",
-        "STORE-STARE-SPARE",
-        "WEND:STORM-STORE-STARE-SPARE-SPARK"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (5 letters): change position 5 of 'STORM' to align with the clue: \"Retail mercantile establishment or storage repository\".",
-        "HINT 02 // The pivot transition requires bridging through 'STARE'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WND-0577",
     "title": "WEND // WORD LADDER #0577 (COLD → WARM)",
     "category": "LOGIC",
@@ -36701,69 +18557,6 @@ export const wendChallenges = [
       "hints": [
         "HINT 01 // Focus on Step 2 (4 letters): change position 4 of 'COLD' to align with the clue: \"A flexible insulated cable or binding twine\".",
         "HINT 02 // The pivot transition requires bridging through 'CARD'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WND-0578",
-    "title": "WEND // WORD LADDER #0578 (DARK → FIRE)",
-    "category": "LOGIC",
-    "description": "Morph 'DARK' into 'FIRE' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "EXTREME",
-    "risk": "AGGRESSIVE",
-    "cost": 600,
-    "reward": 1800,
-    "penalty": 450,
-    "timeLimit": 120,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-29 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0578",
-      "wordLength": 4,
-      "startWord": "DARK",
-      "targetWord": "FIRE",
-      "steps": [
-        {
-          "clue": "Starting state: Absence of illumination",
-          "lockedWord": "DARK"
-        },
-        {
-          "clue": "A small pointed projectile or rapid dash"
-        },
-        {
-          "clue": "Loose soil, earth, or particulate matter"
-        },
-        {
-          "clue": "Extremely urgent or calamitous circumstance"
-        },
-        {
-          "clue": "Target state: Combustion generating thermal heat",
-          "lockedWord": "FIRE"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "DARK-DART-DIRT-DIRE-FIRE",
-      "expectedWords": [
-        "DARK",
-        "DART",
-        "DIRT",
-        "DIRE",
-        "FIRE"
-      ],
-      "acceptedAnswers": [
-        "DARK-DART-DIRT-DIRE-FIRE",
-        "DART-DIRT-DIRE",
-        "WEND:DARK-DART-DIRT-DIRE-FIRE"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (4 letters): change position 4 of 'DARK' to align with the clue: \"A small pointed projectile or rapid dash\".",
-        "HINT 02 // The pivot transition requires bridging through 'DIRT'; check vowel shifts between adjacent steps."
       ]
     },
     "enabled": true,
@@ -36833,69 +18626,6 @@ export const wendChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WND-0580",
-    "title": "WEND // WORD LADDER #0580 (LEAD → GOLD)",
-    "category": "LOGIC",
-    "description": "Morph 'LEAD' into 'GOLD' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "EXTREME",
-    "risk": "AGGRESSIVE",
-    "cost": 600,
-    "reward": 1800,
-    "penalty": 450,
-    "timeLimit": 120,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-30 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0580",
-      "wordLength": 4,
-      "startWord": "LEAD",
-      "targetWord": "GOLD",
-      "steps": [
-        {
-          "clue": "Starting state: Dense heavy metallic element",
-          "lockedWord": "LEAD"
-        },
-        {
-          "clue": "A heavy burden or amount carried"
-        },
-        {
-          "clue": "An amphibious tailless creature"
-        },
-        {
-          "clue": "Communicated verbal instruction in the past"
-        },
-        {
-          "clue": "Target state: Precious lustrous yellow metal",
-          "lockedWord": "GOLD"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "LEAD-LOAD-TOAD-TOLD-GOLD",
-      "expectedWords": [
-        "LEAD",
-        "LOAD",
-        "TOAD",
-        "TOLD",
-        "GOLD"
-      ],
-      "acceptedAnswers": [
-        "LEAD-LOAD-TOAD-TOLD-GOLD",
-        "LOAD-TOAD-TOLD",
-        "WEND:LEAD-LOAD-TOAD-TOLD-GOLD"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (4 letters): change position 4 of 'LEAD' to align with the clue: \"A heavy burden or amount carried\".",
-        "HINT 02 // The pivot transition requires bridging through 'TOAD'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WND-0581",
     "title": "WEND // WORD LADDER #0581 (MORE → SAFE)",
     "category": "LOGIC",
@@ -36959,69 +18689,6 @@ export const wendChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WND-0582",
-    "title": "WEND // WORD LADDER #0582 (FAST → POST)",
-    "category": "LOGIC",
-    "description": "Morph 'FAST' into 'POST' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "EXTREME",
-    "risk": "AGGRESSIVE",
-    "cost": 600,
-    "reward": 1800,
-    "penalty": 450,
-    "timeLimit": 120,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-30 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0582",
-      "wordLength": 4,
-      "startWord": "FAST",
-      "targetWord": "POST",
-      "steps": [
-        {
-          "clue": "Starting state: Moving at high velocity",
-          "lockedWord": "FAST"
-        },
-        {
-          "clue": "Gone by in time and no longer existing"
-        },
-        {
-          "clue": "A component portion of a greater whole"
-        },
-        {
-          "clue": "A maritime harbor or network interface"
-        },
-        {
-          "clue": "Target state: Sturdy upright timber or bulletin",
-          "lockedWord": "POST"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "FAST-PAST-PART-PORT-POST",
-      "expectedWords": [
-        "FAST",
-        "PAST",
-        "PART",
-        "PORT",
-        "POST"
-      ],
-      "acceptedAnswers": [
-        "FAST-PAST-PART-PORT-POST",
-        "PAST-PART-PORT",
-        "WEND:FAST-PAST-PART-PORT-POST"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (4 letters): change position 4 of 'FAST' to align with the clue: \"Gone by in time and no longer existing\".",
-        "HINT 02 // The pivot transition requires bridging through 'PART'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WND-0583",
     "title": "WEND // WORD LADDER #0583 (CODE → BARK)",
     "category": "LOGIC",
@@ -37079,69 +18746,6 @@ export const wendChallenges = [
       "hints": [
         "HINT 01 // Focus on Step 2 (4 letters): change position 4 of 'CODE' to align with the clue: \"Central structural nexus of a planetary system\".",
         "HINT 02 // The pivot transition requires bridging through 'CARE'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WND-0584",
-    "title": "WEND // WORD LADDER #0584 (GATE → CALM)",
-    "category": "LOGIC",
-    "description": "Morph 'GATE' into 'CALM' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "EXTREME",
-    "risk": "AGGRESSIVE",
-    "cost": 600,
-    "reward": 1800,
-    "penalty": 450,
-    "timeLimit": 120,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-30 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0584",
-      "wordLength": 4,
-      "startWord": "GATE",
-      "targetWord": "CALM",
-      "steps": [
-        {
-          "clue": "Starting state: Hinged barrier across an opening",
-          "lockedWord": "GATE"
-        },
-        {
-          "clue": "Conferred or transferred possession in the past"
-        },
-        {
-          "clue": "A subterranean hollow or subterranean chamber"
-        },
-        {
-          "clue": "Arrived at a specified coordinate"
-        },
-        {
-          "clue": "Target state: Free from agitation or turbulent disturbance",
-          "lockedWord": "CALM"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "GATE-GAVE-CAVE-CAME-CALM",
-      "expectedWords": [
-        "GATE",
-        "GAVE",
-        "CAVE",
-        "CAME",
-        "CALM"
-      ],
-      "acceptedAnswers": [
-        "GATE-GAVE-CAVE-CAME-CALM",
-        "GAVE-CAVE-CAME",
-        "WEND:GATE-GAVE-CAVE-CAME-CALM"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (4 letters): change position 4 of 'GATE' to align with the clue: \"Conferred or transferred possession in the past\".",
-        "HINT 02 // The pivot transition requires bridging through 'CAVE'; check vowel shifts between adjacent steps."
       ]
     },
     "enabled": true,
@@ -37215,69 +18819,6 @@ export const wendChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WND-0586",
-    "title": "WEND // WORD LADDER #0586 (WIND → LOVE)",
-    "category": "LOGIC",
-    "description": "Morph 'WIND' into 'LOVE' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "EXTREME",
-    "risk": "AGGRESSIVE",
-    "cost": 600,
-    "reward": 1800,
-    "penalty": 450,
-    "timeLimit": 120,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-30 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0586",
-      "wordLength": 4,
-      "startWord": "WIND",
-      "targetWord": "LOVE",
-      "steps": [
-        {
-          "clue": "Starting state: Natural perceptible movement of air",
-          "lockedWord": "WIND"
-        },
-        {
-          "clue": "Fermented juice of grapes or fruit"
-        },
-        {
-          "clue": "Continuous spatial extent having only one dimension"
-        },
-        {
-          "clue": "Having no companions; solitary in wilderness"
-        },
-        {
-          "clue": "Target state: Deep affection and protective devotion",
-          "lockedWord": "LOVE"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "WIND-WINE-LINE-LONE-LOVE",
-      "expectedWords": [
-        "WIND",
-        "WINE",
-        "LINE",
-        "LONE",
-        "LOVE"
-      ],
-      "acceptedAnswers": [
-        "WIND-WINE-LINE-LONE-LOVE",
-        "WINE-LINE-LONE",
-        "WEND:WIND-WINE-LINE-LONE-LOVE"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (4 letters): change position 4 of 'WIND' to align with the clue: \"Fermented juice of grapes or fruit\".",
-        "HINT 02 // The pivot transition requires bridging through 'LINE'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WND-0587",
     "title": "WEND // WORD LADDER #0587 (STONE → CHALK)",
     "category": "LOGIC",
@@ -37339,69 +18880,6 @@ export const wendChallenges = [
       "hints": [
         "HINT 01 // Focus on Step 2 (5 letters): change position 5 of 'STONE' to align with the clue: \"Emitted radiant light in the past\".",
         "HINT 02 // The pivot transition requires bridging through 'CHINE'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WND-0588",
-    "title": "WEND // WORD LADDER #0588 (BLACK → CLING)",
-    "category": "LOGIC",
-    "description": "Morph 'BLACK' into 'CLING' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "EXTREME",
-    "risk": "AGGRESSIVE",
-    "cost": 600,
-    "reward": 1800,
-    "penalty": 450,
-    "timeLimit": 120,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-30 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0588",
-      "wordLength": 5,
-      "startWord": "BLACK",
-      "targetWord": "CLING",
-      "steps": [
-        {
-          "clue": "Starting state: Total absence of visible light",
-          "lockedWord": "BLACK"
-        },
-        {
-          "clue": "Empty of marks, writing, or expression"
-        },
-        {
-          "clue": "To open and close eyes rapidly"
-        },
-        {
-          "clue": "A sharp metallic resonant sound"
-        },
-        {
-          "clue": "Target state: To hold on tightly to an anchor",
-          "lockedWord": "CLING"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "BLACK-BLANK-BLINK-CLINK-CLING",
-      "expectedWords": [
-        "BLACK",
-        "BLANK",
-        "BLINK",
-        "CLINK",
-        "CLING"
-      ],
-      "acceptedAnswers": [
-        "BLACK-BLANK-BLINK-CLINK-CLING",
-        "BLANK-BLINK-CLINK",
-        "WEND:BLACK-BLANK-BLINK-CLINK-CLING"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (5 letters): change position 5 of 'BLACK' to align with the clue: \"Empty of marks, writing, or expression\".",
-        "HINT 02 // The pivot transition requires bridging through 'BLINK'; check vowel shifts between adjacent steps."
       ]
     },
     "enabled": true,
@@ -37471,69 +18949,6 @@ export const wendChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WND-0590",
-    "title": "WEND // WORD LADDER #0590 (RIVER → AFTER)",
-    "category": "LOGIC",
-    "description": "Morph 'RIVER' into 'AFTER' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "EXTREME",
-    "risk": "AGGRESSIVE",
-    "cost": 600,
-    "reward": 1800,
-    "penalty": 450,
-    "timeLimit": 120,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-30 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0590",
-      "wordLength": 5,
-      "startWord": "RIVER",
-      "targetWord": "AFTER",
-      "steps": [
-        {
-          "clue": "Starting state: Large natural stream of flowing water",
-          "lockedWord": "RIVER"
-        },
-        {
-          "clue": "One who travels mounted on horseback"
-        },
-        {
-          "clue": "One who provides relief or auxiliary support"
-        },
-        {
-          "clue": "To change or modify character without replacing"
-        },
-        {
-          "clue": "Target state: Subsequent in chronological sequence",
-          "lockedWord": "AFTER"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "RIVER-RIDER-AIDER-ALTER-AFTER",
-      "expectedWords": [
-        "RIVER",
-        "RIDER",
-        "AIDER",
-        "ALTER",
-        "AFTER"
-      ],
-      "acceptedAnswers": [
-        "RIVER-RIDER-AIDER-ALTER-AFTER",
-        "RIDER-AIDER-ALTER",
-        "WEND:RIVER-RIDER-AIDER-ALTER-AFTER"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (5 letters): change position 5 of 'RIVER' to align with the clue: \"One who travels mounted on horseback\".",
-        "HINT 02 // The pivot transition requires bridging through 'AIDER'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WND-0591",
     "title": "WEND // WORD LADDER #0591 (PLANT → STARE)",
     "category": "LOGIC",
@@ -37591,69 +19006,6 @@ export const wendChallenges = [
       "hints": [
         "HINT 01 // Focus on Step 2 (5 letters): change position 5 of 'PLANT' to align with the clue: \"Flat two-dimensional surface or winged aircraft\".",
         "HINT 02 // The pivot transition requires bridging through 'PLATE'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WND-0592",
-    "title": "WEND // WORD LADDER #0592 (SLEEP → STEEL)",
-    "category": "LOGIC",
-    "description": "Morph 'SLEEP' into 'STEEL' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "EXTREME",
-    "risk": "AGGRESSIVE",
-    "cost": 600,
-    "reward": 1800,
-    "penalty": 450,
-    "timeLimit": 120,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-30 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0592",
-      "wordLength": 5,
-      "startWord": "SLEEP",
-      "targetWord": "STEEL",
-      "steps": [
-        {
-          "clue": "Starting state: Naturally recurring condition of biological rest",
-          "lockedWord": "SLEEP"
-        },
-        {
-          "clue": "Ruminant quadruped domesticated for wool"
-        },
-        {
-          "clue": "Perpendicularly steep or absolute pure"
-        },
-        {
-          "clue": "To guide the direction of a vessel or vehicle"
-        },
-        {
-          "clue": "Target state: Alloy of iron with carbon of high tensile strength",
-          "lockedWord": "STEEL"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "SLEEP-SHEEP-SHEER-STEER-STEEL",
-      "expectedWords": [
-        "SLEEP",
-        "SHEEP",
-        "SHEER",
-        "STEER",
-        "STEEL"
-      ],
-      "acceptedAnswers": [
-        "SLEEP-SHEEP-SHEER-STEER-STEEL",
-        "SHEEP-SHEER-STEER",
-        "WEND:SLEEP-SHEEP-SHEER-STEER-STEEL"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (5 letters): change position 5 of 'SLEEP' to align with the clue: \"Ruminant quadruped domesticated for wool\".",
-        "HINT 02 // The pivot transition requires bridging through 'SHEER'; check vowel shifts between adjacent steps."
       ]
     },
     "enabled": true,
@@ -37726,69 +19078,6 @@ export const wendChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WND-0594",
-    "title": "WEND // WORD LADDER #0594 (STORM → SPARK)",
-    "category": "LOGIC",
-    "description": "Morph 'STORM' into 'SPARK' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "EXTREME",
-    "risk": "AGGRESSIVE",
-    "cost": 600,
-    "reward": 1800,
-    "penalty": 450,
-    "timeLimit": 120,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-30 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0594",
-      "wordLength": 5,
-      "startWord": "STORM",
-      "targetWord": "SPARK",
-      "steps": [
-        {
-          "clue": "Starting state: Violent disturbance of meteorological atmosphere",
-          "lockedWord": "STORM"
-        },
-        {
-          "clue": "Retail mercantile establishment or storage repository"
-        },
-        {
-          "clue": "To gaze fixedly with wide uninterrupted eyes"
-        },
-        {
-          "clue": "Additional component held in reserve backup"
-        },
-        {
-          "clue": "Target state: Incandescent particle thrown off from a burning body",
-          "lockedWord": "SPARK"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "STORM-STORE-STARE-SPARE-SPARK",
-      "expectedWords": [
-        "STORM",
-        "STORE",
-        "STARE",
-        "SPARE",
-        "SPARK"
-      ],
-      "acceptedAnswers": [
-        "STORM-STORE-STARE-SPARE-SPARK",
-        "STORE-STARE-SPARE",
-        "WEND:STORM-STORE-STARE-SPARE-SPARK"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (5 letters): change position 5 of 'STORM' to align with the clue: \"Retail mercantile establishment or storage repository\".",
-        "HINT 02 // The pivot transition requires bridging through 'STARE'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WND-0595",
     "title": "WEND // WORD LADDER #0595 (COLD → WARM)",
     "category": "LOGIC",
@@ -37846,69 +19135,6 @@ export const wendChallenges = [
       "hints": [
         "HINT 01 // Focus on Step 2 (4 letters): change position 4 of 'COLD' to align with the clue: \"A flexible insulated cable or binding twine\".",
         "HINT 02 // The pivot transition requires bridging through 'CARD'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WND-0596",
-    "title": "WEND // WORD LADDER #0596 (DARK → FIRE)",
-    "category": "LOGIC",
-    "description": "Morph 'DARK' into 'FIRE' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "EXTREME",
-    "risk": "AGGRESSIVE",
-    "cost": 600,
-    "reward": 1800,
-    "penalty": 450,
-    "timeLimit": 120,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-30 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0596",
-      "wordLength": 4,
-      "startWord": "DARK",
-      "targetWord": "FIRE",
-      "steps": [
-        {
-          "clue": "Starting state: Absence of illumination",
-          "lockedWord": "DARK"
-        },
-        {
-          "clue": "A small pointed projectile or rapid dash"
-        },
-        {
-          "clue": "Loose soil, earth, or particulate matter"
-        },
-        {
-          "clue": "Extremely urgent or calamitous circumstance"
-        },
-        {
-          "clue": "Target state: Combustion generating thermal heat",
-          "lockedWord": "FIRE"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "DARK-DART-DIRT-DIRE-FIRE",
-      "expectedWords": [
-        "DARK",
-        "DART",
-        "DIRT",
-        "DIRE",
-        "FIRE"
-      ],
-      "acceptedAnswers": [
-        "DARK-DART-DIRT-DIRE-FIRE",
-        "DART-DIRT-DIRE",
-        "WEND:DARK-DART-DIRT-DIRE-FIRE"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (4 letters): change position 4 of 'DARK' to align with the clue: \"A small pointed projectile or rapid dash\".",
-        "HINT 02 // The pivot transition requires bridging through 'DIRT'; check vowel shifts between adjacent steps."
       ]
     },
     "enabled": true,
@@ -37978,69 +19204,6 @@ export const wendChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WND-0598",
-    "title": "WEND // WORD LADDER #0598 (LEAD → GOLD)",
-    "category": "LOGIC",
-    "description": "Morph 'LEAD' into 'GOLD' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "EXTREME",
-    "risk": "AGGRESSIVE",
-    "cost": 600,
-    "reward": 1800,
-    "penalty": 450,
-    "timeLimit": 120,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-30 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0598",
-      "wordLength": 4,
-      "startWord": "LEAD",
-      "targetWord": "GOLD",
-      "steps": [
-        {
-          "clue": "Starting state: Dense heavy metallic element",
-          "lockedWord": "LEAD"
-        },
-        {
-          "clue": "A heavy burden or amount carried"
-        },
-        {
-          "clue": "An amphibious tailless creature"
-        },
-        {
-          "clue": "Communicated verbal instruction in the past"
-        },
-        {
-          "clue": "Target state: Precious lustrous yellow metal",
-          "lockedWord": "GOLD"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "LEAD-LOAD-TOAD-TOLD-GOLD",
-      "expectedWords": [
-        "LEAD",
-        "LOAD",
-        "TOAD",
-        "TOLD",
-        "GOLD"
-      ],
-      "acceptedAnswers": [
-        "LEAD-LOAD-TOAD-TOLD-GOLD",
-        "LOAD-TOAD-TOLD",
-        "WEND:LEAD-LOAD-TOAD-TOLD-GOLD"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (4 letters): change position 4 of 'LEAD' to align with the clue: \"A heavy burden or amount carried\".",
-        "HINT 02 // The pivot transition requires bridging through 'TOAD'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WND-0599",
     "title": "WEND // WORD LADDER #0599 (MORE → SAFE)",
     "category": "LOGIC",
@@ -38098,69 +19261,6 @@ export const wendChallenges = [
       "hints": [
         "HINT 01 // Focus on Step 2 (4 letters): change position 4 of 'MORE' to align with the clue: \"A small burrowing insectivorous mammal\".",
         "HINT 02 // The pivot transition requires bridging through 'MALE'; check vowel shifts between adjacent steps."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WND-0600",
-    "title": "WEND // WORD LADDER #0600 (FAST → POST)",
-    "category": "LOGIC",
-    "description": "Morph 'FAST' into 'POST' across 4 single-letter lexical transitions guided by intermediate clues.",
-    "difficulty": "EXTREME",
-    "risk": "AGGRESSIVE",
-    "cost": 600,
-    "reward": 1800,
-    "penalty": 450,
-    "timeLimit": 120,
-    "gameType": "wend",
-    "gameConfig": {
-      "sector": "SECTOR-31 // LEXICON",
-      "artworkKey": "LOGIC",
-      "secondaryArtworkKey": "CORRIDOR",
-      "maxHints": 2,
-      "clearanceCode": "NX-WND-0600",
-      "wordLength": 4,
-      "startWord": "FAST",
-      "targetWord": "POST",
-      "steps": [
-        {
-          "clue": "Starting state: Moving at high velocity",
-          "lockedWord": "FAST"
-        },
-        {
-          "clue": "Gone by in time and no longer existing"
-        },
-        {
-          "clue": "A component portion of a greater whole"
-        },
-        {
-          "clue": "A maritime harbor or network interface"
-        },
-        {
-          "clue": "Target state: Sturdy upright timber or bulletin",
-          "lockedWord": "POST"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "FAST-PAST-PART-PORT-POST",
-      "expectedWords": [
-        "FAST",
-        "PAST",
-        "PART",
-        "PORT",
-        "POST"
-      ],
-      "acceptedAnswers": [
-        "FAST-PAST-PART-PORT-POST",
-        "PAST-PART-PORT",
-        "WEND:FAST-PAST-PART-PORT-POST"
-      ],
-      "hints": [
-        "HINT 01 // Focus on Step 2 (4 letters): change position 4 of 'FAST' to align with the clue: \"Gone by in time and no longer existing\".",
-        "HINT 02 // The pivot transition requires bridging through 'PART'; check vowel shifts between adjacent steps."
       ]
     },
     "enabled": true,

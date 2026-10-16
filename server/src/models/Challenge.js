@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import { calculateChallengeTimeLimit } from '../config/timingConfig.js';
 
 export const CHALLENGE_CATEGORIES = [
   'LOGIC',
@@ -132,10 +133,37 @@ challengeSchema.index({ enabled: 1, available: 1, cost: 1, challengeId: 1 });
 challengeSchema.index({ enabled: 1, gameType: 1, difficulty: 1 });
 
 
-export const sanitizePublicChallenge = (docOrObj) => {
+export const sanitizePublicChallenge = (docOrObj, { isMarketListing = false } = {}) => {
   if (!docOrObj) return null;
   const raw = typeof docOrObj.toObject === 'function' ? docOrObj.toObject({ versionKey: false }) : { ...docOrObj };
   delete raw.solutionConfig;
+  const timeLimit = calculateChallengeTimeLimit(raw.gameType, raw.difficulty, raw.timeLimit);
+
+  if (isMarketListing) {
+    return {
+      challengeId: raw.challengeId,
+      title: raw.title,
+      category: raw.category,
+      description: raw.description,
+      difficulty: raw.difficulty,
+      risk: raw.risk,
+      cost: Number(raw.cost || 0),
+      reward: Number(raw.reward || 0),
+      penalty: Number(raw.penalty || 100),
+      timeLimit,
+      gameType: raw.gameType,
+      gameConfig: {
+        artworkKey: raw.gameConfig?.artworkKey,
+        sector: raw.gameConfig?.sector,
+        roundTitle: raw.gameConfig?.roundTitle,
+        size: raw.gameConfig?.size,
+        wordLength: raw.gameConfig?.wordLength,
+      },
+      enabled: Boolean(raw.enabled),
+      available: Boolean(raw.available),
+    };
+  }
+
   if (raw.gameConfig && typeof raw.gameConfig === 'object') {
     const {
       expectedAnswer,
@@ -151,6 +179,7 @@ export const sanitizePublicChallenge = (docOrObj) => {
     } = raw.gameConfig;
     raw.gameConfig = safeConfig;
   }
+  raw.timeLimit = timeLimit;
   return raw;
 };
 

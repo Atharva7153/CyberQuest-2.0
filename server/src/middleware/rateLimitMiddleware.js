@@ -8,37 +8,37 @@ export const RATE_LIMIT_POLICIES = Object.freeze({
   LOGIN: {
     category: 'LOGIN',
     windowMs: 60 * 1000,
-    maxRequests: 15,
+    maxRequests: 150,
     message: 'Too many authentication attempts. Please wait before trying again.',
   },
   PURCHASE: {
     category: 'PURCHASE',
     windowMs: 60 * 1000,
-    maxRequests: 12,
+    maxRequests: 30,
     message: 'Challenge purchase rate limit exceeded. Wait before acquiring another module.',
   },
   SUBMISSION: {
     category: 'SUBMISSION',
     windowMs: 60 * 1000,
-    maxRequests: 15,
+    maxRequests: 30,
     message: 'Solution submission rate limit exceeded. Wait before transmitting another payload.',
   },
   HINT: {
     category: 'HINT',
     windowMs: 60 * 1000,
-    maxRequests: 10,
+    maxRequests: 20,
     message: 'Hint decryption rate limit exceeded. Wait before requesting another hint.',
   },
   EXTRA_TIME: {
     category: 'EXTRA_TIME',
     windowMs: 60 * 1000,
-    maxRequests: 10,
+    maxRequests: 20,
     message: 'Extra time allocation rate limit exceeded. Wait before extending the timer again.',
   },
   ABILITY: {
     category: 'ABILITY',
     windowMs: 60 * 1000,
-    maxRequests: 12,
+    maxRequests: 25,
     message: 'Ability activation rate limit exceeded. Wait before invoking another NEXUS ability.',
   },
 });

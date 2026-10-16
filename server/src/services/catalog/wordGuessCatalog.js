@@ -1,6 +1,6 @@
 /**
- * Word Guess Master Catalog (250 Challenges)
- * Multi-disciplinary anagram challenges: Astronomy, Earth Sciences, History, Biology, Computing & Philosophy.
+ * Auto-reduced Master Catalog (375 Challenges)
+ * Balanced difficulty distribution (LOW, MODERATE, HIGH, EXTREME).
  */
 export const wordGuessChallenges = [
   {
@@ -49,57 +49,6 @@ export const wordGuessChallenges = [
       "hints": [
         "HINT 01 // Round 1 clue indicates a 9-letter term from MYTHOLOGY; the word begins with letter 'L' or ends with 'H'.",
         "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [I T B Y A L H N R] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WG-0002",
-    "title": "WORD GUESS // PHILOSOPHY, #0002",
-    "category": "PUZZLES",
-    "description": "Unscramble 2 domain terminology anagrams from PHILOSOPHY, LOGIC & ARTS under timed conditions.",
-    "difficulty": "LOW",
-    "risk": "SAFE",
-    "cost": 60,
-    "reward": 85,
-    "penalty": 30,
-    "timeLimit": 60,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-01 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0002",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "LABYRINTH",
-          "clue": "Complex maze-like network of intersecting pathways or intricate architectural passages.",
-          "category": "MYTHOLOGY",
-          "scrambled": "L H Y A B T I R N"
-        },
-        {
-          "id": "R2",
-          "word": "SOLILOQUY",
-          "clue": "Act of speaking one's thoughts aloud when by oneself regardless of hearers, especially by a character.",
-          "category": "THEATRE",
-          "scrambled": "L I L U Q Y O O S"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "LABYRINTH-SOLILOQUY",
-      "acceptedAnswers": [
-        "LABYRINTH-SOLILOQUY",
-        "LABYRINTH SOLILOQUY",
-        "LABYRINTH,SOLILOQUY",
-        "WORDGUESS:LABYRINTH-SOLILOQUY"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 9-letter term from MYTHOLOGY; the word begins with letter 'L' or ends with 'H'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [L H Y A B T I R N] to identify common prefixes or suffixes."
       ]
     },
     "enabled": true,
@@ -157,57 +106,6 @@ export const wordGuessChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WG-0004",
-    "title": "WORD GUESS // PHILOSOPHY, #0004",
-    "category": "PUZZLES",
-    "description": "Unscramble 2 domain terminology anagrams from PHILOSOPHY, LOGIC & ARTS under timed conditions.",
-    "difficulty": "LOW",
-    "risk": "SAFE",
-    "cost": 60,
-    "reward": 85,
-    "penalty": 30,
-    "timeLimit": 60,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-01 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0004",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "DIALECTIC",
-          "clue": "Discourse between two differing points of view seeking to establish truth through reasoned arguments.",
-          "category": "PHILOSOPHY",
-          "scrambled": "E C I A T I D L C"
-        },
-        {
-          "id": "R2",
-          "word": "ALLEGORY",
-          "clue": "Story, poem, or picture that can be interpreted to reveal a hidden moral or political meaning.",
-          "category": "RHETORIC",
-          "scrambled": "E L L R G A O Y"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "DIALECTIC-ALLEGORY",
-      "acceptedAnswers": [
-        "DIALECTIC-ALLEGORY",
-        "DIALECTIC ALLEGORY",
-        "DIALECTIC,ALLEGORY",
-        "WORDGUESS:DIALECTIC-ALLEGORY"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 9-letter term from PHILOSOPHY; the word begins with letter 'D' or ends with 'C'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [E C I A T I D L C] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WG-0005",
     "title": "WORD GUESS // PHILOSOPHY, #0005",
     "category": "PUZZLES",
@@ -253,57 +151,6 @@ export const wordGuessChallenges = [
       "hints": [
         "HINT 01 // Round 1 clue indicates a 9-letter term from THEATRE; the word begins with letter 'S' or ends with 'Y'.",
         "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [O L L O U I Q Y S] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WG-0006",
-    "title": "WORD GUESS // PHILOSOPHY, #0006",
-    "category": "PUZZLES",
-    "description": "Unscramble 2 domain terminology anagrams from PHILOSOPHY, LOGIC & ARTS under timed conditions.",
-    "difficulty": "LOW",
-    "risk": "SAFE",
-    "cost": 60,
-    "reward": 85,
-    "penalty": 30,
-    "timeLimit": 60,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-01 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0006",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "ARCHETYPE",
-          "clue": "Universally recognized recurrent symbol, motif, or character archetype in literature and art.",
-          "category": "LITERATURE",
-          "scrambled": "H A E R P E T Y C"
-        },
-        {
-          "id": "R2",
-          "word": "MONOLOGUE",
-          "clue": "Extended speech by one actor in a theatrical play, film, or solitary performance.",
-          "category": "DRAMA",
-          "scrambled": "M G L O O N E O U"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "ARCHETYPE-MONOLOGUE",
-      "acceptedAnswers": [
-        "ARCHETYPE-MONOLOGUE",
-        "ARCHETYPE MONOLOGUE",
-        "ARCHETYPE,MONOLOGUE",
-        "WORDGUESS:ARCHETYPE-MONOLOGUE"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 9-letter term from LITERATURE; the word begins with letter 'A' or ends with 'E'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [H A E R P E T Y C] to identify common prefixes or suffixes."
       ]
     },
     "enabled": true,
@@ -361,57 +208,6 @@ export const wordGuessChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WG-0008",
-    "title": "WORD GUESS // PHILOSOPHY, #0008",
-    "category": "PUZZLES",
-    "description": "Unscramble 2 domain terminology anagrams from PHILOSOPHY, LOGIC & ARTS under timed conditions.",
-    "difficulty": "LOW",
-    "risk": "SAFE",
-    "cost": 60,
-    "reward": 85,
-    "penalty": 30,
-    "timeLimit": 60,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-01 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0008",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "PARADOX",
-          "clue": "Logically self-contradictory statement or proposition contrary to expectations.",
-          "category": "PHILOSOPHY",
-          "scrambled": "D A O P R X A"
-        },
-        {
-          "id": "R2",
-          "word": "SYLLOGISM",
-          "clue": "Form of deductive reasoning consisting of a major premise, a minor premise, and a conclusion.",
-          "category": "LOGIC",
-          "scrambled": "I L O Y G M S S L"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "PARADOX-SYLLOGISM",
-      "acceptedAnswers": [
-        "PARADOX-SYLLOGISM",
-        "PARADOX SYLLOGISM",
-        "PARADOX,SYLLOGISM",
-        "WORDGUESS:PARADOX-SYLLOGISM"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 7-letter term from PHILOSOPHY; the word begins with letter 'P' or ends with 'X'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [D A O P R X A] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WG-0009",
     "title": "WORD GUESS // PHILOSOPHY, #0009",
     "category": "PUZZLES",
@@ -457,57 +253,6 @@ export const wordGuessChallenges = [
       "hints": [
         "HINT 01 // Round 1 clue indicates a 9-letter term from PHILOSOPHY; the word begins with letter 'D' or ends with 'C'.",
         "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [C L D E T I C A I] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WG-0010",
-    "title": "WORD GUESS // PHILOSOPHY, #0010",
-    "category": "PUZZLES",
-    "description": "Unscramble 2 domain terminology anagrams from PHILOSOPHY, LOGIC & ARTS under timed conditions.",
-    "difficulty": "LOW",
-    "risk": "SAFE",
-    "cost": 60,
-    "reward": 85,
-    "penalty": 30,
-    "timeLimit": 60,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-01 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0010",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "LABYRINTH",
-          "clue": "Complex maze-like network of intersecting pathways or intricate architectural passages.",
-          "category": "MYTHOLOGY",
-          "scrambled": "B Y H A T I R L N"
-        },
-        {
-          "id": "R2",
-          "word": "ALLEGORY",
-          "clue": "Story, poem, or picture that can be interpreted to reveal a hidden moral or political meaning.",
-          "category": "RHETORIC",
-          "scrambled": "R G L A Y L E O"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "LABYRINTH-ALLEGORY",
-      "acceptedAnswers": [
-        "LABYRINTH-ALLEGORY",
-        "LABYRINTH ALLEGORY",
-        "LABYRINTH,ALLEGORY",
-        "WORDGUESS:LABYRINTH-ALLEGORY"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 9-letter term from MYTHOLOGY; the word begins with letter 'L' or ends with 'H'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [B Y H A T I R L N] to identify common prefixes or suffixes."
       ]
     },
     "enabled": true,
@@ -565,57 +310,6 @@ export const wordGuessChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WG-0012",
-    "title": "WORD GUESS // PHILOSOPHY, #0012",
-    "category": "PUZZLES",
-    "description": "Unscramble 2 domain terminology anagrams from PHILOSOPHY, LOGIC & ARTS under timed conditions.",
-    "difficulty": "LOW",
-    "risk": "SAFE",
-    "cost": 60,
-    "reward": 85,
-    "penalty": 30,
-    "timeLimit": 60,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-01 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0012",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "SYLLOGISM",
-          "clue": "Form of deductive reasoning consisting of a major premise, a minor premise, and a conclusion.",
-          "category": "LOGIC",
-          "scrambled": "S S O L M G I Y L"
-        },
-        {
-          "id": "R2",
-          "word": "DIALECTIC",
-          "clue": "Discourse between two differing points of view seeking to establish truth through reasoned arguments.",
-          "category": "PHILOSOPHY",
-          "scrambled": "E D T I I A C C L"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "SYLLOGISM-DIALECTIC",
-      "acceptedAnswers": [
-        "SYLLOGISM-DIALECTIC",
-        "SYLLOGISM DIALECTIC",
-        "SYLLOGISM,DIALECTIC",
-        "WORDGUESS:SYLLOGISM-DIALECTIC"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 9-letter term from LOGIC; the word begins with letter 'S' or ends with 'M'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [S S O L M G I Y L] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WG-0013",
     "title": "WORD GUESS // PHILOSOPHY, #0013",
     "category": "PUZZLES",
@@ -661,57 +355,6 @@ export const wordGuessChallenges = [
       "hints": [
         "HINT 01 // Round 1 clue indicates a 8-letter term from RHETORIC; the word begins with letter 'A' or ends with 'Y'.",
         "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [E R O L L A Y G] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WG-0014",
-    "title": "WORD GUESS // PHILOSOPHY, #0014",
-    "category": "PUZZLES",
-    "description": "Unscramble 2 domain terminology anagrams from PHILOSOPHY, LOGIC & ARTS under timed conditions.",
-    "difficulty": "LOW",
-    "risk": "SAFE",
-    "cost": 60,
-    "reward": 85,
-    "penalty": 30,
-    "timeLimit": 60,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-01 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0014",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "PARADOX",
-          "clue": "Logically self-contradictory statement or proposition contrary to expectations.",
-          "category": "PHILOSOPHY",
-          "scrambled": "O D R X A A P"
-        },
-        {
-          "id": "R2",
-          "word": "LABYRINTH",
-          "clue": "Complex maze-like network of intersecting pathways or intricate architectural passages.",
-          "category": "MYTHOLOGY",
-          "scrambled": "T L N R B Y I A H"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "PARADOX-LABYRINTH",
-      "acceptedAnswers": [
-        "PARADOX-LABYRINTH",
-        "PARADOX LABYRINTH",
-        "PARADOX,LABYRINTH",
-        "WORDGUESS:PARADOX-LABYRINTH"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 7-letter term from PHILOSOPHY; the word begins with letter 'P' or ends with 'X'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [O D R X A A P] to identify common prefixes or suffixes."
       ]
     },
     "enabled": true,
@@ -769,57 +412,6 @@ export const wordGuessChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WG-0016",
-    "title": "WORD GUESS // PHILOSOPHY, #0016",
-    "category": "PUZZLES",
-    "description": "Unscramble 2 domain terminology anagrams from PHILOSOPHY, LOGIC & ARTS under timed conditions.",
-    "difficulty": "LOW",
-    "risk": "SAFE",
-    "cost": 60,
-    "reward": 85,
-    "penalty": 30,
-    "timeLimit": 60,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-01 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0016",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "DIALECTIC",
-          "clue": "Discourse between two differing points of view seeking to establish truth through reasoned arguments.",
-          "category": "PHILOSOPHY",
-          "scrambled": "D T E C A I C L I"
-        },
-        {
-          "id": "R2",
-          "word": "PARADOX",
-          "clue": "Logically self-contradictory statement or proposition contrary to expectations.",
-          "category": "PHILOSOPHY",
-          "scrambled": "A D X A P R O"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "DIALECTIC-PARADOX",
-      "acceptedAnswers": [
-        "DIALECTIC-PARADOX",
-        "DIALECTIC PARADOX",
-        "DIALECTIC,PARADOX",
-        "WORDGUESS:DIALECTIC-PARADOX"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 9-letter term from PHILOSOPHY; the word begins with letter 'D' or ends with 'C'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [D T E C A I C L I] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WG-0017",
     "title": "WORD GUESS // PHILOSOPHY, #0017",
     "category": "PUZZLES",
@@ -865,57 +457,6 @@ export const wordGuessChallenges = [
       "hints": [
         "HINT 01 // Round 1 clue indicates a 7-letter term from PHILOSOPHY; the word begins with letter 'P' or ends with 'X'.",
         "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [O P D R A X A] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WG-0018",
-    "title": "WORD GUESS // PHILOSOPHY, #0018",
-    "category": "PUZZLES",
-    "description": "Unscramble 2 domain terminology anagrams from PHILOSOPHY, LOGIC & ARTS under timed conditions.",
-    "difficulty": "LOW",
-    "risk": "SAFE",
-    "cost": 60,
-    "reward": 85,
-    "penalty": 30,
-    "timeLimit": 60,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-01 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0018",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "DIALECTIC",
-          "clue": "Discourse between two differing points of view seeking to establish truth through reasoned arguments.",
-          "category": "PHILOSOPHY",
-          "scrambled": "I L C I T A E C D"
-        },
-        {
-          "id": "R2",
-          "word": "PARADOX",
-          "clue": "Logically self-contradictory statement or proposition contrary to expectations.",
-          "category": "PHILOSOPHY",
-          "scrambled": "D P A O X R A"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "DIALECTIC-PARADOX",
-      "acceptedAnswers": [
-        "DIALECTIC-PARADOX",
-        "DIALECTIC PARADOX",
-        "DIALECTIC,PARADOX",
-        "WORDGUESS:DIALECTIC-PARADOX"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 9-letter term from PHILOSOPHY; the word begins with letter 'D' or ends with 'C'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [I L C I T A E C D] to identify common prefixes or suffixes."
       ]
     },
     "enabled": true,
@@ -973,57 +514,6 @@ export const wordGuessChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WG-0020",
-    "title": "WORD GUESS // PHILOSOPHY, #0020",
-    "category": "PUZZLES",
-    "description": "Unscramble 2 domain terminology anagrams from PHILOSOPHY, LOGIC & ARTS under timed conditions.",
-    "difficulty": "LOW",
-    "risk": "SAFE",
-    "cost": 60,
-    "reward": 85,
-    "penalty": 30,
-    "timeLimit": 60,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-02 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0020",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "ALLEGORY",
-          "clue": "Story, poem, or picture that can be interpreted to reveal a hidden moral or political meaning.",
-          "category": "RHETORIC",
-          "scrambled": "G O L A L R E Y"
-        },
-        {
-          "id": "R2",
-          "word": "LABYRINTH",
-          "clue": "Complex maze-like network of intersecting pathways or intricate architectural passages.",
-          "category": "MYTHOLOGY",
-          "scrambled": "L A H I N T Y B R"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "ALLEGORY-LABYRINTH",
-      "acceptedAnswers": [
-        "ALLEGORY-LABYRINTH",
-        "ALLEGORY LABYRINTH",
-        "ALLEGORY,LABYRINTH",
-        "WORDGUESS:ALLEGORY-LABYRINTH"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 8-letter term from RHETORIC; the word begins with letter 'A' or ends with 'Y'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [G O L A L R E Y] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WG-0021",
     "title": "WORD GUESS // PHILOSOPHY, #0021",
     "category": "PUZZLES",
@@ -1069,57 +559,6 @@ export const wordGuessChallenges = [
       "hints": [
         "HINT 01 // Round 1 clue indicates a 8-letter term from RHETORIC; the word begins with letter 'A' or ends with 'Y'.",
         "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [E A L G Y O R L] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WG-0022",
-    "title": "WORD GUESS // PHILOSOPHY, #0022",
-    "category": "PUZZLES",
-    "description": "Unscramble 2 domain terminology anagrams from PHILOSOPHY, LOGIC & ARTS under timed conditions.",
-    "difficulty": "LOW",
-    "risk": "SAFE",
-    "cost": 60,
-    "reward": 85,
-    "penalty": 30,
-    "timeLimit": 60,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-02 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0022",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "ENIGMA",
-          "clue": "Person or thing that is mysterious, puzzling, or fundamentally difficult to decipher.",
-          "category": "LOGIC",
-          "scrambled": "A I M E N G"
-        },
-        {
-          "id": "R2",
-          "word": "ARCHETYPE",
-          "clue": "Universally recognized recurrent symbol, motif, or character archetype in literature and art.",
-          "category": "LITERATURE",
-          "scrambled": "Y E C P H R E T A"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "ENIGMA-ARCHETYPE",
-      "acceptedAnswers": [
-        "ENIGMA-ARCHETYPE",
-        "ENIGMA ARCHETYPE",
-        "ENIGMA,ARCHETYPE",
-        "WORDGUESS:ENIGMA-ARCHETYPE"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 6-letter term from LOGIC; the word begins with letter 'E' or ends with 'A'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [A I M E N G] to identify common prefixes or suffixes."
       ]
     },
     "enabled": true,
@@ -1177,57 +616,6 @@ export const wordGuessChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WG-0024",
-    "title": "WORD GUESS // PHILOSOPHY, #0024",
-    "category": "PUZZLES",
-    "description": "Unscramble 2 domain terminology anagrams from PHILOSOPHY, LOGIC & ARTS under timed conditions.",
-    "difficulty": "LOW",
-    "risk": "SAFE",
-    "cost": 60,
-    "reward": 85,
-    "penalty": 30,
-    "timeLimit": 60,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-02 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0024",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "CHIMERA",
-          "clue": "Fabulous mythological creature composed of disparate parts of diverse beasts.",
-          "category": "FOLKLORE",
-          "scrambled": "R A E C H I M"
-        },
-        {
-          "id": "R2",
-          "word": "LABYRINTH",
-          "clue": "Complex maze-like network of intersecting pathways or intricate architectural passages.",
-          "category": "MYTHOLOGY",
-          "scrambled": "B N I T R A L Y H"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "CHIMERA-LABYRINTH",
-      "acceptedAnswers": [
-        "CHIMERA-LABYRINTH",
-        "CHIMERA LABYRINTH",
-        "CHIMERA,LABYRINTH",
-        "WORDGUESS:CHIMERA-LABYRINTH"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 7-letter term from FOLKLORE; the word begins with letter 'C' or ends with 'A'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [R A E C H I M] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WG-0025",
     "title": "WORD GUESS // PHILOSOPHY, #0025",
     "category": "PUZZLES",
@@ -1273,57 +661,6 @@ export const wordGuessChallenges = [
       "hints": [
         "HINT 01 // Round 1 clue indicates a 9-letter term from LITERATURE; the word begins with letter 'A' or ends with 'E'.",
         "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [C T Y A R P E H E] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WG-0026",
-    "title": "WORD GUESS // PHILOSOPHY, #0026",
-    "category": "PUZZLES",
-    "description": "Unscramble 2 domain terminology anagrams from PHILOSOPHY, LOGIC & ARTS under timed conditions.",
-    "difficulty": "LOW",
-    "risk": "SAFE",
-    "cost": 60,
-    "reward": 85,
-    "penalty": 30,
-    "timeLimit": 60,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-02 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0026",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "PARADOX",
-          "clue": "Logically self-contradictory statement or proposition contrary to expectations.",
-          "category": "PHILOSOPHY",
-          "scrambled": "A R A P X O D"
-        },
-        {
-          "id": "R2",
-          "word": "SOLILOQUY",
-          "clue": "Act of speaking one's thoughts aloud when by oneself regardless of hearers, especially by a character.",
-          "category": "THEATRE",
-          "scrambled": "I L U L Q O S Y O"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "PARADOX-SOLILOQUY",
-      "acceptedAnswers": [
-        "PARADOX-SOLILOQUY",
-        "PARADOX SOLILOQUY",
-        "PARADOX,SOLILOQUY",
-        "WORDGUESS:PARADOX-SOLILOQUY"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 7-letter term from PHILOSOPHY; the word begins with letter 'P' or ends with 'X'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [A R A P X O D] to identify common prefixes or suffixes."
       ]
     },
     "enabled": true,
@@ -1381,57 +718,6 @@ export const wordGuessChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WG-0028",
-    "title": "WORD GUESS // PHILOSOPHY, #0028",
-    "category": "PUZZLES",
-    "description": "Unscramble 2 domain terminology anagrams from PHILOSOPHY, LOGIC & ARTS under timed conditions.",
-    "difficulty": "LOW",
-    "risk": "SAFE",
-    "cost": 60,
-    "reward": 85,
-    "penalty": 30,
-    "timeLimit": 60,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-02 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0028",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "ARCHETYPE",
-          "clue": "Universally recognized recurrent symbol, motif, or character archetype in literature and art.",
-          "category": "LITERATURE",
-          "scrambled": "P E R T H C A E Y"
-        },
-        {
-          "id": "R2",
-          "word": "MONOLOGUE",
-          "clue": "Extended speech by one actor in a theatrical play, film, or solitary performance.",
-          "category": "DRAMA",
-          "scrambled": "O L O E U O N M G"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "ARCHETYPE-MONOLOGUE",
-      "acceptedAnswers": [
-        "ARCHETYPE-MONOLOGUE",
-        "ARCHETYPE MONOLOGUE",
-        "ARCHETYPE,MONOLOGUE",
-        "WORDGUESS:ARCHETYPE-MONOLOGUE"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 9-letter term from LITERATURE; the word begins with letter 'A' or ends with 'E'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [P E R T H C A E Y] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WG-0029",
     "title": "WORD GUESS // PHILOSOPHY, #0029",
     "category": "PUZZLES",
@@ -1477,57 +763,6 @@ export const wordGuessChallenges = [
       "hints": [
         "HINT 01 // Round 1 clue indicates a 9-letter term from LOGIC; the word begins with letter 'S' or ends with 'M'.",
         "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [L M G Y S I L S O] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WG-0030",
-    "title": "WORD GUESS // PHILOSOPHY, #0030",
-    "category": "PUZZLES",
-    "description": "Unscramble 2 domain terminology anagrams from PHILOSOPHY, LOGIC & ARTS under timed conditions.",
-    "difficulty": "LOW",
-    "risk": "SAFE",
-    "cost": 60,
-    "reward": 85,
-    "penalty": 30,
-    "timeLimit": 60,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-02 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0030",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "PARADOX",
-          "clue": "Logically self-contradictory statement or proposition contrary to expectations.",
-          "category": "PHILOSOPHY",
-          "scrambled": "R A D X A O P"
-        },
-        {
-          "id": "R2",
-          "word": "ALLEGORY",
-          "clue": "Story, poem, or picture that can be interpreted to reveal a hidden moral or political meaning.",
-          "category": "RHETORIC",
-          "scrambled": "G R L L E O A Y"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "PARADOX-ALLEGORY",
-      "acceptedAnswers": [
-        "PARADOX-ALLEGORY",
-        "PARADOX ALLEGORY",
-        "PARADOX,ALLEGORY",
-        "WORDGUESS:PARADOX-ALLEGORY"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 7-letter term from PHILOSOPHY; the word begins with letter 'P' or ends with 'X'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [R A D X A O P] to identify common prefixes or suffixes."
       ]
     },
     "enabled": true,
@@ -1585,57 +820,6 @@ export const wordGuessChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WG-0032",
-    "title": "WORD GUESS // PHILOSOPHY, #0032",
-    "category": "PUZZLES",
-    "description": "Unscramble 2 domain terminology anagrams from PHILOSOPHY, LOGIC & ARTS under timed conditions.",
-    "difficulty": "LOW",
-    "risk": "SAFE",
-    "cost": 60,
-    "reward": 85,
-    "penalty": 30,
-    "timeLimit": 60,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-02 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0032",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "MONOLOGUE",
-          "clue": "Extended speech by one actor in a theatrical play, film, or solitary performance.",
-          "category": "DRAMA",
-          "scrambled": "O E U G O L O N M"
-        },
-        {
-          "id": "R2",
-          "word": "CHIMERA",
-          "clue": "Fabulous mythological creature composed of disparate parts of diverse beasts.",
-          "category": "FOLKLORE",
-          "scrambled": "H M A C E R I"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "MONOLOGUE-CHIMERA",
-      "acceptedAnswers": [
-        "MONOLOGUE-CHIMERA",
-        "MONOLOGUE CHIMERA",
-        "MONOLOGUE,CHIMERA",
-        "WORDGUESS:MONOLOGUE-CHIMERA"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 9-letter term from DRAMA; the word begins with letter 'M' or ends with 'E'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [O E U G O L O N M] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WG-0033",
     "title": "WORD GUESS // PHILOSOPHY, #0033",
     "category": "PUZZLES",
@@ -1681,57 +865,6 @@ export const wordGuessChallenges = [
       "hints": [
         "HINT 01 // Round 1 clue indicates a 9-letter term from LITERATURE; the word begins with letter 'A' or ends with 'E'.",
         "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [E A T P Y C E R H] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WG-0034",
-    "title": "WORD GUESS // PHILOSOPHY, #0034",
-    "category": "PUZZLES",
-    "description": "Unscramble 2 domain terminology anagrams from PHILOSOPHY, LOGIC & ARTS under timed conditions.",
-    "difficulty": "LOW",
-    "risk": "SAFE",
-    "cost": 60,
-    "reward": 85,
-    "penalty": 30,
-    "timeLimit": 60,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-02 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0034",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "CHIMERA",
-          "clue": "Fabulous mythological creature composed of disparate parts of diverse beasts.",
-          "category": "FOLKLORE",
-          "scrambled": "E R H C M A I"
-        },
-        {
-          "id": "R2",
-          "word": "ENIGMA",
-          "clue": "Person or thing that is mysterious, puzzling, or fundamentally difficult to decipher.",
-          "category": "LOGIC",
-          "scrambled": "G I A M N E"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "CHIMERA-ENIGMA",
-      "acceptedAnswers": [
-        "CHIMERA-ENIGMA",
-        "CHIMERA ENIGMA",
-        "CHIMERA,ENIGMA",
-        "WORDGUESS:CHIMERA-ENIGMA"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 7-letter term from FOLKLORE; the word begins with letter 'C' or ends with 'A'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [E R H C M A I] to identify common prefixes or suffixes."
       ]
     },
     "enabled": true,
@@ -1789,57 +922,6 @@ export const wordGuessChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WG-0036",
-    "title": "WORD GUESS // PHILOSOPHY, #0036",
-    "category": "PUZZLES",
-    "description": "Unscramble 2 domain terminology anagrams from PHILOSOPHY, LOGIC & ARTS under timed conditions.",
-    "difficulty": "LOW",
-    "risk": "SAFE",
-    "cost": 60,
-    "reward": 85,
-    "penalty": 30,
-    "timeLimit": 60,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-02 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0036",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "CHIMERA",
-          "clue": "Fabulous mythological creature composed of disparate parts of diverse beasts.",
-          "category": "FOLKLORE",
-          "scrambled": "E I C A H M R"
-        },
-        {
-          "id": "R2",
-          "word": "DIALECTIC",
-          "clue": "Discourse between two differing points of view seeking to establish truth through reasoned arguments.",
-          "category": "PHILOSOPHY",
-          "scrambled": "A D C T L I C I E"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "CHIMERA-DIALECTIC",
-      "acceptedAnswers": [
-        "CHIMERA-DIALECTIC",
-        "CHIMERA DIALECTIC",
-        "CHIMERA,DIALECTIC",
-        "WORDGUESS:CHIMERA-DIALECTIC"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 7-letter term from FOLKLORE; the word begins with letter 'C' or ends with 'A'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [E I C A H M R] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WG-0037",
     "title": "WORD GUESS // PHILOSOPHY, #0037",
     "category": "PUZZLES",
@@ -1885,57 +967,6 @@ export const wordGuessChallenges = [
       "hints": [
         "HINT 01 // Round 1 clue indicates a 8-letter term from RHETORIC; the word begins with letter 'A' or ends with 'Y'.",
         "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [L L Y R G E O A] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WG-0038",
-    "title": "WORD GUESS // PHILOSOPHY, #0038",
-    "category": "PUZZLES",
-    "description": "Unscramble 2 domain terminology anagrams from PHILOSOPHY, LOGIC & ARTS under timed conditions.",
-    "difficulty": "LOW",
-    "risk": "SAFE",
-    "cost": 60,
-    "reward": 85,
-    "penalty": 30,
-    "timeLimit": 60,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-02 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0038",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "PARADOX",
-          "clue": "Logically self-contradictory statement or proposition contrary to expectations.",
-          "category": "PHILOSOPHY",
-          "scrambled": "P X D O A R A"
-        },
-        {
-          "id": "R2",
-          "word": "MONOLOGUE",
-          "clue": "Extended speech by one actor in a theatrical play, film, or solitary performance.",
-          "category": "DRAMA",
-          "scrambled": "E U L M O G O O N"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "PARADOX-MONOLOGUE",
-      "acceptedAnswers": [
-        "PARADOX-MONOLOGUE",
-        "PARADOX MONOLOGUE",
-        "PARADOX,MONOLOGUE",
-        "WORDGUESS:PARADOX-MONOLOGUE"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 7-letter term from PHILOSOPHY; the word begins with letter 'P' or ends with 'X'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [P X D O A R A] to identify common prefixes or suffixes."
       ]
     },
     "enabled": true,
@@ -1993,57 +1024,6 @@ export const wordGuessChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WG-0040",
-    "title": "WORD GUESS // PHILOSOPHY, #0040",
-    "category": "PUZZLES",
-    "description": "Unscramble 2 domain terminology anagrams from PHILOSOPHY, LOGIC & ARTS under timed conditions.",
-    "difficulty": "LOW",
-    "risk": "SAFE",
-    "cost": 60,
-    "reward": 85,
-    "penalty": 30,
-    "timeLimit": 60,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-03 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0040",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "PARADOX",
-          "clue": "Logically self-contradictory statement or proposition contrary to expectations.",
-          "category": "PHILOSOPHY",
-          "scrambled": "X P A R O A D"
-        },
-        {
-          "id": "R2",
-          "word": "LABYRINTH",
-          "clue": "Complex maze-like network of intersecting pathways or intricate architectural passages.",
-          "category": "MYTHOLOGY",
-          "scrambled": "B R L A I H Y N T"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "PARADOX-LABYRINTH",
-      "acceptedAnswers": [
-        "PARADOX-LABYRINTH",
-        "PARADOX LABYRINTH",
-        "PARADOX,LABYRINTH",
-        "WORDGUESS:PARADOX-LABYRINTH"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 7-letter term from PHILOSOPHY; the word begins with letter 'P' or ends with 'X'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [X P A R O A D] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WG-0041",
     "title": "WORD GUESS // PHILOSOPHY, #0041",
     "category": "PUZZLES",
@@ -2089,57 +1069,6 @@ export const wordGuessChallenges = [
       "hints": [
         "HINT 01 // Round 1 clue indicates a 9-letter term from PHILOSOPHY; the word begins with letter 'D' or ends with 'C'.",
         "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [C L T C A D E I I] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WG-0042",
-    "title": "WORD GUESS // PHILOSOPHY, #0042",
-    "category": "PUZZLES",
-    "description": "Unscramble 2 domain terminology anagrams from PHILOSOPHY, LOGIC & ARTS under timed conditions.",
-    "difficulty": "LOW",
-    "risk": "SAFE",
-    "cost": 60,
-    "reward": 85,
-    "penalty": 30,
-    "timeLimit": 60,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-03 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0042",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "SYLLOGISM",
-          "clue": "Form of deductive reasoning consisting of a major premise, a minor premise, and a conclusion.",
-          "category": "LOGIC",
-          "scrambled": "I S L S M L G Y O"
-        },
-        {
-          "id": "R2",
-          "word": "ENIGMA",
-          "clue": "Person or thing that is mysterious, puzzling, or fundamentally difficult to decipher.",
-          "category": "LOGIC",
-          "scrambled": "A N I E M G"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "SYLLOGISM-ENIGMA",
-      "acceptedAnswers": [
-        "SYLLOGISM-ENIGMA",
-        "SYLLOGISM ENIGMA",
-        "SYLLOGISM,ENIGMA",
-        "WORDGUESS:SYLLOGISM-ENIGMA"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 9-letter term from LOGIC; the word begins with letter 'S' or ends with 'M'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [I S L S M L G Y O] to identify common prefixes or suffixes."
       ]
     },
     "enabled": true,
@@ -2197,57 +1126,6 @@ export const wordGuessChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WG-0044",
-    "title": "WORD GUESS // PHILOSOPHY, #0044",
-    "category": "PUZZLES",
-    "description": "Unscramble 2 domain terminology anagrams from PHILOSOPHY, LOGIC & ARTS under timed conditions.",
-    "difficulty": "LOW",
-    "risk": "SAFE",
-    "cost": 60,
-    "reward": 85,
-    "penalty": 30,
-    "timeLimit": 60,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-03 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0044",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "ENIGMA",
-          "clue": "Person or thing that is mysterious, puzzling, or fundamentally difficult to decipher.",
-          "category": "LOGIC",
-          "scrambled": "I N M E G A"
-        },
-        {
-          "id": "R2",
-          "word": "ARCHETYPE",
-          "clue": "Universally recognized recurrent symbol, motif, or character archetype in literature and art.",
-          "category": "LITERATURE",
-          "scrambled": "H T E A P Y R C E"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "ENIGMA-ARCHETYPE",
-      "acceptedAnswers": [
-        "ENIGMA-ARCHETYPE",
-        "ENIGMA ARCHETYPE",
-        "ENIGMA,ARCHETYPE",
-        "WORDGUESS:ENIGMA-ARCHETYPE"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 6-letter term from LOGIC; the word begins with letter 'E' or ends with 'A'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [I N M E G A] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WG-0045",
     "title": "WORD GUESS // PHILOSOPHY, #0045",
     "category": "PUZZLES",
@@ -2293,57 +1171,6 @@ export const wordGuessChallenges = [
       "hints": [
         "HINT 01 // Round 1 clue indicates a 9-letter term from DRAMA; the word begins with letter 'M' or ends with 'E'.",
         "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [M L N O O U O G E] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WG-0046",
-    "title": "WORD GUESS // PHILOSOPHY, #0046",
-    "category": "PUZZLES",
-    "description": "Unscramble 2 domain terminology anagrams from PHILOSOPHY, LOGIC & ARTS under timed conditions.",
-    "difficulty": "LOW",
-    "risk": "SAFE",
-    "cost": 60,
-    "reward": 85,
-    "penalty": 30,
-    "timeLimit": 60,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-03 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0046",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "LABYRINTH",
-          "clue": "Complex maze-like network of intersecting pathways or intricate architectural passages.",
-          "category": "MYTHOLOGY",
-          "scrambled": "B Y T R A H N L I"
-        },
-        {
-          "id": "R2",
-          "word": "MONOLOGUE",
-          "clue": "Extended speech by one actor in a theatrical play, film, or solitary performance.",
-          "category": "DRAMA",
-          "scrambled": "O M U G E O N L O"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "LABYRINTH-MONOLOGUE",
-      "acceptedAnswers": [
-        "LABYRINTH-MONOLOGUE",
-        "LABYRINTH MONOLOGUE",
-        "LABYRINTH,MONOLOGUE",
-        "WORDGUESS:LABYRINTH-MONOLOGUE"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 9-letter term from MYTHOLOGY; the word begins with letter 'L' or ends with 'H'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [B Y T R A H N L I] to identify common prefixes or suffixes."
       ]
     },
     "enabled": true,
@@ -2401,57 +1228,6 @@ export const wordGuessChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WG-0048",
-    "title": "WORD GUESS // PHILOSOPHY, #0048",
-    "category": "PUZZLES",
-    "description": "Unscramble 2 domain terminology anagrams from PHILOSOPHY, LOGIC & ARTS under timed conditions.",
-    "difficulty": "LOW",
-    "risk": "SAFE",
-    "cost": 60,
-    "reward": 85,
-    "penalty": 30,
-    "timeLimit": 60,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-03 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0048",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "CHIMERA",
-          "clue": "Fabulous mythological creature composed of disparate parts of diverse beasts.",
-          "category": "FOLKLORE",
-          "scrambled": "I M R A E C H"
-        },
-        {
-          "id": "R2",
-          "word": "DIALECTIC",
-          "clue": "Discourse between two differing points of view seeking to establish truth through reasoned arguments.",
-          "category": "PHILOSOPHY",
-          "scrambled": "D L C I A I C E T"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "CHIMERA-DIALECTIC",
-      "acceptedAnswers": [
-        "CHIMERA-DIALECTIC",
-        "CHIMERA DIALECTIC",
-        "CHIMERA,DIALECTIC",
-        "WORDGUESS:CHIMERA-DIALECTIC"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 7-letter term from FOLKLORE; the word begins with letter 'C' or ends with 'A'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [I M R A E C H] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WG-0049",
     "title": "WORD GUESS // PHILOSOPHY, #0049",
     "category": "PUZZLES",
@@ -2497,57 +1273,6 @@ export const wordGuessChallenges = [
       "hints": [
         "HINT 01 // Round 1 clue indicates a 7-letter term from PHILOSOPHY; the word begins with letter 'P' or ends with 'X'.",
         "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [X A R A P D O] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WG-0050",
-    "title": "WORD GUESS // PHILOSOPHY, #0050",
-    "category": "PUZZLES",
-    "description": "Unscramble 2 domain terminology anagrams from PHILOSOPHY, LOGIC & ARTS under timed conditions.",
-    "difficulty": "LOW",
-    "risk": "SAFE",
-    "cost": 60,
-    "reward": 85,
-    "penalty": 30,
-    "timeLimit": 60,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-03 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0050",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "PARADOX",
-          "clue": "Logically self-contradictory statement or proposition contrary to expectations.",
-          "category": "PHILOSOPHY",
-          "scrambled": "D P A O A X R"
-        },
-        {
-          "id": "R2",
-          "word": "MONOLOGUE",
-          "clue": "Extended speech by one actor in a theatrical play, film, or solitary performance.",
-          "category": "DRAMA",
-          "scrambled": "N G L U O O M O E"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "PARADOX-MONOLOGUE",
-      "acceptedAnswers": [
-        "PARADOX-MONOLOGUE",
-        "PARADOX MONOLOGUE",
-        "PARADOX,MONOLOGUE",
-        "WORDGUESS:PARADOX-MONOLOGUE"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 7-letter term from PHILOSOPHY; the word begins with letter 'P' or ends with 'X'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [D P A O A X R] to identify common prefixes or suffixes."
       ]
     },
     "enabled": true,
@@ -2605,57 +1330,6 @@ export const wordGuessChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WG-0052",
-    "title": "WORD GUESS // PHILOSOPHY, #0052",
-    "category": "PUZZLES",
-    "description": "Unscramble 2 domain terminology anagrams from PHILOSOPHY, LOGIC & ARTS under timed conditions.",
-    "difficulty": "LOW",
-    "risk": "SAFE",
-    "cost": 60,
-    "reward": 85,
-    "penalty": 30,
-    "timeLimit": 60,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-03 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0052",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "PARADOX",
-          "clue": "Logically self-contradictory statement or proposition contrary to expectations.",
-          "category": "PHILOSOPHY",
-          "scrambled": "P O D A A R X"
-        },
-        {
-          "id": "R2",
-          "word": "LABYRINTH",
-          "clue": "Complex maze-like network of intersecting pathways or intricate architectural passages.",
-          "category": "MYTHOLOGY",
-          "scrambled": "B Y N I R A H L T"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "PARADOX-LABYRINTH",
-      "acceptedAnswers": [
-        "PARADOX-LABYRINTH",
-        "PARADOX LABYRINTH",
-        "PARADOX,LABYRINTH",
-        "WORDGUESS:PARADOX-LABYRINTH"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 7-letter term from PHILOSOPHY; the word begins with letter 'P' or ends with 'X'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [P O D A A R X] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WG-0053",
     "title": "WORD GUESS // PHILOSOPHY, #0053",
     "category": "PUZZLES",
@@ -2701,57 +1375,6 @@ export const wordGuessChallenges = [
       "hints": [
         "HINT 01 // Round 1 clue indicates a 9-letter term from PHILOSOPHY; the word begins with letter 'D' or ends with 'C'.",
         "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [I C I L E C A D T] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WG-0054",
-    "title": "WORD GUESS // PHILOSOPHY, #0054",
-    "category": "PUZZLES",
-    "description": "Unscramble 2 domain terminology anagrams from PHILOSOPHY, LOGIC & ARTS under timed conditions.",
-    "difficulty": "LOW",
-    "risk": "SAFE",
-    "cost": 60,
-    "reward": 85,
-    "penalty": 30,
-    "timeLimit": 60,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-03 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0054",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "ENIGMA",
-          "clue": "Person or thing that is mysterious, puzzling, or fundamentally difficult to decipher.",
-          "category": "LOGIC",
-          "scrambled": "M A N G I E"
-        },
-        {
-          "id": "R2",
-          "word": "MONOLOGUE",
-          "clue": "Extended speech by one actor in a theatrical play, film, or solitary performance.",
-          "category": "DRAMA",
-          "scrambled": "N O L U G M O E O"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "ENIGMA-MONOLOGUE",
-      "acceptedAnswers": [
-        "ENIGMA-MONOLOGUE",
-        "ENIGMA MONOLOGUE",
-        "ENIGMA,MONOLOGUE",
-        "WORDGUESS:ENIGMA-MONOLOGUE"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 6-letter term from LOGIC; the word begins with letter 'E' or ends with 'A'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [M A N G I E] to identify common prefixes or suffixes."
       ]
     },
     "enabled": true,
@@ -2809,57 +1432,6 @@ export const wordGuessChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WG-0056",
-    "title": "WORD GUESS // PHILOSOPHY, #0056",
-    "category": "PUZZLES",
-    "description": "Unscramble 2 domain terminology anagrams from PHILOSOPHY, LOGIC & ARTS under timed conditions.",
-    "difficulty": "LOW",
-    "risk": "SAFE",
-    "cost": 60,
-    "reward": 85,
-    "penalty": 30,
-    "timeLimit": 60,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-03 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0056",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "CHIMERA",
-          "clue": "Fabulous mythological creature composed of disparate parts of diverse beasts.",
-          "category": "FOLKLORE",
-          "scrambled": "R M C I H A E"
-        },
-        {
-          "id": "R2",
-          "word": "ENIGMA",
-          "clue": "Person or thing that is mysterious, puzzling, or fundamentally difficult to decipher.",
-          "category": "LOGIC",
-          "scrambled": "G M I A E N"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "CHIMERA-ENIGMA",
-      "acceptedAnswers": [
-        "CHIMERA-ENIGMA",
-        "CHIMERA ENIGMA",
-        "CHIMERA,ENIGMA",
-        "WORDGUESS:CHIMERA-ENIGMA"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 7-letter term from FOLKLORE; the word begins with letter 'C' or ends with 'A'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [R M C I H A E] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WG-0057",
     "title": "WORD GUESS // PHILOSOPHY, #0057",
     "category": "PUZZLES",
@@ -2905,57 +1477,6 @@ export const wordGuessChallenges = [
       "hints": [
         "HINT 01 // Round 1 clue indicates a 9-letter term from LITERATURE; the word begins with letter 'A' or ends with 'E'.",
         "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [Y P E H E R T A C] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WG-0058",
-    "title": "WORD GUESS // PHILOSOPHY, #0058",
-    "category": "PUZZLES",
-    "description": "Unscramble 2 domain terminology anagrams from PHILOSOPHY, LOGIC & ARTS under timed conditions.",
-    "difficulty": "LOW",
-    "risk": "SAFE",
-    "cost": 60,
-    "reward": 85,
-    "penalty": 30,
-    "timeLimit": 60,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-03 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0058",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "MONOLOGUE",
-          "clue": "Extended speech by one actor in a theatrical play, film, or solitary performance.",
-          "category": "DRAMA",
-          "scrambled": "O M O L O G E N U"
-        },
-        {
-          "id": "R2",
-          "word": "PARADOX",
-          "clue": "Logically self-contradictory statement or proposition contrary to expectations.",
-          "category": "PHILOSOPHY",
-          "scrambled": "A P A D X O R"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "MONOLOGUE-PARADOX",
-      "acceptedAnswers": [
-        "MONOLOGUE-PARADOX",
-        "MONOLOGUE PARADOX",
-        "MONOLOGUE,PARADOX",
-        "WORDGUESS:MONOLOGUE-PARADOX"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 9-letter term from DRAMA; the word begins with letter 'M' or ends with 'E'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [O M O L O G E N U] to identify common prefixes or suffixes."
       ]
     },
     "enabled": true,
@@ -3013,57 +1534,6 @@ export const wordGuessChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WG-0060",
-    "title": "WORD GUESS // PHILOSOPHY, #0060",
-    "category": "PUZZLES",
-    "description": "Unscramble 2 domain terminology anagrams from PHILOSOPHY, LOGIC & ARTS under timed conditions.",
-    "difficulty": "LOW",
-    "risk": "SAFE",
-    "cost": 60,
-    "reward": 85,
-    "penalty": 30,
-    "timeLimit": 60,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-04 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0060",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "SYLLOGISM",
-          "clue": "Form of deductive reasoning consisting of a major premise, a minor premise, and a conclusion.",
-          "category": "LOGIC",
-          "scrambled": "L G M S I L Y O S"
-        },
-        {
-          "id": "R2",
-          "word": "CHIMERA",
-          "clue": "Fabulous mythological creature composed of disparate parts of diverse beasts.",
-          "category": "FOLKLORE",
-          "scrambled": "C I M H A R E"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "SYLLOGISM-CHIMERA",
-      "acceptedAnswers": [
-        "SYLLOGISM-CHIMERA",
-        "SYLLOGISM CHIMERA",
-        "SYLLOGISM,CHIMERA",
-        "WORDGUESS:SYLLOGISM-CHIMERA"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 9-letter term from LOGIC; the word begins with letter 'S' or ends with 'M'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [L G M S I L Y O S] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WG-0061",
     "title": "WORD GUESS // PHILOSOPHY, #0061",
     "category": "PUZZLES",
@@ -3109,57 +1579,6 @@ export const wordGuessChallenges = [
       "hints": [
         "HINT 01 // Round 1 clue indicates a 7-letter term from PHILOSOPHY; the word begins with letter 'P' or ends with 'X'.",
         "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [A O R X A D P] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WG-0062",
-    "title": "WORD GUESS // PHILOSOPHY, #0062",
-    "category": "PUZZLES",
-    "description": "Unscramble 2 domain terminology anagrams from PHILOSOPHY, LOGIC & ARTS under timed conditions.",
-    "difficulty": "LOW",
-    "risk": "SAFE",
-    "cost": 60,
-    "reward": 85,
-    "penalty": 30,
-    "timeLimit": 60,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-04 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0062",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "PARADOX",
-          "clue": "Logically self-contradictory statement or proposition contrary to expectations.",
-          "category": "PHILOSOPHY",
-          "scrambled": "A A X R D P O"
-        },
-        {
-          "id": "R2",
-          "word": "MONOLOGUE",
-          "clue": "Extended speech by one actor in a theatrical play, film, or solitary performance.",
-          "category": "DRAMA",
-          "scrambled": "O L N O G M O E U"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "PARADOX-MONOLOGUE",
-      "acceptedAnswers": [
-        "PARADOX-MONOLOGUE",
-        "PARADOX MONOLOGUE",
-        "PARADOX,MONOLOGUE",
-        "WORDGUESS:PARADOX-MONOLOGUE"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 7-letter term from PHILOSOPHY; the word begins with letter 'P' or ends with 'X'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [A A X R D P O] to identify common prefixes or suffixes."
       ]
     },
     "enabled": true,
@@ -3217,57 +1636,6 @@ export const wordGuessChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WG-0064",
-    "title": "WORD GUESS // PHILOSOPHY, #0064",
-    "category": "PUZZLES",
-    "description": "Unscramble 2 domain terminology anagrams from PHILOSOPHY, LOGIC & ARTS under timed conditions.",
-    "difficulty": "LOW",
-    "risk": "SAFE",
-    "cost": 60,
-    "reward": 85,
-    "penalty": 30,
-    "timeLimit": 60,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-04 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0064",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "MONOLOGUE",
-          "clue": "Extended speech by one actor in a theatrical play, film, or solitary performance.",
-          "category": "DRAMA",
-          "scrambled": "O O L E O U G M N"
-        },
-        {
-          "id": "R2",
-          "word": "SYLLOGISM",
-          "clue": "Form of deductive reasoning consisting of a major premise, a minor premise, and a conclusion.",
-          "category": "LOGIC",
-          "scrambled": "L M S O I S Y G L"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "MONOLOGUE-SYLLOGISM",
-      "acceptedAnswers": [
-        "MONOLOGUE-SYLLOGISM",
-        "MONOLOGUE SYLLOGISM",
-        "MONOLOGUE,SYLLOGISM",
-        "WORDGUESS:MONOLOGUE-SYLLOGISM"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 9-letter term from DRAMA; the word begins with letter 'M' or ends with 'E'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [O O L E O U G M N] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WG-0065",
     "title": "WORD GUESS // PHILOSOPHY, #0065",
     "category": "PUZZLES",
@@ -3313,57 +1681,6 @@ export const wordGuessChallenges = [
       "hints": [
         "HINT 01 // Round 1 clue indicates a 9-letter term from PHILOSOPHY; the word begins with letter 'D' or ends with 'C'.",
         "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [C I E T D C A I L] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WG-0066",
-    "title": "WORD GUESS // PHILOSOPHY, #0066",
-    "category": "PUZZLES",
-    "description": "Unscramble 2 domain terminology anagrams from PHILOSOPHY, LOGIC & ARTS under timed conditions.",
-    "difficulty": "LOW",
-    "risk": "SAFE",
-    "cost": 60,
-    "reward": 85,
-    "penalty": 30,
-    "timeLimit": 60,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-04 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0066",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "DIALECTIC",
-          "clue": "Discourse between two differing points of view seeking to establish truth through reasoned arguments.",
-          "category": "PHILOSOPHY",
-          "scrambled": "L C I C T D A E I"
-        },
-        {
-          "id": "R2",
-          "word": "CHIMERA",
-          "clue": "Fabulous mythological creature composed of disparate parts of diverse beasts.",
-          "category": "FOLKLORE",
-          "scrambled": "M A H C E I R"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "DIALECTIC-CHIMERA",
-      "acceptedAnswers": [
-        "DIALECTIC-CHIMERA",
-        "DIALECTIC CHIMERA",
-        "DIALECTIC,CHIMERA",
-        "WORDGUESS:DIALECTIC-CHIMERA"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 9-letter term from PHILOSOPHY; the word begins with letter 'D' or ends with 'C'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [L C I C T D A E I] to identify common prefixes or suffixes."
       ]
     },
     "enabled": true,
@@ -3421,57 +1738,6 @@ export const wordGuessChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WG-0068",
-    "title": "WORD GUESS // PHILOSOPHY, #0068",
-    "category": "PUZZLES",
-    "description": "Unscramble 2 domain terminology anagrams from PHILOSOPHY, LOGIC & ARTS under timed conditions.",
-    "difficulty": "LOW",
-    "risk": "SAFE",
-    "cost": 60,
-    "reward": 85,
-    "penalty": 30,
-    "timeLimit": 60,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-04 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0068",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "ARCHETYPE",
-          "clue": "Universally recognized recurrent symbol, motif, or character archetype in literature and art.",
-          "category": "LITERATURE",
-          "scrambled": "P R H A E Y C T E"
-        },
-        {
-          "id": "R2",
-          "word": "LABYRINTH",
-          "clue": "Complex maze-like network of intersecting pathways or intricate architectural passages.",
-          "category": "MYTHOLOGY",
-          "scrambled": "B N L A R T Y H I"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "ARCHETYPE-LABYRINTH",
-      "acceptedAnswers": [
-        "ARCHETYPE-LABYRINTH",
-        "ARCHETYPE LABYRINTH",
-        "ARCHETYPE,LABYRINTH",
-        "WORDGUESS:ARCHETYPE-LABYRINTH"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 9-letter term from LITERATURE; the word begins with letter 'A' or ends with 'E'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [P R H A E Y C T E] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WG-0069",
     "title": "WORD GUESS // PHILOSOPHY, #0069",
     "category": "PUZZLES",
@@ -3517,57 +1783,6 @@ export const wordGuessChallenges = [
       "hints": [
         "HINT 01 // Round 1 clue indicates a 6-letter term from LOGIC; the word begins with letter 'E' or ends with 'A'.",
         "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [I N A M E G] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WG-0070",
-    "title": "WORD GUESS // PHILOSOPHY, #0070",
-    "category": "PUZZLES",
-    "description": "Unscramble 2 domain terminology anagrams from PHILOSOPHY, LOGIC & ARTS under timed conditions.",
-    "difficulty": "LOW",
-    "risk": "SAFE",
-    "cost": 60,
-    "reward": 85,
-    "penalty": 30,
-    "timeLimit": 60,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-04 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0070",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "PARADOX",
-          "clue": "Logically self-contradictory statement or proposition contrary to expectations.",
-          "category": "PHILOSOPHY",
-          "scrambled": "P X A R A D O"
-        },
-        {
-          "id": "R2",
-          "word": "LABYRINTH",
-          "clue": "Complex maze-like network of intersecting pathways or intricate architectural passages.",
-          "category": "MYTHOLOGY",
-          "scrambled": "R H L N T A Y B I"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "PARADOX-LABYRINTH",
-      "acceptedAnswers": [
-        "PARADOX-LABYRINTH",
-        "PARADOX LABYRINTH",
-        "PARADOX,LABYRINTH",
-        "WORDGUESS:PARADOX-LABYRINTH"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 7-letter term from PHILOSOPHY; the word begins with letter 'P' or ends with 'X'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [P X A R A D O] to identify common prefixes or suffixes."
       ]
     },
     "enabled": true,
@@ -3625,57 +1840,6 @@ export const wordGuessChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WG-0072",
-    "title": "WORD GUESS // PHILOSOPHY, #0072",
-    "category": "PUZZLES",
-    "description": "Unscramble 2 domain terminology anagrams from PHILOSOPHY, LOGIC & ARTS under timed conditions.",
-    "difficulty": "LOW",
-    "risk": "SAFE",
-    "cost": 60,
-    "reward": 85,
-    "penalty": 30,
-    "timeLimit": 60,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-04 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0072",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "MONOLOGUE",
-          "clue": "Extended speech by one actor in a theatrical play, film, or solitary performance.",
-          "category": "DRAMA",
-          "scrambled": "L U O O N O E M G"
-        },
-        {
-          "id": "R2",
-          "word": "CHIMERA",
-          "clue": "Fabulous mythological creature composed of disparate parts of diverse beasts.",
-          "category": "FOLKLORE",
-          "scrambled": "A R C H I E M"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "MONOLOGUE-CHIMERA",
-      "acceptedAnswers": [
-        "MONOLOGUE-CHIMERA",
-        "MONOLOGUE CHIMERA",
-        "MONOLOGUE,CHIMERA",
-        "WORDGUESS:MONOLOGUE-CHIMERA"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 9-letter term from DRAMA; the word begins with letter 'M' or ends with 'E'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [L U O O N O E M G] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WG-0073",
     "title": "WORD GUESS // PHILOSOPHY, #0073",
     "category": "PUZZLES",
@@ -3721,57 +1885,6 @@ export const wordGuessChallenges = [
       "hints": [
         "HINT 01 // Round 1 clue indicates a 9-letter term from DRAMA; the word begins with letter 'M' or ends with 'E'.",
         "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [G O O L E O N U M] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WG-0074",
-    "title": "WORD GUESS // PHILOSOPHY, #0074",
-    "category": "PUZZLES",
-    "description": "Unscramble 2 domain terminology anagrams from PHILOSOPHY, LOGIC & ARTS under timed conditions.",
-    "difficulty": "LOW",
-    "risk": "SAFE",
-    "cost": 60,
-    "reward": 85,
-    "penalty": 30,
-    "timeLimit": 60,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-04 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0074",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "PARADOX",
-          "clue": "Logically self-contradictory statement or proposition contrary to expectations.",
-          "category": "PHILOSOPHY",
-          "scrambled": "A D A X R O P"
-        },
-        {
-          "id": "R2",
-          "word": "LABYRINTH",
-          "clue": "Complex maze-like network of intersecting pathways or intricate architectural passages.",
-          "category": "MYTHOLOGY",
-          "scrambled": "B H A Y N R I T L"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "PARADOX-LABYRINTH",
-      "acceptedAnswers": [
-        "PARADOX-LABYRINTH",
-        "PARADOX LABYRINTH",
-        "PARADOX,LABYRINTH",
-        "WORDGUESS:PARADOX-LABYRINTH"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 7-letter term from PHILOSOPHY; the word begins with letter 'P' or ends with 'X'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [A D A X R O P] to identify common prefixes or suffixes."
       ]
     },
     "enabled": true,
@@ -3829,57 +1942,6 @@ export const wordGuessChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WG-0076",
-    "title": "WORD GUESS // PHILOSOPHY, #0076",
-    "category": "PUZZLES",
-    "description": "Unscramble 2 domain terminology anagrams from PHILOSOPHY, LOGIC & ARTS under timed conditions.",
-    "difficulty": "LOW",
-    "risk": "SAFE",
-    "cost": 60,
-    "reward": 85,
-    "penalty": 30,
-    "timeLimit": 60,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-04 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0076",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "ARCHETYPE",
-          "clue": "Universally recognized recurrent symbol, motif, or character archetype in literature and art.",
-          "category": "LITERATURE",
-          "scrambled": "P E A T C Y E H R"
-        },
-        {
-          "id": "R2",
-          "word": "ENIGMA",
-          "clue": "Person or thing that is mysterious, puzzling, or fundamentally difficult to decipher.",
-          "category": "LOGIC",
-          "scrambled": "G A M I N E"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "ARCHETYPE-ENIGMA",
-      "acceptedAnswers": [
-        "ARCHETYPE-ENIGMA",
-        "ARCHETYPE ENIGMA",
-        "ARCHETYPE,ENIGMA",
-        "WORDGUESS:ARCHETYPE-ENIGMA"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 9-letter term from LITERATURE; the word begins with letter 'A' or ends with 'E'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [P E A T C Y E H R] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WG-0077",
     "title": "WORD GUESS // PHILOSOPHY, #0077",
     "category": "PUZZLES",
@@ -3925,57 +1987,6 @@ export const wordGuessChallenges = [
       "hints": [
         "HINT 01 // Round 1 clue indicates a 9-letter term from DRAMA; the word begins with letter 'M' or ends with 'E'.",
         "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [M E O O O G U L N] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WG-0078",
-    "title": "WORD GUESS // PHILOSOPHY, #0078",
-    "category": "PUZZLES",
-    "description": "Unscramble 2 domain terminology anagrams from PHILOSOPHY, LOGIC & ARTS under timed conditions.",
-    "difficulty": "LOW",
-    "risk": "SAFE",
-    "cost": 60,
-    "reward": 85,
-    "penalty": 30,
-    "timeLimit": 60,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-04 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0078",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "LABYRINTH",
-          "clue": "Complex maze-like network of intersecting pathways or intricate architectural passages.",
-          "category": "MYTHOLOGY",
-          "scrambled": "Y H R T I L B A N"
-        },
-        {
-          "id": "R2",
-          "word": "CHIMERA",
-          "clue": "Fabulous mythological creature composed of disparate parts of diverse beasts.",
-          "category": "FOLKLORE",
-          "scrambled": "M R A C I E H"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "LABYRINTH-CHIMERA",
-      "acceptedAnswers": [
-        "LABYRINTH-CHIMERA",
-        "LABYRINTH CHIMERA",
-        "LABYRINTH,CHIMERA",
-        "WORDGUESS:LABYRINTH-CHIMERA"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 9-letter term from MYTHOLOGY; the word begins with letter 'L' or ends with 'H'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [Y H R T I L B A N] to identify common prefixes or suffixes."
       ]
     },
     "enabled": true,
@@ -4033,57 +2044,6 @@ export const wordGuessChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WG-0080",
-    "title": "WORD GUESS // PHILOSOPHY, #0080",
-    "category": "PUZZLES",
-    "description": "Unscramble 2 domain terminology anagrams from PHILOSOPHY, LOGIC & ARTS under timed conditions.",
-    "difficulty": "LOW",
-    "risk": "SAFE",
-    "cost": 60,
-    "reward": 85,
-    "penalty": 30,
-    "timeLimit": 60,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-05 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0080",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "ARCHETYPE",
-          "clue": "Universally recognized recurrent symbol, motif, or character archetype in literature and art.",
-          "category": "LITERATURE",
-          "scrambled": "Y T P A E C H E R"
-        },
-        {
-          "id": "R2",
-          "word": "MONOLOGUE",
-          "clue": "Extended speech by one actor in a theatrical play, film, or solitary performance.",
-          "category": "DRAMA",
-          "scrambled": "O E O O M U N L G"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "ARCHETYPE-MONOLOGUE",
-      "acceptedAnswers": [
-        "ARCHETYPE-MONOLOGUE",
-        "ARCHETYPE MONOLOGUE",
-        "ARCHETYPE,MONOLOGUE",
-        "WORDGUESS:ARCHETYPE-MONOLOGUE"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 9-letter term from LITERATURE; the word begins with letter 'A' or ends with 'E'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [Y T P A E C H E R] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WG-0081",
     "title": "WORD GUESS // PHILOSOPHY, #0081",
     "category": "PUZZLES",
@@ -4129,57 +2089,6 @@ export const wordGuessChallenges = [
       "hints": [
         "HINT 01 // Round 1 clue indicates a 7-letter term from PHILOSOPHY; the word begins with letter 'P' or ends with 'X'.",
         "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [D A A X R P O] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WG-0082",
-    "title": "WORD GUESS // PHILOSOPHY, #0082",
-    "category": "PUZZLES",
-    "description": "Unscramble 2 domain terminology anagrams from PHILOSOPHY, LOGIC & ARTS under timed conditions.",
-    "difficulty": "LOW",
-    "risk": "SAFE",
-    "cost": 60,
-    "reward": 85,
-    "penalty": 30,
-    "timeLimit": 60,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-05 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0082",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "SYLLOGISM",
-          "clue": "Form of deductive reasoning consisting of a major premise, a minor premise, and a conclusion.",
-          "category": "LOGIC",
-          "scrambled": "M L L S S O I Y G"
-        },
-        {
-          "id": "R2",
-          "word": "ARCHETYPE",
-          "clue": "Universally recognized recurrent symbol, motif, or character archetype in literature and art.",
-          "category": "LITERATURE",
-          "scrambled": "T R C H E Y P E A"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "SYLLOGISM-ARCHETYPE",
-      "acceptedAnswers": [
-        "SYLLOGISM-ARCHETYPE",
-        "SYLLOGISM ARCHETYPE",
-        "SYLLOGISM,ARCHETYPE",
-        "WORDGUESS:SYLLOGISM-ARCHETYPE"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 9-letter term from LOGIC; the word begins with letter 'S' or ends with 'M'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [M L L S S O I Y G] to identify common prefixes or suffixes."
       ]
     },
     "enabled": true,
@@ -4237,57 +2146,6 @@ export const wordGuessChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WG-0084",
-    "title": "WORD GUESS // PHILOSOPHY, #0084",
-    "category": "PUZZLES",
-    "description": "Unscramble 2 domain terminology anagrams from PHILOSOPHY, LOGIC & ARTS under timed conditions.",
-    "difficulty": "LOW",
-    "risk": "SAFE",
-    "cost": 60,
-    "reward": 85,
-    "penalty": 30,
-    "timeLimit": 60,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-05 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0084",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "ALLEGORY",
-          "clue": "Story, poem, or picture that can be interpreted to reveal a hidden moral or political meaning.",
-          "category": "RHETORIC",
-          "scrambled": "A L L G Y R O E"
-        },
-        {
-          "id": "R2",
-          "word": "CHIMERA",
-          "clue": "Fabulous mythological creature composed of disparate parts of diverse beasts.",
-          "category": "FOLKLORE",
-          "scrambled": "C E A M H R I"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "ALLEGORY-CHIMERA",
-      "acceptedAnswers": [
-        "ALLEGORY-CHIMERA",
-        "ALLEGORY CHIMERA",
-        "ALLEGORY,CHIMERA",
-        "WORDGUESS:ALLEGORY-CHIMERA"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 8-letter term from RHETORIC; the word begins with letter 'A' or ends with 'Y'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [A L L G Y R O E] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WG-0085",
     "title": "WORD GUESS // PHILOSOPHY, #0085",
     "category": "PUZZLES",
@@ -4333,57 +2191,6 @@ export const wordGuessChallenges = [
       "hints": [
         "HINT 01 // Round 1 clue indicates a 7-letter term from PHILOSOPHY; the word begins with letter 'P' or ends with 'X'.",
         "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [P X D R A A O] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WG-0086",
-    "title": "WORD GUESS // PHILOSOPHY, #0086",
-    "category": "PUZZLES",
-    "description": "Unscramble 2 domain terminology anagrams from PHILOSOPHY, LOGIC & ARTS under timed conditions.",
-    "difficulty": "LOW",
-    "risk": "SAFE",
-    "cost": 60,
-    "reward": 85,
-    "penalty": 30,
-    "timeLimit": 60,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-05 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0086",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "ARCHETYPE",
-          "clue": "Universally recognized recurrent symbol, motif, or character archetype in literature and art.",
-          "category": "LITERATURE",
-          "scrambled": "C T R Y A H E P E"
-        },
-        {
-          "id": "R2",
-          "word": "CHIMERA",
-          "clue": "Fabulous mythological creature composed of disparate parts of diverse beasts.",
-          "category": "FOLKLORE",
-          "scrambled": "C M H I R E A"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "ARCHETYPE-CHIMERA",
-      "acceptedAnswers": [
-        "ARCHETYPE-CHIMERA",
-        "ARCHETYPE CHIMERA",
-        "ARCHETYPE,CHIMERA",
-        "WORDGUESS:ARCHETYPE-CHIMERA"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 9-letter term from LITERATURE; the word begins with letter 'A' or ends with 'E'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [C T R Y A H E P E] to identify common prefixes or suffixes."
       ]
     },
     "enabled": true,
@@ -4441,57 +2248,6 @@ export const wordGuessChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WG-0088",
-    "title": "WORD GUESS // PHILOSOPHY, #0088",
-    "category": "PUZZLES",
-    "description": "Unscramble 2 domain terminology anagrams from PHILOSOPHY, LOGIC & ARTS under timed conditions.",
-    "difficulty": "LOW",
-    "risk": "SAFE",
-    "cost": 60,
-    "reward": 85,
-    "penalty": 30,
-    "timeLimit": 60,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-05 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0088",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "DIALECTIC",
-          "clue": "Discourse between two differing points of view seeking to establish truth through reasoned arguments.",
-          "category": "PHILOSOPHY",
-          "scrambled": "E C C A I L T D I"
-        },
-        {
-          "id": "R2",
-          "word": "CHIMERA",
-          "clue": "Fabulous mythological creature composed of disparate parts of diverse beasts.",
-          "category": "FOLKLORE",
-          "scrambled": "I R H M E A C"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "DIALECTIC-CHIMERA",
-      "acceptedAnswers": [
-        "DIALECTIC-CHIMERA",
-        "DIALECTIC CHIMERA",
-        "DIALECTIC,CHIMERA",
-        "WORDGUESS:DIALECTIC-CHIMERA"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 9-letter term from PHILOSOPHY; the word begins with letter 'D' or ends with 'C'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [E C C A I L T D I] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WG-0089",
     "title": "WORD GUESS // PHILOSOPHY, #0089",
     "category": "PUZZLES",
@@ -4537,57 +2293,6 @@ export const wordGuessChallenges = [
       "hints": [
         "HINT 01 // Round 1 clue indicates a 7-letter term from FOLKLORE; the word begins with letter 'C' or ends with 'A'.",
         "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [A R E C I H M] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WG-0090",
-    "title": "WORD GUESS // PHILOSOPHY, #0090",
-    "category": "PUZZLES",
-    "description": "Unscramble 2 domain terminology anagrams from PHILOSOPHY, LOGIC & ARTS under timed conditions.",
-    "difficulty": "LOW",
-    "risk": "SAFE",
-    "cost": 60,
-    "reward": 85,
-    "penalty": 30,
-    "timeLimit": 60,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-05 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0090",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "ALLEGORY",
-          "clue": "Story, poem, or picture that can be interpreted to reveal a hidden moral or political meaning.",
-          "category": "RHETORIC",
-          "scrambled": "E Y G R O L A L"
-        },
-        {
-          "id": "R2",
-          "word": "MONOLOGUE",
-          "clue": "Extended speech by one actor in a theatrical play, film, or solitary performance.",
-          "category": "DRAMA",
-          "scrambled": "L O U M O G O E N"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "ALLEGORY-MONOLOGUE",
-      "acceptedAnswers": [
-        "ALLEGORY-MONOLOGUE",
-        "ALLEGORY MONOLOGUE",
-        "ALLEGORY,MONOLOGUE",
-        "WORDGUESS:ALLEGORY-MONOLOGUE"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 8-letter term from RHETORIC; the word begins with letter 'A' or ends with 'Y'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [E Y G R O L A L] to identify common prefixes or suffixes."
       ]
     },
     "enabled": true,
@@ -4645,57 +2350,6 @@ export const wordGuessChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WG-0092",
-    "title": "WORD GUESS // PHILOSOPHY, #0092",
-    "category": "PUZZLES",
-    "description": "Unscramble 2 domain terminology anagrams from PHILOSOPHY, LOGIC & ARTS under timed conditions.",
-    "difficulty": "LOW",
-    "risk": "SAFE",
-    "cost": 60,
-    "reward": 85,
-    "penalty": 30,
-    "timeLimit": 60,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-05 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0092",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "CHIMERA",
-          "clue": "Fabulous mythological creature composed of disparate parts of diverse beasts.",
-          "category": "FOLKLORE",
-          "scrambled": "E C A M R H I"
-        },
-        {
-          "id": "R2",
-          "word": "PARADOX",
-          "clue": "Logically self-contradictory statement or proposition contrary to expectations.",
-          "category": "PHILOSOPHY",
-          "scrambled": "A D P O A R X"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "CHIMERA-PARADOX",
-      "acceptedAnswers": [
-        "CHIMERA-PARADOX",
-        "CHIMERA PARADOX",
-        "CHIMERA,PARADOX",
-        "WORDGUESS:CHIMERA-PARADOX"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 7-letter term from FOLKLORE; the word begins with letter 'C' or ends with 'A'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [E C A M R H I] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WG-0093",
     "title": "WORD GUESS // PHILOSOPHY, #0093",
     "category": "PUZZLES",
@@ -4741,57 +2395,6 @@ export const wordGuessChallenges = [
       "hints": [
         "HINT 01 // Round 1 clue indicates a 7-letter term from PHILOSOPHY; the word begins with letter 'P' or ends with 'X'.",
         "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [O P D A A X R] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WG-0094",
-    "title": "WORD GUESS // PHILOSOPHY, #0094",
-    "category": "PUZZLES",
-    "description": "Unscramble 2 domain terminology anagrams from PHILOSOPHY, LOGIC & ARTS under timed conditions.",
-    "difficulty": "LOW",
-    "risk": "SAFE",
-    "cost": 60,
-    "reward": 85,
-    "penalty": 30,
-    "timeLimit": 60,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-05 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0094",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "MONOLOGUE",
-          "clue": "Extended speech by one actor in a theatrical play, film, or solitary performance.",
-          "category": "DRAMA",
-          "scrambled": "G N M O L O E O U"
-        },
-        {
-          "id": "R2",
-          "word": "PARADOX",
-          "clue": "Logically self-contradictory statement or proposition contrary to expectations.",
-          "category": "PHILOSOPHY",
-          "scrambled": "P X R A A O D"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "MONOLOGUE-PARADOX",
-      "acceptedAnswers": [
-        "MONOLOGUE-PARADOX",
-        "MONOLOGUE PARADOX",
-        "MONOLOGUE,PARADOX",
-        "WORDGUESS:MONOLOGUE-PARADOX"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 9-letter term from DRAMA; the word begins with letter 'M' or ends with 'E'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [G N M O L O E O U] to identify common prefixes or suffixes."
       ]
     },
     "enabled": true,
@@ -4849,57 +2452,6 @@ export const wordGuessChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WG-0096",
-    "title": "WORD GUESS // PHILOSOPHY, #0096",
-    "category": "PUZZLES",
-    "description": "Unscramble 2 domain terminology anagrams from PHILOSOPHY, LOGIC & ARTS under timed conditions.",
-    "difficulty": "LOW",
-    "risk": "SAFE",
-    "cost": 60,
-    "reward": 85,
-    "penalty": 30,
-    "timeLimit": 60,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-05 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0096",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "PARADOX",
-          "clue": "Logically self-contradictory statement or proposition contrary to expectations.",
-          "category": "PHILOSOPHY",
-          "scrambled": "R D A A X P O"
-        },
-        {
-          "id": "R2",
-          "word": "SOLILOQUY",
-          "clue": "Act of speaking one's thoughts aloud when by oneself regardless of hearers, especially by a character.",
-          "category": "THEATRE",
-          "scrambled": "O S U L O Y I L Q"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "PARADOX-SOLILOQUY",
-      "acceptedAnswers": [
-        "PARADOX-SOLILOQUY",
-        "PARADOX SOLILOQUY",
-        "PARADOX,SOLILOQUY",
-        "WORDGUESS:PARADOX-SOLILOQUY"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 7-letter term from PHILOSOPHY; the word begins with letter 'P' or ends with 'X'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [R D A A X P O] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WG-0097",
     "title": "WORD GUESS // PHILOSOPHY, #0097",
     "category": "PUZZLES",
@@ -4945,57 +2497,6 @@ export const wordGuessChallenges = [
       "hints": [
         "HINT 01 // Round 1 clue indicates a 9-letter term from MYTHOLOGY; the word begins with letter 'L' or ends with 'H'.",
         "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [T L A N B Y I R H] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WG-0098",
-    "title": "WORD GUESS // PHILOSOPHY, #0098",
-    "category": "PUZZLES",
-    "description": "Unscramble 2 domain terminology anagrams from PHILOSOPHY, LOGIC & ARTS under timed conditions.",
-    "difficulty": "LOW",
-    "risk": "SAFE",
-    "cost": 60,
-    "reward": 85,
-    "penalty": 30,
-    "timeLimit": 60,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-05 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0098",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "MONOLOGUE",
-          "clue": "Extended speech by one actor in a theatrical play, film, or solitary performance.",
-          "category": "DRAMA",
-          "scrambled": "U O O L O N E M G"
-        },
-        {
-          "id": "R2",
-          "word": "ENIGMA",
-          "clue": "Person or thing that is mysterious, puzzling, or fundamentally difficult to decipher.",
-          "category": "LOGIC",
-          "scrambled": "E M N A I G"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "MONOLOGUE-ENIGMA",
-      "acceptedAnswers": [
-        "MONOLOGUE-ENIGMA",
-        "MONOLOGUE ENIGMA",
-        "MONOLOGUE,ENIGMA",
-        "WORDGUESS:MONOLOGUE-ENIGMA"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 9-letter term from DRAMA; the word begins with letter 'M' or ends with 'E'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [U O O L O N E M G] to identify common prefixes or suffixes."
       ]
     },
     "enabled": true,
@@ -5053,57 +2554,6 @@ export const wordGuessChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WG-0100",
-    "title": "WORD GUESS // PHILOSOPHY, #0100",
-    "category": "PUZZLES",
-    "description": "Unscramble 2 domain terminology anagrams from PHILOSOPHY, LOGIC & ARTS under timed conditions.",
-    "difficulty": "LOW",
-    "risk": "SAFE",
-    "cost": 60,
-    "reward": 85,
-    "penalty": 30,
-    "timeLimit": 60,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-06 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0100",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "LABYRINTH",
-          "clue": "Complex maze-like network of intersecting pathways or intricate architectural passages.",
-          "category": "MYTHOLOGY",
-          "scrambled": "A L H N R Y I B T"
-        },
-        {
-          "id": "R2",
-          "word": "SOLILOQUY",
-          "clue": "Act of speaking one's thoughts aloud when by oneself regardless of hearers, especially by a character.",
-          "category": "THEATRE",
-          "scrambled": "Q L Y O L O S I U"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "LABYRINTH-SOLILOQUY",
-      "acceptedAnswers": [
-        "LABYRINTH-SOLILOQUY",
-        "LABYRINTH SOLILOQUY",
-        "LABYRINTH,SOLILOQUY",
-        "WORDGUESS:LABYRINTH-SOLILOQUY"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 9-letter term from MYTHOLOGY; the word begins with letter 'L' or ends with 'H'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [A L H N R Y I B T] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WG-0101",
     "title": "WORD GUESS // PHILOSOPHY, #0101",
     "category": "PUZZLES",
@@ -5149,57 +2599,6 @@ export const wordGuessChallenges = [
       "hints": [
         "HINT 01 // Round 1 clue indicates a 6-letter term from LOGIC; the word begins with letter 'E' or ends with 'A'.",
         "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [I G E M N A] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WG-0102",
-    "title": "WORD GUESS // PHILOSOPHY, #0102",
-    "category": "PUZZLES",
-    "description": "Unscramble 2 domain terminology anagrams from PHILOSOPHY, LOGIC & ARTS under timed conditions.",
-    "difficulty": "LOW",
-    "risk": "SAFE",
-    "cost": 60,
-    "reward": 85,
-    "penalty": 30,
-    "timeLimit": 60,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-06 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0102",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "PARADOX",
-          "clue": "Logically self-contradictory statement or proposition contrary to expectations.",
-          "category": "PHILOSOPHY",
-          "scrambled": "X O A D R P A"
-        },
-        {
-          "id": "R2",
-          "word": "ARCHETYPE",
-          "clue": "Universally recognized recurrent symbol, motif, or character archetype in literature and art.",
-          "category": "LITERATURE",
-          "scrambled": "H P Y E T R C A E"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "PARADOX-ARCHETYPE",
-      "acceptedAnswers": [
-        "PARADOX-ARCHETYPE",
-        "PARADOX ARCHETYPE",
-        "PARADOX,ARCHETYPE",
-        "WORDGUESS:PARADOX-ARCHETYPE"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 7-letter term from PHILOSOPHY; the word begins with letter 'P' or ends with 'X'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [X O A D R P A] to identify common prefixes or suffixes."
       ]
     },
     "enabled": true,
@@ -5257,57 +2656,6 @@ export const wordGuessChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WG-0104",
-    "title": "WORD GUESS // PHILOSOPHY, #0104",
-    "category": "PUZZLES",
-    "description": "Unscramble 2 domain terminology anagrams from PHILOSOPHY, LOGIC & ARTS under timed conditions.",
-    "difficulty": "LOW",
-    "risk": "SAFE",
-    "cost": 60,
-    "reward": 85,
-    "penalty": 30,
-    "timeLimit": 60,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-06 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0104",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "PARADOX",
-          "clue": "Logically self-contradictory statement or proposition contrary to expectations.",
-          "category": "PHILOSOPHY",
-          "scrambled": "P O D R X A A"
-        },
-        {
-          "id": "R2",
-          "word": "LABYRINTH",
-          "clue": "Complex maze-like network of intersecting pathways or intricate architectural passages.",
-          "category": "MYTHOLOGY",
-          "scrambled": "N L I R H T Y B A"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "PARADOX-LABYRINTH",
-      "acceptedAnswers": [
-        "PARADOX-LABYRINTH",
-        "PARADOX LABYRINTH",
-        "PARADOX,LABYRINTH",
-        "WORDGUESS:PARADOX-LABYRINTH"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 7-letter term from PHILOSOPHY; the word begins with letter 'P' or ends with 'X'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [P O D R X A A] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WG-0105",
     "title": "WORD GUESS // PHILOSOPHY, #0105",
     "category": "PUZZLES",
@@ -5353,57 +2701,6 @@ export const wordGuessChallenges = [
       "hints": [
         "HINT 01 // Round 1 clue indicates a 7-letter term from PHILOSOPHY; the word begins with letter 'P' or ends with 'X'.",
         "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [D X A R P O A] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WG-0106",
-    "title": "WORD GUESS // PHILOSOPHY, #0106",
-    "category": "PUZZLES",
-    "description": "Unscramble 2 domain terminology anagrams from PHILOSOPHY, LOGIC & ARTS under timed conditions.",
-    "difficulty": "LOW",
-    "risk": "SAFE",
-    "cost": 60,
-    "reward": 85,
-    "penalty": 30,
-    "timeLimit": 60,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-06 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0106",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "PARADOX",
-          "clue": "Logically self-contradictory statement or proposition contrary to expectations.",
-          "category": "PHILOSOPHY",
-          "scrambled": "P A R X D O A"
-        },
-        {
-          "id": "R2",
-          "word": "LABYRINTH",
-          "clue": "Complex maze-like network of intersecting pathways or intricate architectural passages.",
-          "category": "MYTHOLOGY",
-          "scrambled": "B H L R N T I Y A"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "PARADOX-LABYRINTH",
-      "acceptedAnswers": [
-        "PARADOX-LABYRINTH",
-        "PARADOX LABYRINTH",
-        "PARADOX,LABYRINTH",
-        "WORDGUESS:PARADOX-LABYRINTH"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 7-letter term from PHILOSOPHY; the word begins with letter 'P' or ends with 'X'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [P A R X D O A] to identify common prefixes or suffixes."
       ]
     },
     "enabled": true,
@@ -5461,57 +2758,6 @@ export const wordGuessChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WG-0108",
-    "title": "WORD GUESS // PHILOSOPHY, #0108",
-    "category": "PUZZLES",
-    "description": "Unscramble 2 domain terminology anagrams from PHILOSOPHY, LOGIC & ARTS under timed conditions.",
-    "difficulty": "LOW",
-    "risk": "SAFE",
-    "cost": 60,
-    "reward": 85,
-    "penalty": 30,
-    "timeLimit": 60,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-06 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0108",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "DIALECTIC",
-          "clue": "Discourse between two differing points of view seeking to establish truth through reasoned arguments.",
-          "category": "PHILOSOPHY",
-          "scrambled": "I C T E I A D C L"
-        },
-        {
-          "id": "R2",
-          "word": "ENIGMA",
-          "clue": "Person or thing that is mysterious, puzzling, or fundamentally difficult to decipher.",
-          "category": "LOGIC",
-          "scrambled": "M I E G N A"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "DIALECTIC-ENIGMA",
-      "acceptedAnswers": [
-        "DIALECTIC-ENIGMA",
-        "DIALECTIC ENIGMA",
-        "DIALECTIC,ENIGMA",
-        "WORDGUESS:DIALECTIC-ENIGMA"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 9-letter term from PHILOSOPHY; the word begins with letter 'D' or ends with 'C'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [I C T E I A D C L] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WG-0109",
     "title": "WORD GUESS // PHILOSOPHY, #0109",
     "category": "PUZZLES",
@@ -5557,57 +2803,6 @@ export const wordGuessChallenges = [
       "hints": [
         "HINT 01 // Round 1 clue indicates a 9-letter term from MYTHOLOGY; the word begins with letter 'L' or ends with 'H'.",
         "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [A N L Y I H B R T] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WG-0110",
-    "title": "WORD GUESS // PHILOSOPHY, #0110",
-    "category": "PUZZLES",
-    "description": "Unscramble 2 domain terminology anagrams from PHILOSOPHY, LOGIC & ARTS under timed conditions.",
-    "difficulty": "LOW",
-    "risk": "SAFE",
-    "cost": 60,
-    "reward": 85,
-    "penalty": 30,
-    "timeLimit": 60,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-06 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0110",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "SYLLOGISM",
-          "clue": "Form of deductive reasoning consisting of a major premise, a minor premise, and a conclusion.",
-          "category": "LOGIC",
-          "scrambled": "G S I S L Y L M O"
-        },
-        {
-          "id": "R2",
-          "word": "CHIMERA",
-          "clue": "Fabulous mythological creature composed of disparate parts of diverse beasts.",
-          "category": "FOLKLORE",
-          "scrambled": "R H M E C I A"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "SYLLOGISM-CHIMERA",
-      "acceptedAnswers": [
-        "SYLLOGISM-CHIMERA",
-        "SYLLOGISM CHIMERA",
-        "SYLLOGISM,CHIMERA",
-        "WORDGUESS:SYLLOGISM-CHIMERA"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 9-letter term from LOGIC; the word begins with letter 'S' or ends with 'M'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [G S I S L Y L M O] to identify common prefixes or suffixes."
       ]
     },
     "enabled": true,
@@ -5665,57 +2860,6 @@ export const wordGuessChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WG-0112",
-    "title": "WORD GUESS // PHILOSOPHY, #0112",
-    "category": "PUZZLES",
-    "description": "Unscramble 2 domain terminology anagrams from PHILOSOPHY, LOGIC & ARTS under timed conditions.",
-    "difficulty": "LOW",
-    "risk": "SAFE",
-    "cost": 60,
-    "reward": 85,
-    "penalty": 30,
-    "timeLimit": 60,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-06 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0112",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "DIALECTIC",
-          "clue": "Discourse between two differing points of view seeking to establish truth through reasoned arguments.",
-          "category": "PHILOSOPHY",
-          "scrambled": "C E A I C L D T I"
-        },
-        {
-          "id": "R2",
-          "word": "ARCHETYPE",
-          "clue": "Universally recognized recurrent symbol, motif, or character archetype in literature and art.",
-          "category": "LITERATURE",
-          "scrambled": "T A R E E Y H P C"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "DIALECTIC-ARCHETYPE",
-      "acceptedAnswers": [
-        "DIALECTIC-ARCHETYPE",
-        "DIALECTIC ARCHETYPE",
-        "DIALECTIC,ARCHETYPE",
-        "WORDGUESS:DIALECTIC-ARCHETYPE"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 9-letter term from PHILOSOPHY; the word begins with letter 'D' or ends with 'C'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [C E A I C L D T I] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WG-0113",
     "title": "WORD GUESS // PHILOSOPHY, #0113",
     "category": "PUZZLES",
@@ -5761,57 +2905,6 @@ export const wordGuessChallenges = [
       "hints": [
         "HINT 01 // Round 1 clue indicates a 7-letter term from PHILOSOPHY; the word begins with letter 'P' or ends with 'X'.",
         "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [P R D X A A O] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WG-0114",
-    "title": "WORD GUESS // PHILOSOPHY, #0114",
-    "category": "PUZZLES",
-    "description": "Unscramble 2 domain terminology anagrams from PHILOSOPHY, LOGIC & ARTS under timed conditions.",
-    "difficulty": "LOW",
-    "risk": "SAFE",
-    "cost": 60,
-    "reward": 85,
-    "penalty": 30,
-    "timeLimit": 60,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-06 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0114",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "ARCHETYPE",
-          "clue": "Universally recognized recurrent symbol, motif, or character archetype in literature and art.",
-          "category": "LITERATURE",
-          "scrambled": "C P T E R H Y A E"
-        },
-        {
-          "id": "R2",
-          "word": "ENIGMA",
-          "clue": "Person or thing that is mysterious, puzzling, or fundamentally difficult to decipher.",
-          "category": "LOGIC",
-          "scrambled": "M E N G I A"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "ARCHETYPE-ENIGMA",
-      "acceptedAnswers": [
-        "ARCHETYPE-ENIGMA",
-        "ARCHETYPE ENIGMA",
-        "ARCHETYPE,ENIGMA",
-        "WORDGUESS:ARCHETYPE-ENIGMA"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 9-letter term from LITERATURE; the word begins with letter 'A' or ends with 'E'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [C P T E R H Y A E] to identify common prefixes or suffixes."
       ]
     },
     "enabled": true,
@@ -5869,57 +2962,6 @@ export const wordGuessChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WG-0116",
-    "title": "WORD GUESS // PHILOSOPHY, #0116",
-    "category": "PUZZLES",
-    "description": "Unscramble 2 domain terminology anagrams from PHILOSOPHY, LOGIC & ARTS under timed conditions.",
-    "difficulty": "LOW",
-    "risk": "SAFE",
-    "cost": 60,
-    "reward": 85,
-    "penalty": 30,
-    "timeLimit": 60,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-06 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0116",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "MONOLOGUE",
-          "clue": "Extended speech by one actor in a theatrical play, film, or solitary performance.",
-          "category": "DRAMA",
-          "scrambled": "L O N O E U G O M"
-        },
-        {
-          "id": "R2",
-          "word": "PARADOX",
-          "clue": "Logically self-contradictory statement or proposition contrary to expectations.",
-          "category": "PHILOSOPHY",
-          "scrambled": "O A P X A D R"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "MONOLOGUE-PARADOX",
-      "acceptedAnswers": [
-        "MONOLOGUE-PARADOX",
-        "MONOLOGUE PARADOX",
-        "MONOLOGUE,PARADOX",
-        "WORDGUESS:MONOLOGUE-PARADOX"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 9-letter term from DRAMA; the word begins with letter 'M' or ends with 'E'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [L O N O E U G O M] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WG-0117",
     "title": "WORD GUESS // PHILOSOPHY, #0117",
     "category": "PUZZLES",
@@ -5965,57 +3007,6 @@ export const wordGuessChallenges = [
       "hints": [
         "HINT 01 // Round 1 clue indicates a 9-letter term from THEATRE; the word begins with letter 'S' or ends with 'Y'.",
         "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [O L L S O Y U Q I] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WG-0118",
-    "title": "WORD GUESS // PHILOSOPHY, #0118",
-    "category": "PUZZLES",
-    "description": "Unscramble 2 domain terminology anagrams from PHILOSOPHY, LOGIC & ARTS under timed conditions.",
-    "difficulty": "LOW",
-    "risk": "SAFE",
-    "cost": 60,
-    "reward": 85,
-    "penalty": 30,
-    "timeLimit": 60,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-06 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0118",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "PARADOX",
-          "clue": "Logically self-contradictory statement or proposition contrary to expectations.",
-          "category": "PHILOSOPHY",
-          "scrambled": "P R D A O A X"
-        },
-        {
-          "id": "R2",
-          "word": "LABYRINTH",
-          "clue": "Complex maze-like network of intersecting pathways or intricate architectural passages.",
-          "category": "MYTHOLOGY",
-          "scrambled": "B L A I Y N H T R"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "PARADOX-LABYRINTH",
-      "acceptedAnswers": [
-        "PARADOX-LABYRINTH",
-        "PARADOX LABYRINTH",
-        "PARADOX,LABYRINTH",
-        "WORDGUESS:PARADOX-LABYRINTH"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 7-letter term from PHILOSOPHY; the word begins with letter 'P' or ends with 'X'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [P R D A O A X] to identify common prefixes or suffixes."
       ]
     },
     "enabled": true,
@@ -6073,57 +3064,6 @@ export const wordGuessChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WG-0120",
-    "title": "WORD GUESS // PHILOSOPHY, #0120",
-    "category": "PUZZLES",
-    "description": "Unscramble 2 domain terminology anagrams from PHILOSOPHY, LOGIC & ARTS under timed conditions.",
-    "difficulty": "LOW",
-    "risk": "SAFE",
-    "cost": 60,
-    "reward": 85,
-    "penalty": 30,
-    "timeLimit": 60,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-07 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0120",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "SYLLOGISM",
-          "clue": "Form of deductive reasoning consisting of a major premise, a minor premise, and a conclusion.",
-          "category": "LOGIC",
-          "scrambled": "S O S M G L L Y I"
-        },
-        {
-          "id": "R2",
-          "word": "DIALECTIC",
-          "clue": "Discourse between two differing points of view seeking to establish truth through reasoned arguments.",
-          "category": "PHILOSOPHY",
-          "scrambled": "C L A C D E I T I"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "SYLLOGISM-DIALECTIC",
-      "acceptedAnswers": [
-        "SYLLOGISM-DIALECTIC",
-        "SYLLOGISM DIALECTIC",
-        "SYLLOGISM,DIALECTIC",
-        "WORDGUESS:SYLLOGISM-DIALECTIC"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 9-letter term from LOGIC; the word begins with letter 'S' or ends with 'M'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [S O S M G L L Y I] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WG-0121",
     "title": "WORD GUESS // PHILOSOPHY, #0121",
     "category": "PUZZLES",
@@ -6169,57 +3109,6 @@ export const wordGuessChallenges = [
       "hints": [
         "HINT 01 // Round 1 clue indicates a 9-letter term from MYTHOLOGY; the word begins with letter 'L' or ends with 'H'.",
         "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [B L H Y R I T A N] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WG-0122",
-    "title": "WORD GUESS // PHILOSOPHY, #0122",
-    "category": "PUZZLES",
-    "description": "Unscramble 2 domain terminology anagrams from PHILOSOPHY, LOGIC & ARTS under timed conditions.",
-    "difficulty": "LOW",
-    "risk": "SAFE",
-    "cost": 60,
-    "reward": 85,
-    "penalty": 30,
-    "timeLimit": 60,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-07 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0122",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "CHIMERA",
-          "clue": "Fabulous mythological creature composed of disparate parts of diverse beasts.",
-          "category": "FOLKLORE",
-          "scrambled": "H C I E A M R"
-        },
-        {
-          "id": "R2",
-          "word": "DIALECTIC",
-          "clue": "Discourse between two differing points of view seeking to establish truth through reasoned arguments.",
-          "category": "PHILOSOPHY",
-          "scrambled": "C I C L T I E A D"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "CHIMERA-DIALECTIC",
-      "acceptedAnswers": [
-        "CHIMERA-DIALECTIC",
-        "CHIMERA DIALECTIC",
-        "CHIMERA,DIALECTIC",
-        "WORDGUESS:CHIMERA-DIALECTIC"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 7-letter term from FOLKLORE; the word begins with letter 'C' or ends with 'A'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [H C I E A M R] to identify common prefixes or suffixes."
       ]
     },
     "enabled": true,
@@ -6277,57 +3166,6 @@ export const wordGuessChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WG-0124",
-    "title": "WORD GUESS // PHILOSOPHY, #0124",
-    "category": "PUZZLES",
-    "description": "Unscramble 2 domain terminology anagrams from PHILOSOPHY, LOGIC & ARTS under timed conditions.",
-    "difficulty": "LOW",
-    "risk": "SAFE",
-    "cost": 60,
-    "reward": 85,
-    "penalty": 30,
-    "timeLimit": 60,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-07 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0124",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "DIALECTIC",
-          "clue": "Discourse between two differing points of view seeking to establish truth through reasoned arguments.",
-          "category": "PHILOSOPHY",
-          "scrambled": "I E C A C I T L D"
-        },
-        {
-          "id": "R2",
-          "word": "MONOLOGUE",
-          "clue": "Extended speech by one actor in a theatrical play, film, or solitary performance.",
-          "category": "DRAMA",
-          "scrambled": "G N M O U O O E L"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "DIALECTIC-MONOLOGUE",
-      "acceptedAnswers": [
-        "DIALECTIC-MONOLOGUE",
-        "DIALECTIC MONOLOGUE",
-        "DIALECTIC,MONOLOGUE",
-        "WORDGUESS:DIALECTIC-MONOLOGUE"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 9-letter term from PHILOSOPHY; the word begins with letter 'D' or ends with 'C'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [I E C A C I T L D] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WG-0125",
     "title": "WORD GUESS // PHILOSOPHY, #0125",
     "category": "PUZZLES",
@@ -6373,57 +3211,6 @@ export const wordGuessChallenges = [
       "hints": [
         "HINT 01 // Round 1 clue indicates a 7-letter term from PHILOSOPHY; the word begins with letter 'P' or ends with 'X'.",
         "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [O P X D R A A] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WG-0126",
-    "title": "WORD GUESS // PHILOSOPHY, #0126",
-    "category": "PUZZLES",
-    "description": "Unscramble 2 domain terminology anagrams from PHILOSOPHY, LOGIC & ARTS under timed conditions.",
-    "difficulty": "LOW",
-    "risk": "SAFE",
-    "cost": 60,
-    "reward": 85,
-    "penalty": 30,
-    "timeLimit": 60,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-07 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0126",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "SOLILOQUY",
-          "clue": "Act of speaking one's thoughts aloud when by oneself regardless of hearers, especially by a character.",
-          "category": "THEATRE",
-          "scrambled": "O S Y I L O U L Q"
-        },
-        {
-          "id": "R2",
-          "word": "CHIMERA",
-          "clue": "Fabulous mythological creature composed of disparate parts of diverse beasts.",
-          "category": "FOLKLORE",
-          "scrambled": "C M H R E I A"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "SOLILOQUY-CHIMERA",
-      "acceptedAnswers": [
-        "SOLILOQUY-CHIMERA",
-        "SOLILOQUY CHIMERA",
-        "SOLILOQUY,CHIMERA",
-        "WORDGUESS:SOLILOQUY-CHIMERA"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 9-letter term from THEATRE; the word begins with letter 'S' or ends with 'Y'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [O S Y I L O U L Q] to identify common prefixes or suffixes."
       ]
     },
     "enabled": true,
@@ -6481,57 +3268,6 @@ export const wordGuessChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WG-0128",
-    "title": "WORD GUESS // PHILOSOPHY, #0128",
-    "category": "PUZZLES",
-    "description": "Unscramble 2 domain terminology anagrams from PHILOSOPHY, LOGIC & ARTS under timed conditions.",
-    "difficulty": "LOW",
-    "risk": "SAFE",
-    "cost": 60,
-    "reward": 85,
-    "penalty": 30,
-    "timeLimit": 60,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-07 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0128",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "PARADOX",
-          "clue": "Logically self-contradictory statement or proposition contrary to expectations.",
-          "category": "PHILOSOPHY",
-          "scrambled": "A R X A D O P"
-        },
-        {
-          "id": "R2",
-          "word": "LABYRINTH",
-          "clue": "Complex maze-like network of intersecting pathways or intricate architectural passages.",
-          "category": "MYTHOLOGY",
-          "scrambled": "L H I T A Y N R B"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "PARADOX-LABYRINTH",
-      "acceptedAnswers": [
-        "PARADOX-LABYRINTH",
-        "PARADOX LABYRINTH",
-        "PARADOX,LABYRINTH",
-        "WORDGUESS:PARADOX-LABYRINTH"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 7-letter term from PHILOSOPHY; the word begins with letter 'P' or ends with 'X'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [A R X A D O P] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WG-0129",
     "title": "WORD GUESS // PHILOSOPHY, #0129",
     "category": "PUZZLES",
@@ -6577,57 +3313,6 @@ export const wordGuessChallenges = [
       "hints": [
         "HINT 01 // Round 1 clue indicates a 9-letter term from DRAMA; the word begins with letter 'M' or ends with 'E'.",
         "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [O G N O M U L O E] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WG-0130",
-    "title": "WORD GUESS // PHILOSOPHY, #0130",
-    "category": "PUZZLES",
-    "description": "Unscramble 2 domain terminology anagrams from PHILOSOPHY, LOGIC & ARTS under timed conditions.",
-    "difficulty": "LOW",
-    "risk": "SAFE",
-    "cost": 60,
-    "reward": 85,
-    "penalty": 30,
-    "timeLimit": 60,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-07 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0130",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "ARCHETYPE",
-          "clue": "Universally recognized recurrent symbol, motif, or character archetype in literature and art.",
-          "category": "LITERATURE",
-          "scrambled": "T C R P E H E Y A"
-        },
-        {
-          "id": "R2",
-          "word": "SYLLOGISM",
-          "clue": "Form of deductive reasoning consisting of a major premise, a minor premise, and a conclusion.",
-          "category": "LOGIC",
-          "scrambled": "S I M L G S Y L O"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "ARCHETYPE-SYLLOGISM",
-      "acceptedAnswers": [
-        "ARCHETYPE-SYLLOGISM",
-        "ARCHETYPE SYLLOGISM",
-        "ARCHETYPE,SYLLOGISM",
-        "WORDGUESS:ARCHETYPE-SYLLOGISM"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 9-letter term from LITERATURE; the word begins with letter 'A' or ends with 'E'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [T C R P E H E Y A] to identify common prefixes or suffixes."
       ]
     },
     "enabled": true,
@@ -6685,57 +3370,6 @@ export const wordGuessChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WG-0132",
-    "title": "WORD GUESS // PHILOSOPHY, #0132",
-    "category": "PUZZLES",
-    "description": "Unscramble 2 domain terminology anagrams from PHILOSOPHY, LOGIC & ARTS under timed conditions.",
-    "difficulty": "LOW",
-    "risk": "SAFE",
-    "cost": 60,
-    "reward": 85,
-    "penalty": 30,
-    "timeLimit": 60,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-07 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0132",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "SOLILOQUY",
-          "clue": "Act of speaking one's thoughts aloud when by oneself regardless of hearers, especially by a character.",
-          "category": "THEATRE",
-          "scrambled": "O S L O U L I Q Y"
-        },
-        {
-          "id": "R2",
-          "word": "DIALECTIC",
-          "clue": "Discourse between two differing points of view seeking to establish truth through reasoned arguments.",
-          "category": "PHILOSOPHY",
-          "scrambled": "C I T A C L D I E"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "SOLILOQUY-DIALECTIC",
-      "acceptedAnswers": [
-        "SOLILOQUY-DIALECTIC",
-        "SOLILOQUY DIALECTIC",
-        "SOLILOQUY,DIALECTIC",
-        "WORDGUESS:SOLILOQUY-DIALECTIC"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 9-letter term from THEATRE; the word begins with letter 'S' or ends with 'Y'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [O S L O U L I Q Y] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WG-0133",
     "title": "WORD GUESS // PHILOSOPHY, #0133",
     "category": "PUZZLES",
@@ -6781,57 +3415,6 @@ export const wordGuessChallenges = [
       "hints": [
         "HINT 01 // Round 1 clue indicates a 6-letter term from LOGIC; the word begins with letter 'E' or ends with 'A'.",
         "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [I M G A E N] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WG-0134",
-    "title": "WORD GUESS // PHILOSOPHY, #0134",
-    "category": "PUZZLES",
-    "description": "Unscramble 2 domain terminology anagrams from PHILOSOPHY, LOGIC & ARTS under timed conditions.",
-    "difficulty": "LOW",
-    "risk": "SAFE",
-    "cost": 60,
-    "reward": 85,
-    "penalty": 30,
-    "timeLimit": 60,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-07 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0134",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "DIALECTIC",
-          "clue": "Discourse between two differing points of view seeking to establish truth through reasoned arguments.",
-          "category": "PHILOSOPHY",
-          "scrambled": "I E D L C C I T A"
-        },
-        {
-          "id": "R2",
-          "word": "ALLEGORY",
-          "clue": "Story, poem, or picture that can be interpreted to reveal a hidden moral or political meaning.",
-          "category": "RHETORIC",
-          "scrambled": "L A E Y O R G L"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "DIALECTIC-ALLEGORY",
-      "acceptedAnswers": [
-        "DIALECTIC-ALLEGORY",
-        "DIALECTIC ALLEGORY",
-        "DIALECTIC,ALLEGORY",
-        "WORDGUESS:DIALECTIC-ALLEGORY"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 9-letter term from PHILOSOPHY; the word begins with letter 'D' or ends with 'C'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [I E D L C C I T A] to identify common prefixes or suffixes."
       ]
     },
     "enabled": true,
@@ -6889,57 +3472,6 @@ export const wordGuessChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WG-0136",
-    "title": "WORD GUESS // PHILOSOPHY, #0136",
-    "category": "PUZZLES",
-    "description": "Unscramble 2 domain terminology anagrams from PHILOSOPHY, LOGIC & ARTS under timed conditions.",
-    "difficulty": "LOW",
-    "risk": "SAFE",
-    "cost": 60,
-    "reward": 85,
-    "penalty": 30,
-    "timeLimit": 60,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-07 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0136",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "DIALECTIC",
-          "clue": "Discourse between two differing points of view seeking to establish truth through reasoned arguments.",
-          "category": "PHILOSOPHY",
-          "scrambled": "I C I T A D C L E"
-        },
-        {
-          "id": "R2",
-          "word": "PARADOX",
-          "clue": "Logically self-contradictory statement or proposition contrary to expectations.",
-          "category": "PHILOSOPHY",
-          "scrambled": "A O X R D P A"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "DIALECTIC-PARADOX",
-      "acceptedAnswers": [
-        "DIALECTIC-PARADOX",
-        "DIALECTIC PARADOX",
-        "DIALECTIC,PARADOX",
-        "WORDGUESS:DIALECTIC-PARADOX"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 9-letter term from PHILOSOPHY; the word begins with letter 'D' or ends with 'C'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [I C I T A D C L E] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WG-0137",
     "title": "WORD GUESS // PHILOSOPHY, #0137",
     "category": "PUZZLES",
@@ -6985,57 +3517,6 @@ export const wordGuessChallenges = [
       "hints": [
         "HINT 01 // Round 1 clue indicates a 8-letter term from RHETORIC; the word begins with letter 'A' or ends with 'Y'.",
         "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [A R L O E L Y G] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WG-0138",
-    "title": "WORD GUESS // PHILOSOPHY, #0138",
-    "category": "PUZZLES",
-    "description": "Unscramble 2 domain terminology anagrams from PHILOSOPHY, LOGIC & ARTS under timed conditions.",
-    "difficulty": "LOW",
-    "risk": "SAFE",
-    "cost": 60,
-    "reward": 85,
-    "penalty": 30,
-    "timeLimit": 60,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-07 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0138",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "CHIMERA",
-          "clue": "Fabulous mythological creature composed of disparate parts of diverse beasts.",
-          "category": "FOLKLORE",
-          "scrambled": "E C R I M H A"
-        },
-        {
-          "id": "R2",
-          "word": "PARADOX",
-          "clue": "Logically self-contradictory statement or proposition contrary to expectations.",
-          "category": "PHILOSOPHY",
-          "scrambled": "A X R O A D P"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "CHIMERA-PARADOX",
-      "acceptedAnswers": [
-        "CHIMERA-PARADOX",
-        "CHIMERA PARADOX",
-        "CHIMERA,PARADOX",
-        "WORDGUESS:CHIMERA-PARADOX"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 7-letter term from FOLKLORE; the word begins with letter 'C' or ends with 'A'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [E C R I M H A] to identify common prefixes or suffixes."
       ]
     },
     "enabled": true,
@@ -7093,57 +3574,6 @@ export const wordGuessChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WG-0140",
-    "title": "WORD GUESS // PHILOSOPHY, #0140",
-    "category": "PUZZLES",
-    "description": "Unscramble 2 domain terminology anagrams from PHILOSOPHY, LOGIC & ARTS under timed conditions.",
-    "difficulty": "LOW",
-    "risk": "SAFE",
-    "cost": 60,
-    "reward": 85,
-    "penalty": 30,
-    "timeLimit": 60,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-08 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0140",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "PARADOX",
-          "clue": "Logically self-contradictory statement or proposition contrary to expectations.",
-          "category": "PHILOSOPHY",
-          "scrambled": "A P A D R X O"
-        },
-        {
-          "id": "R2",
-          "word": "ENIGMA",
-          "clue": "Person or thing that is mysterious, puzzling, or fundamentally difficult to decipher.",
-          "category": "LOGIC",
-          "scrambled": "N M I E A G"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "PARADOX-ENIGMA",
-      "acceptedAnswers": [
-        "PARADOX-ENIGMA",
-        "PARADOX ENIGMA",
-        "PARADOX,ENIGMA",
-        "WORDGUESS:PARADOX-ENIGMA"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 7-letter term from PHILOSOPHY; the word begins with letter 'P' or ends with 'X'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [A P A D R X O] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WG-0141",
     "title": "WORD GUESS // PHILOSOPHY, #0141",
     "category": "PUZZLES",
@@ -7189,57 +3619,6 @@ export const wordGuessChallenges = [
       "hints": [
         "HINT 01 // Round 1 clue indicates a 6-letter term from LOGIC; the word begins with letter 'E' or ends with 'A'.",
         "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [N I A G E M] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WG-0142",
-    "title": "WORD GUESS // PHILOSOPHY, #0142",
-    "category": "PUZZLES",
-    "description": "Unscramble 2 domain terminology anagrams from PHILOSOPHY, LOGIC & ARTS under timed conditions.",
-    "difficulty": "LOW",
-    "risk": "SAFE",
-    "cost": 60,
-    "reward": 85,
-    "penalty": 30,
-    "timeLimit": 60,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-08 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0142",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "CHIMERA",
-          "clue": "Fabulous mythological creature composed of disparate parts of diverse beasts.",
-          "category": "FOLKLORE",
-          "scrambled": "H I R M E A C"
-        },
-        {
-          "id": "R2",
-          "word": "ENIGMA",
-          "clue": "Person or thing that is mysterious, puzzling, or fundamentally difficult to decipher.",
-          "category": "LOGIC",
-          "scrambled": "A N I G E M"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "CHIMERA-ENIGMA",
-      "acceptedAnswers": [
-        "CHIMERA-ENIGMA",
-        "CHIMERA ENIGMA",
-        "CHIMERA,ENIGMA",
-        "WORDGUESS:CHIMERA-ENIGMA"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 7-letter term from FOLKLORE; the word begins with letter 'C' or ends with 'A'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [H I R M E A C] to identify common prefixes or suffixes."
       ]
     },
     "enabled": true,
@@ -7297,57 +3676,6 @@ export const wordGuessChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WG-0144",
-    "title": "WORD GUESS // PHILOSOPHY, #0144",
-    "category": "PUZZLES",
-    "description": "Unscramble 2 domain terminology anagrams from PHILOSOPHY, LOGIC & ARTS under timed conditions.",
-    "difficulty": "LOW",
-    "risk": "SAFE",
-    "cost": 60,
-    "reward": 85,
-    "penalty": 30,
-    "timeLimit": 60,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-08 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0144",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "SOLILOQUY",
-          "clue": "Act of speaking one's thoughts aloud when by oneself regardless of hearers, especially by a character.",
-          "category": "THEATRE",
-          "scrambled": "O O L S U Y Q L I"
-        },
-        {
-          "id": "R2",
-          "word": "ALLEGORY",
-          "clue": "Story, poem, or picture that can be interpreted to reveal a hidden moral or political meaning.",
-          "category": "RHETORIC",
-          "scrambled": "L Y L E A G O R"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "SOLILOQUY-ALLEGORY",
-      "acceptedAnswers": [
-        "SOLILOQUY-ALLEGORY",
-        "SOLILOQUY ALLEGORY",
-        "SOLILOQUY,ALLEGORY",
-        "WORDGUESS:SOLILOQUY-ALLEGORY"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 9-letter term from THEATRE; the word begins with letter 'S' or ends with 'Y'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [O O L S U Y Q L I] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WG-0145",
     "title": "WORD GUESS // PHILOSOPHY, #0145",
     "category": "PUZZLES",
@@ -7393,57 +3721,6 @@ export const wordGuessChallenges = [
       "hints": [
         "HINT 01 // Round 1 clue indicates a 9-letter term from LOGIC; the word begins with letter 'S' or ends with 'M'.",
         "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [S G I Y L O L M S] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WG-0146",
-    "title": "WORD GUESS // PHILOSOPHY, #0146",
-    "category": "PUZZLES",
-    "description": "Unscramble 2 domain terminology anagrams from PHILOSOPHY, LOGIC & ARTS under timed conditions.",
-    "difficulty": "LOW",
-    "risk": "SAFE",
-    "cost": 60,
-    "reward": 85,
-    "penalty": 30,
-    "timeLimit": 60,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-08 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0146",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "DIALECTIC",
-          "clue": "Discourse between two differing points of view seeking to establish truth through reasoned arguments.",
-          "category": "PHILOSOPHY",
-          "scrambled": "T A L E I D C C I"
-        },
-        {
-          "id": "R2",
-          "word": "MONOLOGUE",
-          "clue": "Extended speech by one actor in a theatrical play, film, or solitary performance.",
-          "category": "DRAMA",
-          "scrambled": "O E O U L N G O M"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "DIALECTIC-MONOLOGUE",
-      "acceptedAnswers": [
-        "DIALECTIC-MONOLOGUE",
-        "DIALECTIC MONOLOGUE",
-        "DIALECTIC,MONOLOGUE",
-        "WORDGUESS:DIALECTIC-MONOLOGUE"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 9-letter term from PHILOSOPHY; the word begins with letter 'D' or ends with 'C'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [T A L E I D C C I] to identify common prefixes or suffixes."
       ]
     },
     "enabled": true,
@@ -7501,57 +3778,6 @@ export const wordGuessChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WG-0148",
-    "title": "WORD GUESS // PHILOSOPHY, #0148",
-    "category": "PUZZLES",
-    "description": "Unscramble 2 domain terminology anagrams from PHILOSOPHY, LOGIC & ARTS under timed conditions.",
-    "difficulty": "LOW",
-    "risk": "SAFE",
-    "cost": 60,
-    "reward": 85,
-    "penalty": 30,
-    "timeLimit": 60,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-08 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0148",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "PARADOX",
-          "clue": "Logically self-contradictory statement or proposition contrary to expectations.",
-          "category": "PHILOSOPHY",
-          "scrambled": "D A X A P O R"
-        },
-        {
-          "id": "R2",
-          "word": "SYLLOGISM",
-          "clue": "Form of deductive reasoning consisting of a major premise, a minor premise, and a conclusion.",
-          "category": "LOGIC",
-          "scrambled": "G M I Y S L S L O"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "PARADOX-SYLLOGISM",
-      "acceptedAnswers": [
-        "PARADOX-SYLLOGISM",
-        "PARADOX SYLLOGISM",
-        "PARADOX,SYLLOGISM",
-        "WORDGUESS:PARADOX-SYLLOGISM"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 7-letter term from PHILOSOPHY; the word begins with letter 'P' or ends with 'X'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [D A X A P O R] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WG-0149",
     "title": "WORD GUESS // PHILOSOPHY, #0149",
     "category": "PUZZLES",
@@ -7597,57 +3823,6 @@ export const wordGuessChallenges = [
       "hints": [
         "HINT 01 // Round 1 clue indicates a 9-letter term from PHILOSOPHY; the word begins with letter 'D' or ends with 'C'.",
         "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [I I E C C A T L D] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WG-0150",
-    "title": "WORD GUESS // PHILOSOPHY, #0150",
-    "category": "PUZZLES",
-    "description": "Unscramble 2 domain terminology anagrams from PHILOSOPHY, LOGIC & ARTS under timed conditions.",
-    "difficulty": "LOW",
-    "risk": "SAFE",
-    "cost": 60,
-    "reward": 85,
-    "penalty": 30,
-    "timeLimit": 60,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-08 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0150",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "MONOLOGUE",
-          "clue": "Extended speech by one actor in a theatrical play, film, or solitary performance.",
-          "category": "DRAMA",
-          "scrambled": "O M N E U O G O L"
-        },
-        {
-          "id": "R2",
-          "word": "CHIMERA",
-          "clue": "Fabulous mythological creature composed of disparate parts of diverse beasts.",
-          "category": "FOLKLORE",
-          "scrambled": "I R A C H M E"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "MONOLOGUE-CHIMERA",
-      "acceptedAnswers": [
-        "MONOLOGUE-CHIMERA",
-        "MONOLOGUE CHIMERA",
-        "MONOLOGUE,CHIMERA",
-        "WORDGUESS:MONOLOGUE-CHIMERA"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 9-letter term from DRAMA; the word begins with letter 'M' or ends with 'E'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [O M N E U O G O L] to identify common prefixes or suffixes."
       ]
     },
     "enabled": true,
@@ -7705,57 +3880,6 @@ export const wordGuessChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WG-0152",
-    "title": "WORD GUESS // PHILOSOPHY, #0152",
-    "category": "PUZZLES",
-    "description": "Unscramble 2 domain terminology anagrams from PHILOSOPHY, LOGIC & ARTS under timed conditions.",
-    "difficulty": "LOW",
-    "risk": "SAFE",
-    "cost": 60,
-    "reward": 85,
-    "penalty": 30,
-    "timeLimit": 60,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-08 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0152",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "ENIGMA",
-          "clue": "Person or thing that is mysterious, puzzling, or fundamentally difficult to decipher.",
-          "category": "LOGIC",
-          "scrambled": "E M I A N G"
-        },
-        {
-          "id": "R2",
-          "word": "LABYRINTH",
-          "clue": "Complex maze-like network of intersecting pathways or intricate architectural passages.",
-          "category": "MYTHOLOGY",
-          "scrambled": "A H Y N B I R T L"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "ENIGMA-LABYRINTH",
-      "acceptedAnswers": [
-        "ENIGMA-LABYRINTH",
-        "ENIGMA LABYRINTH",
-        "ENIGMA,LABYRINTH",
-        "WORDGUESS:ENIGMA-LABYRINTH"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 6-letter term from LOGIC; the word begins with letter 'E' or ends with 'A'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [E M I A N G] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WG-0153",
     "title": "WORD GUESS // PHILOSOPHY, #0153",
     "category": "PUZZLES",
@@ -7801,57 +3925,6 @@ export const wordGuessChallenges = [
       "hints": [
         "HINT 01 // Round 1 clue indicates a 9-letter term from MYTHOLOGY; the word begins with letter 'L' or ends with 'H'.",
         "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [L R N B T A H I Y] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WG-0154",
-    "title": "WORD GUESS // PHILOSOPHY, #0154",
-    "category": "PUZZLES",
-    "description": "Unscramble 2 domain terminology anagrams from PHILOSOPHY, LOGIC & ARTS under timed conditions.",
-    "difficulty": "LOW",
-    "risk": "SAFE",
-    "cost": 60,
-    "reward": 85,
-    "penalty": 30,
-    "timeLimit": 60,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-08 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0154",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "MONOLOGUE",
-          "clue": "Extended speech by one actor in a theatrical play, film, or solitary performance.",
-          "category": "DRAMA",
-          "scrambled": "N E O O O U L G M"
-        },
-        {
-          "id": "R2",
-          "word": "LABYRINTH",
-          "clue": "Complex maze-like network of intersecting pathways or intricate architectural passages.",
-          "category": "MYTHOLOGY",
-          "scrambled": "N L I A Y R H B T"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "MONOLOGUE-LABYRINTH",
-      "acceptedAnswers": [
-        "MONOLOGUE-LABYRINTH",
-        "MONOLOGUE LABYRINTH",
-        "MONOLOGUE,LABYRINTH",
-        "WORDGUESS:MONOLOGUE-LABYRINTH"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 9-letter term from DRAMA; the word begins with letter 'M' or ends with 'E'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [N E O O O U L G M] to identify common prefixes or suffixes."
       ]
     },
     "enabled": true,
@@ -7909,57 +3982,6 @@ export const wordGuessChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WG-0156",
-    "title": "WORD GUESS // PHILOSOPHY, #0156",
-    "category": "PUZZLES",
-    "description": "Unscramble 2 domain terminology anagrams from PHILOSOPHY, LOGIC & ARTS under timed conditions.",
-    "difficulty": "LOW",
-    "risk": "SAFE",
-    "cost": 60,
-    "reward": 85,
-    "penalty": 30,
-    "timeLimit": 60,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-08 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0156",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "MONOLOGUE",
-          "clue": "Extended speech by one actor in a theatrical play, film, or solitary performance.",
-          "category": "DRAMA",
-          "scrambled": "O N L G M E O U O"
-        },
-        {
-          "id": "R2",
-          "word": "LABYRINTH",
-          "clue": "Complex maze-like network of intersecting pathways or intricate architectural passages.",
-          "category": "MYTHOLOGY",
-          "scrambled": "T A Y I N H B R L"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "MONOLOGUE-LABYRINTH",
-      "acceptedAnswers": [
-        "MONOLOGUE-LABYRINTH",
-        "MONOLOGUE LABYRINTH",
-        "MONOLOGUE,LABYRINTH",
-        "WORDGUESS:MONOLOGUE-LABYRINTH"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 9-letter term from DRAMA; the word begins with letter 'M' or ends with 'E'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [O N L G M E O U O] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WG-0157",
     "title": "WORD GUESS // PHILOSOPHY, #0157",
     "category": "PUZZLES",
@@ -8005,57 +4027,6 @@ export const wordGuessChallenges = [
       "hints": [
         "HINT 01 // Round 1 clue indicates a 9-letter term from PHILOSOPHY; the word begins with letter 'D' or ends with 'C'.",
         "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [T A I E I L C D C] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WG-0158",
-    "title": "WORD GUESS // PHILOSOPHY, #0158",
-    "category": "PUZZLES",
-    "description": "Unscramble 2 domain terminology anagrams from PHILOSOPHY, LOGIC & ARTS under timed conditions.",
-    "difficulty": "LOW",
-    "risk": "SAFE",
-    "cost": 60,
-    "reward": 85,
-    "penalty": 30,
-    "timeLimit": 60,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-08 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0158",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "PARADOX",
-          "clue": "Logically self-contradictory statement or proposition contrary to expectations.",
-          "category": "PHILOSOPHY",
-          "scrambled": "R A A O X D P"
-        },
-        {
-          "id": "R2",
-          "word": "MONOLOGUE",
-          "clue": "Extended speech by one actor in a theatrical play, film, or solitary performance.",
-          "category": "DRAMA",
-          "scrambled": "E N M O U O L G O"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "PARADOX-MONOLOGUE",
-      "acceptedAnswers": [
-        "PARADOX-MONOLOGUE",
-        "PARADOX MONOLOGUE",
-        "PARADOX,MONOLOGUE",
-        "WORDGUESS:PARADOX-MONOLOGUE"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 7-letter term from PHILOSOPHY; the word begins with letter 'P' or ends with 'X'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [R A A O X D P] to identify common prefixes or suffixes."
       ]
     },
     "enabled": true,
@@ -8113,57 +4084,6 @@ export const wordGuessChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WG-0160",
-    "title": "WORD GUESS // PHILOSOPHY, #0160",
-    "category": "PUZZLES",
-    "description": "Unscramble 2 domain terminology anagrams from PHILOSOPHY, LOGIC & ARTS under timed conditions.",
-    "difficulty": "LOW",
-    "risk": "SAFE",
-    "cost": 60,
-    "reward": 85,
-    "penalty": 30,
-    "timeLimit": 60,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-09 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0160",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "PARADOX",
-          "clue": "Logically self-contradictory statement or proposition contrary to expectations.",
-          "category": "PHILOSOPHY",
-          "scrambled": "A A P D X O R"
-        },
-        {
-          "id": "R2",
-          "word": "LABYRINTH",
-          "clue": "Complex maze-like network of intersecting pathways or intricate architectural passages.",
-          "category": "MYTHOLOGY",
-          "scrambled": "I L N H R Y T B A"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "PARADOX-LABYRINTH",
-      "acceptedAnswers": [
-        "PARADOX-LABYRINTH",
-        "PARADOX LABYRINTH",
-        "PARADOX,LABYRINTH",
-        "WORDGUESS:PARADOX-LABYRINTH"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 7-letter term from PHILOSOPHY; the word begins with letter 'P' or ends with 'X'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [A A P D X O R] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WG-0161",
     "title": "WORD GUESS // PHILOSOPHY, #0161",
     "category": "PUZZLES",
@@ -8209,57 +4129,6 @@ export const wordGuessChallenges = [
       "hints": [
         "HINT 01 // Round 1 clue indicates a 7-letter term from PHILOSOPHY; the word begins with letter 'P' or ends with 'X'.",
         "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [D X P A R A O] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WG-0162",
-    "title": "WORD GUESS // PHILOSOPHY, #0162",
-    "category": "PUZZLES",
-    "description": "Unscramble 2 domain terminology anagrams from PHILOSOPHY, LOGIC & ARTS under timed conditions.",
-    "difficulty": "LOW",
-    "risk": "SAFE",
-    "cost": 60,
-    "reward": 85,
-    "penalty": 30,
-    "timeLimit": 60,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-09 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0162",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "CHIMERA",
-          "clue": "Fabulous mythological creature composed of disparate parts of diverse beasts.",
-          "category": "FOLKLORE",
-          "scrambled": "E I C R A H M"
-        },
-        {
-          "id": "R2",
-          "word": "ARCHETYPE",
-          "clue": "Universally recognized recurrent symbol, motif, or character archetype in literature and art.",
-          "category": "LITERATURE",
-          "scrambled": "Y T R C E P A H E"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "CHIMERA-ARCHETYPE",
-      "acceptedAnswers": [
-        "CHIMERA-ARCHETYPE",
-        "CHIMERA ARCHETYPE",
-        "CHIMERA,ARCHETYPE",
-        "WORDGUESS:CHIMERA-ARCHETYPE"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 7-letter term from FOLKLORE; the word begins with letter 'C' or ends with 'A'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [E I C R A H M] to identify common prefixes or suffixes."
       ]
     },
     "enabled": true,
@@ -8317,57 +4186,6 @@ export const wordGuessChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WG-0164",
-    "title": "WORD GUESS // PHILOSOPHY, #0164",
-    "category": "PUZZLES",
-    "description": "Unscramble 2 domain terminology anagrams from PHILOSOPHY, LOGIC & ARTS under timed conditions.",
-    "difficulty": "LOW",
-    "risk": "SAFE",
-    "cost": 60,
-    "reward": 85,
-    "penalty": 30,
-    "timeLimit": 60,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-09 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0164",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "CHIMERA",
-          "clue": "Fabulous mythological creature composed of disparate parts of diverse beasts.",
-          "category": "FOLKLORE",
-          "scrambled": "E H A C M I R"
-        },
-        {
-          "id": "R2",
-          "word": "SOLILOQUY",
-          "clue": "Act of speaking one's thoughts aloud when by oneself regardless of hearers, especially by a character.",
-          "category": "THEATRE",
-          "scrambled": "Y U O I S L O L Q"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "CHIMERA-SOLILOQUY",
-      "acceptedAnswers": [
-        "CHIMERA-SOLILOQUY",
-        "CHIMERA SOLILOQUY",
-        "CHIMERA,SOLILOQUY",
-        "WORDGUESS:CHIMERA-SOLILOQUY"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 7-letter term from FOLKLORE; the word begins with letter 'C' or ends with 'A'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [E H A C M I R] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WG-0165",
     "title": "WORD GUESS // PHILOSOPHY, #0165",
     "category": "PUZZLES",
@@ -8413,57 +4231,6 @@ export const wordGuessChallenges = [
       "hints": [
         "HINT 01 // Round 1 clue indicates a 9-letter term from LITERATURE; the word begins with letter 'A' or ends with 'E'.",
         "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [P T R Y E H C A E] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WG-0166",
-    "title": "WORD GUESS // PHILOSOPHY, #0166",
-    "category": "PUZZLES",
-    "description": "Unscramble 2 domain terminology anagrams from PHILOSOPHY, LOGIC & ARTS under timed conditions.",
-    "difficulty": "LOW",
-    "risk": "SAFE",
-    "cost": 60,
-    "reward": 85,
-    "penalty": 30,
-    "timeLimit": 60,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-09 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0166",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "SYLLOGISM",
-          "clue": "Form of deductive reasoning consisting of a major premise, a minor premise, and a conclusion.",
-          "category": "LOGIC",
-          "scrambled": "O I G L Y L S M S"
-        },
-        {
-          "id": "R2",
-          "word": "CHIMERA",
-          "clue": "Fabulous mythological creature composed of disparate parts of diverse beasts.",
-          "category": "FOLKLORE",
-          "scrambled": "R M E H I C A"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "SYLLOGISM-CHIMERA",
-      "acceptedAnswers": [
-        "SYLLOGISM-CHIMERA",
-        "SYLLOGISM CHIMERA",
-        "SYLLOGISM,CHIMERA",
-        "WORDGUESS:SYLLOGISM-CHIMERA"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 9-letter term from LOGIC; the word begins with letter 'S' or ends with 'M'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [O I G L Y L S M S] to identify common prefixes or suffixes."
       ]
     },
     "enabled": true,
@@ -8521,57 +4288,6 @@ export const wordGuessChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WG-0168",
-    "title": "WORD GUESS // PHILOSOPHY, #0168",
-    "category": "PUZZLES",
-    "description": "Unscramble 2 domain terminology anagrams from PHILOSOPHY, LOGIC & ARTS under timed conditions.",
-    "difficulty": "LOW",
-    "risk": "SAFE",
-    "cost": 60,
-    "reward": 85,
-    "penalty": 30,
-    "timeLimit": 60,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-09 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0168",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "ARCHETYPE",
-          "clue": "Universally recognized recurrent symbol, motif, or character archetype in literature and art.",
-          "category": "LITERATURE",
-          "scrambled": "C P A E E R T H Y"
-        },
-        {
-          "id": "R2",
-          "word": "DIALECTIC",
-          "clue": "Discourse between two differing points of view seeking to establish truth through reasoned arguments.",
-          "category": "PHILOSOPHY",
-          "scrambled": "E T L C I C A D I"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "ARCHETYPE-DIALECTIC",
-      "acceptedAnswers": [
-        "ARCHETYPE-DIALECTIC",
-        "ARCHETYPE DIALECTIC",
-        "ARCHETYPE,DIALECTIC",
-        "WORDGUESS:ARCHETYPE-DIALECTIC"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 9-letter term from LITERATURE; the word begins with letter 'A' or ends with 'E'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [C P A E E R T H Y] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WG-0169",
     "title": "WORD GUESS // PHILOSOPHY, #0169",
     "category": "PUZZLES",
@@ -8617,57 +4333,6 @@ export const wordGuessChallenges = [
       "hints": [
         "HINT 01 // Round 1 clue indicates a 9-letter term from DRAMA; the word begins with letter 'M' or ends with 'E'.",
         "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [M U O O E L G N O] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WG-0170",
-    "title": "WORD GUESS // PHILOSOPHY, #0170",
-    "category": "PUZZLES",
-    "description": "Unscramble 2 domain terminology anagrams from PHILOSOPHY, LOGIC & ARTS under timed conditions.",
-    "difficulty": "LOW",
-    "risk": "SAFE",
-    "cost": 60,
-    "reward": 85,
-    "penalty": 30,
-    "timeLimit": 60,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-09 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0170",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "PARADOX",
-          "clue": "Logically self-contradictory statement or proposition contrary to expectations.",
-          "category": "PHILOSOPHY",
-          "scrambled": "P D A O A R X"
-        },
-        {
-          "id": "R2",
-          "word": "LABYRINTH",
-          "clue": "Complex maze-like network of intersecting pathways or intricate architectural passages.",
-          "category": "MYTHOLOGY",
-          "scrambled": "A R Y H T N I B L"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "PARADOX-LABYRINTH",
-      "acceptedAnswers": [
-        "PARADOX-LABYRINTH",
-        "PARADOX LABYRINTH",
-        "PARADOX,LABYRINTH",
-        "WORDGUESS:PARADOX-LABYRINTH"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 7-letter term from PHILOSOPHY; the word begins with letter 'P' or ends with 'X'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [P D A O A R X] to identify common prefixes or suffixes."
       ]
     },
     "enabled": true,
@@ -8725,57 +4390,6 @@ export const wordGuessChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WG-0172",
-    "title": "WORD GUESS // PHILOSOPHY, #0172",
-    "category": "PUZZLES",
-    "description": "Unscramble 2 domain terminology anagrams from PHILOSOPHY, LOGIC & ARTS under timed conditions.",
-    "difficulty": "LOW",
-    "risk": "SAFE",
-    "cost": 60,
-    "reward": 85,
-    "penalty": 30,
-    "timeLimit": 60,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-09 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0172",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "ARCHETYPE",
-          "clue": "Universally recognized recurrent symbol, motif, or character archetype in literature and art.",
-          "category": "LITERATURE",
-          "scrambled": "R C E P Y H T E A"
-        },
-        {
-          "id": "R2",
-          "word": "MONOLOGUE",
-          "clue": "Extended speech by one actor in a theatrical play, film, or solitary performance.",
-          "category": "DRAMA",
-          "scrambled": "U O N E G L O M O"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "ARCHETYPE-MONOLOGUE",
-      "acceptedAnswers": [
-        "ARCHETYPE-MONOLOGUE",
-        "ARCHETYPE MONOLOGUE",
-        "ARCHETYPE,MONOLOGUE",
-        "WORDGUESS:ARCHETYPE-MONOLOGUE"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 9-letter term from LITERATURE; the word begins with letter 'A' or ends with 'E'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [R C E P Y H T E A] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WG-0173",
     "title": "WORD GUESS // PHILOSOPHY, #0173",
     "category": "PUZZLES",
@@ -8821,57 +4435,6 @@ export const wordGuessChallenges = [
       "hints": [
         "HINT 01 // Round 1 clue indicates a 9-letter term from PHILOSOPHY; the word begins with letter 'D' or ends with 'C'.",
         "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [C L C I E A D T I] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WG-0174",
-    "title": "WORD GUESS // PHILOSOPHY, #0174",
-    "category": "PUZZLES",
-    "description": "Unscramble 2 domain terminology anagrams from PHILOSOPHY, LOGIC & ARTS under timed conditions.",
-    "difficulty": "LOW",
-    "risk": "SAFE",
-    "cost": 60,
-    "reward": 85,
-    "penalty": 30,
-    "timeLimit": 60,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-09 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0174",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "SYLLOGISM",
-          "clue": "Form of deductive reasoning consisting of a major premise, a minor premise, and a conclusion.",
-          "category": "LOGIC",
-          "scrambled": "L I O G L S M S Y"
-        },
-        {
-          "id": "R2",
-          "word": "DIALECTIC",
-          "clue": "Discourse between two differing points of view seeking to establish truth through reasoned arguments.",
-          "category": "PHILOSOPHY",
-          "scrambled": "D E A I T L I C C"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "SYLLOGISM-DIALECTIC",
-      "acceptedAnswers": [
-        "SYLLOGISM-DIALECTIC",
-        "SYLLOGISM DIALECTIC",
-        "SYLLOGISM,DIALECTIC",
-        "WORDGUESS:SYLLOGISM-DIALECTIC"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 9-letter term from LOGIC; the word begins with letter 'S' or ends with 'M'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [L I O G L S M S Y] to identify common prefixes or suffixes."
       ]
     },
     "enabled": true,
@@ -8929,57 +4492,6 @@ export const wordGuessChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WG-0176",
-    "title": "WORD GUESS // PHILOSOPHY, #0176",
-    "category": "PUZZLES",
-    "description": "Unscramble 2 domain terminology anagrams from PHILOSOPHY, LOGIC & ARTS under timed conditions.",
-    "difficulty": "LOW",
-    "risk": "SAFE",
-    "cost": 60,
-    "reward": 85,
-    "penalty": 30,
-    "timeLimit": 60,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-09 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0176",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "LABYRINTH",
-          "clue": "Complex maze-like network of intersecting pathways or intricate architectural passages.",
-          "category": "MYTHOLOGY",
-          "scrambled": "N I R T B H L Y A"
-        },
-        {
-          "id": "R2",
-          "word": "MONOLOGUE",
-          "clue": "Extended speech by one actor in a theatrical play, film, or solitary performance.",
-          "category": "DRAMA",
-          "scrambled": "G L E M U O N O O"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "LABYRINTH-MONOLOGUE",
-      "acceptedAnswers": [
-        "LABYRINTH-MONOLOGUE",
-        "LABYRINTH MONOLOGUE",
-        "LABYRINTH,MONOLOGUE",
-        "WORDGUESS:LABYRINTH-MONOLOGUE"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 9-letter term from MYTHOLOGY; the word begins with letter 'L' or ends with 'H'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [N I R T B H L Y A] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WG-0177",
     "title": "WORD GUESS // PHILOSOPHY, #0177",
     "category": "PUZZLES",
@@ -9025,57 +4537,6 @@ export const wordGuessChallenges = [
       "hints": [
         "HINT 01 // Round 1 clue indicates a 9-letter term from PHILOSOPHY; the word begins with letter 'D' or ends with 'C'.",
         "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [D E C I I C L T A] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WG-0178",
-    "title": "WORD GUESS // PHILOSOPHY, #0178",
-    "category": "PUZZLES",
-    "description": "Unscramble 2 domain terminology anagrams from PHILOSOPHY, LOGIC & ARTS under timed conditions.",
-    "difficulty": "LOW",
-    "risk": "SAFE",
-    "cost": 60,
-    "reward": 85,
-    "penalty": 30,
-    "timeLimit": 60,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-09 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0178",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "ENIGMA",
-          "clue": "Person or thing that is mysterious, puzzling, or fundamentally difficult to decipher.",
-          "category": "LOGIC",
-          "scrambled": "G M A N I E"
-        },
-        {
-          "id": "R2",
-          "word": "LABYRINTH",
-          "clue": "Complex maze-like network of intersecting pathways or intricate architectural passages.",
-          "category": "MYTHOLOGY",
-          "scrambled": "Y T A B R I H L N"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "ENIGMA-LABYRINTH",
-      "acceptedAnswers": [
-        "ENIGMA-LABYRINTH",
-        "ENIGMA LABYRINTH",
-        "ENIGMA,LABYRINTH",
-        "WORDGUESS:ENIGMA-LABYRINTH"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 6-letter term from LOGIC; the word begins with letter 'E' or ends with 'A'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [G M A N I E] to identify common prefixes or suffixes."
       ]
     },
     "enabled": true,
@@ -9133,57 +4594,6 @@ export const wordGuessChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WG-0180",
-    "title": "WORD GUESS // PHILOSOPHY, #0180",
-    "category": "PUZZLES",
-    "description": "Unscramble 2 domain terminology anagrams from PHILOSOPHY, LOGIC & ARTS under timed conditions.",
-    "difficulty": "LOW",
-    "risk": "SAFE",
-    "cost": 60,
-    "reward": 85,
-    "penalty": 30,
-    "timeLimit": 60,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-10 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0180",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "PARADOX",
-          "clue": "Logically self-contradictory statement or proposition contrary to expectations.",
-          "category": "PHILOSOPHY",
-          "scrambled": "R D A P O X A"
-        },
-        {
-          "id": "R2",
-          "word": "DIALECTIC",
-          "clue": "Discourse between two differing points of view seeking to establish truth through reasoned arguments.",
-          "category": "PHILOSOPHY",
-          "scrambled": "C C L E A I D I T"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "PARADOX-DIALECTIC",
-      "acceptedAnswers": [
-        "PARADOX-DIALECTIC",
-        "PARADOX DIALECTIC",
-        "PARADOX,DIALECTIC",
-        "WORDGUESS:PARADOX-DIALECTIC"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 7-letter term from PHILOSOPHY; the word begins with letter 'P' or ends with 'X'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [R D A P O X A] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WG-0181",
     "title": "WORD GUESS // PHILOSOPHY, #0181",
     "category": "PUZZLES",
@@ -9229,57 +4639,6 @@ export const wordGuessChallenges = [
       "hints": [
         "HINT 01 // Round 1 clue indicates a 9-letter term from LOGIC; the word begins with letter 'S' or ends with 'M'.",
         "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [Y M O L L I S G S] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WG-0182",
-    "title": "WORD GUESS // PHILOSOPHY, #0182",
-    "category": "PUZZLES",
-    "description": "Unscramble 2 domain terminology anagrams from PHILOSOPHY, LOGIC & ARTS under timed conditions.",
-    "difficulty": "LOW",
-    "risk": "SAFE",
-    "cost": 60,
-    "reward": 85,
-    "penalty": 30,
-    "timeLimit": 60,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-10 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0182",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "PARADOX",
-          "clue": "Logically self-contradictory statement or proposition contrary to expectations.",
-          "category": "PHILOSOPHY",
-          "scrambled": "R A P O A X D"
-        },
-        {
-          "id": "R2",
-          "word": "SYLLOGISM",
-          "clue": "Form of deductive reasoning consisting of a major premise, a minor premise, and a conclusion.",
-          "category": "LOGIC",
-          "scrambled": "S I O G M Y L L S"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "PARADOX-SYLLOGISM",
-      "acceptedAnswers": [
-        "PARADOX-SYLLOGISM",
-        "PARADOX SYLLOGISM",
-        "PARADOX,SYLLOGISM",
-        "WORDGUESS:PARADOX-SYLLOGISM"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 7-letter term from PHILOSOPHY; the word begins with letter 'P' or ends with 'X'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [R A P O A X D] to identify common prefixes or suffixes."
       ]
     },
     "enabled": true,
@@ -9337,57 +4696,6 @@ export const wordGuessChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WG-0184",
-    "title": "WORD GUESS // PHILOSOPHY, #0184",
-    "category": "PUZZLES",
-    "description": "Unscramble 2 domain terminology anagrams from PHILOSOPHY, LOGIC & ARTS under timed conditions.",
-    "difficulty": "LOW",
-    "risk": "SAFE",
-    "cost": 60,
-    "reward": 85,
-    "penalty": 30,
-    "timeLimit": 60,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-10 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0184",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "PARADOX",
-          "clue": "Logically self-contradictory statement or proposition contrary to expectations.",
-          "category": "PHILOSOPHY",
-          "scrambled": "R A O A D P X"
-        },
-        {
-          "id": "R2",
-          "word": "LABYRINTH",
-          "clue": "Complex maze-like network of intersecting pathways or intricate architectural passages.",
-          "category": "MYTHOLOGY",
-          "scrambled": "I L T B R A H Y N"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "PARADOX-LABYRINTH",
-      "acceptedAnswers": [
-        "PARADOX-LABYRINTH",
-        "PARADOX LABYRINTH",
-        "PARADOX,LABYRINTH",
-        "WORDGUESS:PARADOX-LABYRINTH"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 7-letter term from PHILOSOPHY; the word begins with letter 'P' or ends with 'X'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [R A O A D P X] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WG-0185",
     "title": "WORD GUESS // PHILOSOPHY, #0185",
     "category": "PUZZLES",
@@ -9433,57 +4741,6 @@ export const wordGuessChallenges = [
       "hints": [
         "HINT 01 // Round 1 clue indicates a 9-letter term from LOGIC; the word begins with letter 'S' or ends with 'M'.",
         "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [S G O I S L L Y M] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WG-0186",
-    "title": "WORD GUESS // PHILOSOPHY, #0186",
-    "category": "PUZZLES",
-    "description": "Unscramble 2 domain terminology anagrams from PHILOSOPHY, LOGIC & ARTS under timed conditions.",
-    "difficulty": "MODERATE",
-    "risk": "BALANCED",
-    "cost": 140,
-    "reward": 260,
-    "penalty": 80,
-    "timeLimit": 75,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-10 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0186",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "ALLEGORY",
-          "clue": "Story, poem, or picture that can be interpreted to reveal a hidden moral or political meaning.",
-          "category": "RHETORIC",
-          "scrambled": "E Y G R L O A L"
-        },
-        {
-          "id": "R2",
-          "word": "LABYRINTH",
-          "clue": "Complex maze-like network of intersecting pathways or intricate architectural passages.",
-          "category": "MYTHOLOGY",
-          "scrambled": "N B T L R H A I Y"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "ALLEGORY-LABYRINTH",
-      "acceptedAnswers": [
-        "ALLEGORY-LABYRINTH",
-        "ALLEGORY LABYRINTH",
-        "ALLEGORY,LABYRINTH",
-        "WORDGUESS:ALLEGORY-LABYRINTH"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 8-letter term from RHETORIC; the word begins with letter 'A' or ends with 'Y'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [E Y G R L O A L] to identify common prefixes or suffixes."
       ]
     },
     "enabled": true,
@@ -9541,57 +4798,6 @@ export const wordGuessChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WG-0188",
-    "title": "WORD GUESS // PHILOSOPHY, #0188",
-    "category": "PUZZLES",
-    "description": "Unscramble 2 domain terminology anagrams from PHILOSOPHY, LOGIC & ARTS under timed conditions.",
-    "difficulty": "MODERATE",
-    "risk": "BALANCED",
-    "cost": 140,
-    "reward": 260,
-    "penalty": 80,
-    "timeLimit": 75,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-10 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0188",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "LABYRINTH",
-          "clue": "Complex maze-like network of intersecting pathways or intricate architectural passages.",
-          "category": "MYTHOLOGY",
-          "scrambled": "N A B H Y I T L R"
-        },
-        {
-          "id": "R2",
-          "word": "SYLLOGISM",
-          "clue": "Form of deductive reasoning consisting of a major premise, a minor premise, and a conclusion.",
-          "category": "LOGIC",
-          "scrambled": "Y S S I M O L L G"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "LABYRINTH-SYLLOGISM",
-      "acceptedAnswers": [
-        "LABYRINTH-SYLLOGISM",
-        "LABYRINTH SYLLOGISM",
-        "LABYRINTH,SYLLOGISM",
-        "WORDGUESS:LABYRINTH-SYLLOGISM"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 9-letter term from MYTHOLOGY; the word begins with letter 'L' or ends with 'H'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [N A B H Y I T L R] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WG-0189",
     "title": "WORD GUESS // PHILOSOPHY, #0189",
     "category": "PUZZLES",
@@ -9637,57 +4843,6 @@ export const wordGuessChallenges = [
       "hints": [
         "HINT 01 // Round 1 clue indicates a 9-letter term from MYTHOLOGY; the word begins with letter 'L' or ends with 'H'.",
         "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [B H T A N R Y I L] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WG-0190",
-    "title": "WORD GUESS // PHILOSOPHY, #0190",
-    "category": "PUZZLES",
-    "description": "Unscramble 2 domain terminology anagrams from PHILOSOPHY, LOGIC & ARTS under timed conditions.",
-    "difficulty": "MODERATE",
-    "risk": "BALANCED",
-    "cost": 140,
-    "reward": 260,
-    "penalty": 80,
-    "timeLimit": 75,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-10 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0190",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "SYLLOGISM",
-          "clue": "Form of deductive reasoning consisting of a major premise, a minor premise, and a conclusion.",
-          "category": "LOGIC",
-          "scrambled": "O G L S L M S I Y"
-        },
-        {
-          "id": "R2",
-          "word": "CHIMERA",
-          "clue": "Fabulous mythological creature composed of disparate parts of diverse beasts.",
-          "category": "FOLKLORE",
-          "scrambled": "E I H A R M C"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "SYLLOGISM-CHIMERA",
-      "acceptedAnswers": [
-        "SYLLOGISM-CHIMERA",
-        "SYLLOGISM CHIMERA",
-        "SYLLOGISM,CHIMERA",
-        "WORDGUESS:SYLLOGISM-CHIMERA"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 9-letter term from LOGIC; the word begins with letter 'S' or ends with 'M'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [O G L S L M S I Y] to identify common prefixes or suffixes."
       ]
     },
     "enabled": true,
@@ -9745,57 +4900,6 @@ export const wordGuessChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WG-0192",
-    "title": "WORD GUESS // PHILOSOPHY, #0192",
-    "category": "PUZZLES",
-    "description": "Unscramble 2 domain terminology anagrams from PHILOSOPHY, LOGIC & ARTS under timed conditions.",
-    "difficulty": "MODERATE",
-    "risk": "BALANCED",
-    "cost": 140,
-    "reward": 260,
-    "penalty": 80,
-    "timeLimit": 75,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-10 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0192",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "SOLILOQUY",
-          "clue": "Act of speaking one's thoughts aloud when by oneself regardless of hearers, especially by a character.",
-          "category": "THEATRE",
-          "scrambled": "S L O U L O Q Y I"
-        },
-        {
-          "id": "R2",
-          "word": "ARCHETYPE",
-          "clue": "Universally recognized recurrent symbol, motif, or character archetype in literature and art.",
-          "category": "LITERATURE",
-          "scrambled": "R Y E H T E A C P"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "SOLILOQUY-ARCHETYPE",
-      "acceptedAnswers": [
-        "SOLILOQUY-ARCHETYPE",
-        "SOLILOQUY ARCHETYPE",
-        "SOLILOQUY,ARCHETYPE",
-        "WORDGUESS:SOLILOQUY-ARCHETYPE"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 9-letter term from THEATRE; the word begins with letter 'S' or ends with 'Y'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [S L O U L O Q Y I] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WG-0193",
     "title": "WORD GUESS // PHILOSOPHY, #0193",
     "category": "PUZZLES",
@@ -9841,57 +4945,6 @@ export const wordGuessChallenges = [
       "hints": [
         "HINT 01 // Round 1 clue indicates a 8-letter term from RHETORIC; the word begins with letter 'A' or ends with 'Y'.",
         "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [O R G L E Y L A] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WG-0194",
-    "title": "WORD GUESS // PHILOSOPHY, #0194",
-    "category": "PUZZLES",
-    "description": "Unscramble 2 domain terminology anagrams from PHILOSOPHY, LOGIC & ARTS under timed conditions.",
-    "difficulty": "MODERATE",
-    "risk": "BALANCED",
-    "cost": 140,
-    "reward": 260,
-    "penalty": 80,
-    "timeLimit": 75,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-10 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0194",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "DIALECTIC",
-          "clue": "Discourse between two differing points of view seeking to establish truth through reasoned arguments.",
-          "category": "PHILOSOPHY",
-          "scrambled": "E D T I I A L C C"
-        },
-        {
-          "id": "R2",
-          "word": "MONOLOGUE",
-          "clue": "Extended speech by one actor in a theatrical play, film, or solitary performance.",
-          "category": "DRAMA",
-          "scrambled": "O L E G O U N O M"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "DIALECTIC-MONOLOGUE",
-      "acceptedAnswers": [
-        "DIALECTIC-MONOLOGUE",
-        "DIALECTIC MONOLOGUE",
-        "DIALECTIC,MONOLOGUE",
-        "WORDGUESS:DIALECTIC-MONOLOGUE"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 9-letter term from PHILOSOPHY; the word begins with letter 'D' or ends with 'C'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [E D T I I A L C C] to identify common prefixes or suffixes."
       ]
     },
     "enabled": true,
@@ -9949,57 +5002,6 @@ export const wordGuessChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WG-0196",
-    "title": "WORD GUESS // PHILOSOPHY, #0196",
-    "category": "PUZZLES",
-    "description": "Unscramble 2 domain terminology anagrams from PHILOSOPHY, LOGIC & ARTS under timed conditions.",
-    "difficulty": "MODERATE",
-    "risk": "BALANCED",
-    "cost": 140,
-    "reward": 260,
-    "penalty": 80,
-    "timeLimit": 75,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-10 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0196",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "ARCHETYPE",
-          "clue": "Universally recognized recurrent symbol, motif, or character archetype in literature and art.",
-          "category": "LITERATURE",
-          "scrambled": "R Y C E A E P H T"
-        },
-        {
-          "id": "R2",
-          "word": "MONOLOGUE",
-          "clue": "Extended speech by one actor in a theatrical play, film, or solitary performance.",
-          "category": "DRAMA",
-          "scrambled": "G O L U M O O N E"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "ARCHETYPE-MONOLOGUE",
-      "acceptedAnswers": [
-        "ARCHETYPE-MONOLOGUE",
-        "ARCHETYPE MONOLOGUE",
-        "ARCHETYPE,MONOLOGUE",
-        "WORDGUESS:ARCHETYPE-MONOLOGUE"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 9-letter term from LITERATURE; the word begins with letter 'A' or ends with 'E'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [R Y C E A E P H T] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WG-0197",
     "title": "WORD GUESS // PHILOSOPHY, #0197",
     "category": "PUZZLES",
@@ -10045,57 +5047,6 @@ export const wordGuessChallenges = [
       "hints": [
         "HINT 01 // Round 1 clue indicates a 6-letter term from LOGIC; the word begins with letter 'E' or ends with 'A'.",
         "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [E N A I M G] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WG-0198",
-    "title": "WORD GUESS // PHILOSOPHY, #0198",
-    "category": "PUZZLES",
-    "description": "Unscramble 2 domain terminology anagrams from PHILOSOPHY, LOGIC & ARTS under timed conditions.",
-    "difficulty": "MODERATE",
-    "risk": "BALANCED",
-    "cost": 140,
-    "reward": 260,
-    "penalty": 80,
-    "timeLimit": 75,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-10 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0198",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "LABYRINTH",
-          "clue": "Complex maze-like network of intersecting pathways or intricate architectural passages.",
-          "category": "MYTHOLOGY",
-          "scrambled": "N A Y T L B R I H"
-        },
-        {
-          "id": "R2",
-          "word": "PARADOX",
-          "clue": "Logically self-contradictory statement or proposition contrary to expectations.",
-          "category": "PHILOSOPHY",
-          "scrambled": "A R P X O A D"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "LABYRINTH-PARADOX",
-      "acceptedAnswers": [
-        "LABYRINTH-PARADOX",
-        "LABYRINTH PARADOX",
-        "LABYRINTH,PARADOX",
-        "WORDGUESS:LABYRINTH-PARADOX"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 9-letter term from MYTHOLOGY; the word begins with letter 'L' or ends with 'H'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [N A Y T L B R I H] to identify common prefixes or suffixes."
       ]
     },
     "enabled": true,
@@ -10153,57 +5104,6 @@ export const wordGuessChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WG-0200",
-    "title": "WORD GUESS // PHILOSOPHY, #0200",
-    "category": "PUZZLES",
-    "description": "Unscramble 2 domain terminology anagrams from PHILOSOPHY, LOGIC & ARTS under timed conditions.",
-    "difficulty": "MODERATE",
-    "risk": "BALANCED",
-    "cost": 140,
-    "reward": 260,
-    "penalty": 80,
-    "timeLimit": 75,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-11 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0200",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "MONOLOGUE",
-          "clue": "Extended speech by one actor in a theatrical play, film, or solitary performance.",
-          "category": "DRAMA",
-          "scrambled": "O E M L O O G N U"
-        },
-        {
-          "id": "R2",
-          "word": "ENIGMA",
-          "clue": "Person or thing that is mysterious, puzzling, or fundamentally difficult to decipher.",
-          "category": "LOGIC",
-          "scrambled": "G A E I M N"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "MONOLOGUE-ENIGMA",
-      "acceptedAnswers": [
-        "MONOLOGUE-ENIGMA",
-        "MONOLOGUE ENIGMA",
-        "MONOLOGUE,ENIGMA",
-        "WORDGUESS:MONOLOGUE-ENIGMA"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 9-letter term from DRAMA; the word begins with letter 'M' or ends with 'E'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [O E M L O O G N U] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WG-0201",
     "title": "WORD GUESS // PHILOSOPHY, #0201",
     "category": "PUZZLES",
@@ -10249,57 +5149,6 @@ export const wordGuessChallenges = [
       "hints": [
         "HINT 01 // Round 1 clue indicates a 9-letter term from MYTHOLOGY; the word begins with letter 'L' or ends with 'H'.",
         "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [B A N Y I R L T H] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WG-0202",
-    "title": "WORD GUESS // PHILOSOPHY, #0202",
-    "category": "PUZZLES",
-    "description": "Unscramble 2 domain terminology anagrams from PHILOSOPHY, LOGIC & ARTS under timed conditions.",
-    "difficulty": "MODERATE",
-    "risk": "BALANCED",
-    "cost": 140,
-    "reward": 260,
-    "penalty": 80,
-    "timeLimit": 75,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-11 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0202",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "CHIMERA",
-          "clue": "Fabulous mythological creature composed of disparate parts of diverse beasts.",
-          "category": "FOLKLORE",
-          "scrambled": "E M R I A H C"
-        },
-        {
-          "id": "R2",
-          "word": "SOLILOQUY",
-          "clue": "Act of speaking one's thoughts aloud when by oneself regardless of hearers, especially by a character.",
-          "category": "THEATRE",
-          "scrambled": "O O L Y L U Q S I"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "CHIMERA-SOLILOQUY",
-      "acceptedAnswers": [
-        "CHIMERA-SOLILOQUY",
-        "CHIMERA SOLILOQUY",
-        "CHIMERA,SOLILOQUY",
-        "WORDGUESS:CHIMERA-SOLILOQUY"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 7-letter term from FOLKLORE; the word begins with letter 'C' or ends with 'A'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [E M R I A H C] to identify common prefixes or suffixes."
       ]
     },
     "enabled": true,
@@ -10357,57 +5206,6 @@ export const wordGuessChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WG-0204",
-    "title": "WORD GUESS // PHILOSOPHY, #0204",
-    "category": "PUZZLES",
-    "description": "Unscramble 2 domain terminology anagrams from PHILOSOPHY, LOGIC & ARTS under timed conditions.",
-    "difficulty": "MODERATE",
-    "risk": "BALANCED",
-    "cost": 140,
-    "reward": 260,
-    "penalty": 80,
-    "timeLimit": 75,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-11 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0204",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "DIALECTIC",
-          "clue": "Discourse between two differing points of view seeking to establish truth through reasoned arguments.",
-          "category": "PHILOSOPHY",
-          "scrambled": "C C I A T E D L I"
-        },
-        {
-          "id": "R2",
-          "word": "MONOLOGUE",
-          "clue": "Extended speech by one actor in a theatrical play, film, or solitary performance.",
-          "category": "DRAMA",
-          "scrambled": "G E O O N L U M O"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "DIALECTIC-MONOLOGUE",
-      "acceptedAnswers": [
-        "DIALECTIC-MONOLOGUE",
-        "DIALECTIC MONOLOGUE",
-        "DIALECTIC,MONOLOGUE",
-        "WORDGUESS:DIALECTIC-MONOLOGUE"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 9-letter term from PHILOSOPHY; the word begins with letter 'D' or ends with 'C'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [C C I A T E D L I] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WG-0205",
     "title": "WORD GUESS // PHILOSOPHY, #0205",
     "category": "PUZZLES",
@@ -10453,57 +5251,6 @@ export const wordGuessChallenges = [
       "hints": [
         "HINT 01 // Round 1 clue indicates a 7-letter term from FOLKLORE; the word begins with letter 'C' or ends with 'A'.",
         "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [R C E A I M H] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WG-0206",
-    "title": "WORD GUESS // PHILOSOPHY, #0206",
-    "category": "PUZZLES",
-    "description": "Unscramble 2 domain terminology anagrams from PHILOSOPHY, LOGIC & ARTS under timed conditions.",
-    "difficulty": "MODERATE",
-    "risk": "BALANCED",
-    "cost": 140,
-    "reward": 260,
-    "penalty": 80,
-    "timeLimit": 75,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-11 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0206",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "DIALECTIC",
-          "clue": "Discourse between two differing points of view seeking to establish truth through reasoned arguments.",
-          "category": "PHILOSOPHY",
-          "scrambled": "D A L T E I C I C"
-        },
-        {
-          "id": "R2",
-          "word": "SOLILOQUY",
-          "clue": "Act of speaking one's thoughts aloud when by oneself regardless of hearers, especially by a character.",
-          "category": "THEATRE",
-          "scrambled": "S U L O Q O Y I L"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "DIALECTIC-SOLILOQUY",
-      "acceptedAnswers": [
-        "DIALECTIC-SOLILOQUY",
-        "DIALECTIC SOLILOQUY",
-        "DIALECTIC,SOLILOQUY",
-        "WORDGUESS:DIALECTIC-SOLILOQUY"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 9-letter term from PHILOSOPHY; the word begins with letter 'D' or ends with 'C'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [D A L T E I C I C] to identify common prefixes or suffixes."
       ]
     },
     "enabled": true,
@@ -10561,57 +5308,6 @@ export const wordGuessChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WG-0208",
-    "title": "WORD GUESS // PHILOSOPHY, #0208",
-    "category": "PUZZLES",
-    "description": "Unscramble 2 domain terminology anagrams from PHILOSOPHY, LOGIC & ARTS under timed conditions.",
-    "difficulty": "MODERATE",
-    "risk": "BALANCED",
-    "cost": 140,
-    "reward": 260,
-    "penalty": 80,
-    "timeLimit": 75,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-11 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0208",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "DIALECTIC",
-          "clue": "Discourse between two differing points of view seeking to establish truth through reasoned arguments.",
-          "category": "PHILOSOPHY",
-          "scrambled": "C T L A C E I D I"
-        },
-        {
-          "id": "R2",
-          "word": "ENIGMA",
-          "clue": "Person or thing that is mysterious, puzzling, or fundamentally difficult to decipher.",
-          "category": "LOGIC",
-          "scrambled": "M A I E N G"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "DIALECTIC-ENIGMA",
-      "acceptedAnswers": [
-        "DIALECTIC-ENIGMA",
-        "DIALECTIC ENIGMA",
-        "DIALECTIC,ENIGMA",
-        "WORDGUESS:DIALECTIC-ENIGMA"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 9-letter term from PHILOSOPHY; the word begins with letter 'D' or ends with 'C'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [C T L A C E I D I] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WG-0209",
     "title": "WORD GUESS // PHILOSOPHY, #0209",
     "category": "PUZZLES",
@@ -10657,57 +5353,6 @@ export const wordGuessChallenges = [
       "hints": [
         "HINT 01 // Round 1 clue indicates a 9-letter term from PHILOSOPHY; the word begins with letter 'D' or ends with 'C'.",
         "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [T C L A D C I I E] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WG-0210",
-    "title": "WORD GUESS // PHILOSOPHY, #0210",
-    "category": "PUZZLES",
-    "description": "Unscramble 2 domain terminology anagrams from PHILOSOPHY, LOGIC & ARTS under timed conditions.",
-    "difficulty": "MODERATE",
-    "risk": "BALANCED",
-    "cost": 140,
-    "reward": 260,
-    "penalty": 80,
-    "timeLimit": 75,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-11 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0210",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "LABYRINTH",
-          "clue": "Complex maze-like network of intersecting pathways or intricate architectural passages.",
-          "category": "MYTHOLOGY",
-          "scrambled": "Y H T A N R B I L"
-        },
-        {
-          "id": "R2",
-          "word": "SYLLOGISM",
-          "clue": "Form of deductive reasoning consisting of a major premise, a minor premise, and a conclusion.",
-          "category": "LOGIC",
-          "scrambled": "Y L M O L I S G S"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "LABYRINTH-SYLLOGISM",
-      "acceptedAnswers": [
-        "LABYRINTH-SYLLOGISM",
-        "LABYRINTH SYLLOGISM",
-        "LABYRINTH,SYLLOGISM",
-        "WORDGUESS:LABYRINTH-SYLLOGISM"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 9-letter term from MYTHOLOGY; the word begins with letter 'L' or ends with 'H'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [Y H T A N R B I L] to identify common prefixes or suffixes."
       ]
     },
     "enabled": true,
@@ -10765,57 +5410,6 @@ export const wordGuessChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WG-0212",
-    "title": "WORD GUESS // PHILOSOPHY, #0212",
-    "category": "PUZZLES",
-    "description": "Unscramble 2 domain terminology anagrams from PHILOSOPHY, LOGIC & ARTS under timed conditions.",
-    "difficulty": "MODERATE",
-    "risk": "BALANCED",
-    "cost": 140,
-    "reward": 260,
-    "penalty": 80,
-    "timeLimit": 75,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-11 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0212",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "ARCHETYPE",
-          "clue": "Universally recognized recurrent symbol, motif, or character archetype in literature and art.",
-          "category": "LITERATURE",
-          "scrambled": "E P A R Y E C T H"
-        },
-        {
-          "id": "R2",
-          "word": "CHIMERA",
-          "clue": "Fabulous mythological creature composed of disparate parts of diverse beasts.",
-          "category": "FOLKLORE",
-          "scrambled": "C H R E M I A"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "ARCHETYPE-CHIMERA",
-      "acceptedAnswers": [
-        "ARCHETYPE-CHIMERA",
-        "ARCHETYPE CHIMERA",
-        "ARCHETYPE,CHIMERA",
-        "WORDGUESS:ARCHETYPE-CHIMERA"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 9-letter term from LITERATURE; the word begins with letter 'A' or ends with 'E'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [E P A R Y E C T H] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WG-0213",
     "title": "WORD GUESS // PHILOSOPHY, #0213",
     "category": "PUZZLES",
@@ -10861,57 +5455,6 @@ export const wordGuessChallenges = [
       "hints": [
         "HINT 01 // Round 1 clue indicates a 9-letter term from DRAMA; the word begins with letter 'M' or ends with 'E'.",
         "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [O N O O E G U M L] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WG-0214",
-    "title": "WORD GUESS // PHILOSOPHY, #0214",
-    "category": "PUZZLES",
-    "description": "Unscramble 2 domain terminology anagrams from PHILOSOPHY, LOGIC & ARTS under timed conditions.",
-    "difficulty": "MODERATE",
-    "risk": "BALANCED",
-    "cost": 140,
-    "reward": 260,
-    "penalty": 80,
-    "timeLimit": 75,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-11 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0214",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "ARCHETYPE",
-          "clue": "Universally recognized recurrent symbol, motif, or character archetype in literature and art.",
-          "category": "LITERATURE",
-          "scrambled": "A R T E H C E P Y"
-        },
-        {
-          "id": "R2",
-          "word": "MONOLOGUE",
-          "clue": "Extended speech by one actor in a theatrical play, film, or solitary performance.",
-          "category": "DRAMA",
-          "scrambled": "O N O U O E L G M"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "ARCHETYPE-MONOLOGUE",
-      "acceptedAnswers": [
-        "ARCHETYPE-MONOLOGUE",
-        "ARCHETYPE MONOLOGUE",
-        "ARCHETYPE,MONOLOGUE",
-        "WORDGUESS:ARCHETYPE-MONOLOGUE"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 9-letter term from LITERATURE; the word begins with letter 'A' or ends with 'E'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [A R T E H C E P Y] to identify common prefixes or suffixes."
       ]
     },
     "enabled": true,
@@ -10969,57 +5512,6 @@ export const wordGuessChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WG-0216",
-    "title": "WORD GUESS // PHILOSOPHY, #0216",
-    "category": "PUZZLES",
-    "description": "Unscramble 2 domain terminology anagrams from PHILOSOPHY, LOGIC & ARTS under timed conditions.",
-    "difficulty": "MODERATE",
-    "risk": "BALANCED",
-    "cost": 140,
-    "reward": 260,
-    "penalty": 80,
-    "timeLimit": 75,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-11 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0216",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "CHIMERA",
-          "clue": "Fabulous mythological creature composed of disparate parts of diverse beasts.",
-          "category": "FOLKLORE",
-          "scrambled": "M E C H A R I"
-        },
-        {
-          "id": "R2",
-          "word": "ARCHETYPE",
-          "clue": "Universally recognized recurrent symbol, motif, or character archetype in literature and art.",
-          "category": "LITERATURE",
-          "scrambled": "R E T P H Y C E A"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "CHIMERA-ARCHETYPE",
-      "acceptedAnswers": [
-        "CHIMERA-ARCHETYPE",
-        "CHIMERA ARCHETYPE",
-        "CHIMERA,ARCHETYPE",
-        "WORDGUESS:CHIMERA-ARCHETYPE"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 7-letter term from FOLKLORE; the word begins with letter 'C' or ends with 'A'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [M E C H A R I] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WG-0217",
     "title": "WORD GUESS // PHILOSOPHY, #0217",
     "category": "PUZZLES",
@@ -11065,57 +5557,6 @@ export const wordGuessChallenges = [
       "hints": [
         "HINT 01 // Round 1 clue indicates a 7-letter term from PHILOSOPHY; the word begins with letter 'P' or ends with 'X'.",
         "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [X A O P A R D] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WG-0218",
-    "title": "WORD GUESS // PHILOSOPHY, #0218",
-    "category": "PUZZLES",
-    "description": "Unscramble 2 domain terminology anagrams from PHILOSOPHY, LOGIC & ARTS under timed conditions.",
-    "difficulty": "MODERATE",
-    "risk": "BALANCED",
-    "cost": 140,
-    "reward": 260,
-    "penalty": 80,
-    "timeLimit": 75,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-11 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0218",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "SOLILOQUY",
-          "clue": "Act of speaking one's thoughts aloud when by oneself regardless of hearers, especially by a character.",
-          "category": "THEATRE",
-          "scrambled": "U Y I L O O Q S L"
-        },
-        {
-          "id": "R2",
-          "word": "DIALECTIC",
-          "clue": "Discourse between two differing points of view seeking to establish truth through reasoned arguments.",
-          "category": "PHILOSOPHY",
-          "scrambled": "C I E D I T L A C"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "SOLILOQUY-DIALECTIC",
-      "acceptedAnswers": [
-        "SOLILOQUY-DIALECTIC",
-        "SOLILOQUY DIALECTIC",
-        "SOLILOQUY,DIALECTIC",
-        "WORDGUESS:SOLILOQUY-DIALECTIC"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 9-letter term from THEATRE; the word begins with letter 'S' or ends with 'Y'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [U Y I L O O Q S L] to identify common prefixes or suffixes."
       ]
     },
     "enabled": true,
@@ -11173,57 +5614,6 @@ export const wordGuessChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WG-0220",
-    "title": "WORD GUESS // PHILOSOPHY, #0220",
-    "category": "PUZZLES",
-    "description": "Unscramble 2 domain terminology anagrams from PHILOSOPHY, LOGIC & ARTS under timed conditions.",
-    "difficulty": "MODERATE",
-    "risk": "BALANCED",
-    "cost": 140,
-    "reward": 260,
-    "penalty": 80,
-    "timeLimit": 75,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-12 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0220",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "DIALECTIC",
-          "clue": "Discourse between two differing points of view seeking to establish truth through reasoned arguments.",
-          "category": "PHILOSOPHY",
-          "scrambled": "D L I E C T C I A"
-        },
-        {
-          "id": "R2",
-          "word": "CHIMERA",
-          "clue": "Fabulous mythological creature composed of disparate parts of diverse beasts.",
-          "category": "FOLKLORE",
-          "scrambled": "A I R H C E M"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "DIALECTIC-CHIMERA",
-      "acceptedAnswers": [
-        "DIALECTIC-CHIMERA",
-        "DIALECTIC CHIMERA",
-        "DIALECTIC,CHIMERA",
-        "WORDGUESS:DIALECTIC-CHIMERA"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 9-letter term from PHILOSOPHY; the word begins with letter 'D' or ends with 'C'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [D L I E C T C I A] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WG-0221",
     "title": "WORD GUESS // PHILOSOPHY, #0221",
     "category": "PUZZLES",
@@ -11269,57 +5659,6 @@ export const wordGuessChallenges = [
       "hints": [
         "HINT 01 // Round 1 clue indicates a 9-letter term from DRAMA; the word begins with letter 'M' or ends with 'E'.",
         "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [G O O M L U N E O] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WG-0222",
-    "title": "WORD GUESS // PHILOSOPHY, #0222",
-    "category": "PUZZLES",
-    "description": "Unscramble 2 domain terminology anagrams from PHILOSOPHY, LOGIC & ARTS under timed conditions.",
-    "difficulty": "MODERATE",
-    "risk": "BALANCED",
-    "cost": 140,
-    "reward": 260,
-    "penalty": 80,
-    "timeLimit": 75,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-12 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0222",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "ENIGMA",
-          "clue": "Person or thing that is mysterious, puzzling, or fundamentally difficult to decipher.",
-          "category": "LOGIC",
-          "scrambled": "I M G A E N"
-        },
-        {
-          "id": "R2",
-          "word": "LABYRINTH",
-          "clue": "Complex maze-like network of intersecting pathways or intricate architectural passages.",
-          "category": "MYTHOLOGY",
-          "scrambled": "B I N T Y H A L R"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "ENIGMA-LABYRINTH",
-      "acceptedAnswers": [
-        "ENIGMA-LABYRINTH",
-        "ENIGMA LABYRINTH",
-        "ENIGMA,LABYRINTH",
-        "WORDGUESS:ENIGMA-LABYRINTH"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 6-letter term from LOGIC; the word begins with letter 'E' or ends with 'A'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [I M G A E N] to identify common prefixes or suffixes."
       ]
     },
     "enabled": true,
@@ -11377,57 +5716,6 @@ export const wordGuessChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WG-0224",
-    "title": "WORD GUESS // PHILOSOPHY, #0224",
-    "category": "PUZZLES",
-    "description": "Unscramble 2 domain terminology anagrams from PHILOSOPHY, LOGIC & ARTS under timed conditions.",
-    "difficulty": "MODERATE",
-    "risk": "BALANCED",
-    "cost": 140,
-    "reward": 260,
-    "penalty": 80,
-    "timeLimit": 75,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-12 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0224",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "PARADOX",
-          "clue": "Logically self-contradictory statement or proposition contrary to expectations.",
-          "category": "PHILOSOPHY",
-          "scrambled": "P D X O A R A"
-        },
-        {
-          "id": "R2",
-          "word": "ARCHETYPE",
-          "clue": "Universally recognized recurrent symbol, motif, or character archetype in literature and art.",
-          "category": "LITERATURE",
-          "scrambled": "H C E R P A T E Y"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "PARADOX-ARCHETYPE",
-      "acceptedAnswers": [
-        "PARADOX-ARCHETYPE",
-        "PARADOX ARCHETYPE",
-        "PARADOX,ARCHETYPE",
-        "WORDGUESS:PARADOX-ARCHETYPE"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 7-letter term from PHILOSOPHY; the word begins with letter 'P' or ends with 'X'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [P D X O A R A] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WG-0225",
     "title": "WORD GUESS // PHILOSOPHY, #0225",
     "category": "PUZZLES",
@@ -11473,57 +5761,6 @@ export const wordGuessChallenges = [
       "hints": [
         "HINT 01 // Round 1 clue indicates a 7-letter term from PHILOSOPHY; the word begins with letter 'P' or ends with 'X'.",
         "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [R A P X A O D] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WG-0226",
-    "title": "WORD GUESS // PHILOSOPHY, #0226",
-    "category": "PUZZLES",
-    "description": "Unscramble 2 domain terminology anagrams from PHILOSOPHY, LOGIC & ARTS under timed conditions.",
-    "difficulty": "MODERATE",
-    "risk": "BALANCED",
-    "cost": 140,
-    "reward": 260,
-    "penalty": 80,
-    "timeLimit": 75,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-12 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0226",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "ALLEGORY",
-          "clue": "Story, poem, or picture that can be interpreted to reveal a hidden moral or political meaning.",
-          "category": "RHETORIC",
-          "scrambled": "L L A G E R Y O"
-        },
-        {
-          "id": "R2",
-          "word": "PARADOX",
-          "clue": "Logically self-contradictory statement or proposition contrary to expectations.",
-          "category": "PHILOSOPHY",
-          "scrambled": "R D X O A P A"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "ALLEGORY-PARADOX",
-      "acceptedAnswers": [
-        "ALLEGORY-PARADOX",
-        "ALLEGORY PARADOX",
-        "ALLEGORY,PARADOX",
-        "WORDGUESS:ALLEGORY-PARADOX"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 8-letter term from RHETORIC; the word begins with letter 'A' or ends with 'Y'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [L L A G E R Y O] to identify common prefixes or suffixes."
       ]
     },
     "enabled": true,
@@ -11581,57 +5818,6 @@ export const wordGuessChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WG-0228",
-    "title": "WORD GUESS // PHILOSOPHY, #0228",
-    "category": "PUZZLES",
-    "description": "Unscramble 2 domain terminology anagrams from PHILOSOPHY, LOGIC & ARTS under timed conditions.",
-    "difficulty": "MODERATE",
-    "risk": "BALANCED",
-    "cost": 140,
-    "reward": 260,
-    "penalty": 80,
-    "timeLimit": 75,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-12 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0228",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "PARADOX",
-          "clue": "Logically self-contradictory statement or proposition contrary to expectations.",
-          "category": "PHILOSOPHY",
-          "scrambled": "R D O P A A X"
-        },
-        {
-          "id": "R2",
-          "word": "LABYRINTH",
-          "clue": "Complex maze-like network of intersecting pathways or intricate architectural passages.",
-          "category": "MYTHOLOGY",
-          "scrambled": "A H T I Y L N B R"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "PARADOX-LABYRINTH",
-      "acceptedAnswers": [
-        "PARADOX-LABYRINTH",
-        "PARADOX LABYRINTH",
-        "PARADOX,LABYRINTH",
-        "WORDGUESS:PARADOX-LABYRINTH"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 7-letter term from PHILOSOPHY; the word begins with letter 'P' or ends with 'X'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [R D O P A A X] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WG-0229",
     "title": "WORD GUESS // PHILOSOPHY, #0229",
     "category": "PUZZLES",
@@ -11677,57 +5863,6 @@ export const wordGuessChallenges = [
       "hints": [
         "HINT 01 // Round 1 clue indicates a 9-letter term from LOGIC; the word begins with letter 'S' or ends with 'M'.",
         "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [O G M Y L S L S I] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WG-0230",
-    "title": "WORD GUESS // PHILOSOPHY, #0230",
-    "category": "PUZZLES",
-    "description": "Unscramble 2 domain terminology anagrams from PHILOSOPHY, LOGIC & ARTS under timed conditions.",
-    "difficulty": "MODERATE",
-    "risk": "BALANCED",
-    "cost": 140,
-    "reward": 260,
-    "penalty": 80,
-    "timeLimit": 75,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-12 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0230",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "LABYRINTH",
-          "clue": "Complex maze-like network of intersecting pathways or intricate architectural passages.",
-          "category": "MYTHOLOGY",
-          "scrambled": "R T N A H Y L B I"
-        },
-        {
-          "id": "R2",
-          "word": "ALLEGORY",
-          "clue": "Story, poem, or picture that can be interpreted to reveal a hidden moral or political meaning.",
-          "category": "RHETORIC",
-          "scrambled": "L O L Y G E A R"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "LABYRINTH-ALLEGORY",
-      "acceptedAnswers": [
-        "LABYRINTH-ALLEGORY",
-        "LABYRINTH ALLEGORY",
-        "LABYRINTH,ALLEGORY",
-        "WORDGUESS:LABYRINTH-ALLEGORY"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 9-letter term from MYTHOLOGY; the word begins with letter 'L' or ends with 'H'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [R T N A H Y L B I] to identify common prefixes or suffixes."
       ]
     },
     "enabled": true,
@@ -11785,57 +5920,6 @@ export const wordGuessChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WG-0232",
-    "title": "WORD GUESS // PHILOSOPHY, #0232",
-    "category": "PUZZLES",
-    "description": "Unscramble 2 domain terminology anagrams from PHILOSOPHY, LOGIC & ARTS under timed conditions.",
-    "difficulty": "MODERATE",
-    "risk": "BALANCED",
-    "cost": 140,
-    "reward": 260,
-    "penalty": 80,
-    "timeLimit": 75,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-12 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0232",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "MONOLOGUE",
-          "clue": "Extended speech by one actor in a theatrical play, film, or solitary performance.",
-          "category": "DRAMA",
-          "scrambled": "O U N G L O M E O"
-        },
-        {
-          "id": "R2",
-          "word": "ARCHETYPE",
-          "clue": "Universally recognized recurrent symbol, motif, or character archetype in literature and art.",
-          "category": "LITERATURE",
-          "scrambled": "A E P E Y C H T R"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "MONOLOGUE-ARCHETYPE",
-      "acceptedAnswers": [
-        "MONOLOGUE-ARCHETYPE",
-        "MONOLOGUE ARCHETYPE",
-        "MONOLOGUE,ARCHETYPE",
-        "WORDGUESS:MONOLOGUE-ARCHETYPE"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 9-letter term from DRAMA; the word begins with letter 'M' or ends with 'E'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [O U N G L O M E O] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WG-0233",
     "title": "WORD GUESS // PHILOSOPHY, #0233",
     "category": "PUZZLES",
@@ -11881,57 +5965,6 @@ export const wordGuessChallenges = [
       "hints": [
         "HINT 01 // Round 1 clue indicates a 9-letter term from MYTHOLOGY; the word begins with letter 'L' or ends with 'H'.",
         "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [N A R I B H Y L T] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WG-0234",
-    "title": "WORD GUESS // PHILOSOPHY, #0234",
-    "category": "PUZZLES",
-    "description": "Unscramble 2 domain terminology anagrams from PHILOSOPHY, LOGIC & ARTS under timed conditions.",
-    "difficulty": "MODERATE",
-    "risk": "BALANCED",
-    "cost": 140,
-    "reward": 260,
-    "penalty": 80,
-    "timeLimit": 75,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-12 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0234",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "CHIMERA",
-          "clue": "Fabulous mythological creature composed of disparate parts of diverse beasts.",
-          "category": "FOLKLORE",
-          "scrambled": "M E C A H R I"
-        },
-        {
-          "id": "R2",
-          "word": "ALLEGORY",
-          "clue": "Story, poem, or picture that can be interpreted to reveal a hidden moral or political meaning.",
-          "category": "RHETORIC",
-          "scrambled": "L A E Y G R O L"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "CHIMERA-ALLEGORY",
-      "acceptedAnswers": [
-        "CHIMERA-ALLEGORY",
-        "CHIMERA ALLEGORY",
-        "CHIMERA,ALLEGORY",
-        "WORDGUESS:CHIMERA-ALLEGORY"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 7-letter term from FOLKLORE; the word begins with letter 'C' or ends with 'A'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [M E C A H R I] to identify common prefixes or suffixes."
       ]
     },
     "enabled": true,
@@ -11989,57 +6022,6 @@ export const wordGuessChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WG-0236",
-    "title": "WORD GUESS // PHILOSOPHY, #0236",
-    "category": "PUZZLES",
-    "description": "Unscramble 2 domain terminology anagrams from PHILOSOPHY, LOGIC & ARTS under timed conditions.",
-    "difficulty": "MODERATE",
-    "risk": "BALANCED",
-    "cost": 140,
-    "reward": 260,
-    "penalty": 80,
-    "timeLimit": 75,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-12 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0236",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "MONOLOGUE",
-          "clue": "Extended speech by one actor in a theatrical play, film, or solitary performance.",
-          "category": "DRAMA",
-          "scrambled": "U M O N L G O E O"
-        },
-        {
-          "id": "R2",
-          "word": "PARADOX",
-          "clue": "Logically self-contradictory statement or proposition contrary to expectations.",
-          "category": "PHILOSOPHY",
-          "scrambled": "R P A O D A X"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "MONOLOGUE-PARADOX",
-      "acceptedAnswers": [
-        "MONOLOGUE-PARADOX",
-        "MONOLOGUE PARADOX",
-        "MONOLOGUE,PARADOX",
-        "WORDGUESS:MONOLOGUE-PARADOX"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 9-letter term from DRAMA; the word begins with letter 'M' or ends with 'E'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [U M O N L G O E O] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WG-0237",
     "title": "WORD GUESS // PHILOSOPHY, #0237",
     "category": "PUZZLES",
@@ -12085,57 +6067,6 @@ export const wordGuessChallenges = [
       "hints": [
         "HINT 01 // Round 1 clue indicates a 7-letter term from PHILOSOPHY; the word begins with letter 'P' or ends with 'X'.",
         "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [X O P D R A A] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WG-0238",
-    "title": "WORD GUESS // PHILOSOPHY, #0238",
-    "category": "PUZZLES",
-    "description": "Unscramble 2 domain terminology anagrams from PHILOSOPHY, LOGIC & ARTS under timed conditions.",
-    "difficulty": "MODERATE",
-    "risk": "BALANCED",
-    "cost": 140,
-    "reward": 260,
-    "penalty": 80,
-    "timeLimit": 75,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-12 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0238",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "ENIGMA",
-          "clue": "Person or thing that is mysterious, puzzling, or fundamentally difficult to decipher.",
-          "category": "LOGIC",
-          "scrambled": "N A G M E I"
-        },
-        {
-          "id": "R2",
-          "word": "PARADOX",
-          "clue": "Logically self-contradictory statement or proposition contrary to expectations.",
-          "category": "PHILOSOPHY",
-          "scrambled": "A O X A R P D"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "ENIGMA-PARADOX",
-      "acceptedAnswers": [
-        "ENIGMA-PARADOX",
-        "ENIGMA PARADOX",
-        "ENIGMA,PARADOX",
-        "WORDGUESS:ENIGMA-PARADOX"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 6-letter term from LOGIC; the word begins with letter 'E' or ends with 'A'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [N A G M E I] to identify common prefixes or suffixes."
       ]
     },
     "enabled": true,
@@ -12193,57 +6124,6 @@ export const wordGuessChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WG-0240",
-    "title": "WORD GUESS // PHILOSOPHY, #0240",
-    "category": "PUZZLES",
-    "description": "Unscramble 2 domain terminology anagrams from PHILOSOPHY, LOGIC & ARTS under timed conditions.",
-    "difficulty": "MODERATE",
-    "risk": "BALANCED",
-    "cost": 140,
-    "reward": 260,
-    "penalty": 80,
-    "timeLimit": 75,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-13 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0240",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "ARCHETYPE",
-          "clue": "Universally recognized recurrent symbol, motif, or character archetype in literature and art.",
-          "category": "LITERATURE",
-          "scrambled": "A C Y E H E R P T"
-        },
-        {
-          "id": "R2",
-          "word": "PARADOX",
-          "clue": "Logically self-contradictory statement or proposition contrary to expectations.",
-          "category": "PHILOSOPHY",
-          "scrambled": "R P A A D X O"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "ARCHETYPE-PARADOX",
-      "acceptedAnswers": [
-        "ARCHETYPE-PARADOX",
-        "ARCHETYPE PARADOX",
-        "ARCHETYPE,PARADOX",
-        "WORDGUESS:ARCHETYPE-PARADOX"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 9-letter term from LITERATURE; the word begins with letter 'A' or ends with 'E'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [A C Y E H E R P T] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WG-0241",
     "title": "WORD GUESS // PHILOSOPHY, #0241",
     "category": "PUZZLES",
@@ -12289,57 +6169,6 @@ export const wordGuessChallenges = [
       "hints": [
         "HINT 01 // Round 1 clue indicates a 9-letter term from THEATRE; the word begins with letter 'S' or ends with 'Y'.",
         "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [L O Y O Q S I U L] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WG-0242",
-    "title": "WORD GUESS // PHILOSOPHY, #0242",
-    "category": "PUZZLES",
-    "description": "Unscramble 2 domain terminology anagrams from PHILOSOPHY, LOGIC & ARTS under timed conditions.",
-    "difficulty": "MODERATE",
-    "risk": "BALANCED",
-    "cost": 140,
-    "reward": 260,
-    "penalty": 80,
-    "timeLimit": 75,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-13 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0242",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "LABYRINTH",
-          "clue": "Complex maze-like network of intersecting pathways or intricate architectural passages.",
-          "category": "MYTHOLOGY",
-          "scrambled": "I Y L R A B T N H"
-        },
-        {
-          "id": "R2",
-          "word": "ENIGMA",
-          "clue": "Person or thing that is mysterious, puzzling, or fundamentally difficult to decipher.",
-          "category": "LOGIC",
-          "scrambled": "M N I A G E"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "LABYRINTH-ENIGMA",
-      "acceptedAnswers": [
-        "LABYRINTH-ENIGMA",
-        "LABYRINTH ENIGMA",
-        "LABYRINTH,ENIGMA",
-        "WORDGUESS:LABYRINTH-ENIGMA"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 9-letter term from MYTHOLOGY; the word begins with letter 'L' or ends with 'H'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [I Y L R A B T N H] to identify common prefixes or suffixes."
       ]
     },
     "enabled": true,
@@ -12397,57 +6226,6 @@ export const wordGuessChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WG-0244",
-    "title": "WORD GUESS // PHILOSOPHY, #0244",
-    "category": "PUZZLES",
-    "description": "Unscramble 2 domain terminology anagrams from PHILOSOPHY, LOGIC & ARTS under timed conditions.",
-    "difficulty": "MODERATE",
-    "risk": "BALANCED",
-    "cost": 140,
-    "reward": 260,
-    "penalty": 80,
-    "timeLimit": 75,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-13 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0244",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "ARCHETYPE",
-          "clue": "Universally recognized recurrent symbol, motif, or character archetype in literature and art.",
-          "category": "LITERATURE",
-          "scrambled": "P C R H Y E T E A"
-        },
-        {
-          "id": "R2",
-          "word": "CHIMERA",
-          "clue": "Fabulous mythological creature composed of disparate parts of diverse beasts.",
-          "category": "FOLKLORE",
-          "scrambled": "C R E A H M I"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "ARCHETYPE-CHIMERA",
-      "acceptedAnswers": [
-        "ARCHETYPE-CHIMERA",
-        "ARCHETYPE CHIMERA",
-        "ARCHETYPE,CHIMERA",
-        "WORDGUESS:ARCHETYPE-CHIMERA"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 9-letter term from LITERATURE; the word begins with letter 'A' or ends with 'E'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [P C R H Y E T E A] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WG-0245",
     "title": "WORD GUESS // PHILOSOPHY, #0245",
     "category": "PUZZLES",
@@ -12493,57 +6271,6 @@ export const wordGuessChallenges = [
       "hints": [
         "HINT 01 // Round 1 clue indicates a 9-letter term from THEATRE; the word begins with letter 'S' or ends with 'Y'.",
         "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [S U I Y O Q L L O] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WG-0246",
-    "title": "WORD GUESS // PHILOSOPHY, #0246",
-    "category": "PUZZLES",
-    "description": "Unscramble 2 domain terminology anagrams from PHILOSOPHY, LOGIC & ARTS under timed conditions.",
-    "difficulty": "MODERATE",
-    "risk": "BALANCED",
-    "cost": 140,
-    "reward": 260,
-    "penalty": 80,
-    "timeLimit": 75,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-13 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0246",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "PARADOX",
-          "clue": "Logically self-contradictory statement or proposition contrary to expectations.",
-          "category": "PHILOSOPHY",
-          "scrambled": "X R O P A D A"
-        },
-        {
-          "id": "R2",
-          "word": "LABYRINTH",
-          "clue": "Complex maze-like network of intersecting pathways or intricate architectural passages.",
-          "category": "MYTHOLOGY",
-          "scrambled": "A L N R H Y B T I"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "PARADOX-LABYRINTH",
-      "acceptedAnswers": [
-        "PARADOX-LABYRINTH",
-        "PARADOX LABYRINTH",
-        "PARADOX,LABYRINTH",
-        "WORDGUESS:PARADOX-LABYRINTH"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 7-letter term from PHILOSOPHY; the word begins with letter 'P' or ends with 'X'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [X R O P A D A] to identify common prefixes or suffixes."
       ]
     },
     "enabled": true,
@@ -12601,57 +6328,6 @@ export const wordGuessChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WG-0248",
-    "title": "WORD GUESS // PHILOSOPHY, #0248",
-    "category": "PUZZLES",
-    "description": "Unscramble 2 domain terminology anagrams from PHILOSOPHY, LOGIC & ARTS under timed conditions.",
-    "difficulty": "MODERATE",
-    "risk": "BALANCED",
-    "cost": 140,
-    "reward": 260,
-    "penalty": 80,
-    "timeLimit": 75,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-13 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0248",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "PARADOX",
-          "clue": "Logically self-contradictory statement or proposition contrary to expectations.",
-          "category": "PHILOSOPHY",
-          "scrambled": "X D A A R O P"
-        },
-        {
-          "id": "R2",
-          "word": "LABYRINTH",
-          "clue": "Complex maze-like network of intersecting pathways or intricate architectural passages.",
-          "category": "MYTHOLOGY",
-          "scrambled": "Y B N R H I A T L"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "PARADOX-LABYRINTH",
-      "acceptedAnswers": [
-        "PARADOX-LABYRINTH",
-        "PARADOX LABYRINTH",
-        "PARADOX,LABYRINTH",
-        "WORDGUESS:PARADOX-LABYRINTH"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 7-letter term from PHILOSOPHY; the word begins with letter 'P' or ends with 'X'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [X D A A R O P] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WG-0249",
     "title": "WORD GUESS // PHILOSOPHY, #0249",
     "category": "PUZZLES",
@@ -12697,57 +6373,6 @@ export const wordGuessChallenges = [
       "hints": [
         "HINT 01 // Round 1 clue indicates a 7-letter term from PHILOSOPHY; the word begins with letter 'P' or ends with 'X'.",
         "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [D A X A P R O] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WG-0250",
-    "title": "WORD GUESS // PHILOSOPHY, #0250",
-    "category": "PUZZLES",
-    "description": "Unscramble 2 domain terminology anagrams from PHILOSOPHY, LOGIC & ARTS under timed conditions.",
-    "difficulty": "MODERATE",
-    "risk": "BALANCED",
-    "cost": 140,
-    "reward": 260,
-    "penalty": 80,
-    "timeLimit": 75,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-13 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0250",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "PARADOX",
-          "clue": "Logically self-contradictory statement or proposition contrary to expectations.",
-          "category": "PHILOSOPHY",
-          "scrambled": "P R X O A D A"
-        },
-        {
-          "id": "R2",
-          "word": "CHIMERA",
-          "clue": "Fabulous mythological creature composed of disparate parts of diverse beasts.",
-          "category": "FOLKLORE",
-          "scrambled": "A M I E R H C"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "PARADOX-CHIMERA",
-      "acceptedAnswers": [
-        "PARADOX-CHIMERA",
-        "PARADOX CHIMERA",
-        "PARADOX,CHIMERA",
-        "WORDGUESS:PARADOX-CHIMERA"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 7-letter term from PHILOSOPHY; the word begins with letter 'P' or ends with 'X'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [P R X O A D A] to identify common prefixes or suffixes."
       ]
     },
     "enabled": true,
@@ -12805,57 +6430,6 @@ export const wordGuessChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WG-0252",
-    "title": "WORD GUESS // PHILOSOPHY, #0252",
-    "category": "PUZZLES",
-    "description": "Unscramble 2 domain terminology anagrams from PHILOSOPHY, LOGIC & ARTS under timed conditions.",
-    "difficulty": "MODERATE",
-    "risk": "BALANCED",
-    "cost": 140,
-    "reward": 260,
-    "penalty": 80,
-    "timeLimit": 75,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-13 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0252",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "MONOLOGUE",
-          "clue": "Extended speech by one actor in a theatrical play, film, or solitary performance.",
-          "category": "DRAMA",
-          "scrambled": "O L G O U E O N M"
-        },
-        {
-          "id": "R2",
-          "word": "LABYRINTH",
-          "clue": "Complex maze-like network of intersecting pathways or intricate architectural passages.",
-          "category": "MYTHOLOGY",
-          "scrambled": "L R H T Y N I A B"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "MONOLOGUE-LABYRINTH",
-      "acceptedAnswers": [
-        "MONOLOGUE-LABYRINTH",
-        "MONOLOGUE LABYRINTH",
-        "MONOLOGUE,LABYRINTH",
-        "WORDGUESS:MONOLOGUE-LABYRINTH"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 9-letter term from DRAMA; the word begins with letter 'M' or ends with 'E'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [O L G O U E O N M] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WG-0253",
     "title": "WORD GUESS // PHILOSOPHY, #0253",
     "category": "PUZZLES",
@@ -12901,57 +6475,6 @@ export const wordGuessChallenges = [
       "hints": [
         "HINT 01 // Round 1 clue indicates a 9-letter term from PHILOSOPHY; the word begins with letter 'D' or ends with 'C'.",
         "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [T I A L C E D C I] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WG-0254",
-    "title": "WORD GUESS // PHILOSOPHY, #0254",
-    "category": "PUZZLES",
-    "description": "Unscramble 2 domain terminology anagrams from PHILOSOPHY, LOGIC & ARTS under timed conditions.",
-    "difficulty": "MODERATE",
-    "risk": "BALANCED",
-    "cost": 140,
-    "reward": 260,
-    "penalty": 80,
-    "timeLimit": 75,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-13 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0254",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "SOLILOQUY",
-          "clue": "Act of speaking one's thoughts aloud when by oneself regardless of hearers, especially by a character.",
-          "category": "THEATRE",
-          "scrambled": "I O Y S U L O L Q"
-        },
-        {
-          "id": "R2",
-          "word": "ENIGMA",
-          "clue": "Person or thing that is mysterious, puzzling, or fundamentally difficult to decipher.",
-          "category": "LOGIC",
-          "scrambled": "E I G M N A"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "SOLILOQUY-ENIGMA",
-      "acceptedAnswers": [
-        "SOLILOQUY-ENIGMA",
-        "SOLILOQUY ENIGMA",
-        "SOLILOQUY,ENIGMA",
-        "WORDGUESS:SOLILOQUY-ENIGMA"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 9-letter term from THEATRE; the word begins with letter 'S' or ends with 'Y'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [I O Y S U L O L Q] to identify common prefixes or suffixes."
       ]
     },
     "enabled": true,
@@ -13009,57 +6532,6 @@ export const wordGuessChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WG-0256",
-    "title": "WORD GUESS // PHILOSOPHY, #0256",
-    "category": "PUZZLES",
-    "description": "Unscramble 2 domain terminology anagrams from PHILOSOPHY, LOGIC & ARTS under timed conditions.",
-    "difficulty": "MODERATE",
-    "risk": "BALANCED",
-    "cost": 140,
-    "reward": 260,
-    "penalty": 80,
-    "timeLimit": 75,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-13 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0256",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "MONOLOGUE",
-          "clue": "Extended speech by one actor in a theatrical play, film, or solitary performance.",
-          "category": "DRAMA",
-          "scrambled": "G O N O L M O E U"
-        },
-        {
-          "id": "R2",
-          "word": "ARCHETYPE",
-          "clue": "Universally recognized recurrent symbol, motif, or character archetype in literature and art.",
-          "category": "LITERATURE",
-          "scrambled": "T E E P R H A C Y"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "MONOLOGUE-ARCHETYPE",
-      "acceptedAnswers": [
-        "MONOLOGUE-ARCHETYPE",
-        "MONOLOGUE ARCHETYPE",
-        "MONOLOGUE,ARCHETYPE",
-        "WORDGUESS:MONOLOGUE-ARCHETYPE"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 9-letter term from DRAMA; the word begins with letter 'M' or ends with 'E'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [G O N O L M O E U] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WG-0257",
     "title": "WORD GUESS // PHILOSOPHY, #0257",
     "category": "PUZZLES",
@@ -13105,57 +6577,6 @@ export const wordGuessChallenges = [
       "hints": [
         "HINT 01 // Round 1 clue indicates a 9-letter term from PHILOSOPHY; the word begins with letter 'D' or ends with 'C'.",
         "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [T D I C I A L E C] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WG-0258",
-    "title": "WORD GUESS // PHILOSOPHY, #0258",
-    "category": "PUZZLES",
-    "description": "Unscramble 2 domain terminology anagrams from PHILOSOPHY, LOGIC & ARTS under timed conditions.",
-    "difficulty": "MODERATE",
-    "risk": "BALANCED",
-    "cost": 140,
-    "reward": 260,
-    "penalty": 80,
-    "timeLimit": 75,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-13 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0258",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "PARADOX",
-          "clue": "Logically self-contradictory statement or proposition contrary to expectations.",
-          "category": "PHILOSOPHY",
-          "scrambled": "R A A X O D P"
-        },
-        {
-          "id": "R2",
-          "word": "LABYRINTH",
-          "clue": "Complex maze-like network of intersecting pathways or intricate architectural passages.",
-          "category": "MYTHOLOGY",
-          "scrambled": "Y B A I N H R T L"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "PARADOX-LABYRINTH",
-      "acceptedAnswers": [
-        "PARADOX-LABYRINTH",
-        "PARADOX LABYRINTH",
-        "PARADOX,LABYRINTH",
-        "WORDGUESS:PARADOX-LABYRINTH"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 7-letter term from PHILOSOPHY; the word begins with letter 'P' or ends with 'X'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [R A A X O D P] to identify common prefixes or suffixes."
       ]
     },
     "enabled": true,
@@ -13213,57 +6634,6 @@ export const wordGuessChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WG-0260",
-    "title": "WORD GUESS // PHILOSOPHY, #0260",
-    "category": "PUZZLES",
-    "description": "Unscramble 2 domain terminology anagrams from PHILOSOPHY, LOGIC & ARTS under timed conditions.",
-    "difficulty": "MODERATE",
-    "risk": "BALANCED",
-    "cost": 140,
-    "reward": 260,
-    "penalty": 80,
-    "timeLimit": 75,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-14 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0260",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "CHIMERA",
-          "clue": "Fabulous mythological creature composed of disparate parts of diverse beasts.",
-          "category": "FOLKLORE",
-          "scrambled": "R M I C H E A"
-        },
-        {
-          "id": "R2",
-          "word": "MONOLOGUE",
-          "clue": "Extended speech by one actor in a theatrical play, film, or solitary performance.",
-          "category": "DRAMA",
-          "scrambled": "O N O O L E G U M"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "CHIMERA-MONOLOGUE",
-      "acceptedAnswers": [
-        "CHIMERA-MONOLOGUE",
-        "CHIMERA MONOLOGUE",
-        "CHIMERA,MONOLOGUE",
-        "WORDGUESS:CHIMERA-MONOLOGUE"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 7-letter term from FOLKLORE; the word begins with letter 'C' or ends with 'A'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [R M I C H E A] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WG-0261",
     "title": "WORD GUESS // PHILOSOPHY, #0261",
     "category": "PUZZLES",
@@ -13309,57 +6679,6 @@ export const wordGuessChallenges = [
       "hints": [
         "HINT 01 // Round 1 clue indicates a 7-letter term from PHILOSOPHY; the word begins with letter 'P' or ends with 'X'.",
         "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [O D R A X P A] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WG-0262",
-    "title": "WORD GUESS // PHILOSOPHY, #0262",
-    "category": "PUZZLES",
-    "description": "Unscramble 2 domain terminology anagrams from PHILOSOPHY, LOGIC & ARTS under timed conditions.",
-    "difficulty": "MODERATE",
-    "risk": "BALANCED",
-    "cost": 140,
-    "reward": 260,
-    "penalty": 80,
-    "timeLimit": 75,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-14 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0262",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "PARADOX",
-          "clue": "Logically self-contradictory statement or proposition contrary to expectations.",
-          "category": "PHILOSOPHY",
-          "scrambled": "P D X O A A R"
-        },
-        {
-          "id": "R2",
-          "word": "MONOLOGUE",
-          "clue": "Extended speech by one actor in a theatrical play, film, or solitary performance.",
-          "category": "DRAMA",
-          "scrambled": "E O M U G O O N L"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "PARADOX-MONOLOGUE",
-      "acceptedAnswers": [
-        "PARADOX-MONOLOGUE",
-        "PARADOX MONOLOGUE",
-        "PARADOX,MONOLOGUE",
-        "WORDGUESS:PARADOX-MONOLOGUE"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 7-letter term from PHILOSOPHY; the word begins with letter 'P' or ends with 'X'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [P D X O A A R] to identify common prefixes or suffixes."
       ]
     },
     "enabled": true,
@@ -13417,57 +6736,6 @@ export const wordGuessChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WG-0264",
-    "title": "WORD GUESS // PHILOSOPHY, #0264",
-    "category": "PUZZLES",
-    "description": "Unscramble 2 domain terminology anagrams from PHILOSOPHY, LOGIC & ARTS under timed conditions.",
-    "difficulty": "MODERATE",
-    "risk": "BALANCED",
-    "cost": 140,
-    "reward": 260,
-    "penalty": 80,
-    "timeLimit": 75,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-14 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0264",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "CHIMERA",
-          "clue": "Fabulous mythological creature composed of disparate parts of diverse beasts.",
-          "category": "FOLKLORE",
-          "scrambled": "M C A E R I H"
-        },
-        {
-          "id": "R2",
-          "word": "LABYRINTH",
-          "clue": "Complex maze-like network of intersecting pathways or intricate architectural passages.",
-          "category": "MYTHOLOGY",
-          "scrambled": "L B T H R N Y I A"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "CHIMERA-LABYRINTH",
-      "acceptedAnswers": [
-        "CHIMERA-LABYRINTH",
-        "CHIMERA LABYRINTH",
-        "CHIMERA,LABYRINTH",
-        "WORDGUESS:CHIMERA-LABYRINTH"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 7-letter term from FOLKLORE; the word begins with letter 'C' or ends with 'A'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [M C A E R I H] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WG-0265",
     "title": "WORD GUESS // PHILOSOPHY, #0265",
     "category": "PUZZLES",
@@ -13513,57 +6781,6 @@ export const wordGuessChallenges = [
       "hints": [
         "HINT 01 // Round 1 clue indicates a 9-letter term from PHILOSOPHY; the word begins with letter 'D' or ends with 'C'.",
         "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [L E I C I C T A D] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WG-0266",
-    "title": "WORD GUESS // PHILOSOPHY, #0266",
-    "category": "PUZZLES",
-    "description": "Unscramble 2 domain terminology anagrams from PHILOSOPHY, LOGIC & ARTS under timed conditions.",
-    "difficulty": "MODERATE",
-    "risk": "BALANCED",
-    "cost": 140,
-    "reward": 260,
-    "penalty": 80,
-    "timeLimit": 75,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-14 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0266",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "CHIMERA",
-          "clue": "Fabulous mythological creature composed of disparate parts of diverse beasts.",
-          "category": "FOLKLORE",
-          "scrambled": "H R A E I C M"
-        },
-        {
-          "id": "R2",
-          "word": "ENIGMA",
-          "clue": "Person or thing that is mysterious, puzzling, or fundamentally difficult to decipher.",
-          "category": "LOGIC",
-          "scrambled": "E N I M G A"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "CHIMERA-ENIGMA",
-      "acceptedAnswers": [
-        "CHIMERA-ENIGMA",
-        "CHIMERA ENIGMA",
-        "CHIMERA,ENIGMA",
-        "WORDGUESS:CHIMERA-ENIGMA"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 7-letter term from FOLKLORE; the word begins with letter 'C' or ends with 'A'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [H R A E I C M] to identify common prefixes or suffixes."
       ]
     },
     "enabled": true,
@@ -13621,57 +6838,6 @@ export const wordGuessChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WG-0268",
-    "title": "WORD GUESS // PHILOSOPHY, #0268",
-    "category": "PUZZLES",
-    "description": "Unscramble 2 domain terminology anagrams from PHILOSOPHY, LOGIC & ARTS under timed conditions.",
-    "difficulty": "MODERATE",
-    "risk": "BALANCED",
-    "cost": 140,
-    "reward": 260,
-    "penalty": 80,
-    "timeLimit": 75,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-14 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0268",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "CHIMERA",
-          "clue": "Fabulous mythological creature composed of disparate parts of diverse beasts.",
-          "category": "FOLKLORE",
-          "scrambled": "M I C H R E A"
-        },
-        {
-          "id": "R2",
-          "word": "PARADOX",
-          "clue": "Logically self-contradictory statement or proposition contrary to expectations.",
-          "category": "PHILOSOPHY",
-          "scrambled": "D O X P A A R"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "CHIMERA-PARADOX",
-      "acceptedAnswers": [
-        "CHIMERA-PARADOX",
-        "CHIMERA PARADOX",
-        "CHIMERA,PARADOX",
-        "WORDGUESS:CHIMERA-PARADOX"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 7-letter term from FOLKLORE; the word begins with letter 'C' or ends with 'A'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [M I C H R E A] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WG-0269",
     "title": "WORD GUESS // PHILOSOPHY, #0269",
     "category": "PUZZLES",
@@ -13717,57 +6883,6 @@ export const wordGuessChallenges = [
       "hints": [
         "HINT 01 // Round 1 clue indicates a 7-letter term from FOLKLORE; the word begins with letter 'C' or ends with 'A'.",
         "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [H A I E C M R] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WG-0270",
-    "title": "WORD GUESS // PHILOSOPHY, #0270",
-    "category": "PUZZLES",
-    "description": "Unscramble 2 domain terminology anagrams from PHILOSOPHY, LOGIC & ARTS under timed conditions.",
-    "difficulty": "MODERATE",
-    "risk": "BALANCED",
-    "cost": 140,
-    "reward": 260,
-    "penalty": 80,
-    "timeLimit": 75,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-14 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0270",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "PARADOX",
-          "clue": "Logically self-contradictory statement or proposition contrary to expectations.",
-          "category": "PHILOSOPHY",
-          "scrambled": "A O R D A P X"
-        },
-        {
-          "id": "R2",
-          "word": "ENIGMA",
-          "clue": "Person or thing that is mysterious, puzzling, or fundamentally difficult to decipher.",
-          "category": "LOGIC",
-          "scrambled": "A E G N M I"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "PARADOX-ENIGMA",
-      "acceptedAnswers": [
-        "PARADOX-ENIGMA",
-        "PARADOX ENIGMA",
-        "PARADOX,ENIGMA",
-        "WORDGUESS:PARADOX-ENIGMA"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 7-letter term from PHILOSOPHY; the word begins with letter 'P' or ends with 'X'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [A O R D A P X] to identify common prefixes or suffixes."
       ]
     },
     "enabled": true,
@@ -13825,57 +6940,6 @@ export const wordGuessChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WG-0272",
-    "title": "WORD GUESS // PHILOSOPHY, #0272",
-    "category": "PUZZLES",
-    "description": "Unscramble 2 domain terminology anagrams from PHILOSOPHY, LOGIC & ARTS under timed conditions.",
-    "difficulty": "MODERATE",
-    "risk": "BALANCED",
-    "cost": 140,
-    "reward": 260,
-    "penalty": 80,
-    "timeLimit": 75,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-14 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0272",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "PARADOX",
-          "clue": "Logically self-contradictory statement or proposition contrary to expectations.",
-          "category": "PHILOSOPHY",
-          "scrambled": "R X D O A P A"
-        },
-        {
-          "id": "R2",
-          "word": "LABYRINTH",
-          "clue": "Complex maze-like network of intersecting pathways or intricate architectural passages.",
-          "category": "MYTHOLOGY",
-          "scrambled": "Y N T A B R L H I"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "PARADOX-LABYRINTH",
-      "acceptedAnswers": [
-        "PARADOX-LABYRINTH",
-        "PARADOX LABYRINTH",
-        "PARADOX,LABYRINTH",
-        "WORDGUESS:PARADOX-LABYRINTH"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 7-letter term from PHILOSOPHY; the word begins with letter 'P' or ends with 'X'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [R X D O A P A] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WG-0273",
     "title": "WORD GUESS // PHILOSOPHY, #0273",
     "category": "PUZZLES",
@@ -13921,57 +6985,6 @@ export const wordGuessChallenges = [
       "hints": [
         "HINT 01 // Round 1 clue indicates a 7-letter term from PHILOSOPHY; the word begins with letter 'P' or ends with 'X'.",
         "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [X A O D R P A] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WG-0274",
-    "title": "WORD GUESS // PHILOSOPHY, #0274",
-    "category": "PUZZLES",
-    "description": "Unscramble 2 domain terminology anagrams from PHILOSOPHY, LOGIC & ARTS under timed conditions.",
-    "difficulty": "MODERATE",
-    "risk": "BALANCED",
-    "cost": 140,
-    "reward": 260,
-    "penalty": 80,
-    "timeLimit": 75,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-14 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0274",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "LABYRINTH",
-          "clue": "Complex maze-like network of intersecting pathways or intricate architectural passages.",
-          "category": "MYTHOLOGY",
-          "scrambled": "B T L N Y I R A H"
-        },
-        {
-          "id": "R2",
-          "word": "CHIMERA",
-          "clue": "Fabulous mythological creature composed of disparate parts of diverse beasts.",
-          "category": "FOLKLORE",
-          "scrambled": "M R H E A C I"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "LABYRINTH-CHIMERA",
-      "acceptedAnswers": [
-        "LABYRINTH-CHIMERA",
-        "LABYRINTH CHIMERA",
-        "LABYRINTH,CHIMERA",
-        "WORDGUESS:LABYRINTH-CHIMERA"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 9-letter term from MYTHOLOGY; the word begins with letter 'L' or ends with 'H'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [B T L N Y I R A H] to identify common prefixes or suffixes."
       ]
     },
     "enabled": true,
@@ -14029,57 +7042,6 @@ export const wordGuessChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WG-0276",
-    "title": "WORD GUESS // PHILOSOPHY, #0276",
-    "category": "PUZZLES",
-    "description": "Unscramble 2 domain terminology anagrams from PHILOSOPHY, LOGIC & ARTS under timed conditions.",
-    "difficulty": "MODERATE",
-    "risk": "BALANCED",
-    "cost": 140,
-    "reward": 260,
-    "penalty": 80,
-    "timeLimit": 75,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-14 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0276",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "ENIGMA",
-          "clue": "Person or thing that is mysterious, puzzling, or fundamentally difficult to decipher.",
-          "category": "LOGIC",
-          "scrambled": "G E I N M A"
-        },
-        {
-          "id": "R2",
-          "word": "SYLLOGISM",
-          "clue": "Form of deductive reasoning consisting of a major premise, a minor premise, and a conclusion.",
-          "category": "LOGIC",
-          "scrambled": "G I S S Y M L L O"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "ENIGMA-SYLLOGISM",
-      "acceptedAnswers": [
-        "ENIGMA-SYLLOGISM",
-        "ENIGMA SYLLOGISM",
-        "ENIGMA,SYLLOGISM",
-        "WORDGUESS:ENIGMA-SYLLOGISM"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 6-letter term from LOGIC; the word begins with letter 'E' or ends with 'A'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [G E I N M A] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WG-0277",
     "title": "WORD GUESS // PHILOSOPHY, #0277",
     "category": "PUZZLES",
@@ -14125,57 +7087,6 @@ export const wordGuessChallenges = [
       "hints": [
         "HINT 01 // Round 1 clue indicates a 7-letter term from FOLKLORE; the word begins with letter 'C' or ends with 'A'.",
         "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [A M C E H R I] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WG-0278",
-    "title": "WORD GUESS // PHILOSOPHY, #0278",
-    "category": "PUZZLES",
-    "description": "Unscramble 2 domain terminology anagrams from PHILOSOPHY, LOGIC & ARTS under timed conditions.",
-    "difficulty": "MODERATE",
-    "risk": "BALANCED",
-    "cost": 140,
-    "reward": 260,
-    "penalty": 80,
-    "timeLimit": 75,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-14 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0278",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "SYLLOGISM",
-          "clue": "Form of deductive reasoning consisting of a major premise, a minor premise, and a conclusion.",
-          "category": "LOGIC",
-          "scrambled": "S O L Y L G M I S"
-        },
-        {
-          "id": "R2",
-          "word": "LABYRINTH",
-          "clue": "Complex maze-like network of intersecting pathways or intricate architectural passages.",
-          "category": "MYTHOLOGY",
-          "scrambled": "A Y N H I R L T B"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "SYLLOGISM-LABYRINTH",
-      "acceptedAnswers": [
-        "SYLLOGISM-LABYRINTH",
-        "SYLLOGISM LABYRINTH",
-        "SYLLOGISM,LABYRINTH",
-        "WORDGUESS:SYLLOGISM-LABYRINTH"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 9-letter term from LOGIC; the word begins with letter 'S' or ends with 'M'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [S O L Y L G M I S] to identify common prefixes or suffixes."
       ]
     },
     "enabled": true,
@@ -14233,57 +7144,6 @@ export const wordGuessChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WG-0280",
-    "title": "WORD GUESS // PHILOSOPHY, #0280",
-    "category": "PUZZLES",
-    "description": "Unscramble 2 domain terminology anagrams from PHILOSOPHY, LOGIC & ARTS under timed conditions.",
-    "difficulty": "MODERATE",
-    "risk": "BALANCED",
-    "cost": 140,
-    "reward": 260,
-    "penalty": 80,
-    "timeLimit": 75,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-15 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0280",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "DIALECTIC",
-          "clue": "Discourse between two differing points of view seeking to establish truth through reasoned arguments.",
-          "category": "PHILOSOPHY",
-          "scrambled": "T C D I I L A E C"
-        },
-        {
-          "id": "R2",
-          "word": "PARADOX",
-          "clue": "Logically self-contradictory statement or proposition contrary to expectations.",
-          "category": "PHILOSOPHY",
-          "scrambled": "A D R X A P O"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "DIALECTIC-PARADOX",
-      "acceptedAnswers": [
-        "DIALECTIC-PARADOX",
-        "DIALECTIC PARADOX",
-        "DIALECTIC,PARADOX",
-        "WORDGUESS:DIALECTIC-PARADOX"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 9-letter term from PHILOSOPHY; the word begins with letter 'D' or ends with 'C'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [T C D I I L A E C] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WG-0281",
     "title": "WORD GUESS // PHILOSOPHY, #0281",
     "category": "PUZZLES",
@@ -14329,57 +7189,6 @@ export const wordGuessChallenges = [
       "hints": [
         "HINT 01 // Round 1 clue indicates a 7-letter term from PHILOSOPHY; the word begins with letter 'P' or ends with 'X'.",
         "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [A P A D O R X] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WG-0282",
-    "title": "WORD GUESS // PHILOSOPHY, #0282",
-    "category": "PUZZLES",
-    "description": "Unscramble 2 domain terminology anagrams from PHILOSOPHY, LOGIC & ARTS under timed conditions.",
-    "difficulty": "MODERATE",
-    "risk": "BALANCED",
-    "cost": 140,
-    "reward": 260,
-    "penalty": 80,
-    "timeLimit": 75,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-15 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0282",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "ARCHETYPE",
-          "clue": "Universally recognized recurrent symbol, motif, or character archetype in literature and art.",
-          "category": "LITERATURE",
-          "scrambled": "R C E P Y A H E T"
-        },
-        {
-          "id": "R2",
-          "word": "PARADOX",
-          "clue": "Logically self-contradictory statement or proposition contrary to expectations.",
-          "category": "PHILOSOPHY",
-          "scrambled": "P D X O A R A"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "ARCHETYPE-PARADOX",
-      "acceptedAnswers": [
-        "ARCHETYPE-PARADOX",
-        "ARCHETYPE PARADOX",
-        "ARCHETYPE,PARADOX",
-        "WORDGUESS:ARCHETYPE-PARADOX"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 9-letter term from LITERATURE; the word begins with letter 'A' or ends with 'E'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [R C E P Y A H E T] to identify common prefixes or suffixes."
       ]
     },
     "enabled": true,
@@ -14437,57 +7246,6 @@ export const wordGuessChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WG-0284",
-    "title": "WORD GUESS // PHILOSOPHY, #0284",
-    "category": "PUZZLES",
-    "description": "Unscramble 2 domain terminology anagrams from PHILOSOPHY, LOGIC & ARTS under timed conditions.",
-    "difficulty": "MODERATE",
-    "risk": "BALANCED",
-    "cost": 140,
-    "reward": 260,
-    "penalty": 80,
-    "timeLimit": 75,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-15 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0284",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "ALLEGORY",
-          "clue": "Story, poem, or picture that can be interpreted to reveal a hidden moral or political meaning.",
-          "category": "RHETORIC",
-          "scrambled": "A L R O G E L Y"
-        },
-        {
-          "id": "R2",
-          "word": "MONOLOGUE",
-          "clue": "Extended speech by one actor in a theatrical play, film, or solitary performance.",
-          "category": "DRAMA",
-          "scrambled": "N L E G U O M O O"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "ALLEGORY-MONOLOGUE",
-      "acceptedAnswers": [
-        "ALLEGORY-MONOLOGUE",
-        "ALLEGORY MONOLOGUE",
-        "ALLEGORY,MONOLOGUE",
-        "WORDGUESS:ALLEGORY-MONOLOGUE"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 8-letter term from RHETORIC; the word begins with letter 'A' or ends with 'Y'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [A L R O G E L Y] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WG-0285",
     "title": "WORD GUESS // PHILOSOPHY, #0285",
     "category": "PUZZLES",
@@ -14533,57 +7291,6 @@ export const wordGuessChallenges = [
       "hints": [
         "HINT 01 // Round 1 clue indicates a 9-letter term from LITERATURE; the word begins with letter 'A' or ends with 'E'.",
         "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [E H A E R T Y P C] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WG-0286",
-    "title": "WORD GUESS // PHILOSOPHY, #0286",
-    "category": "PUZZLES",
-    "description": "Unscramble 2 domain terminology anagrams from PHILOSOPHY, LOGIC & ARTS under timed conditions.",
-    "difficulty": "MODERATE",
-    "risk": "BALANCED",
-    "cost": 140,
-    "reward": 260,
-    "penalty": 80,
-    "timeLimit": 75,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-15 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0286",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "DIALECTIC",
-          "clue": "Discourse between two differing points of view seeking to establish truth through reasoned arguments.",
-          "category": "PHILOSOPHY",
-          "scrambled": "C E I I C D T A L"
-        },
-        {
-          "id": "R2",
-          "word": "CHIMERA",
-          "clue": "Fabulous mythological creature composed of disparate parts of diverse beasts.",
-          "category": "FOLKLORE",
-          "scrambled": "I E C M R H A"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "DIALECTIC-CHIMERA",
-      "acceptedAnswers": [
-        "DIALECTIC-CHIMERA",
-        "DIALECTIC CHIMERA",
-        "DIALECTIC,CHIMERA",
-        "WORDGUESS:DIALECTIC-CHIMERA"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 9-letter term from PHILOSOPHY; the word begins with letter 'D' or ends with 'C'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [C E I I C D T A L] to identify common prefixes or suffixes."
       ]
     },
     "enabled": true,
@@ -14641,57 +7348,6 @@ export const wordGuessChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WG-0288",
-    "title": "WORD GUESS // PHILOSOPHY, #0288",
-    "category": "PUZZLES",
-    "description": "Unscramble 2 domain terminology anagrams from PHILOSOPHY, LOGIC & ARTS under timed conditions.",
-    "difficulty": "MODERATE",
-    "risk": "BALANCED",
-    "cost": 140,
-    "reward": 260,
-    "penalty": 80,
-    "timeLimit": 75,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-15 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0288",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "CHIMERA",
-          "clue": "Fabulous mythological creature composed of disparate parts of diverse beasts.",
-          "category": "FOLKLORE",
-          "scrambled": "I E M C R A H"
-        },
-        {
-          "id": "R2",
-          "word": "SYLLOGISM",
-          "clue": "Form of deductive reasoning consisting of a major premise, a minor premise, and a conclusion.",
-          "category": "LOGIC",
-          "scrambled": "M L I S S Y L O G"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "CHIMERA-SYLLOGISM",
-      "acceptedAnswers": [
-        "CHIMERA-SYLLOGISM",
-        "CHIMERA SYLLOGISM",
-        "CHIMERA,SYLLOGISM",
-        "WORDGUESS:CHIMERA-SYLLOGISM"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 7-letter term from FOLKLORE; the word begins with letter 'C' or ends with 'A'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [I E M C R A H] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WG-0289",
     "title": "WORD GUESS // PHILOSOPHY, #0289",
     "category": "PUZZLES",
@@ -14737,57 +7393,6 @@ export const wordGuessChallenges = [
       "hints": [
         "HINT 01 // Round 1 clue indicates a 9-letter term from LOGIC; the word begins with letter 'S' or ends with 'M'.",
         "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [S L S O Y G I M L] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WG-0290",
-    "title": "WORD GUESS // PHILOSOPHY, #0290",
-    "category": "PUZZLES",
-    "description": "Unscramble 2 domain terminology anagrams from PHILOSOPHY, LOGIC & ARTS under timed conditions.",
-    "difficulty": "MODERATE",
-    "risk": "BALANCED",
-    "cost": 140,
-    "reward": 260,
-    "penalty": 80,
-    "timeLimit": 75,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-15 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0290",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "DIALECTIC",
-          "clue": "Discourse between two differing points of view seeking to establish truth through reasoned arguments.",
-          "category": "PHILOSOPHY",
-          "scrambled": "I C A E T I D C L"
-        },
-        {
-          "id": "R2",
-          "word": "PARADOX",
-          "clue": "Logically self-contradictory statement or proposition contrary to expectations.",
-          "category": "PHILOSOPHY",
-          "scrambled": "D P R X A O A"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "DIALECTIC-PARADOX",
-      "acceptedAnswers": [
-        "DIALECTIC-PARADOX",
-        "DIALECTIC PARADOX",
-        "DIALECTIC,PARADOX",
-        "WORDGUESS:DIALECTIC-PARADOX"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 9-letter term from PHILOSOPHY; the word begins with letter 'D' or ends with 'C'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [I C A E T I D C L] to identify common prefixes or suffixes."
       ]
     },
     "enabled": true,
@@ -14845,57 +7450,6 @@ export const wordGuessChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WG-0292",
-    "title": "WORD GUESS // PHILOSOPHY, #0292",
-    "category": "PUZZLES",
-    "description": "Unscramble 2 domain terminology anagrams from PHILOSOPHY, LOGIC & ARTS under timed conditions.",
-    "difficulty": "MODERATE",
-    "risk": "BALANCED",
-    "cost": 140,
-    "reward": 260,
-    "penalty": 80,
-    "timeLimit": 75,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-15 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0292",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "MONOLOGUE",
-          "clue": "Extended speech by one actor in a theatrical play, film, or solitary performance.",
-          "category": "DRAMA",
-          "scrambled": "M O N E O L O U G"
-        },
-        {
-          "id": "R2",
-          "word": "DIALECTIC",
-          "clue": "Discourse between two differing points of view seeking to establish truth through reasoned arguments.",
-          "category": "PHILOSOPHY",
-          "scrambled": "I C A D C T E L I"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "MONOLOGUE-DIALECTIC",
-      "acceptedAnswers": [
-        "MONOLOGUE-DIALECTIC",
-        "MONOLOGUE DIALECTIC",
-        "MONOLOGUE,DIALECTIC",
-        "WORDGUESS:MONOLOGUE-DIALECTIC"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 9-letter term from DRAMA; the word begins with letter 'M' or ends with 'E'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [M O N E O L O U G] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WG-0293",
     "title": "WORD GUESS // PHILOSOPHY, #0293",
     "category": "PUZZLES",
@@ -14941,57 +7495,6 @@ export const wordGuessChallenges = [
       "hints": [
         "HINT 01 // Round 1 clue indicates a 7-letter term from PHILOSOPHY; the word begins with letter 'P' or ends with 'X'.",
         "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [X R D P A O A] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WG-0294",
-    "title": "WORD GUESS // PHILOSOPHY, #0294",
-    "category": "PUZZLES",
-    "description": "Unscramble 2 domain terminology anagrams from PHILOSOPHY, LOGIC & ARTS under timed conditions.",
-    "difficulty": "MODERATE",
-    "risk": "BALANCED",
-    "cost": 140,
-    "reward": 260,
-    "penalty": 80,
-    "timeLimit": 75,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-15 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0294",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "PARADOX",
-          "clue": "Logically self-contradictory statement or proposition contrary to expectations.",
-          "category": "PHILOSOPHY",
-          "scrambled": "A A P R X O D"
-        },
-        {
-          "id": "R2",
-          "word": "ARCHETYPE",
-          "clue": "Universally recognized recurrent symbol, motif, or character archetype in literature and art.",
-          "category": "LITERATURE",
-          "scrambled": "P E T Y H E R A C"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "PARADOX-ARCHETYPE",
-      "acceptedAnswers": [
-        "PARADOX-ARCHETYPE",
-        "PARADOX ARCHETYPE",
-        "PARADOX,ARCHETYPE",
-        "WORDGUESS:PARADOX-ARCHETYPE"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 7-letter term from PHILOSOPHY; the word begins with letter 'P' or ends with 'X'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [A A P R X O D] to identify common prefixes or suffixes."
       ]
     },
     "enabled": true,
@@ -15049,57 +7552,6 @@ export const wordGuessChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WG-0296",
-    "title": "WORD GUESS // PHILOSOPHY, #0296",
-    "category": "PUZZLES",
-    "description": "Unscramble 2 domain terminology anagrams from PHILOSOPHY, LOGIC & ARTS under timed conditions.",
-    "difficulty": "MODERATE",
-    "risk": "BALANCED",
-    "cost": 140,
-    "reward": 260,
-    "penalty": 80,
-    "timeLimit": 75,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-15 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0296",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "LABYRINTH",
-          "clue": "Complex maze-like network of intersecting pathways or intricate architectural passages.",
-          "category": "MYTHOLOGY",
-          "scrambled": "Y B N H L R T I A"
-        },
-        {
-          "id": "R2",
-          "word": "SYLLOGISM",
-          "clue": "Form of deductive reasoning consisting of a major premise, a minor premise, and a conclusion.",
-          "category": "LOGIC",
-          "scrambled": "M L S O I L Y S G"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "LABYRINTH-SYLLOGISM",
-      "acceptedAnswers": [
-        "LABYRINTH-SYLLOGISM",
-        "LABYRINTH SYLLOGISM",
-        "LABYRINTH,SYLLOGISM",
-        "WORDGUESS:LABYRINTH-SYLLOGISM"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 9-letter term from MYTHOLOGY; the word begins with letter 'L' or ends with 'H'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [Y B N H L R T I A] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WG-0297",
     "title": "WORD GUESS // PHILOSOPHY, #0297",
     "category": "PUZZLES",
@@ -15145,57 +7597,6 @@ export const wordGuessChallenges = [
       "hints": [
         "HINT 01 // Round 1 clue indicates a 9-letter term from DRAMA; the word begins with letter 'M' or ends with 'E'.",
         "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [O U E M L G O O N] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WG-0298",
-    "title": "WORD GUESS // PHILOSOPHY, #0298",
-    "category": "PUZZLES",
-    "description": "Unscramble 2 domain terminology anagrams from PHILOSOPHY, LOGIC & ARTS under timed conditions.",
-    "difficulty": "MODERATE",
-    "risk": "BALANCED",
-    "cost": 140,
-    "reward": 260,
-    "penalty": 80,
-    "timeLimit": 75,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-15 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0298",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "SYLLOGISM",
-          "clue": "Form of deductive reasoning consisting of a major premise, a minor premise, and a conclusion.",
-          "category": "LOGIC",
-          "scrambled": "I G S L Y S O L M"
-        },
-        {
-          "id": "R2",
-          "word": "ENIGMA",
-          "clue": "Person or thing that is mysterious, puzzling, or fundamentally difficult to decipher.",
-          "category": "LOGIC",
-          "scrambled": "N A G E I M"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "SYLLOGISM-ENIGMA",
-      "acceptedAnswers": [
-        "SYLLOGISM-ENIGMA",
-        "SYLLOGISM ENIGMA",
-        "SYLLOGISM,ENIGMA",
-        "WORDGUESS:SYLLOGISM-ENIGMA"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 9-letter term from LOGIC; the word begins with letter 'S' or ends with 'M'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [I G S L Y S O L M] to identify common prefixes or suffixes."
       ]
     },
     "enabled": true,
@@ -15253,57 +7654,6 @@ export const wordGuessChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WG-0300",
-    "title": "WORD GUESS // PHILOSOPHY, #0300",
-    "category": "PUZZLES",
-    "description": "Unscramble 2 domain terminology anagrams from PHILOSOPHY, LOGIC & ARTS under timed conditions.",
-    "difficulty": "MODERATE",
-    "risk": "BALANCED",
-    "cost": 140,
-    "reward": 260,
-    "penalty": 80,
-    "timeLimit": 75,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-16 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0300",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "ALLEGORY",
-          "clue": "Story, poem, or picture that can be interpreted to reveal a hidden moral or political meaning.",
-          "category": "RHETORIC",
-          "scrambled": "L A G Y R O L E"
-        },
-        {
-          "id": "R2",
-          "word": "SOLILOQUY",
-          "clue": "Act of speaking one's thoughts aloud when by oneself regardless of hearers, especially by a character.",
-          "category": "THEATRE",
-          "scrambled": "Q O U Y I S O L L"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "ALLEGORY-SOLILOQUY",
-      "acceptedAnswers": [
-        "ALLEGORY-SOLILOQUY",
-        "ALLEGORY SOLILOQUY",
-        "ALLEGORY,SOLILOQUY",
-        "WORDGUESS:ALLEGORY-SOLILOQUY"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 8-letter term from RHETORIC; the word begins with letter 'A' or ends with 'Y'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [L A G Y R O L E] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WG-0301",
     "title": "WORD GUESS // PHILOSOPHY, #0301",
     "category": "PUZZLES",
@@ -15349,57 +7699,6 @@ export const wordGuessChallenges = [
       "hints": [
         "HINT 01 // Round 1 clue indicates a 9-letter term from LITERATURE; the word begins with letter 'A' or ends with 'E'.",
         "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [C E E A H T P Y R] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WG-0302",
-    "title": "WORD GUESS // PHILOSOPHY, #0302",
-    "category": "PUZZLES",
-    "description": "Unscramble 2 domain terminology anagrams from PHILOSOPHY, LOGIC & ARTS under timed conditions.",
-    "difficulty": "MODERATE",
-    "risk": "BALANCED",
-    "cost": 140,
-    "reward": 260,
-    "penalty": 80,
-    "timeLimit": 75,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-16 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0302",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "PARADOX",
-          "clue": "Logically self-contradictory statement or proposition contrary to expectations.",
-          "category": "PHILOSOPHY",
-          "scrambled": "R A P X D O A"
-        },
-        {
-          "id": "R2",
-          "word": "LABYRINTH",
-          "clue": "Complex maze-like network of intersecting pathways or intricate architectural passages.",
-          "category": "MYTHOLOGY",
-          "scrambled": "I R L Y H N B T A"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "PARADOX-LABYRINTH",
-      "acceptedAnswers": [
-        "PARADOX-LABYRINTH",
-        "PARADOX LABYRINTH",
-        "PARADOX,LABYRINTH",
-        "WORDGUESS:PARADOX-LABYRINTH"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 7-letter term from PHILOSOPHY; the word begins with letter 'P' or ends with 'X'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [R A P X D O A] to identify common prefixes or suffixes."
       ]
     },
     "enabled": true,
@@ -15457,57 +7756,6 @@ export const wordGuessChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WG-0304",
-    "title": "WORD GUESS // PHILOSOPHY, #0304",
-    "category": "PUZZLES",
-    "description": "Unscramble 2 domain terminology anagrams from PHILOSOPHY, LOGIC & ARTS under timed conditions.",
-    "difficulty": "MODERATE",
-    "risk": "BALANCED",
-    "cost": 140,
-    "reward": 260,
-    "penalty": 80,
-    "timeLimit": 75,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-16 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0304",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "SOLILOQUY",
-          "clue": "Act of speaking one's thoughts aloud when by oneself regardless of hearers, especially by a character.",
-          "category": "THEATRE",
-          "scrambled": "O S L U Y I Q O L"
-        },
-        {
-          "id": "R2",
-          "word": "DIALECTIC",
-          "clue": "Discourse between two differing points of view seeking to establish truth through reasoned arguments.",
-          "category": "PHILOSOPHY",
-          "scrambled": "A I E C D I C L T"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "SOLILOQUY-DIALECTIC",
-      "acceptedAnswers": [
-        "SOLILOQUY-DIALECTIC",
-        "SOLILOQUY DIALECTIC",
-        "SOLILOQUY,DIALECTIC",
-        "WORDGUESS:SOLILOQUY-DIALECTIC"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 9-letter term from THEATRE; the word begins with letter 'S' or ends with 'Y'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [O S L U Y I Q O L] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WG-0305",
     "title": "WORD GUESS // PHILOSOPHY, #0305",
     "category": "PUZZLES",
@@ -15553,57 +7801,6 @@ export const wordGuessChallenges = [
       "hints": [
         "HINT 01 // Round 1 clue indicates a 7-letter term from PHILOSOPHY; the word begins with letter 'P' or ends with 'X'.",
         "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [A X P O A R D] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WG-0306",
-    "title": "WORD GUESS // PHILOSOPHY, #0306",
-    "category": "PUZZLES",
-    "description": "Unscramble 2 domain terminology anagrams from PHILOSOPHY, LOGIC & ARTS under timed conditions.",
-    "difficulty": "MODERATE",
-    "risk": "BALANCED",
-    "cost": 140,
-    "reward": 260,
-    "penalty": 80,
-    "timeLimit": 75,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-16 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0306",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "SOLILOQUY",
-          "clue": "Act of speaking one's thoughts aloud when by oneself regardless of hearers, especially by a character.",
-          "category": "THEATRE",
-          "scrambled": "U I O S Y Q L L O"
-        },
-        {
-          "id": "R2",
-          "word": "PARADOX",
-          "clue": "Logically self-contradictory statement or proposition contrary to expectations.",
-          "category": "PHILOSOPHY",
-          "scrambled": "R X O D P A A"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "SOLILOQUY-PARADOX",
-      "acceptedAnswers": [
-        "SOLILOQUY-PARADOX",
-        "SOLILOQUY PARADOX",
-        "SOLILOQUY,PARADOX",
-        "WORDGUESS:SOLILOQUY-PARADOX"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 9-letter term from THEATRE; the word begins with letter 'S' or ends with 'Y'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [U I O S Y Q L L O] to identify common prefixes or suffixes."
       ]
     },
     "enabled": true,
@@ -15661,57 +7858,6 @@ export const wordGuessChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WG-0308",
-    "title": "WORD GUESS // PHILOSOPHY, #0308",
-    "category": "PUZZLES",
-    "description": "Unscramble 2 domain terminology anagrams from PHILOSOPHY, LOGIC & ARTS under timed conditions.",
-    "difficulty": "MODERATE",
-    "risk": "BALANCED",
-    "cost": 140,
-    "reward": 260,
-    "penalty": 80,
-    "timeLimit": 75,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-16 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0308",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "ENIGMA",
-          "clue": "Person or thing that is mysterious, puzzling, or fundamentally difficult to decipher.",
-          "category": "LOGIC",
-          "scrambled": "A E N I G M"
-        },
-        {
-          "id": "R2",
-          "word": "LABYRINTH",
-          "clue": "Complex maze-like network of intersecting pathways or intricate architectural passages.",
-          "category": "MYTHOLOGY",
-          "scrambled": "Y B H R A N I T L"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "ENIGMA-LABYRINTH",
-      "acceptedAnswers": [
-        "ENIGMA-LABYRINTH",
-        "ENIGMA LABYRINTH",
-        "ENIGMA,LABYRINTH",
-        "WORDGUESS:ENIGMA-LABYRINTH"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 6-letter term from LOGIC; the word begins with letter 'E' or ends with 'A'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [A E N I G M] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WG-0309",
     "title": "WORD GUESS // PHILOSOPHY, #0309",
     "category": "PUZZLES",
@@ -15757,57 +7903,6 @@ export const wordGuessChallenges = [
       "hints": [
         "HINT 01 // Round 1 clue indicates a 9-letter term from THEATRE; the word begins with letter 'S' or ends with 'Y'.",
         "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [S L O L U Y I O Q] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WG-0310",
-    "title": "WORD GUESS // PHILOSOPHY, #0310",
-    "category": "PUZZLES",
-    "description": "Unscramble 2 domain terminology anagrams from PHILOSOPHY, LOGIC & ARTS under timed conditions.",
-    "difficulty": "MODERATE",
-    "risk": "BALANCED",
-    "cost": 140,
-    "reward": 260,
-    "penalty": 80,
-    "timeLimit": 75,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-16 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0310",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "MONOLOGUE",
-          "clue": "Extended speech by one actor in a theatrical play, film, or solitary performance.",
-          "category": "DRAMA",
-          "scrambled": "O L M O N O U E G"
-        },
-        {
-          "id": "R2",
-          "word": "ENIGMA",
-          "clue": "Person or thing that is mysterious, puzzling, or fundamentally difficult to decipher.",
-          "category": "LOGIC",
-          "scrambled": "A M I N E G"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "MONOLOGUE-ENIGMA",
-      "acceptedAnswers": [
-        "MONOLOGUE-ENIGMA",
-        "MONOLOGUE ENIGMA",
-        "MONOLOGUE,ENIGMA",
-        "WORDGUESS:MONOLOGUE-ENIGMA"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 9-letter term from DRAMA; the word begins with letter 'M' or ends with 'E'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [O L M O N O U E G] to identify common prefixes or suffixes."
       ]
     },
     "enabled": true,
@@ -15865,57 +7960,6 @@ export const wordGuessChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WG-0312",
-    "title": "WORD GUESS // PHILOSOPHY, #0312",
-    "category": "PUZZLES",
-    "description": "Unscramble 2 domain terminology anagrams from PHILOSOPHY, LOGIC & ARTS under timed conditions.",
-    "difficulty": "MODERATE",
-    "risk": "BALANCED",
-    "cost": 140,
-    "reward": 260,
-    "penalty": 80,
-    "timeLimit": 75,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-16 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0312",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "PARADOX",
-          "clue": "Logically self-contradictory statement or proposition contrary to expectations.",
-          "category": "PHILOSOPHY",
-          "scrambled": "X D A A P O R"
-        },
-        {
-          "id": "R2",
-          "word": "SYLLOGISM",
-          "clue": "Form of deductive reasoning consisting of a major premise, a minor premise, and a conclusion.",
-          "category": "LOGIC",
-          "scrambled": "L I Y S M G O L S"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "PARADOX-SYLLOGISM",
-      "acceptedAnswers": [
-        "PARADOX-SYLLOGISM",
-        "PARADOX SYLLOGISM",
-        "PARADOX,SYLLOGISM",
-        "WORDGUESS:PARADOX-SYLLOGISM"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 7-letter term from PHILOSOPHY; the word begins with letter 'P' or ends with 'X'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [X D A A P O R] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WG-0313",
     "title": "WORD GUESS // PHILOSOPHY, #0313",
     "category": "PUZZLES",
@@ -15961,57 +8005,6 @@ export const wordGuessChallenges = [
       "hints": [
         "HINT 01 // Round 1 clue indicates a 9-letter term from LOGIC; the word begins with letter 'S' or ends with 'M'.",
         "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [S L I L G O S M Y] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WG-0314",
-    "title": "WORD GUESS // PHILOSOPHY, #0314",
-    "category": "PUZZLES",
-    "description": "Unscramble 2 domain terminology anagrams from PHILOSOPHY, LOGIC & ARTS under timed conditions.",
-    "difficulty": "MODERATE",
-    "risk": "BALANCED",
-    "cost": 140,
-    "reward": 260,
-    "penalty": 80,
-    "timeLimit": 75,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-16 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0314",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "DIALECTIC",
-          "clue": "Discourse between two differing points of view seeking to establish truth through reasoned arguments.",
-          "category": "PHILOSOPHY",
-          "scrambled": "C C I T I L E A D"
-        },
-        {
-          "id": "R2",
-          "word": "MONOLOGUE",
-          "clue": "Extended speech by one actor in a theatrical play, film, or solitary performance.",
-          "category": "DRAMA",
-          "scrambled": "O G L O U E O M N"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "DIALECTIC-MONOLOGUE",
-      "acceptedAnswers": [
-        "DIALECTIC-MONOLOGUE",
-        "DIALECTIC MONOLOGUE",
-        "DIALECTIC,MONOLOGUE",
-        "WORDGUESS:DIALECTIC-MONOLOGUE"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 9-letter term from PHILOSOPHY; the word begins with letter 'D' or ends with 'C'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [C C I T I L E A D] to identify common prefixes or suffixes."
       ]
     },
     "enabled": true,
@@ -16069,57 +8062,6 @@ export const wordGuessChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WG-0316",
-    "title": "WORD GUESS // PHILOSOPHY, #0316",
-    "category": "PUZZLES",
-    "description": "Unscramble 2 domain terminology anagrams from PHILOSOPHY, LOGIC & ARTS under timed conditions.",
-    "difficulty": "MODERATE",
-    "risk": "BALANCED",
-    "cost": 140,
-    "reward": 260,
-    "penalty": 80,
-    "timeLimit": 75,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-16 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0316",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "ALLEGORY",
-          "clue": "Story, poem, or picture that can be interpreted to reveal a hidden moral or political meaning.",
-          "category": "RHETORIC",
-          "scrambled": "R Y L E L A O G"
-        },
-        {
-          "id": "R2",
-          "word": "SOLILOQUY",
-          "clue": "Act of speaking one's thoughts aloud when by oneself regardless of hearers, especially by a character.",
-          "category": "THEATRE",
-          "scrambled": "L Q U I L O O S Y"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "ALLEGORY-SOLILOQUY",
-      "acceptedAnswers": [
-        "ALLEGORY-SOLILOQUY",
-        "ALLEGORY SOLILOQUY",
-        "ALLEGORY,SOLILOQUY",
-        "WORDGUESS:ALLEGORY-SOLILOQUY"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 8-letter term from RHETORIC; the word begins with letter 'A' or ends with 'Y'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [R Y L E L A O G] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WG-0317",
     "title": "WORD GUESS // PHILOSOPHY, #0317",
     "category": "PUZZLES",
@@ -16165,57 +8107,6 @@ export const wordGuessChallenges = [
       "hints": [
         "HINT 01 // Round 1 clue indicates a 9-letter term from LOGIC; the word begins with letter 'S' or ends with 'M'.",
         "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [O L M Y S G L S I] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WG-0318",
-    "title": "WORD GUESS // PHILOSOPHY, #0318",
-    "category": "PUZZLES",
-    "description": "Unscramble 2 domain terminology anagrams from PHILOSOPHY, LOGIC & ARTS under timed conditions.",
-    "difficulty": "MODERATE",
-    "risk": "BALANCED",
-    "cost": 140,
-    "reward": 260,
-    "penalty": 80,
-    "timeLimit": 75,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-16 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0318",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "MONOLOGUE",
-          "clue": "Extended speech by one actor in a theatrical play, film, or solitary performance.",
-          "category": "DRAMA",
-          "scrambled": "E O N G U O L M O"
-        },
-        {
-          "id": "R2",
-          "word": "SOLILOQUY",
-          "clue": "Act of speaking one's thoughts aloud when by oneself regardless of hearers, especially by a character.",
-          "category": "THEATRE",
-          "scrambled": "Q L I S Y O O U L"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "MONOLOGUE-SOLILOQUY",
-      "acceptedAnswers": [
-        "MONOLOGUE-SOLILOQUY",
-        "MONOLOGUE SOLILOQUY",
-        "MONOLOGUE,SOLILOQUY",
-        "WORDGUESS:MONOLOGUE-SOLILOQUY"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 9-letter term from DRAMA; the word begins with letter 'M' or ends with 'E'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [E O N G U O L M O] to identify common prefixes or suffixes."
       ]
     },
     "enabled": true,
@@ -16273,57 +8164,6 @@ export const wordGuessChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WG-0320",
-    "title": "WORD GUESS // PHILOSOPHY, #0320",
-    "category": "PUZZLES",
-    "description": "Unscramble 2 domain terminology anagrams from PHILOSOPHY, LOGIC & ARTS under timed conditions.",
-    "difficulty": "MODERATE",
-    "risk": "BALANCED",
-    "cost": 140,
-    "reward": 260,
-    "penalty": 80,
-    "timeLimit": 75,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-17 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0320",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "CHIMERA",
-          "clue": "Fabulous mythological creature composed of disparate parts of diverse beasts.",
-          "category": "FOLKLORE",
-          "scrambled": "M A E H C I R"
-        },
-        {
-          "id": "R2",
-          "word": "ARCHETYPE",
-          "clue": "Universally recognized recurrent symbol, motif, or character archetype in literature and art.",
-          "category": "LITERATURE",
-          "scrambled": "A E Y T H R P C E"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "CHIMERA-ARCHETYPE",
-      "acceptedAnswers": [
-        "CHIMERA-ARCHETYPE",
-        "CHIMERA ARCHETYPE",
-        "CHIMERA,ARCHETYPE",
-        "WORDGUESS:CHIMERA-ARCHETYPE"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 7-letter term from FOLKLORE; the word begins with letter 'C' or ends with 'A'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [M A E H C I R] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WG-0321",
     "title": "WORD GUESS // PHILOSOPHY, #0321",
     "category": "PUZZLES",
@@ -16369,57 +8209,6 @@ export const wordGuessChallenges = [
       "hints": [
         "HINT 01 // Round 1 clue indicates a 9-letter term from MYTHOLOGY; the word begins with letter 'L' or ends with 'H'.",
         "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [N B A H I T L R Y] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WG-0322",
-    "title": "WORD GUESS // PHILOSOPHY, #0322",
-    "category": "PUZZLES",
-    "description": "Unscramble 2 domain terminology anagrams from PHILOSOPHY, LOGIC & ARTS under timed conditions.",
-    "difficulty": "MODERATE",
-    "risk": "BALANCED",
-    "cost": 140,
-    "reward": 260,
-    "penalty": 80,
-    "timeLimit": 75,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-17 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0322",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "ENIGMA",
-          "clue": "Person or thing that is mysterious, puzzling, or fundamentally difficult to decipher.",
-          "category": "LOGIC",
-          "scrambled": "G E I M A N"
-        },
-        {
-          "id": "R2",
-          "word": "LABYRINTH",
-          "clue": "Complex maze-like network of intersecting pathways or intricate architectural passages.",
-          "category": "MYTHOLOGY",
-          "scrambled": "L I A B N T Y H R"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "ENIGMA-LABYRINTH",
-      "acceptedAnswers": [
-        "ENIGMA-LABYRINTH",
-        "ENIGMA LABYRINTH",
-        "ENIGMA,LABYRINTH",
-        "WORDGUESS:ENIGMA-LABYRINTH"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 6-letter term from LOGIC; the word begins with letter 'E' or ends with 'A'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [G E I M A N] to identify common prefixes or suffixes."
       ]
     },
     "enabled": true,
@@ -16477,57 +8266,6 @@ export const wordGuessChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WG-0324",
-    "title": "WORD GUESS // PHILOSOPHY, #0324",
-    "category": "PUZZLES",
-    "description": "Unscramble 2 domain terminology anagrams from PHILOSOPHY, LOGIC & ARTS under timed conditions.",
-    "difficulty": "MODERATE",
-    "risk": "BALANCED",
-    "cost": 140,
-    "reward": 260,
-    "penalty": 80,
-    "timeLimit": 75,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-17 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0324",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "MONOLOGUE",
-          "clue": "Extended speech by one actor in a theatrical play, film, or solitary performance.",
-          "category": "DRAMA",
-          "scrambled": "U O N G O O E M L"
-        },
-        {
-          "id": "R2",
-          "word": "CHIMERA",
-          "clue": "Fabulous mythological creature composed of disparate parts of diverse beasts.",
-          "category": "FOLKLORE",
-          "scrambled": "C I M A H R E"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "MONOLOGUE-CHIMERA",
-      "acceptedAnswers": [
-        "MONOLOGUE-CHIMERA",
-        "MONOLOGUE CHIMERA",
-        "MONOLOGUE,CHIMERA",
-        "WORDGUESS:MONOLOGUE-CHIMERA"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 9-letter term from DRAMA; the word begins with letter 'M' or ends with 'E'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [U O N G O O E M L] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WG-0325",
     "title": "WORD GUESS // PHILOSOPHY, #0325",
     "category": "PUZZLES",
@@ -16573,57 +8311,6 @@ export const wordGuessChallenges = [
       "hints": [
         "HINT 01 // Round 1 clue indicates a 9-letter term from DRAMA; the word begins with letter 'M' or ends with 'E'.",
         "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [U L G E O O M O N] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WG-0326",
-    "title": "WORD GUESS // PHILOSOPHY, #0326",
-    "category": "PUZZLES",
-    "description": "Unscramble 2 domain terminology anagrams from PHILOSOPHY, LOGIC & ARTS under timed conditions.",
-    "difficulty": "MODERATE",
-    "risk": "BALANCED",
-    "cost": 140,
-    "reward": 260,
-    "penalty": 80,
-    "timeLimit": 75,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-17 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0326",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "ARCHETYPE",
-          "clue": "Universally recognized recurrent symbol, motif, or character archetype in literature and art.",
-          "category": "LITERATURE",
-          "scrambled": "A C R H E E T P Y"
-        },
-        {
-          "id": "R2",
-          "word": "MONOLOGUE",
-          "clue": "Extended speech by one actor in a theatrical play, film, or solitary performance.",
-          "category": "DRAMA",
-          "scrambled": "E N G L O M O O U"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "ARCHETYPE-MONOLOGUE",
-      "acceptedAnswers": [
-        "ARCHETYPE-MONOLOGUE",
-        "ARCHETYPE MONOLOGUE",
-        "ARCHETYPE,MONOLOGUE",
-        "WORDGUESS:ARCHETYPE-MONOLOGUE"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 9-letter term from LITERATURE; the word begins with letter 'A' or ends with 'E'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [A C R H E E T P Y] to identify common prefixes or suffixes."
       ]
     },
     "enabled": true,
@@ -16681,57 +8368,6 @@ export const wordGuessChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WG-0328",
-    "title": "WORD GUESS // PHILOSOPHY, #0328",
-    "category": "PUZZLES",
-    "description": "Unscramble 2 domain terminology anagrams from PHILOSOPHY, LOGIC & ARTS under timed conditions.",
-    "difficulty": "MODERATE",
-    "risk": "BALANCED",
-    "cost": 140,
-    "reward": 260,
-    "penalty": 80,
-    "timeLimit": 75,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-17 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0328",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "SYLLOGISM",
-          "clue": "Form of deductive reasoning consisting of a major premise, a minor premise, and a conclusion.",
-          "category": "LOGIC",
-          "scrambled": "L L O Y S G I M S"
-        },
-        {
-          "id": "R2",
-          "word": "PARADOX",
-          "clue": "Logically self-contradictory statement or proposition contrary to expectations.",
-          "category": "PHILOSOPHY",
-          "scrambled": "X A D A O R P"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "SYLLOGISM-PARADOX",
-      "acceptedAnswers": [
-        "SYLLOGISM-PARADOX",
-        "SYLLOGISM PARADOX",
-        "SYLLOGISM,PARADOX",
-        "WORDGUESS:SYLLOGISM-PARADOX"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 9-letter term from LOGIC; the word begins with letter 'S' or ends with 'M'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [L L O Y S G I M S] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WG-0329",
     "title": "WORD GUESS // PHILOSOPHY, #0329",
     "category": "PUZZLES",
@@ -16777,57 +8413,6 @@ export const wordGuessChallenges = [
       "hints": [
         "HINT 01 // Round 1 clue indicates a 6-letter term from LOGIC; the word begins with letter 'E' or ends with 'A'.",
         "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [I M G N A E] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WG-0330",
-    "title": "WORD GUESS // PHILOSOPHY, #0330",
-    "category": "PUZZLES",
-    "description": "Unscramble 2 domain terminology anagrams from PHILOSOPHY, LOGIC & ARTS under timed conditions.",
-    "difficulty": "MODERATE",
-    "risk": "BALANCED",
-    "cost": 140,
-    "reward": 260,
-    "penalty": 80,
-    "timeLimit": 75,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-17 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0330",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "ENIGMA",
-          "clue": "Person or thing that is mysterious, puzzling, or fundamentally difficult to decipher.",
-          "category": "LOGIC",
-          "scrambled": "M A I E G N"
-        },
-        {
-          "id": "R2",
-          "word": "SYLLOGISM",
-          "clue": "Form of deductive reasoning consisting of a major premise, a minor premise, and a conclusion.",
-          "category": "LOGIC",
-          "scrambled": "S S M L I L G Y O"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "ENIGMA-SYLLOGISM",
-      "acceptedAnswers": [
-        "ENIGMA-SYLLOGISM",
-        "ENIGMA SYLLOGISM",
-        "ENIGMA,SYLLOGISM",
-        "WORDGUESS:ENIGMA-SYLLOGISM"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 6-letter term from LOGIC; the word begins with letter 'E' or ends with 'A'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [M A I E G N] to identify common prefixes or suffixes."
       ]
     },
     "enabled": true,
@@ -16885,57 +8470,6 @@ export const wordGuessChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WG-0332",
-    "title": "WORD GUESS // PHILOSOPHY, #0332",
-    "category": "PUZZLES",
-    "description": "Unscramble 2 domain terminology anagrams from PHILOSOPHY, LOGIC & ARTS under timed conditions.",
-    "difficulty": "MODERATE",
-    "risk": "BALANCED",
-    "cost": 140,
-    "reward": 260,
-    "penalty": 80,
-    "timeLimit": 75,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-17 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0332",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "ENIGMA",
-          "clue": "Person or thing that is mysterious, puzzling, or fundamentally difficult to decipher.",
-          "category": "LOGIC",
-          "scrambled": "G E N M A I"
-        },
-        {
-          "id": "R2",
-          "word": "ARCHETYPE",
-          "clue": "Universally recognized recurrent symbol, motif, or character archetype in literature and art.",
-          "category": "LITERATURE",
-          "scrambled": "P H E Y R A E T C"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "ENIGMA-ARCHETYPE",
-      "acceptedAnswers": [
-        "ENIGMA-ARCHETYPE",
-        "ENIGMA ARCHETYPE",
-        "ENIGMA,ARCHETYPE",
-        "WORDGUESS:ENIGMA-ARCHETYPE"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 6-letter term from LOGIC; the word begins with letter 'E' or ends with 'A'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [G E N M A I] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WG-0333",
     "title": "WORD GUESS // PHILOSOPHY, #0333",
     "category": "PUZZLES",
@@ -16981,57 +8515,6 @@ export const wordGuessChallenges = [
       "hints": [
         "HINT 01 // Round 1 clue indicates a 6-letter term from LOGIC; the word begins with letter 'E' or ends with 'A'.",
         "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [N M G E A I] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WG-0334",
-    "title": "WORD GUESS // PHILOSOPHY, #0334",
-    "category": "PUZZLES",
-    "description": "Unscramble 2 domain terminology anagrams from PHILOSOPHY, LOGIC & ARTS under timed conditions.",
-    "difficulty": "MODERATE",
-    "risk": "BALANCED",
-    "cost": 140,
-    "reward": 260,
-    "penalty": 80,
-    "timeLimit": 75,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-17 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0334",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "PARADOX",
-          "clue": "Logically self-contradictory statement or proposition contrary to expectations.",
-          "category": "PHILOSOPHY",
-          "scrambled": "O A A D X P R"
-        },
-        {
-          "id": "R2",
-          "word": "LABYRINTH",
-          "clue": "Complex maze-like network of intersecting pathways or intricate architectural passages.",
-          "category": "MYTHOLOGY",
-          "scrambled": "I L B R A Y T N H"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "PARADOX-LABYRINTH",
-      "acceptedAnswers": [
-        "PARADOX-LABYRINTH",
-        "PARADOX LABYRINTH",
-        "PARADOX,LABYRINTH",
-        "WORDGUESS:PARADOX-LABYRINTH"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 7-letter term from PHILOSOPHY; the word begins with letter 'P' or ends with 'X'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [O A A D X P R] to identify common prefixes or suffixes."
       ]
     },
     "enabled": true,
@@ -17089,57 +8572,6 @@ export const wordGuessChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WG-0336",
-    "title": "WORD GUESS // PHILOSOPHY, #0336",
-    "category": "PUZZLES",
-    "description": "Unscramble 2 domain terminology anagrams from PHILOSOPHY, LOGIC & ARTS under timed conditions.",
-    "difficulty": "MODERATE",
-    "risk": "BALANCED",
-    "cost": 140,
-    "reward": 260,
-    "penalty": 80,
-    "timeLimit": 75,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-17 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0336",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "DIALECTIC",
-          "clue": "Discourse between two differing points of view seeking to establish truth through reasoned arguments.",
-          "category": "PHILOSOPHY",
-          "scrambled": "I I E D T A C L C"
-        },
-        {
-          "id": "R2",
-          "word": "ARCHETYPE",
-          "clue": "Universally recognized recurrent symbol, motif, or character archetype in literature and art.",
-          "category": "LITERATURE",
-          "scrambled": "T E Y P H C A E R"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "DIALECTIC-ARCHETYPE",
-      "acceptedAnswers": [
-        "DIALECTIC-ARCHETYPE",
-        "DIALECTIC ARCHETYPE",
-        "DIALECTIC,ARCHETYPE",
-        "WORDGUESS:DIALECTIC-ARCHETYPE"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 9-letter term from PHILOSOPHY; the word begins with letter 'D' or ends with 'C'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [I I E D T A C L C] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WG-0337",
     "title": "WORD GUESS // PHILOSOPHY, #0337",
     "category": "PUZZLES",
@@ -17185,57 +8617,6 @@ export const wordGuessChallenges = [
       "hints": [
         "HINT 01 // Round 1 clue indicates a 7-letter term from PHILOSOPHY; the word begins with letter 'P' or ends with 'X'.",
         "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [A D R O A P X] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WG-0338",
-    "title": "WORD GUESS // PHILOSOPHY, #0338",
-    "category": "PUZZLES",
-    "description": "Unscramble 2 domain terminology anagrams from PHILOSOPHY, LOGIC & ARTS under timed conditions.",
-    "difficulty": "MODERATE",
-    "risk": "BALANCED",
-    "cost": 140,
-    "reward": 260,
-    "penalty": 80,
-    "timeLimit": 75,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-17 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0338",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "PARADOX",
-          "clue": "Logically self-contradictory statement or proposition contrary to expectations.",
-          "category": "PHILOSOPHY",
-          "scrambled": "X P D A R A O"
-        },
-        {
-          "id": "R2",
-          "word": "ARCHETYPE",
-          "clue": "Universally recognized recurrent symbol, motif, or character archetype in literature and art.",
-          "category": "LITERATURE",
-          "scrambled": "E E T H R P Y A C"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "PARADOX-ARCHETYPE",
-      "acceptedAnswers": [
-        "PARADOX-ARCHETYPE",
-        "PARADOX ARCHETYPE",
-        "PARADOX,ARCHETYPE",
-        "WORDGUESS:PARADOX-ARCHETYPE"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 7-letter term from PHILOSOPHY; the word begins with letter 'P' or ends with 'X'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [X P D A R A O] to identify common prefixes or suffixes."
       ]
     },
     "enabled": true,
@@ -17293,57 +8674,6 @@ export const wordGuessChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WG-0340",
-    "title": "WORD GUESS // PHILOSOPHY, #0340",
-    "category": "PUZZLES",
-    "description": "Unscramble 2 domain terminology anagrams from PHILOSOPHY, LOGIC & ARTS under timed conditions.",
-    "difficulty": "MODERATE",
-    "risk": "BALANCED",
-    "cost": 140,
-    "reward": 260,
-    "penalty": 80,
-    "timeLimit": 75,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-18 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0340",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "ARCHETYPE",
-          "clue": "Universally recognized recurrent symbol, motif, or character archetype in literature and art.",
-          "category": "LITERATURE",
-          "scrambled": "Y E A C T E P R H"
-        },
-        {
-          "id": "R2",
-          "word": "ENIGMA",
-          "clue": "Person or thing that is mysterious, puzzling, or fundamentally difficult to decipher.",
-          "category": "LOGIC",
-          "scrambled": "N G A M I E"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "ARCHETYPE-ENIGMA",
-      "acceptedAnswers": [
-        "ARCHETYPE-ENIGMA",
-        "ARCHETYPE ENIGMA",
-        "ARCHETYPE,ENIGMA",
-        "WORDGUESS:ARCHETYPE-ENIGMA"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 9-letter term from LITERATURE; the word begins with letter 'A' or ends with 'E'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [Y E A C T E P R H] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WG-0341",
     "title": "WORD GUESS // PHILOSOPHY, #0341",
     "category": "PUZZLES",
@@ -17389,57 +8719,6 @@ export const wordGuessChallenges = [
       "hints": [
         "HINT 01 // Round 1 clue indicates a 9-letter term from LITERATURE; the word begins with letter 'A' or ends with 'E'.",
         "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [P T A C R Y E H E] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WG-0342",
-    "title": "WORD GUESS // PHILOSOPHY, #0342",
-    "category": "PUZZLES",
-    "description": "Unscramble 2 domain terminology anagrams from PHILOSOPHY, LOGIC & ARTS under timed conditions.",
-    "difficulty": "MODERATE",
-    "risk": "BALANCED",
-    "cost": 140,
-    "reward": 260,
-    "penalty": 80,
-    "timeLimit": 75,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-18 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0342",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "CHIMERA",
-          "clue": "Fabulous mythological creature composed of disparate parts of diverse beasts.",
-          "category": "FOLKLORE",
-          "scrambled": "I E H R A C M"
-        },
-        {
-          "id": "R2",
-          "word": "MONOLOGUE",
-          "clue": "Extended speech by one actor in a theatrical play, film, or solitary performance.",
-          "category": "DRAMA",
-          "scrambled": "M N U O L E O G O"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "CHIMERA-MONOLOGUE",
-      "acceptedAnswers": [
-        "CHIMERA-MONOLOGUE",
-        "CHIMERA MONOLOGUE",
-        "CHIMERA,MONOLOGUE",
-        "WORDGUESS:CHIMERA-MONOLOGUE"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 7-letter term from FOLKLORE; the word begins with letter 'C' or ends with 'A'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [I E H R A C M] to identify common prefixes or suffixes."
       ]
     },
     "enabled": true,
@@ -17497,57 +8776,6 @@ export const wordGuessChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WG-0344",
-    "title": "WORD GUESS // PHILOSOPHY, #0344",
-    "category": "PUZZLES",
-    "description": "Unscramble 2 domain terminology anagrams from PHILOSOPHY, LOGIC & ARTS under timed conditions.",
-    "difficulty": "MODERATE",
-    "risk": "BALANCED",
-    "cost": 140,
-    "reward": 260,
-    "penalty": 80,
-    "timeLimit": 75,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-18 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0344",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "ARCHETYPE",
-          "clue": "Universally recognized recurrent symbol, motif, or character archetype in literature and art.",
-          "category": "LITERATURE",
-          "scrambled": "Y H C R A T P E E"
-        },
-        {
-          "id": "R2",
-          "word": "ALLEGORY",
-          "clue": "Story, poem, or picture that can be interpreted to reveal a hidden moral or political meaning.",
-          "category": "RHETORIC",
-          "scrambled": "O A L E R G L Y"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "ARCHETYPE-ALLEGORY",
-      "acceptedAnswers": [
-        "ARCHETYPE-ALLEGORY",
-        "ARCHETYPE ALLEGORY",
-        "ARCHETYPE,ALLEGORY",
-        "WORDGUESS:ARCHETYPE-ALLEGORY"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 9-letter term from LITERATURE; the word begins with letter 'A' or ends with 'E'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [Y H C R A T P E E] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WG-0345",
     "title": "WORD GUESS // PHILOSOPHY, #0345",
     "category": "PUZZLES",
@@ -17593,57 +8821,6 @@ export const wordGuessChallenges = [
       "hints": [
         "HINT 01 // Round 1 clue indicates a 9-letter term from THEATRE; the word begins with letter 'S' or ends with 'Y'.",
         "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [Q L S O I U O L Y] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WG-0346",
-    "title": "WORD GUESS // PHILOSOPHY, #0346",
-    "category": "PUZZLES",
-    "description": "Unscramble 2 domain terminology anagrams from PHILOSOPHY, LOGIC & ARTS under timed conditions.",
-    "difficulty": "MODERATE",
-    "risk": "BALANCED",
-    "cost": 140,
-    "reward": 260,
-    "penalty": 80,
-    "timeLimit": 75,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-18 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0346",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "SOLILOQUY",
-          "clue": "Act of speaking one's thoughts aloud when by oneself regardless of hearers, especially by a character.",
-          "category": "THEATRE",
-          "scrambled": "O L Y L O I S Q U"
-        },
-        {
-          "id": "R2",
-          "word": "ENIGMA",
-          "clue": "Person or thing that is mysterious, puzzling, or fundamentally difficult to decipher.",
-          "category": "LOGIC",
-          "scrambled": "G A M I E N"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "SOLILOQUY-ENIGMA",
-      "acceptedAnswers": [
-        "SOLILOQUY-ENIGMA",
-        "SOLILOQUY ENIGMA",
-        "SOLILOQUY,ENIGMA",
-        "WORDGUESS:SOLILOQUY-ENIGMA"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 9-letter term from THEATRE; the word begins with letter 'S' or ends with 'Y'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [O L Y L O I S Q U] to identify common prefixes or suffixes."
       ]
     },
     "enabled": true,
@@ -17701,57 +8878,6 @@ export const wordGuessChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WG-0348",
-    "title": "WORD GUESS // PHILOSOPHY, #0348",
-    "category": "PUZZLES",
-    "description": "Unscramble 2 domain terminology anagrams from PHILOSOPHY, LOGIC & ARTS under timed conditions.",
-    "difficulty": "MODERATE",
-    "risk": "BALANCED",
-    "cost": 140,
-    "reward": 260,
-    "penalty": 80,
-    "timeLimit": 75,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-18 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0348",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "SOLILOQUY",
-          "clue": "Act of speaking one's thoughts aloud when by oneself regardless of hearers, especially by a character.",
-          "category": "THEATRE",
-          "scrambled": "U Y O I L O L S Q"
-        },
-        {
-          "id": "R2",
-          "word": "SYLLOGISM",
-          "clue": "Form of deductive reasoning consisting of a major premise, a minor premise, and a conclusion.",
-          "category": "LOGIC",
-          "scrambled": "M I O S Y G L S L"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "SOLILOQUY-SYLLOGISM",
-      "acceptedAnswers": [
-        "SOLILOQUY-SYLLOGISM",
-        "SOLILOQUY SYLLOGISM",
-        "SOLILOQUY,SYLLOGISM",
-        "WORDGUESS:SOLILOQUY-SYLLOGISM"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 9-letter term from THEATRE; the word begins with letter 'S' or ends with 'Y'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [U Y O I L O L S Q] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WG-0349",
     "title": "WORD GUESS // PHILOSOPHY, #0349",
     "category": "PUZZLES",
@@ -17797,57 +8923,6 @@ export const wordGuessChallenges = [
       "hints": [
         "HINT 01 // Round 1 clue indicates a 9-letter term from PHILOSOPHY; the word begins with letter 'D' or ends with 'C'.",
         "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [I E C T A I D L C] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WG-0350",
-    "title": "WORD GUESS // PHILOSOPHY, #0350",
-    "category": "PUZZLES",
-    "description": "Unscramble 2 domain terminology anagrams from PHILOSOPHY, LOGIC & ARTS under timed conditions.",
-    "difficulty": "MODERATE",
-    "risk": "BALANCED",
-    "cost": 140,
-    "reward": 260,
-    "penalty": 80,
-    "timeLimit": 75,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-18 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0350",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "PARADOX",
-          "clue": "Logically self-contradictory statement or proposition contrary to expectations.",
-          "category": "PHILOSOPHY",
-          "scrambled": "A X P D R A O"
-        },
-        {
-          "id": "R2",
-          "word": "DIALECTIC",
-          "clue": "Discourse between two differing points of view seeking to establish truth through reasoned arguments.",
-          "category": "PHILOSOPHY",
-          "scrambled": "I D E A L C C T I"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "PARADOX-DIALECTIC",
-      "acceptedAnswers": [
-        "PARADOX-DIALECTIC",
-        "PARADOX DIALECTIC",
-        "PARADOX,DIALECTIC",
-        "WORDGUESS:PARADOX-DIALECTIC"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 7-letter term from PHILOSOPHY; the word begins with letter 'P' or ends with 'X'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [A X P D R A O] to identify common prefixes or suffixes."
       ]
     },
     "enabled": true,
@@ -17905,57 +8980,6 @@ export const wordGuessChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WG-0352",
-    "title": "WORD GUESS // PHILOSOPHY, #0352",
-    "category": "PUZZLES",
-    "description": "Unscramble 2 domain terminology anagrams from PHILOSOPHY, LOGIC & ARTS under timed conditions.",
-    "difficulty": "MODERATE",
-    "risk": "BALANCED",
-    "cost": 140,
-    "reward": 260,
-    "penalty": 80,
-    "timeLimit": 75,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-18 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0352",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "CHIMERA",
-          "clue": "Fabulous mythological creature composed of disparate parts of diverse beasts.",
-          "category": "FOLKLORE",
-          "scrambled": "C I R A M E H"
-        },
-        {
-          "id": "R2",
-          "word": "DIALECTIC",
-          "clue": "Discourse between two differing points of view seeking to establish truth through reasoned arguments.",
-          "category": "PHILOSOPHY",
-          "scrambled": "A I C C L T I D E"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "CHIMERA-DIALECTIC",
-      "acceptedAnswers": [
-        "CHIMERA-DIALECTIC",
-        "CHIMERA DIALECTIC",
-        "CHIMERA,DIALECTIC",
-        "WORDGUESS:CHIMERA-DIALECTIC"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 7-letter term from FOLKLORE; the word begins with letter 'C' or ends with 'A'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [C I R A M E H] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WG-0353",
     "title": "WORD GUESS // PHILOSOPHY, #0353",
     "category": "PUZZLES",
@@ -18001,57 +9025,6 @@ export const wordGuessChallenges = [
       "hints": [
         "HINT 01 // Round 1 clue indicates a 9-letter term from MYTHOLOGY; the word begins with letter 'L' or ends with 'H'.",
         "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [B Y R A L I H N T] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WG-0354",
-    "title": "WORD GUESS // PHILOSOPHY, #0354",
-    "category": "PUZZLES",
-    "description": "Unscramble 2 domain terminology anagrams from PHILOSOPHY, LOGIC & ARTS under timed conditions.",
-    "difficulty": "MODERATE",
-    "risk": "BALANCED",
-    "cost": 140,
-    "reward": 260,
-    "penalty": 80,
-    "timeLimit": 75,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-18 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0354",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "LABYRINTH",
-          "clue": "Complex maze-like network of intersecting pathways or intricate architectural passages.",
-          "category": "MYTHOLOGY",
-          "scrambled": "H I N A Y B L T R"
-        },
-        {
-          "id": "R2",
-          "word": "PARADOX",
-          "clue": "Logically self-contradictory statement or proposition contrary to expectations.",
-          "category": "PHILOSOPHY",
-          "scrambled": "D A A P O X R"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "LABYRINTH-PARADOX",
-      "acceptedAnswers": [
-        "LABYRINTH-PARADOX",
-        "LABYRINTH PARADOX",
-        "LABYRINTH,PARADOX",
-        "WORDGUESS:LABYRINTH-PARADOX"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 9-letter term from MYTHOLOGY; the word begins with letter 'L' or ends with 'H'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [H I N A Y B L T R] to identify common prefixes or suffixes."
       ]
     },
     "enabled": true,
@@ -18109,57 +9082,6 @@ export const wordGuessChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WG-0356",
-    "title": "WORD GUESS // PHILOSOPHY, #0356",
-    "category": "PUZZLES",
-    "description": "Unscramble 2 domain terminology anagrams from PHILOSOPHY, LOGIC & ARTS under timed conditions.",
-    "difficulty": "MODERATE",
-    "risk": "BALANCED",
-    "cost": 140,
-    "reward": 260,
-    "penalty": 80,
-    "timeLimit": 75,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-18 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0356",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "PARADOX",
-          "clue": "Logically self-contradictory statement or proposition contrary to expectations.",
-          "category": "PHILOSOPHY",
-          "scrambled": "A R P X A D O"
-        },
-        {
-          "id": "R2",
-          "word": "LABYRINTH",
-          "clue": "Complex maze-like network of intersecting pathways or intricate architectural passages.",
-          "category": "MYTHOLOGY",
-          "scrambled": "Y L T A H R I N B"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "PARADOX-LABYRINTH",
-      "acceptedAnswers": [
-        "PARADOX-LABYRINTH",
-        "PARADOX LABYRINTH",
-        "PARADOX,LABYRINTH",
-        "WORDGUESS:PARADOX-LABYRINTH"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 7-letter term from PHILOSOPHY; the word begins with letter 'P' or ends with 'X'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [A R P X A D O] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WG-0357",
     "title": "WORD GUESS // PHILOSOPHY, #0357",
     "category": "PUZZLES",
@@ -18205,57 +9127,6 @@ export const wordGuessChallenges = [
       "hints": [
         "HINT 01 // Round 1 clue indicates a 7-letter term from PHILOSOPHY; the word begins with letter 'P' or ends with 'X'.",
         "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [X A P O A R D] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WG-0358",
-    "title": "WORD GUESS // PHILOSOPHY, #0358",
-    "category": "PUZZLES",
-    "description": "Unscramble 2 domain terminology anagrams from PHILOSOPHY, LOGIC & ARTS under timed conditions.",
-    "difficulty": "MODERATE",
-    "risk": "BALANCED",
-    "cost": 140,
-    "reward": 260,
-    "penalty": 80,
-    "timeLimit": 75,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-18 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0358",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "PARADOX",
-          "clue": "Logically self-contradictory statement or proposition contrary to expectations.",
-          "category": "PHILOSOPHY",
-          "scrambled": "O D A P R X A"
-        },
-        {
-          "id": "R2",
-          "word": "CHIMERA",
-          "clue": "Fabulous mythological creature composed of disparate parts of diverse beasts.",
-          "category": "FOLKLORE",
-          "scrambled": "A R H C M E I"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "PARADOX-CHIMERA",
-      "acceptedAnswers": [
-        "PARADOX-CHIMERA",
-        "PARADOX CHIMERA",
-        "PARADOX,CHIMERA",
-        "WORDGUESS:PARADOX-CHIMERA"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 7-letter term from PHILOSOPHY; the word begins with letter 'P' or ends with 'X'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [O D A P R X A] to identify common prefixes or suffixes."
       ]
     },
     "enabled": true,
@@ -18313,57 +9184,6 @@ export const wordGuessChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WG-0360",
-    "title": "WORD GUESS // PHILOSOPHY, #0360",
-    "category": "PUZZLES",
-    "description": "Unscramble 2 domain terminology anagrams from PHILOSOPHY, LOGIC & ARTS under timed conditions.",
-    "difficulty": "MODERATE",
-    "risk": "BALANCED",
-    "cost": 140,
-    "reward": 260,
-    "penalty": 80,
-    "timeLimit": 75,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-19 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0360",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "PARADOX",
-          "clue": "Logically self-contradictory statement or proposition contrary to expectations.",
-          "category": "PHILOSOPHY",
-          "scrambled": "D P O R A A X"
-        },
-        {
-          "id": "R2",
-          "word": "SOLILOQUY",
-          "clue": "Act of speaking one's thoughts aloud when by oneself regardless of hearers, especially by a character.",
-          "category": "THEATRE",
-          "scrambled": "S I L O L O Q Y U"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "PARADOX-SOLILOQUY",
-      "acceptedAnswers": [
-        "PARADOX-SOLILOQUY",
-        "PARADOX SOLILOQUY",
-        "PARADOX,SOLILOQUY",
-        "WORDGUESS:PARADOX-SOLILOQUY"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 7-letter term from PHILOSOPHY; the word begins with letter 'P' or ends with 'X'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [D P O R A A X] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WG-0361",
     "title": "WORD GUESS // PHILOSOPHY, #0361",
     "category": "PUZZLES",
@@ -18409,57 +9229,6 @@ export const wordGuessChallenges = [
       "hints": [
         "HINT 01 // Round 1 clue indicates a 8-letter term from RHETORIC; the word begins with letter 'A' or ends with 'Y'.",
         "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [A G L L R Y O E] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WG-0362",
-    "title": "WORD GUESS // PHILOSOPHY, #0362",
-    "category": "PUZZLES",
-    "description": "Unscramble 2 domain terminology anagrams from PHILOSOPHY, LOGIC & ARTS under timed conditions.",
-    "difficulty": "MODERATE",
-    "risk": "BALANCED",
-    "cost": 140,
-    "reward": 260,
-    "penalty": 80,
-    "timeLimit": 75,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-19 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0362",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "ENIGMA",
-          "clue": "Person or thing that is mysterious, puzzling, or fundamentally difficult to decipher.",
-          "category": "LOGIC",
-          "scrambled": "E I G N M A"
-        },
-        {
-          "id": "R2",
-          "word": "SYLLOGISM",
-          "clue": "Form of deductive reasoning consisting of a major premise, a minor premise, and a conclusion.",
-          "category": "LOGIC",
-          "scrambled": "S L L I O M G S Y"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "ENIGMA-SYLLOGISM",
-      "acceptedAnswers": [
-        "ENIGMA-SYLLOGISM",
-        "ENIGMA SYLLOGISM",
-        "ENIGMA,SYLLOGISM",
-        "WORDGUESS:ENIGMA-SYLLOGISM"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 6-letter term from LOGIC; the word begins with letter 'E' or ends with 'A'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [E I G N M A] to identify common prefixes or suffixes."
       ]
     },
     "enabled": true,
@@ -18517,57 +9286,6 @@ export const wordGuessChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WG-0364",
-    "title": "WORD GUESS // PHILOSOPHY, #0364",
-    "category": "PUZZLES",
-    "description": "Unscramble 2 domain terminology anagrams from PHILOSOPHY, LOGIC & ARTS under timed conditions.",
-    "difficulty": "MODERATE",
-    "risk": "BALANCED",
-    "cost": 140,
-    "reward": 260,
-    "penalty": 80,
-    "timeLimit": 75,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-19 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0364",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "SYLLOGISM",
-          "clue": "Form of deductive reasoning consisting of a major premise, a minor premise, and a conclusion.",
-          "category": "LOGIC",
-          "scrambled": "L L S M S G O I Y"
-        },
-        {
-          "id": "R2",
-          "word": "CHIMERA",
-          "clue": "Fabulous mythological creature composed of disparate parts of diverse beasts.",
-          "category": "FOLKLORE",
-          "scrambled": "I M E R A C H"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "SYLLOGISM-CHIMERA",
-      "acceptedAnswers": [
-        "SYLLOGISM-CHIMERA",
-        "SYLLOGISM CHIMERA",
-        "SYLLOGISM,CHIMERA",
-        "WORDGUESS:SYLLOGISM-CHIMERA"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 9-letter term from LOGIC; the word begins with letter 'S' or ends with 'M'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [L L S M S G O I Y] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WG-0365",
     "title": "WORD GUESS // PHILOSOPHY, #0365",
     "category": "PUZZLES",
@@ -18613,57 +9331,6 @@ export const wordGuessChallenges = [
       "hints": [
         "HINT 01 // Round 1 clue indicates a 6-letter term from LOGIC; the word begins with letter 'E' or ends with 'A'.",
         "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [M I E N G A] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WG-0366",
-    "title": "WORD GUESS // PHILOSOPHY, #0366",
-    "category": "PUZZLES",
-    "description": "Unscramble 2 domain terminology anagrams from PHILOSOPHY, LOGIC & ARTS under timed conditions.",
-    "difficulty": "MODERATE",
-    "risk": "BALANCED",
-    "cost": 140,
-    "reward": 260,
-    "penalty": 80,
-    "timeLimit": 75,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-19 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0366",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "LABYRINTH",
-          "clue": "Complex maze-like network of intersecting pathways or intricate architectural passages.",
-          "category": "MYTHOLOGY",
-          "scrambled": "R L A N H B T I Y"
-        },
-        {
-          "id": "R2",
-          "word": "SYLLOGISM",
-          "clue": "Form of deductive reasoning consisting of a major premise, a minor premise, and a conclusion.",
-          "category": "LOGIC",
-          "scrambled": "O S L G Y I M L S"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "LABYRINTH-SYLLOGISM",
-      "acceptedAnswers": [
-        "LABYRINTH-SYLLOGISM",
-        "LABYRINTH SYLLOGISM",
-        "LABYRINTH,SYLLOGISM",
-        "WORDGUESS:LABYRINTH-SYLLOGISM"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 9-letter term from MYTHOLOGY; the word begins with letter 'L' or ends with 'H'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [R L A N H B T I Y] to identify common prefixes or suffixes."
       ]
     },
     "enabled": true,
@@ -18721,57 +9388,6 @@ export const wordGuessChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WG-0368",
-    "title": "WORD GUESS // PHILOSOPHY, #0368",
-    "category": "PUZZLES",
-    "description": "Unscramble 2 domain terminology anagrams from PHILOSOPHY, LOGIC & ARTS under timed conditions.",
-    "difficulty": "MODERATE",
-    "risk": "BALANCED",
-    "cost": 140,
-    "reward": 260,
-    "penalty": 80,
-    "timeLimit": 75,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-19 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0368",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "CHIMERA",
-          "clue": "Fabulous mythological creature composed of disparate parts of diverse beasts.",
-          "category": "FOLKLORE",
-          "scrambled": "C I H R A M E"
-        },
-        {
-          "id": "R2",
-          "word": "ARCHETYPE",
-          "clue": "Universally recognized recurrent symbol, motif, or character archetype in literature and art.",
-          "category": "LITERATURE",
-          "scrambled": "C R Y P E H A T E"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "CHIMERA-ARCHETYPE",
-      "acceptedAnswers": [
-        "CHIMERA-ARCHETYPE",
-        "CHIMERA ARCHETYPE",
-        "CHIMERA,ARCHETYPE",
-        "WORDGUESS:CHIMERA-ARCHETYPE"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 7-letter term from FOLKLORE; the word begins with letter 'C' or ends with 'A'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [C I H R A M E] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WG-0369",
     "title": "WORD GUESS // PHILOSOPHY, #0369",
     "category": "PUZZLES",
@@ -18817,57 +9433,6 @@ export const wordGuessChallenges = [
       "hints": [
         "HINT 01 // Round 1 clue indicates a 7-letter term from PHILOSOPHY; the word begins with letter 'P' or ends with 'X'.",
         "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [A X A R O D P] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WG-0370",
-    "title": "WORD GUESS // PHILOSOPHY, #0370",
-    "category": "PUZZLES",
-    "description": "Unscramble 2 domain terminology anagrams from PHILOSOPHY, LOGIC & ARTS under timed conditions.",
-    "difficulty": "MODERATE",
-    "risk": "BALANCED",
-    "cost": 140,
-    "reward": 260,
-    "penalty": 80,
-    "timeLimit": 75,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-19 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0370",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "ALLEGORY",
-          "clue": "Story, poem, or picture that can be interpreted to reveal a hidden moral or political meaning.",
-          "category": "RHETORIC",
-          "scrambled": "O R L G A Y L E"
-        },
-        {
-          "id": "R2",
-          "word": "MONOLOGUE",
-          "clue": "Extended speech by one actor in a theatrical play, film, or solitary performance.",
-          "category": "DRAMA",
-          "scrambled": "M O N O O U L G E"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "ALLEGORY-MONOLOGUE",
-      "acceptedAnswers": [
-        "ALLEGORY-MONOLOGUE",
-        "ALLEGORY MONOLOGUE",
-        "ALLEGORY,MONOLOGUE",
-        "WORDGUESS:ALLEGORY-MONOLOGUE"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 8-letter term from RHETORIC; the word begins with letter 'A' or ends with 'Y'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [O R L G A Y L E] to identify common prefixes or suffixes."
       ]
     },
     "enabled": true,
@@ -18925,57 +9490,6 @@ export const wordGuessChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WG-0372",
-    "title": "WORD GUESS // PHILOSOPHY, #0372",
-    "category": "PUZZLES",
-    "description": "Unscramble 2 domain terminology anagrams from PHILOSOPHY, LOGIC & ARTS under timed conditions.",
-    "difficulty": "MODERATE",
-    "risk": "BALANCED",
-    "cost": 140,
-    "reward": 260,
-    "penalty": 80,
-    "timeLimit": 75,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-19 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0372",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "PARADOX",
-          "clue": "Logically self-contradictory statement or proposition contrary to expectations.",
-          "category": "PHILOSOPHY",
-          "scrambled": "X R O P A A D"
-        },
-        {
-          "id": "R2",
-          "word": "LABYRINTH",
-          "clue": "Complex maze-like network of intersecting pathways or intricate architectural passages.",
-          "category": "MYTHOLOGY",
-          "scrambled": "R H N Y A T B I L"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "PARADOX-LABYRINTH",
-      "acceptedAnswers": [
-        "PARADOX-LABYRINTH",
-        "PARADOX LABYRINTH",
-        "PARADOX,LABYRINTH",
-        "WORDGUESS:PARADOX-LABYRINTH"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 7-letter term from PHILOSOPHY; the word begins with letter 'P' or ends with 'X'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [X R O P A A D] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WG-0373",
     "title": "WORD GUESS // PHILOSOPHY, #0373",
     "category": "PUZZLES",
@@ -19021,57 +9535,6 @@ export const wordGuessChallenges = [
       "hints": [
         "HINT 01 // Round 1 clue indicates a 9-letter term from THEATRE; the word begins with letter 'S' or ends with 'Y'.",
         "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [L Y I O S L O U Q] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WG-0374",
-    "title": "WORD GUESS // PHILOSOPHY, #0374",
-    "category": "PUZZLES",
-    "description": "Unscramble 2 domain terminology anagrams from PHILOSOPHY, LOGIC & ARTS under timed conditions.",
-    "difficulty": "MODERATE",
-    "risk": "BALANCED",
-    "cost": 140,
-    "reward": 260,
-    "penalty": 80,
-    "timeLimit": 75,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-19 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0374",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "CHIMERA",
-          "clue": "Fabulous mythological creature composed of disparate parts of diverse beasts.",
-          "category": "FOLKLORE",
-          "scrambled": "I C M A R E H"
-        },
-        {
-          "id": "R2",
-          "word": "MONOLOGUE",
-          "clue": "Extended speech by one actor in a theatrical play, film, or solitary performance.",
-          "category": "DRAMA",
-          "scrambled": "G U E N M O O L O"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "CHIMERA-MONOLOGUE",
-      "acceptedAnswers": [
-        "CHIMERA-MONOLOGUE",
-        "CHIMERA MONOLOGUE",
-        "CHIMERA,MONOLOGUE",
-        "WORDGUESS:CHIMERA-MONOLOGUE"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 7-letter term from FOLKLORE; the word begins with letter 'C' or ends with 'A'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [I C M A R E H] to identify common prefixes or suffixes."
       ]
     },
     "enabled": true,
@@ -19129,57 +9592,6 @@ export const wordGuessChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WG-0376",
-    "title": "WORD GUESS // PHILOSOPHY, #0376",
-    "category": "PUZZLES",
-    "description": "Unscramble 2 domain terminology anagrams from PHILOSOPHY, LOGIC & ARTS under timed conditions.",
-    "difficulty": "MODERATE",
-    "risk": "BALANCED",
-    "cost": 140,
-    "reward": 260,
-    "penalty": 80,
-    "timeLimit": 75,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-19 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0376",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "MONOLOGUE",
-          "clue": "Extended speech by one actor in a theatrical play, film, or solitary performance.",
-          "category": "DRAMA",
-          "scrambled": "O O N O G U M E L"
-        },
-        {
-          "id": "R2",
-          "word": "CHIMERA",
-          "clue": "Fabulous mythological creature composed of disparate parts of diverse beasts.",
-          "category": "FOLKLORE",
-          "scrambled": "I R M C H E A"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "MONOLOGUE-CHIMERA",
-      "acceptedAnswers": [
-        "MONOLOGUE-CHIMERA",
-        "MONOLOGUE CHIMERA",
-        "MONOLOGUE,CHIMERA",
-        "WORDGUESS:MONOLOGUE-CHIMERA"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 9-letter term from DRAMA; the word begins with letter 'M' or ends with 'E'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [O O N O G U M E L] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WG-0377",
     "title": "WORD GUESS // PHILOSOPHY, #0377",
     "category": "PUZZLES",
@@ -19225,57 +9637,6 @@ export const wordGuessChallenges = [
       "hints": [
         "HINT 01 // Round 1 clue indicates a 8-letter term from RHETORIC; the word begins with letter 'A' or ends with 'Y'.",
         "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [R A L O L E Y G] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WG-0378",
-    "title": "WORD GUESS // PHILOSOPHY, #0378",
-    "category": "PUZZLES",
-    "description": "Unscramble 2 domain terminology anagrams from PHILOSOPHY, LOGIC & ARTS under timed conditions.",
-    "difficulty": "MODERATE",
-    "risk": "BALANCED",
-    "cost": 140,
-    "reward": 260,
-    "penalty": 80,
-    "timeLimit": 75,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-19 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0378",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "PARADOX",
-          "clue": "Logically self-contradictory statement or proposition contrary to expectations.",
-          "category": "PHILOSOPHY",
-          "scrambled": "X A R D O A P"
-        },
-        {
-          "id": "R2",
-          "word": "LABYRINTH",
-          "clue": "Complex maze-like network of intersecting pathways or intricate architectural passages.",
-          "category": "MYTHOLOGY",
-          "scrambled": "N Y T H A B L R I"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "PARADOX-LABYRINTH",
-      "acceptedAnswers": [
-        "PARADOX-LABYRINTH",
-        "PARADOX LABYRINTH",
-        "PARADOX,LABYRINTH",
-        "WORDGUESS:PARADOX-LABYRINTH"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 7-letter term from PHILOSOPHY; the word begins with letter 'P' or ends with 'X'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [X A R D O A P] to identify common prefixes or suffixes."
       ]
     },
     "enabled": true,
@@ -19333,57 +9694,6 @@ export const wordGuessChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WG-0380",
-    "title": "WORD GUESS // PHILOSOPHY, #0380",
-    "category": "PUZZLES",
-    "description": "Unscramble 2 domain terminology anagrams from PHILOSOPHY, LOGIC & ARTS under timed conditions.",
-    "difficulty": "MODERATE",
-    "risk": "BALANCED",
-    "cost": 140,
-    "reward": 260,
-    "penalty": 80,
-    "timeLimit": 75,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-20 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0380",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "ALLEGORY",
-          "clue": "Story, poem, or picture that can be interpreted to reveal a hidden moral or political meaning.",
-          "category": "RHETORIC",
-          "scrambled": "L G E Y R L O A"
-        },
-        {
-          "id": "R2",
-          "word": "ARCHETYPE",
-          "clue": "Universally recognized recurrent symbol, motif, or character archetype in literature and art.",
-          "category": "LITERATURE",
-          "scrambled": "A C Y R P H T E E"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "ALLEGORY-ARCHETYPE",
-      "acceptedAnswers": [
-        "ALLEGORY-ARCHETYPE",
-        "ALLEGORY ARCHETYPE",
-        "ALLEGORY,ARCHETYPE",
-        "WORDGUESS:ALLEGORY-ARCHETYPE"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 8-letter term from RHETORIC; the word begins with letter 'A' or ends with 'Y'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [L G E Y R L O A] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WG-0381",
     "title": "WORD GUESS // PHILOSOPHY, #0381",
     "category": "PUZZLES",
@@ -19429,57 +9739,6 @@ export const wordGuessChallenges = [
       "hints": [
         "HINT 01 // Round 1 clue indicates a 9-letter term from LOGIC; the word begins with letter 'S' or ends with 'M'.",
         "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [I S L L G O M Y S] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WG-0382",
-    "title": "WORD GUESS // PHILOSOPHY, #0382",
-    "category": "PUZZLES",
-    "description": "Unscramble 2 domain terminology anagrams from PHILOSOPHY, LOGIC & ARTS under timed conditions.",
-    "difficulty": "MODERATE",
-    "risk": "BALANCED",
-    "cost": 140,
-    "reward": 260,
-    "penalty": 80,
-    "timeLimit": 75,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-20 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0382",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "PARADOX",
-          "clue": "Logically self-contradictory statement or proposition contrary to expectations.",
-          "category": "PHILOSOPHY",
-          "scrambled": "P A D R X O A"
-        },
-        {
-          "id": "R2",
-          "word": "ALLEGORY",
-          "clue": "Story, poem, or picture that can be interpreted to reveal a hidden moral or political meaning.",
-          "category": "RHETORIC",
-          "scrambled": "L R A L Y G E O"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "PARADOX-ALLEGORY",
-      "acceptedAnswers": [
-        "PARADOX-ALLEGORY",
-        "PARADOX ALLEGORY",
-        "PARADOX,ALLEGORY",
-        "WORDGUESS:PARADOX-ALLEGORY"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 7-letter term from PHILOSOPHY; the word begins with letter 'P' or ends with 'X'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [P A D R X O A] to identify common prefixes or suffixes."
       ]
     },
     "enabled": true,
@@ -19537,57 +9796,6 @@ export const wordGuessChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WG-0384",
-    "title": "WORD GUESS // PHILOSOPHY, #0384",
-    "category": "PUZZLES",
-    "description": "Unscramble 2 domain terminology anagrams from PHILOSOPHY, LOGIC & ARTS under timed conditions.",
-    "difficulty": "MODERATE",
-    "risk": "BALANCED",
-    "cost": 140,
-    "reward": 260,
-    "penalty": 80,
-    "timeLimit": 75,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-20 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0384",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "ENIGMA",
-          "clue": "Person or thing that is mysterious, puzzling, or fundamentally difficult to decipher.",
-          "category": "LOGIC",
-          "scrambled": "G A N M I E"
-        },
-        {
-          "id": "R2",
-          "word": "LABYRINTH",
-          "clue": "Complex maze-like network of intersecting pathways or intricate architectural passages.",
-          "category": "MYTHOLOGY",
-          "scrambled": "R A H I B L T N Y"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "ENIGMA-LABYRINTH",
-      "acceptedAnswers": [
-        "ENIGMA-LABYRINTH",
-        "ENIGMA LABYRINTH",
-        "ENIGMA,LABYRINTH",
-        "WORDGUESS:ENIGMA-LABYRINTH"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 6-letter term from LOGIC; the word begins with letter 'E' or ends with 'A'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [G A N M I E] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WG-0385",
     "title": "WORD GUESS // PHILOSOPHY, #0385",
     "category": "PUZZLES",
@@ -19633,57 +9841,6 @@ export const wordGuessChallenges = [
       "hints": [
         "HINT 01 // Round 1 clue indicates a 9-letter term from PHILOSOPHY; the word begins with letter 'D' or ends with 'C'.",
         "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [A E L T C I I D C] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WG-0386",
-    "title": "WORD GUESS // PHILOSOPHY, #0386",
-    "category": "PUZZLES",
-    "description": "Unscramble 2 domain terminology anagrams from PHILOSOPHY, LOGIC & ARTS under timed conditions.",
-    "difficulty": "MODERATE",
-    "risk": "BALANCED",
-    "cost": 140,
-    "reward": 260,
-    "penalty": 80,
-    "timeLimit": 75,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-20 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0386",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "ARCHETYPE",
-          "clue": "Universally recognized recurrent symbol, motif, or character archetype in literature and art.",
-          "category": "LITERATURE",
-          "scrambled": "R E A P T E H Y C"
-        },
-        {
-          "id": "R2",
-          "word": "ENIGMA",
-          "clue": "Person or thing that is mysterious, puzzling, or fundamentally difficult to decipher.",
-          "category": "LOGIC",
-          "scrambled": "G A E M N I"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "ARCHETYPE-ENIGMA",
-      "acceptedAnswers": [
-        "ARCHETYPE-ENIGMA",
-        "ARCHETYPE ENIGMA",
-        "ARCHETYPE,ENIGMA",
-        "WORDGUESS:ARCHETYPE-ENIGMA"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 9-letter term from LITERATURE; the word begins with letter 'A' or ends with 'E'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [R E A P T E H Y C] to identify common prefixes or suffixes."
       ]
     },
     "enabled": true,
@@ -19741,57 +9898,6 @@ export const wordGuessChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WG-0388",
-    "title": "WORD GUESS // PHILOSOPHY, #0388",
-    "category": "PUZZLES",
-    "description": "Unscramble 2 domain terminology anagrams from PHILOSOPHY, LOGIC & ARTS under timed conditions.",
-    "difficulty": "MODERATE",
-    "risk": "BALANCED",
-    "cost": 140,
-    "reward": 260,
-    "penalty": 80,
-    "timeLimit": 75,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-20 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0388",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "CHIMERA",
-          "clue": "Fabulous mythological creature composed of disparate parts of diverse beasts.",
-          "category": "FOLKLORE",
-          "scrambled": "M E R H C A I"
-        },
-        {
-          "id": "R2",
-          "word": "MONOLOGUE",
-          "clue": "Extended speech by one actor in a theatrical play, film, or solitary performance.",
-          "category": "DRAMA",
-          "scrambled": "E M O G O L U N O"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "CHIMERA-MONOLOGUE",
-      "acceptedAnswers": [
-        "CHIMERA-MONOLOGUE",
-        "CHIMERA MONOLOGUE",
-        "CHIMERA,MONOLOGUE",
-        "WORDGUESS:CHIMERA-MONOLOGUE"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 7-letter term from FOLKLORE; the word begins with letter 'C' or ends with 'A'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [M E R H C A I] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WG-0389",
     "title": "WORD GUESS // PHILOSOPHY, #0389",
     "category": "PUZZLES",
@@ -19837,57 +9943,6 @@ export const wordGuessChallenges = [
       "hints": [
         "HINT 01 // Round 1 clue indicates a 8-letter term from RHETORIC; the word begins with letter 'A' or ends with 'Y'.",
         "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [E R Y A L O L G] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WG-0390",
-    "title": "WORD GUESS // PHILOSOPHY, #0390",
-    "category": "PUZZLES",
-    "description": "Unscramble 2 domain terminology anagrams from PHILOSOPHY, LOGIC & ARTS under timed conditions.",
-    "difficulty": "MODERATE",
-    "risk": "BALANCED",
-    "cost": 140,
-    "reward": 260,
-    "penalty": 80,
-    "timeLimit": 75,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-20 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0390",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "PARADOX",
-          "clue": "Logically self-contradictory statement or proposition contrary to expectations.",
-          "category": "PHILOSOPHY",
-          "scrambled": "D X R P O A A"
-        },
-        {
-          "id": "R2",
-          "word": "ALLEGORY",
-          "clue": "Story, poem, or picture that can be interpreted to reveal a hidden moral or political meaning.",
-          "category": "RHETORIC",
-          "scrambled": "L O G R L A Y E"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "PARADOX-ALLEGORY",
-      "acceptedAnswers": [
-        "PARADOX-ALLEGORY",
-        "PARADOX ALLEGORY",
-        "PARADOX,ALLEGORY",
-        "WORDGUESS:PARADOX-ALLEGORY"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 7-letter term from PHILOSOPHY; the word begins with letter 'P' or ends with 'X'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [D X R P O A A] to identify common prefixes or suffixes."
       ]
     },
     "enabled": true,
@@ -19945,57 +10000,6 @@ export const wordGuessChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WG-0392",
-    "title": "WORD GUESS // PHILOSOPHY, #0392",
-    "category": "PUZZLES",
-    "description": "Unscramble 2 domain terminology anagrams from PHILOSOPHY, LOGIC & ARTS under timed conditions.",
-    "difficulty": "MODERATE",
-    "risk": "BALANCED",
-    "cost": 140,
-    "reward": 260,
-    "penalty": 80,
-    "timeLimit": 75,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-20 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0392",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "PARADOX",
-          "clue": "Logically self-contradictory statement or proposition contrary to expectations.",
-          "category": "PHILOSOPHY",
-          "scrambled": "R P A O X A D"
-        },
-        {
-          "id": "R2",
-          "word": "MONOLOGUE",
-          "clue": "Extended speech by one actor in a theatrical play, film, or solitary performance.",
-          "category": "DRAMA",
-          "scrambled": "L M E G U O N O O"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "PARADOX-MONOLOGUE",
-      "acceptedAnswers": [
-        "PARADOX-MONOLOGUE",
-        "PARADOX MONOLOGUE",
-        "PARADOX,MONOLOGUE",
-        "WORDGUESS:PARADOX-MONOLOGUE"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 7-letter term from PHILOSOPHY; the word begins with letter 'P' or ends with 'X'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [R P A O X A D] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WG-0393",
     "title": "WORD GUESS // PHILOSOPHY, #0393",
     "category": "PUZZLES",
@@ -20041,57 +10045,6 @@ export const wordGuessChallenges = [
       "hints": [
         "HINT 01 // Round 1 clue indicates a 7-letter term from PHILOSOPHY; the word begins with letter 'P' or ends with 'X'.",
         "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [D A P X R A O] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WG-0394",
-    "title": "WORD GUESS // PHILOSOPHY, #0394",
-    "category": "PUZZLES",
-    "description": "Unscramble 2 domain terminology anagrams from PHILOSOPHY, LOGIC & ARTS under timed conditions.",
-    "difficulty": "MODERATE",
-    "risk": "BALANCED",
-    "cost": 140,
-    "reward": 260,
-    "penalty": 80,
-    "timeLimit": 75,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-20 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0394",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "SOLILOQUY",
-          "clue": "Act of speaking one's thoughts aloud when by oneself regardless of hearers, especially by a character.",
-          "category": "THEATRE",
-          "scrambled": "O U O I Y S L Q L"
-        },
-        {
-          "id": "R2",
-          "word": "PARADOX",
-          "clue": "Logically self-contradictory statement or proposition contrary to expectations.",
-          "category": "PHILOSOPHY",
-          "scrambled": "R A X A P D O"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "SOLILOQUY-PARADOX",
-      "acceptedAnswers": [
-        "SOLILOQUY-PARADOX",
-        "SOLILOQUY PARADOX",
-        "SOLILOQUY,PARADOX",
-        "WORDGUESS:SOLILOQUY-PARADOX"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 9-letter term from THEATRE; the word begins with letter 'S' or ends with 'Y'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [O U O I Y S L Q L] to identify common prefixes or suffixes."
       ]
     },
     "enabled": true,
@@ -20149,57 +10102,6 @@ export const wordGuessChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WG-0396",
-    "title": "WORD GUESS // PHILOSOPHY, #0396",
-    "category": "PUZZLES",
-    "description": "Unscramble 2 domain terminology anagrams from PHILOSOPHY, LOGIC & ARTS under timed conditions.",
-    "difficulty": "MODERATE",
-    "risk": "BALANCED",
-    "cost": 140,
-    "reward": 260,
-    "penalty": 80,
-    "timeLimit": 75,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-20 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0396",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "DIALECTIC",
-          "clue": "Discourse between two differing points of view seeking to establish truth through reasoned arguments.",
-          "category": "PHILOSOPHY",
-          "scrambled": "C I L D A E T I C"
-        },
-        {
-          "id": "R2",
-          "word": "SOLILOQUY",
-          "clue": "Act of speaking one's thoughts aloud when by oneself regardless of hearers, especially by a character.",
-          "category": "THEATRE",
-          "scrambled": "O L L S Q O I U Y"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "DIALECTIC-SOLILOQUY",
-      "acceptedAnswers": [
-        "DIALECTIC-SOLILOQUY",
-        "DIALECTIC SOLILOQUY",
-        "DIALECTIC,SOLILOQUY",
-        "WORDGUESS:DIALECTIC-SOLILOQUY"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 9-letter term from PHILOSOPHY; the word begins with letter 'D' or ends with 'C'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [C I L D A E T I C] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WG-0397",
     "title": "WORD GUESS // PHILOSOPHY, #0397",
     "category": "PUZZLES",
@@ -20245,57 +10147,6 @@ export const wordGuessChallenges = [
       "hints": [
         "HINT 01 // Round 1 clue indicates a 9-letter term from PHILOSOPHY; the word begins with letter 'D' or ends with 'C'.",
         "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [C E C T I A I D L] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WG-0398",
-    "title": "WORD GUESS // PHILOSOPHY, #0398",
-    "category": "PUZZLES",
-    "description": "Unscramble 2 domain terminology anagrams from PHILOSOPHY, LOGIC & ARTS under timed conditions.",
-    "difficulty": "MODERATE",
-    "risk": "BALANCED",
-    "cost": 140,
-    "reward": 260,
-    "penalty": 80,
-    "timeLimit": 75,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-20 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0398",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "LABYRINTH",
-          "clue": "Complex maze-like network of intersecting pathways or intricate architectural passages.",
-          "category": "MYTHOLOGY",
-          "scrambled": "R B I H Y L T N A"
-        },
-        {
-          "id": "R2",
-          "word": "ENIGMA",
-          "clue": "Person or thing that is mysterious, puzzling, or fundamentally difficult to decipher.",
-          "category": "LOGIC",
-          "scrambled": "E I N M G A"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "LABYRINTH-ENIGMA",
-      "acceptedAnswers": [
-        "LABYRINTH-ENIGMA",
-        "LABYRINTH ENIGMA",
-        "LABYRINTH,ENIGMA",
-        "WORDGUESS:LABYRINTH-ENIGMA"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 9-letter term from MYTHOLOGY; the word begins with letter 'L' or ends with 'H'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [R B I H Y L T N A] to identify common prefixes or suffixes."
       ]
     },
     "enabled": true,
@@ -20353,57 +10204,6 @@ export const wordGuessChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WG-0400",
-    "title": "WORD GUESS // PHILOSOPHY, #0400",
-    "category": "PUZZLES",
-    "description": "Unscramble 2 domain terminology anagrams from PHILOSOPHY, LOGIC & ARTS under timed conditions.",
-    "difficulty": "MODERATE",
-    "risk": "BALANCED",
-    "cost": 140,
-    "reward": 260,
-    "penalty": 80,
-    "timeLimit": 75,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-21 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0400",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "SOLILOQUY",
-          "clue": "Act of speaking one's thoughts aloud when by oneself regardless of hearers, especially by a character.",
-          "category": "THEATRE",
-          "scrambled": "S L L O Y U I O Q"
-        },
-        {
-          "id": "R2",
-          "word": "DIALECTIC",
-          "clue": "Discourse between two differing points of view seeking to establish truth through reasoned arguments.",
-          "category": "PHILOSOPHY",
-          "scrambled": "I L D C I T A E C"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "SOLILOQUY-DIALECTIC",
-      "acceptedAnswers": [
-        "SOLILOQUY-DIALECTIC",
-        "SOLILOQUY DIALECTIC",
-        "SOLILOQUY,DIALECTIC",
-        "WORDGUESS:SOLILOQUY-DIALECTIC"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 9-letter term from THEATRE; the word begins with letter 'S' or ends with 'Y'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [S L L O Y U I O Q] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WG-0401",
     "title": "WORD GUESS // PHILOSOPHY, #0401",
     "category": "PUZZLES",
@@ -20449,57 +10249,6 @@ export const wordGuessChallenges = [
       "hints": [
         "HINT 01 // Round 1 clue indicates a 7-letter term from PHILOSOPHY; the word begins with letter 'P' or ends with 'X'.",
         "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [O A D X R A P] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WG-0402",
-    "title": "WORD GUESS // PHILOSOPHY, #0402",
-    "category": "PUZZLES",
-    "description": "Unscramble 2 domain terminology anagrams from PHILOSOPHY, LOGIC & ARTS under timed conditions.",
-    "difficulty": "MODERATE",
-    "risk": "BALANCED",
-    "cost": 140,
-    "reward": 260,
-    "penalty": 80,
-    "timeLimit": 75,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-21 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0402",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "MONOLOGUE",
-          "clue": "Extended speech by one actor in a theatrical play, film, or solitary performance.",
-          "category": "DRAMA",
-          "scrambled": "L O U G M N E O O"
-        },
-        {
-          "id": "R2",
-          "word": "PARADOX",
-          "clue": "Logically self-contradictory statement or proposition contrary to expectations.",
-          "category": "PHILOSOPHY",
-          "scrambled": "A R O A P D X"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "MONOLOGUE-PARADOX",
-      "acceptedAnswers": [
-        "MONOLOGUE-PARADOX",
-        "MONOLOGUE PARADOX",
-        "MONOLOGUE,PARADOX",
-        "WORDGUESS:MONOLOGUE-PARADOX"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 9-letter term from DRAMA; the word begins with letter 'M' or ends with 'E'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [L O U G M N E O O] to identify common prefixes or suffixes."
       ]
     },
     "enabled": true,
@@ -20557,57 +10306,6 @@ export const wordGuessChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WG-0404",
-    "title": "WORD GUESS // PHILOSOPHY, #0404",
-    "category": "PUZZLES",
-    "description": "Unscramble 2 domain terminology anagrams from PHILOSOPHY, LOGIC & ARTS under timed conditions.",
-    "difficulty": "MODERATE",
-    "risk": "BALANCED",
-    "cost": 140,
-    "reward": 260,
-    "penalty": 80,
-    "timeLimit": 75,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-21 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0404",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "SYLLOGISM",
-          "clue": "Form of deductive reasoning consisting of a major premise, a minor premise, and a conclusion.",
-          "category": "LOGIC",
-          "scrambled": "L M Y S G L I O S"
-        },
-        {
-          "id": "R2",
-          "word": "PARADOX",
-          "clue": "Logically self-contradictory statement or proposition contrary to expectations.",
-          "category": "PHILOSOPHY",
-          "scrambled": "X R P O A A D"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "SYLLOGISM-PARADOX",
-      "acceptedAnswers": [
-        "SYLLOGISM-PARADOX",
-        "SYLLOGISM PARADOX",
-        "SYLLOGISM,PARADOX",
-        "WORDGUESS:SYLLOGISM-PARADOX"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 9-letter term from LOGIC; the word begins with letter 'S' or ends with 'M'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [L M Y S G L I O S] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WG-0405",
     "title": "WORD GUESS // PHILOSOPHY, #0405",
     "category": "PUZZLES",
@@ -20653,57 +10351,6 @@ export const wordGuessChallenges = [
       "hints": [
         "HINT 01 // Round 1 clue indicates a 7-letter term from PHILOSOPHY; the word begins with letter 'P' or ends with 'X'.",
         "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [R A A P X O D] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WG-0406",
-    "title": "WORD GUESS // PHILOSOPHY, #0406",
-    "category": "PUZZLES",
-    "description": "Unscramble 2 domain terminology anagrams from PHILOSOPHY, LOGIC & ARTS under timed conditions.",
-    "difficulty": "MODERATE",
-    "risk": "BALANCED",
-    "cost": 140,
-    "reward": 260,
-    "penalty": 80,
-    "timeLimit": 75,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-21 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0406",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "MONOLOGUE",
-          "clue": "Extended speech by one actor in a theatrical play, film, or solitary performance.",
-          "category": "DRAMA",
-          "scrambled": "U N L G E O M O O"
-        },
-        {
-          "id": "R2",
-          "word": "ENIGMA",
-          "clue": "Person or thing that is mysterious, puzzling, or fundamentally difficult to decipher.",
-          "category": "LOGIC",
-          "scrambled": "E G N M I A"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "MONOLOGUE-ENIGMA",
-      "acceptedAnswers": [
-        "MONOLOGUE-ENIGMA",
-        "MONOLOGUE ENIGMA",
-        "MONOLOGUE,ENIGMA",
-        "WORDGUESS:MONOLOGUE-ENIGMA"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 9-letter term from DRAMA; the word begins with letter 'M' or ends with 'E'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [U N L G E O M O O] to identify common prefixes or suffixes."
       ]
     },
     "enabled": true,
@@ -20761,57 +10408,6 @@ export const wordGuessChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WG-0408",
-    "title": "WORD GUESS // PHILOSOPHY, #0408",
-    "category": "PUZZLES",
-    "description": "Unscramble 2 domain terminology anagrams from PHILOSOPHY, LOGIC & ARTS under timed conditions.",
-    "difficulty": "MODERATE",
-    "risk": "BALANCED",
-    "cost": 140,
-    "reward": 260,
-    "penalty": 80,
-    "timeLimit": 75,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-21 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0408",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "DIALECTIC",
-          "clue": "Discourse between two differing points of view seeking to establish truth through reasoned arguments.",
-          "category": "PHILOSOPHY",
-          "scrambled": "C I D A C E T I L"
-        },
-        {
-          "id": "R2",
-          "word": "MONOLOGUE",
-          "clue": "Extended speech by one actor in a theatrical play, film, or solitary performance.",
-          "category": "DRAMA",
-          "scrambled": "U M O N O L E G O"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "DIALECTIC-MONOLOGUE",
-      "acceptedAnswers": [
-        "DIALECTIC-MONOLOGUE",
-        "DIALECTIC MONOLOGUE",
-        "DIALECTIC,MONOLOGUE",
-        "WORDGUESS:DIALECTIC-MONOLOGUE"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 9-letter term from PHILOSOPHY; the word begins with letter 'D' or ends with 'C'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [C I D A C E T I L] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WG-0409",
     "title": "WORD GUESS // PHILOSOPHY, #0409",
     "category": "PUZZLES",
@@ -20857,57 +10453,6 @@ export const wordGuessChallenges = [
       "hints": [
         "HINT 01 // Round 1 clue indicates a 6-letter term from LOGIC; the word begins with letter 'E' or ends with 'A'.",
         "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [E A G N M I] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WG-0410",
-    "title": "WORD GUESS // PHILOSOPHY, #0410",
-    "category": "PUZZLES",
-    "description": "Unscramble 2 domain terminology anagrams from PHILOSOPHY, LOGIC & ARTS under timed conditions.",
-    "difficulty": "MODERATE",
-    "risk": "BALANCED",
-    "cost": 140,
-    "reward": 260,
-    "penalty": 80,
-    "timeLimit": 75,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-21 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0410",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "DIALECTIC",
-          "clue": "Discourse between two differing points of view seeking to establish truth through reasoned arguments.",
-          "category": "PHILOSOPHY",
-          "scrambled": "C E I L A T I D C"
-        },
-        {
-          "id": "R2",
-          "word": "MONOLOGUE",
-          "clue": "Extended speech by one actor in a theatrical play, film, or solitary performance.",
-          "category": "DRAMA",
-          "scrambled": "O O N E U G O M L"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "DIALECTIC-MONOLOGUE",
-      "acceptedAnswers": [
-        "DIALECTIC-MONOLOGUE",
-        "DIALECTIC MONOLOGUE",
-        "DIALECTIC,MONOLOGUE",
-        "WORDGUESS:DIALECTIC-MONOLOGUE"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 9-letter term from PHILOSOPHY; the word begins with letter 'D' or ends with 'C'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [C E I L A T I D C] to identify common prefixes or suffixes."
       ]
     },
     "enabled": true,
@@ -20965,57 +10510,6 @@ export const wordGuessChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WG-0412",
-    "title": "WORD GUESS // PHILOSOPHY, #0412",
-    "category": "PUZZLES",
-    "description": "Unscramble 2 domain terminology anagrams from PHILOSOPHY, LOGIC & ARTS under timed conditions.",
-    "difficulty": "MODERATE",
-    "risk": "BALANCED",
-    "cost": 140,
-    "reward": 260,
-    "penalty": 80,
-    "timeLimit": 75,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-21 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0412",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "SOLILOQUY",
-          "clue": "Act of speaking one's thoughts aloud when by oneself regardless of hearers, especially by a character.",
-          "category": "THEATRE",
-          "scrambled": "O O L Y I L U Q S"
-        },
-        {
-          "id": "R2",
-          "word": "ARCHETYPE",
-          "clue": "Universally recognized recurrent symbol, motif, or character archetype in literature and art.",
-          "category": "LITERATURE",
-          "scrambled": "A Y P E T C R H E"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "SOLILOQUY-ARCHETYPE",
-      "acceptedAnswers": [
-        "SOLILOQUY-ARCHETYPE",
-        "SOLILOQUY ARCHETYPE",
-        "SOLILOQUY,ARCHETYPE",
-        "WORDGUESS:SOLILOQUY-ARCHETYPE"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 9-letter term from THEATRE; the word begins with letter 'S' or ends with 'Y'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [O O L Y I L U Q S] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WG-0413",
     "title": "WORD GUESS // PHILOSOPHY, #0413",
     "category": "PUZZLES",
@@ -21061,57 +10555,6 @@ export const wordGuessChallenges = [
       "hints": [
         "HINT 01 // Round 1 clue indicates a 7-letter term from PHILOSOPHY; the word begins with letter 'P' or ends with 'X'.",
         "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [O R D A X A P] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WG-0414",
-    "title": "WORD GUESS // PHILOSOPHY, #0414",
-    "category": "PUZZLES",
-    "description": "Unscramble 2 domain terminology anagrams from PHILOSOPHY, LOGIC & ARTS under timed conditions.",
-    "difficulty": "MODERATE",
-    "risk": "BALANCED",
-    "cost": 140,
-    "reward": 260,
-    "penalty": 80,
-    "timeLimit": 75,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-21 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0414",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "ALLEGORY",
-          "clue": "Story, poem, or picture that can be interpreted to reveal a hidden moral or political meaning.",
-          "category": "RHETORIC",
-          "scrambled": "L G Y E O L R A"
-        },
-        {
-          "id": "R2",
-          "word": "PARADOX",
-          "clue": "Logically self-contradictory statement or proposition contrary to expectations.",
-          "category": "PHILOSOPHY",
-          "scrambled": "A X O R D P A"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "ALLEGORY-PARADOX",
-      "acceptedAnswers": [
-        "ALLEGORY-PARADOX",
-        "ALLEGORY PARADOX",
-        "ALLEGORY,PARADOX",
-        "WORDGUESS:ALLEGORY-PARADOX"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 8-letter term from RHETORIC; the word begins with letter 'A' or ends with 'Y'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [L G Y E O L R A] to identify common prefixes or suffixes."
       ]
     },
     "enabled": true,
@@ -21169,57 +10612,6 @@ export const wordGuessChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WG-0416",
-    "title": "WORD GUESS // PHILOSOPHY, #0416",
-    "category": "PUZZLES",
-    "description": "Unscramble 2 domain terminology anagrams from PHILOSOPHY, LOGIC & ARTS under timed conditions.",
-    "difficulty": "MODERATE",
-    "risk": "BALANCED",
-    "cost": 140,
-    "reward": 260,
-    "penalty": 80,
-    "timeLimit": 75,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-21 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0416",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "SOLILOQUY",
-          "clue": "Act of speaking one's thoughts aloud when by oneself regardless of hearers, especially by a character.",
-          "category": "THEATRE",
-          "scrambled": "Q S I Y O L U O L"
-        },
-        {
-          "id": "R2",
-          "word": "PARADOX",
-          "clue": "Logically self-contradictory statement or proposition contrary to expectations.",
-          "category": "PHILOSOPHY",
-          "scrambled": "X R O P D A A"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "SOLILOQUY-PARADOX",
-      "acceptedAnswers": [
-        "SOLILOQUY-PARADOX",
-        "SOLILOQUY PARADOX",
-        "SOLILOQUY,PARADOX",
-        "WORDGUESS:SOLILOQUY-PARADOX"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 9-letter term from THEATRE; the word begins with letter 'S' or ends with 'Y'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [Q S I Y O L U O L] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WG-0417",
     "title": "WORD GUESS // PHILOSOPHY, #0417",
     "category": "PUZZLES",
@@ -21265,57 +10657,6 @@ export const wordGuessChallenges = [
       "hints": [
         "HINT 01 // Round 1 clue indicates a 9-letter term from MYTHOLOGY; the word begins with letter 'L' or ends with 'H'.",
         "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [N H T L I B A Y R] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WG-0418",
-    "title": "WORD GUESS // PHILOSOPHY, #0418",
-    "category": "PUZZLES",
-    "description": "Unscramble 2 domain terminology anagrams from PHILOSOPHY, LOGIC & ARTS under timed conditions.",
-    "difficulty": "MODERATE",
-    "risk": "BALANCED",
-    "cost": 140,
-    "reward": 260,
-    "penalty": 80,
-    "timeLimit": 75,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-21 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0418",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "ENIGMA",
-          "clue": "Person or thing that is mysterious, puzzling, or fundamentally difficult to decipher.",
-          "category": "LOGIC",
-          "scrambled": "N E A M I G"
-        },
-        {
-          "id": "R2",
-          "word": "ARCHETYPE",
-          "clue": "Universally recognized recurrent symbol, motif, or character archetype in literature and art.",
-          "category": "LITERATURE",
-          "scrambled": "R E T H A C P Y E"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "ENIGMA-ARCHETYPE",
-      "acceptedAnswers": [
-        "ENIGMA-ARCHETYPE",
-        "ENIGMA ARCHETYPE",
-        "ENIGMA,ARCHETYPE",
-        "WORDGUESS:ENIGMA-ARCHETYPE"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 6-letter term from LOGIC; the word begins with letter 'E' or ends with 'A'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [N E A M I G] to identify common prefixes or suffixes."
       ]
     },
     "enabled": true,
@@ -21373,57 +10714,6 @@ export const wordGuessChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WG-0420",
-    "title": "WORD GUESS // PHILOSOPHY, #0420",
-    "category": "PUZZLES",
-    "description": "Unscramble 2 domain terminology anagrams from PHILOSOPHY, LOGIC & ARTS under timed conditions.",
-    "difficulty": "MODERATE",
-    "risk": "BALANCED",
-    "cost": 140,
-    "reward": 260,
-    "penalty": 80,
-    "timeLimit": 75,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-22 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0420",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "DIALECTIC",
-          "clue": "Discourse between two differing points of view seeking to establish truth through reasoned arguments.",
-          "category": "PHILOSOPHY",
-          "scrambled": "I C L D A C I E T"
-        },
-        {
-          "id": "R2",
-          "word": "CHIMERA",
-          "clue": "Fabulous mythological creature composed of disparate parts of diverse beasts.",
-          "category": "FOLKLORE",
-          "scrambled": "E R H M I A C"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "DIALECTIC-CHIMERA",
-      "acceptedAnswers": [
-        "DIALECTIC-CHIMERA",
-        "DIALECTIC CHIMERA",
-        "DIALECTIC,CHIMERA",
-        "WORDGUESS:DIALECTIC-CHIMERA"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 9-letter term from PHILOSOPHY; the word begins with letter 'D' or ends with 'C'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [I C L D A C I E T] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WG-0421",
     "title": "WORD GUESS // PHILOSOPHY, #0421",
     "category": "PUZZLES",
@@ -21469,57 +10759,6 @@ export const wordGuessChallenges = [
       "hints": [
         "HINT 01 // Round 1 clue indicates a 9-letter term from LITERATURE; the word begins with letter 'A' or ends with 'E'.",
         "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [E A R P E Y T H C] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WG-0422",
-    "title": "WORD GUESS // PHILOSOPHY, #0422",
-    "category": "PUZZLES",
-    "description": "Unscramble 2 domain terminology anagrams from PHILOSOPHY, LOGIC & ARTS under timed conditions.",
-    "difficulty": "MODERATE",
-    "risk": "BALANCED",
-    "cost": 140,
-    "reward": 260,
-    "penalty": 80,
-    "timeLimit": 75,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-22 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0422",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "DIALECTIC",
-          "clue": "Discourse between two differing points of view seeking to establish truth through reasoned arguments.",
-          "category": "PHILOSOPHY",
-          "scrambled": "I C I E D T A L C"
-        },
-        {
-          "id": "R2",
-          "word": "ARCHETYPE",
-          "clue": "Universally recognized recurrent symbol, motif, or character archetype in literature and art.",
-          "category": "LITERATURE",
-          "scrambled": "Y H T E R E P C A"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "DIALECTIC-ARCHETYPE",
-      "acceptedAnswers": [
-        "DIALECTIC-ARCHETYPE",
-        "DIALECTIC ARCHETYPE",
-        "DIALECTIC,ARCHETYPE",
-        "WORDGUESS:DIALECTIC-ARCHETYPE"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 9-letter term from PHILOSOPHY; the word begins with letter 'D' or ends with 'C'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [I C I E D T A L C] to identify common prefixes or suffixes."
       ]
     },
     "enabled": true,
@@ -21577,57 +10816,6 @@ export const wordGuessChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WG-0424",
-    "title": "WORD GUESS // PHILOSOPHY, #0424",
-    "category": "PUZZLES",
-    "description": "Unscramble 2 domain terminology anagrams from PHILOSOPHY, LOGIC & ARTS under timed conditions.",
-    "difficulty": "MODERATE",
-    "risk": "BALANCED",
-    "cost": 140,
-    "reward": 260,
-    "penalty": 80,
-    "timeLimit": 75,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-22 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0424",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "CHIMERA",
-          "clue": "Fabulous mythological creature composed of disparate parts of diverse beasts.",
-          "category": "FOLKLORE",
-          "scrambled": "I C A R E M H"
-        },
-        {
-          "id": "R2",
-          "word": "ARCHETYPE",
-          "clue": "Universally recognized recurrent symbol, motif, or character archetype in literature and art.",
-          "category": "LITERATURE",
-          "scrambled": "R Y E T C A E P H"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "CHIMERA-ARCHETYPE",
-      "acceptedAnswers": [
-        "CHIMERA-ARCHETYPE",
-        "CHIMERA ARCHETYPE",
-        "CHIMERA,ARCHETYPE",
-        "WORDGUESS:CHIMERA-ARCHETYPE"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 7-letter term from FOLKLORE; the word begins with letter 'C' or ends with 'A'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [I C A R E M H] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WG-0425",
     "title": "WORD GUESS // PHILOSOPHY, #0425",
     "category": "PUZZLES",
@@ -21673,57 +10861,6 @@ export const wordGuessChallenges = [
       "hints": [
         "HINT 01 // Round 1 clue indicates a 7-letter term from PHILOSOPHY; the word begins with letter 'P' or ends with 'X'.",
         "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [A X O R A P D] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WG-0426",
-    "title": "WORD GUESS // PHILOSOPHY, #0426",
-    "category": "PUZZLES",
-    "description": "Unscramble 2 domain terminology anagrams from PHILOSOPHY, LOGIC & ARTS under timed conditions.",
-    "difficulty": "MODERATE",
-    "risk": "BALANCED",
-    "cost": 140,
-    "reward": 260,
-    "penalty": 80,
-    "timeLimit": 75,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-22 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0426",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "PARADOX",
-          "clue": "Logically self-contradictory statement or proposition contrary to expectations.",
-          "category": "PHILOSOPHY",
-          "scrambled": "O D A A X R P"
-        },
-        {
-          "id": "R2",
-          "word": "LABYRINTH",
-          "clue": "Complex maze-like network of intersecting pathways or intricate architectural passages.",
-          "category": "MYTHOLOGY",
-          "scrambled": "L B A H Y T R I N"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "PARADOX-LABYRINTH",
-      "acceptedAnswers": [
-        "PARADOX-LABYRINTH",
-        "PARADOX LABYRINTH",
-        "PARADOX,LABYRINTH",
-        "WORDGUESS:PARADOX-LABYRINTH"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 7-letter term from PHILOSOPHY; the word begins with letter 'P' or ends with 'X'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [O D A A X R P] to identify common prefixes or suffixes."
       ]
     },
     "enabled": true,
@@ -21781,57 +10918,6 @@ export const wordGuessChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WG-0428",
-    "title": "WORD GUESS // PHILOSOPHY, #0428",
-    "category": "PUZZLES",
-    "description": "Unscramble 2 domain terminology anagrams from PHILOSOPHY, LOGIC & ARTS under timed conditions.",
-    "difficulty": "MODERATE",
-    "risk": "BALANCED",
-    "cost": 140,
-    "reward": 260,
-    "penalty": 80,
-    "timeLimit": 75,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-22 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0428",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "MONOLOGUE",
-          "clue": "Extended speech by one actor in a theatrical play, film, or solitary performance.",
-          "category": "DRAMA",
-          "scrambled": "O O N O L U E M G"
-        },
-        {
-          "id": "R2",
-          "word": "ALLEGORY",
-          "clue": "Story, poem, or picture that can be interpreted to reveal a hidden moral or political meaning.",
-          "category": "RHETORIC",
-          "scrambled": "A E L O L G Y R"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "MONOLOGUE-ALLEGORY",
-      "acceptedAnswers": [
-        "MONOLOGUE-ALLEGORY",
-        "MONOLOGUE ALLEGORY",
-        "MONOLOGUE,ALLEGORY",
-        "WORDGUESS:MONOLOGUE-ALLEGORY"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 9-letter term from DRAMA; the word begins with letter 'M' or ends with 'E'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [O O N O L U E M G] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WG-0429",
     "title": "WORD GUESS // PHILOSOPHY, #0429",
     "category": "PUZZLES",
@@ -21877,57 +10963,6 @@ export const wordGuessChallenges = [
       "hints": [
         "HINT 01 // Round 1 clue indicates a 9-letter term from MYTHOLOGY; the word begins with letter 'L' or ends with 'H'.",
         "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [H L A R I T Y N B] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WG-0430",
-    "title": "WORD GUESS // PHILOSOPHY, #0430",
-    "category": "PUZZLES",
-    "description": "Unscramble 2 domain terminology anagrams from PHILOSOPHY, LOGIC & ARTS under timed conditions.",
-    "difficulty": "MODERATE",
-    "risk": "BALANCED",
-    "cost": 140,
-    "reward": 260,
-    "penalty": 80,
-    "timeLimit": 75,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-22 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0430",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "MONOLOGUE",
-          "clue": "Extended speech by one actor in a theatrical play, film, or solitary performance.",
-          "category": "DRAMA",
-          "scrambled": "N U L O M G O O E"
-        },
-        {
-          "id": "R2",
-          "word": "SOLILOQUY",
-          "clue": "Act of speaking one's thoughts aloud when by oneself regardless of hearers, especially by a character.",
-          "category": "THEATRE",
-          "scrambled": "L O Y L U Q S I O"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "MONOLOGUE-SOLILOQUY",
-      "acceptedAnswers": [
-        "MONOLOGUE-SOLILOQUY",
-        "MONOLOGUE SOLILOQUY",
-        "MONOLOGUE,SOLILOQUY",
-        "WORDGUESS:MONOLOGUE-SOLILOQUY"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 9-letter term from DRAMA; the word begins with letter 'M' or ends with 'E'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [N U L O M G O O E] to identify common prefixes or suffixes."
       ]
     },
     "enabled": true,
@@ -21985,57 +11020,6 @@ export const wordGuessChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WG-0432",
-    "title": "WORD GUESS // PHILOSOPHY, #0432",
-    "category": "PUZZLES",
-    "description": "Unscramble 2 domain terminology anagrams from PHILOSOPHY, LOGIC & ARTS under timed conditions.",
-    "difficulty": "MODERATE",
-    "risk": "BALANCED",
-    "cost": 140,
-    "reward": 260,
-    "penalty": 80,
-    "timeLimit": 75,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-22 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0432",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "DIALECTIC",
-          "clue": "Discourse between two differing points of view seeking to establish truth through reasoned arguments.",
-          "category": "PHILOSOPHY",
-          "scrambled": "I L C E C D A T I"
-        },
-        {
-          "id": "R2",
-          "word": "LABYRINTH",
-          "clue": "Complex maze-like network of intersecting pathways or intricate architectural passages.",
-          "category": "MYTHOLOGY",
-          "scrambled": "L H Y A R I T B N"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "DIALECTIC-LABYRINTH",
-      "acceptedAnswers": [
-        "DIALECTIC-LABYRINTH",
-        "DIALECTIC LABYRINTH",
-        "DIALECTIC,LABYRINTH",
-        "WORDGUESS:DIALECTIC-LABYRINTH"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 9-letter term from PHILOSOPHY; the word begins with letter 'D' or ends with 'C'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [I L C E C D A T I] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WG-0433",
     "title": "WORD GUESS // PHILOSOPHY, #0433",
     "category": "PUZZLES",
@@ -22081,57 +11065,6 @@ export const wordGuessChallenges = [
       "hints": [
         "HINT 01 // Round 1 clue indicates a 7-letter term from PHILOSOPHY; the word begins with letter 'P' or ends with 'X'.",
         "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [D A X A O R P] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WG-0434",
-    "title": "WORD GUESS // PHILOSOPHY, #0434",
-    "category": "PUZZLES",
-    "description": "Unscramble 2 domain terminology anagrams from PHILOSOPHY, LOGIC & ARTS under timed conditions.",
-    "difficulty": "MODERATE",
-    "risk": "BALANCED",
-    "cost": 140,
-    "reward": 260,
-    "penalty": 80,
-    "timeLimit": 75,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-22 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0434",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "SYLLOGISM",
-          "clue": "Form of deductive reasoning consisting of a major premise, a minor premise, and a conclusion.",
-          "category": "LOGIC",
-          "scrambled": "L S Y I M S O L G"
-        },
-        {
-          "id": "R2",
-          "word": "DIALECTIC",
-          "clue": "Discourse between two differing points of view seeking to establish truth through reasoned arguments.",
-          "category": "PHILOSOPHY",
-          "scrambled": "I C I A T D L E C"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "SYLLOGISM-DIALECTIC",
-      "acceptedAnswers": [
-        "SYLLOGISM-DIALECTIC",
-        "SYLLOGISM DIALECTIC",
-        "SYLLOGISM,DIALECTIC",
-        "WORDGUESS:SYLLOGISM-DIALECTIC"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 9-letter term from LOGIC; the word begins with letter 'S' or ends with 'M'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [L S Y I M S O L G] to identify common prefixes or suffixes."
       ]
     },
     "enabled": true,
@@ -22189,57 +11122,6 @@ export const wordGuessChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WG-0436",
-    "title": "WORD GUESS // PHILOSOPHY, #0436",
-    "category": "PUZZLES",
-    "description": "Unscramble 2 domain terminology anagrams from PHILOSOPHY, LOGIC & ARTS under timed conditions.",
-    "difficulty": "MODERATE",
-    "risk": "BALANCED",
-    "cost": 140,
-    "reward": 260,
-    "penalty": 80,
-    "timeLimit": 75,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-22 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0436",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "PARADOX",
-          "clue": "Logically self-contradictory statement or proposition contrary to expectations.",
-          "category": "PHILOSOPHY",
-          "scrambled": "A P O R X D A"
-        },
-        {
-          "id": "R2",
-          "word": "LABYRINTH",
-          "clue": "Complex maze-like network of intersecting pathways or intricate architectural passages.",
-          "category": "MYTHOLOGY",
-          "scrambled": "L I H N B A Y T R"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "PARADOX-LABYRINTH",
-      "acceptedAnswers": [
-        "PARADOX-LABYRINTH",
-        "PARADOX LABYRINTH",
-        "PARADOX,LABYRINTH",
-        "WORDGUESS:PARADOX-LABYRINTH"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 7-letter term from PHILOSOPHY; the word begins with letter 'P' or ends with 'X'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [A P O R X D A] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WG-0437",
     "title": "WORD GUESS // PHILOSOPHY, #0437",
     "category": "PUZZLES",
@@ -22285,57 +11167,6 @@ export const wordGuessChallenges = [
       "hints": [
         "HINT 01 // Round 1 clue indicates a 7-letter term from PHILOSOPHY; the word begins with letter 'P' or ends with 'X'.",
         "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [R D X A A P O] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WG-0438",
-    "title": "WORD GUESS // PHILOSOPHY, #0438",
-    "category": "PUZZLES",
-    "description": "Unscramble 2 domain terminology anagrams from PHILOSOPHY, LOGIC & ARTS under timed conditions.",
-    "difficulty": "MODERATE",
-    "risk": "BALANCED",
-    "cost": 140,
-    "reward": 260,
-    "penalty": 80,
-    "timeLimit": 75,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-22 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0438",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "PARADOX",
-          "clue": "Logically self-contradictory statement or proposition contrary to expectations.",
-          "category": "PHILOSOPHY",
-          "scrambled": "P A R A D X O"
-        },
-        {
-          "id": "R2",
-          "word": "SYLLOGISM",
-          "clue": "Form of deductive reasoning consisting of a major premise, a minor premise, and a conclusion.",
-          "category": "LOGIC",
-          "scrambled": "S M I G L L O Y S"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "PARADOX-SYLLOGISM",
-      "acceptedAnswers": [
-        "PARADOX-SYLLOGISM",
-        "PARADOX SYLLOGISM",
-        "PARADOX,SYLLOGISM",
-        "WORDGUESS:PARADOX-SYLLOGISM"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 7-letter term from PHILOSOPHY; the word begins with letter 'P' or ends with 'X'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [P A R A D X O] to identify common prefixes or suffixes."
       ]
     },
     "enabled": true,
@@ -22393,57 +11224,6 @@ export const wordGuessChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WG-0440",
-    "title": "WORD GUESS // PHILOSOPHY, #0440",
-    "category": "PUZZLES",
-    "description": "Unscramble 2 domain terminology anagrams from PHILOSOPHY, LOGIC & ARTS under timed conditions.",
-    "difficulty": "MODERATE",
-    "risk": "BALANCED",
-    "cost": 140,
-    "reward": 260,
-    "penalty": 80,
-    "timeLimit": 75,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-23 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0440",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "ALLEGORY",
-          "clue": "Story, poem, or picture that can be interpreted to reveal a hidden moral or political meaning.",
-          "category": "RHETORIC",
-          "scrambled": "L E O G R L Y A"
-        },
-        {
-          "id": "R2",
-          "word": "ENIGMA",
-          "clue": "Person or thing that is mysterious, puzzling, or fundamentally difficult to decipher.",
-          "category": "LOGIC",
-          "scrambled": "G I E N M A"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "ALLEGORY-ENIGMA",
-      "acceptedAnswers": [
-        "ALLEGORY-ENIGMA",
-        "ALLEGORY ENIGMA",
-        "ALLEGORY,ENIGMA",
-        "WORDGUESS:ALLEGORY-ENIGMA"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 8-letter term from RHETORIC; the word begins with letter 'A' or ends with 'Y'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [L E O G R L Y A] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WG-0441",
     "title": "WORD GUESS // PHILOSOPHY, #0441",
     "category": "PUZZLES",
@@ -22489,57 +11269,6 @@ export const wordGuessChallenges = [
       "hints": [
         "HINT 01 // Round 1 clue indicates a 8-letter term from RHETORIC; the word begins with letter 'A' or ends with 'Y'.",
         "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [A L R O E G Y L] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WG-0442",
-    "title": "WORD GUESS // PHILOSOPHY, #0442",
-    "category": "PUZZLES",
-    "description": "Unscramble 2 domain terminology anagrams from PHILOSOPHY, LOGIC & ARTS under timed conditions.",
-    "difficulty": "MODERATE",
-    "risk": "BALANCED",
-    "cost": 140,
-    "reward": 260,
-    "penalty": 80,
-    "timeLimit": 75,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-23 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0442",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "SOLILOQUY",
-          "clue": "Act of speaking one's thoughts aloud when by oneself regardless of hearers, especially by a character.",
-          "category": "THEATRE",
-          "scrambled": "O S L Q I U O Y L"
-        },
-        {
-          "id": "R2",
-          "word": "CHIMERA",
-          "clue": "Fabulous mythological creature composed of disparate parts of diverse beasts.",
-          "category": "FOLKLORE",
-          "scrambled": "M E A R I H C"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "SOLILOQUY-CHIMERA",
-      "acceptedAnswers": [
-        "SOLILOQUY-CHIMERA",
-        "SOLILOQUY CHIMERA",
-        "SOLILOQUY,CHIMERA",
-        "WORDGUESS:SOLILOQUY-CHIMERA"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 9-letter term from THEATRE; the word begins with letter 'S' or ends with 'Y'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [O S L Q I U O Y L] to identify common prefixes or suffixes."
       ]
     },
     "enabled": true,
@@ -22597,57 +11326,6 @@ export const wordGuessChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WG-0444",
-    "title": "WORD GUESS // PHILOSOPHY, #0444",
-    "category": "PUZZLES",
-    "description": "Unscramble 2 domain terminology anagrams from PHILOSOPHY, LOGIC & ARTS under timed conditions.",
-    "difficulty": "MODERATE",
-    "risk": "BALANCED",
-    "cost": 140,
-    "reward": 260,
-    "penalty": 80,
-    "timeLimit": 75,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-23 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0444",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "PARADOX",
-          "clue": "Logically self-contradictory statement or proposition contrary to expectations.",
-          "category": "PHILOSOPHY",
-          "scrambled": "A D P R X O A"
-        },
-        {
-          "id": "R2",
-          "word": "LABYRINTH",
-          "clue": "Complex maze-like network of intersecting pathways or intricate architectural passages.",
-          "category": "MYTHOLOGY",
-          "scrambled": "R Y N L H A I T B"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "PARADOX-LABYRINTH",
-      "acceptedAnswers": [
-        "PARADOX-LABYRINTH",
-        "PARADOX LABYRINTH",
-        "PARADOX,LABYRINTH",
-        "WORDGUESS:PARADOX-LABYRINTH"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 7-letter term from PHILOSOPHY; the word begins with letter 'P' or ends with 'X'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [A D P R X O A] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WG-0445",
     "title": "WORD GUESS // PHILOSOPHY, #0445",
     "category": "PUZZLES",
@@ -22693,57 +11371,6 @@ export const wordGuessChallenges = [
       "hints": [
         "HINT 01 // Round 1 clue indicates a 7-letter term from PHILOSOPHY; the word begins with letter 'P' or ends with 'X'.",
         "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [X P A D R A O] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WG-0446",
-    "title": "WORD GUESS // PHILOSOPHY, #0446",
-    "category": "PUZZLES",
-    "description": "Unscramble 2 domain terminology anagrams from PHILOSOPHY, LOGIC & ARTS under timed conditions.",
-    "difficulty": "MODERATE",
-    "risk": "BALANCED",
-    "cost": 140,
-    "reward": 260,
-    "penalty": 80,
-    "timeLimit": 75,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-23 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0446",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "PARADOX",
-          "clue": "Logically self-contradictory statement or proposition contrary to expectations.",
-          "category": "PHILOSOPHY",
-          "scrambled": "D A A O P R X"
-        },
-        {
-          "id": "R2",
-          "word": "LABYRINTH",
-          "clue": "Complex maze-like network of intersecting pathways or intricate architectural passages.",
-          "category": "MYTHOLOGY",
-          "scrambled": "B T I Y A L R H N"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "PARADOX-LABYRINTH",
-      "acceptedAnswers": [
-        "PARADOX-LABYRINTH",
-        "PARADOX LABYRINTH",
-        "PARADOX,LABYRINTH",
-        "WORDGUESS:PARADOX-LABYRINTH"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 7-letter term from PHILOSOPHY; the word begins with letter 'P' or ends with 'X'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [D A A O P R X] to identify common prefixes or suffixes."
       ]
     },
     "enabled": true,
@@ -22801,57 +11428,6 @@ export const wordGuessChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WG-0448",
-    "title": "WORD GUESS // PHILOSOPHY, #0448",
-    "category": "PUZZLES",
-    "description": "Unscramble 2 domain terminology anagrams from PHILOSOPHY, LOGIC & ARTS under timed conditions.",
-    "difficulty": "MODERATE",
-    "risk": "BALANCED",
-    "cost": 140,
-    "reward": 260,
-    "penalty": 80,
-    "timeLimit": 75,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-23 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0448",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "ALLEGORY",
-          "clue": "Story, poem, or picture that can be interpreted to reveal a hidden moral or political meaning.",
-          "category": "RHETORIC",
-          "scrambled": "E L R L G Y A O"
-        },
-        {
-          "id": "R2",
-          "word": "PARADOX",
-          "clue": "Logically self-contradictory statement or proposition contrary to expectations.",
-          "category": "PHILOSOPHY",
-          "scrambled": "X R A D O P A"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "ALLEGORY-PARADOX",
-      "acceptedAnswers": [
-        "ALLEGORY-PARADOX",
-        "ALLEGORY PARADOX",
-        "ALLEGORY,PARADOX",
-        "WORDGUESS:ALLEGORY-PARADOX"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 8-letter term from RHETORIC; the word begins with letter 'A' or ends with 'Y'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [E L R L G Y A O] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WG-0449",
     "title": "WORD GUESS // PHILOSOPHY, #0449",
     "category": "PUZZLES",
@@ -22897,57 +11473,6 @@ export const wordGuessChallenges = [
       "hints": [
         "HINT 01 // Round 1 clue indicates a 9-letter term from DRAMA; the word begins with letter 'M' or ends with 'E'.",
         "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [E U L G O M O N O] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WG-0450",
-    "title": "WORD GUESS // PHILOSOPHY, #0450",
-    "category": "PUZZLES",
-    "description": "Unscramble 2 domain terminology anagrams from PHILOSOPHY, LOGIC & ARTS under timed conditions.",
-    "difficulty": "MODERATE",
-    "risk": "BALANCED",
-    "cost": 140,
-    "reward": 260,
-    "penalty": 80,
-    "timeLimit": 75,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-23 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0450",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "MONOLOGUE",
-          "clue": "Extended speech by one actor in a theatrical play, film, or solitary performance.",
-          "category": "DRAMA",
-          "scrambled": "O G O E N L U M O"
-        },
-        {
-          "id": "R2",
-          "word": "ARCHETYPE",
-          "clue": "Universally recognized recurrent symbol, motif, or character archetype in literature and art.",
-          "category": "LITERATURE",
-          "scrambled": "H A P T C E E R Y"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "MONOLOGUE-ARCHETYPE",
-      "acceptedAnswers": [
-        "MONOLOGUE-ARCHETYPE",
-        "MONOLOGUE ARCHETYPE",
-        "MONOLOGUE,ARCHETYPE",
-        "WORDGUESS:MONOLOGUE-ARCHETYPE"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 9-letter term from DRAMA; the word begins with letter 'M' or ends with 'E'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [O G O E N L U M O] to identify common prefixes or suffixes."
       ]
     },
     "enabled": true,
@@ -23012,64 +11537,6 @@ export const wordGuessChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WG-0452",
-    "title": "WORD GUESS // WORLD #0452",
-    "category": "PUZZLES",
-    "description": "Unscramble 3 domain terminology anagrams from WORLD HISTORY & CIVILIZATIONS under timed conditions.",
-    "difficulty": "HIGH",
-    "risk": "AGGRESSIVE",
-    "cost": 300,
-    "reward": 750,
-    "penalty": 200,
-    "timeLimit": 95,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-23 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0452",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "SAMURAI",
-          "clue": "Hereditary military nobility and warrior caste of medieval and early-modern Japan.",
-          "category": "MEDIEVAL",
-          "scrambled": "U A R S I A M"
-        },
-        {
-          "id": "R2",
-          "word": "CRUSADE",
-          "clue": "Series of religious military campaigns sanctioned by the Latin Church in the medieval era.",
-          "category": "HISTORY",
-          "scrambled": "E C A R U D S"
-        },
-        {
-          "id": "R3",
-          "word": "DYNASTY",
-          "clue": "Sequence of hereditary rulers from the same family line holding imperial power.",
-          "category": "HISTORICAL",
-          "scrambled": "D T N A Y S Y"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "SAMURAI-CRUSADE-DYNASTY",
-      "acceptedAnswers": [
-        "SAMURAI-CRUSADE-DYNASTY",
-        "SAMURAI CRUSADE DYNASTY",
-        "SAMURAI,CRUSADE,DYNASTY",
-        "WORDGUESS:SAMURAI-CRUSADE-DYNASTY"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 7-letter term from MEDIEVAL; the word begins with letter 'S' or ends with 'I'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [U A R S I A M] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WG-0453",
     "title": "WORD GUESS // WORLD #0453",
     "category": "PUZZLES",
@@ -23122,64 +11589,6 @@ export const wordGuessChallenges = [
       "hints": [
         "HINT 01 // Round 1 clue indicates a 7-letter term from MEDIEVAL; the word begins with letter 'S' or ends with 'I'.",
         "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [R A I M U A S] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WG-0454",
-    "title": "WORD GUESS // WORLD #0454",
-    "category": "PUZZLES",
-    "description": "Unscramble 3 domain terminology anagrams from WORLD HISTORY & CIVILIZATIONS under timed conditions.",
-    "difficulty": "HIGH",
-    "risk": "AGGRESSIVE",
-    "cost": 300,
-    "reward": 750,
-    "penalty": 200,
-    "timeLimit": 95,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-23 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0454",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "CRUSADE",
-          "clue": "Series of religious military campaigns sanctioned by the Latin Church in the medieval era.",
-          "category": "HISTORY",
-          "scrambled": "U D E S R A C"
-        },
-        {
-          "id": "R2",
-          "word": "DYNASTY",
-          "clue": "Sequence of hereditary rulers from the same family line holding imperial power.",
-          "category": "HISTORICAL",
-          "scrambled": "S Y Y N T D A"
-        },
-        {
-          "id": "R3",
-          "word": "EMPIRE",
-          "clue": "Extensive group of states, territories, or nationalities governed under a single supreme authority.",
-          "category": "CIVILIZATION",
-          "scrambled": "M E E P R I"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "CRUSADE-DYNASTY-EMPIRE",
-      "acceptedAnswers": [
-        "CRUSADE-DYNASTY-EMPIRE",
-        "CRUSADE DYNASTY EMPIRE",
-        "CRUSADE,DYNASTY,EMPIRE",
-        "WORDGUESS:CRUSADE-DYNASTY-EMPIRE"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 7-letter term from HISTORY; the word begins with letter 'C' or ends with 'E'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [U D E S R A C] to identify common prefixes or suffixes."
       ]
     },
     "enabled": true,
@@ -23244,64 +11653,6 @@ export const wordGuessChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WG-0456",
-    "title": "WORD GUESS // WORLD #0456",
-    "category": "PUZZLES",
-    "description": "Unscramble 3 domain terminology anagrams from WORLD HISTORY & CIVILIZATIONS under timed conditions.",
-    "difficulty": "HIGH",
-    "risk": "AGGRESSIVE",
-    "cost": 300,
-    "reward": 750,
-    "penalty": 200,
-    "timeLimit": 95,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-23 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0456",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "EMPIRE",
-          "clue": "Extensive group of states, territories, or nationalities governed under a single supreme authority.",
-          "category": "CIVILIZATION",
-          "scrambled": "P M I E R E"
-        },
-        {
-          "id": "R2",
-          "word": "PHARAOH",
-          "clue": "The title used for the monarch rulers of ancient Egypt.",
-          "category": "ANCIENT",
-          "scrambled": "A H H A P O R"
-        },
-        {
-          "id": "R3",
-          "word": "PYRAMID",
-          "clue": "Monumental triangular masonry structures built as monumental tombs in the ancient world.",
-          "category": "ARCHAEOLOGY",
-          "scrambled": "A D I Y P M R"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "EMPIRE-PHARAOH-PYRAMID",
-      "acceptedAnswers": [
-        "EMPIRE-PHARAOH-PYRAMID",
-        "EMPIRE PHARAOH PYRAMID",
-        "EMPIRE,PHARAOH,PYRAMID",
-        "WORDGUESS:EMPIRE-PHARAOH-PYRAMID"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 6-letter term from CIVILIZATION; the word begins with letter 'E' or ends with 'E'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [P M I E R E] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WG-0457",
     "title": "WORD GUESS // WORLD #0457",
     "category": "PUZZLES",
@@ -23354,64 +11705,6 @@ export const wordGuessChallenges = [
       "hints": [
         "HINT 01 // Round 1 clue indicates a 7-letter term from ANCIENT; the word begins with letter 'P' or ends with 'H'.",
         "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [R H H P A A O] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WG-0458",
-    "title": "WORD GUESS // WORLD #0458",
-    "category": "PUZZLES",
-    "description": "Unscramble 3 domain terminology anagrams from WORLD HISTORY & CIVILIZATIONS under timed conditions.",
-    "difficulty": "HIGH",
-    "risk": "AGGRESSIVE",
-    "cost": 300,
-    "reward": 750,
-    "penalty": 200,
-    "timeLimit": 95,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-23 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0458",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "CRUSADE",
-          "clue": "Series of religious military campaigns sanctioned by the Latin Church in the medieval era.",
-          "category": "HISTORY",
-          "scrambled": "C S A U E D R"
-        },
-        {
-          "id": "R2",
-          "word": "PYRAMID",
-          "clue": "Monumental triangular masonry structures built as monumental tombs in the ancient world.",
-          "category": "ARCHAEOLOGY",
-          "scrambled": "M A Y D I R P"
-        },
-        {
-          "id": "R3",
-          "word": "PHARAOH",
-          "clue": "The title used for the monarch rulers of ancient Egypt.",
-          "category": "ANCIENT",
-          "scrambled": "H O H A P A R"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "CRUSADE-PYRAMID-PHARAOH",
-      "acceptedAnswers": [
-        "CRUSADE-PYRAMID-PHARAOH",
-        "CRUSADE PYRAMID PHARAOH",
-        "CRUSADE,PYRAMID,PHARAOH",
-        "WORDGUESS:CRUSADE-PYRAMID-PHARAOH"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 7-letter term from HISTORY; the word begins with letter 'C' or ends with 'E'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [C S A U E D R] to identify common prefixes or suffixes."
       ]
     },
     "enabled": true,
@@ -23476,64 +11769,6 @@ export const wordGuessChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WG-0460",
-    "title": "WORD GUESS // WORLD #0460",
-    "category": "PUZZLES",
-    "description": "Unscramble 3 domain terminology anagrams from WORLD HISTORY & CIVILIZATIONS under timed conditions.",
-    "difficulty": "HIGH",
-    "risk": "AGGRESSIVE",
-    "cost": 300,
-    "reward": 750,
-    "penalty": 200,
-    "timeLimit": 95,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-24 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0460",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "PHARAOH",
-          "clue": "The title used for the monarch rulers of ancient Egypt.",
-          "category": "ANCIENT",
-          "scrambled": "P H O A H A R"
-        },
-        {
-          "id": "R2",
-          "word": "MONARCH",
-          "clue": "Sovereign head of state reigning over a kingdom or empire, usually by hereditary right.",
-          "category": "GOVERNANCE",
-          "scrambled": "O A N C R H M"
-        },
-        {
-          "id": "R3",
-          "word": "DYNASTY",
-          "clue": "Sequence of hereditary rulers from the same family line holding imperial power.",
-          "category": "HISTORICAL",
-          "scrambled": "A T Y S D N Y"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "PHARAOH-MONARCH-DYNASTY",
-      "acceptedAnswers": [
-        "PHARAOH-MONARCH-DYNASTY",
-        "PHARAOH MONARCH DYNASTY",
-        "PHARAOH,MONARCH,DYNASTY",
-        "WORDGUESS:PHARAOH-MONARCH-DYNASTY"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 7-letter term from ANCIENT; the word begins with letter 'P' or ends with 'H'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [P H O A H A R] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WG-0461",
     "title": "WORD GUESS // WORLD #0461",
     "category": "PUZZLES",
@@ -23586,64 +11821,6 @@ export const wordGuessChallenges = [
       "hints": [
         "HINT 01 // Round 1 clue indicates a 7-letter term from HISTORY; the word begins with letter 'C' or ends with 'E'.",
         "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [E R A C S D U] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WG-0462",
-    "title": "WORD GUESS // WORLD #0462",
-    "category": "PUZZLES",
-    "description": "Unscramble 3 domain terminology anagrams from WORLD HISTORY & CIVILIZATIONS under timed conditions.",
-    "difficulty": "HIGH",
-    "risk": "AGGRESSIVE",
-    "cost": 300,
-    "reward": 750,
-    "penalty": 200,
-    "timeLimit": 95,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-24 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0462",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "SAMURAI",
-          "clue": "Hereditary military nobility and warrior caste of medieval and early-modern Japan.",
-          "category": "MEDIEVAL",
-          "scrambled": "S A A M U R I"
-        },
-        {
-          "id": "R2",
-          "word": "DYNASTY",
-          "clue": "Sequence of hereditary rulers from the same family line holding imperial power.",
-          "category": "HISTORICAL",
-          "scrambled": "T S A Y Y N D"
-        },
-        {
-          "id": "R3",
-          "word": "CRUSADE",
-          "clue": "Series of religious military campaigns sanctioned by the Latin Church in the medieval era.",
-          "category": "HISTORY",
-          "scrambled": "S R A U C D E"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "SAMURAI-DYNASTY-CRUSADE",
-      "acceptedAnswers": [
-        "SAMURAI-DYNASTY-CRUSADE",
-        "SAMURAI DYNASTY CRUSADE",
-        "SAMURAI,DYNASTY,CRUSADE",
-        "WORDGUESS:SAMURAI-DYNASTY-CRUSADE"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 7-letter term from MEDIEVAL; the word begins with letter 'S' or ends with 'I'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [S A A M U R I] to identify common prefixes or suffixes."
       ]
     },
     "enabled": true,
@@ -23708,64 +11885,6 @@ export const wordGuessChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WG-0464",
-    "title": "WORD GUESS // WORLD #0464",
-    "category": "PUZZLES",
-    "description": "Unscramble 3 domain terminology anagrams from WORLD HISTORY & CIVILIZATIONS under timed conditions.",
-    "difficulty": "HIGH",
-    "risk": "AGGRESSIVE",
-    "cost": 300,
-    "reward": 750,
-    "penalty": 200,
-    "timeLimit": 95,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-24 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0464",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "MONARCH",
-          "clue": "Sovereign head of state reigning over a kingdom or empire, usually by hereditary right.",
-          "category": "GOVERNANCE",
-          "scrambled": "R N H O M C A"
-        },
-        {
-          "id": "R2",
-          "word": "SAMURAI",
-          "clue": "Hereditary military nobility and warrior caste of medieval and early-modern Japan.",
-          "category": "MEDIEVAL",
-          "scrambled": "S A I R U A M"
-        },
-        {
-          "id": "R3",
-          "word": "COLONY",
-          "clue": "Territory under the political control and governance of a distant sovereign state.",
-          "category": "HISTORY",
-          "scrambled": "Y O C O L N"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "MONARCH-SAMURAI-COLONY",
-      "acceptedAnswers": [
-        "MONARCH-SAMURAI-COLONY",
-        "MONARCH SAMURAI COLONY",
-        "MONARCH,SAMURAI,COLONY",
-        "WORDGUESS:MONARCH-SAMURAI-COLONY"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 7-letter term from GOVERNANCE; the word begins with letter 'M' or ends with 'H'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [R N H O M C A] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WG-0465",
     "title": "WORD GUESS // WORLD #0465",
     "category": "PUZZLES",
@@ -23818,64 +11937,6 @@ export const wordGuessChallenges = [
       "hints": [
         "HINT 01 // Round 1 clue indicates a 6-letter term from CIVILIZATION; the word begins with letter 'E' or ends with 'E'.",
         "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [M E I P R E] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WG-0466",
-    "title": "WORD GUESS // WORLD #0466",
-    "category": "PUZZLES",
-    "description": "Unscramble 3 domain terminology anagrams from WORLD HISTORY & CIVILIZATIONS under timed conditions.",
-    "difficulty": "HIGH",
-    "risk": "AGGRESSIVE",
-    "cost": 300,
-    "reward": 750,
-    "penalty": 200,
-    "timeLimit": 95,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-24 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0466",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "REVOLUTION",
-          "clue": "Fundamental and relatively sudden change in political power and social organizational structure.",
-          "category": "POLITICAL",
-          "scrambled": "U N V R O O L I T E"
-        },
-        {
-          "id": "R2",
-          "word": "COLONY",
-          "clue": "Territory under the political control and governance of a distant sovereign state.",
-          "category": "HISTORY",
-          "scrambled": "L Y C N O O"
-        },
-        {
-          "id": "R3",
-          "word": "COLOSSEUM",
-          "clue": "Oval amphitheater in the center of ancient Rome hosting gladiatorial contests.",
-          "category": "ANTIQUITY",
-          "scrambled": "S O U C S M O L E"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "REVOLUTION-COLONY-COLOSSEUM",
-      "acceptedAnswers": [
-        "REVOLUTION-COLONY-COLOSSEUM",
-        "REVOLUTION COLONY COLOSSEUM",
-        "REVOLUTION,COLONY,COLOSSEUM",
-        "WORDGUESS:REVOLUTION-COLONY-COLOSSEUM"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 10-letter term from POLITICAL; the word begins with letter 'R' or ends with 'N'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [U N V R O O L I T E] to identify common prefixes or suffixes."
       ]
     },
     "enabled": true,
@@ -23940,64 +12001,6 @@ export const wordGuessChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WG-0468",
-    "title": "WORD GUESS // WORLD #0468",
-    "category": "PUZZLES",
-    "description": "Unscramble 3 domain terminology anagrams from WORLD HISTORY & CIVILIZATIONS under timed conditions.",
-    "difficulty": "HIGH",
-    "risk": "AGGRESSIVE",
-    "cost": 300,
-    "reward": 750,
-    "penalty": 200,
-    "timeLimit": 95,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-24 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0468",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "MONARCH",
-          "clue": "Sovereign head of state reigning over a kingdom or empire, usually by hereditary right.",
-          "category": "GOVERNANCE",
-          "scrambled": "A C M R O H N"
-        },
-        {
-          "id": "R2",
-          "word": "PHARAOH",
-          "clue": "The title used for the monarch rulers of ancient Egypt.",
-          "category": "ANCIENT",
-          "scrambled": "A H R P A H O"
-        },
-        {
-          "id": "R3",
-          "word": "SAMURAI",
-          "clue": "Hereditary military nobility and warrior caste of medieval and early-modern Japan.",
-          "category": "MEDIEVAL",
-          "scrambled": "A I M A R S U"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "MONARCH-PHARAOH-SAMURAI",
-      "acceptedAnswers": [
-        "MONARCH-PHARAOH-SAMURAI",
-        "MONARCH PHARAOH SAMURAI",
-        "MONARCH,PHARAOH,SAMURAI",
-        "WORDGUESS:MONARCH-PHARAOH-SAMURAI"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 7-letter term from GOVERNANCE; the word begins with letter 'M' or ends with 'H'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [A C M R O H N] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WG-0469",
     "title": "WORD GUESS // WORLD #0469",
     "category": "PUZZLES",
@@ -24050,64 +12053,6 @@ export const wordGuessChallenges = [
       "hints": [
         "HINT 01 // Round 1 clue indicates a 10-letter term from POLITICAL; the word begins with letter 'R' or ends with 'N'.",
         "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [L E O N U T V R O I] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WG-0470",
-    "title": "WORD GUESS // WORLD #0470",
-    "category": "PUZZLES",
-    "description": "Unscramble 3 domain terminology anagrams from WORLD HISTORY & CIVILIZATIONS under timed conditions.",
-    "difficulty": "HIGH",
-    "risk": "AGGRESSIVE",
-    "cost": 300,
-    "reward": 750,
-    "penalty": 200,
-    "timeLimit": 95,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-24 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0470",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "CRUSADE",
-          "clue": "Series of religious military campaigns sanctioned by the Latin Church in the medieval era.",
-          "category": "HISTORY",
-          "scrambled": "R E D S U C A"
-        },
-        {
-          "id": "R2",
-          "word": "COLOSSEUM",
-          "clue": "Oval amphitheater in the center of ancient Rome hosting gladiatorial contests.",
-          "category": "ANTIQUITY",
-          "scrambled": "E O U S S M C L O"
-        },
-        {
-          "id": "R3",
-          "word": "COLONY",
-          "clue": "Territory under the political control and governance of a distant sovereign state.",
-          "category": "HISTORY",
-          "scrambled": "C N O L O Y"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "CRUSADE-COLOSSEUM-COLONY",
-      "acceptedAnswers": [
-        "CRUSADE-COLOSSEUM-COLONY",
-        "CRUSADE COLOSSEUM COLONY",
-        "CRUSADE,COLOSSEUM,COLONY",
-        "WORDGUESS:CRUSADE-COLOSSEUM-COLONY"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 7-letter term from HISTORY; the word begins with letter 'C' or ends with 'E'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [R E D S U C A] to identify common prefixes or suffixes."
       ]
     },
     "enabled": true,
@@ -24172,64 +12117,6 @@ export const wordGuessChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WG-0472",
-    "title": "WORD GUESS // WORLD #0472",
-    "category": "PUZZLES",
-    "description": "Unscramble 3 domain terminology anagrams from WORLD HISTORY & CIVILIZATIONS under timed conditions.",
-    "difficulty": "HIGH",
-    "risk": "AGGRESSIVE",
-    "cost": 300,
-    "reward": 750,
-    "penalty": 200,
-    "timeLimit": 95,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-24 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0472",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "COLOSSEUM",
-          "clue": "Oval amphitheater in the center of ancient Rome hosting gladiatorial contests.",
-          "category": "ANTIQUITY",
-          "scrambled": "U E M C S O S O L"
-        },
-        {
-          "id": "R2",
-          "word": "PYRAMID",
-          "clue": "Monumental triangular masonry structures built as monumental tombs in the ancient world.",
-          "category": "ARCHAEOLOGY",
-          "scrambled": "P M A R D Y I"
-        },
-        {
-          "id": "R3",
-          "word": "CRUSADE",
-          "clue": "Series of religious military campaigns sanctioned by the Latin Church in the medieval era.",
-          "category": "HISTORY",
-          "scrambled": "E A S D U R C"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "COLOSSEUM-PYRAMID-CRUSADE",
-      "acceptedAnswers": [
-        "COLOSSEUM-PYRAMID-CRUSADE",
-        "COLOSSEUM PYRAMID CRUSADE",
-        "COLOSSEUM,PYRAMID,CRUSADE",
-        "WORDGUESS:COLOSSEUM-PYRAMID-CRUSADE"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 9-letter term from ANTIQUITY; the word begins with letter 'C' or ends with 'M'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [U E M C S O S O L] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WG-0473",
     "title": "WORD GUESS // WORLD #0473",
     "category": "PUZZLES",
@@ -24282,64 +12169,6 @@ export const wordGuessChallenges = [
       "hints": [
         "HINT 01 // Round 1 clue indicates a 7-letter term from MEDIEVAL; the word begins with letter 'S' or ends with 'I'.",
         "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [U A R I A M S] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WG-0474",
-    "title": "WORD GUESS // WORLD #0474",
-    "category": "PUZZLES",
-    "description": "Unscramble 3 domain terminology anagrams from WORLD HISTORY & CIVILIZATIONS under timed conditions.",
-    "difficulty": "HIGH",
-    "risk": "AGGRESSIVE",
-    "cost": 300,
-    "reward": 750,
-    "penalty": 200,
-    "timeLimit": 95,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-24 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0474",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "COLONY",
-          "clue": "Territory under the political control and governance of a distant sovereign state.",
-          "category": "HISTORY",
-          "scrambled": "O Y L O N C"
-        },
-        {
-          "id": "R2",
-          "word": "CRUSADE",
-          "clue": "Series of religious military campaigns sanctioned by the Latin Church in the medieval era.",
-          "category": "HISTORY",
-          "scrambled": "C R D E A U S"
-        },
-        {
-          "id": "R3",
-          "word": "PYRAMID",
-          "clue": "Monumental triangular masonry structures built as monumental tombs in the ancient world.",
-          "category": "ARCHAEOLOGY",
-          "scrambled": "D A R I M Y P"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "COLONY-CRUSADE-PYRAMID",
-      "acceptedAnswers": [
-        "COLONY-CRUSADE-PYRAMID",
-        "COLONY CRUSADE PYRAMID",
-        "COLONY,CRUSADE,PYRAMID",
-        "WORDGUESS:COLONY-CRUSADE-PYRAMID"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 6-letter term from HISTORY; the word begins with letter 'C' or ends with 'Y'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [O Y L O N C] to identify common prefixes or suffixes."
       ]
     },
     "enabled": true,
@@ -24404,64 +12233,6 @@ export const wordGuessChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WG-0476",
-    "title": "WORD GUESS // WORLD #0476",
-    "category": "PUZZLES",
-    "description": "Unscramble 3 domain terminology anagrams from WORLD HISTORY & CIVILIZATIONS under timed conditions.",
-    "difficulty": "HIGH",
-    "risk": "AGGRESSIVE",
-    "cost": 300,
-    "reward": 750,
-    "penalty": 200,
-    "timeLimit": 95,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-24 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0476",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "SAMURAI",
-          "clue": "Hereditary military nobility and warrior caste of medieval and early-modern Japan.",
-          "category": "MEDIEVAL",
-          "scrambled": "A U I A S R M"
-        },
-        {
-          "id": "R2",
-          "word": "DYNASTY",
-          "clue": "Sequence of hereditary rulers from the same family line holding imperial power.",
-          "category": "HISTORICAL",
-          "scrambled": "D T N A Y Y S"
-        },
-        {
-          "id": "R3",
-          "word": "COLONY",
-          "clue": "Territory under the political control and governance of a distant sovereign state.",
-          "category": "HISTORY",
-          "scrambled": "O N C O L Y"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "SAMURAI-DYNASTY-COLONY",
-      "acceptedAnswers": [
-        "SAMURAI-DYNASTY-COLONY",
-        "SAMURAI DYNASTY COLONY",
-        "SAMURAI,DYNASTY,COLONY",
-        "WORDGUESS:SAMURAI-DYNASTY-COLONY"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 7-letter term from MEDIEVAL; the word begins with letter 'S' or ends with 'I'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [A U I A S R M] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WG-0477",
     "title": "WORD GUESS // WORLD #0477",
     "category": "PUZZLES",
@@ -24514,64 +12285,6 @@ export const wordGuessChallenges = [
       "hints": [
         "HINT 01 // Round 1 clue indicates a 7-letter term from HISTORY; the word begins with letter 'C' or ends with 'E'.",
         "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [R S A E U D C] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WG-0478",
-    "title": "WORD GUESS // WORLD #0478",
-    "category": "PUZZLES",
-    "description": "Unscramble 3 domain terminology anagrams from WORLD HISTORY & CIVILIZATIONS under timed conditions.",
-    "difficulty": "HIGH",
-    "risk": "AGGRESSIVE",
-    "cost": 300,
-    "reward": 750,
-    "penalty": 200,
-    "timeLimit": 95,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-24 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0478",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "CRUSADE",
-          "clue": "Series of religious military campaigns sanctioned by the Latin Church in the medieval era.",
-          "category": "HISTORY",
-          "scrambled": "E A U R D S C"
-        },
-        {
-          "id": "R2",
-          "word": "COLOSSEUM",
-          "clue": "Oval amphitheater in the center of ancient Rome hosting gladiatorial contests.",
-          "category": "ANTIQUITY",
-          "scrambled": "S O U L M S O E C"
-        },
-        {
-          "id": "R3",
-          "word": "MONARCH",
-          "clue": "Sovereign head of state reigning over a kingdom or empire, usually by hereditary right.",
-          "category": "GOVERNANCE",
-          "scrambled": "A C R H N M O"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "CRUSADE-COLOSSEUM-MONARCH",
-      "acceptedAnswers": [
-        "CRUSADE-COLOSSEUM-MONARCH",
-        "CRUSADE COLOSSEUM MONARCH",
-        "CRUSADE,COLOSSEUM,MONARCH",
-        "WORDGUESS:CRUSADE-COLOSSEUM-MONARCH"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 7-letter term from HISTORY; the word begins with letter 'C' or ends with 'E'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [E A U R D S C] to identify common prefixes or suffixes."
       ]
     },
     "enabled": true,
@@ -24636,64 +12349,6 @@ export const wordGuessChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WG-0480",
-    "title": "WORD GUESS // WORLD #0480",
-    "category": "PUZZLES",
-    "description": "Unscramble 3 domain terminology anagrams from WORLD HISTORY & CIVILIZATIONS under timed conditions.",
-    "difficulty": "HIGH",
-    "risk": "AGGRESSIVE",
-    "cost": 300,
-    "reward": 750,
-    "penalty": 200,
-    "timeLimit": 95,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-25 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0480",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "COLOSSEUM",
-          "clue": "Oval amphitheater in the center of ancient Rome hosting gladiatorial contests.",
-          "category": "ANTIQUITY",
-          "scrambled": "U M S C E S O L O"
-        },
-        {
-          "id": "R2",
-          "word": "PHARAOH",
-          "clue": "The title used for the monarch rulers of ancient Egypt.",
-          "category": "ANCIENT",
-          "scrambled": "A H H P O A R"
-        },
-        {
-          "id": "R3",
-          "word": "DYNASTY",
-          "clue": "Sequence of hereditary rulers from the same family line holding imperial power.",
-          "category": "HISTORICAL",
-          "scrambled": "N D A Y Y S T"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "COLOSSEUM-PHARAOH-DYNASTY",
-      "acceptedAnswers": [
-        "COLOSSEUM-PHARAOH-DYNASTY",
-        "COLOSSEUM PHARAOH DYNASTY",
-        "COLOSSEUM,PHARAOH,DYNASTY",
-        "WORDGUESS:COLOSSEUM-PHARAOH-DYNASTY"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 9-letter term from ANTIQUITY; the word begins with letter 'C' or ends with 'M'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [U M S C E S O L O] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WG-0481",
     "title": "WORD GUESS // WORLD #0481",
     "category": "PUZZLES",
@@ -24746,64 +12401,6 @@ export const wordGuessChallenges = [
       "hints": [
         "HINT 01 // Round 1 clue indicates a 7-letter term from HISTORY; the word begins with letter 'C' or ends with 'E'.",
         "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [E U S A C D R] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WG-0482",
-    "title": "WORD GUESS // WORLD #0482",
-    "category": "PUZZLES",
-    "description": "Unscramble 3 domain terminology anagrams from WORLD HISTORY & CIVILIZATIONS under timed conditions.",
-    "difficulty": "HIGH",
-    "risk": "AGGRESSIVE",
-    "cost": 300,
-    "reward": 750,
-    "penalty": 200,
-    "timeLimit": 95,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-25 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0482",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "REVOLUTION",
-          "clue": "Fundamental and relatively sudden change in political power and social organizational structure.",
-          "category": "POLITICAL",
-          "scrambled": "V I E T U N O R O L"
-        },
-        {
-          "id": "R2",
-          "word": "PHARAOH",
-          "clue": "The title used for the monarch rulers of ancient Egypt.",
-          "category": "ANCIENT",
-          "scrambled": "A O H P A R H"
-        },
-        {
-          "id": "R3",
-          "word": "EMPIRE",
-          "clue": "Extensive group of states, territories, or nationalities governed under a single supreme authority.",
-          "category": "CIVILIZATION",
-          "scrambled": "R E M E I P"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "REVOLUTION-PHARAOH-EMPIRE",
-      "acceptedAnswers": [
-        "REVOLUTION-PHARAOH-EMPIRE",
-        "REVOLUTION PHARAOH EMPIRE",
-        "REVOLUTION,PHARAOH,EMPIRE",
-        "WORDGUESS:REVOLUTION-PHARAOH-EMPIRE"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 10-letter term from POLITICAL; the word begins with letter 'R' or ends with 'N'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [V I E T U N O R O L] to identify common prefixes or suffixes."
       ]
     },
     "enabled": true,
@@ -24868,64 +12465,6 @@ export const wordGuessChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WG-0484",
-    "title": "WORD GUESS // WORLD #0484",
-    "category": "PUZZLES",
-    "description": "Unscramble 3 domain terminology anagrams from WORLD HISTORY & CIVILIZATIONS under timed conditions.",
-    "difficulty": "HIGH",
-    "risk": "AGGRESSIVE",
-    "cost": 300,
-    "reward": 750,
-    "penalty": 200,
-    "timeLimit": 95,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-25 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0484",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "MONARCH",
-          "clue": "Sovereign head of state reigning over a kingdom or empire, usually by hereditary right.",
-          "category": "GOVERNANCE",
-          "scrambled": "M A O C R H N"
-        },
-        {
-          "id": "R2",
-          "word": "COLONY",
-          "clue": "Territory under the political control and governance of a distant sovereign state.",
-          "category": "HISTORY",
-          "scrambled": "C O O N Y L"
-        },
-        {
-          "id": "R3",
-          "word": "REVOLUTION",
-          "clue": "Fundamental and relatively sudden change in political power and social organizational structure.",
-          "category": "POLITICAL",
-          "scrambled": "I U O E L N O R T V"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "MONARCH-COLONY-REVOLUTION",
-      "acceptedAnswers": [
-        "MONARCH-COLONY-REVOLUTION",
-        "MONARCH COLONY REVOLUTION",
-        "MONARCH,COLONY,REVOLUTION",
-        "WORDGUESS:MONARCH-COLONY-REVOLUTION"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 7-letter term from GOVERNANCE; the word begins with letter 'M' or ends with 'H'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [M A O C R H N] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WG-0485",
     "title": "WORD GUESS // WORLD #0485",
     "category": "PUZZLES",
@@ -24978,64 +12517,6 @@ export const wordGuessChallenges = [
       "hints": [
         "HINT 01 // Round 1 clue indicates a 7-letter term from HISTORY; the word begins with letter 'C' or ends with 'E'.",
         "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [A D C R E U S] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WG-0486",
-    "title": "WORD GUESS // WORLD #0486",
-    "category": "PUZZLES",
-    "description": "Unscramble 3 domain terminology anagrams from WORLD HISTORY & CIVILIZATIONS under timed conditions.",
-    "difficulty": "HIGH",
-    "risk": "AGGRESSIVE",
-    "cost": 300,
-    "reward": 750,
-    "penalty": 200,
-    "timeLimit": 95,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-25 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0486",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "DYNASTY",
-          "clue": "Sequence of hereditary rulers from the same family line holding imperial power.",
-          "category": "HISTORICAL",
-          "scrambled": "N T Y S D Y A"
-        },
-        {
-          "id": "R2",
-          "word": "COLONY",
-          "clue": "Territory under the political control and governance of a distant sovereign state.",
-          "category": "HISTORY",
-          "scrambled": "L N C O Y O"
-        },
-        {
-          "id": "R3",
-          "word": "COLOSSEUM",
-          "clue": "Oval amphitheater in the center of ancient Rome hosting gladiatorial contests.",
-          "category": "ANTIQUITY",
-          "scrambled": "L S M E U O S O C"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "DYNASTY-COLONY-COLOSSEUM",
-      "acceptedAnswers": [
-        "DYNASTY-COLONY-COLOSSEUM",
-        "DYNASTY COLONY COLOSSEUM",
-        "DYNASTY,COLONY,COLOSSEUM",
-        "WORDGUESS:DYNASTY-COLONY-COLOSSEUM"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 7-letter term from HISTORICAL; the word begins with letter 'D' or ends with 'Y'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [N T Y S D Y A] to identify common prefixes or suffixes."
       ]
     },
     "enabled": true,
@@ -25100,64 +12581,6 @@ export const wordGuessChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WG-0488",
-    "title": "WORD GUESS // WORLD #0488",
-    "category": "PUZZLES",
-    "description": "Unscramble 3 domain terminology anagrams from WORLD HISTORY & CIVILIZATIONS under timed conditions.",
-    "difficulty": "HIGH",
-    "risk": "AGGRESSIVE",
-    "cost": 300,
-    "reward": 750,
-    "penalty": 200,
-    "timeLimit": 95,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-25 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0488",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "SAMURAI",
-          "clue": "Hereditary military nobility and warrior caste of medieval and early-modern Japan.",
-          "category": "MEDIEVAL",
-          "scrambled": "I M U A S R A"
-        },
-        {
-          "id": "R2",
-          "word": "MONARCH",
-          "clue": "Sovereign head of state reigning over a kingdom or empire, usually by hereditary right.",
-          "category": "GOVERNANCE",
-          "scrambled": "A N C H M R O"
-        },
-        {
-          "id": "R3",
-          "word": "COLONY",
-          "clue": "Territory under the political control and governance of a distant sovereign state.",
-          "category": "HISTORY",
-          "scrambled": "L O N O C Y"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "SAMURAI-MONARCH-COLONY",
-      "acceptedAnswers": [
-        "SAMURAI-MONARCH-COLONY",
-        "SAMURAI MONARCH COLONY",
-        "SAMURAI,MONARCH,COLONY",
-        "WORDGUESS:SAMURAI-MONARCH-COLONY"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 7-letter term from MEDIEVAL; the word begins with letter 'S' or ends with 'I'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [I M U A S R A] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WG-0489",
     "title": "WORD GUESS // WORLD #0489",
     "category": "PUZZLES",
@@ -25210,64 +12633,6 @@ export const wordGuessChallenges = [
       "hints": [
         "HINT 01 // Round 1 clue indicates a 7-letter term from ANCIENT; the word begins with letter 'P' or ends with 'H'.",
         "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [H H A P A O R] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WG-0490",
-    "title": "WORD GUESS // WORLD #0490",
-    "category": "PUZZLES",
-    "description": "Unscramble 3 domain terminology anagrams from WORLD HISTORY & CIVILIZATIONS under timed conditions.",
-    "difficulty": "HIGH",
-    "risk": "AGGRESSIVE",
-    "cost": 300,
-    "reward": 750,
-    "penalty": 200,
-    "timeLimit": 95,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-25 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0490",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "PYRAMID",
-          "clue": "Monumental triangular masonry structures built as monumental tombs in the ancient world.",
-          "category": "ARCHAEOLOGY",
-          "scrambled": "Y M A D R I P"
-        },
-        {
-          "id": "R2",
-          "word": "COLONY",
-          "clue": "Territory under the political control and governance of a distant sovereign state.",
-          "category": "HISTORY",
-          "scrambled": "L C O N O Y"
-        },
-        {
-          "id": "R3",
-          "word": "CRUSADE",
-          "clue": "Series of religious military campaigns sanctioned by the Latin Church in the medieval era.",
-          "category": "HISTORY",
-          "scrambled": "R U A S C E D"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "PYRAMID-COLONY-CRUSADE",
-      "acceptedAnswers": [
-        "PYRAMID-COLONY-CRUSADE",
-        "PYRAMID COLONY CRUSADE",
-        "PYRAMID,COLONY,CRUSADE",
-        "WORDGUESS:PYRAMID-COLONY-CRUSADE"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 7-letter term from ARCHAEOLOGY; the word begins with letter 'P' or ends with 'D'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [Y M A D R I P] to identify common prefixes or suffixes."
       ]
     },
     "enabled": true,
@@ -25332,64 +12697,6 @@ export const wordGuessChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WG-0492",
-    "title": "WORD GUESS // WORLD #0492",
-    "category": "PUZZLES",
-    "description": "Unscramble 3 domain terminology anagrams from WORLD HISTORY & CIVILIZATIONS under timed conditions.",
-    "difficulty": "HIGH",
-    "risk": "AGGRESSIVE",
-    "cost": 300,
-    "reward": 750,
-    "penalty": 200,
-    "timeLimit": 95,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-25 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0492",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "PHARAOH",
-          "clue": "The title used for the monarch rulers of ancient Egypt.",
-          "category": "ANCIENT",
-          "scrambled": "O A A R H P H"
-        },
-        {
-          "id": "R2",
-          "word": "DYNASTY",
-          "clue": "Sequence of hereditary rulers from the same family line holding imperial power.",
-          "category": "HISTORICAL",
-          "scrambled": "T Y S N D A Y"
-        },
-        {
-          "id": "R3",
-          "word": "REVOLUTION",
-          "clue": "Fundamental and relatively sudden change in political power and social organizational structure.",
-          "category": "POLITICAL",
-          "scrambled": "O N E T V O I L U R"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "PHARAOH-DYNASTY-REVOLUTION",
-      "acceptedAnswers": [
-        "PHARAOH-DYNASTY-REVOLUTION",
-        "PHARAOH DYNASTY REVOLUTION",
-        "PHARAOH,DYNASTY,REVOLUTION",
-        "WORDGUESS:PHARAOH-DYNASTY-REVOLUTION"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 7-letter term from ANCIENT; the word begins with letter 'P' or ends with 'H'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [O A A R H P H] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WG-0493",
     "title": "WORD GUESS // WORLD #0493",
     "category": "PUZZLES",
@@ -25442,64 +12749,6 @@ export const wordGuessChallenges = [
       "hints": [
         "HINT 01 // Round 1 clue indicates a 9-letter term from ANTIQUITY; the word begins with letter 'C' or ends with 'M'.",
         "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [C S S O M E U L O] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WG-0494",
-    "title": "WORD GUESS // WORLD #0494",
-    "category": "PUZZLES",
-    "description": "Unscramble 3 domain terminology anagrams from WORLD HISTORY & CIVILIZATIONS under timed conditions.",
-    "difficulty": "HIGH",
-    "risk": "AGGRESSIVE",
-    "cost": 300,
-    "reward": 750,
-    "penalty": 200,
-    "timeLimit": 95,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-25 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0494",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "REVOLUTION",
-          "clue": "Fundamental and relatively sudden change in political power and social organizational structure.",
-          "category": "POLITICAL",
-          "scrambled": "O T R I O V E N U L"
-        },
-        {
-          "id": "R2",
-          "word": "EMPIRE",
-          "clue": "Extensive group of states, territories, or nationalities governed under a single supreme authority.",
-          "category": "CIVILIZATION",
-          "scrambled": "P R I E M E"
-        },
-        {
-          "id": "R3",
-          "word": "MONARCH",
-          "clue": "Sovereign head of state reigning over a kingdom or empire, usually by hereditary right.",
-          "category": "GOVERNANCE",
-          "scrambled": "M C A R O N H"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "REVOLUTION-EMPIRE-MONARCH",
-      "acceptedAnswers": [
-        "REVOLUTION-EMPIRE-MONARCH",
-        "REVOLUTION EMPIRE MONARCH",
-        "REVOLUTION,EMPIRE,MONARCH",
-        "WORDGUESS:REVOLUTION-EMPIRE-MONARCH"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 10-letter term from POLITICAL; the word begins with letter 'R' or ends with 'N'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [O T R I O V E N U L] to identify common prefixes or suffixes."
       ]
     },
     "enabled": true,
@@ -25564,64 +12813,6 @@ export const wordGuessChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WG-0496",
-    "title": "WORD GUESS // WORLD #0496",
-    "category": "PUZZLES",
-    "description": "Unscramble 3 domain terminology anagrams from WORLD HISTORY & CIVILIZATIONS under timed conditions.",
-    "difficulty": "HIGH",
-    "risk": "AGGRESSIVE",
-    "cost": 300,
-    "reward": 750,
-    "penalty": 200,
-    "timeLimit": 95,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-25 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0496",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "SAMURAI",
-          "clue": "Hereditary military nobility and warrior caste of medieval and early-modern Japan.",
-          "category": "MEDIEVAL",
-          "scrambled": "R A S I U M A"
-        },
-        {
-          "id": "R2",
-          "word": "DYNASTY",
-          "clue": "Sequence of hereditary rulers from the same family line holding imperial power.",
-          "category": "HISTORICAL",
-          "scrambled": "A N T S Y D Y"
-        },
-        {
-          "id": "R3",
-          "word": "REVOLUTION",
-          "clue": "Fundamental and relatively sudden change in political power and social organizational structure.",
-          "category": "POLITICAL",
-          "scrambled": "U O L O I E N R V T"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "SAMURAI-DYNASTY-REVOLUTION",
-      "acceptedAnswers": [
-        "SAMURAI-DYNASTY-REVOLUTION",
-        "SAMURAI DYNASTY REVOLUTION",
-        "SAMURAI,DYNASTY,REVOLUTION",
-        "WORDGUESS:SAMURAI-DYNASTY-REVOLUTION"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 7-letter term from MEDIEVAL; the word begins with letter 'S' or ends with 'I'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [R A S I U M A] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WG-0497",
     "title": "WORD GUESS // WORLD #0497",
     "category": "PUZZLES",
@@ -25674,64 +12865,6 @@ export const wordGuessChallenges = [
       "hints": [
         "HINT 01 // Round 1 clue indicates a 7-letter term from GOVERNANCE; the word begins with letter 'M' or ends with 'H'.",
         "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [A C M R H O N] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WG-0498",
-    "title": "WORD GUESS // WORLD #0498",
-    "category": "PUZZLES",
-    "description": "Unscramble 3 domain terminology anagrams from WORLD HISTORY & CIVILIZATIONS under timed conditions.",
-    "difficulty": "HIGH",
-    "risk": "AGGRESSIVE",
-    "cost": 300,
-    "reward": 750,
-    "penalty": 200,
-    "timeLimit": 95,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-25 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0498",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "CRUSADE",
-          "clue": "Series of religious military campaigns sanctioned by the Latin Church in the medieval era.",
-          "category": "HISTORY",
-          "scrambled": "E D C U A S R"
-        },
-        {
-          "id": "R2",
-          "word": "DYNASTY",
-          "clue": "Sequence of hereditary rulers from the same family line holding imperial power.",
-          "category": "HISTORICAL",
-          "scrambled": "Y A D S Y N T"
-        },
-        {
-          "id": "R3",
-          "word": "EMPIRE",
-          "clue": "Extensive group of states, territories, or nationalities governed under a single supreme authority.",
-          "category": "CIVILIZATION",
-          "scrambled": "I R M E E P"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "CRUSADE-DYNASTY-EMPIRE",
-      "acceptedAnswers": [
-        "CRUSADE-DYNASTY-EMPIRE",
-        "CRUSADE DYNASTY EMPIRE",
-        "CRUSADE,DYNASTY,EMPIRE",
-        "WORDGUESS:CRUSADE-DYNASTY-EMPIRE"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 7-letter term from HISTORY; the word begins with letter 'C' or ends with 'E'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [E D C U A S R] to identify common prefixes or suffixes."
       ]
     },
     "enabled": true,
@@ -25796,64 +12929,6 @@ export const wordGuessChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WG-0500",
-    "title": "WORD GUESS // WORLD #0500",
-    "category": "PUZZLES",
-    "description": "Unscramble 3 domain terminology anagrams from WORLD HISTORY & CIVILIZATIONS under timed conditions.",
-    "difficulty": "HIGH",
-    "risk": "AGGRESSIVE",
-    "cost": 300,
-    "reward": 750,
-    "penalty": 200,
-    "timeLimit": 95,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-26 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0500",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "COLOSSEUM",
-          "clue": "Oval amphitheater in the center of ancient Rome hosting gladiatorial contests.",
-          "category": "ANTIQUITY",
-          "scrambled": "C M E S L S U O O"
-        },
-        {
-          "id": "R2",
-          "word": "COLONY",
-          "clue": "Territory under the political control and governance of a distant sovereign state.",
-          "category": "HISTORY",
-          "scrambled": "O N O C L Y"
-        },
-        {
-          "id": "R3",
-          "word": "SAMURAI",
-          "clue": "Hereditary military nobility and warrior caste of medieval and early-modern Japan.",
-          "category": "MEDIEVAL",
-          "scrambled": "S A I M U R A"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "COLOSSEUM-COLONY-SAMURAI",
-      "acceptedAnswers": [
-        "COLOSSEUM-COLONY-SAMURAI",
-        "COLOSSEUM COLONY SAMURAI",
-        "COLOSSEUM,COLONY,SAMURAI",
-        "WORDGUESS:COLOSSEUM-COLONY-SAMURAI"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 9-letter term from ANTIQUITY; the word begins with letter 'C' or ends with 'M'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [C M E S L S U O O] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WG-0501",
     "title": "WORD GUESS // WORLD #0501",
     "category": "PUZZLES",
@@ -25906,64 +12981,6 @@ export const wordGuessChallenges = [
       "hints": [
         "HINT 01 // Round 1 clue indicates a 7-letter term from ANCIENT; the word begins with letter 'P' or ends with 'H'.",
         "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [A O P R H A H] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WG-0502",
-    "title": "WORD GUESS // WORLD #0502",
-    "category": "PUZZLES",
-    "description": "Unscramble 3 domain terminology anagrams from WORLD HISTORY & CIVILIZATIONS under timed conditions.",
-    "difficulty": "HIGH",
-    "risk": "AGGRESSIVE",
-    "cost": 300,
-    "reward": 750,
-    "penalty": 200,
-    "timeLimit": 95,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-26 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0502",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "PYRAMID",
-          "clue": "Monumental triangular masonry structures built as monumental tombs in the ancient world.",
-          "category": "ARCHAEOLOGY",
-          "scrambled": "M A P D Y R I"
-        },
-        {
-          "id": "R2",
-          "word": "REVOLUTION",
-          "clue": "Fundamental and relatively sudden change in political power and social organizational structure.",
-          "category": "POLITICAL",
-          "scrambled": "V I U O R L T E N O"
-        },
-        {
-          "id": "R3",
-          "word": "CRUSADE",
-          "clue": "Series of religious military campaigns sanctioned by the Latin Church in the medieval era.",
-          "category": "HISTORY",
-          "scrambled": "E U S R C D A"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "PYRAMID-REVOLUTION-CRUSADE",
-      "acceptedAnswers": [
-        "PYRAMID-REVOLUTION-CRUSADE",
-        "PYRAMID REVOLUTION CRUSADE",
-        "PYRAMID,REVOLUTION,CRUSADE",
-        "WORDGUESS:PYRAMID-REVOLUTION-CRUSADE"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 7-letter term from ARCHAEOLOGY; the word begins with letter 'P' or ends with 'D'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [M A P D Y R I] to identify common prefixes or suffixes."
       ]
     },
     "enabled": true,
@@ -26028,64 +13045,6 @@ export const wordGuessChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WG-0504",
-    "title": "WORD GUESS // WORLD #0504",
-    "category": "PUZZLES",
-    "description": "Unscramble 3 domain terminology anagrams from WORLD HISTORY & CIVILIZATIONS under timed conditions.",
-    "difficulty": "HIGH",
-    "risk": "AGGRESSIVE",
-    "cost": 300,
-    "reward": 750,
-    "penalty": 200,
-    "timeLimit": 95,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-26 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0504",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "PYRAMID",
-          "clue": "Monumental triangular masonry structures built as monumental tombs in the ancient world.",
-          "category": "ARCHAEOLOGY",
-          "scrambled": "R P I A D Y M"
-        },
-        {
-          "id": "R2",
-          "word": "PHARAOH",
-          "clue": "The title used for the monarch rulers of ancient Egypt.",
-          "category": "ANCIENT",
-          "scrambled": "H H A O A R P"
-        },
-        {
-          "id": "R3",
-          "word": "EMPIRE",
-          "clue": "Extensive group of states, territories, or nationalities governed under a single supreme authority.",
-          "category": "CIVILIZATION",
-          "scrambled": "R I E M P E"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "PYRAMID-PHARAOH-EMPIRE",
-      "acceptedAnswers": [
-        "PYRAMID-PHARAOH-EMPIRE",
-        "PYRAMID PHARAOH EMPIRE",
-        "PYRAMID,PHARAOH,EMPIRE",
-        "WORDGUESS:PYRAMID-PHARAOH-EMPIRE"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 7-letter term from ARCHAEOLOGY; the word begins with letter 'P' or ends with 'D'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [R P I A D Y M] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WG-0505",
     "title": "WORD GUESS // WORLD #0505",
     "category": "PUZZLES",
@@ -26138,64 +13097,6 @@ export const wordGuessChallenges = [
       "hints": [
         "HINT 01 // Round 1 clue indicates a 7-letter term from HISTORY; the word begins with letter 'C' or ends with 'E'.",
         "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [U A R S C E D] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WG-0506",
-    "title": "WORD GUESS // WORLD #0506",
-    "category": "PUZZLES",
-    "description": "Unscramble 3 domain terminology anagrams from WORLD HISTORY & CIVILIZATIONS under timed conditions.",
-    "difficulty": "HIGH",
-    "risk": "AGGRESSIVE",
-    "cost": 300,
-    "reward": 750,
-    "penalty": 200,
-    "timeLimit": 95,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-26 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0506",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "MONARCH",
-          "clue": "Sovereign head of state reigning over a kingdom or empire, usually by hereditary right.",
-          "category": "GOVERNANCE",
-          "scrambled": "O N H C R M A"
-        },
-        {
-          "id": "R2",
-          "word": "CRUSADE",
-          "clue": "Series of religious military campaigns sanctioned by the Latin Church in the medieval era.",
-          "category": "HISTORY",
-          "scrambled": "A C U S D E R"
-        },
-        {
-          "id": "R3",
-          "word": "COLOSSEUM",
-          "clue": "Oval amphitheater in the center of ancient Rome hosting gladiatorial contests.",
-          "category": "ANTIQUITY",
-          "scrambled": "C E O L M O U S S"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "MONARCH-CRUSADE-COLOSSEUM",
-      "acceptedAnswers": [
-        "MONARCH-CRUSADE-COLOSSEUM",
-        "MONARCH CRUSADE COLOSSEUM",
-        "MONARCH,CRUSADE,COLOSSEUM",
-        "WORDGUESS:MONARCH-CRUSADE-COLOSSEUM"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 7-letter term from GOVERNANCE; the word begins with letter 'M' or ends with 'H'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [O N H C R M A] to identify common prefixes or suffixes."
       ]
     },
     "enabled": true,
@@ -26260,64 +13161,6 @@ export const wordGuessChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WG-0508",
-    "title": "WORD GUESS // WORLD #0508",
-    "category": "PUZZLES",
-    "description": "Unscramble 3 domain terminology anagrams from WORLD HISTORY & CIVILIZATIONS under timed conditions.",
-    "difficulty": "HIGH",
-    "risk": "AGGRESSIVE",
-    "cost": 300,
-    "reward": 750,
-    "penalty": 200,
-    "timeLimit": 95,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-26 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0508",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "COLOSSEUM",
-          "clue": "Oval amphitheater in the center of ancient Rome hosting gladiatorial contests.",
-          "category": "ANTIQUITY",
-          "scrambled": "C S L O E S M O U"
-        },
-        {
-          "id": "R2",
-          "word": "DYNASTY",
-          "clue": "Sequence of hereditary rulers from the same family line holding imperial power.",
-          "category": "HISTORICAL",
-          "scrambled": "N D S T Y Y A"
-        },
-        {
-          "id": "R3",
-          "word": "EMPIRE",
-          "clue": "Extensive group of states, territories, or nationalities governed under a single supreme authority.",
-          "category": "CIVILIZATION",
-          "scrambled": "E I P E R M"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "COLOSSEUM-DYNASTY-EMPIRE",
-      "acceptedAnswers": [
-        "COLOSSEUM-DYNASTY-EMPIRE",
-        "COLOSSEUM DYNASTY EMPIRE",
-        "COLOSSEUM,DYNASTY,EMPIRE",
-        "WORDGUESS:COLOSSEUM-DYNASTY-EMPIRE"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 9-letter term from ANTIQUITY; the word begins with letter 'C' or ends with 'M'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [C S L O E S M O U] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WG-0509",
     "title": "WORD GUESS // WORLD #0509",
     "category": "PUZZLES",
@@ -26370,64 +13213,6 @@ export const wordGuessChallenges = [
       "hints": [
         "HINT 01 // Round 1 clue indicates a 9-letter term from ANTIQUITY; the word begins with letter 'C' or ends with 'M'.",
         "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [E C O M S U O L S] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WG-0510",
-    "title": "WORD GUESS // WORLD #0510",
-    "category": "PUZZLES",
-    "description": "Unscramble 3 domain terminology anagrams from WORLD HISTORY & CIVILIZATIONS under timed conditions.",
-    "difficulty": "HIGH",
-    "risk": "AGGRESSIVE",
-    "cost": 300,
-    "reward": 750,
-    "penalty": 200,
-    "timeLimit": 95,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-26 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0510",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "MONARCH",
-          "clue": "Sovereign head of state reigning over a kingdom or empire, usually by hereditary right.",
-          "category": "GOVERNANCE",
-          "scrambled": "C M R A H N O"
-        },
-        {
-          "id": "R2",
-          "word": "SAMURAI",
-          "clue": "Hereditary military nobility and warrior caste of medieval and early-modern Japan.",
-          "category": "MEDIEVAL",
-          "scrambled": "S M A A I R U"
-        },
-        {
-          "id": "R3",
-          "word": "EMPIRE",
-          "clue": "Extensive group of states, territories, or nationalities governed under a single supreme authority.",
-          "category": "CIVILIZATION",
-          "scrambled": "I P R E E M"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "MONARCH-SAMURAI-EMPIRE",
-      "acceptedAnswers": [
-        "MONARCH-SAMURAI-EMPIRE",
-        "MONARCH SAMURAI EMPIRE",
-        "MONARCH,SAMURAI,EMPIRE",
-        "WORDGUESS:MONARCH-SAMURAI-EMPIRE"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 7-letter term from GOVERNANCE; the word begins with letter 'M' or ends with 'H'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [C M R A H N O] to identify common prefixes or suffixes."
       ]
     },
     "enabled": true,
@@ -26492,64 +13277,6 @@ export const wordGuessChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WG-0512",
-    "title": "WORD GUESS // WORLD #0512",
-    "category": "PUZZLES",
-    "description": "Unscramble 3 domain terminology anagrams from WORLD HISTORY & CIVILIZATIONS under timed conditions.",
-    "difficulty": "HIGH",
-    "risk": "AGGRESSIVE",
-    "cost": 300,
-    "reward": 750,
-    "penalty": 200,
-    "timeLimit": 95,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-26 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0512",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "COLOSSEUM",
-          "clue": "Oval amphitheater in the center of ancient Rome hosting gladiatorial contests.",
-          "category": "ANTIQUITY",
-          "scrambled": "O C U L S M O S E"
-        },
-        {
-          "id": "R2",
-          "word": "PHARAOH",
-          "clue": "The title used for the monarch rulers of ancient Egypt.",
-          "category": "ANCIENT",
-          "scrambled": "H H R A O A P"
-        },
-        {
-          "id": "R3",
-          "word": "CRUSADE",
-          "clue": "Series of religious military campaigns sanctioned by the Latin Church in the medieval era.",
-          "category": "HISTORY",
-          "scrambled": "S D R U E A C"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "COLOSSEUM-PHARAOH-CRUSADE",
-      "acceptedAnswers": [
-        "COLOSSEUM-PHARAOH-CRUSADE",
-        "COLOSSEUM PHARAOH CRUSADE",
-        "COLOSSEUM,PHARAOH,CRUSADE",
-        "WORDGUESS:COLOSSEUM-PHARAOH-CRUSADE"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 9-letter term from ANTIQUITY; the word begins with letter 'C' or ends with 'M'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [O C U L S M O S E] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WG-0513",
     "title": "WORD GUESS // WORLD #0513",
     "category": "PUZZLES",
@@ -26602,64 +13329,6 @@ export const wordGuessChallenges = [
       "hints": [
         "HINT 01 // Round 1 clue indicates a 9-letter term from ANTIQUITY; the word begins with letter 'C' or ends with 'M'.",
         "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [C O M L S S U O E] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WG-0514",
-    "title": "WORD GUESS // WORLD #0514",
-    "category": "PUZZLES",
-    "description": "Unscramble 3 domain terminology anagrams from WORLD HISTORY & CIVILIZATIONS under timed conditions.",
-    "difficulty": "HIGH",
-    "risk": "AGGRESSIVE",
-    "cost": 300,
-    "reward": 750,
-    "penalty": 200,
-    "timeLimit": 95,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-26 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0514",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "PYRAMID",
-          "clue": "Monumental triangular masonry structures built as monumental tombs in the ancient world.",
-          "category": "ARCHAEOLOGY",
-          "scrambled": "P D Y A R I M"
-        },
-        {
-          "id": "R2",
-          "word": "REVOLUTION",
-          "clue": "Fundamental and relatively sudden change in political power and social organizational structure.",
-          "category": "POLITICAL",
-          "scrambled": "I N E T L U O R O V"
-        },
-        {
-          "id": "R3",
-          "word": "COLOSSEUM",
-          "clue": "Oval amphitheater in the center of ancient Rome hosting gladiatorial contests.",
-          "category": "ANTIQUITY",
-          "scrambled": "M E L S O C U S O"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "PYRAMID-REVOLUTION-COLOSSEUM",
-      "acceptedAnswers": [
-        "PYRAMID-REVOLUTION-COLOSSEUM",
-        "PYRAMID REVOLUTION COLOSSEUM",
-        "PYRAMID,REVOLUTION,COLOSSEUM",
-        "WORDGUESS:PYRAMID-REVOLUTION-COLOSSEUM"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 7-letter term from ARCHAEOLOGY; the word begins with letter 'P' or ends with 'D'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [P D Y A R I M] to identify common prefixes or suffixes."
       ]
     },
     "enabled": true,
@@ -26724,64 +13393,6 @@ export const wordGuessChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WG-0516",
-    "title": "WORD GUESS // WORLD #0516",
-    "category": "PUZZLES",
-    "description": "Unscramble 3 domain terminology anagrams from WORLD HISTORY & CIVILIZATIONS under timed conditions.",
-    "difficulty": "HIGH",
-    "risk": "AGGRESSIVE",
-    "cost": 300,
-    "reward": 750,
-    "penalty": 200,
-    "timeLimit": 95,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-26 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0516",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "PYRAMID",
-          "clue": "Monumental triangular masonry structures built as monumental tombs in the ancient world.",
-          "category": "ARCHAEOLOGY",
-          "scrambled": "I A Y M D R P"
-        },
-        {
-          "id": "R2",
-          "word": "MONARCH",
-          "clue": "Sovereign head of state reigning over a kingdom or empire, usually by hereditary right.",
-          "category": "GOVERNANCE",
-          "scrambled": "A C R H O N M"
-        },
-        {
-          "id": "R3",
-          "word": "SAMURAI",
-          "clue": "Hereditary military nobility and warrior caste of medieval and early-modern Japan.",
-          "category": "MEDIEVAL",
-          "scrambled": "A I U R S M A"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "PYRAMID-MONARCH-SAMURAI",
-      "acceptedAnswers": [
-        "PYRAMID-MONARCH-SAMURAI",
-        "PYRAMID MONARCH SAMURAI",
-        "PYRAMID,MONARCH,SAMURAI",
-        "WORDGUESS:PYRAMID-MONARCH-SAMURAI"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 7-letter term from ARCHAEOLOGY; the word begins with letter 'P' or ends with 'D'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [I A Y M D R P] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WG-0517",
     "title": "WORD GUESS // WORLD #0517",
     "category": "PUZZLES",
@@ -26834,64 +13445,6 @@ export const wordGuessChallenges = [
       "hints": [
         "HINT 01 // Round 1 clue indicates a 7-letter term from HISTORY; the word begins with letter 'C' or ends with 'E'.",
         "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [D C S U A R E] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WG-0518",
-    "title": "WORD GUESS // WORLD #0518",
-    "category": "PUZZLES",
-    "description": "Unscramble 3 domain terminology anagrams from WORLD HISTORY & CIVILIZATIONS under timed conditions.",
-    "difficulty": "HIGH",
-    "risk": "AGGRESSIVE",
-    "cost": 300,
-    "reward": 750,
-    "penalty": 200,
-    "timeLimit": 95,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-26 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0518",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "PYRAMID",
-          "clue": "Monumental triangular masonry structures built as monumental tombs in the ancient world.",
-          "category": "ARCHAEOLOGY",
-          "scrambled": "P M A I Y D R"
-        },
-        {
-          "id": "R2",
-          "word": "CRUSADE",
-          "clue": "Series of religious military campaigns sanctioned by the Latin Church in the medieval era.",
-          "category": "HISTORY",
-          "scrambled": "C E S D R A U"
-        },
-        {
-          "id": "R3",
-          "word": "MONARCH",
-          "clue": "Sovereign head of state reigning over a kingdom or empire, usually by hereditary right.",
-          "category": "GOVERNANCE",
-          "scrambled": "C A N O R M H"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "PYRAMID-CRUSADE-MONARCH",
-      "acceptedAnswers": [
-        "PYRAMID-CRUSADE-MONARCH",
-        "PYRAMID CRUSADE MONARCH",
-        "PYRAMID,CRUSADE,MONARCH",
-        "WORDGUESS:PYRAMID-CRUSADE-MONARCH"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 7-letter term from ARCHAEOLOGY; the word begins with letter 'P' or ends with 'D'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [P M A I Y D R] to identify common prefixes or suffixes."
       ]
     },
     "enabled": true,
@@ -26956,64 +13509,6 @@ export const wordGuessChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WG-0520",
-    "title": "WORD GUESS // WORLD #0520",
-    "category": "PUZZLES",
-    "description": "Unscramble 3 domain terminology anagrams from WORLD HISTORY & CIVILIZATIONS under timed conditions.",
-    "difficulty": "HIGH",
-    "risk": "AGGRESSIVE",
-    "cost": 300,
-    "reward": 750,
-    "penalty": 200,
-    "timeLimit": 95,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-27 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0520",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "SAMURAI",
-          "clue": "Hereditary military nobility and warrior caste of medieval and early-modern Japan.",
-          "category": "MEDIEVAL",
-          "scrambled": "M A I R A U S"
-        },
-        {
-          "id": "R2",
-          "word": "DYNASTY",
-          "clue": "Sequence of hereditary rulers from the same family line holding imperial power.",
-          "category": "HISTORICAL",
-          "scrambled": "T A Y S D N Y"
-        },
-        {
-          "id": "R3",
-          "word": "EMPIRE",
-          "clue": "Extensive group of states, territories, or nationalities governed under a single supreme authority.",
-          "category": "CIVILIZATION",
-          "scrambled": "E M I R E P"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "SAMURAI-DYNASTY-EMPIRE",
-      "acceptedAnswers": [
-        "SAMURAI-DYNASTY-EMPIRE",
-        "SAMURAI DYNASTY EMPIRE",
-        "SAMURAI,DYNASTY,EMPIRE",
-        "WORDGUESS:SAMURAI-DYNASTY-EMPIRE"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 7-letter term from MEDIEVAL; the word begins with letter 'S' or ends with 'I'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [M A I R A U S] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WG-0521",
     "title": "WORD GUESS // WORLD #0521",
     "category": "PUZZLES",
@@ -27066,64 +13561,6 @@ export const wordGuessChallenges = [
       "hints": [
         "HINT 01 // Round 1 clue indicates a 7-letter term from HISTORY; the word begins with letter 'C' or ends with 'E'.",
         "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [D U R S C E A] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WG-0522",
-    "title": "WORD GUESS // WORLD #0522",
-    "category": "PUZZLES",
-    "description": "Unscramble 3 domain terminology anagrams from WORLD HISTORY & CIVILIZATIONS under timed conditions.",
-    "difficulty": "HIGH",
-    "risk": "AGGRESSIVE",
-    "cost": 300,
-    "reward": 750,
-    "penalty": 200,
-    "timeLimit": 95,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-27 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0522",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "PHARAOH",
-          "clue": "The title used for the monarch rulers of ancient Egypt.",
-          "category": "ANCIENT",
-          "scrambled": "A H A H O R P"
-        },
-        {
-          "id": "R2",
-          "word": "EMPIRE",
-          "clue": "Extensive group of states, territories, or nationalities governed under a single supreme authority.",
-          "category": "CIVILIZATION",
-          "scrambled": "M R E I E P"
-        },
-        {
-          "id": "R3",
-          "word": "CRUSADE",
-          "clue": "Series of religious military campaigns sanctioned by the Latin Church in the medieval era.",
-          "category": "HISTORY",
-          "scrambled": "R C A S D E U"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "PHARAOH-EMPIRE-CRUSADE",
-      "acceptedAnswers": [
-        "PHARAOH-EMPIRE-CRUSADE",
-        "PHARAOH EMPIRE CRUSADE",
-        "PHARAOH,EMPIRE,CRUSADE",
-        "WORDGUESS:PHARAOH-EMPIRE-CRUSADE"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 7-letter term from ANCIENT; the word begins with letter 'P' or ends with 'H'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [A H A H O R P] to identify common prefixes or suffixes."
       ]
     },
     "enabled": true,
@@ -27188,64 +13625,6 @@ export const wordGuessChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WG-0524",
-    "title": "WORD GUESS // WORLD #0524",
-    "category": "PUZZLES",
-    "description": "Unscramble 3 domain terminology anagrams from WORLD HISTORY & CIVILIZATIONS under timed conditions.",
-    "difficulty": "HIGH",
-    "risk": "AGGRESSIVE",
-    "cost": 300,
-    "reward": 750,
-    "penalty": 200,
-    "timeLimit": 95,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-27 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0524",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "PHARAOH",
-          "clue": "The title used for the monarch rulers of ancient Egypt.",
-          "category": "ANCIENT",
-          "scrambled": "H R O H P A A"
-        },
-        {
-          "id": "R2",
-          "word": "CRUSADE",
-          "clue": "Series of religious military campaigns sanctioned by the Latin Church in the medieval era.",
-          "category": "HISTORY",
-          "scrambled": "R S C E A U D"
-        },
-        {
-          "id": "R3",
-          "word": "EMPIRE",
-          "clue": "Extensive group of states, territories, or nationalities governed under a single supreme authority.",
-          "category": "CIVILIZATION",
-          "scrambled": "M I P E E R"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "PHARAOH-CRUSADE-EMPIRE",
-      "acceptedAnswers": [
-        "PHARAOH-CRUSADE-EMPIRE",
-        "PHARAOH CRUSADE EMPIRE",
-        "PHARAOH,CRUSADE,EMPIRE",
-        "WORDGUESS:PHARAOH-CRUSADE-EMPIRE"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 7-letter term from ANCIENT; the word begins with letter 'P' or ends with 'H'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [H R O H P A A] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WG-0525",
     "title": "WORD GUESS // WORLD #0525",
     "category": "PUZZLES",
@@ -27298,64 +13677,6 @@ export const wordGuessChallenges = [
       "hints": [
         "HINT 01 // Round 1 clue indicates a 7-letter term from GOVERNANCE; the word begins with letter 'M' or ends with 'H'.",
         "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [R H O A C N M] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WG-0526",
-    "title": "WORD GUESS // WORLD #0526",
-    "category": "PUZZLES",
-    "description": "Unscramble 3 domain terminology anagrams from WORLD HISTORY & CIVILIZATIONS under timed conditions.",
-    "difficulty": "HIGH",
-    "risk": "AGGRESSIVE",
-    "cost": 300,
-    "reward": 750,
-    "penalty": 200,
-    "timeLimit": 95,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-27 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0526",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "MONARCH",
-          "clue": "Sovereign head of state reigning over a kingdom or empire, usually by hereditary right.",
-          "category": "GOVERNANCE",
-          "scrambled": "N C R O A M H"
-        },
-        {
-          "id": "R2",
-          "word": "REVOLUTION",
-          "clue": "Fundamental and relatively sudden change in political power and social organizational structure.",
-          "category": "POLITICAL",
-          "scrambled": "E T U I O O L V R N"
-        },
-        {
-          "id": "R3",
-          "word": "SAMURAI",
-          "clue": "Hereditary military nobility and warrior caste of medieval and early-modern Japan.",
-          "category": "MEDIEVAL",
-          "scrambled": "A M A U S I R"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "MONARCH-REVOLUTION-SAMURAI",
-      "acceptedAnswers": [
-        "MONARCH-REVOLUTION-SAMURAI",
-        "MONARCH REVOLUTION SAMURAI",
-        "MONARCH,REVOLUTION,SAMURAI",
-        "WORDGUESS:MONARCH-REVOLUTION-SAMURAI"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 7-letter term from GOVERNANCE; the word begins with letter 'M' or ends with 'H'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [N C R O A M H] to identify common prefixes or suffixes."
       ]
     },
     "enabled": true,
@@ -27420,64 +13741,6 @@ export const wordGuessChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WG-0528",
-    "title": "WORD GUESS // WORLD #0528",
-    "category": "PUZZLES",
-    "description": "Unscramble 3 domain terminology anagrams from WORLD HISTORY & CIVILIZATIONS under timed conditions.",
-    "difficulty": "HIGH",
-    "risk": "AGGRESSIVE",
-    "cost": 300,
-    "reward": 750,
-    "penalty": 200,
-    "timeLimit": 95,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-27 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0528",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "CRUSADE",
-          "clue": "Series of religious military campaigns sanctioned by the Latin Church in the medieval era.",
-          "category": "HISTORY",
-          "scrambled": "A C U E S R D"
-        },
-        {
-          "id": "R2",
-          "word": "SAMURAI",
-          "clue": "Hereditary military nobility and warrior caste of medieval and early-modern Japan.",
-          "category": "MEDIEVAL",
-          "scrambled": "M I U A R S A"
-        },
-        {
-          "id": "R3",
-          "word": "REVOLUTION",
-          "clue": "Fundamental and relatively sudden change in political power and social organizational structure.",
-          "category": "POLITICAL",
-          "scrambled": "U V R I N E O T O L"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "CRUSADE-SAMURAI-REVOLUTION",
-      "acceptedAnswers": [
-        "CRUSADE-SAMURAI-REVOLUTION",
-        "CRUSADE SAMURAI REVOLUTION",
-        "CRUSADE,SAMURAI,REVOLUTION",
-        "WORDGUESS:CRUSADE-SAMURAI-REVOLUTION"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 7-letter term from HISTORY; the word begins with letter 'C' or ends with 'E'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [A C U E S R D] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WG-0529",
     "title": "WORD GUESS // WORLD #0529",
     "category": "PUZZLES",
@@ -27530,64 +13793,6 @@ export const wordGuessChallenges = [
       "hints": [
         "HINT 01 // Round 1 clue indicates a 10-letter term from POLITICAL; the word begins with letter 'R' or ends with 'N'.",
         "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [E O I R O L T V U N] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WG-0530",
-    "title": "WORD GUESS // WORLD #0530",
-    "category": "PUZZLES",
-    "description": "Unscramble 3 domain terminology anagrams from WORLD HISTORY & CIVILIZATIONS under timed conditions.",
-    "difficulty": "HIGH",
-    "risk": "AGGRESSIVE",
-    "cost": 300,
-    "reward": 750,
-    "penalty": 200,
-    "timeLimit": 95,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-27 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0530",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "CRUSADE",
-          "clue": "Series of religious military campaigns sanctioned by the Latin Church in the medieval era.",
-          "category": "HISTORY",
-          "scrambled": "R C A E U S D"
-        },
-        {
-          "id": "R2",
-          "word": "REVOLUTION",
-          "clue": "Fundamental and relatively sudden change in political power and social organizational structure.",
-          "category": "POLITICAL",
-          "scrambled": "I O V R N E L T U O"
-        },
-        {
-          "id": "R3",
-          "word": "SAMURAI",
-          "clue": "Hereditary military nobility and warrior caste of medieval and early-modern Japan.",
-          "category": "MEDIEVAL",
-          "scrambled": "M A I R A U S"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "CRUSADE-REVOLUTION-SAMURAI",
-      "acceptedAnswers": [
-        "CRUSADE-REVOLUTION-SAMURAI",
-        "CRUSADE REVOLUTION SAMURAI",
-        "CRUSADE,REVOLUTION,SAMURAI",
-        "WORDGUESS:CRUSADE-REVOLUTION-SAMURAI"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 7-letter term from HISTORY; the word begins with letter 'C' or ends with 'E'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [R C A E U S D] to identify common prefixes or suffixes."
       ]
     },
     "enabled": true,
@@ -27652,64 +13857,6 @@ export const wordGuessChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WG-0532",
-    "title": "WORD GUESS // WORLD #0532",
-    "category": "PUZZLES",
-    "description": "Unscramble 3 domain terminology anagrams from WORLD HISTORY & CIVILIZATIONS under timed conditions.",
-    "difficulty": "HIGH",
-    "risk": "AGGRESSIVE",
-    "cost": 300,
-    "reward": 750,
-    "penalty": 200,
-    "timeLimit": 95,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-27 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0532",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "SAMURAI",
-          "clue": "Hereditary military nobility and warrior caste of medieval and early-modern Japan.",
-          "category": "MEDIEVAL",
-          "scrambled": "U S A R M A I"
-        },
-        {
-          "id": "R2",
-          "word": "CRUSADE",
-          "clue": "Series of religious military campaigns sanctioned by the Latin Church in the medieval era.",
-          "category": "HISTORY",
-          "scrambled": "C R E D A S U"
-        },
-        {
-          "id": "R3",
-          "word": "MONARCH",
-          "clue": "Sovereign head of state reigning over a kingdom or empire, usually by hereditary right.",
-          "category": "GOVERNANCE",
-          "scrambled": "H M O R N C A"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "SAMURAI-CRUSADE-MONARCH",
-      "acceptedAnswers": [
-        "SAMURAI-CRUSADE-MONARCH",
-        "SAMURAI CRUSADE MONARCH",
-        "SAMURAI,CRUSADE,MONARCH",
-        "WORDGUESS:SAMURAI-CRUSADE-MONARCH"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 7-letter term from MEDIEVAL; the word begins with letter 'S' or ends with 'I'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [U S A R M A I] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WG-0533",
     "title": "WORD GUESS // WORLD #0533",
     "category": "PUZZLES",
@@ -27762,64 +13909,6 @@ export const wordGuessChallenges = [
       "hints": [
         "HINT 01 // Round 1 clue indicates a 7-letter term from ANCIENT; the word begins with letter 'P' or ends with 'H'.",
         "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [H A H R O P A] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WG-0534",
-    "title": "WORD GUESS // WORLD #0534",
-    "category": "PUZZLES",
-    "description": "Unscramble 3 domain terminology anagrams from WORLD HISTORY & CIVILIZATIONS under timed conditions.",
-    "difficulty": "HIGH",
-    "risk": "AGGRESSIVE",
-    "cost": 300,
-    "reward": 750,
-    "penalty": 200,
-    "timeLimit": 95,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-27 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0534",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "EMPIRE",
-          "clue": "Extensive group of states, territories, or nationalities governed under a single supreme authority.",
-          "category": "CIVILIZATION",
-          "scrambled": "I P E R E M"
-        },
-        {
-          "id": "R2",
-          "word": "PHARAOH",
-          "clue": "The title used for the monarch rulers of ancient Egypt.",
-          "category": "ANCIENT",
-          "scrambled": "R H P A A O H"
-        },
-        {
-          "id": "R3",
-          "word": "COLONY",
-          "clue": "Territory under the political control and governance of a distant sovereign state.",
-          "category": "HISTORY",
-          "scrambled": "L Y N O O C"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "EMPIRE-PHARAOH-COLONY",
-      "acceptedAnswers": [
-        "EMPIRE-PHARAOH-COLONY",
-        "EMPIRE PHARAOH COLONY",
-        "EMPIRE,PHARAOH,COLONY",
-        "WORDGUESS:EMPIRE-PHARAOH-COLONY"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 6-letter term from CIVILIZATION; the word begins with letter 'E' or ends with 'E'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [I P E R E M] to identify common prefixes or suffixes."
       ]
     },
     "enabled": true,
@@ -27884,64 +13973,6 @@ export const wordGuessChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WG-0536",
-    "title": "WORD GUESS // WORLD #0536",
-    "category": "PUZZLES",
-    "description": "Unscramble 3 domain terminology anagrams from WORLD HISTORY & CIVILIZATIONS under timed conditions.",
-    "difficulty": "HIGH",
-    "risk": "AGGRESSIVE",
-    "cost": 300,
-    "reward": 750,
-    "penalty": 200,
-    "timeLimit": 95,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-27 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0536",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "PHARAOH",
-          "clue": "The title used for the monarch rulers of ancient Egypt.",
-          "category": "ANCIENT",
-          "scrambled": "R H P O A H A"
-        },
-        {
-          "id": "R2",
-          "word": "DYNASTY",
-          "clue": "Sequence of hereditary rulers from the same family line holding imperial power.",
-          "category": "HISTORICAL",
-          "scrambled": "Y D Y N T S A"
-        },
-        {
-          "id": "R3",
-          "word": "SAMURAI",
-          "clue": "Hereditary military nobility and warrior caste of medieval and early-modern Japan.",
-          "category": "MEDIEVAL",
-          "scrambled": "M R S I A A U"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "PHARAOH-DYNASTY-SAMURAI",
-      "acceptedAnswers": [
-        "PHARAOH-DYNASTY-SAMURAI",
-        "PHARAOH DYNASTY SAMURAI",
-        "PHARAOH,DYNASTY,SAMURAI",
-        "WORDGUESS:PHARAOH-DYNASTY-SAMURAI"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 7-letter term from ANCIENT; the word begins with letter 'P' or ends with 'H'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [R H P O A H A] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WG-0537",
     "title": "WORD GUESS // WORLD #0537",
     "category": "PUZZLES",
@@ -27994,64 +14025,6 @@ export const wordGuessChallenges = [
       "hints": [
         "HINT 01 // Round 1 clue indicates a 6-letter term from CIVILIZATION; the word begins with letter 'E' or ends with 'E'.",
         "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [E P I E M R] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WG-0538",
-    "title": "WORD GUESS // WORLD #0538",
-    "category": "PUZZLES",
-    "description": "Unscramble 3 domain terminology anagrams from WORLD HISTORY & CIVILIZATIONS under timed conditions.",
-    "difficulty": "HIGH",
-    "risk": "AGGRESSIVE",
-    "cost": 300,
-    "reward": 750,
-    "penalty": 200,
-    "timeLimit": 95,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-27 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0538",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "CRUSADE",
-          "clue": "Series of religious military campaigns sanctioned by the Latin Church in the medieval era.",
-          "category": "HISTORY",
-          "scrambled": "D A E R C S U"
-        },
-        {
-          "id": "R2",
-          "word": "SAMURAI",
-          "clue": "Hereditary military nobility and warrior caste of medieval and early-modern Japan.",
-          "category": "MEDIEVAL",
-          "scrambled": "U A A M R I S"
-        },
-        {
-          "id": "R3",
-          "word": "DYNASTY",
-          "clue": "Sequence of hereditary rulers from the same family line holding imperial power.",
-          "category": "HISTORICAL",
-          "scrambled": "Y S T A N Y D"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "CRUSADE-SAMURAI-DYNASTY",
-      "acceptedAnswers": [
-        "CRUSADE-SAMURAI-DYNASTY",
-        "CRUSADE SAMURAI DYNASTY",
-        "CRUSADE,SAMURAI,DYNASTY",
-        "WORDGUESS:CRUSADE-SAMURAI-DYNASTY"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 7-letter term from HISTORY; the word begins with letter 'C' or ends with 'E'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [D A E R C S U] to identify common prefixes or suffixes."
       ]
     },
     "enabled": true,
@@ -28116,64 +14089,6 @@ export const wordGuessChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WG-0540",
-    "title": "WORD GUESS // WORLD #0540",
-    "category": "PUZZLES",
-    "description": "Unscramble 3 domain terminology anagrams from WORLD HISTORY & CIVILIZATIONS under timed conditions.",
-    "difficulty": "HIGH",
-    "risk": "AGGRESSIVE",
-    "cost": 300,
-    "reward": 750,
-    "penalty": 200,
-    "timeLimit": 95,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-28 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0540",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "DYNASTY",
-          "clue": "Sequence of hereditary rulers from the same family line holding imperial power.",
-          "category": "HISTORICAL",
-          "scrambled": "Y S D Y T N A"
-        },
-        {
-          "id": "R2",
-          "word": "PHARAOH",
-          "clue": "The title used for the monarch rulers of ancient Egypt.",
-          "category": "ANCIENT",
-          "scrambled": "O A H P H A R"
-        },
-        {
-          "id": "R3",
-          "word": "SAMURAI",
-          "clue": "Hereditary military nobility and warrior caste of medieval and early-modern Japan.",
-          "category": "MEDIEVAL",
-          "scrambled": "U A I M R S A"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "DYNASTY-PHARAOH-SAMURAI",
-      "acceptedAnswers": [
-        "DYNASTY-PHARAOH-SAMURAI",
-        "DYNASTY PHARAOH SAMURAI",
-        "DYNASTY,PHARAOH,SAMURAI",
-        "WORDGUESS:DYNASTY-PHARAOH-SAMURAI"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 7-letter term from HISTORICAL; the word begins with letter 'D' or ends with 'Y'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [Y S D Y T N A] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WG-0541",
     "title": "WORD GUESS // WORLD #0541",
     "category": "PUZZLES",
@@ -28226,64 +14141,6 @@ export const wordGuessChallenges = [
       "hints": [
         "HINT 01 // Round 1 clue indicates a 7-letter term from ARCHAEOLOGY; the word begins with letter 'P' or ends with 'D'.",
         "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [I R Y M D A P] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WG-0542",
-    "title": "WORD GUESS // WORLD #0542",
-    "category": "PUZZLES",
-    "description": "Unscramble 3 domain terminology anagrams from WORLD HISTORY & CIVILIZATIONS under timed conditions.",
-    "difficulty": "HIGH",
-    "risk": "AGGRESSIVE",
-    "cost": 300,
-    "reward": 750,
-    "penalty": 200,
-    "timeLimit": 95,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-28 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0542",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "CRUSADE",
-          "clue": "Series of religious military campaigns sanctioned by the Latin Church in the medieval era.",
-          "category": "HISTORY",
-          "scrambled": "R S D U E C A"
-        },
-        {
-          "id": "R2",
-          "word": "PYRAMID",
-          "clue": "Monumental triangular masonry structures built as monumental tombs in the ancient world.",
-          "category": "ARCHAEOLOGY",
-          "scrambled": "P D M Y I R A"
-        },
-        {
-          "id": "R3",
-          "word": "DYNASTY",
-          "clue": "Sequence of hereditary rulers from the same family line holding imperial power.",
-          "category": "HISTORICAL",
-          "scrambled": "Y D S Y A N T"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "CRUSADE-PYRAMID-DYNASTY",
-      "acceptedAnswers": [
-        "CRUSADE-PYRAMID-DYNASTY",
-        "CRUSADE PYRAMID DYNASTY",
-        "CRUSADE,PYRAMID,DYNASTY",
-        "WORDGUESS:CRUSADE-PYRAMID-DYNASTY"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 7-letter term from HISTORY; the word begins with letter 'C' or ends with 'E'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [R S D U E C A] to identify common prefixes or suffixes."
       ]
     },
     "enabled": true,
@@ -28348,64 +14205,6 @@ export const wordGuessChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WG-0544",
-    "title": "WORD GUESS // WORLD #0544",
-    "category": "PUZZLES",
-    "description": "Unscramble 3 domain terminology anagrams from WORLD HISTORY & CIVILIZATIONS under timed conditions.",
-    "difficulty": "HIGH",
-    "risk": "AGGRESSIVE",
-    "cost": 300,
-    "reward": 750,
-    "penalty": 200,
-    "timeLimit": 95,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-28 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0544",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "CRUSADE",
-          "clue": "Series of religious military campaigns sanctioned by the Latin Church in the medieval era.",
-          "category": "HISTORY",
-          "scrambled": "E D U S R A C"
-        },
-        {
-          "id": "R2",
-          "word": "MONARCH",
-          "clue": "Sovereign head of state reigning over a kingdom or empire, usually by hereditary right.",
-          "category": "GOVERNANCE",
-          "scrambled": "C H O A N R M"
-        },
-        {
-          "id": "R3",
-          "word": "PHARAOH",
-          "clue": "The title used for the monarch rulers of ancient Egypt.",
-          "category": "ANCIENT",
-          "scrambled": "A A H H P R O"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "CRUSADE-MONARCH-PHARAOH",
-      "acceptedAnswers": [
-        "CRUSADE-MONARCH-PHARAOH",
-        "CRUSADE MONARCH PHARAOH",
-        "CRUSADE,MONARCH,PHARAOH",
-        "WORDGUESS:CRUSADE-MONARCH-PHARAOH"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 7-letter term from HISTORY; the word begins with letter 'C' or ends with 'E'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [E D U S R A C] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WG-0545",
     "title": "WORD GUESS // WORLD #0545",
     "category": "PUZZLES",
@@ -28458,64 +14257,6 @@ export const wordGuessChallenges = [
       "hints": [
         "HINT 01 // Round 1 clue indicates a 7-letter term from MEDIEVAL; the word begins with letter 'S' or ends with 'I'.",
         "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [A U S R A M I] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WG-0546",
-    "title": "WORD GUESS // WORLD #0546",
-    "category": "PUZZLES",
-    "description": "Unscramble 3 domain terminology anagrams from WORLD HISTORY & CIVILIZATIONS under timed conditions.",
-    "difficulty": "HIGH",
-    "risk": "AGGRESSIVE",
-    "cost": 300,
-    "reward": 750,
-    "penalty": 200,
-    "timeLimit": 95,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-28 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0546",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "PHARAOH",
-          "clue": "The title used for the monarch rulers of ancient Egypt.",
-          "category": "ANCIENT",
-          "scrambled": "H A P H R O A"
-        },
-        {
-          "id": "R2",
-          "word": "DYNASTY",
-          "clue": "Sequence of hereditary rulers from the same family line holding imperial power.",
-          "category": "HISTORICAL",
-          "scrambled": "Y N Y D A T S"
-        },
-        {
-          "id": "R3",
-          "word": "EMPIRE",
-          "clue": "Extensive group of states, territories, or nationalities governed under a single supreme authority.",
-          "category": "CIVILIZATION",
-          "scrambled": "M R E E P I"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "PHARAOH-DYNASTY-EMPIRE",
-      "acceptedAnswers": [
-        "PHARAOH-DYNASTY-EMPIRE",
-        "PHARAOH DYNASTY EMPIRE",
-        "PHARAOH,DYNASTY,EMPIRE",
-        "WORDGUESS:PHARAOH-DYNASTY-EMPIRE"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 7-letter term from ANCIENT; the word begins with letter 'P' or ends with 'H'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [H A P H R O A] to identify common prefixes or suffixes."
       ]
     },
     "enabled": true,
@@ -28580,64 +14321,6 @@ export const wordGuessChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WG-0548",
-    "title": "WORD GUESS // WORLD #0548",
-    "category": "PUZZLES",
-    "description": "Unscramble 3 domain terminology anagrams from WORLD HISTORY & CIVILIZATIONS under timed conditions.",
-    "difficulty": "HIGH",
-    "risk": "AGGRESSIVE",
-    "cost": 300,
-    "reward": 750,
-    "penalty": 200,
-    "timeLimit": 95,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-28 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0548",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "REVOLUTION",
-          "clue": "Fundamental and relatively sudden change in political power and social organizational structure.",
-          "category": "POLITICAL",
-          "scrambled": "V R T O N I L E U O"
-        },
-        {
-          "id": "R2",
-          "word": "CRUSADE",
-          "clue": "Series of religious military campaigns sanctioned by the Latin Church in the medieval era.",
-          "category": "HISTORY",
-          "scrambled": "C E S U D R A"
-        },
-        {
-          "id": "R3",
-          "word": "SAMURAI",
-          "clue": "Hereditary military nobility and warrior caste of medieval and early-modern Japan.",
-          "category": "MEDIEVAL",
-          "scrambled": "U M S A A I R"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "REVOLUTION-CRUSADE-SAMURAI",
-      "acceptedAnswers": [
-        "REVOLUTION-CRUSADE-SAMURAI",
-        "REVOLUTION CRUSADE SAMURAI",
-        "REVOLUTION,CRUSADE,SAMURAI",
-        "WORDGUESS:REVOLUTION-CRUSADE-SAMURAI"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 10-letter term from POLITICAL; the word begins with letter 'R' or ends with 'N'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [V R T O N I L E U O] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WG-0549",
     "title": "WORD GUESS // WORLD #0549",
     "category": "PUZZLES",
@@ -28690,64 +14373,6 @@ export const wordGuessChallenges = [
       "hints": [
         "HINT 01 // Round 1 clue indicates a 9-letter term from ANTIQUITY; the word begins with letter 'C' or ends with 'M'.",
         "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [L M S U S C E O O] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WG-0550",
-    "title": "WORD GUESS // WORLD #0550",
-    "category": "PUZZLES",
-    "description": "Unscramble 3 domain terminology anagrams from WORLD HISTORY & CIVILIZATIONS under timed conditions.",
-    "difficulty": "HIGH",
-    "risk": "AGGRESSIVE",
-    "cost": 300,
-    "reward": 750,
-    "penalty": 200,
-    "timeLimit": 95,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-28 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0550",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "PYRAMID",
-          "clue": "Monumental triangular masonry structures built as monumental tombs in the ancient world.",
-          "category": "ARCHAEOLOGY",
-          "scrambled": "R A M I Y D P"
-        },
-        {
-          "id": "R2",
-          "word": "COLOSSEUM",
-          "clue": "Oval amphitheater in the center of ancient Rome hosting gladiatorial contests.",
-          "category": "ANTIQUITY",
-          "scrambled": "M S L S E C O U O"
-        },
-        {
-          "id": "R3",
-          "word": "MONARCH",
-          "clue": "Sovereign head of state reigning over a kingdom or empire, usually by hereditary right.",
-          "category": "GOVERNANCE",
-          "scrambled": "R A M N C H O"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "PYRAMID-COLOSSEUM-MONARCH",
-      "acceptedAnswers": [
-        "PYRAMID-COLOSSEUM-MONARCH",
-        "PYRAMID COLOSSEUM MONARCH",
-        "PYRAMID,COLOSSEUM,MONARCH",
-        "WORDGUESS:PYRAMID-COLOSSEUM-MONARCH"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 7-letter term from ARCHAEOLOGY; the word begins with letter 'P' or ends with 'D'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [R A M I Y D P] to identify common prefixes or suffixes."
       ]
     },
     "enabled": true,
@@ -28812,64 +14437,6 @@ export const wordGuessChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WG-0552",
-    "title": "WORD GUESS // WORLD #0552",
-    "category": "PUZZLES",
-    "description": "Unscramble 3 domain terminology anagrams from WORLD HISTORY & CIVILIZATIONS under timed conditions.",
-    "difficulty": "HIGH",
-    "risk": "AGGRESSIVE",
-    "cost": 300,
-    "reward": 750,
-    "penalty": 200,
-    "timeLimit": 95,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-28 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0552",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "EMPIRE",
-          "clue": "Extensive group of states, territories, or nationalities governed under a single supreme authority.",
-          "category": "CIVILIZATION",
-          "scrambled": "E R M E I P"
-        },
-        {
-          "id": "R2",
-          "word": "MONARCH",
-          "clue": "Sovereign head of state reigning over a kingdom or empire, usually by hereditary right.",
-          "category": "GOVERNANCE",
-          "scrambled": "A O H R C M N"
-        },
-        {
-          "id": "R3",
-          "word": "DYNASTY",
-          "clue": "Sequence of hereditary rulers from the same family line holding imperial power.",
-          "category": "HISTORICAL",
-          "scrambled": "T A S Y N Y D"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "EMPIRE-MONARCH-DYNASTY",
-      "acceptedAnswers": [
-        "EMPIRE-MONARCH-DYNASTY",
-        "EMPIRE MONARCH DYNASTY",
-        "EMPIRE,MONARCH,DYNASTY",
-        "WORDGUESS:EMPIRE-MONARCH-DYNASTY"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 6-letter term from CIVILIZATION; the word begins with letter 'E' or ends with 'E'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [E R M E I P] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WG-0553",
     "title": "WORD GUESS // WORLD #0553",
     "category": "PUZZLES",
@@ -28922,64 +14489,6 @@ export const wordGuessChallenges = [
       "hints": [
         "HINT 01 // Round 1 clue indicates a 9-letter term from ANTIQUITY; the word begins with letter 'C' or ends with 'M'.",
         "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [E S U C S O M O L] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WG-0554",
-    "title": "WORD GUESS // WORLD #0554",
-    "category": "PUZZLES",
-    "description": "Unscramble 3 domain terminology anagrams from WORLD HISTORY & CIVILIZATIONS under timed conditions.",
-    "difficulty": "HIGH",
-    "risk": "AGGRESSIVE",
-    "cost": 300,
-    "reward": 750,
-    "penalty": 200,
-    "timeLimit": 95,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-28 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0554",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "MONARCH",
-          "clue": "Sovereign head of state reigning over a kingdom or empire, usually by hereditary right.",
-          "category": "GOVERNANCE",
-          "scrambled": "A O M C H R N"
-        },
-        {
-          "id": "R2",
-          "word": "COLOSSEUM",
-          "clue": "Oval amphitheater in the center of ancient Rome hosting gladiatorial contests.",
-          "category": "ANTIQUITY",
-          "scrambled": "S S C O U L E M O"
-        },
-        {
-          "id": "R3",
-          "word": "EMPIRE",
-          "clue": "Extensive group of states, territories, or nationalities governed under a single supreme authority.",
-          "category": "CIVILIZATION",
-          "scrambled": "E R M P I E"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "MONARCH-COLOSSEUM-EMPIRE",
-      "acceptedAnswers": [
-        "MONARCH-COLOSSEUM-EMPIRE",
-        "MONARCH COLOSSEUM EMPIRE",
-        "MONARCH,COLOSSEUM,EMPIRE",
-        "WORDGUESS:MONARCH-COLOSSEUM-EMPIRE"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 7-letter term from GOVERNANCE; the word begins with letter 'M' or ends with 'H'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [A O M C H R N] to identify common prefixes or suffixes."
       ]
     },
     "enabled": true,
@@ -29044,64 +14553,6 @@ export const wordGuessChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WG-0556",
-    "title": "WORD GUESS // WORLD #0556",
-    "category": "PUZZLES",
-    "description": "Unscramble 3 domain terminology anagrams from WORLD HISTORY & CIVILIZATIONS under timed conditions.",
-    "difficulty": "HIGH",
-    "risk": "AGGRESSIVE",
-    "cost": 300,
-    "reward": 750,
-    "penalty": 200,
-    "timeLimit": 95,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-28 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0556",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "CRUSADE",
-          "clue": "Series of religious military campaigns sanctioned by the Latin Church in the medieval era.",
-          "category": "HISTORY",
-          "scrambled": "R U D A E C S"
-        },
-        {
-          "id": "R2",
-          "word": "PHARAOH",
-          "clue": "The title used for the monarch rulers of ancient Egypt.",
-          "category": "ANCIENT",
-          "scrambled": "H R H A P A O"
-        },
-        {
-          "id": "R3",
-          "word": "COLOSSEUM",
-          "clue": "Oval amphitheater in the center of ancient Rome hosting gladiatorial contests.",
-          "category": "ANTIQUITY",
-          "scrambled": "O E S C O L U M S"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "CRUSADE-PHARAOH-COLOSSEUM",
-      "acceptedAnswers": [
-        "CRUSADE-PHARAOH-COLOSSEUM",
-        "CRUSADE PHARAOH COLOSSEUM",
-        "CRUSADE,PHARAOH,COLOSSEUM",
-        "WORDGUESS:CRUSADE-PHARAOH-COLOSSEUM"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 7-letter term from HISTORY; the word begins with letter 'C' or ends with 'E'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [R U D A E C S] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WG-0557",
     "title": "WORD GUESS // WORLD #0557",
     "category": "PUZZLES",
@@ -29154,64 +14605,6 @@ export const wordGuessChallenges = [
       "hints": [
         "HINT 01 // Round 1 clue indicates a 7-letter term from MEDIEVAL; the word begins with letter 'S' or ends with 'I'.",
         "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [S R A M A U I] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WG-0558",
-    "title": "WORD GUESS // WORLD #0558",
-    "category": "PUZZLES",
-    "description": "Unscramble 3 domain terminology anagrams from WORLD HISTORY & CIVILIZATIONS under timed conditions.",
-    "difficulty": "HIGH",
-    "risk": "AGGRESSIVE",
-    "cost": 300,
-    "reward": 750,
-    "penalty": 200,
-    "timeLimit": 95,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-28 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0558",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "PHARAOH",
-          "clue": "The title used for the monarch rulers of ancient Egypt.",
-          "category": "ANCIENT",
-          "scrambled": "H H R O P A A"
-        },
-        {
-          "id": "R2",
-          "word": "DYNASTY",
-          "clue": "Sequence of hereditary rulers from the same family line holding imperial power.",
-          "category": "HISTORICAL",
-          "scrambled": "D Y T A S Y N"
-        },
-        {
-          "id": "R3",
-          "word": "COLONY",
-          "clue": "Territory under the political control and governance of a distant sovereign state.",
-          "category": "HISTORY",
-          "scrambled": "O Y N C L O"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "PHARAOH-DYNASTY-COLONY",
-      "acceptedAnswers": [
-        "PHARAOH-DYNASTY-COLONY",
-        "PHARAOH DYNASTY COLONY",
-        "PHARAOH,DYNASTY,COLONY",
-        "WORDGUESS:PHARAOH-DYNASTY-COLONY"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 7-letter term from ANCIENT; the word begins with letter 'P' or ends with 'H'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [H H R O P A A] to identify common prefixes or suffixes."
       ]
     },
     "enabled": true,
@@ -29276,64 +14669,6 @@ export const wordGuessChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WG-0560",
-    "title": "WORD GUESS // WORLD #0560",
-    "category": "PUZZLES",
-    "description": "Unscramble 3 domain terminology anagrams from WORLD HISTORY & CIVILIZATIONS under timed conditions.",
-    "difficulty": "HIGH",
-    "risk": "AGGRESSIVE",
-    "cost": 300,
-    "reward": 750,
-    "penalty": 200,
-    "timeLimit": 95,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-29 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0560",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "COLONY",
-          "clue": "Territory under the political control and governance of a distant sovereign state.",
-          "category": "HISTORY",
-          "scrambled": "C L N O O Y"
-        },
-        {
-          "id": "R2",
-          "word": "CRUSADE",
-          "clue": "Series of religious military campaigns sanctioned by the Latin Church in the medieval era.",
-          "category": "HISTORY",
-          "scrambled": "D R U E A S C"
-        },
-        {
-          "id": "R3",
-          "word": "SAMURAI",
-          "clue": "Hereditary military nobility and warrior caste of medieval and early-modern Japan.",
-          "category": "MEDIEVAL",
-          "scrambled": "A I U A R M S"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "COLONY-CRUSADE-SAMURAI",
-      "acceptedAnswers": [
-        "COLONY-CRUSADE-SAMURAI",
-        "COLONY CRUSADE SAMURAI",
-        "COLONY,CRUSADE,SAMURAI",
-        "WORDGUESS:COLONY-CRUSADE-SAMURAI"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 6-letter term from HISTORY; the word begins with letter 'C' or ends with 'Y'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [C L N O O Y] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WG-0561",
     "title": "WORD GUESS // WORLD #0561",
     "category": "PUZZLES",
@@ -29386,64 +14721,6 @@ export const wordGuessChallenges = [
       "hints": [
         "HINT 01 // Round 1 clue indicates a 7-letter term from GOVERNANCE; the word begins with letter 'M' or ends with 'H'.",
         "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [H A C R O M N] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WG-0562",
-    "title": "WORD GUESS // WORLD #0562",
-    "category": "PUZZLES",
-    "description": "Unscramble 3 domain terminology anagrams from WORLD HISTORY & CIVILIZATIONS under timed conditions.",
-    "difficulty": "HIGH",
-    "risk": "AGGRESSIVE",
-    "cost": 300,
-    "reward": 750,
-    "penalty": 200,
-    "timeLimit": 95,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-29 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0562",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "DYNASTY",
-          "clue": "Sequence of hereditary rulers from the same family line holding imperial power.",
-          "category": "HISTORICAL",
-          "scrambled": "Y S Y T A N D"
-        },
-        {
-          "id": "R2",
-          "word": "COLOSSEUM",
-          "clue": "Oval amphitheater in the center of ancient Rome hosting gladiatorial contests.",
-          "category": "ANTIQUITY",
-          "scrambled": "L M S E C S O O U"
-        },
-        {
-          "id": "R3",
-          "word": "PYRAMID",
-          "clue": "Monumental triangular masonry structures built as monumental tombs in the ancient world.",
-          "category": "ARCHAEOLOGY",
-          "scrambled": "D M R P I A Y"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "DYNASTY-COLOSSEUM-PYRAMID",
-      "acceptedAnswers": [
-        "DYNASTY-COLOSSEUM-PYRAMID",
-        "DYNASTY COLOSSEUM PYRAMID",
-        "DYNASTY,COLOSSEUM,PYRAMID",
-        "WORDGUESS:DYNASTY-COLOSSEUM-PYRAMID"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 7-letter term from HISTORICAL; the word begins with letter 'D' or ends with 'Y'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [Y S Y T A N D] to identify common prefixes or suffixes."
       ]
     },
     "enabled": true,
@@ -29508,64 +14785,6 @@ export const wordGuessChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WG-0564",
-    "title": "WORD GUESS // WORLD #0564",
-    "category": "PUZZLES",
-    "description": "Unscramble 3 domain terminology anagrams from WORLD HISTORY & CIVILIZATIONS under timed conditions.",
-    "difficulty": "HIGH",
-    "risk": "AGGRESSIVE",
-    "cost": 300,
-    "reward": 750,
-    "penalty": 200,
-    "timeLimit": 95,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-29 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0564",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "SAMURAI",
-          "clue": "Hereditary military nobility and warrior caste of medieval and early-modern Japan.",
-          "category": "MEDIEVAL",
-          "scrambled": "A M S U I R A"
-        },
-        {
-          "id": "R2",
-          "word": "COLONY",
-          "clue": "Territory under the political control and governance of a distant sovereign state.",
-          "category": "HISTORY",
-          "scrambled": "O O C Y N L"
-        },
-        {
-          "id": "R3",
-          "word": "DYNASTY",
-          "clue": "Sequence of hereditary rulers from the same family line holding imperial power.",
-          "category": "HISTORICAL",
-          "scrambled": "A N Y T S Y D"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "SAMURAI-COLONY-DYNASTY",
-      "acceptedAnswers": [
-        "SAMURAI-COLONY-DYNASTY",
-        "SAMURAI COLONY DYNASTY",
-        "SAMURAI,COLONY,DYNASTY",
-        "WORDGUESS:SAMURAI-COLONY-DYNASTY"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 7-letter term from MEDIEVAL; the word begins with letter 'S' or ends with 'I'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [A M S U I R A] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WG-0565",
     "title": "WORD GUESS // WORLD #0565",
     "category": "PUZZLES",
@@ -29618,64 +14837,6 @@ export const wordGuessChallenges = [
       "hints": [
         "HINT 01 // Round 1 clue indicates a 7-letter term from ARCHAEOLOGY; the word begins with letter 'P' or ends with 'D'.",
         "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [D M A Y P I R] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WG-0566",
-    "title": "WORD GUESS // WORLD #0566",
-    "category": "PUZZLES",
-    "description": "Unscramble 3 domain terminology anagrams from WORLD HISTORY & CIVILIZATIONS under timed conditions.",
-    "difficulty": "HIGH",
-    "risk": "AGGRESSIVE",
-    "cost": 300,
-    "reward": 750,
-    "penalty": 200,
-    "timeLimit": 95,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-29 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0566",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "COLOSSEUM",
-          "clue": "Oval amphitheater in the center of ancient Rome hosting gladiatorial contests.",
-          "category": "ANTIQUITY",
-          "scrambled": "S S O E L C M U O"
-        },
-        {
-          "id": "R2",
-          "word": "MONARCH",
-          "clue": "Sovereign head of state reigning over a kingdom or empire, usually by hereditary right.",
-          "category": "GOVERNANCE",
-          "scrambled": "M C R H N A O"
-        },
-        {
-          "id": "R3",
-          "word": "EMPIRE",
-          "clue": "Extensive group of states, territories, or nationalities governed under a single supreme authority.",
-          "category": "CIVILIZATION",
-          "scrambled": "E R P M E I"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "COLOSSEUM-MONARCH-EMPIRE",
-      "acceptedAnswers": [
-        "COLOSSEUM-MONARCH-EMPIRE",
-        "COLOSSEUM MONARCH EMPIRE",
-        "COLOSSEUM,MONARCH,EMPIRE",
-        "WORDGUESS:COLOSSEUM-MONARCH-EMPIRE"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 9-letter term from ANTIQUITY; the word begins with letter 'C' or ends with 'M'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [S S O E L C M U O] to identify common prefixes or suffixes."
       ]
     },
     "enabled": true,
@@ -29740,64 +14901,6 @@ export const wordGuessChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WG-0568",
-    "title": "WORD GUESS // WORLD #0568",
-    "category": "PUZZLES",
-    "description": "Unscramble 3 domain terminology anagrams from WORLD HISTORY & CIVILIZATIONS under timed conditions.",
-    "difficulty": "HIGH",
-    "risk": "AGGRESSIVE",
-    "cost": 300,
-    "reward": 750,
-    "penalty": 200,
-    "timeLimit": 95,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-29 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0568",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "PHARAOH",
-          "clue": "The title used for the monarch rulers of ancient Egypt.",
-          "category": "ANCIENT",
-          "scrambled": "A R H O A P H"
-        },
-        {
-          "id": "R2",
-          "word": "COLOSSEUM",
-          "clue": "Oval amphitheater in the center of ancient Rome hosting gladiatorial contests.",
-          "category": "ANTIQUITY",
-          "scrambled": "E C S O L S U O M"
-        },
-        {
-          "id": "R3",
-          "word": "MONARCH",
-          "clue": "Sovereign head of state reigning over a kingdom or empire, usually by hereditary right.",
-          "category": "GOVERNANCE",
-          "scrambled": "N H O A M R C"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "PHARAOH-COLOSSEUM-MONARCH",
-      "acceptedAnswers": [
-        "PHARAOH-COLOSSEUM-MONARCH",
-        "PHARAOH COLOSSEUM MONARCH",
-        "PHARAOH,COLOSSEUM,MONARCH",
-        "WORDGUESS:PHARAOH-COLOSSEUM-MONARCH"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 7-letter term from ANCIENT; the word begins with letter 'P' or ends with 'H'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [A R H O A P H] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WG-0569",
     "title": "WORD GUESS // WORLD #0569",
     "category": "PUZZLES",
@@ -29850,64 +14953,6 @@ export const wordGuessChallenges = [
       "hints": [
         "HINT 01 // Round 1 clue indicates a 7-letter term from HISTORY; the word begins with letter 'C' or ends with 'E'.",
         "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [D C U S E R A] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WG-0570",
-    "title": "WORD GUESS // WORLD #0570",
-    "category": "PUZZLES",
-    "description": "Unscramble 3 domain terminology anagrams from WORLD HISTORY & CIVILIZATIONS under timed conditions.",
-    "difficulty": "HIGH",
-    "risk": "AGGRESSIVE",
-    "cost": 300,
-    "reward": 750,
-    "penalty": 200,
-    "timeLimit": 95,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-29 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0570",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "MONARCH",
-          "clue": "Sovereign head of state reigning over a kingdom or empire, usually by hereditary right.",
-          "category": "GOVERNANCE",
-          "scrambled": "R A M C H O N"
-        },
-        {
-          "id": "R2",
-          "word": "PHARAOH",
-          "clue": "The title used for the monarch rulers of ancient Egypt.",
-          "category": "ANCIENT",
-          "scrambled": "A O P R H A H"
-        },
-        {
-          "id": "R3",
-          "word": "DYNASTY",
-          "clue": "Sequence of hereditary rulers from the same family line holding imperial power.",
-          "category": "HISTORICAL",
-          "scrambled": "D Y Y T A S N"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "MONARCH-PHARAOH-DYNASTY",
-      "acceptedAnswers": [
-        "MONARCH-PHARAOH-DYNASTY",
-        "MONARCH PHARAOH DYNASTY",
-        "MONARCH,PHARAOH,DYNASTY",
-        "WORDGUESS:MONARCH-PHARAOH-DYNASTY"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 7-letter term from GOVERNANCE; the word begins with letter 'M' or ends with 'H'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [R A M C H O N] to identify common prefixes or suffixes."
       ]
     },
     "enabled": true,
@@ -29972,64 +15017,6 @@ export const wordGuessChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WG-0572",
-    "title": "WORD GUESS // WORLD #0572",
-    "category": "PUZZLES",
-    "description": "Unscramble 3 domain terminology anagrams from WORLD HISTORY & CIVILIZATIONS under timed conditions.",
-    "difficulty": "HIGH",
-    "risk": "AGGRESSIVE",
-    "cost": 300,
-    "reward": 750,
-    "penalty": 200,
-    "timeLimit": 95,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-29 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0572",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "CRUSADE",
-          "clue": "Series of religious military campaigns sanctioned by the Latin Church in the medieval era.",
-          "category": "HISTORY",
-          "scrambled": "D E U C S R A"
-        },
-        {
-          "id": "R2",
-          "word": "REVOLUTION",
-          "clue": "Fundamental and relatively sudden change in political power and social organizational structure.",
-          "category": "POLITICAL",
-          "scrambled": "O L T O I U E V N R"
-        },
-        {
-          "id": "R3",
-          "word": "SAMURAI",
-          "clue": "Hereditary military nobility and warrior caste of medieval and early-modern Japan.",
-          "category": "MEDIEVAL",
-          "scrambled": "S M A R U I A"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "CRUSADE-REVOLUTION-SAMURAI",
-      "acceptedAnswers": [
-        "CRUSADE-REVOLUTION-SAMURAI",
-        "CRUSADE REVOLUTION SAMURAI",
-        "CRUSADE,REVOLUTION,SAMURAI",
-        "WORDGUESS:CRUSADE-REVOLUTION-SAMURAI"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 7-letter term from HISTORY; the word begins with letter 'C' or ends with 'E'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [D E U C S R A] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WG-0573",
     "title": "WORD GUESS // WORLD #0573",
     "category": "PUZZLES",
@@ -30082,64 +15069,6 @@ export const wordGuessChallenges = [
       "hints": [
         "HINT 01 // Round 1 clue indicates a 7-letter term from HISTORY; the word begins with letter 'C' or ends with 'E'.",
         "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [D R U C S A E] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WG-0574",
-    "title": "WORD GUESS // WORLD #0574",
-    "category": "PUZZLES",
-    "description": "Unscramble 3 domain terminology anagrams from WORLD HISTORY & CIVILIZATIONS under timed conditions.",
-    "difficulty": "HIGH",
-    "risk": "AGGRESSIVE",
-    "cost": 300,
-    "reward": 750,
-    "penalty": 200,
-    "timeLimit": 95,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-29 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0574",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "SAMURAI",
-          "clue": "Hereditary military nobility and warrior caste of medieval and early-modern Japan.",
-          "category": "MEDIEVAL",
-          "scrambled": "U A A M R S I"
-        },
-        {
-          "id": "R2",
-          "word": "DYNASTY",
-          "clue": "Sequence of hereditary rulers from the same family line holding imperial power.",
-          "category": "HISTORICAL",
-          "scrambled": "T D A S Y N Y"
-        },
-        {
-          "id": "R3",
-          "word": "PYRAMID",
-          "clue": "Monumental triangular masonry structures built as monumental tombs in the ancient world.",
-          "category": "ARCHAEOLOGY",
-          "scrambled": "M D A R Y P I"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "SAMURAI-DYNASTY-PYRAMID",
-      "acceptedAnswers": [
-        "SAMURAI-DYNASTY-PYRAMID",
-        "SAMURAI DYNASTY PYRAMID",
-        "SAMURAI,DYNASTY,PYRAMID",
-        "WORDGUESS:SAMURAI-DYNASTY-PYRAMID"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 7-letter term from MEDIEVAL; the word begins with letter 'S' or ends with 'I'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [U A A M R S I] to identify common prefixes or suffixes."
       ]
     },
     "enabled": true,
@@ -30204,64 +15133,6 @@ export const wordGuessChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WG-0576",
-    "title": "WORD GUESS // WORLD #0576",
-    "category": "PUZZLES",
-    "description": "Unscramble 3 domain terminology anagrams from WORLD HISTORY & CIVILIZATIONS under timed conditions.",
-    "difficulty": "HIGH",
-    "risk": "AGGRESSIVE",
-    "cost": 300,
-    "reward": 750,
-    "penalty": 200,
-    "timeLimit": 95,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-29 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0576",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "PYRAMID",
-          "clue": "Monumental triangular masonry structures built as monumental tombs in the ancient world.",
-          "category": "ARCHAEOLOGY",
-          "scrambled": "Y R M D I P A"
-        },
-        {
-          "id": "R2",
-          "word": "CRUSADE",
-          "clue": "Series of religious military campaigns sanctioned by the Latin Church in the medieval era.",
-          "category": "HISTORY",
-          "scrambled": "D A C U R S E"
-        },
-        {
-          "id": "R3",
-          "word": "SAMURAI",
-          "clue": "Hereditary military nobility and warrior caste of medieval and early-modern Japan.",
-          "category": "MEDIEVAL",
-          "scrambled": "I A A R M S U"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "PYRAMID-CRUSADE-SAMURAI",
-      "acceptedAnswers": [
-        "PYRAMID-CRUSADE-SAMURAI",
-        "PYRAMID CRUSADE SAMURAI",
-        "PYRAMID,CRUSADE,SAMURAI",
-        "WORDGUESS:PYRAMID-CRUSADE-SAMURAI"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 7-letter term from ARCHAEOLOGY; the word begins with letter 'P' or ends with 'D'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [Y R M D I P A] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WG-0577",
     "title": "WORD GUESS // WORLD #0577",
     "category": "PUZZLES",
@@ -30314,64 +15185,6 @@ export const wordGuessChallenges = [
       "hints": [
         "HINT 01 // Round 1 clue indicates a 7-letter term from HISTORY; the word begins with letter 'C' or ends with 'E'.",
         "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [D U S A R E C] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WG-0578",
-    "title": "WORD GUESS // WORLD #0578",
-    "category": "PUZZLES",
-    "description": "Unscramble 3 domain terminology anagrams from WORLD HISTORY & CIVILIZATIONS under timed conditions.",
-    "difficulty": "HIGH",
-    "risk": "AGGRESSIVE",
-    "cost": 300,
-    "reward": 750,
-    "penalty": 200,
-    "timeLimit": 95,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-29 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0578",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "PHARAOH",
-          "clue": "The title used for the monarch rulers of ancient Egypt.",
-          "category": "ANCIENT",
-          "scrambled": "A A P R H H O"
-        },
-        {
-          "id": "R2",
-          "word": "CRUSADE",
-          "clue": "Series of religious military campaigns sanctioned by the Latin Church in the medieval era.",
-          "category": "HISTORY",
-          "scrambled": "D R S C U E A"
-        },
-        {
-          "id": "R3",
-          "word": "DYNASTY",
-          "clue": "Sequence of hereditary rulers from the same family line holding imperial power.",
-          "category": "HISTORICAL",
-          "scrambled": "A D N S Y T Y"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "PHARAOH-CRUSADE-DYNASTY",
-      "acceptedAnswers": [
-        "PHARAOH-CRUSADE-DYNASTY",
-        "PHARAOH CRUSADE DYNASTY",
-        "PHARAOH,CRUSADE,DYNASTY",
-        "WORDGUESS:PHARAOH-CRUSADE-DYNASTY"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 7-letter term from ANCIENT; the word begins with letter 'P' or ends with 'H'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [A A P R H H O] to identify common prefixes or suffixes."
       ]
     },
     "enabled": true,
@@ -30436,64 +15249,6 @@ export const wordGuessChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WG-0580",
-    "title": "WORD GUESS // WORLD #0580",
-    "category": "PUZZLES",
-    "description": "Unscramble 3 domain terminology anagrams from WORLD HISTORY & CIVILIZATIONS under timed conditions.",
-    "difficulty": "HIGH",
-    "risk": "AGGRESSIVE",
-    "cost": 300,
-    "reward": 750,
-    "penalty": 200,
-    "timeLimit": 95,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-30 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0580",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "SAMURAI",
-          "clue": "Hereditary military nobility and warrior caste of medieval and early-modern Japan.",
-          "category": "MEDIEVAL",
-          "scrambled": "A A U S M I R"
-        },
-        {
-          "id": "R2",
-          "word": "CRUSADE",
-          "clue": "Series of religious military campaigns sanctioned by the Latin Church in the medieval era.",
-          "category": "HISTORY",
-          "scrambled": "E R S A C U D"
-        },
-        {
-          "id": "R3",
-          "word": "PHARAOH",
-          "clue": "The title used for the monarch rulers of ancient Egypt.",
-          "category": "ANCIENT",
-          "scrambled": "A A O H R P H"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "SAMURAI-CRUSADE-PHARAOH",
-      "acceptedAnswers": [
-        "SAMURAI-CRUSADE-PHARAOH",
-        "SAMURAI CRUSADE PHARAOH",
-        "SAMURAI,CRUSADE,PHARAOH",
-        "WORDGUESS:SAMURAI-CRUSADE-PHARAOH"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 7-letter term from MEDIEVAL; the word begins with letter 'S' or ends with 'I'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [A A U S M I R] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WG-0581",
     "title": "WORD GUESS // WORLD #0581",
     "category": "PUZZLES",
@@ -30546,64 +15301,6 @@ export const wordGuessChallenges = [
       "hints": [
         "HINT 01 // Round 1 clue indicates a 7-letter term from HISTORY; the word begins with letter 'C' or ends with 'E'.",
         "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [E R A C S U D] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WG-0582",
-    "title": "WORD GUESS // WORLD #0582",
-    "category": "PUZZLES",
-    "description": "Unscramble 3 domain terminology anagrams from WORLD HISTORY & CIVILIZATIONS under timed conditions.",
-    "difficulty": "HIGH",
-    "risk": "AGGRESSIVE",
-    "cost": 300,
-    "reward": 750,
-    "penalty": 200,
-    "timeLimit": 95,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-30 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0582",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "CRUSADE",
-          "clue": "Series of religious military campaigns sanctioned by the Latin Church in the medieval era.",
-          "category": "HISTORY",
-          "scrambled": "C A E S D U R"
-        },
-        {
-          "id": "R2",
-          "word": "SAMURAI",
-          "clue": "Hereditary military nobility and warrior caste of medieval and early-modern Japan.",
-          "category": "MEDIEVAL",
-          "scrambled": "S M A U A I R"
-        },
-        {
-          "id": "R3",
-          "word": "MONARCH",
-          "clue": "Sovereign head of state reigning over a kingdom or empire, usually by hereditary right.",
-          "category": "GOVERNANCE",
-          "scrambled": "H M C N A R O"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "CRUSADE-SAMURAI-MONARCH",
-      "acceptedAnswers": [
-        "CRUSADE-SAMURAI-MONARCH",
-        "CRUSADE SAMURAI MONARCH",
-        "CRUSADE,SAMURAI,MONARCH",
-        "WORDGUESS:CRUSADE-SAMURAI-MONARCH"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 7-letter term from HISTORY; the word begins with letter 'C' or ends with 'E'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [C A E S D U R] to identify common prefixes or suffixes."
       ]
     },
     "enabled": true,
@@ -30668,64 +15365,6 @@ export const wordGuessChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WG-0584",
-    "title": "WORD GUESS // WORLD #0584",
-    "category": "PUZZLES",
-    "description": "Unscramble 3 domain terminology anagrams from WORLD HISTORY & CIVILIZATIONS under timed conditions.",
-    "difficulty": "HIGH",
-    "risk": "AGGRESSIVE",
-    "cost": 300,
-    "reward": 750,
-    "penalty": 200,
-    "timeLimit": 95,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-30 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0584",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "SAMURAI",
-          "clue": "Hereditary military nobility and warrior caste of medieval and early-modern Japan.",
-          "category": "MEDIEVAL",
-          "scrambled": "A I U M S R A"
-        },
-        {
-          "id": "R2",
-          "word": "CRUSADE",
-          "clue": "Series of religious military campaigns sanctioned by the Latin Church in the medieval era.",
-          "category": "HISTORY",
-          "scrambled": "R A D E C U S"
-        },
-        {
-          "id": "R3",
-          "word": "REVOLUTION",
-          "clue": "Fundamental and relatively sudden change in political power and social organizational structure.",
-          "category": "POLITICAL",
-          "scrambled": "N U I R O E V O L T"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "SAMURAI-CRUSADE-REVOLUTION",
-      "acceptedAnswers": [
-        "SAMURAI-CRUSADE-REVOLUTION",
-        "SAMURAI CRUSADE REVOLUTION",
-        "SAMURAI,CRUSADE,REVOLUTION",
-        "WORDGUESS:SAMURAI-CRUSADE-REVOLUTION"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 7-letter term from MEDIEVAL; the word begins with letter 'S' or ends with 'I'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [A I U M S R A] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WG-0585",
     "title": "WORD GUESS // WORLD #0585",
     "category": "PUZZLES",
@@ -30778,64 +15417,6 @@ export const wordGuessChallenges = [
       "hints": [
         "HINT 01 // Round 1 clue indicates a 7-letter term from HISTORY; the word begins with letter 'C' or ends with 'E'.",
         "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [D U R E C A S] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WG-0586",
-    "title": "WORD GUESS // WORLD #0586",
-    "category": "PUZZLES",
-    "description": "Unscramble 3 domain terminology anagrams from WORLD HISTORY & CIVILIZATIONS under timed conditions.",
-    "difficulty": "HIGH",
-    "risk": "AGGRESSIVE",
-    "cost": 300,
-    "reward": 750,
-    "penalty": 200,
-    "timeLimit": 95,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-30 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0586",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "PYRAMID",
-          "clue": "Monumental triangular masonry structures built as monumental tombs in the ancient world.",
-          "category": "ARCHAEOLOGY",
-          "scrambled": "I Y M A P D R"
-        },
-        {
-          "id": "R2",
-          "word": "EMPIRE",
-          "clue": "Extensive group of states, territories, or nationalities governed under a single supreme authority.",
-          "category": "CIVILIZATION",
-          "scrambled": "P E R I E M"
-        },
-        {
-          "id": "R3",
-          "word": "SAMURAI",
-          "clue": "Hereditary military nobility and warrior caste of medieval and early-modern Japan.",
-          "category": "MEDIEVAL",
-          "scrambled": "I A U A R S M"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "PYRAMID-EMPIRE-SAMURAI",
-      "acceptedAnswers": [
-        "PYRAMID-EMPIRE-SAMURAI",
-        "PYRAMID EMPIRE SAMURAI",
-        "PYRAMID,EMPIRE,SAMURAI",
-        "WORDGUESS:PYRAMID-EMPIRE-SAMURAI"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 7-letter term from ARCHAEOLOGY; the word begins with letter 'P' or ends with 'D'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [I Y M A P D R] to identify common prefixes or suffixes."
       ]
     },
     "enabled": true,
@@ -30900,64 +15481,6 @@ export const wordGuessChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WG-0588",
-    "title": "WORD GUESS // WORLD #0588",
-    "category": "PUZZLES",
-    "description": "Unscramble 3 domain terminology anagrams from WORLD HISTORY & CIVILIZATIONS under timed conditions.",
-    "difficulty": "HIGH",
-    "risk": "AGGRESSIVE",
-    "cost": 300,
-    "reward": 750,
-    "penalty": 200,
-    "timeLimit": 95,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-30 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0588",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "PYRAMID",
-          "clue": "Monumental triangular masonry structures built as monumental tombs in the ancient world.",
-          "category": "ARCHAEOLOGY",
-          "scrambled": "P D R M I Y A"
-        },
-        {
-          "id": "R2",
-          "word": "REVOLUTION",
-          "clue": "Fundamental and relatively sudden change in political power and social organizational structure.",
-          "category": "POLITICAL",
-          "scrambled": "R V N O T E I O U L"
-        },
-        {
-          "id": "R3",
-          "word": "PHARAOH",
-          "clue": "The title used for the monarch rulers of ancient Egypt.",
-          "category": "ANCIENT",
-          "scrambled": "O A H R H P A"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "PYRAMID-REVOLUTION-PHARAOH",
-      "acceptedAnswers": [
-        "PYRAMID-REVOLUTION-PHARAOH",
-        "PYRAMID REVOLUTION PHARAOH",
-        "PYRAMID,REVOLUTION,PHARAOH",
-        "WORDGUESS:PYRAMID-REVOLUTION-PHARAOH"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 7-letter term from ARCHAEOLOGY; the word begins with letter 'P' or ends with 'D'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [P D R M I Y A] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WG-0589",
     "title": "WORD GUESS // WORLD #0589",
     "category": "PUZZLES",
@@ -31010,64 +15533,6 @@ export const wordGuessChallenges = [
       "hints": [
         "HINT 01 // Round 1 clue indicates a 6-letter term from CIVILIZATION; the word begins with letter 'E' or ends with 'E'.",
         "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [M P E R E I] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WG-0590",
-    "title": "WORD GUESS // WORLD #0590",
-    "category": "PUZZLES",
-    "description": "Unscramble 3 domain terminology anagrams from WORLD HISTORY & CIVILIZATIONS under timed conditions.",
-    "difficulty": "HIGH",
-    "risk": "AGGRESSIVE",
-    "cost": 300,
-    "reward": 750,
-    "penalty": 200,
-    "timeLimit": 95,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-30 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0590",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "REVOLUTION",
-          "clue": "Fundamental and relatively sudden change in political power and social organizational structure.",
-          "category": "POLITICAL",
-          "scrambled": "U O N I L V E T R O"
-        },
-        {
-          "id": "R2",
-          "word": "PHARAOH",
-          "clue": "The title used for the monarch rulers of ancient Egypt.",
-          "category": "ANCIENT",
-          "scrambled": "A H O A P R H"
-        },
-        {
-          "id": "R3",
-          "word": "COLOSSEUM",
-          "clue": "Oval amphitheater in the center of ancient Rome hosting gladiatorial contests.",
-          "category": "ANTIQUITY",
-          "scrambled": "C M O S U O E S L"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "REVOLUTION-PHARAOH-COLOSSEUM",
-      "acceptedAnswers": [
-        "REVOLUTION-PHARAOH-COLOSSEUM",
-        "REVOLUTION PHARAOH COLOSSEUM",
-        "REVOLUTION,PHARAOH,COLOSSEUM",
-        "WORDGUESS:REVOLUTION-PHARAOH-COLOSSEUM"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 10-letter term from POLITICAL; the word begins with letter 'R' or ends with 'N'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [U O N I L V E T R O] to identify common prefixes or suffixes."
       ]
     },
     "enabled": true,
@@ -31132,64 +15597,6 @@ export const wordGuessChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WG-0592",
-    "title": "WORD GUESS // WORLD #0592",
-    "category": "PUZZLES",
-    "description": "Unscramble 3 domain terminology anagrams from WORLD HISTORY & CIVILIZATIONS under timed conditions.",
-    "difficulty": "HIGH",
-    "risk": "AGGRESSIVE",
-    "cost": 300,
-    "reward": 750,
-    "penalty": 200,
-    "timeLimit": 95,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-30 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0592",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "COLOSSEUM",
-          "clue": "Oval amphitheater in the center of ancient Rome hosting gladiatorial contests.",
-          "category": "ANTIQUITY",
-          "scrambled": "S S L U O E C M O"
-        },
-        {
-          "id": "R2",
-          "word": "CRUSADE",
-          "clue": "Series of religious military campaigns sanctioned by the Latin Church in the medieval era.",
-          "category": "HISTORY",
-          "scrambled": "C S A E U R D"
-        },
-        {
-          "id": "R3",
-          "word": "MONARCH",
-          "clue": "Sovereign head of state reigning over a kingdom or empire, usually by hereditary right.",
-          "category": "GOVERNANCE",
-          "scrambled": "H A R M N C O"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "COLOSSEUM-CRUSADE-MONARCH",
-      "acceptedAnswers": [
-        "COLOSSEUM-CRUSADE-MONARCH",
-        "COLOSSEUM CRUSADE MONARCH",
-        "COLOSSEUM,CRUSADE,MONARCH",
-        "WORDGUESS:COLOSSEUM-CRUSADE-MONARCH"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 9-letter term from ANTIQUITY; the word begins with letter 'C' or ends with 'M'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [S S L U O E C M O] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WG-0593",
     "title": "WORD GUESS // WORLD #0593",
     "category": "PUZZLES",
@@ -31242,64 +15649,6 @@ export const wordGuessChallenges = [
       "hints": [
         "HINT 01 // Round 1 clue indicates a 7-letter term from HISTORY; the word begins with letter 'C' or ends with 'E'.",
         "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [E S A C R D U] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WG-0594",
-    "title": "WORD GUESS // WORLD #0594",
-    "category": "PUZZLES",
-    "description": "Unscramble 3 domain terminology anagrams from WORLD HISTORY & CIVILIZATIONS under timed conditions.",
-    "difficulty": "HIGH",
-    "risk": "AGGRESSIVE",
-    "cost": 300,
-    "reward": 750,
-    "penalty": 200,
-    "timeLimit": 95,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-30 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0594",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "DYNASTY",
-          "clue": "Sequence of hereditary rulers from the same family line holding imperial power.",
-          "category": "HISTORICAL",
-          "scrambled": "D S T Y Y N A"
-        },
-        {
-          "id": "R2",
-          "word": "PHARAOH",
-          "clue": "The title used for the monarch rulers of ancient Egypt.",
-          "category": "ANCIENT",
-          "scrambled": "O P H A A H R"
-        },
-        {
-          "id": "R3",
-          "word": "COLOSSEUM",
-          "clue": "Oval amphitheater in the center of ancient Rome hosting gladiatorial contests.",
-          "category": "ANTIQUITY",
-          "scrambled": "L C M S O O U E S"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "DYNASTY-PHARAOH-COLOSSEUM",
-      "acceptedAnswers": [
-        "DYNASTY-PHARAOH-COLOSSEUM",
-        "DYNASTY PHARAOH COLOSSEUM",
-        "DYNASTY,PHARAOH,COLOSSEUM",
-        "WORDGUESS:DYNASTY-PHARAOH-COLOSSEUM"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 7-letter term from HISTORICAL; the word begins with letter 'D' or ends with 'Y'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [D S T Y Y N A] to identify common prefixes or suffixes."
       ]
     },
     "enabled": true,
@@ -31364,64 +15713,6 @@ export const wordGuessChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WG-0596",
-    "title": "WORD GUESS // WORLD #0596",
-    "category": "PUZZLES",
-    "description": "Unscramble 3 domain terminology anagrams from WORLD HISTORY & CIVILIZATIONS under timed conditions.",
-    "difficulty": "HIGH",
-    "risk": "AGGRESSIVE",
-    "cost": 300,
-    "reward": 750,
-    "penalty": 200,
-    "timeLimit": 95,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-30 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0596",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "COLOSSEUM",
-          "clue": "Oval amphitheater in the center of ancient Rome hosting gladiatorial contests.",
-          "category": "ANTIQUITY",
-          "scrambled": "L E S O C M O S U"
-        },
-        {
-          "id": "R2",
-          "word": "MONARCH",
-          "clue": "Sovereign head of state reigning over a kingdom or empire, usually by hereditary right.",
-          "category": "GOVERNANCE",
-          "scrambled": "M A H C N R O"
-        },
-        {
-          "id": "R3",
-          "word": "CRUSADE",
-          "clue": "Series of religious military campaigns sanctioned by the Latin Church in the medieval era.",
-          "category": "HISTORY",
-          "scrambled": "E D S U C R A"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "COLOSSEUM-MONARCH-CRUSADE",
-      "acceptedAnswers": [
-        "COLOSSEUM-MONARCH-CRUSADE",
-        "COLOSSEUM MONARCH CRUSADE",
-        "COLOSSEUM,MONARCH,CRUSADE",
-        "WORDGUESS:COLOSSEUM-MONARCH-CRUSADE"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 9-letter term from ANTIQUITY; the word begins with letter 'C' or ends with 'M'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [L E S O C M O S U] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WG-0597",
     "title": "WORD GUESS // WORLD #0597",
     "category": "PUZZLES",
@@ -31474,64 +15765,6 @@ export const wordGuessChallenges = [
       "hints": [
         "HINT 01 // Round 1 clue indicates a 9-letter term from ANTIQUITY; the word begins with letter 'C' or ends with 'M'.",
         "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [M E C L O O U S S] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WG-0598",
-    "title": "WORD GUESS // WORLD #0598",
-    "category": "PUZZLES",
-    "description": "Unscramble 3 domain terminology anagrams from WORLD HISTORY & CIVILIZATIONS under timed conditions.",
-    "difficulty": "HIGH",
-    "risk": "AGGRESSIVE",
-    "cost": 300,
-    "reward": 750,
-    "penalty": 200,
-    "timeLimit": 95,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-30 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0598",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "EMPIRE",
-          "clue": "Extensive group of states, territories, or nationalities governed under a single supreme authority.",
-          "category": "CIVILIZATION",
-          "scrambled": "E M E P I R"
-        },
-        {
-          "id": "R2",
-          "word": "SAMURAI",
-          "clue": "Hereditary military nobility and warrior caste of medieval and early-modern Japan.",
-          "category": "MEDIEVAL",
-          "scrambled": "U M R I A S A"
-        },
-        {
-          "id": "R3",
-          "word": "CRUSADE",
-          "clue": "Series of religious military campaigns sanctioned by the Latin Church in the medieval era.",
-          "category": "HISTORY",
-          "scrambled": "E C A S D U R"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "EMPIRE-SAMURAI-CRUSADE",
-      "acceptedAnswers": [
-        "EMPIRE-SAMURAI-CRUSADE",
-        "EMPIRE SAMURAI CRUSADE",
-        "EMPIRE,SAMURAI,CRUSADE",
-        "WORDGUESS:EMPIRE-SAMURAI-CRUSADE"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 6-letter term from CIVILIZATION; the word begins with letter 'E' or ends with 'E'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [E M E P I R] to identify common prefixes or suffixes."
       ]
     },
     "enabled": true,
@@ -31596,64 +15829,6 @@ export const wordGuessChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WG-0600",
-    "title": "WORD GUESS // WORLD #0600",
-    "category": "PUZZLES",
-    "description": "Unscramble 3 domain terminology anagrams from WORLD HISTORY & CIVILIZATIONS under timed conditions.",
-    "difficulty": "HIGH",
-    "risk": "AGGRESSIVE",
-    "cost": 300,
-    "reward": 750,
-    "penalty": 200,
-    "timeLimit": 95,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-31 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0600",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "PYRAMID",
-          "clue": "Monumental triangular masonry structures built as monumental tombs in the ancient world.",
-          "category": "ARCHAEOLOGY",
-          "scrambled": "M P A Y R D I"
-        },
-        {
-          "id": "R2",
-          "word": "PHARAOH",
-          "clue": "The title used for the monarch rulers of ancient Egypt.",
-          "category": "ANCIENT",
-          "scrambled": "A O P H H R A"
-        },
-        {
-          "id": "R3",
-          "word": "REVOLUTION",
-          "clue": "Fundamental and relatively sudden change in political power and social organizational structure.",
-          "category": "POLITICAL",
-          "scrambled": "I R U N T O L O E V"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "PYRAMID-PHARAOH-REVOLUTION",
-      "acceptedAnswers": [
-        "PYRAMID-PHARAOH-REVOLUTION",
-        "PYRAMID PHARAOH REVOLUTION",
-        "PYRAMID,PHARAOH,REVOLUTION",
-        "WORDGUESS:PYRAMID-PHARAOH-REVOLUTION"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 7-letter term from ARCHAEOLOGY; the word begins with letter 'P' or ends with 'D'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [M P A Y R D I] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WG-0601",
     "title": "WORD GUESS // WORLD #0601",
     "category": "PUZZLES",
@@ -31706,64 +15881,6 @@ export const wordGuessChallenges = [
       "hints": [
         "HINT 01 // Round 1 clue indicates a 10-letter term from POLITICAL; the word begins with letter 'R' or ends with 'N'.",
         "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [V O U I L T E O N R] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WG-0602",
-    "title": "WORD GUESS // WORLD #0602",
-    "category": "PUZZLES",
-    "description": "Unscramble 3 domain terminology anagrams from WORLD HISTORY & CIVILIZATIONS under timed conditions.",
-    "difficulty": "HIGH",
-    "risk": "AGGRESSIVE",
-    "cost": 300,
-    "reward": 750,
-    "penalty": 200,
-    "timeLimit": 95,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-31 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0602",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "PYRAMID",
-          "clue": "Monumental triangular masonry structures built as monumental tombs in the ancient world.",
-          "category": "ARCHAEOLOGY",
-          "scrambled": "I D M P A R Y"
-        },
-        {
-          "id": "R2",
-          "word": "SAMURAI",
-          "clue": "Hereditary military nobility and warrior caste of medieval and early-modern Japan.",
-          "category": "MEDIEVAL",
-          "scrambled": "U S M A A I R"
-        },
-        {
-          "id": "R3",
-          "word": "PHARAOH",
-          "clue": "The title used for the monarch rulers of ancient Egypt.",
-          "category": "ANCIENT",
-          "scrambled": "H R H A A P O"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "PYRAMID-SAMURAI-PHARAOH",
-      "acceptedAnswers": [
-        "PYRAMID-SAMURAI-PHARAOH",
-        "PYRAMID SAMURAI PHARAOH",
-        "PYRAMID,SAMURAI,PHARAOH",
-        "WORDGUESS:PYRAMID-SAMURAI-PHARAOH"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 7-letter term from ARCHAEOLOGY; the word begins with letter 'P' or ends with 'D'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [I D M P A R Y] to identify common prefixes or suffixes."
       ]
     },
     "enabled": true,
@@ -31828,64 +15945,6 @@ export const wordGuessChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WG-0604",
-    "title": "WORD GUESS // WORLD #0604",
-    "category": "PUZZLES",
-    "description": "Unscramble 3 domain terminology anagrams from WORLD HISTORY & CIVILIZATIONS under timed conditions.",
-    "difficulty": "HIGH",
-    "risk": "AGGRESSIVE",
-    "cost": 300,
-    "reward": 750,
-    "penalty": 200,
-    "timeLimit": 95,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-31 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0604",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "MONARCH",
-          "clue": "Sovereign head of state reigning over a kingdom or empire, usually by hereditary right.",
-          "category": "GOVERNANCE",
-          "scrambled": "R H A C N O M"
-        },
-        {
-          "id": "R2",
-          "word": "COLOSSEUM",
-          "clue": "Oval amphitheater in the center of ancient Rome hosting gladiatorial contests.",
-          "category": "ANTIQUITY",
-          "scrambled": "M O U S E S L O C"
-        },
-        {
-          "id": "R3",
-          "word": "REVOLUTION",
-          "clue": "Fundamental and relatively sudden change in political power and social organizational structure.",
-          "category": "POLITICAL",
-          "scrambled": "T O N O V U I L E R"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "MONARCH-COLOSSEUM-REVOLUTION",
-      "acceptedAnswers": [
-        "MONARCH-COLOSSEUM-REVOLUTION",
-        "MONARCH COLOSSEUM REVOLUTION",
-        "MONARCH,COLOSSEUM,REVOLUTION",
-        "WORDGUESS:MONARCH-COLOSSEUM-REVOLUTION"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 7-letter term from GOVERNANCE; the word begins with letter 'M' or ends with 'H'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [R H A C N O M] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WG-0605",
     "title": "WORD GUESS // WORLD #0605",
     "category": "PUZZLES",
@@ -31938,64 +15997,6 @@ export const wordGuessChallenges = [
       "hints": [
         "HINT 01 // Round 1 clue indicates a 9-letter term from ANTIQUITY; the word begins with letter 'C' or ends with 'M'.",
         "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [U S O M E S C O L] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WG-0606",
-    "title": "WORD GUESS // WORLD #0606",
-    "category": "PUZZLES",
-    "description": "Unscramble 3 domain terminology anagrams from WORLD HISTORY & CIVILIZATIONS under timed conditions.",
-    "difficulty": "HIGH",
-    "risk": "AGGRESSIVE",
-    "cost": 300,
-    "reward": 750,
-    "penalty": 200,
-    "timeLimit": 95,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-31 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0606",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "DYNASTY",
-          "clue": "Sequence of hereditary rulers from the same family line holding imperial power.",
-          "category": "HISTORICAL",
-          "scrambled": "S N T D Y A Y"
-        },
-        {
-          "id": "R2",
-          "word": "SAMURAI",
-          "clue": "Hereditary military nobility and warrior caste of medieval and early-modern Japan.",
-          "category": "MEDIEVAL",
-          "scrambled": "R U M A A I S"
-        },
-        {
-          "id": "R3",
-          "word": "COLOSSEUM",
-          "clue": "Oval amphitheater in the center of ancient Rome hosting gladiatorial contests.",
-          "category": "ANTIQUITY",
-          "scrambled": "O S E S O C M L U"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "DYNASTY-SAMURAI-COLOSSEUM",
-      "acceptedAnswers": [
-        "DYNASTY-SAMURAI-COLOSSEUM",
-        "DYNASTY SAMURAI COLOSSEUM",
-        "DYNASTY,SAMURAI,COLOSSEUM",
-        "WORDGUESS:DYNASTY-SAMURAI-COLOSSEUM"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 7-letter term from HISTORICAL; the word begins with letter 'D' or ends with 'Y'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [S N T D Y A Y] to identify common prefixes or suffixes."
       ]
     },
     "enabled": true,
@@ -32060,64 +16061,6 @@ export const wordGuessChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WG-0608",
-    "title": "WORD GUESS // WORLD #0608",
-    "category": "PUZZLES",
-    "description": "Unscramble 3 domain terminology anagrams from WORLD HISTORY & CIVILIZATIONS under timed conditions.",
-    "difficulty": "HIGH",
-    "risk": "AGGRESSIVE",
-    "cost": 300,
-    "reward": 750,
-    "penalty": 200,
-    "timeLimit": 95,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-31 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0608",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "REVOLUTION",
-          "clue": "Fundamental and relatively sudden change in political power and social organizational structure.",
-          "category": "POLITICAL",
-          "scrambled": "O T E L R U N O I V"
-        },
-        {
-          "id": "R2",
-          "word": "PYRAMID",
-          "clue": "Monumental triangular masonry structures built as monumental tombs in the ancient world.",
-          "category": "ARCHAEOLOGY",
-          "scrambled": "I P R M A D Y"
-        },
-        {
-          "id": "R3",
-          "word": "CRUSADE",
-          "clue": "Series of religious military campaigns sanctioned by the Latin Church in the medieval era.",
-          "category": "HISTORY",
-          "scrambled": "E U R S C D A"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "REVOLUTION-PYRAMID-CRUSADE",
-      "acceptedAnswers": [
-        "REVOLUTION-PYRAMID-CRUSADE",
-        "REVOLUTION PYRAMID CRUSADE",
-        "REVOLUTION,PYRAMID,CRUSADE",
-        "WORDGUESS:REVOLUTION-PYRAMID-CRUSADE"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 10-letter term from POLITICAL; the word begins with letter 'R' or ends with 'N'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [O T E L R U N O I V] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WG-0609",
     "title": "WORD GUESS // WORLD #0609",
     "category": "PUZZLES",
@@ -32170,64 +16113,6 @@ export const wordGuessChallenges = [
       "hints": [
         "HINT 01 // Round 1 clue indicates a 7-letter term from HISTORY; the word begins with letter 'C' or ends with 'E'.",
         "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [D A R E U C S] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WG-0610",
-    "title": "WORD GUESS // WORLD #0610",
-    "category": "PUZZLES",
-    "description": "Unscramble 3 domain terminology anagrams from WORLD HISTORY & CIVILIZATIONS under timed conditions.",
-    "difficulty": "HIGH",
-    "risk": "AGGRESSIVE",
-    "cost": 300,
-    "reward": 750,
-    "penalty": 200,
-    "timeLimit": 95,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-31 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0610",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "PHARAOH",
-          "clue": "The title used for the monarch rulers of ancient Egypt.",
-          "category": "ANCIENT",
-          "scrambled": "H A A H O P R"
-        },
-        {
-          "id": "R2",
-          "word": "COLONY",
-          "clue": "Territory under the political control and governance of a distant sovereign state.",
-          "category": "HISTORY",
-          "scrambled": "N O Y C O L"
-        },
-        {
-          "id": "R3",
-          "word": "COLOSSEUM",
-          "clue": "Oval amphitheater in the center of ancient Rome hosting gladiatorial contests.",
-          "category": "ANTIQUITY",
-          "scrambled": "O L C S O E U S M"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "PHARAOH-COLONY-COLOSSEUM",
-      "acceptedAnswers": [
-        "PHARAOH-COLONY-COLOSSEUM",
-        "PHARAOH COLONY COLOSSEUM",
-        "PHARAOH,COLONY,COLOSSEUM",
-        "WORDGUESS:PHARAOH-COLONY-COLOSSEUM"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 7-letter term from ANCIENT; the word begins with letter 'P' or ends with 'H'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [H A A H O P R] to identify common prefixes or suffixes."
       ]
     },
     "enabled": true,
@@ -32292,64 +16177,6 @@ export const wordGuessChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WG-0612",
-    "title": "WORD GUESS // WORLD #0612",
-    "category": "PUZZLES",
-    "description": "Unscramble 3 domain terminology anagrams from WORLD HISTORY & CIVILIZATIONS under timed conditions.",
-    "difficulty": "HIGH",
-    "risk": "AGGRESSIVE",
-    "cost": 300,
-    "reward": 750,
-    "penalty": 200,
-    "timeLimit": 95,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-31 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0612",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "PHARAOH",
-          "clue": "The title used for the monarch rulers of ancient Egypt.",
-          "category": "ANCIENT",
-          "scrambled": "P A O R H H A"
-        },
-        {
-          "id": "R2",
-          "word": "DYNASTY",
-          "clue": "Sequence of hereditary rulers from the same family line holding imperial power.",
-          "category": "HISTORICAL",
-          "scrambled": "A Y T Y N S D"
-        },
-        {
-          "id": "R3",
-          "word": "COLONY",
-          "clue": "Territory under the political control and governance of a distant sovereign state.",
-          "category": "HISTORY",
-          "scrambled": "O L C Y O N"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "PHARAOH-DYNASTY-COLONY",
-      "acceptedAnswers": [
-        "PHARAOH-DYNASTY-COLONY",
-        "PHARAOH DYNASTY COLONY",
-        "PHARAOH,DYNASTY,COLONY",
-        "WORDGUESS:PHARAOH-DYNASTY-COLONY"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 7-letter term from ANCIENT; the word begins with letter 'P' or ends with 'H'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [P A O R H H A] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WG-0613",
     "title": "WORD GUESS // WORLD #0613",
     "category": "PUZZLES",
@@ -32402,64 +16229,6 @@ export const wordGuessChallenges = [
       "hints": [
         "HINT 01 // Round 1 clue indicates a 9-letter term from ANTIQUITY; the word begins with letter 'C' or ends with 'M'.",
         "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [O E S C O U M L S] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WG-0614",
-    "title": "WORD GUESS // WORLD #0614",
-    "category": "PUZZLES",
-    "description": "Unscramble 3 domain terminology anagrams from WORLD HISTORY & CIVILIZATIONS under timed conditions.",
-    "difficulty": "HIGH",
-    "risk": "AGGRESSIVE",
-    "cost": 300,
-    "reward": 750,
-    "penalty": 200,
-    "timeLimit": 95,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-31 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0614",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "COLONY",
-          "clue": "Territory under the political control and governance of a distant sovereign state.",
-          "category": "HISTORY",
-          "scrambled": "O O L C Y N"
-        },
-        {
-          "id": "R2",
-          "word": "MONARCH",
-          "clue": "Sovereign head of state reigning over a kingdom or empire, usually by hereditary right.",
-          "category": "GOVERNANCE",
-          "scrambled": "R M O N H A C"
-        },
-        {
-          "id": "R3",
-          "word": "PYRAMID",
-          "clue": "Monumental triangular masonry structures built as monumental tombs in the ancient world.",
-          "category": "ARCHAEOLOGY",
-          "scrambled": "R A D M Y I P"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "COLONY-MONARCH-PYRAMID",
-      "acceptedAnswers": [
-        "COLONY-MONARCH-PYRAMID",
-        "COLONY MONARCH PYRAMID",
-        "COLONY,MONARCH,PYRAMID",
-        "WORDGUESS:COLONY-MONARCH-PYRAMID"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 6-letter term from HISTORY; the word begins with letter 'C' or ends with 'Y'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [O O L C Y N] to identify common prefixes or suffixes."
       ]
     },
     "enabled": true,
@@ -32524,64 +16293,6 @@ export const wordGuessChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WG-0616",
-    "title": "WORD GUESS // WORLD #0616",
-    "category": "PUZZLES",
-    "description": "Unscramble 3 domain terminology anagrams from WORLD HISTORY & CIVILIZATIONS under timed conditions.",
-    "difficulty": "HIGH",
-    "risk": "AGGRESSIVE",
-    "cost": 300,
-    "reward": 750,
-    "penalty": 200,
-    "timeLimit": 95,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-31 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0616",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "CRUSADE",
-          "clue": "Series of religious military campaigns sanctioned by the Latin Church in the medieval era.",
-          "category": "HISTORY",
-          "scrambled": "S E C U A D R"
-        },
-        {
-          "id": "R2",
-          "word": "DYNASTY",
-          "clue": "Sequence of hereditary rulers from the same family line holding imperial power.",
-          "category": "HISTORICAL",
-          "scrambled": "D T Y A S Y N"
-        },
-        {
-          "id": "R3",
-          "word": "COLONY",
-          "clue": "Territory under the political control and governance of a distant sovereign state.",
-          "category": "HISTORY",
-          "scrambled": "Y N O O C L"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "CRUSADE-DYNASTY-COLONY",
-      "acceptedAnswers": [
-        "CRUSADE-DYNASTY-COLONY",
-        "CRUSADE DYNASTY COLONY",
-        "CRUSADE,DYNASTY,COLONY",
-        "WORDGUESS:CRUSADE-DYNASTY-COLONY"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 7-letter term from HISTORY; the word begins with letter 'C' or ends with 'E'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [S E C U A D R] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WG-0617",
     "title": "WORD GUESS // WORLD #0617",
     "category": "PUZZLES",
@@ -32634,64 +16345,6 @@ export const wordGuessChallenges = [
       "hints": [
         "HINT 01 // Round 1 clue indicates a 7-letter term from HISTORY; the word begins with letter 'C' or ends with 'E'.",
         "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [S A R U E D C] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WG-0618",
-    "title": "WORD GUESS // WORLD #0618",
-    "category": "PUZZLES",
-    "description": "Unscramble 3 domain terminology anagrams from WORLD HISTORY & CIVILIZATIONS under timed conditions.",
-    "difficulty": "HIGH",
-    "risk": "AGGRESSIVE",
-    "cost": 300,
-    "reward": 750,
-    "penalty": 200,
-    "timeLimit": 95,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-31 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0618",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "COLOSSEUM",
-          "clue": "Oval amphitheater in the center of ancient Rome hosting gladiatorial contests.",
-          "category": "ANTIQUITY",
-          "scrambled": "L U S E S O O M C"
-        },
-        {
-          "id": "R2",
-          "word": "REVOLUTION",
-          "clue": "Fundamental and relatively sudden change in political power and social organizational structure.",
-          "category": "POLITICAL",
-          "scrambled": "T O L E N O I R U V"
-        },
-        {
-          "id": "R3",
-          "word": "EMPIRE",
-          "clue": "Extensive group of states, territories, or nationalities governed under a single supreme authority.",
-          "category": "CIVILIZATION",
-          "scrambled": "I M E R P E"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "COLOSSEUM-REVOLUTION-EMPIRE",
-      "acceptedAnswers": [
-        "COLOSSEUM-REVOLUTION-EMPIRE",
-        "COLOSSEUM REVOLUTION EMPIRE",
-        "COLOSSEUM,REVOLUTION,EMPIRE",
-        "WORDGUESS:COLOSSEUM-REVOLUTION-EMPIRE"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 9-letter term from ANTIQUITY; the word begins with letter 'C' or ends with 'M'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [L U S E S O O M C] to identify common prefixes or suffixes."
       ]
     },
     "enabled": true,
@@ -32756,64 +16409,6 @@ export const wordGuessChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WG-0620",
-    "title": "WORD GUESS // WORLD #0620",
-    "category": "PUZZLES",
-    "description": "Unscramble 3 domain terminology anagrams from WORLD HISTORY & CIVILIZATIONS under timed conditions.",
-    "difficulty": "HIGH",
-    "risk": "AGGRESSIVE",
-    "cost": 300,
-    "reward": 750,
-    "penalty": 200,
-    "timeLimit": 95,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-32 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0620",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "CRUSADE",
-          "clue": "Series of religious military campaigns sanctioned by the Latin Church in the medieval era.",
-          "category": "HISTORY",
-          "scrambled": "C S A D U E R"
-        },
-        {
-          "id": "R2",
-          "word": "REVOLUTION",
-          "clue": "Fundamental and relatively sudden change in political power and social organizational structure.",
-          "category": "POLITICAL",
-          "scrambled": "N U R O I E O L V T"
-        },
-        {
-          "id": "R3",
-          "word": "COLONY",
-          "clue": "Territory under the political control and governance of a distant sovereign state.",
-          "category": "HISTORY",
-          "scrambled": "L Y C N O O"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "CRUSADE-REVOLUTION-COLONY",
-      "acceptedAnswers": [
-        "CRUSADE-REVOLUTION-COLONY",
-        "CRUSADE REVOLUTION COLONY",
-        "CRUSADE,REVOLUTION,COLONY",
-        "WORDGUESS:CRUSADE-REVOLUTION-COLONY"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 7-letter term from HISTORY; the word begins with letter 'C' or ends with 'E'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [C S A D U E R] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WG-0621",
     "title": "WORD GUESS // WORLD #0621",
     "category": "PUZZLES",
@@ -32866,64 +16461,6 @@ export const wordGuessChallenges = [
       "hints": [
         "HINT 01 // Round 1 clue indicates a 7-letter term from ANCIENT; the word begins with letter 'P' or ends with 'H'.",
         "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [O P H R A H A] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WG-0622",
-    "title": "WORD GUESS // WORLD #0622",
-    "category": "PUZZLES",
-    "description": "Unscramble 3 domain terminology anagrams from WORLD HISTORY & CIVILIZATIONS under timed conditions.",
-    "difficulty": "HIGH",
-    "risk": "AGGRESSIVE",
-    "cost": 300,
-    "reward": 750,
-    "penalty": 200,
-    "timeLimit": 95,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-32 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0622",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "REVOLUTION",
-          "clue": "Fundamental and relatively sudden change in political power and social organizational structure.",
-          "category": "POLITICAL",
-          "scrambled": "L N R U O E I O V T"
-        },
-        {
-          "id": "R2",
-          "word": "PHARAOH",
-          "clue": "The title used for the monarch rulers of ancient Egypt.",
-          "category": "ANCIENT",
-          "scrambled": "P R A H H O A"
-        },
-        {
-          "id": "R3",
-          "word": "DYNASTY",
-          "clue": "Sequence of hereditary rulers from the same family line holding imperial power.",
-          "category": "HISTORICAL",
-          "scrambled": "Y D T S N A Y"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "REVOLUTION-PHARAOH-DYNASTY",
-      "acceptedAnswers": [
-        "REVOLUTION-PHARAOH-DYNASTY",
-        "REVOLUTION PHARAOH DYNASTY",
-        "REVOLUTION,PHARAOH,DYNASTY",
-        "WORDGUESS:REVOLUTION-PHARAOH-DYNASTY"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 10-letter term from POLITICAL; the word begins with letter 'R' or ends with 'N'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [L N R U O E I O V T] to identify common prefixes or suffixes."
       ]
     },
     "enabled": true,
@@ -32988,64 +16525,6 @@ export const wordGuessChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WG-0624",
-    "title": "WORD GUESS // WORLD #0624",
-    "category": "PUZZLES",
-    "description": "Unscramble 3 domain terminology anagrams from WORLD HISTORY & CIVILIZATIONS under timed conditions.",
-    "difficulty": "HIGH",
-    "risk": "AGGRESSIVE",
-    "cost": 300,
-    "reward": 750,
-    "penalty": 200,
-    "timeLimit": 95,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-32 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0624",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "COLONY",
-          "clue": "Territory under the political control and governance of a distant sovereign state.",
-          "category": "HISTORY",
-          "scrambled": "Y O L O C N"
-        },
-        {
-          "id": "R2",
-          "word": "PHARAOH",
-          "clue": "The title used for the monarch rulers of ancient Egypt.",
-          "category": "ANCIENT",
-          "scrambled": "A O A H H R P"
-        },
-        {
-          "id": "R3",
-          "word": "REVOLUTION",
-          "clue": "Fundamental and relatively sudden change in political power and social organizational structure.",
-          "category": "POLITICAL",
-          "scrambled": "R O N O V U I E T L"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "COLONY-PHARAOH-REVOLUTION",
-      "acceptedAnswers": [
-        "COLONY-PHARAOH-REVOLUTION",
-        "COLONY PHARAOH REVOLUTION",
-        "COLONY,PHARAOH,REVOLUTION",
-        "WORDGUESS:COLONY-PHARAOH-REVOLUTION"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 6-letter term from HISTORY; the word begins with letter 'C' or ends with 'Y'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [Y O L O C N] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WG-0625",
     "title": "WORD GUESS // WORLD #0625",
     "category": "PUZZLES",
@@ -33098,64 +16577,6 @@ export const wordGuessChallenges = [
       "hints": [
         "HINT 01 // Round 1 clue indicates a 7-letter term from ARCHAEOLOGY; the word begins with letter 'P' or ends with 'D'.",
         "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [P I Y D M A R] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WG-0626",
-    "title": "WORD GUESS // WORLD #0626",
-    "category": "PUZZLES",
-    "description": "Unscramble 3 domain terminology anagrams from WORLD HISTORY & CIVILIZATIONS under timed conditions.",
-    "difficulty": "HIGH",
-    "risk": "AGGRESSIVE",
-    "cost": 300,
-    "reward": 750,
-    "penalty": 200,
-    "timeLimit": 95,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-32 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0626",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "SAMURAI",
-          "clue": "Hereditary military nobility and warrior caste of medieval and early-modern Japan.",
-          "category": "MEDIEVAL",
-          "scrambled": "M I A U S A R"
-        },
-        {
-          "id": "R2",
-          "word": "COLOSSEUM",
-          "clue": "Oval amphitheater in the center of ancient Rome hosting gladiatorial contests.",
-          "category": "ANTIQUITY",
-          "scrambled": "U S C O S L M E O"
-        },
-        {
-          "id": "R3",
-          "word": "PYRAMID",
-          "clue": "Monumental triangular masonry structures built as monumental tombs in the ancient world.",
-          "category": "ARCHAEOLOGY",
-          "scrambled": "R M Y A D P I"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "SAMURAI-COLOSSEUM-PYRAMID",
-      "acceptedAnswers": [
-        "SAMURAI-COLOSSEUM-PYRAMID",
-        "SAMURAI COLOSSEUM PYRAMID",
-        "SAMURAI,COLOSSEUM,PYRAMID",
-        "WORDGUESS:SAMURAI-COLOSSEUM-PYRAMID"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 7-letter term from MEDIEVAL; the word begins with letter 'S' or ends with 'I'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [M I A U S A R] to identify common prefixes or suffixes."
       ]
     },
     "enabled": true,
@@ -33220,64 +16641,6 @@ export const wordGuessChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WG-0628",
-    "title": "WORD GUESS // WORLD #0628",
-    "category": "PUZZLES",
-    "description": "Unscramble 3 domain terminology anagrams from WORLD HISTORY & CIVILIZATIONS under timed conditions.",
-    "difficulty": "HIGH",
-    "risk": "AGGRESSIVE",
-    "cost": 300,
-    "reward": 750,
-    "penalty": 200,
-    "timeLimit": 95,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-32 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0628",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "SAMURAI",
-          "clue": "Hereditary military nobility and warrior caste of medieval and early-modern Japan.",
-          "category": "MEDIEVAL",
-          "scrambled": "I U M S R A A"
-        },
-        {
-          "id": "R2",
-          "word": "CRUSADE",
-          "clue": "Series of religious military campaigns sanctioned by the Latin Church in the medieval era.",
-          "category": "HISTORY",
-          "scrambled": "E U C R S D A"
-        },
-        {
-          "id": "R3",
-          "word": "DYNASTY",
-          "clue": "Sequence of hereditary rulers from the same family line holding imperial power.",
-          "category": "HISTORICAL",
-          "scrambled": "S T Y A N Y D"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "SAMURAI-CRUSADE-DYNASTY",
-      "acceptedAnswers": [
-        "SAMURAI-CRUSADE-DYNASTY",
-        "SAMURAI CRUSADE DYNASTY",
-        "SAMURAI,CRUSADE,DYNASTY",
-        "WORDGUESS:SAMURAI-CRUSADE-DYNASTY"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 7-letter term from MEDIEVAL; the word begins with letter 'S' or ends with 'I'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [I U M S R A A] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WG-0629",
     "title": "WORD GUESS // WORLD #0629",
     "category": "PUZZLES",
@@ -33330,64 +16693,6 @@ export const wordGuessChallenges = [
       "hints": [
         "HINT 01 // Round 1 clue indicates a 7-letter term from MEDIEVAL; the word begins with letter 'S' or ends with 'I'.",
         "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [A S R A U I M] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WG-0630",
-    "title": "WORD GUESS // WORLD #0630",
-    "category": "PUZZLES",
-    "description": "Unscramble 3 domain terminology anagrams from WORLD HISTORY & CIVILIZATIONS under timed conditions.",
-    "difficulty": "HIGH",
-    "risk": "AGGRESSIVE",
-    "cost": 300,
-    "reward": 750,
-    "penalty": 200,
-    "timeLimit": 95,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-32 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0630",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "COLONY",
-          "clue": "Territory under the political control and governance of a distant sovereign state.",
-          "category": "HISTORY",
-          "scrambled": "C N O O L Y"
-        },
-        {
-          "id": "R2",
-          "word": "CRUSADE",
-          "clue": "Series of religious military campaigns sanctioned by the Latin Church in the medieval era.",
-          "category": "HISTORY",
-          "scrambled": "R U S E C D A"
-        },
-        {
-          "id": "R3",
-          "word": "EMPIRE",
-          "clue": "Extensive group of states, territories, or nationalities governed under a single supreme authority.",
-          "category": "CIVILIZATION",
-          "scrambled": "P M E I R E"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "COLONY-CRUSADE-EMPIRE",
-      "acceptedAnswers": [
-        "COLONY-CRUSADE-EMPIRE",
-        "COLONY CRUSADE EMPIRE",
-        "COLONY,CRUSADE,EMPIRE",
-        "WORDGUESS:COLONY-CRUSADE-EMPIRE"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 6-letter term from HISTORY; the word begins with letter 'C' or ends with 'Y'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [C N O O L Y] to identify common prefixes or suffixes."
       ]
     },
     "enabled": true,
@@ -33452,64 +16757,6 @@ export const wordGuessChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WG-0632",
-    "title": "WORD GUESS // WORLD #0632",
-    "category": "PUZZLES",
-    "description": "Unscramble 3 domain terminology anagrams from WORLD HISTORY & CIVILIZATIONS under timed conditions.",
-    "difficulty": "HIGH",
-    "risk": "AGGRESSIVE",
-    "cost": 300,
-    "reward": 750,
-    "penalty": 200,
-    "timeLimit": 95,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-32 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0632",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "CRUSADE",
-          "clue": "Series of religious military campaigns sanctioned by the Latin Church in the medieval era.",
-          "category": "HISTORY",
-          "scrambled": "A D R U S C E"
-        },
-        {
-          "id": "R2",
-          "word": "COLOSSEUM",
-          "clue": "Oval amphitheater in the center of ancient Rome hosting gladiatorial contests.",
-          "category": "ANTIQUITY",
-          "scrambled": "S O O S U E M C L"
-        },
-        {
-          "id": "R3",
-          "word": "COLONY",
-          "clue": "Territory under the political control and governance of a distant sovereign state.",
-          "category": "HISTORY",
-          "scrambled": "N L C O Y O"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "CRUSADE-COLOSSEUM-COLONY",
-      "acceptedAnswers": [
-        "CRUSADE-COLOSSEUM-COLONY",
-        "CRUSADE COLOSSEUM COLONY",
-        "CRUSADE,COLOSSEUM,COLONY",
-        "WORDGUESS:CRUSADE-COLOSSEUM-COLONY"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 7-letter term from HISTORY; the word begins with letter 'C' or ends with 'E'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [A D R U S C E] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WG-0633",
     "title": "WORD GUESS // WORLD #0633",
     "category": "PUZZLES",
@@ -33562,64 +16809,6 @@ export const wordGuessChallenges = [
       "hints": [
         "HINT 01 // Round 1 clue indicates a 7-letter term from ANCIENT; the word begins with letter 'P' or ends with 'H'.",
         "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [H R A O P A H] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WG-0634",
-    "title": "WORD GUESS // WORLD #0634",
-    "category": "PUZZLES",
-    "description": "Unscramble 3 domain terminology anagrams from WORLD HISTORY & CIVILIZATIONS under timed conditions.",
-    "difficulty": "HIGH",
-    "risk": "AGGRESSIVE",
-    "cost": 300,
-    "reward": 750,
-    "penalty": 200,
-    "timeLimit": 95,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-32 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0634",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "COLONY",
-          "clue": "Territory under the political control and governance of a distant sovereign state.",
-          "category": "HISTORY",
-          "scrambled": "O C N L Y O"
-        },
-        {
-          "id": "R2",
-          "word": "REVOLUTION",
-          "clue": "Fundamental and relatively sudden change in political power and social organizational structure.",
-          "category": "POLITICAL",
-          "scrambled": "O N E I O V U R T L"
-        },
-        {
-          "id": "R3",
-          "word": "EMPIRE",
-          "clue": "Extensive group of states, territories, or nationalities governed under a single supreme authority.",
-          "category": "CIVILIZATION",
-          "scrambled": "P E E R I M"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "COLONY-REVOLUTION-EMPIRE",
-      "acceptedAnswers": [
-        "COLONY-REVOLUTION-EMPIRE",
-        "COLONY REVOLUTION EMPIRE",
-        "COLONY,REVOLUTION,EMPIRE",
-        "WORDGUESS:COLONY-REVOLUTION-EMPIRE"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 6-letter term from HISTORY; the word begins with letter 'C' or ends with 'Y'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [O C N L Y O] to identify common prefixes or suffixes."
       ]
     },
     "enabled": true,
@@ -33684,64 +16873,6 @@ export const wordGuessChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WG-0636",
-    "title": "WORD GUESS // WORLD #0636",
-    "category": "PUZZLES",
-    "description": "Unscramble 3 domain terminology anagrams from WORLD HISTORY & CIVILIZATIONS under timed conditions.",
-    "difficulty": "EXTREME",
-    "risk": "AGGRESSIVE",
-    "cost": 600,
-    "reward": 1800,
-    "penalty": 450,
-    "timeLimit": 120,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-32 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0636",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "COLONY",
-          "clue": "Territory under the political control and governance of a distant sovereign state.",
-          "category": "HISTORY",
-          "scrambled": "N Y L O C O"
-        },
-        {
-          "id": "R2",
-          "word": "COLOSSEUM",
-          "clue": "Oval amphitheater in the center of ancient Rome hosting gladiatorial contests.",
-          "category": "ANTIQUITY",
-          "scrambled": "M E S O L U S O C"
-        },
-        {
-          "id": "R3",
-          "word": "MONARCH",
-          "clue": "Sovereign head of state reigning over a kingdom or empire, usually by hereditary right.",
-          "category": "GOVERNANCE",
-          "scrambled": "A C M H N R O"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "COLONY-COLOSSEUM-MONARCH",
-      "acceptedAnswers": [
-        "COLONY-COLOSSEUM-MONARCH",
-        "COLONY COLOSSEUM MONARCH",
-        "COLONY,COLOSSEUM,MONARCH",
-        "WORDGUESS:COLONY-COLOSSEUM-MONARCH"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 6-letter term from HISTORY; the word begins with letter 'C' or ends with 'Y'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [N Y L O C O] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WG-0637",
     "title": "WORD GUESS // WORLD #0637",
     "category": "PUZZLES",
@@ -33794,64 +16925,6 @@ export const wordGuessChallenges = [
       "hints": [
         "HINT 01 // Round 1 clue indicates a 7-letter term from ARCHAEOLOGY; the word begins with letter 'P' or ends with 'D'.",
         "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [P D A M I Y R] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WG-0638",
-    "title": "WORD GUESS // WORLD #0638",
-    "category": "PUZZLES",
-    "description": "Unscramble 3 domain terminology anagrams from WORLD HISTORY & CIVILIZATIONS under timed conditions.",
-    "difficulty": "EXTREME",
-    "risk": "AGGRESSIVE",
-    "cost": 600,
-    "reward": 1800,
-    "penalty": 450,
-    "timeLimit": 120,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-32 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0638",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "MONARCH",
-          "clue": "Sovereign head of state reigning over a kingdom or empire, usually by hereditary right.",
-          "category": "GOVERNANCE",
-          "scrambled": "R M H C O N A"
-        },
-        {
-          "id": "R2",
-          "word": "DYNASTY",
-          "clue": "Sequence of hereditary rulers from the same family line holding imperial power.",
-          "category": "HISTORICAL",
-          "scrambled": "Y D Y T A N S"
-        },
-        {
-          "id": "R3",
-          "word": "COLOSSEUM",
-          "clue": "Oval amphitheater in the center of ancient Rome hosting gladiatorial contests.",
-          "category": "ANTIQUITY",
-          "scrambled": "C S U S O M E O L"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "MONARCH-DYNASTY-COLOSSEUM",
-      "acceptedAnswers": [
-        "MONARCH-DYNASTY-COLOSSEUM",
-        "MONARCH DYNASTY COLOSSEUM",
-        "MONARCH,DYNASTY,COLOSSEUM",
-        "WORDGUESS:MONARCH-DYNASTY-COLOSSEUM"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 7-letter term from GOVERNANCE; the word begins with letter 'M' or ends with 'H'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [R M H C O N A] to identify common prefixes or suffixes."
       ]
     },
     "enabled": true,
@@ -33916,64 +16989,6 @@ export const wordGuessChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WG-0640",
-    "title": "WORD GUESS // WORLD #0640",
-    "category": "PUZZLES",
-    "description": "Unscramble 3 domain terminology anagrams from WORLD HISTORY & CIVILIZATIONS under timed conditions.",
-    "difficulty": "EXTREME",
-    "risk": "AGGRESSIVE",
-    "cost": 600,
-    "reward": 1800,
-    "penalty": 450,
-    "timeLimit": 120,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-33 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0640",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "CRUSADE",
-          "clue": "Series of religious military campaigns sanctioned by the Latin Church in the medieval era.",
-          "category": "HISTORY",
-          "scrambled": "E R C A U S D"
-        },
-        {
-          "id": "R2",
-          "word": "COLONY",
-          "clue": "Territory under the political control and governance of a distant sovereign state.",
-          "category": "HISTORY",
-          "scrambled": "Y C L N O O"
-        },
-        {
-          "id": "R3",
-          "word": "COLOSSEUM",
-          "clue": "Oval amphitheater in the center of ancient Rome hosting gladiatorial contests.",
-          "category": "ANTIQUITY",
-          "scrambled": "O S E S U M L C O"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "CRUSADE-COLONY-COLOSSEUM",
-      "acceptedAnswers": [
-        "CRUSADE-COLONY-COLOSSEUM",
-        "CRUSADE COLONY COLOSSEUM",
-        "CRUSADE,COLONY,COLOSSEUM",
-        "WORDGUESS:CRUSADE-COLONY-COLOSSEUM"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 7-letter term from HISTORY; the word begins with letter 'C' or ends with 'E'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [E R C A U S D] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WG-0641",
     "title": "WORD GUESS // WORLD #0641",
     "category": "PUZZLES",
@@ -34026,64 +17041,6 @@ export const wordGuessChallenges = [
       "hints": [
         "HINT 01 // Round 1 clue indicates a 7-letter term from MEDIEVAL; the word begins with letter 'S' or ends with 'I'.",
         "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [I M S A U A R] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WG-0642",
-    "title": "WORD GUESS // WORLD #0642",
-    "category": "PUZZLES",
-    "description": "Unscramble 3 domain terminology anagrams from WORLD HISTORY & CIVILIZATIONS under timed conditions.",
-    "difficulty": "EXTREME",
-    "risk": "AGGRESSIVE",
-    "cost": 600,
-    "reward": 1800,
-    "penalty": 450,
-    "timeLimit": 120,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-33 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0642",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "PYRAMID",
-          "clue": "Monumental triangular masonry structures built as monumental tombs in the ancient world.",
-          "category": "ARCHAEOLOGY",
-          "scrambled": "Y M D R I P A"
-        },
-        {
-          "id": "R2",
-          "word": "EMPIRE",
-          "clue": "Extensive group of states, territories, or nationalities governed under a single supreme authority.",
-          "category": "CIVILIZATION",
-          "scrambled": "R E E I M P"
-        },
-        {
-          "id": "R3",
-          "word": "CRUSADE",
-          "clue": "Series of religious military campaigns sanctioned by the Latin Church in the medieval era.",
-          "category": "HISTORY",
-          "scrambled": "D A C S U E R"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "PYRAMID-EMPIRE-CRUSADE",
-      "acceptedAnswers": [
-        "PYRAMID-EMPIRE-CRUSADE",
-        "PYRAMID EMPIRE CRUSADE",
-        "PYRAMID,EMPIRE,CRUSADE",
-        "WORDGUESS:PYRAMID-EMPIRE-CRUSADE"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 7-letter term from ARCHAEOLOGY; the word begins with letter 'P' or ends with 'D'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [Y M D R I P A] to identify common prefixes or suffixes."
       ]
     },
     "enabled": true,
@@ -34148,64 +17105,6 @@ export const wordGuessChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WG-0644",
-    "title": "WORD GUESS // WORLD #0644",
-    "category": "PUZZLES",
-    "description": "Unscramble 3 domain terminology anagrams from WORLD HISTORY & CIVILIZATIONS under timed conditions.",
-    "difficulty": "EXTREME",
-    "risk": "AGGRESSIVE",
-    "cost": 600,
-    "reward": 1800,
-    "penalty": 450,
-    "timeLimit": 120,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-33 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0644",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "CRUSADE",
-          "clue": "Series of religious military campaigns sanctioned by the Latin Church in the medieval era.",
-          "category": "HISTORY",
-          "scrambled": "A E D S U R C"
-        },
-        {
-          "id": "R2",
-          "word": "PHARAOH",
-          "clue": "The title used for the monarch rulers of ancient Egypt.",
-          "category": "ANCIENT",
-          "scrambled": "A O H R P H A"
-        },
-        {
-          "id": "R3",
-          "word": "PYRAMID",
-          "clue": "Monumental triangular masonry structures built as monumental tombs in the ancient world.",
-          "category": "ARCHAEOLOGY",
-          "scrambled": "M I D Y A R P"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "CRUSADE-PHARAOH-PYRAMID",
-      "acceptedAnswers": [
-        "CRUSADE-PHARAOH-PYRAMID",
-        "CRUSADE PHARAOH PYRAMID",
-        "CRUSADE,PHARAOH,PYRAMID",
-        "WORDGUESS:CRUSADE-PHARAOH-PYRAMID"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 7-letter term from HISTORY; the word begins with letter 'C' or ends with 'E'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [A E D S U R C] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WG-0645",
     "title": "WORD GUESS // WORLD #0645",
     "category": "PUZZLES",
@@ -34258,64 +17157,6 @@ export const wordGuessChallenges = [
       "hints": [
         "HINT 01 // Round 1 clue indicates a 10-letter term from POLITICAL; the word begins with letter 'R' or ends with 'N'.",
         "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [V R U L O I O N T E] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WG-0646",
-    "title": "WORD GUESS // WORLD #0646",
-    "category": "PUZZLES",
-    "description": "Unscramble 3 domain terminology anagrams from WORLD HISTORY & CIVILIZATIONS under timed conditions.",
-    "difficulty": "EXTREME",
-    "risk": "AGGRESSIVE",
-    "cost": 600,
-    "reward": 1800,
-    "penalty": 450,
-    "timeLimit": 120,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-33 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0646",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "COLONY",
-          "clue": "Territory under the political control and governance of a distant sovereign state.",
-          "category": "HISTORY",
-          "scrambled": "Y L N O C O"
-        },
-        {
-          "id": "R2",
-          "word": "PHARAOH",
-          "clue": "The title used for the monarch rulers of ancient Egypt.",
-          "category": "ANCIENT",
-          "scrambled": "H O A P R H A"
-        },
-        {
-          "id": "R3",
-          "word": "COLOSSEUM",
-          "clue": "Oval amphitheater in the center of ancient Rome hosting gladiatorial contests.",
-          "category": "ANTIQUITY",
-          "scrambled": "O S E M O L C S U"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "COLONY-PHARAOH-COLOSSEUM",
-      "acceptedAnswers": [
-        "COLONY-PHARAOH-COLOSSEUM",
-        "COLONY PHARAOH COLOSSEUM",
-        "COLONY,PHARAOH,COLOSSEUM",
-        "WORDGUESS:COLONY-PHARAOH-COLOSSEUM"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 6-letter term from HISTORY; the word begins with letter 'C' or ends with 'Y'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [Y L N O C O] to identify common prefixes or suffixes."
       ]
     },
     "enabled": true,
@@ -34380,64 +17221,6 @@ export const wordGuessChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WG-0648",
-    "title": "WORD GUESS // WORLD #0648",
-    "category": "PUZZLES",
-    "description": "Unscramble 3 domain terminology anagrams from WORLD HISTORY & CIVILIZATIONS under timed conditions.",
-    "difficulty": "EXTREME",
-    "risk": "AGGRESSIVE",
-    "cost": 600,
-    "reward": 1800,
-    "penalty": 450,
-    "timeLimit": 120,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-33 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0648",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "CRUSADE",
-          "clue": "Series of religious military campaigns sanctioned by the Latin Church in the medieval era.",
-          "category": "HISTORY",
-          "scrambled": "D R U E A C S"
-        },
-        {
-          "id": "R2",
-          "word": "MONARCH",
-          "clue": "Sovereign head of state reigning over a kingdom or empire, usually by hereditary right.",
-          "category": "GOVERNANCE",
-          "scrambled": "N O A C H M R"
-        },
-        {
-          "id": "R3",
-          "word": "PHARAOH",
-          "clue": "The title used for the monarch rulers of ancient Egypt.",
-          "category": "ANCIENT",
-          "scrambled": "A O H P H A R"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "CRUSADE-MONARCH-PHARAOH",
-      "acceptedAnswers": [
-        "CRUSADE-MONARCH-PHARAOH",
-        "CRUSADE MONARCH PHARAOH",
-        "CRUSADE,MONARCH,PHARAOH",
-        "WORDGUESS:CRUSADE-MONARCH-PHARAOH"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 7-letter term from HISTORY; the word begins with letter 'C' or ends with 'E'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [D R U E A C S] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WG-0649",
     "title": "WORD GUESS // WORLD #0649",
     "category": "PUZZLES",
@@ -34490,64 +17273,6 @@ export const wordGuessChallenges = [
       "hints": [
         "HINT 01 // Round 1 clue indicates a 10-letter term from POLITICAL; the word begins with letter 'R' or ends with 'N'.",
         "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [N T O R V O I L U E] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WG-0650",
-    "title": "WORD GUESS // WORLD #0650",
-    "category": "PUZZLES",
-    "description": "Unscramble 3 domain terminology anagrams from WORLD HISTORY & CIVILIZATIONS under timed conditions.",
-    "difficulty": "EXTREME",
-    "risk": "AGGRESSIVE",
-    "cost": 600,
-    "reward": 1800,
-    "penalty": 450,
-    "timeLimit": 120,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-33 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0650",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "SAMURAI",
-          "clue": "Hereditary military nobility and warrior caste of medieval and early-modern Japan.",
-          "category": "MEDIEVAL",
-          "scrambled": "M U I S A R A"
-        },
-        {
-          "id": "R2",
-          "word": "DYNASTY",
-          "clue": "Sequence of hereditary rulers from the same family line holding imperial power.",
-          "category": "HISTORICAL",
-          "scrambled": "Y D Y A N S T"
-        },
-        {
-          "id": "R3",
-          "word": "REVOLUTION",
-          "clue": "Fundamental and relatively sudden change in political power and social organizational structure.",
-          "category": "POLITICAL",
-          "scrambled": "O T N L I O R V E U"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "SAMURAI-DYNASTY-REVOLUTION",
-      "acceptedAnswers": [
-        "SAMURAI-DYNASTY-REVOLUTION",
-        "SAMURAI DYNASTY REVOLUTION",
-        "SAMURAI,DYNASTY,REVOLUTION",
-        "WORDGUESS:SAMURAI-DYNASTY-REVOLUTION"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 7-letter term from MEDIEVAL; the word begins with letter 'S' or ends with 'I'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [M U I S A R A] to identify common prefixes or suffixes."
       ]
     },
     "enabled": true,
@@ -34612,64 +17337,6 @@ export const wordGuessChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WG-0652",
-    "title": "WORD GUESS // WORLD #0652",
-    "category": "PUZZLES",
-    "description": "Unscramble 3 domain terminology anagrams from WORLD HISTORY & CIVILIZATIONS under timed conditions.",
-    "difficulty": "EXTREME",
-    "risk": "AGGRESSIVE",
-    "cost": 600,
-    "reward": 1800,
-    "penalty": 450,
-    "timeLimit": 120,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-33 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0652",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "SAMURAI",
-          "clue": "Hereditary military nobility and warrior caste of medieval and early-modern Japan.",
-          "category": "MEDIEVAL",
-          "scrambled": "S I A U R M A"
-        },
-        {
-          "id": "R2",
-          "word": "DYNASTY",
-          "clue": "Sequence of hereditary rulers from the same family line holding imperial power.",
-          "category": "HISTORICAL",
-          "scrambled": "S Y A N T D Y"
-        },
-        {
-          "id": "R3",
-          "word": "EMPIRE",
-          "clue": "Extensive group of states, territories, or nationalities governed under a single supreme authority.",
-          "category": "CIVILIZATION",
-          "scrambled": "E E P I M R"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "SAMURAI-DYNASTY-EMPIRE",
-      "acceptedAnswers": [
-        "SAMURAI-DYNASTY-EMPIRE",
-        "SAMURAI DYNASTY EMPIRE",
-        "SAMURAI,DYNASTY,EMPIRE",
-        "WORDGUESS:SAMURAI-DYNASTY-EMPIRE"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 7-letter term from MEDIEVAL; the word begins with letter 'S' or ends with 'I'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [S I A U R M A] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WG-0653",
     "title": "WORD GUESS // WORLD #0653",
     "category": "PUZZLES",
@@ -34722,64 +17389,6 @@ export const wordGuessChallenges = [
       "hints": [
         "HINT 01 // Round 1 clue indicates a 6-letter term from HISTORY; the word begins with letter 'C' or ends with 'Y'.",
         "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [N O Y O C L] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WG-0654",
-    "title": "WORD GUESS // WORLD #0654",
-    "category": "PUZZLES",
-    "description": "Unscramble 3 domain terminology anagrams from WORLD HISTORY & CIVILIZATIONS under timed conditions.",
-    "difficulty": "EXTREME",
-    "risk": "AGGRESSIVE",
-    "cost": 600,
-    "reward": 1800,
-    "penalty": 450,
-    "timeLimit": 120,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-33 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0654",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "COLOSSEUM",
-          "clue": "Oval amphitheater in the center of ancient Rome hosting gladiatorial contests.",
-          "category": "ANTIQUITY",
-          "scrambled": "C S S L E M O O U"
-        },
-        {
-          "id": "R2",
-          "word": "PHARAOH",
-          "clue": "The title used for the monarch rulers of ancient Egypt.",
-          "category": "ANCIENT",
-          "scrambled": "A O A R P H H"
-        },
-        {
-          "id": "R3",
-          "word": "DYNASTY",
-          "clue": "Sequence of hereditary rulers from the same family line holding imperial power.",
-          "category": "HISTORICAL",
-          "scrambled": "Y D S N T A Y"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "COLOSSEUM-PHARAOH-DYNASTY",
-      "acceptedAnswers": [
-        "COLOSSEUM-PHARAOH-DYNASTY",
-        "COLOSSEUM PHARAOH DYNASTY",
-        "COLOSSEUM,PHARAOH,DYNASTY",
-        "WORDGUESS:COLOSSEUM-PHARAOH-DYNASTY"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 9-letter term from ANTIQUITY; the word begins with letter 'C' or ends with 'M'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [C S S L E M O O U] to identify common prefixes or suffixes."
       ]
     },
     "enabled": true,
@@ -34844,64 +17453,6 @@ export const wordGuessChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WG-0656",
-    "title": "WORD GUESS // WORLD #0656",
-    "category": "PUZZLES",
-    "description": "Unscramble 3 domain terminology anagrams from WORLD HISTORY & CIVILIZATIONS under timed conditions.",
-    "difficulty": "EXTREME",
-    "risk": "AGGRESSIVE",
-    "cost": 600,
-    "reward": 1800,
-    "penalty": 450,
-    "timeLimit": 120,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-33 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0656",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "COLONY",
-          "clue": "Territory under the political control and governance of a distant sovereign state.",
-          "category": "HISTORY",
-          "scrambled": "C O Y N L O"
-        },
-        {
-          "id": "R2",
-          "word": "CRUSADE",
-          "clue": "Series of religious military campaigns sanctioned by the Latin Church in the medieval era.",
-          "category": "HISTORY",
-          "scrambled": "D C U A E S R"
-        },
-        {
-          "id": "R3",
-          "word": "PHARAOH",
-          "clue": "The title used for the monarch rulers of ancient Egypt.",
-          "category": "ANCIENT",
-          "scrambled": "H O R A H P A"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "COLONY-CRUSADE-PHARAOH",
-      "acceptedAnswers": [
-        "COLONY-CRUSADE-PHARAOH",
-        "COLONY CRUSADE PHARAOH",
-        "COLONY,CRUSADE,PHARAOH",
-        "WORDGUESS:COLONY-CRUSADE-PHARAOH"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 6-letter term from HISTORY; the word begins with letter 'C' or ends with 'Y'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [C O Y N L O] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WG-0657",
     "title": "WORD GUESS // WORLD #0657",
     "category": "PUZZLES",
@@ -34954,64 +17505,6 @@ export const wordGuessChallenges = [
       "hints": [
         "HINT 01 // Round 1 clue indicates a 7-letter term from ANCIENT; the word begins with letter 'P' or ends with 'H'.",
         "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [R O H P A A H] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WG-0658",
-    "title": "WORD GUESS // WORLD #0658",
-    "category": "PUZZLES",
-    "description": "Unscramble 3 domain terminology anagrams from WORLD HISTORY & CIVILIZATIONS under timed conditions.",
-    "difficulty": "EXTREME",
-    "risk": "AGGRESSIVE",
-    "cost": 600,
-    "reward": 1800,
-    "penalty": 450,
-    "timeLimit": 120,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-33 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0658",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "PHARAOH",
-          "clue": "The title used for the monarch rulers of ancient Egypt.",
-          "category": "ANCIENT",
-          "scrambled": "P H R O H A A"
-        },
-        {
-          "id": "R2",
-          "word": "PYRAMID",
-          "clue": "Monumental triangular masonry structures built as monumental tombs in the ancient world.",
-          "category": "ARCHAEOLOGY",
-          "scrambled": "R M P Y I D A"
-        },
-        {
-          "id": "R3",
-          "word": "DYNASTY",
-          "clue": "Sequence of hereditary rulers from the same family line holding imperial power.",
-          "category": "HISTORICAL",
-          "scrambled": "Y N A S Y T D"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "PHARAOH-PYRAMID-DYNASTY",
-      "acceptedAnswers": [
-        "PHARAOH-PYRAMID-DYNASTY",
-        "PHARAOH PYRAMID DYNASTY",
-        "PHARAOH,PYRAMID,DYNASTY",
-        "WORDGUESS:PHARAOH-PYRAMID-DYNASTY"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 7-letter term from ANCIENT; the word begins with letter 'P' or ends with 'H'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [P H R O H A A] to identify common prefixes or suffixes."
       ]
     },
     "enabled": true,
@@ -35076,64 +17569,6 @@ export const wordGuessChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WG-0660",
-    "title": "WORD GUESS // WORLD #0660",
-    "category": "PUZZLES",
-    "description": "Unscramble 3 domain terminology anagrams from WORLD HISTORY & CIVILIZATIONS under timed conditions.",
-    "difficulty": "EXTREME",
-    "risk": "AGGRESSIVE",
-    "cost": 600,
-    "reward": 1800,
-    "penalty": 450,
-    "timeLimit": 120,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-34 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0660",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "CRUSADE",
-          "clue": "Series of religious military campaigns sanctioned by the Latin Church in the medieval era.",
-          "category": "HISTORY",
-          "scrambled": "S D R A C U E"
-        },
-        {
-          "id": "R2",
-          "word": "PYRAMID",
-          "clue": "Monumental triangular masonry structures built as monumental tombs in the ancient world.",
-          "category": "ARCHAEOLOGY",
-          "scrambled": "P A D Y R I M"
-        },
-        {
-          "id": "R3",
-          "word": "EMPIRE",
-          "clue": "Extensive group of states, territories, or nationalities governed under a single supreme authority.",
-          "category": "CIVILIZATION",
-          "scrambled": "I M E E P R"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "CRUSADE-PYRAMID-EMPIRE",
-      "acceptedAnswers": [
-        "CRUSADE-PYRAMID-EMPIRE",
-        "CRUSADE PYRAMID EMPIRE",
-        "CRUSADE,PYRAMID,EMPIRE",
-        "WORDGUESS:CRUSADE-PYRAMID-EMPIRE"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 7-letter term from HISTORY; the word begins with letter 'C' or ends with 'E'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [S D R A C U E] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WG-0661",
     "title": "WORD GUESS // WORLD #0661",
     "category": "PUZZLES",
@@ -35186,64 +17621,6 @@ export const wordGuessChallenges = [
       "hints": [
         "HINT 01 // Round 1 clue indicates a 7-letter term from HISTORICAL; the word begins with letter 'D' or ends with 'Y'.",
         "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [Y T N A S Y D] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WG-0662",
-    "title": "WORD GUESS // WORLD #0662",
-    "category": "PUZZLES",
-    "description": "Unscramble 3 domain terminology anagrams from WORLD HISTORY & CIVILIZATIONS under timed conditions.",
-    "difficulty": "EXTREME",
-    "risk": "AGGRESSIVE",
-    "cost": 600,
-    "reward": 1800,
-    "penalty": 450,
-    "timeLimit": 120,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-34 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0662",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "COLOSSEUM",
-          "clue": "Oval amphitheater in the center of ancient Rome hosting gladiatorial contests.",
-          "category": "ANTIQUITY",
-          "scrambled": "S E O M S L U O C"
-        },
-        {
-          "id": "R2",
-          "word": "SAMURAI",
-          "clue": "Hereditary military nobility and warrior caste of medieval and early-modern Japan.",
-          "category": "MEDIEVAL",
-          "scrambled": "A S I R U M A"
-        },
-        {
-          "id": "R3",
-          "word": "EMPIRE",
-          "clue": "Extensive group of states, territories, or nationalities governed under a single supreme authority.",
-          "category": "CIVILIZATION",
-          "scrambled": "E P I E R M"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "COLOSSEUM-SAMURAI-EMPIRE",
-      "acceptedAnswers": [
-        "COLOSSEUM-SAMURAI-EMPIRE",
-        "COLOSSEUM SAMURAI EMPIRE",
-        "COLOSSEUM,SAMURAI,EMPIRE",
-        "WORDGUESS:COLOSSEUM-SAMURAI-EMPIRE"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 9-letter term from ANTIQUITY; the word begins with letter 'C' or ends with 'M'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [S E O M S L U O C] to identify common prefixes or suffixes."
       ]
     },
     "enabled": true,
@@ -35308,64 +17685,6 @@ export const wordGuessChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WG-0664",
-    "title": "WORD GUESS // WORLD #0664",
-    "category": "PUZZLES",
-    "description": "Unscramble 3 domain terminology anagrams from WORLD HISTORY & CIVILIZATIONS under timed conditions.",
-    "difficulty": "EXTREME",
-    "risk": "AGGRESSIVE",
-    "cost": 600,
-    "reward": 1800,
-    "penalty": 450,
-    "timeLimit": 120,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-34 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0664",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "DYNASTY",
-          "clue": "Sequence of hereditary rulers from the same family line holding imperial power.",
-          "category": "HISTORICAL",
-          "scrambled": "A Y S T D N Y"
-        },
-        {
-          "id": "R2",
-          "word": "COLOSSEUM",
-          "clue": "Oval amphitheater in the center of ancient Rome hosting gladiatorial contests.",
-          "category": "ANTIQUITY",
-          "scrambled": "O U O S E L M C S"
-        },
-        {
-          "id": "R3",
-          "word": "PHARAOH",
-          "clue": "The title used for the monarch rulers of ancient Egypt.",
-          "category": "ANCIENT",
-          "scrambled": "A A P H H R O"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "DYNASTY-COLOSSEUM-PHARAOH",
-      "acceptedAnswers": [
-        "DYNASTY-COLOSSEUM-PHARAOH",
-        "DYNASTY COLOSSEUM PHARAOH",
-        "DYNASTY,COLOSSEUM,PHARAOH",
-        "WORDGUESS:DYNASTY-COLOSSEUM-PHARAOH"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 7-letter term from HISTORICAL; the word begins with letter 'D' or ends with 'Y'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [A Y S T D N Y] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WG-0665",
     "title": "WORD GUESS // WORLD #0665",
     "category": "PUZZLES",
@@ -35418,64 +17737,6 @@ export const wordGuessChallenges = [
       "hints": [
         "HINT 01 // Round 1 clue indicates a 10-letter term from POLITICAL; the word begins with letter 'R' or ends with 'N'.",
         "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [I E N O T R L O V U] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WG-0666",
-    "title": "WORD GUESS // WORLD #0666",
-    "category": "PUZZLES",
-    "description": "Unscramble 3 domain terminology anagrams from WORLD HISTORY & CIVILIZATIONS under timed conditions.",
-    "difficulty": "EXTREME",
-    "risk": "AGGRESSIVE",
-    "cost": 600,
-    "reward": 1800,
-    "penalty": 450,
-    "timeLimit": 120,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-34 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0666",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "CRUSADE",
-          "clue": "Series of religious military campaigns sanctioned by the Latin Church in the medieval era.",
-          "category": "HISTORY",
-          "scrambled": "A E D C S U R"
-        },
-        {
-          "id": "R2",
-          "word": "PHARAOH",
-          "clue": "The title used for the monarch rulers of ancient Egypt.",
-          "category": "ANCIENT",
-          "scrambled": "O H P R H A A"
-        },
-        {
-          "id": "R3",
-          "word": "DYNASTY",
-          "clue": "Sequence of hereditary rulers from the same family line holding imperial power.",
-          "category": "HISTORICAL",
-          "scrambled": "D Y A T S Y N"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "CRUSADE-PHARAOH-DYNASTY",
-      "acceptedAnswers": [
-        "CRUSADE-PHARAOH-DYNASTY",
-        "CRUSADE PHARAOH DYNASTY",
-        "CRUSADE,PHARAOH,DYNASTY",
-        "WORDGUESS:CRUSADE-PHARAOH-DYNASTY"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 7-letter term from HISTORY; the word begins with letter 'C' or ends with 'E'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [A E D C S U R] to identify common prefixes or suffixes."
       ]
     },
     "enabled": true,
@@ -35540,64 +17801,6 @@ export const wordGuessChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WG-0668",
-    "title": "WORD GUESS // WORLD #0668",
-    "category": "PUZZLES",
-    "description": "Unscramble 3 domain terminology anagrams from WORLD HISTORY & CIVILIZATIONS under timed conditions.",
-    "difficulty": "EXTREME",
-    "risk": "AGGRESSIVE",
-    "cost": 600,
-    "reward": 1800,
-    "penalty": 450,
-    "timeLimit": 120,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-34 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0668",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "SAMURAI",
-          "clue": "Hereditary military nobility and warrior caste of medieval and early-modern Japan.",
-          "category": "MEDIEVAL",
-          "scrambled": "A S M A R I U"
-        },
-        {
-          "id": "R2",
-          "word": "PHARAOH",
-          "clue": "The title used for the monarch rulers of ancient Egypt.",
-          "category": "ANCIENT",
-          "scrambled": "H A R P A O H"
-        },
-        {
-          "id": "R3",
-          "word": "REVOLUTION",
-          "clue": "Fundamental and relatively sudden change in political power and social organizational structure.",
-          "category": "POLITICAL",
-          "scrambled": "U T O V I O R L N E"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "SAMURAI-PHARAOH-REVOLUTION",
-      "acceptedAnswers": [
-        "SAMURAI-PHARAOH-REVOLUTION",
-        "SAMURAI PHARAOH REVOLUTION",
-        "SAMURAI,PHARAOH,REVOLUTION",
-        "WORDGUESS:SAMURAI-PHARAOH-REVOLUTION"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 7-letter term from MEDIEVAL; the word begins with letter 'S' or ends with 'I'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [A S M A R I U] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WG-0669",
     "title": "WORD GUESS // WORLD #0669",
     "category": "PUZZLES",
@@ -35650,64 +17853,6 @@ export const wordGuessChallenges = [
       "hints": [
         "HINT 01 // Round 1 clue indicates a 7-letter term from ANCIENT; the word begins with letter 'P' or ends with 'H'.",
         "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [P H R A H O A] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WG-0670",
-    "title": "WORD GUESS // WORLD #0670",
-    "category": "PUZZLES",
-    "description": "Unscramble 3 domain terminology anagrams from WORLD HISTORY & CIVILIZATIONS under timed conditions.",
-    "difficulty": "EXTREME",
-    "risk": "AGGRESSIVE",
-    "cost": 600,
-    "reward": 1800,
-    "penalty": 450,
-    "timeLimit": 120,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-34 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0670",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "PHARAOH",
-          "clue": "The title used for the monarch rulers of ancient Egypt.",
-          "category": "ANCIENT",
-          "scrambled": "H H A O R P A"
-        },
-        {
-          "id": "R2",
-          "word": "PYRAMID",
-          "clue": "Monumental triangular masonry structures built as monumental tombs in the ancient world.",
-          "category": "ARCHAEOLOGY",
-          "scrambled": "I M D P R A Y"
-        },
-        {
-          "id": "R3",
-          "word": "DYNASTY",
-          "clue": "Sequence of hereditary rulers from the same family line holding imperial power.",
-          "category": "HISTORICAL",
-          "scrambled": "T N D S A Y Y"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "PHARAOH-PYRAMID-DYNASTY",
-      "acceptedAnswers": [
-        "PHARAOH-PYRAMID-DYNASTY",
-        "PHARAOH PYRAMID DYNASTY",
-        "PHARAOH,PYRAMID,DYNASTY",
-        "WORDGUESS:PHARAOH-PYRAMID-DYNASTY"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 7-letter term from ANCIENT; the word begins with letter 'P' or ends with 'H'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [H H A O R P A] to identify common prefixes or suffixes."
       ]
     },
     "enabled": true,
@@ -35772,64 +17917,6 @@ export const wordGuessChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WG-0672",
-    "title": "WORD GUESS // WORLD #0672",
-    "category": "PUZZLES",
-    "description": "Unscramble 3 domain terminology anagrams from WORLD HISTORY & CIVILIZATIONS under timed conditions.",
-    "difficulty": "EXTREME",
-    "risk": "AGGRESSIVE",
-    "cost": 600,
-    "reward": 1800,
-    "penalty": 450,
-    "timeLimit": 120,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-34 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0672",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "PYRAMID",
-          "clue": "Monumental triangular masonry structures built as monumental tombs in the ancient world.",
-          "category": "ARCHAEOLOGY",
-          "scrambled": "A P R I M Y D"
-        },
-        {
-          "id": "R2",
-          "word": "REVOLUTION",
-          "clue": "Fundamental and relatively sudden change in political power and social organizational structure.",
-          "category": "POLITICAL",
-          "scrambled": "T O N I R L U O E V"
-        },
-        {
-          "id": "R3",
-          "word": "COLONY",
-          "clue": "Territory under the political control and governance of a distant sovereign state.",
-          "category": "HISTORY",
-          "scrambled": "Y N O O L C"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "PYRAMID-REVOLUTION-COLONY",
-      "acceptedAnswers": [
-        "PYRAMID-REVOLUTION-COLONY",
-        "PYRAMID REVOLUTION COLONY",
-        "PYRAMID,REVOLUTION,COLONY",
-        "WORDGUESS:PYRAMID-REVOLUTION-COLONY"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 7-letter term from ARCHAEOLOGY; the word begins with letter 'P' or ends with 'D'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [A P R I M Y D] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WG-0673",
     "title": "WORD GUESS // WORLD #0673",
     "category": "PUZZLES",
@@ -35882,64 +17969,6 @@ export const wordGuessChallenges = [
       "hints": [
         "HINT 01 // Round 1 clue indicates a 7-letter term from HISTORICAL; the word begins with letter 'D' or ends with 'Y'.",
         "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [Y N S A Y T D] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WG-0674",
-    "title": "WORD GUESS // WORLD #0674",
-    "category": "PUZZLES",
-    "description": "Unscramble 3 domain terminology anagrams from WORLD HISTORY & CIVILIZATIONS under timed conditions.",
-    "difficulty": "EXTREME",
-    "risk": "AGGRESSIVE",
-    "cost": 600,
-    "reward": 1800,
-    "penalty": 450,
-    "timeLimit": 120,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-34 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0674",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "COLOSSEUM",
-          "clue": "Oval amphitheater in the center of ancient Rome hosting gladiatorial contests.",
-          "category": "ANTIQUITY",
-          "scrambled": "O U M L S E S O C"
-        },
-        {
-          "id": "R2",
-          "word": "MONARCH",
-          "clue": "Sovereign head of state reigning over a kingdom or empire, usually by hereditary right.",
-          "category": "GOVERNANCE",
-          "scrambled": "M O C R N A H"
-        },
-        {
-          "id": "R3",
-          "word": "REVOLUTION",
-          "clue": "Fundamental and relatively sudden change in political power and social organizational structure.",
-          "category": "POLITICAL",
-          "scrambled": "I N O L V U R E O T"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "COLOSSEUM-MONARCH-REVOLUTION",
-      "acceptedAnswers": [
-        "COLOSSEUM-MONARCH-REVOLUTION",
-        "COLOSSEUM MONARCH REVOLUTION",
-        "COLOSSEUM,MONARCH,REVOLUTION",
-        "WORDGUESS:COLOSSEUM-MONARCH-REVOLUTION"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 9-letter term from ANTIQUITY; the word begins with letter 'C' or ends with 'M'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [O U M L S E S O C] to identify common prefixes or suffixes."
       ]
     },
     "enabled": true,
@@ -36004,64 +18033,6 @@ export const wordGuessChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WG-0676",
-    "title": "WORD GUESS // WORLD #0676",
-    "category": "PUZZLES",
-    "description": "Unscramble 3 domain terminology anagrams from WORLD HISTORY & CIVILIZATIONS under timed conditions.",
-    "difficulty": "EXTREME",
-    "risk": "AGGRESSIVE",
-    "cost": 600,
-    "reward": 1800,
-    "penalty": 450,
-    "timeLimit": 120,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-34 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0676",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "COLOSSEUM",
-          "clue": "Oval amphitheater in the center of ancient Rome hosting gladiatorial contests.",
-          "category": "ANTIQUITY",
-          "scrambled": "U M L S O S O E C"
-        },
-        {
-          "id": "R2",
-          "word": "PHARAOH",
-          "clue": "The title used for the monarch rulers of ancient Egypt.",
-          "category": "ANCIENT",
-          "scrambled": "A A H H P O R"
-        },
-        {
-          "id": "R3",
-          "word": "MONARCH",
-          "clue": "Sovereign head of state reigning over a kingdom or empire, usually by hereditary right.",
-          "category": "GOVERNANCE",
-          "scrambled": "H O A C M N R"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "COLOSSEUM-PHARAOH-MONARCH",
-      "acceptedAnswers": [
-        "COLOSSEUM-PHARAOH-MONARCH",
-        "COLOSSEUM PHARAOH MONARCH",
-        "COLOSSEUM,PHARAOH,MONARCH",
-        "WORDGUESS:COLOSSEUM-PHARAOH-MONARCH"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 9-letter term from ANTIQUITY; the word begins with letter 'C' or ends with 'M'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [U M L S O S O E C] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WG-0677",
     "title": "WORD GUESS // WORLD #0677",
     "category": "PUZZLES",
@@ -36114,64 +18085,6 @@ export const wordGuessChallenges = [
       "hints": [
         "HINT 01 // Round 1 clue indicates a 7-letter term from MEDIEVAL; the word begins with letter 'S' or ends with 'I'.",
         "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [U M S I R A A] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WG-0678",
-    "title": "WORD GUESS // WORLD #0678",
-    "category": "PUZZLES",
-    "description": "Unscramble 3 domain terminology anagrams from WORLD HISTORY & CIVILIZATIONS under timed conditions.",
-    "difficulty": "EXTREME",
-    "risk": "AGGRESSIVE",
-    "cost": 600,
-    "reward": 1800,
-    "penalty": 450,
-    "timeLimit": 120,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-34 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0678",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "EMPIRE",
-          "clue": "Extensive group of states, territories, or nationalities governed under a single supreme authority.",
-          "category": "CIVILIZATION",
-          "scrambled": "E P E I R M"
-        },
-        {
-          "id": "R2",
-          "word": "SAMURAI",
-          "clue": "Hereditary military nobility and warrior caste of medieval and early-modern Japan.",
-          "category": "MEDIEVAL",
-          "scrambled": "U M S I A R A"
-        },
-        {
-          "id": "R3",
-          "word": "REVOLUTION",
-          "clue": "Fundamental and relatively sudden change in political power and social organizational structure.",
-          "category": "POLITICAL",
-          "scrambled": "T I L U V R O N O E"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "EMPIRE-SAMURAI-REVOLUTION",
-      "acceptedAnswers": [
-        "EMPIRE-SAMURAI-REVOLUTION",
-        "EMPIRE SAMURAI REVOLUTION",
-        "EMPIRE,SAMURAI,REVOLUTION",
-        "WORDGUESS:EMPIRE-SAMURAI-REVOLUTION"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 6-letter term from CIVILIZATION; the word begins with letter 'E' or ends with 'E'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [E P E I R M] to identify common prefixes or suffixes."
       ]
     },
     "enabled": true,
@@ -36236,64 +18149,6 @@ export const wordGuessChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WG-0680",
-    "title": "WORD GUESS // WORLD #0680",
-    "category": "PUZZLES",
-    "description": "Unscramble 3 domain terminology anagrams from WORLD HISTORY & CIVILIZATIONS under timed conditions.",
-    "difficulty": "EXTREME",
-    "risk": "AGGRESSIVE",
-    "cost": 600,
-    "reward": 1800,
-    "penalty": 450,
-    "timeLimit": 120,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-35 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0680",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "MONARCH",
-          "clue": "Sovereign head of state reigning over a kingdom or empire, usually by hereditary right.",
-          "category": "GOVERNANCE",
-          "scrambled": "H C A M O N R"
-        },
-        {
-          "id": "R2",
-          "word": "COLOSSEUM",
-          "clue": "Oval amphitheater in the center of ancient Rome hosting gladiatorial contests.",
-          "category": "ANTIQUITY",
-          "scrambled": "O M E U S C O L S"
-        },
-        {
-          "id": "R3",
-          "word": "PHARAOH",
-          "clue": "The title used for the monarch rulers of ancient Egypt.",
-          "category": "ANCIENT",
-          "scrambled": "R P H A A O H"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "MONARCH-COLOSSEUM-PHARAOH",
-      "acceptedAnswers": [
-        "MONARCH-COLOSSEUM-PHARAOH",
-        "MONARCH COLOSSEUM PHARAOH",
-        "MONARCH,COLOSSEUM,PHARAOH",
-        "WORDGUESS:MONARCH-COLOSSEUM-PHARAOH"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 7-letter term from GOVERNANCE; the word begins with letter 'M' or ends with 'H'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [H C A M O N R] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WG-0681",
     "title": "WORD GUESS // WORLD #0681",
     "category": "PUZZLES",
@@ -36346,64 +18201,6 @@ export const wordGuessChallenges = [
       "hints": [
         "HINT 01 // Round 1 clue indicates a 9-letter term from ANTIQUITY; the word begins with letter 'C' or ends with 'M'.",
         "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [U S L O C E M O S] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WG-0682",
-    "title": "WORD GUESS // WORLD #0682",
-    "category": "PUZZLES",
-    "description": "Unscramble 3 domain terminology anagrams from WORLD HISTORY & CIVILIZATIONS under timed conditions.",
-    "difficulty": "EXTREME",
-    "risk": "AGGRESSIVE",
-    "cost": 600,
-    "reward": 1800,
-    "penalty": 450,
-    "timeLimit": 120,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-35 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0682",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "REVOLUTION",
-          "clue": "Fundamental and relatively sudden change in political power and social organizational structure.",
-          "category": "POLITICAL",
-          "scrambled": "O I O T E N V R L U"
-        },
-        {
-          "id": "R2",
-          "word": "DYNASTY",
-          "clue": "Sequence of hereditary rulers from the same family line holding imperial power.",
-          "category": "HISTORICAL",
-          "scrambled": "Y N Y D A S T"
-        },
-        {
-          "id": "R3",
-          "word": "PHARAOH",
-          "clue": "The title used for the monarch rulers of ancient Egypt.",
-          "category": "ANCIENT",
-          "scrambled": "A H R H A P O"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "REVOLUTION-DYNASTY-PHARAOH",
-      "acceptedAnswers": [
-        "REVOLUTION-DYNASTY-PHARAOH",
-        "REVOLUTION DYNASTY PHARAOH",
-        "REVOLUTION,DYNASTY,PHARAOH",
-        "WORDGUESS:REVOLUTION-DYNASTY-PHARAOH"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 10-letter term from POLITICAL; the word begins with letter 'R' or ends with 'N'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [O I O T E N V R L U] to identify common prefixes or suffixes."
       ]
     },
     "enabled": true,
@@ -36468,64 +18265,6 @@ export const wordGuessChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WG-0684",
-    "title": "WORD GUESS // WORLD #0684",
-    "category": "PUZZLES",
-    "description": "Unscramble 3 domain terminology anagrams from WORLD HISTORY & CIVILIZATIONS under timed conditions.",
-    "difficulty": "EXTREME",
-    "risk": "AGGRESSIVE",
-    "cost": 600,
-    "reward": 1800,
-    "penalty": 450,
-    "timeLimit": 120,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-35 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0684",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "PYRAMID",
-          "clue": "Monumental triangular masonry structures built as monumental tombs in the ancient world.",
-          "category": "ARCHAEOLOGY",
-          "scrambled": "P A M Y R D I"
-        },
-        {
-          "id": "R2",
-          "word": "REVOLUTION",
-          "clue": "Fundamental and relatively sudden change in political power and social organizational structure.",
-          "category": "POLITICAL",
-          "scrambled": "V I N E L O R U T O"
-        },
-        {
-          "id": "R3",
-          "word": "MONARCH",
-          "clue": "Sovereign head of state reigning over a kingdom or empire, usually by hereditary right.",
-          "category": "GOVERNANCE",
-          "scrambled": "A C M O R H N"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "PYRAMID-REVOLUTION-MONARCH",
-      "acceptedAnswers": [
-        "PYRAMID-REVOLUTION-MONARCH",
-        "PYRAMID REVOLUTION MONARCH",
-        "PYRAMID,REVOLUTION,MONARCH",
-        "WORDGUESS:PYRAMID-REVOLUTION-MONARCH"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 7-letter term from ARCHAEOLOGY; the word begins with letter 'P' or ends with 'D'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [P A M Y R D I] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WG-0685",
     "title": "WORD GUESS // WORLD #0685",
     "category": "PUZZLES",
@@ -36578,64 +18317,6 @@ export const wordGuessChallenges = [
       "hints": [
         "HINT 01 // Round 1 clue indicates a 7-letter term from HISTORICAL; the word begins with letter 'D' or ends with 'Y'.",
         "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [S Y A D N Y T] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WG-0686",
-    "title": "WORD GUESS // WORLD #0686",
-    "category": "PUZZLES",
-    "description": "Unscramble 3 domain terminology anagrams from WORLD HISTORY & CIVILIZATIONS under timed conditions.",
-    "difficulty": "EXTREME",
-    "risk": "AGGRESSIVE",
-    "cost": 600,
-    "reward": 1800,
-    "penalty": 450,
-    "timeLimit": 120,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-35 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0686",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "PYRAMID",
-          "clue": "Monumental triangular masonry structures built as monumental tombs in the ancient world.",
-          "category": "ARCHAEOLOGY",
-          "scrambled": "P Y A R M D I"
-        },
-        {
-          "id": "R2",
-          "word": "MONARCH",
-          "clue": "Sovereign head of state reigning over a kingdom or empire, usually by hereditary right.",
-          "category": "GOVERNANCE",
-          "scrambled": "O A H N R C M"
-        },
-        {
-          "id": "R3",
-          "word": "COLOSSEUM",
-          "clue": "Oval amphitheater in the center of ancient Rome hosting gladiatorial contests.",
-          "category": "ANTIQUITY",
-          "scrambled": "U O S S O L M C E"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "PYRAMID-MONARCH-COLOSSEUM",
-      "acceptedAnswers": [
-        "PYRAMID-MONARCH-COLOSSEUM",
-        "PYRAMID MONARCH COLOSSEUM",
-        "PYRAMID,MONARCH,COLOSSEUM",
-        "WORDGUESS:PYRAMID-MONARCH-COLOSSEUM"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 7-letter term from ARCHAEOLOGY; the word begins with letter 'P' or ends with 'D'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [P Y A R M D I] to identify common prefixes or suffixes."
       ]
     },
     "enabled": true,
@@ -36700,64 +18381,6 @@ export const wordGuessChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WG-0688",
-    "title": "WORD GUESS // WORLD #0688",
-    "category": "PUZZLES",
-    "description": "Unscramble 3 domain terminology anagrams from WORLD HISTORY & CIVILIZATIONS under timed conditions.",
-    "difficulty": "EXTREME",
-    "risk": "AGGRESSIVE",
-    "cost": 600,
-    "reward": 1800,
-    "penalty": 450,
-    "timeLimit": 120,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-35 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0688",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "PHARAOH",
-          "clue": "The title used for the monarch rulers of ancient Egypt.",
-          "category": "ANCIENT",
-          "scrambled": "O P H R A H A"
-        },
-        {
-          "id": "R2",
-          "word": "DYNASTY",
-          "clue": "Sequence of hereditary rulers from the same family line holding imperial power.",
-          "category": "HISTORICAL",
-          "scrambled": "Y S A D N Y T"
-        },
-        {
-          "id": "R3",
-          "word": "SAMURAI",
-          "clue": "Hereditary military nobility and warrior caste of medieval and early-modern Japan.",
-          "category": "MEDIEVAL",
-          "scrambled": "A R A S I U M"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "PHARAOH-DYNASTY-SAMURAI",
-      "acceptedAnswers": [
-        "PHARAOH-DYNASTY-SAMURAI",
-        "PHARAOH DYNASTY SAMURAI",
-        "PHARAOH,DYNASTY,SAMURAI",
-        "WORDGUESS:PHARAOH-DYNASTY-SAMURAI"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 7-letter term from ANCIENT; the word begins with letter 'P' or ends with 'H'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [O P H R A H A] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WG-0689",
     "title": "WORD GUESS // WORLD #0689",
     "category": "PUZZLES",
@@ -36810,64 +18433,6 @@ export const wordGuessChallenges = [
       "hints": [
         "HINT 01 // Round 1 clue indicates a 7-letter term from ANCIENT; the word begins with letter 'P' or ends with 'H'.",
         "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [A O A H P H R] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WG-0690",
-    "title": "WORD GUESS // WORLD #0690",
-    "category": "PUZZLES",
-    "description": "Unscramble 3 domain terminology anagrams from WORLD HISTORY & CIVILIZATIONS under timed conditions.",
-    "difficulty": "EXTREME",
-    "risk": "AGGRESSIVE",
-    "cost": 600,
-    "reward": 1800,
-    "penalty": 450,
-    "timeLimit": 120,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-35 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0690",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "CRUSADE",
-          "clue": "Series of religious military campaigns sanctioned by the Latin Church in the medieval era.",
-          "category": "HISTORY",
-          "scrambled": "R S D A E C U"
-        },
-        {
-          "id": "R2",
-          "word": "PHARAOH",
-          "clue": "The title used for the monarch rulers of ancient Egypt.",
-          "category": "ANCIENT",
-          "scrambled": "P H A A H R O"
-        },
-        {
-          "id": "R3",
-          "word": "REVOLUTION",
-          "clue": "Fundamental and relatively sudden change in political power and social organizational structure.",
-          "category": "POLITICAL",
-          "scrambled": "V T L I R U E O O N"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "CRUSADE-PHARAOH-REVOLUTION",
-      "acceptedAnswers": [
-        "CRUSADE-PHARAOH-REVOLUTION",
-        "CRUSADE PHARAOH REVOLUTION",
-        "CRUSADE,PHARAOH,REVOLUTION",
-        "WORDGUESS:CRUSADE-PHARAOH-REVOLUTION"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 7-letter term from HISTORY; the word begins with letter 'C' or ends with 'E'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [R S D A E C U] to identify common prefixes or suffixes."
       ]
     },
     "enabled": true,
@@ -36932,64 +18497,6 @@ export const wordGuessChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WG-0692",
-    "title": "WORD GUESS // WORLD #0692",
-    "category": "PUZZLES",
-    "description": "Unscramble 3 domain terminology anagrams from WORLD HISTORY & CIVILIZATIONS under timed conditions.",
-    "difficulty": "EXTREME",
-    "risk": "AGGRESSIVE",
-    "cost": 600,
-    "reward": 1800,
-    "penalty": 450,
-    "timeLimit": 120,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-35 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0692",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "PHARAOH",
-          "clue": "The title used for the monarch rulers of ancient Egypt.",
-          "category": "ANCIENT",
-          "scrambled": "O P R H A A H"
-        },
-        {
-          "id": "R2",
-          "word": "DYNASTY",
-          "clue": "Sequence of hereditary rulers from the same family line holding imperial power.",
-          "category": "HISTORICAL",
-          "scrambled": "D Y N Y S A T"
-        },
-        {
-          "id": "R3",
-          "word": "COLOSSEUM",
-          "clue": "Oval amphitheater in the center of ancient Rome hosting gladiatorial contests.",
-          "category": "ANTIQUITY",
-          "scrambled": "E O C U M S S O L"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "PHARAOH-DYNASTY-COLOSSEUM",
-      "acceptedAnswers": [
-        "PHARAOH-DYNASTY-COLOSSEUM",
-        "PHARAOH DYNASTY COLOSSEUM",
-        "PHARAOH,DYNASTY,COLOSSEUM",
-        "WORDGUESS:PHARAOH-DYNASTY-COLOSSEUM"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 7-letter term from ANCIENT; the word begins with letter 'P' or ends with 'H'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [O P R H A A H] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WG-0693",
     "title": "WORD GUESS // WORLD #0693",
     "category": "PUZZLES",
@@ -37042,64 +18549,6 @@ export const wordGuessChallenges = [
       "hints": [
         "HINT 01 // Round 1 clue indicates a 9-letter term from ANTIQUITY; the word begins with letter 'C' or ends with 'M'.",
         "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [M C O O S S U L E] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WG-0694",
-    "title": "WORD GUESS // WORLD #0694",
-    "category": "PUZZLES",
-    "description": "Unscramble 3 domain terminology anagrams from WORLD HISTORY & CIVILIZATIONS under timed conditions.",
-    "difficulty": "EXTREME",
-    "risk": "AGGRESSIVE",
-    "cost": 600,
-    "reward": 1800,
-    "penalty": 450,
-    "timeLimit": 120,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-35 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0694",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "COLOSSEUM",
-          "clue": "Oval amphitheater in the center of ancient Rome hosting gladiatorial contests.",
-          "category": "ANTIQUITY",
-          "scrambled": "S O E S C M L U O"
-        },
-        {
-          "id": "R2",
-          "word": "COLONY",
-          "clue": "Territory under the political control and governance of a distant sovereign state.",
-          "category": "HISTORY",
-          "scrambled": "L O N C Y O"
-        },
-        {
-          "id": "R3",
-          "word": "CRUSADE",
-          "clue": "Series of religious military campaigns sanctioned by the Latin Church in the medieval era.",
-          "category": "HISTORY",
-          "scrambled": "C R A S D U E"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "COLOSSEUM-COLONY-CRUSADE",
-      "acceptedAnswers": [
-        "COLOSSEUM-COLONY-CRUSADE",
-        "COLOSSEUM COLONY CRUSADE",
-        "COLOSSEUM,COLONY,CRUSADE",
-        "WORDGUESS:COLOSSEUM-COLONY-CRUSADE"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 9-letter term from ANTIQUITY; the word begins with letter 'C' or ends with 'M'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [S O E S C M L U O] to identify common prefixes or suffixes."
       ]
     },
     "enabled": true,
@@ -37164,64 +18613,6 @@ export const wordGuessChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WG-0696",
-    "title": "WORD GUESS // WORLD #0696",
-    "category": "PUZZLES",
-    "description": "Unscramble 3 domain terminology anagrams from WORLD HISTORY & CIVILIZATIONS under timed conditions.",
-    "difficulty": "EXTREME",
-    "risk": "AGGRESSIVE",
-    "cost": 600,
-    "reward": 1800,
-    "penalty": 450,
-    "timeLimit": 120,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-35 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0696",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "MONARCH",
-          "clue": "Sovereign head of state reigning over a kingdom or empire, usually by hereditary right.",
-          "category": "GOVERNANCE",
-          "scrambled": "R C H M N O A"
-        },
-        {
-          "id": "R2",
-          "word": "COLOSSEUM",
-          "clue": "Oval amphitheater in the center of ancient Rome hosting gladiatorial contests.",
-          "category": "ANTIQUITY",
-          "scrambled": "M U O C L S O S E"
-        },
-        {
-          "id": "R3",
-          "word": "EMPIRE",
-          "clue": "Extensive group of states, territories, or nationalities governed under a single supreme authority.",
-          "category": "CIVILIZATION",
-          "scrambled": "R I M E P E"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "MONARCH-COLOSSEUM-EMPIRE",
-      "acceptedAnswers": [
-        "MONARCH-COLOSSEUM-EMPIRE",
-        "MONARCH COLOSSEUM EMPIRE",
-        "MONARCH,COLOSSEUM,EMPIRE",
-        "WORDGUESS:MONARCH-COLOSSEUM-EMPIRE"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 7-letter term from GOVERNANCE; the word begins with letter 'M' or ends with 'H'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [R C H M N O A] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WG-0697",
     "title": "WORD GUESS // WORLD #0697",
     "category": "PUZZLES",
@@ -37274,64 +18665,6 @@ export const wordGuessChallenges = [
       "hints": [
         "HINT 01 // Round 1 clue indicates a 7-letter term from HISTORY; the word begins with letter 'C' or ends with 'E'.",
         "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [A C U R S D E] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WG-0698",
-    "title": "WORD GUESS // WORLD #0698",
-    "category": "PUZZLES",
-    "description": "Unscramble 3 domain terminology anagrams from WORLD HISTORY & CIVILIZATIONS under timed conditions.",
-    "difficulty": "EXTREME",
-    "risk": "AGGRESSIVE",
-    "cost": 600,
-    "reward": 1800,
-    "penalty": 450,
-    "timeLimit": 120,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-35 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0698",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "MONARCH",
-          "clue": "Sovereign head of state reigning over a kingdom or empire, usually by hereditary right.",
-          "category": "GOVERNANCE",
-          "scrambled": "O C H A M N R"
-        },
-        {
-          "id": "R2",
-          "word": "COLOSSEUM",
-          "clue": "Oval amphitheater in the center of ancient Rome hosting gladiatorial contests.",
-          "category": "ANTIQUITY",
-          "scrambled": "O O M S L U E C S"
-        },
-        {
-          "id": "R3",
-          "word": "REVOLUTION",
-          "clue": "Fundamental and relatively sudden change in political power and social organizational structure.",
-          "category": "POLITICAL",
-          "scrambled": "T R U O O N L V E I"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "MONARCH-COLOSSEUM-REVOLUTION",
-      "acceptedAnswers": [
-        "MONARCH-COLOSSEUM-REVOLUTION",
-        "MONARCH COLOSSEUM REVOLUTION",
-        "MONARCH,COLOSSEUM,REVOLUTION",
-        "WORDGUESS:MONARCH-COLOSSEUM-REVOLUTION"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 7-letter term from GOVERNANCE; the word begins with letter 'M' or ends with 'H'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [O C H A M N R] to identify common prefixes or suffixes."
       ]
     },
     "enabled": true,
@@ -37396,64 +18729,6 @@ export const wordGuessChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WG-0700",
-    "title": "WORD GUESS // WORLD #0700",
-    "category": "PUZZLES",
-    "description": "Unscramble 3 domain terminology anagrams from WORLD HISTORY & CIVILIZATIONS under timed conditions.",
-    "difficulty": "EXTREME",
-    "risk": "AGGRESSIVE",
-    "cost": 600,
-    "reward": 1800,
-    "penalty": 450,
-    "timeLimit": 120,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-36 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0700",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "COLOSSEUM",
-          "clue": "Oval amphitheater in the center of ancient Rome hosting gladiatorial contests.",
-          "category": "ANTIQUITY",
-          "scrambled": "O O E L M S U C S"
-        },
-        {
-          "id": "R2",
-          "word": "PHARAOH",
-          "clue": "The title used for the monarch rulers of ancient Egypt.",
-          "category": "ANCIENT",
-          "scrambled": "H R H A O A P"
-        },
-        {
-          "id": "R3",
-          "word": "COLONY",
-          "clue": "Territory under the political control and governance of a distant sovereign state.",
-          "category": "HISTORY",
-          "scrambled": "O L N C O Y"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "COLOSSEUM-PHARAOH-COLONY",
-      "acceptedAnswers": [
-        "COLOSSEUM-PHARAOH-COLONY",
-        "COLOSSEUM PHARAOH COLONY",
-        "COLOSSEUM,PHARAOH,COLONY",
-        "WORDGUESS:COLOSSEUM-PHARAOH-COLONY"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 9-letter term from ANTIQUITY; the word begins with letter 'C' or ends with 'M'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [O O E L M S U C S] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WG-0701",
     "title": "WORD GUESS // WORLD #0701",
     "category": "PUZZLES",
@@ -37506,64 +18781,6 @@ export const wordGuessChallenges = [
       "hints": [
         "HINT 01 // Round 1 clue indicates a 7-letter term from ANCIENT; the word begins with letter 'P' or ends with 'H'.",
         "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [P R H O A A H] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WG-0702",
-    "title": "WORD GUESS // WORLD #0702",
-    "category": "PUZZLES",
-    "description": "Unscramble 3 domain terminology anagrams from WORLD HISTORY & CIVILIZATIONS under timed conditions.",
-    "difficulty": "EXTREME",
-    "risk": "AGGRESSIVE",
-    "cost": 600,
-    "reward": 1800,
-    "penalty": 450,
-    "timeLimit": 120,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-36 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0702",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "REVOLUTION",
-          "clue": "Fundamental and relatively sudden change in political power and social organizational structure.",
-          "category": "POLITICAL",
-          "scrambled": "L R U O T E V O I N"
-        },
-        {
-          "id": "R2",
-          "word": "COLOSSEUM",
-          "clue": "Oval amphitheater in the center of ancient Rome hosting gladiatorial contests.",
-          "category": "ANTIQUITY",
-          "scrambled": "E O L C S O S U M"
-        },
-        {
-          "id": "R3",
-          "word": "COLONY",
-          "clue": "Territory under the political control and governance of a distant sovereign state.",
-          "category": "HISTORY",
-          "scrambled": "Y L C O N O"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "REVOLUTION-COLOSSEUM-COLONY",
-      "acceptedAnswers": [
-        "REVOLUTION-COLOSSEUM-COLONY",
-        "REVOLUTION COLOSSEUM COLONY",
-        "REVOLUTION,COLOSSEUM,COLONY",
-        "WORDGUESS:REVOLUTION-COLOSSEUM-COLONY"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 10-letter term from POLITICAL; the word begins with letter 'R' or ends with 'N'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [L R U O T E V O I N] to identify common prefixes or suffixes."
       ]
     },
     "enabled": true,
@@ -37628,64 +18845,6 @@ export const wordGuessChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WG-0704",
-    "title": "WORD GUESS // WORLD #0704",
-    "category": "PUZZLES",
-    "description": "Unscramble 3 domain terminology anagrams from WORLD HISTORY & CIVILIZATIONS under timed conditions.",
-    "difficulty": "EXTREME",
-    "risk": "AGGRESSIVE",
-    "cost": 600,
-    "reward": 1800,
-    "penalty": 450,
-    "timeLimit": 120,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-36 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0704",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "SAMURAI",
-          "clue": "Hereditary military nobility and warrior caste of medieval and early-modern Japan.",
-          "category": "MEDIEVAL",
-          "scrambled": "A A U M R I S"
-        },
-        {
-          "id": "R2",
-          "word": "DYNASTY",
-          "clue": "Sequence of hereditary rulers from the same family line holding imperial power.",
-          "category": "HISTORICAL",
-          "scrambled": "Y N D S T A Y"
-        },
-        {
-          "id": "R3",
-          "word": "CRUSADE",
-          "clue": "Series of religious military campaigns sanctioned by the Latin Church in the medieval era.",
-          "category": "HISTORY",
-          "scrambled": "R A C D S E U"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "SAMURAI-DYNASTY-CRUSADE",
-      "acceptedAnswers": [
-        "SAMURAI-DYNASTY-CRUSADE",
-        "SAMURAI DYNASTY CRUSADE",
-        "SAMURAI,DYNASTY,CRUSADE",
-        "WORDGUESS:SAMURAI-DYNASTY-CRUSADE"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 7-letter term from MEDIEVAL; the word begins with letter 'S' or ends with 'I'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [A A U M R I S] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WG-0705",
     "title": "WORD GUESS // WORLD #0705",
     "category": "PUZZLES",
@@ -37738,64 +18897,6 @@ export const wordGuessChallenges = [
       "hints": [
         "HINT 01 // Round 1 clue indicates a 6-letter term from CIVILIZATION; the word begins with letter 'E' or ends with 'E'.",
         "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [I P R E E M] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WG-0706",
-    "title": "WORD GUESS // WORLD #0706",
-    "category": "PUZZLES",
-    "description": "Unscramble 3 domain terminology anagrams from WORLD HISTORY & CIVILIZATIONS under timed conditions.",
-    "difficulty": "EXTREME",
-    "risk": "AGGRESSIVE",
-    "cost": 600,
-    "reward": 1800,
-    "penalty": 450,
-    "timeLimit": 120,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-36 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0706",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "SAMURAI",
-          "clue": "Hereditary military nobility and warrior caste of medieval and early-modern Japan.",
-          "category": "MEDIEVAL",
-          "scrambled": "A U M R A I S"
-        },
-        {
-          "id": "R2",
-          "word": "DYNASTY",
-          "clue": "Sequence of hereditary rulers from the same family line holding imperial power.",
-          "category": "HISTORICAL",
-          "scrambled": "A T D Y Y S N"
-        },
-        {
-          "id": "R3",
-          "word": "EMPIRE",
-          "clue": "Extensive group of states, territories, or nationalities governed under a single supreme authority.",
-          "category": "CIVILIZATION",
-          "scrambled": "R E I E M P"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "SAMURAI-DYNASTY-EMPIRE",
-      "acceptedAnswers": [
-        "SAMURAI-DYNASTY-EMPIRE",
-        "SAMURAI DYNASTY EMPIRE",
-        "SAMURAI,DYNASTY,EMPIRE",
-        "WORDGUESS:SAMURAI-DYNASTY-EMPIRE"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 7-letter term from MEDIEVAL; the word begins with letter 'S' or ends with 'I'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [A U M R A I S] to identify common prefixes or suffixes."
       ]
     },
     "enabled": true,
@@ -37860,64 +18961,6 @@ export const wordGuessChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WG-0708",
-    "title": "WORD GUESS // WORLD #0708",
-    "category": "PUZZLES",
-    "description": "Unscramble 3 domain terminology anagrams from WORLD HISTORY & CIVILIZATIONS under timed conditions.",
-    "difficulty": "EXTREME",
-    "risk": "AGGRESSIVE",
-    "cost": 600,
-    "reward": 1800,
-    "penalty": 450,
-    "timeLimit": 120,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-36 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0708",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "EMPIRE",
-          "clue": "Extensive group of states, territories, or nationalities governed under a single supreme authority.",
-          "category": "CIVILIZATION",
-          "scrambled": "E M I R E P"
-        },
-        {
-          "id": "R2",
-          "word": "DYNASTY",
-          "clue": "Sequence of hereditary rulers from the same family line holding imperial power.",
-          "category": "HISTORICAL",
-          "scrambled": "D T Y Y S A N"
-        },
-        {
-          "id": "R3",
-          "word": "CRUSADE",
-          "clue": "Series of religious military campaigns sanctioned by the Latin Church in the medieval era.",
-          "category": "HISTORY",
-          "scrambled": "U R S D A E C"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "EMPIRE-DYNASTY-CRUSADE",
-      "acceptedAnswers": [
-        "EMPIRE-DYNASTY-CRUSADE",
-        "EMPIRE DYNASTY CRUSADE",
-        "EMPIRE,DYNASTY,CRUSADE",
-        "WORDGUESS:EMPIRE-DYNASTY-CRUSADE"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 6-letter term from CIVILIZATION; the word begins with letter 'E' or ends with 'E'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [E M I R E P] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WG-0709",
     "title": "WORD GUESS // WORLD #0709",
     "category": "PUZZLES",
@@ -37970,64 +19013,6 @@ export const wordGuessChallenges = [
       "hints": [
         "HINT 01 // Round 1 clue indicates a 7-letter term from ANCIENT; the word begins with letter 'P' or ends with 'H'.",
         "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [H A A H O R P] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WG-0710",
-    "title": "WORD GUESS // WORLD #0710",
-    "category": "PUZZLES",
-    "description": "Unscramble 3 domain terminology anagrams from WORLD HISTORY & CIVILIZATIONS under timed conditions.",
-    "difficulty": "EXTREME",
-    "risk": "AGGRESSIVE",
-    "cost": 600,
-    "reward": 1800,
-    "penalty": 450,
-    "timeLimit": 120,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-36 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0710",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "CRUSADE",
-          "clue": "Series of religious military campaigns sanctioned by the Latin Church in the medieval era.",
-          "category": "HISTORY",
-          "scrambled": "D C R S E A U"
-        },
-        {
-          "id": "R2",
-          "word": "PHARAOH",
-          "clue": "The title used for the monarch rulers of ancient Egypt.",
-          "category": "ANCIENT",
-          "scrambled": "R H H P A O A"
-        },
-        {
-          "id": "R3",
-          "word": "REVOLUTION",
-          "clue": "Fundamental and relatively sudden change in political power and social organizational structure.",
-          "category": "POLITICAL",
-          "scrambled": "V U E R L T O N I O"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "CRUSADE-PHARAOH-REVOLUTION",
-      "acceptedAnswers": [
-        "CRUSADE-PHARAOH-REVOLUTION",
-        "CRUSADE PHARAOH REVOLUTION",
-        "CRUSADE,PHARAOH,REVOLUTION",
-        "WORDGUESS:CRUSADE-PHARAOH-REVOLUTION"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 7-letter term from HISTORY; the word begins with letter 'C' or ends with 'E'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [D C R S E A U] to identify common prefixes or suffixes."
       ]
     },
     "enabled": true,
@@ -38092,64 +19077,6 @@ export const wordGuessChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WG-0712",
-    "title": "WORD GUESS // WORLD #0712",
-    "category": "PUZZLES",
-    "description": "Unscramble 3 domain terminology anagrams from WORLD HISTORY & CIVILIZATIONS under timed conditions.",
-    "difficulty": "EXTREME",
-    "risk": "AGGRESSIVE",
-    "cost": 600,
-    "reward": 1800,
-    "penalty": 450,
-    "timeLimit": 120,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-36 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0712",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "PHARAOH",
-          "clue": "The title used for the monarch rulers of ancient Egypt.",
-          "category": "ANCIENT",
-          "scrambled": "O H A R H A P"
-        },
-        {
-          "id": "R2",
-          "word": "COLONY",
-          "clue": "Territory under the political control and governance of a distant sovereign state.",
-          "category": "HISTORY",
-          "scrambled": "O Y N L C O"
-        },
-        {
-          "id": "R3",
-          "word": "DYNASTY",
-          "clue": "Sequence of hereditary rulers from the same family line holding imperial power.",
-          "category": "HISTORICAL",
-          "scrambled": "D A S N Y Y T"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "PHARAOH-COLONY-DYNASTY",
-      "acceptedAnswers": [
-        "PHARAOH-COLONY-DYNASTY",
-        "PHARAOH COLONY DYNASTY",
-        "PHARAOH,COLONY,DYNASTY",
-        "WORDGUESS:PHARAOH-COLONY-DYNASTY"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 7-letter term from ANCIENT; the word begins with letter 'P' or ends with 'H'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [O H A R H A P] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WG-0713",
     "title": "WORD GUESS // WORLD #0713",
     "category": "PUZZLES",
@@ -38202,64 +19129,6 @@ export const wordGuessChallenges = [
       "hints": [
         "HINT 01 // Round 1 clue indicates a 7-letter term from ANCIENT; the word begins with letter 'P' or ends with 'H'.",
         "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [H H A A R P O] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WG-0714",
-    "title": "WORD GUESS // WORLD #0714",
-    "category": "PUZZLES",
-    "description": "Unscramble 3 domain terminology anagrams from WORLD HISTORY & CIVILIZATIONS under timed conditions.",
-    "difficulty": "EXTREME",
-    "risk": "AGGRESSIVE",
-    "cost": 600,
-    "reward": 1800,
-    "penalty": 450,
-    "timeLimit": 120,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-36 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0714",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "PHARAOH",
-          "clue": "The title used for the monarch rulers of ancient Egypt.",
-          "category": "ANCIENT",
-          "scrambled": "R P A A H H O"
-        },
-        {
-          "id": "R2",
-          "word": "REVOLUTION",
-          "clue": "Fundamental and relatively sudden change in political power and social organizational structure.",
-          "category": "POLITICAL",
-          "scrambled": "R U T L I E O V N O"
-        },
-        {
-          "id": "R3",
-          "word": "MONARCH",
-          "clue": "Sovereign head of state reigning over a kingdom or empire, usually by hereditary right.",
-          "category": "GOVERNANCE",
-          "scrambled": "H C M N O R A"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "PHARAOH-REVOLUTION-MONARCH",
-      "acceptedAnswers": [
-        "PHARAOH-REVOLUTION-MONARCH",
-        "PHARAOH REVOLUTION MONARCH",
-        "PHARAOH,REVOLUTION,MONARCH",
-        "WORDGUESS:PHARAOH-REVOLUTION-MONARCH"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 7-letter term from ANCIENT; the word begins with letter 'P' or ends with 'H'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [R P A A H H O] to identify common prefixes or suffixes."
       ]
     },
     "enabled": true,
@@ -38324,64 +19193,6 @@ export const wordGuessChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WG-0716",
-    "title": "WORD GUESS // WORLD #0716",
-    "category": "PUZZLES",
-    "description": "Unscramble 3 domain terminology anagrams from WORLD HISTORY & CIVILIZATIONS under timed conditions.",
-    "difficulty": "EXTREME",
-    "risk": "AGGRESSIVE",
-    "cost": 600,
-    "reward": 1800,
-    "penalty": 450,
-    "timeLimit": 120,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-36 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0716",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "SAMURAI",
-          "clue": "Hereditary military nobility and warrior caste of medieval and early-modern Japan.",
-          "category": "MEDIEVAL",
-          "scrambled": "A U R S M I A"
-        },
-        {
-          "id": "R2",
-          "word": "COLOSSEUM",
-          "clue": "Oval amphitheater in the center of ancient Rome hosting gladiatorial contests.",
-          "category": "ANTIQUITY",
-          "scrambled": "S E C O L O M S U"
-        },
-        {
-          "id": "R3",
-          "word": "REVOLUTION",
-          "clue": "Fundamental and relatively sudden change in political power and social organizational structure.",
-          "category": "POLITICAL",
-          "scrambled": "R O N L E O T V U I"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "SAMURAI-COLOSSEUM-REVOLUTION",
-      "acceptedAnswers": [
-        "SAMURAI-COLOSSEUM-REVOLUTION",
-        "SAMURAI COLOSSEUM REVOLUTION",
-        "SAMURAI,COLOSSEUM,REVOLUTION",
-        "WORDGUESS:SAMURAI-COLOSSEUM-REVOLUTION"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 7-letter term from MEDIEVAL; the word begins with letter 'S' or ends with 'I'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [A U R S M I A] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WG-0717",
     "title": "WORD GUESS // WORLD #0717",
     "category": "PUZZLES",
@@ -38434,64 +19245,6 @@ export const wordGuessChallenges = [
       "hints": [
         "HINT 01 // Round 1 clue indicates a 6-letter term from CIVILIZATION; the word begins with letter 'E' or ends with 'E'.",
         "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [R M E P I E] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WG-0718",
-    "title": "WORD GUESS // WORLD #0718",
-    "category": "PUZZLES",
-    "description": "Unscramble 3 domain terminology anagrams from WORLD HISTORY & CIVILIZATIONS under timed conditions.",
-    "difficulty": "EXTREME",
-    "risk": "AGGRESSIVE",
-    "cost": 600,
-    "reward": 1800,
-    "penalty": 450,
-    "timeLimit": 120,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-36 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0718",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "REVOLUTION",
-          "clue": "Fundamental and relatively sudden change in political power and social organizational structure.",
-          "category": "POLITICAL",
-          "scrambled": "R V E U T I O L O N"
-        },
-        {
-          "id": "R2",
-          "word": "PYRAMID",
-          "clue": "Monumental triangular masonry structures built as monumental tombs in the ancient world.",
-          "category": "ARCHAEOLOGY",
-          "scrambled": "I M A D R Y P"
-        },
-        {
-          "id": "R3",
-          "word": "DYNASTY",
-          "clue": "Sequence of hereditary rulers from the same family line holding imperial power.",
-          "category": "HISTORICAL",
-          "scrambled": "Y T S A Y D N"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "REVOLUTION-PYRAMID-DYNASTY",
-      "acceptedAnswers": [
-        "REVOLUTION-PYRAMID-DYNASTY",
-        "REVOLUTION PYRAMID DYNASTY",
-        "REVOLUTION,PYRAMID,DYNASTY",
-        "WORDGUESS:REVOLUTION-PYRAMID-DYNASTY"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 10-letter term from POLITICAL; the word begins with letter 'R' or ends with 'N'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [R V E U T I O L O N] to identify common prefixes or suffixes."
       ]
     },
     "enabled": true,
@@ -38556,64 +19309,6 @@ export const wordGuessChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WG-0720",
-    "title": "WORD GUESS // WORLD #0720",
-    "category": "PUZZLES",
-    "description": "Unscramble 3 domain terminology anagrams from WORLD HISTORY & CIVILIZATIONS under timed conditions.",
-    "difficulty": "EXTREME",
-    "risk": "AGGRESSIVE",
-    "cost": 600,
-    "reward": 1800,
-    "penalty": 450,
-    "timeLimit": 120,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-37 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0720",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "PYRAMID",
-          "clue": "Monumental triangular masonry structures built as monumental tombs in the ancient world.",
-          "category": "ARCHAEOLOGY",
-          "scrambled": "R Y A M I P D"
-        },
-        {
-          "id": "R2",
-          "word": "REVOLUTION",
-          "clue": "Fundamental and relatively sudden change in political power and social organizational structure.",
-          "category": "POLITICAL",
-          "scrambled": "L E N O I R U T O V"
-        },
-        {
-          "id": "R3",
-          "word": "PHARAOH",
-          "clue": "The title used for the monarch rulers of ancient Egypt.",
-          "category": "ANCIENT",
-          "scrambled": "H R A P A H O"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "PYRAMID-REVOLUTION-PHARAOH",
-      "acceptedAnswers": [
-        "PYRAMID-REVOLUTION-PHARAOH",
-        "PYRAMID REVOLUTION PHARAOH",
-        "PYRAMID,REVOLUTION,PHARAOH",
-        "WORDGUESS:PYRAMID-REVOLUTION-PHARAOH"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 7-letter term from ARCHAEOLOGY; the word begins with letter 'P' or ends with 'D'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [R Y A M I P D] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WG-0721",
     "title": "WORD GUESS // WORLD #0721",
     "category": "PUZZLES",
@@ -38666,64 +19361,6 @@ export const wordGuessChallenges = [
       "hints": [
         "HINT 01 // Round 1 clue indicates a 6-letter term from CIVILIZATION; the word begins with letter 'E' or ends with 'E'.",
         "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [E R I P M E] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WG-0722",
-    "title": "WORD GUESS // WORLD #0722",
-    "category": "PUZZLES",
-    "description": "Unscramble 3 domain terminology anagrams from WORLD HISTORY & CIVILIZATIONS under timed conditions.",
-    "difficulty": "EXTREME",
-    "risk": "AGGRESSIVE",
-    "cost": 600,
-    "reward": 1800,
-    "penalty": 450,
-    "timeLimit": 120,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-37 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0722",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "SAMURAI",
-          "clue": "Hereditary military nobility and warrior caste of medieval and early-modern Japan.",
-          "category": "MEDIEVAL",
-          "scrambled": "A S U M I R A"
-        },
-        {
-          "id": "R2",
-          "word": "MONARCH",
-          "clue": "Sovereign head of state reigning over a kingdom or empire, usually by hereditary right.",
-          "category": "GOVERNANCE",
-          "scrambled": "C N R H O A M"
-        },
-        {
-          "id": "R3",
-          "word": "COLOSSEUM",
-          "clue": "Oval amphitheater in the center of ancient Rome hosting gladiatorial contests.",
-          "category": "ANTIQUITY",
-          "scrambled": "O C E L O S M S U"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "SAMURAI-MONARCH-COLOSSEUM",
-      "acceptedAnswers": [
-        "SAMURAI-MONARCH-COLOSSEUM",
-        "SAMURAI MONARCH COLOSSEUM",
-        "SAMURAI,MONARCH,COLOSSEUM",
-        "WORDGUESS:SAMURAI-MONARCH-COLOSSEUM"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 7-letter term from MEDIEVAL; the word begins with letter 'S' or ends with 'I'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [A S U M I R A] to identify common prefixes or suffixes."
       ]
     },
     "enabled": true,
@@ -38788,64 +19425,6 @@ export const wordGuessChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WG-0724",
-    "title": "WORD GUESS // WORLD #0724",
-    "category": "PUZZLES",
-    "description": "Unscramble 3 domain terminology anagrams from WORLD HISTORY & CIVILIZATIONS under timed conditions.",
-    "difficulty": "EXTREME",
-    "risk": "AGGRESSIVE",
-    "cost": 600,
-    "reward": 1800,
-    "penalty": 450,
-    "timeLimit": 120,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-37 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0724",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "EMPIRE",
-          "clue": "Extensive group of states, territories, or nationalities governed under a single supreme authority.",
-          "category": "CIVILIZATION",
-          "scrambled": "E E M R P I"
-        },
-        {
-          "id": "R2",
-          "word": "MONARCH",
-          "clue": "Sovereign head of state reigning over a kingdom or empire, usually by hereditary right.",
-          "category": "GOVERNANCE",
-          "scrambled": "R C M A O H N"
-        },
-        {
-          "id": "R3",
-          "word": "PHARAOH",
-          "clue": "The title used for the monarch rulers of ancient Egypt.",
-          "category": "ANCIENT",
-          "scrambled": "O R H P H A A"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "EMPIRE-MONARCH-PHARAOH",
-      "acceptedAnswers": [
-        "EMPIRE-MONARCH-PHARAOH",
-        "EMPIRE MONARCH PHARAOH",
-        "EMPIRE,MONARCH,PHARAOH",
-        "WORDGUESS:EMPIRE-MONARCH-PHARAOH"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 6-letter term from CIVILIZATION; the word begins with letter 'E' or ends with 'E'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [E E M R P I] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WG-0725",
     "title": "WORD GUESS // WORLD #0725",
     "category": "PUZZLES",
@@ -38898,64 +19477,6 @@ export const wordGuessChallenges = [
       "hints": [
         "HINT 01 // Round 1 clue indicates a 7-letter term from MEDIEVAL; the word begins with letter 'S' or ends with 'I'.",
         "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [A A M I S U R] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WG-0726",
-    "title": "WORD GUESS // WORLD #0726",
-    "category": "PUZZLES",
-    "description": "Unscramble 3 domain terminology anagrams from WORLD HISTORY & CIVILIZATIONS under timed conditions.",
-    "difficulty": "EXTREME",
-    "risk": "AGGRESSIVE",
-    "cost": 600,
-    "reward": 1800,
-    "penalty": 450,
-    "timeLimit": 120,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-37 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0726",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "EMPIRE",
-          "clue": "Extensive group of states, territories, or nationalities governed under a single supreme authority.",
-          "category": "CIVILIZATION",
-          "scrambled": "E E P R M I"
-        },
-        {
-          "id": "R2",
-          "word": "REVOLUTION",
-          "clue": "Fundamental and relatively sudden change in political power and social organizational structure.",
-          "category": "POLITICAL",
-          "scrambled": "I E O R V L O N T U"
-        },
-        {
-          "id": "R3",
-          "word": "PYRAMID",
-          "clue": "Monumental triangular masonry structures built as monumental tombs in the ancient world.",
-          "category": "ARCHAEOLOGY",
-          "scrambled": "M R P I D A Y"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "EMPIRE-REVOLUTION-PYRAMID",
-      "acceptedAnswers": [
-        "EMPIRE-REVOLUTION-PYRAMID",
-        "EMPIRE REVOLUTION PYRAMID",
-        "EMPIRE,REVOLUTION,PYRAMID",
-        "WORDGUESS:EMPIRE-REVOLUTION-PYRAMID"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 6-letter term from CIVILIZATION; the word begins with letter 'E' or ends with 'E'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [E E P R M I] to identify common prefixes or suffixes."
       ]
     },
     "enabled": true,
@@ -39020,64 +19541,6 @@ export const wordGuessChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WG-0728",
-    "title": "WORD GUESS // WORLD #0728",
-    "category": "PUZZLES",
-    "description": "Unscramble 3 domain terminology anagrams from WORLD HISTORY & CIVILIZATIONS under timed conditions.",
-    "difficulty": "EXTREME",
-    "risk": "AGGRESSIVE",
-    "cost": 600,
-    "reward": 1800,
-    "penalty": 450,
-    "timeLimit": 120,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-37 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0728",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "PYRAMID",
-          "clue": "Monumental triangular masonry structures built as monumental tombs in the ancient world.",
-          "category": "ARCHAEOLOGY",
-          "scrambled": "Y P I M A R D"
-        },
-        {
-          "id": "R2",
-          "word": "COLOSSEUM",
-          "clue": "Oval amphitheater in the center of ancient Rome hosting gladiatorial contests.",
-          "category": "ANTIQUITY",
-          "scrambled": "S U C L E S O O M"
-        },
-        {
-          "id": "R3",
-          "word": "COLONY",
-          "clue": "Territory under the political control and governance of a distant sovereign state.",
-          "category": "HISTORY",
-          "scrambled": "N Y O O L C"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "PYRAMID-COLOSSEUM-COLONY",
-      "acceptedAnswers": [
-        "PYRAMID-COLOSSEUM-COLONY",
-        "PYRAMID COLOSSEUM COLONY",
-        "PYRAMID,COLOSSEUM,COLONY",
-        "WORDGUESS:PYRAMID-COLOSSEUM-COLONY"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 7-letter term from ARCHAEOLOGY; the word begins with letter 'P' or ends with 'D'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [Y P I M A R D] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WG-0729",
     "title": "WORD GUESS // WORLD #0729",
     "category": "PUZZLES",
@@ -39130,64 +19593,6 @@ export const wordGuessChallenges = [
       "hints": [
         "HINT 01 // Round 1 clue indicates a 7-letter term from ARCHAEOLOGY; the word begins with letter 'P' or ends with 'D'.",
         "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [A Y I D M R P] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WG-0730",
-    "title": "WORD GUESS // WORLD #0730",
-    "category": "PUZZLES",
-    "description": "Unscramble 3 domain terminology anagrams from WORLD HISTORY & CIVILIZATIONS under timed conditions.",
-    "difficulty": "EXTREME",
-    "risk": "AGGRESSIVE",
-    "cost": 600,
-    "reward": 1800,
-    "penalty": 450,
-    "timeLimit": 120,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-37 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0730",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "PYRAMID",
-          "clue": "Monumental triangular masonry structures built as monumental tombs in the ancient world.",
-          "category": "ARCHAEOLOGY",
-          "scrambled": "I R M A D Y P"
-        },
-        {
-          "id": "R2",
-          "word": "CRUSADE",
-          "clue": "Series of religious military campaigns sanctioned by the Latin Church in the medieval era.",
-          "category": "HISTORY",
-          "scrambled": "R C U S E A D"
-        },
-        {
-          "id": "R3",
-          "word": "DYNASTY",
-          "clue": "Sequence of hereditary rulers from the same family line holding imperial power.",
-          "category": "HISTORICAL",
-          "scrambled": "N Y A T Y D S"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "PYRAMID-CRUSADE-DYNASTY",
-      "acceptedAnswers": [
-        "PYRAMID-CRUSADE-DYNASTY",
-        "PYRAMID CRUSADE DYNASTY",
-        "PYRAMID,CRUSADE,DYNASTY",
-        "WORDGUESS:PYRAMID-CRUSADE-DYNASTY"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 7-letter term from ARCHAEOLOGY; the word begins with letter 'P' or ends with 'D'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [I R M A D Y P] to identify common prefixes or suffixes."
       ]
     },
     "enabled": true,
@@ -39252,64 +19657,6 @@ export const wordGuessChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WG-0732",
-    "title": "WORD GUESS // WORLD #0732",
-    "category": "PUZZLES",
-    "description": "Unscramble 3 domain terminology anagrams from WORLD HISTORY & CIVILIZATIONS under timed conditions.",
-    "difficulty": "EXTREME",
-    "risk": "AGGRESSIVE",
-    "cost": 600,
-    "reward": 1800,
-    "penalty": 450,
-    "timeLimit": 120,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-37 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0732",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "PYRAMID",
-          "clue": "Monumental triangular masonry structures built as monumental tombs in the ancient world.",
-          "category": "ARCHAEOLOGY",
-          "scrambled": "R P M A I D Y"
-        },
-        {
-          "id": "R2",
-          "word": "COLOSSEUM",
-          "clue": "Oval amphitheater in the center of ancient Rome hosting gladiatorial contests.",
-          "category": "ANTIQUITY",
-          "scrambled": "S S L E C O M U O"
-        },
-        {
-          "id": "R3",
-          "word": "COLONY",
-          "clue": "Territory under the political control and governance of a distant sovereign state.",
-          "category": "HISTORY",
-          "scrambled": "O O C N Y L"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "PYRAMID-COLOSSEUM-COLONY",
-      "acceptedAnswers": [
-        "PYRAMID-COLOSSEUM-COLONY",
-        "PYRAMID COLOSSEUM COLONY",
-        "PYRAMID,COLOSSEUM,COLONY",
-        "WORDGUESS:PYRAMID-COLOSSEUM-COLONY"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 7-letter term from ARCHAEOLOGY; the word begins with letter 'P' or ends with 'D'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [R P M A I D Y] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WG-0733",
     "title": "WORD GUESS // WORLD #0733",
     "category": "PUZZLES",
@@ -39362,64 +19709,6 @@ export const wordGuessChallenges = [
       "hints": [
         "HINT 01 // Round 1 clue indicates a 7-letter term from ANCIENT; the word begins with letter 'P' or ends with 'H'.",
         "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [R A P H O H A] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WG-0734",
-    "title": "WORD GUESS // WORLD #0734",
-    "category": "PUZZLES",
-    "description": "Unscramble 3 domain terminology anagrams from WORLD HISTORY & CIVILIZATIONS under timed conditions.",
-    "difficulty": "EXTREME",
-    "risk": "AGGRESSIVE",
-    "cost": 600,
-    "reward": 1800,
-    "penalty": 450,
-    "timeLimit": 120,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-37 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0734",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "COLOSSEUM",
-          "clue": "Oval amphitheater in the center of ancient Rome hosting gladiatorial contests.",
-          "category": "ANTIQUITY",
-          "scrambled": "S E M O U O C S L"
-        },
-        {
-          "id": "R2",
-          "word": "MONARCH",
-          "clue": "Sovereign head of state reigning over a kingdom or empire, usually by hereditary right.",
-          "category": "GOVERNANCE",
-          "scrambled": "H N M C O R A"
-        },
-        {
-          "id": "R3",
-          "word": "CRUSADE",
-          "clue": "Series of religious military campaigns sanctioned by the Latin Church in the medieval era.",
-          "category": "HISTORY",
-          "scrambled": "D A R C S E U"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "COLOSSEUM-MONARCH-CRUSADE",
-      "acceptedAnswers": [
-        "COLOSSEUM-MONARCH-CRUSADE",
-        "COLOSSEUM MONARCH CRUSADE",
-        "COLOSSEUM,MONARCH,CRUSADE",
-        "WORDGUESS:COLOSSEUM-MONARCH-CRUSADE"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 9-letter term from ANTIQUITY; the word begins with letter 'C' or ends with 'M'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [S E M O U O C S L] to identify common prefixes or suffixes."
       ]
     },
     "enabled": true,
@@ -39484,64 +19773,6 @@ export const wordGuessChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WG-0736",
-    "title": "WORD GUESS // WORLD #0736",
-    "category": "PUZZLES",
-    "description": "Unscramble 3 domain terminology anagrams from WORLD HISTORY & CIVILIZATIONS under timed conditions.",
-    "difficulty": "EXTREME",
-    "risk": "AGGRESSIVE",
-    "cost": 600,
-    "reward": 1800,
-    "penalty": 450,
-    "timeLimit": 120,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-37 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0736",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "PHARAOH",
-          "clue": "The title used for the monarch rulers of ancient Egypt.",
-          "category": "ANCIENT",
-          "scrambled": "R P H H A O A"
-        },
-        {
-          "id": "R2",
-          "word": "DYNASTY",
-          "clue": "Sequence of hereditary rulers from the same family line holding imperial power.",
-          "category": "HISTORICAL",
-          "scrambled": "A T Y D S N Y"
-        },
-        {
-          "id": "R3",
-          "word": "SAMURAI",
-          "clue": "Hereditary military nobility and warrior caste of medieval and early-modern Japan.",
-          "category": "MEDIEVAL",
-          "scrambled": "A U M S A R I"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "PHARAOH-DYNASTY-SAMURAI",
-      "acceptedAnswers": [
-        "PHARAOH-DYNASTY-SAMURAI",
-        "PHARAOH DYNASTY SAMURAI",
-        "PHARAOH,DYNASTY,SAMURAI",
-        "WORDGUESS:PHARAOH-DYNASTY-SAMURAI"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 7-letter term from ANCIENT; the word begins with letter 'P' or ends with 'H'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [R P H H A O A] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WG-0737",
     "title": "WORD GUESS // WORLD #0737",
     "category": "PUZZLES",
@@ -39594,64 +19825,6 @@ export const wordGuessChallenges = [
       "hints": [
         "HINT 01 // Round 1 clue indicates a 7-letter term from GOVERNANCE; the word begins with letter 'M' or ends with 'H'.",
         "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [N H M R O C A] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WG-0738",
-    "title": "WORD GUESS // WORLD #0738",
-    "category": "PUZZLES",
-    "description": "Unscramble 3 domain terminology anagrams from WORLD HISTORY & CIVILIZATIONS under timed conditions.",
-    "difficulty": "EXTREME",
-    "risk": "AGGRESSIVE",
-    "cost": 600,
-    "reward": 1800,
-    "penalty": 450,
-    "timeLimit": 120,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-37 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0738",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "CRUSADE",
-          "clue": "Series of religious military campaigns sanctioned by the Latin Church in the medieval era.",
-          "category": "HISTORY",
-          "scrambled": "U E R S D A C"
-        },
-        {
-          "id": "R2",
-          "word": "SAMURAI",
-          "clue": "Hereditary military nobility and warrior caste of medieval and early-modern Japan.",
-          "category": "MEDIEVAL",
-          "scrambled": "A A M R I S U"
-        },
-        {
-          "id": "R3",
-          "word": "COLOSSEUM",
-          "clue": "Oval amphitheater in the center of ancient Rome hosting gladiatorial contests.",
-          "category": "ANTIQUITY",
-          "scrambled": "L E U O M O C S S"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "CRUSADE-SAMURAI-COLOSSEUM",
-      "acceptedAnswers": [
-        "CRUSADE-SAMURAI-COLOSSEUM",
-        "CRUSADE SAMURAI COLOSSEUM",
-        "CRUSADE,SAMURAI,COLOSSEUM",
-        "WORDGUESS:CRUSADE-SAMURAI-COLOSSEUM"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 7-letter term from HISTORY; the word begins with letter 'C' or ends with 'E'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [U E R S D A C] to identify common prefixes or suffixes."
       ]
     },
     "enabled": true,
@@ -39716,64 +19889,6 @@ export const wordGuessChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WG-0740",
-    "title": "WORD GUESS // WORLD #0740",
-    "category": "PUZZLES",
-    "description": "Unscramble 3 domain terminology anagrams from WORLD HISTORY & CIVILIZATIONS under timed conditions.",
-    "difficulty": "EXTREME",
-    "risk": "AGGRESSIVE",
-    "cost": 600,
-    "reward": 1800,
-    "penalty": 450,
-    "timeLimit": 120,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-38 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0740",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "MONARCH",
-          "clue": "Sovereign head of state reigning over a kingdom or empire, usually by hereditary right.",
-          "category": "GOVERNANCE",
-          "scrambled": "N H C M A O R"
-        },
-        {
-          "id": "R2",
-          "word": "DYNASTY",
-          "clue": "Sequence of hereditary rulers from the same family line holding imperial power.",
-          "category": "HISTORICAL",
-          "scrambled": "A T D Y Y S N"
-        },
-        {
-          "id": "R3",
-          "word": "CRUSADE",
-          "clue": "Series of religious military campaigns sanctioned by the Latin Church in the medieval era.",
-          "category": "HISTORY",
-          "scrambled": "U C E S D R A"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "MONARCH-DYNASTY-CRUSADE",
-      "acceptedAnswers": [
-        "MONARCH-DYNASTY-CRUSADE",
-        "MONARCH DYNASTY CRUSADE",
-        "MONARCH,DYNASTY,CRUSADE",
-        "WORDGUESS:MONARCH-DYNASTY-CRUSADE"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 7-letter term from GOVERNANCE; the word begins with letter 'M' or ends with 'H'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [N H C M A O R] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WG-0741",
     "title": "WORD GUESS // WORLD #0741",
     "category": "PUZZLES",
@@ -39826,64 +19941,6 @@ export const wordGuessChallenges = [
       "hints": [
         "HINT 01 // Round 1 clue indicates a 9-letter term from ANTIQUITY; the word begins with letter 'C' or ends with 'M'.",
         "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [M U L S C S O O E] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WG-0742",
-    "title": "WORD GUESS // WORLD #0742",
-    "category": "PUZZLES",
-    "description": "Unscramble 3 domain terminology anagrams from WORLD HISTORY & CIVILIZATIONS under timed conditions.",
-    "difficulty": "EXTREME",
-    "risk": "AGGRESSIVE",
-    "cost": 600,
-    "reward": 1800,
-    "penalty": 450,
-    "timeLimit": 120,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-38 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0742",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "MONARCH",
-          "clue": "Sovereign head of state reigning over a kingdom or empire, usually by hereditary right.",
-          "category": "GOVERNANCE",
-          "scrambled": "M R N C O H A"
-        },
-        {
-          "id": "R2",
-          "word": "DYNASTY",
-          "clue": "Sequence of hereditary rulers from the same family line holding imperial power.",
-          "category": "HISTORICAL",
-          "scrambled": "T A Y D N S Y"
-        },
-        {
-          "id": "R3",
-          "word": "EMPIRE",
-          "clue": "Extensive group of states, territories, or nationalities governed under a single supreme authority.",
-          "category": "CIVILIZATION",
-          "scrambled": "E M I P R E"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "MONARCH-DYNASTY-EMPIRE",
-      "acceptedAnswers": [
-        "MONARCH-DYNASTY-EMPIRE",
-        "MONARCH DYNASTY EMPIRE",
-        "MONARCH,DYNASTY,EMPIRE",
-        "WORDGUESS:MONARCH-DYNASTY-EMPIRE"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 7-letter term from GOVERNANCE; the word begins with letter 'M' or ends with 'H'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [M R N C O H A] to identify common prefixes or suffixes."
       ]
     },
     "enabled": true,
@@ -39948,64 +20005,6 @@ export const wordGuessChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WG-0744",
-    "title": "WORD GUESS // WORLD #0744",
-    "category": "PUZZLES",
-    "description": "Unscramble 3 domain terminology anagrams from WORLD HISTORY & CIVILIZATIONS under timed conditions.",
-    "difficulty": "EXTREME",
-    "risk": "AGGRESSIVE",
-    "cost": 600,
-    "reward": 1800,
-    "penalty": 450,
-    "timeLimit": 120,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-38 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0744",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "PHARAOH",
-          "clue": "The title used for the monarch rulers of ancient Egypt.",
-          "category": "ANCIENT",
-          "scrambled": "P A R H H A O"
-        },
-        {
-          "id": "R2",
-          "word": "PYRAMID",
-          "clue": "Monumental triangular masonry structures built as monumental tombs in the ancient world.",
-          "category": "ARCHAEOLOGY",
-          "scrambled": "M D A Y R I P"
-        },
-        {
-          "id": "R3",
-          "word": "CRUSADE",
-          "clue": "Series of religious military campaigns sanctioned by the Latin Church in the medieval era.",
-          "category": "HISTORY",
-          "scrambled": "E D R C U S A"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "PHARAOH-PYRAMID-CRUSADE",
-      "acceptedAnswers": [
-        "PHARAOH-PYRAMID-CRUSADE",
-        "PHARAOH PYRAMID CRUSADE",
-        "PHARAOH,PYRAMID,CRUSADE",
-        "WORDGUESS:PHARAOH-PYRAMID-CRUSADE"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 7-letter term from ANCIENT; the word begins with letter 'P' or ends with 'H'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [P A R H H A O] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WG-0745",
     "title": "WORD GUESS // WORLD #0745",
     "category": "PUZZLES",
@@ -40058,64 +20057,6 @@ export const wordGuessChallenges = [
       "hints": [
         "HINT 01 // Round 1 clue indicates a 7-letter term from ANCIENT; the word begins with letter 'P' or ends with 'H'.",
         "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [H A A R O H P] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WG-0746",
-    "title": "WORD GUESS // WORLD #0746",
-    "category": "PUZZLES",
-    "description": "Unscramble 3 domain terminology anagrams from WORLD HISTORY & CIVILIZATIONS under timed conditions.",
-    "difficulty": "EXTREME",
-    "risk": "AGGRESSIVE",
-    "cost": 600,
-    "reward": 1800,
-    "penalty": 450,
-    "timeLimit": 120,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-38 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0746",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "PYRAMID",
-          "clue": "Monumental triangular masonry structures built as monumental tombs in the ancient world.",
-          "category": "ARCHAEOLOGY",
-          "scrambled": "A M R Y D P I"
-        },
-        {
-          "id": "R2",
-          "word": "MONARCH",
-          "clue": "Sovereign head of state reigning over a kingdom or empire, usually by hereditary right.",
-          "category": "GOVERNANCE",
-          "scrambled": "C N A R O H M"
-        },
-        {
-          "id": "R3",
-          "word": "PHARAOH",
-          "clue": "The title used for the monarch rulers of ancient Egypt.",
-          "category": "ANCIENT",
-          "scrambled": "H A R O A P H"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "PYRAMID-MONARCH-PHARAOH",
-      "acceptedAnswers": [
-        "PYRAMID-MONARCH-PHARAOH",
-        "PYRAMID MONARCH PHARAOH",
-        "PYRAMID,MONARCH,PHARAOH",
-        "WORDGUESS:PYRAMID-MONARCH-PHARAOH"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 7-letter term from ARCHAEOLOGY; the word begins with letter 'P' or ends with 'D'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [A M R Y D P I] to identify common prefixes or suffixes."
       ]
     },
     "enabled": true,
@@ -40180,64 +20121,6 @@ export const wordGuessChallenges = [
     "available": true
   },
   {
-    "challengeId": "CHG-WG-0748",
-    "title": "WORD GUESS // WORLD #0748",
-    "category": "PUZZLES",
-    "description": "Unscramble 3 domain terminology anagrams from WORLD HISTORY & CIVILIZATIONS under timed conditions.",
-    "difficulty": "EXTREME",
-    "risk": "AGGRESSIVE",
-    "cost": 600,
-    "reward": 1800,
-    "penalty": 450,
-    "timeLimit": 120,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-38 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0748",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "CRUSADE",
-          "clue": "Series of religious military campaigns sanctioned by the Latin Church in the medieval era.",
-          "category": "HISTORY",
-          "scrambled": "U E S C D R A"
-        },
-        {
-          "id": "R2",
-          "word": "MONARCH",
-          "clue": "Sovereign head of state reigning over a kingdom or empire, usually by hereditary right.",
-          "category": "GOVERNANCE",
-          "scrambled": "N M H C O R A"
-        },
-        {
-          "id": "R3",
-          "word": "SAMURAI",
-          "clue": "Hereditary military nobility and warrior caste of medieval and early-modern Japan.",
-          "category": "MEDIEVAL",
-          "scrambled": "A U M S R I A"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "CRUSADE-MONARCH-SAMURAI",
-      "acceptedAnswers": [
-        "CRUSADE-MONARCH-SAMURAI",
-        "CRUSADE MONARCH SAMURAI",
-        "CRUSADE,MONARCH,SAMURAI",
-        "WORDGUESS:CRUSADE-MONARCH-SAMURAI"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 7-letter term from HISTORY; the word begins with letter 'C' or ends with 'E'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [U E S C D R A] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
     "challengeId": "CHG-WG-0749",
     "title": "WORD GUESS // WORLD #0749",
     "category": "PUZZLES",
@@ -40290,64 +20173,6 @@ export const wordGuessChallenges = [
       "hints": [
         "HINT 01 // Round 1 clue indicates a 10-letter term from POLITICAL; the word begins with letter 'R' or ends with 'N'.",
         "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [L I R T V E O U N O] to identify common prefixes or suffixes."
-      ]
-    },
-    "enabled": true,
-    "available": true
-  },
-  {
-    "challengeId": "CHG-WG-0750",
-    "title": "WORD GUESS // WORLD #0750",
-    "category": "PUZZLES",
-    "description": "Unscramble 3 domain terminology anagrams from WORLD HISTORY & CIVILIZATIONS under timed conditions.",
-    "difficulty": "EXTREME",
-    "risk": "AGGRESSIVE",
-    "cost": 600,
-    "reward": 1800,
-    "penalty": 450,
-    "timeLimit": 120,
-    "gameType": "wordGuess",
-    "gameConfig": {
-      "sector": "SECTOR-38 // CRYPT_SPIRE",
-      "artworkKey": "PUZZLES",
-      "secondaryArtworkKey": "CREDITS_SPIRE",
-      "maxHints": 2,
-      "clearanceCode": "NX-WG-0750",
-      "rounds": [
-        {
-          "id": "R1",
-          "word": "REVOLUTION",
-          "clue": "Fundamental and relatively sudden change in political power and social organizational structure.",
-          "category": "POLITICAL",
-          "scrambled": "T L R I V O U E N O"
-        },
-        {
-          "id": "R2",
-          "word": "PYRAMID",
-          "clue": "Monumental triangular masonry structures built as monumental tombs in the ancient world.",
-          "category": "ARCHAEOLOGY",
-          "scrambled": "Y D A M I R P"
-        },
-        {
-          "id": "R3",
-          "word": "COLOSSEUM",
-          "clue": "Oval amphitheater in the center of ancient Rome hosting gladiatorial contests.",
-          "category": "ANTIQUITY",
-          "scrambled": "M O U O L S S E C"
-        }
-      ]
-    },
-    "solutionConfig": {
-      "expectedAnswer": "REVOLUTION-PYRAMID-COLOSSEUM",
-      "acceptedAnswers": [
-        "REVOLUTION-PYRAMID-COLOSSEUM",
-        "REVOLUTION PYRAMID COLOSSEUM",
-        "REVOLUTION,PYRAMID,COLOSSEUM",
-        "WORDGUESS:REVOLUTION-PYRAMID-COLOSSEUM"
-      ],
-      "hints": [
-        "HINT 01 // Round 1 clue indicates a 10-letter term from POLITICAL; the word begins with letter 'R' or ends with 'N'.",
-        "HINT 02 // Analyze letter frequency: separate vowels and consonants in the scrambled cluster [T L R I V O U E N O] to identify common prefixes or suffixes."
       ]
     },
     "enabled": true,

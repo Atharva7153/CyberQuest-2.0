@@ -51,4 +51,4 @@ EXPOSE 5050
 HEALTHCHECK --interval=10s --timeout=5s --start-period=10s --retries=5 \
   CMD wget -qO- http://127.0.0.1:${PORT:-5050}/api/health > /dev/null || exit 1
 
-CMD ["node", "server.js"]
+CMD ["node", "--max-old-space-size=4096", "server.js"]

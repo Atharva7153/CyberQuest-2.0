@@ -1406,6 +1406,7 @@ export const executeTeamAction = async (rawTeamId, actionType, rawPayload = {}, 
       team.activeAttempts = [];
       team.completedChallenges = [];
       team.failedChallenges = [];
+      team.gameCooldowns = {};
       team.abilities = AbilityService.buildInitialTeamAbilitySlots(DEFAULT_ABILITY_CATALOG);
       team.nexusCore = {
         state: 'LOCKED',
@@ -1447,6 +1448,7 @@ export const executeTeamAction = async (rawTeamId, actionType, rawPayload = {}, 
       team.markModified('abilities');
       team.markModified('nexusCore');
       team.markModified('stats');
+      team.markModified('gameCooldowns');
       await team.save();
       await CreditTransaction.deleteMany({ teamId: normalizedTeamId });
       await ChallengeAttempt.deleteMany({ teamId: normalizedTeamId });
@@ -1461,18 +1463,17 @@ export const executeTeamAction = async (rawTeamId, actionType, rawPayload = {}, 
     }
   }
 
-  const [transactions, catalog, attempts, abilitiesCatalog, nexusCore] = await Promise.all([
+  const [transactions, attempts, abilitiesCatalog, nexusCore] = await Promise.all([
     CreditService.getTeamTransactions(normalizedTeamId),
-    ChallengeService.listChallenges(),
     ChallengeService.getAttemptsForTeam(normalizedTeamId),
     AbilityService.listAbilities(),
     NexusCoreService.getNexusCoreStatusForTeam(team),
   ]);
 
   const publicTeam = team.toPublicJSON();
-  const attemptHistory = normalizeAttemptHistory(publicTeam, attempts, catalog);
-  const progressSummary = buildTeamProgressSummary(publicTeam, attempts, transactions, catalog);
-  const liveFeed = buildCanonicalLiveFeed(publicTeam, attempts, transactions, catalog);
+  const attemptHistory = normalizeAttemptHistory(publicTeam, attempts, CHALLENGE_CATALOG);
+  const progressSummary = buildTeamProgressSummary(publicTeam, attempts, transactions, CHALLENGE_CATALOG);
+  const liveFeed = buildCanonicalLiveFeed(publicTeam, attempts, transactions, CHALLENGE_CATALOG);
   const liveFeedEvents = buildActionLiveFeedEvents({
     teamId: normalizedTeamId,
     actionType,
@@ -1518,7 +1519,6 @@ export const executeTeamAction = async (rawTeamId, actionType, rawPayload = {}, 
       timestamp: creditResult?.transaction?.timestamp || new Date(),
     },
     transactions,
-    catalog,
     creditsConfig: CreditService.getConfig(),
   };
   } finally {

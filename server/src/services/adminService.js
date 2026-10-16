@@ -47,6 +47,16 @@ import { SOCKET_ROOMS } from '../socket/socketEvents.js';
 import {
   getChallengeTimingMultiplier,
   setChallengeTimingMultiplier,
+  getGameTypeTimings,
+  setAllGameTypeTimings,
+  getMaxConsecutiveGames,
+  setMaxConsecutiveGames,
+  getConsecutiveGamesCooldownSeconds,
+  setConsecutiveGamesCooldownSeconds,
+  getConsecutiveGamesCooldownMinutes,
+  setConsecutiveGamesCooldownMinutes,
+  normalizeGameType,
+  GAME_TYPE_LABELS,
 } from '../config/timingConfig.js';
 
 export const SEEDED_ADMIN_OPERATORS = [
@@ -396,7 +406,7 @@ export class AdminService {
   /**
    * Build the full Admin & Volunteer Control System state (Optimized single-wave query)
    */
-  static async getAdminControlState(role = 'ADMIN') {
+  static async getAdminControlState(role = 'ADMIN', { includeChallenges = true } = {}) {
     await ensureDefaultTeamsSeeded();
 
     const [
@@ -410,7 +420,7 @@ export class AdminService {
       volunteers,
     ] = await Promise.all([
       Team.find({ teamId: { $not: /^SIM-TEAM-/ } }).sort({ credits: -1 }).lean(),
-      this.listAllChallengesForAdmin(),
+      includeChallenges ? this.listAllChallengesForAdmin() : Promise.resolve(null),
       ChallengeAttempt.find({ teamId: { $not: /^SIM-TEAM-/ } })
         .sort({ startedAt: -1 })
         .limit(60)
@@ -425,6 +435,7 @@ export class AdminService {
       this.listVolunteers(),
     ]);
 
+    const resolvedChallenges = challenges || CHALLENGE_CATALOG;
     const io = getSocketServer();
     const totalConnectedSockets = io ? io.engine.clientsCount : 0;
 
@@ -454,7 +465,7 @@ export class AdminService {
       const roomName = SOCKET_ROOMS.teamRoom(team.teamId);
       const teamAttempts = attemptsByTeam.get(team.teamId) || [];
       const teamTransactions = txByTeam.get(team.teamId) || [];
-      const history = normalizeAttemptHistory(team, teamAttempts, challenges);
+      const history = normalizeAttemptHistory(team, teamAttempts, resolvedChallenges);
       const activeTimer = ChallengeService.computeSessionTimerTelemetry(team.activeAttempt);
       const coreState = NexusCoreService.computeAuthoritativeState(team, coreDoc);
 
@@ -554,6 +565,11 @@ export class AdminService {
         runtimeSettingsOverride.reattemptMultiplier ?? baseCreditsCfg.reattemptMultiplier,
       arenaAnnouncement: runtimeSettingsOverride.arenaAnnouncement,
       challengeTimingMultiplier: getChallengeTimingMultiplier(),
+      gameTimings: getGameTypeTimings(),
+      maxConsecutiveGames: getMaxConsecutiveGames(),
+      consecutiveGamesCooldownSeconds: getConsecutiveGamesCooldownSeconds(),
+      consecutiveGamesCooldownMinutes: getConsecutiveGamesCooldownMinutes(),
+      gameLabels: GAME_TYPE_LABELS,
     };
 
     const globalCoreState =
@@ -577,6 +593,13 @@ export class AdminService {
           (t) => t.activeAttempt?.status === 'IN_PROGRESS'
         ).length,
         totalConnectedSockets,
+        activeTeamsPerGame: enrichedTeams.reduce((acc, t) => {
+          if (t.activeAttempt?.gameType) {
+            const gt = normalizeGameType(t.activeAttempt.gameType);
+            acc[gt] = (acc[gt] || 0) + 1;
+          }
+          return acc;
+        }, {}),
       },
       globalTimer: computeGlobalArenaTimer(),
       coreStatus: {
@@ -594,7 +617,7 @@ export class AdminService {
       teams: enrichedTeams,
       leaderboard: role === 'ADMIN' ? leaderboard : [],
       volunteers,
-      challenges,
+      challenges: challenges || undefined,
       attempts: enrichedAttempts,
       transactions: transactions.slice(0, 50),
       abilitiesCatalog: abilities,
@@ -1545,10 +1568,25 @@ export class AdminService {
         err.statusCode = 400;
         throw err;
       }
+      const variations = Array.from(
+        new Set([
+          newAnswer,
+          newAnswer.replace(/\s+/g, '-'),
+          newAnswer.replace(/\s+/g, '_'),
+          newAnswer.replace(/[-_]/g, ' '),
+          newAnswer.replace(/[-_]/g, '-'),
+          newAnswer.replace(/[-_]/g, '_'),
+          newAnswer.replace(/[-_\s]/g, ''),
+          `NEXUS{${newAnswer}}`,
+          `NEXUS{${newAnswer.replace(/[-_\s]/g, '')}}`,
+          `FLAG{${newAnswer}}`,
+        ])
+      ).filter(Boolean);
+
       await NexusCoreService.updateCoreConfig({
         solutionConfig: {
           expectedAnswer: newAnswer,
-          acceptedAnswers: [newAnswer, `NEXUS{${newAnswer}}`],
+          acceptedAnswers: variations,
         },
       });
       coreStateUpdated = true;
@@ -1614,8 +1652,20 @@ export class AdminService {
     if (payload.challengeTimingMultiplier !== undefined) {
       setChallengeTimingMultiplier(payload.challengeTimingMultiplier);
     }
+    if (payload.gameTimings && typeof payload.gameTimings === 'object') {
+      setAllGameTypeTimings(payload.gameTimings);
+    }
+    if (payload.maxConsecutiveGames !== undefined) {
+      setMaxConsecutiveGames(payload.maxConsecutiveGames);
+    }
+    if (payload.consecutiveGamesCooldownSeconds !== undefined) {
+      setConsecutiveGamesCooldownSeconds(payload.consecutiveGamesCooldownSeconds);
+    }
+    if (payload.consecutiveGamesCooldownMinutes !== undefined) {
+      setConsecutiveGamesCooldownMinutes(payload.consecutiveGamesCooldownMinutes);
+    }
 
-    const summaryMsg = 'UPDATED GLOBAL ARENA PARAMETERS & CREDIT CONFIGURATION';
+    const summaryMsg = 'UPDATED GLOBAL ARENA PARAMETERS, GAME TIMINGS, COOLDOWN TIMEOUTS & ROTATION LIMITS';
     recordAdminEventLog({
       action: 'UPDATE_SETTINGS',
       category: 'SETTINGS',
@@ -1632,5 +1682,39 @@ export class AdminService {
     }).catch(() => {});
 
     return this.getAdminControlState();
+  }
+
+  /**
+   * Reset all non-simulated team passwords to specified password (e.g. "123")
+   */
+  static async resetAllTeamPasswords(newPlainPassword = '123', actor = 'ADMIN-NEXUS') {
+    await ensureDefaultTeamsSeeded();
+    const cleanPassword = String(newPlainPassword || '123').trim() || '123';
+    const passwordHash = await hashPassword(cleanPassword);
+    const result = await Team.updateMany(
+      { teamId: { $not: /^SIM-TEAM-/ } },
+      { $set: { passwordHash, accessPassword: cleanPassword } }
+    );
+
+    const summary = `RESET ALL TEAMS ACCESS PASSWORD TO "${cleanPassword}" (${result.modifiedCount} teams updated)`;
+    recordAdminEventLog({
+      action: 'RESET_PASSWORDS',
+      category: 'TEAM_MANAGEMENT',
+      actor,
+      summary,
+    });
+
+    await AuditService.record({
+      action: AUDIT_ACTION_TYPES.ADMIN_ACTION,
+      actorType: 'ADMIN',
+      actorId: actor,
+      summary,
+      metadata: { modifiedCount: result.modifiedCount, newPassword: cleanPassword },
+    }).catch(() => {});
+
+    return {
+      modifiedCount: result.modifiedCount,
+      password: cleanPassword,
+    };
   }
 }
