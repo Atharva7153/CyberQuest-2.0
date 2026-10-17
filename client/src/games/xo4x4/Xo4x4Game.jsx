@@ -78,7 +78,12 @@ export const Xo4x4Game = ({
     // AI Turn
     setIsAiThinking(true);
     setTimeout(() => {
-      const aiIndex = chooseAiMove4x4(nextBoard, nextMoves.length, aiTier?.id || challenge?.difficulty);
+      const aiIndex = chooseAiMove4x4(
+        nextBoard,
+        nextMoves.length,
+        aiTier?.id || challenge?.difficulty,
+        roundNumber
+      );
       if (aiIndex >= 0) {
         const afterAiBoard = [...nextBoard];
         afterAiBoard[aiIndex] = 'O';
@@ -129,8 +134,9 @@ export const Xo4x4Game = ({
               AI BLOCKED — TRY AGAIN
             </span>
           ) : isDraw ? (
-            <span className="px-2.5 py-1 bg-nexus-ink text-nexus-paper inline-flex items-center gap-1">
-              GRID DRAW — NEW ROUND
+            <span className="px-2.5 py-1 bg-nexus-ink text-nexus-crimson border border-nexus-crimson inline-flex items-center gap-1 font-bold">
+              <AlertCircle className="w-3.5 h-3.5" />
+              ROUND DRAW — CLICK NEW ROUND
             </span>
           ) : (
             <span className="px-2.5 py-1 bg-nexus-ink text-nexus-paper inline-flex items-center gap-1">
@@ -210,7 +216,7 @@ export const Xo4x4Game = ({
           className="min-h-[48px] px-4 py-2.5 border-2 border-nexus-ink bg-nexus-paper hover:bg-nexus-ink hover:text-nexus-paper font-condensed text-base font-extrabold uppercase tracking-wider flex items-center justify-center gap-2 transition-colors cursor-pointer"
         >
           <RotateCcw className="w-4 h-4 text-nexus-crimson" />
-          <span>{isRoundOver && !isPlayerWin ? 'PLAY NEW ROUND' : 'RESET ROUND'}</span>
+          <span>{isRoundOver && !isPlayerWin ? `PLAY ROUND #${roundNumber + 1}` : 'RESET ROUND'}</span>
         </button>
 
         <button

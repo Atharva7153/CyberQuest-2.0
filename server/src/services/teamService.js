@@ -201,8 +201,79 @@ const buildSeedTeams = () => {
         recentActivity: [],
       },
     },
+    ...DUMMY_TEAMS_CONFIG.map((cfg) => buildDummyTeamSeed(cfg, startingCredits)),
   ];
 };
+
+const DUMMY_TEAMS_CONFIG = [
+  { id: 'DUMMY_01', name: 'Dummy Alpha', lead: 'OPERATIVE GHOST', p2: 'OPERATIVE BLADE', p3: 'OPERATIVE VOLT', p4: 'OPERATIVE ZERO' },
+  { id: 'DUMMY_02', name: 'Dummy Beta', lead: 'OPERATIVE VIPER', p2: 'OPERATIVE SHADOW', p3: 'OPERATIVE APEX', p4: 'OPERATIVE TITAN' },
+  { id: 'DUMMY_03', name: 'Dummy Gamma', lead: 'OPERATIVE ECHO', p2: 'OPERATIVE VECTOR', p3: 'OPERATIVE PULSE', p4: 'OPERATIVE NOVA' },
+  { id: 'DUMMY_04', name: 'Dummy Delta', lead: 'OPERATIVE RAVEN', p2: 'OPERATIVE FRACTURE', p3: 'OPERATIVE SPECTRUM', p4: 'OPERATIVE MIRAGE' },
+  { id: 'DUMMY_05', name: 'Dummy Omega', lead: 'OPERATIVE CYBORG', p2: 'OPERATIVE QUANTUM', p3: 'OPERATIVE GLITCH', p4: 'OPERATIVE ZERO-ONE' },
+  { id: 'DUMMY_06', name: 'Dummy Sigma', lead: 'OPERATIVE BLADE', p2: 'OPERATIVE STRIKE', p3: 'OPERATIVE FURY', p4: 'OPERATIVE DRIFT' },
+  { id: 'DUMMY_07', name: 'Dummy Zeta', lead: 'OPERATIVE SHADOW', p2: 'OPERATIVE PHANTOM', p3: 'OPERATIVE REAPER', p4: 'OPERATIVE WRAITH' },
+  { id: 'DUMMY_08', name: 'Dummy Theta', lead: 'OPERATIVE VOLT', p2: 'OPERATIVE SURGE', p3: 'OPERATIVE SPARK', p4: 'OPERATIVE DYNAMO' },
+  { id: 'DUMMY_09', name: 'Dummy Epsilon', lead: 'OPERATIVE APEX', p2: 'OPERATIVE ZENITH', p3: 'OPERATIVE PEAK', p4: 'OPERATIVE SUMMIT' },
+  { id: 'DUMMY_10', name: 'Dummy Kappa', lead: 'OPERATIVE TITAN', p2: 'OPERATIVE GOLIATH', p3: 'OPERATIVE COLOSSUS', p4: 'OPERATIVE JUGGERNAUT' },
+  { id: 'DUMMY_11', name: 'Dummy Lambda', lead: 'OPERATIVE PULSE', p2: 'OPERATIVE BEAT', p3: 'OPERATIVE RHYTHM', p4: 'OPERATIVE SYNAPSE' },
+  { id: 'DUMMY_12', name: 'Dummy Rho', lead: 'OPERATIVE MIRAGE', p2: 'OPERATIVE ILLUSION', p3: 'OPERATIVE VISION', p4: 'OPERATIVE CLOAK' },
+  { id: 'DUMMY_13', name: 'Dummy Tau', lead: 'OPERATIVE GLITCH', p2: 'OPERATIVE BUG', p3: 'OPERATIVE EXPLOIT', p4: 'OPERATIVE CIPHER' },
+  { id: 'DUMMY_14', name: 'Dummy Psi', lead: 'OPERATIVE SPECTRUM', p2: 'OPERATIVE PRISM', p3: 'OPERATIVE OPTIC', p4: 'OPERATIVE BEAM' },
+];
+
+const buildDummyTeamSeed = (cfg, startingCredits) => ({
+  teamId: cfg.id,
+  teamName: cfg.name,
+  plainPassword: 'DUMMY_123',
+  credits: startingCredits,
+  status: 'ACTIVE',
+  members: [
+    { memberId: 'OP-01', name: `${cfg.lead} (LEAD)`, role: 'COMMAND', online: false },
+    { memberId: 'OP-02', name: cfg.p2, role: 'CRYPTANALYST', online: false },
+    { memberId: 'OP-03', name: cfg.p3, role: 'SYSTEMS RECON', online: false },
+    { memberId: 'OP-04', name: cfg.p4, role: 'STRATEGIST', online: false },
+  ],
+  currentChallenge: null,
+  purchasedChallenges: [],
+  activeAttempt: null,
+  completedChallenges: [],
+  failedChallenges: [],
+  abilities: DEFAULT_ABILITIES,
+  nexusCore: {
+    state: 'LOCKED',
+    unlockedAt: null,
+    activatedAt: null,
+    completedAt: null,
+    attemptsCount: 0,
+    completionRank: null,
+    proclamationCode: null,
+  },
+  stats: {
+    totalSolved: 0,
+    totalFailed: 0,
+    creditsEarned: startingCredits,
+    creditsSpent: 0,
+    penaltiesIncurred: 0,
+    reattemptsCount: 0,
+    hintsPurchased: 0,
+    extraTimePurchased: 0,
+    abilitiesUsed: 0,
+    riskProfile: 'BALANCED',
+    safeAttempts: 0,
+    balancedAttempts: 0,
+    aggressiveAttempts: 0,
+    successByRisk: { SAFE: 0, BALANCED: 0, AGGRESSIVE: 0 },
+    creditsByRisk: {
+      SAFE: { gained: 0, lost: 0, net: 0 },
+      BALANCED: { gained: 0, lost: 0, net: 0 },
+      AGGRESSIVE: { gained: 0, lost: 0, net: 0 },
+    },
+    coreProgressPercent: 0,
+    lastActionAt: new Date(),
+    recentActivity: [],
+  },
+});
 
 let teamsSeeded = false;
 let teamsSeedPromise = null;

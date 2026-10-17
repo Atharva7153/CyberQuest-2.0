@@ -75,17 +75,34 @@ docker run -d \
 
 ## 🔑 Credentials & Team Logins
 
-### Competition Teams (`/login`)
-All **51 competition teams** from `teams.csv` are automatically seeded into MongoDB on first boot!
-Examples:
+### Competition & Dummy Teams (`/login`)
+All **65 teams** from `teams.csv` are automatically seeded into MongoDB on first boot!
+Examples of competition teams:
 - **Team Haze.exe**: ID: `haze_exe` (or `HAZE_EXE`) | Password: `vR8yK2mP9x` | Lead: `Aiman Fatema Khwaja`
 - **Team Project Singularity**: ID: `project_singularity` | Password: `qT6xW9nL2v` | Lead: `Ashwani Mishra`
 - **Team Glitched**: ID: `glitched` | Password: `zN4mK8pQ7w` | Lead: `Syed Danish Ahmed`
 - **Team Quest Raiders**: ID: `quest_raiders` | Password: `rP9vX2tK5m` | Lead: `Nilabh Jagtap`
 - **Team Meridian**: ID: `meridian` | Password: `wL3nQ7xT9p` | Lead: `Varad Pathrikar`
-*(See `teams.csv` for the full roster of all 51 teams and their passwords).*
+*(See `teams.csv` for the full roster of all 65 teams).*
 
-### Default Seed Teams
+### 14 Dummy Teams (4 Players Each)
+All dummy teams use `_` (underscore) and password `DUMMY_123`:
+- **Dummy Alpha**: ID: `dummy_01` | Password: `DUMMY_123`
+- **Dummy Beta**: ID: `dummy_02` | Password: `DUMMY_123`
+- **Dummy Gamma**: ID: `dummy_03` | Password: `DUMMY_123`
+- **Dummy Delta**: ID: `dummy_04` | Password: `DUMMY_123`
+- **Dummy Omega**: ID: `dummy_05` | Password: `DUMMY_123`
+- **Dummy Sigma**: ID: `dummy_06` | Password: `DUMMY_123`
+- **Dummy Zeta**: ID: `dummy_07` | Password: `DUMMY_123`
+- **Dummy Theta**: ID: `dummy_08` | Password: `DUMMY_123`
+- **Dummy Epsilon**: ID: `dummy_09` | Password: `DUMMY_123`
+- **Dummy Kappa**: ID: `dummy_10` | Password: `DUMMY_123`
+- **Dummy Lambda**: ID: `dummy_11` | Password: `DUMMY_123`
+- **Dummy Rho**: ID: `dummy_12` | Password: `DUMMY_123`
+- **Dummy Tau**: ID: `dummy_13` | Password: `DUMMY_123`
+- **Dummy Psi**: ID: `dummy_14` | Password: `DUMMY_123`
+
+### Default Core Teams
 - **Team CIPHER**: Team ID: `TEAM-CIPHER` | Password: `NEXUS-2026`
 - **Team VANGUARD**: Team ID: `TEAM-VANGUARD` | Password: `NEXUS-2026`
 

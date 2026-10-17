@@ -229,12 +229,17 @@ const scoreXo4x4Move = (board, move, aiToken = 'O', playerToken = 'X', tier = 'R
 
 /**
  * AI move selector for 4x4 Tic-Tac-Toe:
- * - NOOB (LOW): Casual beginner AI (~90-95% player win rate).
- * - ROOKIE (MODERATE): Takes immediate wins, blocks obvious lines, plays for its own lines (~60% player win rate).
- * - SMART (HIGH): Attacks aggressively, blocks threats with 88-90% accuracy, beatable via forks (~50% player win rate).
- * - PRO (EXTREME): Strategic attack, detects forks, blocks threats with 95% accuracy, beatable by skilled tactical play (~45-50% player win rate).
+ * - NOOB (LOW): Casual play, rarely blocks (~90-95% player win rate).
+ * - ROOKIE (MODERATE): Plays for own lines, blocks obvious lines moderately (~70-75% player win rate).
+ * - SMART (HIGH): Attacks its own line, blocks threats fairly (~50-60% player win rate).
+ * - PRO (EXTREME): Strategic line attack, blocks high threats (~35-45% player win rate, >90% win within 2-3 rounds).
  */
-export const chooseAiMove4x4 = (board, moveCountOrDifficulty = 0, difficultyOrSkill = 'LOW') => {
+export const chooseAiMove4x4 = (
+  board,
+  moveCountOrDifficulty = 0,
+  difficultyOrSkill = 'LOW',
+  roundNumber = 1
+) => {
   let moveCount = 0;
   let difficulty = 'LOW';
   if (typeof moveCountOrDifficulty === 'string') {
@@ -254,7 +259,7 @@ export const chooseAiMove4x4 = (board, moveCountOrDifficulty = 0, difficultyOrSk
   const aiTier = resolveXo4x4AiTier(difficulty);
   const tier = aiTier.id;
 
-  // 1. RULE 1: If AI can complete 4-in-a-row, TAKE IT IMMEDIATELY!
+  // 1. RULE 1: If AI can complete 4-in-a-row, TAKE IT!
   for (const idx of emptyIndices) {
     const copy = [...board];
     copy[idx] = 'O';
@@ -263,7 +268,7 @@ export const chooseAiMove4x4 = (board, moveCountOrDifficulty = 0, difficultyOrSk
     }
   }
 
-  // 2. RULE 2: If Player ('X') has an immediate 4-in-a-row threat, BLOCK IT!
+  // 2. RULE 2: If Player ('X') has an immediate 4-in-a-row threat (3 in a line), block it fairly!
   const playerWins = [];
   for (const m of emptyIndices) {
     const copy = [...board];
@@ -277,15 +282,20 @@ export const chooseAiMove4x4 = (board, moveCountOrDifficulty = 0, difficultyOrSk
   }
 
   if (playerWins.length > 0) {
-    const threat = playerWins[Math.floor(Math.random() * playerWins.length)];
-    const blockRate = {
-      NOOB: threat.isDiag ? 0.20 : 0.40,
-      ROOKIE: threat.isDiag ? 0.50 : 0.75,
-      SMART: threat.isDiag ? 0.75 : 0.90,
-      PRO: threat.isDiag ? 0.88 : 0.96,
-    }[tier] || 0.8;
+    let blockRate = {
+      NOOB: 0.15,
+      ROOKIE: 0.40,
+      SMART: 0.55,
+      PRO: 0.70,
+    }[tier] || 0.45;
+
+    // Adaptive relaxation if the player is in round 2 or higher
+    if (roundNumber >= 2) blockRate -= 0.15;
+    if (roundNumber >= 3) blockRate -= 0.15;
+    blockRate = Math.max(0.10, blockRate);
 
     if (Math.random() < blockRate) {
+      const threat = playerWins[Math.floor(Math.random() * playerWins.length)];
       return threat.index;
     }
   }
@@ -299,35 +309,39 @@ export const chooseAiMove4x4 = (board, moveCountOrDifficulty = 0, difficultyOrSk
     return emptyIndices[(moveCount) % emptyIndices.length];
   }
 
-  // 4. SMART & PRO Fork Detection: Preemptively contest key pivot cells
-  if (tier === 'SMART' || tier === 'PRO') {
-    const forkContestRate = tier === 'PRO' ? 0.40 : 0.20;
-    if (Math.random() < forkContestRate) {
-      for (const pMove of emptyIndices) {
-        const copy = [...board];
-        copy[pMove] = 'X';
-        let threats = 0;
-        for (const m of emptyIndices) {
-          if (m === pMove) continue;
-          copy[m] = 'X';
-          if (evaluateXo4x4Board(copy).winner === 'X') threats++;
-          copy[m] = '';
-        }
-        if (threats >= 2) {
-          return pMove;
-        }
-      }
+  // 4. Line-focused attack: AI seeks to complete its OWN row, column, or diagonal
+  // (Crucial: This leaves the other lines open for the player to build 4-in-a-row!)
+  let bestLine = null;
+  let maxOCount = -1;
+  for (const line of XO4X4_WIN_LINES) {
+    const vals = line.map((i) => board[i]);
+    if (vals.includes('X') || vals.includes('#')) continue; // line blocked for O
+    const oCount = vals.filter((v) => v === 'O').length;
+    if (oCount > maxOCount) {
+      maxOCount = oCount;
+      bestLine = line;
     }
   }
 
-  // 5. Offensive move evaluation
+  if (bestLine) {
+    const lineEmpties = bestLine.filter((i) => board[i] === '');
+    if (lineEmpties.length > 0) {
+      return lineEmpties[Math.floor(Math.random() * lineEmpties.length)];
+    }
+  }
+
+  // 5. Positional fallback with noise
   let bestScore = -Infinity;
   let bestMove = emptyIndices[0];
-  const noise = { ROOKIE: 12, SMART: 8, PRO: 4 }[tier] || 6;
+  const noise = { ROOKIE: 16, SMART: 10, PRO: 6 }[tier] || 8;
 
   for (const m of emptyIndices) {
     const copy = [...board];
-    const s = scoreXo4x4Move(copy, m, 'O', 'X', tier) + (Math.random() * noise - noise / 2);
+    let s = 0;
+    if ([5, 6, 9, 10].includes(m)) s += (tier === 'PRO' ? 12 : 6);
+    else if ([0, 3, 12, 15].includes(m)) s += 4;
+    s += (Math.random() * noise - noise / 2);
+
     if (s > bestScore) {
       bestScore = s;
       bestMove = m;
