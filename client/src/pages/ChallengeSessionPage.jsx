@@ -190,48 +190,6 @@ export const ChallengeSessionPage = () => {
 
   const isThisChallengeActive = Boolean(activeAttempt);
 
-  // Tab-switch Anti-Cheat detection
-  const [tabViolations, setTabViolations] = useState(0);
-  const [isTabMasked, setIsTabMasked] = useState(false);
-  const [showTabWarningModal, setShowTabWarningModal] = useState(false);
-
-  useEffect(() => {
-    if (!isThisChallengeActive || isAttemptAlreadySubmitted) {
-      setIsTabMasked(false);
-      return undefined;
-    }
-
-    const handleVisibilityChange = () => {
-      if (document.visibilityState === 'hidden') {
-        setIsTabMasked(true);
-        setTabViolations((prev) => prev + 1);
-      } else if (document.visibilityState === 'visible') {
-        setIsTabMasked(false);
-        setShowTabWarningModal(true);
-      }
-    };
-
-    const handleWindowBlur = () => {
-      if (document.visibilityState === 'hidden') return;
-      setIsTabMasked(true);
-      setTabViolations((prev) => prev + 1);
-    };
-
-    const handleWindowFocus = () => {
-      setIsTabMasked(false);
-      setShowTabWarningModal(true);
-    };
-
-    document.addEventListener('visibilitychange', handleVisibilityChange);
-    window.addEventListener('blur', handleWindowBlur);
-    window.addEventListener('focus', handleWindowFocus);
-
-    return () => {
-      document.removeEventListener('visibilitychange', handleVisibilityChange);
-      window.removeEventListener('blur', handleWindowBlur);
-      window.removeEventListener('focus', handleWindowFocus);
-    };
-  }, [isThisChallengeActive, isAttemptAlreadySubmitted]);
 
   const pageEvaluationResult =
     lastEvaluationResult &&
@@ -1122,44 +1080,6 @@ export const ChallengeSessionPage = () => {
         })()}
       </AnimatePresence>
 
-      {/* Tab Switch Overlay when masked */}
-      {isTabMasked && (
-        <div className="fixed inset-0 z-50 bg-black/95 backdrop-blur-xl flex flex-col items-center justify-center p-6 text-center select-none">
-          <ShieldAlert className="w-16 h-16 text-nexus-crimson animate-pulse mb-4" />
-          <h2 className="font-display text-2xl sm:text-3xl uppercase tracking-wider text-white">
-            ANTI-CHEAT PROTOCOL ENGAGED // SESSION MASKED
-          </h2>
-          <p className="font-mono text-xs sm:text-sm text-nexus-paper/70 mt-2 max-w-md uppercase tracking-wider">
-            Leaving the active terminal window is strictly prohibited. External AI tools and browser multitasking are monitored. Return immediately.
-          </p>
-        </div>
-      )}
-
-      {/* Tab Switch Warning Modal */}
-      {showTabWarningModal && (
-        <div className="fixed inset-0 z-50 bg-black/80 flex items-center justify-center p-4">
-          <div className="bg-nexus-ink border-4 border-nexus-crimson p-6 max-w-md w-full shadow-[8px_8px_0_#e11d2e] text-nexus-paper space-y-4">
-            <div className="flex items-center gap-2 text-nexus-crimson font-bold uppercase tracking-wider font-mono text-sm">
-              <ShieldAlert className="w-5 h-5 shrink-0" />
-              <span>SECURITY WARNING: TAB SWITCH DETECTED</span>
-            </div>
-            <p className="font-mono text-xs text-white/90 leading-relaxed">
-              You switched away from the active CyberQuest challenge terminal.
-              <strong className="block text-nexus-crimson mt-1.5 font-bold">
-                Violation Strike #{tabViolations}: Browser multitasking or external mobile AI assistance is strictly monitored.
-              </strong>
-              All infractions are logged to NEXUS Core and may result in penalties or disqualification.
-            </p>
-            <button
-              type="button"
-              onClick={() => setShowTabWarningModal(false)}
-              className="w-full py-3 bg-nexus-crimson hover:bg-red-600 text-white font-condensed font-extrabold text-base uppercase tracking-widest border-2 border-white transition-colors cursor-pointer"
-            >
-              ACKNOWLEDGE & RETURN TO PUZZLE
-            </button>
-          </div>
-        </div>
-      )}
     </div>
   );
 };

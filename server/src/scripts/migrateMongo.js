@@ -42,12 +42,16 @@ async function runMigration() {
     }
 
     const targetCol = targetConn.db.collection(colName);
-    let upserted = 0;
-    for (const doc of docs) {
-      await targetCol.replaceOne({ _id: doc._id }, doc, { upsert: true });
-      upserted++;
+    // Clear target collection first to avoid duplicate key errors from stale local seeds
+    await targetCol.deleteMany({});
+
+    // Bulk insert in batches of 500
+    const CHUNK_SIZE = 500;
+    for (let i = 0; i < docs.length; i += CHUNK_SIZE) {
+      const chunk = docs.slice(i, i + CHUNK_SIZE);
+      await targetCol.insertMany(chunk, { ordered: false });
     }
-    console.log(` - [${colName}]: Copied ${upserted} documents`);
+    console.log(` - [${colName}]: Copied ${docs.length} documents`);
   }
 
   await sourceConn.close();
