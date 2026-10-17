@@ -13,8 +13,16 @@ export const CREDIT_TRANSACTION_TYPES = Object.freeze({
   REATTEMPT: 'REATTEMPT',
 });
 
+let runtimeStartingCreditsOverride = null;
+
+export const setRuntimeStartingCredits = (credits) => {
+  if (credits !== undefined && credits !== null) {
+    runtimeStartingCreditsOverride = Math.max(0, Number(credits));
+  }
+};
+
 export const creditsConfig = {
-  getStartingCredits: () => env.startingCredits,
+  getStartingCredits: () => runtimeStartingCreditsOverride ?? env.startingCredits,
   getHintCost: () => env.hintCost,
   getExtraTimeCost: () => env.extraTimeCost,
   getExtraTimeMinutes: () => 5,

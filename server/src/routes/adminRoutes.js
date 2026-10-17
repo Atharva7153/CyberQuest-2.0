@@ -17,6 +17,8 @@ import {
   createAdminVolunteer,
   deleteAdminVolunteer,
   resetAllTeamPasswords,
+  bulkSetTeamCredits,
+  bulkAddTeamCredits,
 } from '../controllers/adminController.js';
 
 const adminRouter = Router();
@@ -39,6 +41,8 @@ adminRouter.delete(
 );
 adminRouter.post('/teams/register', protectAdminRoute, requireAdminOnly, registerAdminTeam);
 adminRouter.post('/teams/action', protectAdminRoute, requireAdminOnly, executeAdminTeamAction);
+adminRouter.post('/teams/bulk-set-credits', protectAdminRoute, requireAdminOnly, bulkSetTeamCredits);
+adminRouter.post('/teams/bulk-add-credits', protectAdminRoute, requireAdminOnly, bulkAddTeamCredits);
 adminRouter.post('/teams/reset-all-passwords', protectAdminRoute, requireAdminOnly, resetAllTeamPasswords);
 adminRouter.post('/challenges', protectAdminRoute, requireAdminOnly, upsertAdminChallenge);
 adminRouter.patch(

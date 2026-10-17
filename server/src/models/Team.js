@@ -207,6 +207,16 @@ const teamSchema = new mongoose.Schema(
       default: 'NEXUS-2026',
       trim: true,
     },
+    email: {
+      type: String,
+      default: null,
+      trim: true,
+    },
+    leadName: {
+      type: String,
+      default: null,
+      trim: true,
+    },
     members: {
       type: [teamMemberSchema],
       default: [],
@@ -275,6 +285,7 @@ const teamSchema = new mongoose.Schema(
   },
   {
     timestamps: true,
+    versionKey: false,
     collection: 'teams',
   }
 );

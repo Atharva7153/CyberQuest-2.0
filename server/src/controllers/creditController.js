@@ -38,7 +38,6 @@ export const postCreditTransaction = async (req, res, next) => {
       transaction: result.transaction,
       transactions: result.transactions,
       event: result.event,
-      catalog: result.catalog,
       creditsConfig: result.creditsConfig,
     });
 

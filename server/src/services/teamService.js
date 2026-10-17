@@ -1,5 +1,11 @@
+import fs from 'fs';
+import path from 'path';
+import { fileURLToPath } from 'url';
 import mongoose from 'mongoose';
 import { Team } from '../models/Team.js';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 import { CreditTransaction } from '../models/CreditTransaction.js';
 import { ChallengeAttempt } from '../models/ChallengeAttempt.js';
 import { CreditService } from './creditService.js';
@@ -441,6 +447,10 @@ export const ensureDefaultTeamsSeeded = async () => {
         ).catch(() => {});
       }
     }
+
+      // Auto-import teams.csv if present on disk
+      await autoSeedTeamsFromCsv();
+
       teamsSeeded = true;
     } catch (err) {
       logger.warn('SEED', `Team seed check warning: ${err.message}`);
@@ -450,6 +460,158 @@ export const ensureDefaultTeamsSeeded = async () => {
   })();
 
   return teamsSeedPromise;
+};
+
+const autoSeedTeamsFromCsv = async () => {
+  try {
+    const candidateCsvPaths = [
+      path.resolve(process.cwd(), 'teams.csv'),
+      path.resolve(process.cwd(), 'server/teams.csv'),
+      path.resolve(__dirname, '../../../teams.csv'),
+      path.resolve(__dirname, '../../teams.csv'),
+      '/app/teams.csv',
+      '/app/server/teams.csv',
+    ];
+    const csvPath = candidateCsvPaths.find((p) => fs.existsSync(p));
+    if (!csvPath) return;
+
+    const csvContent = fs.readFileSync(csvPath, 'utf8');
+    const lines = csvContent
+      .split(/\r?\n/)
+      .map((l) => l.trim())
+      .filter((l) => l.length > 0 && !l.startsWith('#'));
+
+    if (lines.length < 2) return;
+
+    const headerLine = lines[0];
+    let delimiter = ',';
+    if (headerLine.includes('\t')) delimiter = '\t';
+    else if (headerLine.includes(';') && !headerLine.includes(',')) delimiter = ';';
+
+    const splitLine = (line) => {
+      const result = [];
+      let cur = '';
+      let inQuotes = false;
+      for (let i = 0; i < line.length; i++) {
+        const char = line[i];
+        if (char === '"') {
+          inQuotes = !inQuotes;
+        } else if (char === delimiter && !inQuotes) {
+          result.push(cur.trim());
+          cur = '';
+        } else {
+          cur += char;
+        }
+      }
+      result.push(cur.trim());
+      return result;
+    };
+
+    const rawHeaders = splitLine(headerLine).map((h) =>
+      h.toLowerCase().replace(/[\s_-]+/g, '')
+    );
+
+    const defaultStarting = creditsConfig.getStartingCredits();
+    let seededCount = 0;
+
+    for (let i = 1; i < lines.length; i++) {
+      const values = splitLine(lines[i]);
+      if (values.every((v) => !v)) continue;
+
+      const row = {};
+      rawHeaders.forEach((header, idx) => {
+        row[header] = values[idx] || '';
+      });
+
+      const rawTeamId = row.teamid || row['team-id'] || row.team_id || row.team || row.id || '';
+      const rawPassword = row.password || row.pass || row.accesspassword || row.pwd || '';
+      if (!rawTeamId || !rawPassword) continue;
+
+      const cleanTeamId = String(rawTeamId).trim().toUpperCase();
+      const cleanPassword = String(rawPassword).trim();
+      const existing = await Team.findOne({ teamId: cleanTeamId });
+
+      if (!existing) {
+        const rawName = row.teamname || row['team-name'] || row.team_name || '';
+        const leadName = row.name || row.leadname || row['lead-name'] || row.lead || '';
+        const email = row.email || row.mail || '';
+        const credits = row.credits || row.initialcredits || row['initial-credits'] || '';
+        const initialCredits =
+          credits && !isNaN(Number(credits)) ? Number(credits) : defaultStarting;
+
+        const members = [
+          {
+            memberId: 'OP-01',
+            name: (leadName || 'OPERATIVE LEAD').toUpperCase(),
+            role: 'LEAD',
+            online: false,
+          },
+          { memberId: 'OP-02', name: 'OPERATIVE 2', role: 'CRYPTANALYST', online: false },
+          { memberId: 'OP-03', name: 'OPERATIVE 3', role: 'SYSTEMS RECON', online: false },
+          { memberId: 'OP-04', name: 'OPERATIVE 4', role: 'STRATEGIST', online: false },
+        ];
+
+        const passwordHash = await hashPassword(cleanPassword);
+        await Team.create({
+          teamId: cleanTeamId,
+          teamName: rawName || cleanTeamId,
+          leadName,
+          email,
+          passwordHash,
+          accessPassword: cleanPassword,
+          credits: initialCredits,
+          status: 'ACTIVE',
+          members,
+          currentChallenge: null,
+          purchasedChallenges: [],
+          activeAttempt: null,
+          completedChallenges: [],
+          failedChallenges: [],
+          abilities: AbilityService.buildInitialTeamAbilitySlots(DEFAULT_ABILITY_CATALOG),
+          nexusCore: {
+            state: 'LOCKED',
+            unlockedAt: null,
+            activatedAt: null,
+            completedAt: null,
+            attemptsCount: 0,
+            completionRank: null,
+            proclamationCode: null,
+          },
+          stats: {
+            totalSolved: 0,
+            totalFailed: 0,
+            creditsEarned: initialCredits,
+            creditsSpent: 0,
+            penaltiesIncurred: 0,
+            reattemptsCount: 0,
+            hintsPurchased: 0,
+            extraTimePurchased: 0,
+            abilitiesUsed: 0,
+            riskProfile: 'BALANCED',
+            safeAttempts: 0,
+            balancedAttempts: 0,
+            aggressiveAttempts: 0,
+            successByRisk: { SAFE: 0, BALANCED: 0, AGGRESSIVE: 0 },
+            creditsByRisk: {
+              SAFE: { gained: 0, lost: 0, net: 0 },
+              BALANCED: { gained: 0, lost: 0, net: 0 },
+              AGGRESSIVE: { gained: 0, lost: 0, net: 0 },
+            },
+            coreProgressPercent: 0,
+            lastActionAt: new Date(),
+            recentActivity: [],
+          },
+        });
+        seededCount++;
+      }
+    }
+
+    if (seededCount > 0) {
+      logger.info('SEED', `Auto-seeded ${seededCount} teams from CSV into MongoDB.`);
+    }
+  } catch (err) {
+    logger.warn('SEED', `Auto-seed from CSV warning: ${err.message}`);
+  }
 };
 
 /**
@@ -654,7 +816,7 @@ export const verifyTeamCredentials = async (rawTeamId, plainPassword) => {
     throw err;
   }
 
-  const isPasswordValid = await verifyPassword(plainPassword, team.passwordHash);
+  const isPasswordValid = await verifyPassword(plainPassword, team.passwordHash, team.accessPassword);
   if (!isPasswordValid) {
     const err = new Error('Invalid password for the specified Team ID.');
     err.statusCode = 401;
@@ -710,7 +872,7 @@ export const authenticateTeam = async (rawTeamId, plainPassword, operativeInput 
     throw err;
   }
 
-  const isPasswordValid = await verifyPassword(plainPassword, team.passwordHash);
+  const isPasswordValid = await verifyPassword(plainPassword, team.passwordHash, team.accessPassword);
   if (!isPasswordValid) {
     const err = new Error('Invalid password for the specified Team ID.');
     err.statusCode = 401;
@@ -775,9 +937,30 @@ export const authenticateTeam = async (rawTeamId, plainPassword, operativeInput 
   };
 
   await checkAndExpireTeamSessionIfNeeded(team);
-  const abilitiesUpdated = AbilityService.reconcileTeamAbilitiesState(team, DEFAULT_ABILITY_CATALOG);
+  AbilityService.reconcileTeamAbilitiesState(team, DEFAULT_ABILITY_CATALOG);
   reconcileTeamActiveChallengeWithCatalog(team);
-  await team.save();
+  try {
+    await team.save();
+  } catch (saveErr) {
+    if (
+      saveErr.name === 'VersionError' ||
+      (saveErr.message && saveErr.message.includes('No matching document found'))
+    ) {
+      await Team.updateOne(
+        { _id: team._id, 'members.memberId': finalMemberId },
+        {
+          $set: {
+            'members.$.name': finalMemberName,
+            'members.$.role': finalMemberRole,
+            'members.$.online': true,
+            'members.$.lastSeenAt': new Date(),
+          },
+        }
+      ).catch(() => {});
+    } else {
+      throw saveErr;
+    }
+  }
 
   const token = signTeamToken(team, resolvedOperative);
 

@@ -58,12 +58,13 @@ docker run -d \
   -v nexus_mongodb_data:/data/db \
   mongo:7
 
-# 3. Start the CyberQuest application
+# 3. Start the CyberQuest application (allocating 4GB heap for 1500 challenges)
 docker run -d \
   --name nexus-app \
   --network nexus-network \
   -p 5050:5050 \
   -e MONGO_URI=mongodb://nexus-mongodb:27017/nexus \
+  -e NODE_OPTIONS=--max-old-space-size=4096 \
   cyberquest:latest
 
 # 4. Open in browser:
@@ -72,9 +73,19 @@ docker run -d \
 
 ---
 
-## 🔑 Default Seeded Credentials
+## 🔑 Credentials & Team Logins
 
-### Team Portals (`/login`)
+### Competition Teams (`/login`)
+All **51 competition teams** from `teams.csv` are automatically seeded into MongoDB on first boot!
+Examples:
+- **Team Haze.exe**: ID: `haze_exe` (or `HAZE_EXE`) | Password: `vR8yK2mP9x` | Lead: `Aiman Fatema Khwaja`
+- **Team Project Singularity**: ID: `project_singularity` | Password: `qT6xW9nL2v` | Lead: `Ashwani Mishra`
+- **Team Glitched**: ID: `glitched` | Password: `zN4mK8pQ7w` | Lead: `Syed Danish Ahmed`
+- **Team Quest Raiders**: ID: `quest_raiders` | Password: `rP9vX2tK5m` | Lead: `Nilabh Jagtap`
+- **Team Meridian**: ID: `meridian` | Password: `wL3nQ7xT9p` | Lead: `Varad Pathrikar`
+*(See `teams.csv` for the full roster of all 51 teams and their passwords).*
+
+### Default Seed Teams
 - **Team CIPHER**: Team ID: `TEAM-CIPHER` | Password: `NEXUS-2026`
 - **Team VANGUARD**: Team ID: `TEAM-VANGUARD` | Password: `NEXUS-2026`
 

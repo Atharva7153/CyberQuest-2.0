@@ -150,11 +150,8 @@ export const ensureDefaultChallengesSeeded = async () => {
         challengeId: { $in: validIds },
       });
 
-      // Disable any outdated challenges not present in the 3000 catalog
-      await Challenge.updateMany(
-        { challengeId: { $nin: validIds } },
-        { $set: { enabled: false, available: false } }
-      );
+      // Remove any outdated challenges not present in the 1500 catalog
+      await Challenge.deleteMany({ challengeId: { $nin: validIds } });
 
       if (existingCount >= DEFAULT_CHALLENGE_CATALOG.length) {
         challengesSeeded = true;

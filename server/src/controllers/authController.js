@@ -100,7 +100,6 @@ export const loginTeam = async (req, res, next) => {
       timer,
       globalTimer: globalTimer || computeGlobalArenaTimer(),
       serverTime: serverTime || new Date().toISOString(),
-      catalog: catalog || CHALLENGE_CATALOG,
       creditsConfig,
     });
 
@@ -359,7 +358,6 @@ export const postTeamAction = async (req, res, next) => {
       serverTime: result.serverTime,
       transactions: result.transactions,
       event: result.event,
-      catalog: result.catalog,
       creditsConfig: result.creditsConfig,
     });
 

@@ -193,6 +193,10 @@ export const AdminControlPage = () => {
   const [volPassword, setVolPassword] = useState('NEXUS-VOL-2026');
   const [volSector, setVolSector] = useState('FLOOR-1');
 
+  // Universal Arena Credits state (optimized for 300+ players)
+  const [bulkSetCreditsInput, setBulkSetCreditsInput] = useState(3000);
+  const [bulkAddCreditsInput, setBulkAddCreditsInput] = useState(500);
+
   // Team Search, Filter & Quick Edit state
   const [teamSearch, setTeamSearch] = useState('');
   const [teamFilter, setTeamFilter] = useState('ALL');
@@ -864,13 +868,55 @@ export const AdminControlPage = () => {
     );
   };
 
-  // Reset all squad passwords to "123" (Admin only)
-  const handleResetAllPasswords = async () => {
+  // Bulk Set All Teams Credits & Default Credits (e.g. 3000 CR)
+  const handleBulkSetCredits = async (targetCredits) => {
+    const cr = Math.max(0, Math.floor(Number(targetCredits ?? bulkSetCreditsInput) || 0));
     if (
       !window.confirm(
-        'SECURITY OVERRIDE: Reset ALL team access passwords to "123"? All squads will be able to log in with password "123".'
+        `ARENA OVERRIDE: Set ALL squads balance to ${cr.toLocaleString()} CR and update default starting credits to ${cr.toLocaleString()} CR?`
       )
     ) {
+      return;
+    }
+    await executeAdminApi(
+      '/api/admin/teams/bulk-set-credits',
+      'POST',
+      { credits: cr },
+      {
+        key: 'bulk-set-credits',
+        successMessage: `Updated ALL squad balances & default credits to ${cr.toLocaleString()} CR`,
+      }
+    );
+  };
+
+  // Bulk Add Bonus Credits to All Teams (e.g. +500 CR)
+  const handleBulkAddCredits = async (amountToAdd) => {
+    const amt = Math.floor(Number(amountToAdd ?? bulkAddCreditsInput) || 0);
+    if (amt === 0) return;
+    if (
+      !window.confirm(
+        `ARENA BOOST: Instantly grant ${amt >= 0 ? '+' : ''}${amt.toLocaleString()} CR to ALL squads?`
+      )
+    ) {
+      return;
+    }
+    await executeAdminApi(
+      '/api/admin/teams/bulk-add-credits',
+      'POST',
+      { amount: amt },
+      {
+        key: 'bulk-add-credits',
+        successMessage: `Granted ${amt >= 0 ? '+' : ''}${amt.toLocaleString()} CR to ALL squads`,
+      }
+    );
+  };
+
+  // Reset all squad passwords to "123" (Admin only with strict confirmation)
+  const handleResetAllPasswords = async () => {
+    const typed = window.prompt(
+      'SECURITY OVERRIDE WARNING: This will overwrite ALL team passwords with "123"!\n\nType "RESET" to confirm:'
+    );
+    if (typed !== 'RESET') {
       return;
     }
     await executeAdminApi(
@@ -1837,6 +1883,149 @@ export const AdminControlPage = () => {
            ======================================================================= */}
         {activeTabId === 'teams' && (
           <div className="space-y-5">
+            {/* Universal Arena Credits Controller (Optimized for 300+ Players) */}
+            {!isVolunteer && (
+              <section className="bg-white border-2 border-[#111111] shadow-[4px_4px_0px_#111111] p-4 sm:p-5 font-mono text-xs">
+                <div className="flex flex-col md:flex-row md:items-center justify-between gap-3 pb-3 border-b border-neutral-200">
+                  <div className="flex items-center gap-2.5">
+                    <Coins className="w-5 h-5 text-amber-500" />
+                    <div>
+                      <h2 className="font-display text-lg uppercase tracking-wide text-[#111111]">
+                        Arena Universal Credits Controller
+                      </h2>
+                      <p className="text-[11px] text-neutral-500 font-sans">
+                        Real-time batch credit dispatcher (optimized for 300+ concurrent players across all squads)
+                      </p>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-2 text-[11px]">
+                    <span className="px-2 py-0.5 bg-neutral-100 border border-neutral-300 text-neutral-700 font-bold uppercase">
+                      Total Squads: {adminState?.teams?.length || filteredTeams.length || 0}
+                    </span>
+                    <span className="px-2 py-0.5 bg-neutral-900 text-white font-bold uppercase">
+                      Current Default: {adminState?.settings?.startingCredits ?? 1500} CR
+                    </span>
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 pt-4">
+                  {/* Action 1: Set All Teams Balance & Default Credits */}
+                  <div className="bg-[#FAF9F5] border border-neutral-300 p-3.5 flex flex-col justify-between space-y-3">
+                    <div>
+                      <div className="flex items-center justify-between mb-1">
+                        <span className="font-bold uppercase text-neutral-800 text-[11px] flex items-center gap-1.5">
+                          <Sliders className="w-3.5 h-3.5 text-blue-600" />
+                          Set All Teams & Starting Credits
+                        </span>
+                        <span className="text-[10px] bg-blue-100 text-blue-800 font-bold px-1.5 py-0.2">SUB-10MS</span>
+                      </div>
+                      <p className="text-[11px] text-neutral-600 font-sans mb-3">
+                        Sets the exact balance for <b>ALL squads</b> to this amount and updates the default starting credits for new teams (e.g. 3,000 CR).
+                      </p>
+
+                      <div className="flex items-center gap-2 mb-2">
+                        <div className="relative flex-1">
+                          <input
+                            type="number"
+                            min="0"
+                            step="50"
+                            value={bulkSetCreditsInput}
+                            onChange={(e) => setBulkSetCreditsInput(Number(e.target.value))}
+                            className="w-full pl-3 pr-10 py-1.5 bg-white border border-neutral-300 font-bold text-sm text-[#111111]"
+                            placeholder="3000"
+                          />
+                          <span className="absolute right-2.5 top-2 text-[10px] font-bold text-neutral-400">CR</span>
+                        </div>
+                        <button
+                          type="button"
+                          onClick={() => handleBulkSetCredits()}
+                          disabled={pendingKey === 'bulk-set-credits'}
+                          className="px-4 py-1.5 bg-blue-600 hover:bg-blue-700 disabled:opacity-50 text-white font-bold uppercase cursor-pointer transition-colors shadow-sm whitespace-nowrap"
+                        >
+                          {pendingKey === 'bulk-set-credits' ? 'Setting...' : 'Set All Teams'}
+                        </button>
+                      </div>
+
+                      {/* Quick Presets */}
+                      <div className="flex items-center gap-1.5 flex-wrap">
+                        <span className="text-[10px] text-neutral-500 uppercase mr-1">Presets:</span>
+                        {[1000, 1500, 2000, 2500, 3000, 5000].map((amt) => (
+                          <button
+                            key={amt}
+                            type="button"
+                            onClick={() => {
+                              setBulkSetCreditsInput(amt);
+                              handleBulkSetCredits(amt);
+                            }}
+                            className="px-2 py-0.5 bg-white border border-neutral-300 hover:border-blue-600 hover:bg-blue-50 text-neutral-700 text-[10px] font-bold cursor-pointer transition-colors"
+                          >
+                            {amt.toLocaleString()}
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Action 2: Grant Extra Bonus Credits to All Teams */}
+                  <div className="bg-[#FAF9F5] border border-neutral-300 p-3.5 flex flex-col justify-between space-y-3">
+                    <div>
+                      <div className="flex items-center justify-between mb-1">
+                        <span className="font-bold uppercase text-neutral-800 text-[11px] flex items-center gap-1.5">
+                          <Sparkles className="w-3.5 h-3.5 text-amber-500" />
+                          Add Extra Bonus Credits to All Teams
+                        </span>
+                        <span className="text-[10px] bg-amber-100 text-amber-800 font-bold px-1.5 py-0.2">REAL-TIME</span>
+                      </div>
+                      <p className="text-[11px] text-neutral-600 font-sans mb-3">
+                        Instantly grants extra credits (e.g. +500 CR) to <b>ALL active teams</b> simultaneously via live socket broadcast.
+                      </p>
+
+                      <div className="flex items-center gap-2 mb-2">
+                        <div className="relative flex-1">
+                          <input
+                            type="number"
+                            min="1"
+                            step="50"
+                            value={bulkAddCreditsInput}
+                            onChange={(e) => setBulkAddCreditsInput(Number(e.target.value))}
+                            className="w-full pl-3 pr-10 py-1.5 bg-white border border-neutral-300 font-bold text-sm text-[#111111]"
+                            placeholder="500"
+                          />
+                          <span className="absolute right-2.5 top-2 text-[10px] font-bold text-neutral-400">CR</span>
+                        </div>
+                        <button
+                          type="button"
+                          onClick={() => handleBulkAddCredits()}
+                          disabled={pendingKey === 'bulk-add-credits'}
+                          className="px-4 py-1.5 bg-[#111111] hover:bg-neutral-800 disabled:opacity-50 text-white font-bold uppercase cursor-pointer transition-colors shadow-sm whitespace-nowrap"
+                        >
+                          {pendingKey === 'bulk-add-credits' ? 'Boosting...' : '+ Add to All Teams'}
+                        </button>
+                      </div>
+
+                      {/* Quick Presets */}
+                      <div className="flex items-center gap-1.5 flex-wrap">
+                        <span className="text-[10px] text-neutral-500 uppercase mr-1">Presets:</span>
+                        {[100, 250, 500, 1000, 2000].map((amt) => (
+                          <button
+                            key={amt}
+                            type="button"
+                            onClick={() => {
+                              setBulkAddCreditsInput(amt);
+                              handleBulkAddCredits(amt);
+                            }}
+                            className="px-2 py-0.5 bg-white border border-neutral-300 hover:border-amber-500 hover:bg-amber-50 text-neutral-700 text-[10px] font-bold cursor-pointer transition-colors"
+                          >
+                            +{amt.toLocaleString()}
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </section>
+            )}
+
             {/* Collapsible Register New Team Card (Admin Only) */}
             {!isVolunteer && (
               <section className="bg-white border-2 border-[#111111] shadow-[4px_4px_0px_#111111]">
@@ -1854,18 +2043,6 @@ export const AdminControlPage = () => {
                     </span>
                   </div>
                   <div className="flex items-center gap-2">
-                    <button
-                      type="button"
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        handleResetAllPasswords();
-                      }}
-                      className="px-3 py-1 bg-amber-600 hover:bg-amber-700 text-white font-mono text-xs font-bold uppercase inline-flex items-center gap-1.5 cursor-pointer shadow-sm transition-colors"
-                      title="Reset all team passwords to 123"
-                    >
-                      <KeyRound className="w-3.5 h-3.5" />
-                      Reset Passwords to "123"
-                    </button>
                     <button
                       type="button"
                       className="px-3 py-1 bg-[#111111] text-white font-mono text-xs font-bold uppercase inline-flex items-center gap-1 cursor-pointer"

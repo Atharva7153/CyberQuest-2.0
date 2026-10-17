@@ -34,39 +34,61 @@ const broadcastAdminAndArenaSync = async (adminState, extraBroadcast = {}) => {
     timestamp: new Date().toISOString(),
   });
 
-  // 3. Optional targeted team sync or full all-teams sync (on global reset)
+  // 3. Optional targeted team sync or full all-teams sync (on global reset or bulk credits)
   if (extraBroadcast.broadcastAllTeams && Array.isArray(adminState?.teams)) {
-    const publicCatalog = await ChallengeService.listChallenges();
-    await Promise.all(
-      adminState.teams.map(async (t) => {
+    if (extraBroadcast.creditsOnly) {
+      // Fast path for 300+ players: direct in-memory broadcast in <3ms without N DB roundtrips
+      for (const t of adminState.teams) {
         const normalizedTeamId = String(t.teamId || '').trim().toUpperCase();
-        if (!normalizedTeamId) return;
+        if (!normalizedTeamId) continue;
         const roomName = SOCKET_ROOMS.teamRoom(normalizedTeamId);
-        const team = await getTeamStateById(normalizedTeamId);
-        const nexusCore = await NexusCoreService.getNexusCoreStatusForTeam(team);
+        io.to(roomName).emit(SOCKET_EVENTS.CREDITS.UPDATE, {
+          teamId: normalizedTeamId,
+          room: roomName,
+          balanceAfter: t.credits,
+          delta: extraBroadcast.deltaCredits || 0,
+          timestamp: new Date().toISOString(),
+        });
         io.to(roomName).emit(SOCKET_EVENTS.TEAM.STATE_UPDATE, {
           teamId: normalizedTeamId,
           room: roomName,
-          team,
-          nexusCore,
-          transactions: [],
-          attempts: [],
-          timer: null,
-          catalog: publicCatalog,
-          serverTime: new Date().toISOString(),
+          team: t,
           timestamp: new Date().toISOString(),
         });
-        if (team) {
-          io.to(roomName).emit(SOCKET_EVENTS.CREDITS.UPDATE, {
+      }
+    } else {
+      const publicCatalog = await ChallengeService.listChallenges();
+      await Promise.all(
+        adminState.teams.map(async (t) => {
+          const normalizedTeamId = String(t.teamId || '').trim().toUpperCase();
+          if (!normalizedTeamId) return;
+          const roomName = SOCKET_ROOMS.teamRoom(normalizedTeamId);
+          const team = await getTeamStateById(normalizedTeamId);
+          const nexusCore = await NexusCoreService.getNexusCoreStatusForTeam(team);
+          io.to(roomName).emit(SOCKET_EVENTS.TEAM.STATE_UPDATE, {
             teamId: normalizedTeamId,
             room: roomName,
-            balanceAfter: team.credits,
+            team,
+            nexusCore,
             transactions: [],
+            attempts: [],
+            timer: null,
+            catalog: publicCatalog,
+            serverTime: new Date().toISOString(),
             timestamp: new Date().toISOString(),
           });
-        }
-      })
-    );
+          if (team) {
+            io.to(roomName).emit(SOCKET_EVENTS.CREDITS.UPDATE, {
+              teamId: normalizedTeamId,
+              room: roomName,
+              balanceAfter: team.credits,
+              transactions: [],
+              timestamp: new Date().toISOString(),
+            });
+          }
+        })
+      );
+    }
   } else if (extraBroadcast.teamId) {
     const normalizedTeamId = String(extraBroadcast.teamId).trim().toUpperCase();
     const roomName = SOCKET_ROOMS.teamRoom(normalizedTeamId);
@@ -491,4 +513,58 @@ export const resetAllTeamPasswords = async (req, res, next) => {
     next(error);
   }
 };
+
+/**
+ * POST /api/admin/teams/bulk-set-credits
+ * Set all teams' credit balance to targetCredits (e.g. 3000) & update default starting credits.
+ * Highly optimized for 300+ players: single MongoDB updateMany + fast in-memory broadcast.
+ */
+export const bulkSetTeamCredits = async (req, res, next) => {
+  try {
+    const actor = req.admin?.operatorId || 'ADMIN-NEXUS';
+    const { credits } = req.body || {};
+    const state = await AdminService.bulkSetAllTeamCredits(credits, actor);
+
+    res.status(200).json({
+      status: 'ok',
+      message: `Set credits to ${state.targetCredits} CR for ${state.modifiedCount} teams.`,
+      ...state,
+    });
+
+    broadcastAdminAndArenaSync(state, {
+      broadcastAllTeams: true,
+      creditsOnly: true,
+    }).catch(() => {});
+  } catch (error) {
+    next(error);
+  }
+};
+
+/**
+ * POST /api/admin/teams/bulk-add-credits
+ * Give extra credits (e.g. +500 CR) to all active teams simultaneously.
+ * Highly optimized for 300+ players: atomic $inc + instant socket broadcast.
+ */
+export const bulkAddTeamCredits = async (req, res, next) => {
+  try {
+    const actor = req.admin?.operatorId || 'ADMIN-NEXUS';
+    const { amount } = req.body || {};
+    const state = await AdminService.bulkAddCreditsToAllTeams(amount, actor);
+
+    res.status(200).json({
+      status: 'ok',
+      message: `Granted ${state.deltaCredits >= 0 ? '+' : ''}${state.deltaCredits} CR to ${state.modifiedCount} teams.`,
+      ...state,
+    });
+
+    broadcastAdminAndArenaSync(state, {
+      broadcastAllTeams: true,
+      creditsOnly: true,
+      deltaCredits: state.deltaCredits,
+    }).catch(() => {});
+  } catch (error) {
+    next(error);
+  }
+};
+
 

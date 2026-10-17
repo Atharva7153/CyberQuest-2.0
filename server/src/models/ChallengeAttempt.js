@@ -155,6 +155,7 @@ const challengeAttemptSchema = new mongoose.Schema(
   },
   {
     timestamps: true,
+    versionKey: false,
     collection: 'challengeAttempts',
   }
 );

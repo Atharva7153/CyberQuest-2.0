@@ -10,20 +10,30 @@ import { wendChallenges } from './wendCatalog.js';
 import { aptitudeChallenges } from './aptitudeCatalog.js';
 import { gkTrueFalseChallenges } from './gkTrueFalseCatalog.js';
 
+const sampleEvenly = (arr, count) => {
+  const step = arr.length / count;
+  const result = [];
+  for (let i = 0; i < count; i++) {
+    const idx = Math.min(arr.length - 1, Math.floor(i * step));
+    result.push(arr[idx]);
+  }
+  return result;
+};
+
 /**
- * 🎮 CyberQuest 99-Challenge Competitive Master Catalog
- * Exactly 11 game engines × 9 challenges each (2 LOW, 3 MODERATE, 2 HIGH, 2 EXTREME).
+ * 🎮 CyberQuest 1500-Challenge Competitive Master Catalog
+ * Exactly 11 game engines evenly sampled across difficulties & risk tiers.
  */
 export const DEFAULT_CHALLENGE_CATALOG = [
-  ...patchesChallenges,
-  ...zipChallenges,
-  ...sudokuChallenges,
-  ...queensChallenges,
-  ...memoryMatrixChallenges,
-  ...connect4Challenges,
-  ...xo4x4Challenges,
-  ...wordGuessChallenges,
-  ...wendChallenges,
-  ...aptitudeChallenges,
-  ...gkTrueFalseChallenges,
+  ...sampleEvenly(patchesChallenges, 125),
+  ...sampleEvenly(zipChallenges, 125),
+  ...sampleEvenly(sudokuChallenges, 150),
+  ...sampleEvenly(queensChallenges, 112),
+  ...sampleEvenly(memoryMatrixChallenges, 75),
+  ...sampleEvenly(connect4Challenges, 62),
+  ...sampleEvenly(xo4x4Challenges, 63),
+  ...sampleEvenly(wordGuessChallenges, 188),
+  ...sampleEvenly(wendChallenges, 150),
+  ...sampleEvenly(aptitudeChallenges, 225),
+  ...sampleEvenly(gkTrueFalseChallenges, 225),
 ];

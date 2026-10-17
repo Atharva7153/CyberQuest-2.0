@@ -33,6 +33,8 @@ COPY --from=server-deps /app/server/node_modules ./node_modules
 COPY server/package*.json ./
 COPY server/server.js ./
 COPY server/src ./src
+COPY teams*.csv* ./
+COPY teams*.csv* /app/
 
 EXPOSE 5050
 

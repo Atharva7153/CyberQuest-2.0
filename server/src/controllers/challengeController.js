@@ -306,7 +306,6 @@ export const abandonChallengeSession = async (req, res, next) => {
       serverTime: result.serverTime,
       transactions: result.transactions,
       event: result.event,
-      catalog: result.catalog,
       creditsConfig: result.creditsConfig,
     });
 

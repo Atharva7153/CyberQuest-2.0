@@ -16,7 +16,8 @@
     "docker:down": "docker compose down",
     "docker:reset": "docker compose down -v",
     "docker:logs": "docker compose logs -f",
-    "migrate:mongo": "node server/src/scripts/migrateMongo.js"
+    "migrate:mongo": "node server/src/scripts/migrateMongo.js",
+    "import:teams": "node server/src/scripts/importTeams.js"
   },
   "devDependencies": {
     "concurrently": "^9.1.2"

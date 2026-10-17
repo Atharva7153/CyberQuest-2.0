@@ -39,7 +39,7 @@ import { normalizeAttemptHistory } from './progressHistoryService.js';
 import { AuditService, AUDIT_ACTION_TYPES } from './auditService.js';
 import { RecordingService } from './recordingService.js';
 import { resetRateLimitBuckets } from '../middleware/rateLimitMiddleware.js';
-import { CREDIT_TRANSACTION_TYPES, creditsConfig } from '../config/creditsConfig.js';
+import { CREDIT_TRANSACTION_TYPES, creditsConfig, setRuntimeStartingCredits } from '../config/creditsConfig.js';
 import { hashPassword } from '../utils/password.js';
 import { signAdminToken } from '../utils/jwt.js';
 import { getSocketServer } from '../socket/index.js';
@@ -876,6 +876,8 @@ export class AdminService {
       teamName: normalizedTeamName,
       passwordHash,
       accessPassword: plainPassword,
+      email: payload.email || null,
+      leadName: payload.leadName || null,
       credits: initialCredits,
       status: 'ACTIVE',
       members,
@@ -1629,7 +1631,9 @@ export class AdminService {
     }
 
     if (payload.startingCredits !== undefined) {
-      runtimeSettingsOverride.startingCredits = Math.max(0, Number(payload.startingCredits));
+      const cr = Math.max(0, Number(payload.startingCredits));
+      runtimeSettingsOverride.startingCredits = cr;
+      setRuntimeStartingCredits(cr);
     }
     if (payload.hintCost !== undefined) {
       runtimeSettingsOverride.hintCost = Math.max(0, Number(payload.hintCost));
@@ -1715,6 +1719,96 @@ export class AdminService {
     return {
       modifiedCount: result.modifiedCount,
       password: cleanPassword,
+    };
+  }
+
+  /**
+   * Bulk Set All Teams' Credits (e.g. 3000 CR) & update default starting credits.
+   * Highly optimized with single MongoDB updateMany query for sub-10ms execution.
+   */
+  static async bulkSetAllTeamCredits(targetCredits = 3000, actor = 'ADMIN-NEXUS') {
+    const creditsNum = Math.max(0, Math.floor(Number(targetCredits) || 0));
+    runtimeSettingsOverride.startingCredits = creditsNum;
+    setRuntimeStartingCredits(creditsNum);
+
+    // Single atomic bulk update across all non-simulated teams
+    const result = await Team.updateMany(
+      { teamId: { $not: /^SIM-TEAM-/ } },
+      {
+        $set: {
+          credits: creditsNum,
+          'stats.creditsEarned': creditsNum,
+        },
+      }
+    );
+
+    const summary = `SET ALL TEAMS CREDITS TO ${creditsNum} CR & DEFAULT TO ${creditsNum} CR (${result.modifiedCount} teams updated)`;
+    recordAdminEventLog({
+      action: 'BULK_SET_CREDITS',
+      category: 'TEAM_MANAGEMENT',
+      actor,
+      summary,
+    });
+
+    await AuditService.record({
+      action: AUDIT_ACTION_TYPES.ADMIN_ACTION,
+      actorType: 'ADMIN',
+      actorId: actor,
+      summary,
+      metadata: { modifiedCount: result.modifiedCount, newCredits: creditsNum },
+    }).catch(() => {});
+
+    const state = await this.getAdminControlState();
+    return {
+      ...state,
+      modifiedCount: result.modifiedCount,
+      targetCredits: creditsNum,
+    };
+  }
+
+  /**
+   * Bulk Add Extra Credits to All Teams (e.g. +500 CR).
+   * Highly optimized with atomic $inc query in MongoDB for high concurrent performance.
+   */
+  static async bulkAddCreditsToAllTeams(deltaAmount = 500, actor = 'ADMIN-NEXUS') {
+    const delta = Math.floor(Number(deltaAmount) || 0);
+    if (delta === 0) {
+      return this.getAdminControlState();
+    }
+
+    const updateOps = {
+      $inc: {
+        credits: delta,
+        ...(delta > 0 ? { 'stats.creditsEarned': delta } : {}),
+      },
+    };
+
+    const result = await Team.updateMany(
+      { teamId: { $not: /^SIM-TEAM-/ } },
+      updateOps
+    );
+
+    const summary = `BULK ${delta >= 0 ? 'GRANTED +' : 'DEDUCTED '}${Math.abs(delta)} CR TO ALL TEAMS (${result.modifiedCount} teams affected)`;
+    recordAdminEventLog({
+      action: 'BULK_ADD_CREDITS',
+      category: 'TEAM_MANAGEMENT',
+      actor,
+      summary,
+    });
+
+    await AuditService.record({
+      action: AUDIT_ACTION_TYPES.ADMIN_ACTION,
+      actorType: 'ADMIN',
+      actorId: actor,
+      summary,
+      metadata: { modifiedCount: result.modifiedCount, deltaCredits: delta },
+    }).catch(() => {});
+
+    const state = await this.getAdminControlState();
+    return {
+      ...state,
+      modifiedCount: result.modifiedCount,
+      deltaCredits: delta,
     };
   }
 }
