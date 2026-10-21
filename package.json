@@ -17,9 +17,11 @@
     "docker:reset": "docker compose down -v",
     "docker:logs": "docker compose logs -f",
     "migrate:mongo": "node server/src/scripts/migrateMongo.js",
-    "import:teams": "node server/src/scripts/importTeams.js"
+    "import:teams": "node server/src/scripts/importTeams.js",
+    "screenshots": "node scripts/capture-all-screenshots.mjs"
   },
   "devDependencies": {
-    "concurrently": "^9.1.2"
+    "concurrently": "^9.1.2",
+    "puppeteer-core": "^25.15.0"
   }
 }

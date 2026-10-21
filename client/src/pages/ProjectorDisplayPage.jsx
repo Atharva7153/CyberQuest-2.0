@@ -99,11 +99,14 @@ export const ProjectorDisplayPage = () => {
       }
     };
 
+    const timerSyncEvent = NEXUS_SOCKET_EVENTS.TIMER?.SYNC || 'timer:sync';
+    const timerUpdateEvent = NEXUS_SOCKET_EVENTS.TIMER?.UPDATE || 'timer:update';
+
     socketClient.on('connect', handleConnect);
     socketClient.on('disconnect', handleDisconnect);
-    socketClient.on(NEXUS_SOCKET_EVENTS.SYSTEM.TELEMETRY, handleSystemTelemetry);
-    socketClient.on(NEXUS_SOCKET_EVENTS.ARENA.TIME_SYNC, handleSystemTelemetry);
-    socketClient.on(NEXUS_SOCKET_EVENTS.ARENA.TIMER_STATUS, handleSystemTelemetry);
+    socketClient.on(NEXUS_SOCKET_EVENTS.SYSTEM?.TELEMETRY || 'nexus:telemetry', handleSystemTelemetry);
+    socketClient.on(timerSyncEvent, handleSystemTelemetry);
+    socketClient.on(timerUpdateEvent, handleSystemTelemetry);
 
     if (!socketClient.connected) {
       socketClient.connect();
@@ -114,9 +117,9 @@ export const ProjectorDisplayPage = () => {
     return () => {
       socketClient.off('connect', handleConnect);
       socketClient.off('disconnect', handleDisconnect);
-      socketClient.off(NEXUS_SOCKET_EVENTS.SYSTEM.TELEMETRY, handleSystemTelemetry);
-      socketClient.off(NEXUS_SOCKET_EVENTS.ARENA.TIME_SYNC, handleSystemTelemetry);
-      socketClient.off(NEXUS_SOCKET_EVENTS.ARENA.TIMER_STATUS, handleSystemTelemetry);
+      socketClient.off(NEXUS_SOCKET_EVENTS.SYSTEM?.TELEMETRY || 'nexus:telemetry', handleSystemTelemetry);
+      socketClient.off(timerSyncEvent, handleSystemTelemetry);
+      socketClient.off(timerUpdateEvent, handleSystemTelemetry);
     };
   }, []);
 
