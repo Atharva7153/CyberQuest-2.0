@@ -6,6 +6,7 @@ import cors from 'cors';
 import compression from 'compression';
 import { env } from './config/env.js';
 import apiRouter from './routes/index.js';
+import { getPingPong } from './controllers/healthController.js';
 import { requestLogger } from './middleware/requestLogger.js';
 import { notFoundHandler, globalErrorHandler } from './middleware/errorMiddleware.js';
 
@@ -33,6 +34,9 @@ export const createApp = () => {
   // API Routes
   app.use('/api', apiRouter);
 
+  // Ping-Pong monitor endpoint (accessible at /ping for external uptime monitors)
+  app.get('/ping', getPingPong);
+
   const hasBuiltClient = fs.existsSync(CLIENT_INDEX_HTML);
 
   if (hasBuiltClient) {
@@ -40,7 +44,7 @@ export const createApp = () => {
     app.use(express.static(CLIENT_DIST_DIR));
 
     app.get('*', (req, res, next) => {
-      if (req.path.startsWith('/api') || req.path.startsWith('/socket.io')) {
+      if (req.path.startsWith('/api') || req.path.startsWith('/socket.io') || req.path === '/ping') {
         return next();
       }
       // If an API test client explicitly requests JSON on '/', return the banner JSON
@@ -53,6 +57,7 @@ export const createApp = () => {
           designation: env.systemDesignation,
           version: env.systemVersion,
           healthEndpoint: '/api/health',
+          pingEndpoint: '/api/ping',
         });
       }
       return res.sendFile(CLIENT_INDEX_HTML);
@@ -67,6 +72,7 @@ export const createApp = () => {
         designation: env.systemDesignation,
         version: env.systemVersion,
         healthEndpoint: '/api/health',
+        pingEndpoint: '/api/ping',
       });
     });
   }
